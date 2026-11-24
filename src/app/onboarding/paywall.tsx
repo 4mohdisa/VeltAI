@@ -20,7 +20,7 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api, type Onboarding , ApiError } from '@/lib/api';
+import { api, type Onboarding } from '@/lib/api';
 import { bodyFromOnboarding } from '@/lib/data/hooks';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
@@ -93,19 +93,9 @@ export default function PaywallScreen() {
         dispatch({ type: 'SESSION_ENDED' });
         return;
       }
-      // Surface the SERVER's own explanation when it gave one. A 400 says
-      // exactly which field it rejected; replacing that with "check your
-      // connection" sent the user to fix their wifi over a validation error
-      // (audit 2026-08-08 — the same swallow already recorded at
-      // src/lib/data/aiBrain.ts:157-159).
-      const serverSaid =
-        e instanceof ApiError && e.status >= 400 && e.status < 500 && !/^HTTP \d+$/.test(e.message)
-          ? e.message
-          : null;
-      showToast({
-        message: serverSaid ?? t('onboarding.paywall.submitFailed'),
-        tone: 'error',
-      });
+      // Any other failure, a 4xx included, shows translated copy. The server's
+      // message is English-only and is kept in the dev log above.
+      showToast({ message: t('onboarding.paywall.submitFailed'), tone: 'error' });
       setSubmitting(false);
     }
   };

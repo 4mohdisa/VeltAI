@@ -98,6 +98,39 @@ test('a network failure still shows the connection message and stays put', async
   expect(mockSignOut).not.toHaveBeenCalled();
 });
 
+test.each([400, 422])('a %i shows the translated failure copy, never the server text', async (status) => {
+  const serverText = 'height_cm must be a number';
+  mockPost.mockRejectedValueOnce(new ApiError(status, serverText));
+  await pressContinue();
+
+  expect(showToast).toHaveBeenCalledWith({ message: CONNECTION_MESSAGE, tone: 'error' });
+  expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: serverText }));
+  expect(mockSignOut).not.toHaveBeenCalled();
+});
+
+test('a 5xx keeps the failure copy and stays put', async () => {
+  mockPost.mockRejectedValueOnce(new ApiError(503, 'Service Unavailable'));
+  await pressContinue();
+
+  expect(showToast).toHaveBeenCalledWith({ message: CONNECTION_MESSAGE, tone: 'error' });
+  expect(router.push).not.toHaveBeenCalled();
+  expect(mockSignOut).not.toHaveBeenCalled();
+});
+
+test('fr: a 4xx shows the French failure copy', async () => {
+  await act(async () => {
+    await i18n.changeLanguage('fr');
+  });
+  mockPost.mockRejectedValueOnce(new ApiError(400, 'height_cm must be a number'));
+  const tree = renderScreen(<PaywallScreen />);
+  await act(async () => {
+    (buttonWithTitle(tree, fr.onboarding.measurements.continue)!.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(showToast).toHaveBeenCalledWith({ message: fr.onboarding.paywall.submitFailed, tone: 'error' });
+});
+
 // The same toast reaches users who already finished onboarding (launch gate),
 // so the copy must not mention finishing setup.
 test('the expired-session copy is true for any signed-in user', () => {

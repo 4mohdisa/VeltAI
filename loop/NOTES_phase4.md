@@ -7,14 +7,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: screens 1a to 1d done, done screen done, paywall strings done, 401 handling done, R231 cuisine cleanup done. Plan-ready screen NOT built.
-- R231 verified: CUISINE_LABEL had no readers. The handover claim that the paywall read it was stale.
+- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, R231 cuisine cleanup done. Plan-ready screen NOT built (needs Isa's go-ahead).
 - R230 checkpoint green: 270 suites, 1,637 tests, tsc 0. Next full checkpoint: R242 or next handover.
+- R232 records check done. Last report skipped Jest and lint; flagged.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R232 (now): Row 2b records check (docs only, tsc only).
-- Then: 2b paywall 4xx English text (small, tested).
+- Now: 2b paywall 4xx toast (translated copy, tsc, Jest and lint run this round).
+- Then: 2b connectivityMessage, Terms disclaimer, en-AU hard-coding.
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - A red round is fixed in a small round before new work.
@@ -57,11 +57,11 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
 - R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
-- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; tracked in row 2b.
+- R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; being fixed now.
 - R229: CONNECTION_MESSAGE test constant reads en.onboarding.paywall.submitFailed.
 - R230: checkpoint round, read only. Green.
-- R231: CUISINE_LABEL and the unused English label field removed. Grep confirmed no readers.
-- R232: Row 2b records check chosen next (notes and handover disagreed; docs only).
+- R231: CUISINE_LABEL and unused label field removed. Grep confirmed no readers.
+- R232: records check done (docs only).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
@@ -74,12 +74,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question; gain-weight or maintain goal in onboarding.
 - Plan-ready summary screen (needs go-ahead).
-- Simulator checks (OWNER_CHECKS_phase4.md): answers survive a real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
+- Simulator checks: answers survive a real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
 
 ## Parked
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- formatNumber and units.ts hardcoded to en-AU. nutrition.tsx:231 builds 'slot, energy' in code.
+- formatNumber, units.ts:76 hardcoded to en-AU. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - 'signed' helper in three files. ConfidenceBadge hide reuses gymSession.hide.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
@@ -87,8 +87,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local t in useState initialiser shadows t(). Tidy round.
 - Trial note plural '{{days}} días' wrong if TRIAL_DAYS were 1.
-- Terms disclaimer paragraphs in src/app/legal/terms.tsx are hard-coded English.
-- connectivityMessage returns English and is unused. Signup placeholders are literals.
+- Terms disclaimer paragraphs in src/app/legal/terms.tsx:47 onward are hard-coded English.
+- connectivityMessage (src/lib/auth/machine.ts:154) returns English and is unused. Signup placeholders (signup.tsx:339, :362) are literals; may not need translating.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
@@ -96,7 +96,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Secrets scan placeholder check is a heuristic.
 
 ## Problems noticed, not fixed
-- Paywall feature list and toasts still English in places; server 4xx text English.
+- Paywall feature list and toasts still English in places.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
@@ -104,4 +104,5 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Preview: cuisine and halal lines are copy only; no data check.
 - Key naming mixed: goal and activity flat, later screens nested.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who finished onboarding.
+- OWNER_CHECKS_phase4.md line 39 quotes old es sessionExpired wording. Append only, so left.
 - Gotcha: the Row 2b note may drift again; check it at each records round.

@@ -10569,3 +10569,7 @@
 - 2026-11-25 09:20 The R231 round number was a guess by the worker. Row 2b notes will drop it and keep only the description.
 - 2026-11-25 09:20 Plan-ready summary screen stays unbuilt until Isa gives a go-ahead, per R219. Not a blocker for the loop.
 - 2026-11-25 09:20 Paywall 4xx English text is left for a later small round, after the records check.
+- 2026-11-25 09:22 Chose the paywall 4xx toast because the handover and the loop queue name it as the next task.
+- 2026-11-25 09:22 Added tsc, Jest for the changed tests and lint to this round, because the loop flagged the last report for skipping Jest and lint.
+- 2026-11-25 09:22 Left the Terms and en-AU items for later rounds to keep this round to one screen.
+- 2026-11-25 09:22 Left the OWNER_CHECKS line 39 wording alone because the file is append only.
