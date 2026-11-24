@@ -1,7 +1,8 @@
-// Welcome screen Sign in link (PHASE4_ROWS.md row 2b, step 1a). EXECUTES the
-// real Welcome and Signup screens: the link reads from the locale file in en,
-// es and fr, routes to /onboarding/signup?mode=signin, and Signup opens in
-// sign-in mode for that parameter. Get Started still routes to the goal step.
+// Welcome screen (PHASE4_ROWS.md row 2b, steps 1a and 1c). EXECUTES the real
+// Welcome and Signup screens: the headline, subline, Get Started button and
+// Sign in link read from the locale file in en, es and fr; the link routes to
+// /onboarding/signup?mode=signin and Signup opens in sign-in mode for that
+// parameter. Get Started still routes to the goal step.
 import WelcomeScreen from '@/app/onboarding/index';
 import SignupScreen from '@/app/onboarding/signup';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -50,14 +51,19 @@ test.each([
   ['en', en],
   ['es', es],
   ['fr', fr],
-])('%s: the Sign in link reads from the locale file', async (lng, locale) => {
+])('%s: the headline, subline, button and Sign in link read from the locale file', async (lng, locale) => {
   await act(async () => {
     await i18n.changeLanguage(lng);
   });
   const tree = renderScreen(<WelcomeScreen />);
 
-  expect(allText(tree)).toContain(locale.onboarding.welcomeSignIn);
+  const text = allText(tree);
+  expect(text).toContain(locale.onboarding.welcomeHeadline);
+  expect(text).toContain(locale.onboarding.welcomeSubline);
+  expect(buttonWithTitle(tree, locale.onboarding.welcomeGetStarted)).toBeDefined();
+  expect(text).toContain(locale.onboarding.welcomeSignIn);
   expect(signInLink(tree)).toBeDefined();
+  if (lng !== 'en') expect(text).not.toContain(en.onboarding.welcomeHeadline);
 });
 
 test('tapping Sign in opens the signup screen in sign-in mode', () => {

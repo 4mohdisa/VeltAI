@@ -1118,7 +1118,10 @@
     "a11yOfGrams": "{{label}}, {{value}} of {{target}} grams"
   },
   "onboarding": {
-    "welcomeSignIn": "Sign in"
+    "welcomeSignIn": "Sign in",
+    "welcomeHeadline": "Track your food the way you actually eat",
+    "welcomeSubline": "Personalised to your diet, your culture, your goals",
+    "welcomeGetStarted": "Get Started"
   },
   "signup": {
     "titleSignUp": "Create your account",

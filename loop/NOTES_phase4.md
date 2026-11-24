@@ -6,15 +6,14 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Rows 1, 12, 12b, 29 BUILT. Verify exit 0 in round 183.
-- Round 186: duplicate migration apply run removed from verify:go. Done.
+- BUILT: 1, 12, 12b, 29. Verify exit 0 in round 183.
+- Migration apply test runs only in verify:migrations (duplicate removed round 186).
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
-- 2b step 1 research DONE (round 185): DESIGN_REFERENCES.md.
-- 2b step 1a DONE (round 187): Welcome Sign in link. signup.tsx got a two-line ?mode=signin parameter (needed for the link, covered by tests).
+- Row 2b DIFFERENT (in progress): research done (DESIGN_REFERENCES.md). Step 1a (Welcome sign in link) done. Step 1b (signup title follows mode, Resend code, strings en/es/fr) done in round 188.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/fr, fix stale 2b note). Then remaining 2b steps (Maestro flow at end of 2b), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then 2b step 1d (goal and activity screens), remaining 2b dead ends, Maestro flow for Welcome to signup to onboarding at the end of 2b, then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -28,6 +27,7 @@ Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
 - Max 5 steps per prompt. One screen or component per prompt. Grep before editing.
 - Every prompt states the loop/phase4 branch rule first.
+- Full Jest suite only on checkpoint rounds.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -37,28 +37,29 @@ Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 188: Jev ranked 1b first (87%). Kept as pick: it is also the planned next row. Round 187 loose ends are checked inside 1b.
-- Round 187: 2b step 1 split into 1a (Welcome link) and 1b (signup title, Resend code), one screen per prompt.
-- Round 186: duplicate migration apply run removed from verify:go; the test runs only in verify:migrations.
-- Round 184: migration apply test runs once, in verify:migrations. verify:go excludes that package.
+- Round 189: Jev ranked run 99%. Chose 1c, the planned next step, one screen per prompt.
+- Round 188: Jev ranked 1b first (87%). Kept as pick: it was also the planned next row.
+- Round 187: 2b step 1 split into 1a and 1b, one screen per prompt.
+- Round 186: duplicate migration apply run removed from verify:go.
+- Round 184: migration apply test runs once, in verify:migrations.
 - Round 183: lint scope covers scripts/ before 2.5.
-- Round 182: verify with local TestPG recorded. Row 29 BUILT.
+- Round 182: row 29 BUILT after full verify exit 0 with local TestPG.
 - Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
-- Round 180: parity test runs in full Jest, so no separate wiring into verify.
+- Round 180: parity test runs in full Jest, no separate verify wiring.
 - Round 178: check:manifest reads app.json (ios/ is stale prebuild output, git ignored).
 - Round 176: privacy manifest in app.json. Face ID and Motion prompts removed. Camera is the only prompt.
 - Round 174: CI workflow local only, throwaway local Postgres service, no repository secret.
 - Round 172: migration check skips with exit 0 when variable unset.
 - Round 168: goals.saved kept; removal needs a non-allowed test edit. Parked.
 - Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
-- Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept, unused, for voice logging.
-- Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 assertion changed (Isa allowed).
+- Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept for voice logging.
+- Round 158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 changed (Isa allowed).
 - Round 123: formatDuration rounds total minutes first.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
-- es and fr wording of new keys (summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
+- es and fr wording of new keys (summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, signup.* and welcome keys).
 - Whether es and fr should ever be shown (app is English only).
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
 - App Store privacy label answers and account data declaration.
@@ -82,7 +83,7 @@ Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Onboarding: remaining screens hard-coded English (Welcome and signup in 1a and 1b). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Dead ends listed in DESIGN_REFERENCES.md still open.
+- Onboarding: goal and activity screens hard-coded English (Welcome in 1c). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Input placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -99,9 +100,10 @@ Round 188: 2b step 1b (signup title follows mode, Resend code, strings to en/es/
 - Secrets scan placeholder check is a heuristic.
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
 - Verify:go has no -count=1, so Go can reuse cached results (parked for later).
-- Round 187 locale file diff not confirmed (no git). Checked in round 188 by key presence and JSON parse only.
+- Round 187 locale file diff not confirmed (no git); key presence and JSON parse checked in round 188.
+- Round 188 signup es and fr wording is my own translation, not reviewed.
 
 ## Next
-- Round 188: 2b step 1b, signup title follows mode, Resend code button, strings to en/es/fr, fix stale 2b note.
-- Round 189: 2b Maestro flow for Welcome to signup to onboarding (or 2c if 2b is judged done by the research and screens).
+- Round 189: 2b step 1c, Welcome strings to en, es, fr with a render test.
+- Round 190: 2b step 1d, goal and activity onboarding screens.
 - Full Jest checkpoint at the next checkpoint round.

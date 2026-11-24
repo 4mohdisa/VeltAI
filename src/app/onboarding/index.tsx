@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
       showProgress={false}
       footer={
         <View style={{ gap: space.sm }}>
-          <Button title="Get Started" onPress={() => navigate('/onboarding/goal')} />
+          <Button title={t('onboarding.welcomeGetStarted')} onPress={() => navigate('/onboarding/goal')} />
           <Pressable accessibilityRole="link" onPress={() => navigate('/onboarding/signup?mode=signin')}>
             <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>
               {t('onboarding.welcomeSignIn')}
@@ -33,10 +33,10 @@ export default function WelcomeScreen() {
           Lume
         </Text>
         <Text variant="display" color={color.label} style={{ textAlign: 'center' }}>
-          Track your food the way you actually eat
+          {t('onboarding.welcomeHeadline')}
         </Text>
         <Text variant="body" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-          Personalised to your diet, your culture, your goals
+          {t('onboarding.welcomeSubline')}
         </Text>
       </View>
     </OnbScaffold>

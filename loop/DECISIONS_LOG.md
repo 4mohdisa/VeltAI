@@ -10369,3 +10369,8 @@
 - 2026-11-25 06:19 Kept the two-line signup.tsx mode parameter from round 187. It was needed for the Welcome link, it is small, and it is covered by signupSignInMode.render.test.tsx.
 - 2026-11-25 06:19 Asked the step 1b prompt to fix the stale 2b note in PHASE4_ROWS.md. It is the row's own note, so the one-line rule is not broken.
 - 2026-11-25 06:19 Did not run Maestro or the full Jest suite this round. The next checkpoint round will run the full suite.
+- 2026-11-25 06:23 Chose 1c (Welcome strings) over the other candidates: it is the planned next step in the last report and Jev ranks the run action at 99%.
+- 2026-11-25 06:23 Kept one screen per prompt, per the notes rule (max 5 steps, one screen or component per prompt).
+- 2026-11-25 06:23 Full Jest suite skipped this round; only changed and directly related files, since this is not a checkpoint round.
+- 2026-11-25 06:23 Simulator check skipped this round because the change is string-only; the Maestro flow for 2b is planned at the end of the row.
+- 2026-11-25 06:23 Recorded Jev's risk reading (1.0 of 2) as a reason to keep the task small rather than as an instruction.

@@ -1118,7 +1118,10 @@
     "a11yOfGrams": "{{label}}, {{value}} de {{target}} gramos"
   },
   "onboarding": {
-    "welcomeSignIn": "Iniciar sesión"
+    "welcomeSignIn": "Iniciar sesión",
+    "welcomeHeadline": "Registra tu comida tal como comes de verdad",
+    "welcomeSubline": "Adaptado a tu dieta, tu cultura y tus objetivos",
+    "welcomeGetStarted": "Empezar"
   },
   "signup": {
     "titleSignUp": "Crea tu cuenta",
