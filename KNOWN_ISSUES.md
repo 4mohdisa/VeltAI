@@ -36,9 +36,9 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - No test checks that en, es and fr have the same keys. Not a Phase 3 row.
 
 ## Backend
-- 49 queries use WHERE id::text = $1, which bypasses the id index. Not a Phase 3 row.
+- 49 queries use WHERE id::text = $1, which bypasses the id index. Tracked in Phase 4.
 - With LUME_TEST_DATABASE_URL set, 24 TestPG tests run and pass. The database is local only and never hosted.
-- getMorningBrief swallows errors; getProfile's .catch hides errors; there is no anomalies endpoint. Not a Phase 3 row.
+- getMorningBrief swallows errors; getProfile's .catch hides errors; there is no anomalies endpoint. Tracked in Phase 4.
 - npm audit reports 48 vulnerabilities. Dependency upgrades are not in Phase 3.
 - The authenticated role is missing in local Postgres 17. Phase 4.
 

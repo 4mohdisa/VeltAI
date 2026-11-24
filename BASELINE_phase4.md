@@ -18,7 +18,7 @@ Every gate was green on the first run, so no fixes were made and the before and 
 
 ## Skipped tests
 
-- Go: 21 tests skipped, all named TestPG_ and all skipped because LUME_TEST_DATABASE_URL is unset.
+- Go: 24 tests skipped, all named TestPG_ and all skipped because LUME_TEST_DATABASE_URL is unset.
 - Jest: 0 skipped.
 
 ## TestPG against local Postgres
@@ -28,7 +28,8 @@ Every gate was green on the first run, so no fixes were made and the before and 
 - Database: lume_test_local, a disposable database on localhost only
 - Setup: the shim from `backend/tests/food/days_pg_test.go` (auth schema, `auth.uid()`, `auth.jwt()`), plus the roles authenticated, anon and service_role, then all 18 files in `supabase/migrations` applied in order, one transaction each
 - Command: `go test -count=1 ./... -v` from `backend/`, with LUME_TEST_DATABASE_URL set in the shell for that command only
-- Result: 34 packages ok, 0 failed, 21 of 21 TestPG tests ran and passed, 0 skipped
+- Result: 34 packages ok, 0 failed, 24 of 24 TestPG tests ran and passed, 0 skipped
+- 25 Nov 2026: 24 TestPG tests ran on localhost lume_test_local, 0 skipped and 0 failed.
 - No fixes were needed, so the before and after numbers are the same
 
 ## Difference from the expected numbers

@@ -9992,3 +9992,7 @@
 - 2026-11-25 03:55 Kept the rule that the 55432 tunnel is never touched, and never print the database URL.
 - 2026-11-25 03:55 Kept Row 2 at PARTIAL until 2.2 to 2.5 are done.
 - 2026-11-25 03:55 Kept Jev's risk at 1.5 in mind: this round is small (one run, two doc edits, one tsc).
+- 2026-11-25 03:57 Chose candidate 1 because the loop flagged the last report as partly done; the TestPG count still says 21 or 22 in other files, and the same kind of mismatch would confuse the next round.
+- 2026-11-25 03:57 Jev said run at 99% with high confidence, so I kept the run. Its risk score is 1.0 of 2, and the task is documentation only, so the risk is low.
+- 2026-11-25 03:57 Kept the step count at 5 and no code changes so the round stays small and the type check can confirm nothing broke.
+- 2026-11-25 03:57 Recorded the 24 count as dated 25 Nov 2026, the date in the last report, rather than inventing a new one.
