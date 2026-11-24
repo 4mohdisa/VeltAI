@@ -13,9 +13,9 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and one for the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Round 32 done: ProgressBar.tsx line 31 now useState initializer, one test added.
-- Remaining: about 14 errors, 59 warnings.
-- react-hooks/refs: DailyMacroRing.tsx (round 33); EnergyBalanceCard.tsx (lines about 52, 69, 148).
+- DailyMacroRing.tsx fixed (round 33).
+- Remaining: about 9 errors, 59 warnings.
+- react-hooks/refs: EnergyBalanceCard.tsx (6 findings, lines about 52, 69, 148) (round 34).
 - react/display-name: 3 in render tests (labelScan, photoScan, scanScreens.strings).
 - 57 no-require-imports warnings (mostly tests), 1 import/first, 1 import/no-named-as-default-member (src/lib/i18n/index.ts:37).
 
@@ -35,8 +35,9 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Full suite on checkpoint rounds (next is 35).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). Do not seed or insert data without an approved seed path.
 - Every round runs tsc and targeted Jest for changed files and reports the results.
-- zsh: quote glob patterns; pass Jest file lists via printf '%s\0' | xargs -0.
+- zsh: quote glob patterns; pass Jest file lists via printf '%s\0' | xargs -0 (or tr '\n' '\0' | xargs -0).
 - Node 22 first on PATH (shell default is 24).
+- String changes wait for a string round (DailyMacroRing.tsx:96 'of' is untranslated, to fix then).
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -47,6 +48,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 30: full sweep, no edits.
 - Round 31: gymSchedule.ts react-hooks/refs fixed, one test added.
 - Round 32: ProgressBar.tsx react-hooks/refs fixed (useState), one test added.
+- Round 33: DailyMacroRing.tsx react-hooks/refs fixed (useState), 5 findings cleared, 2 suites pass.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -55,10 +57,10 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 33 (now): DailyMacroRing.tsx react-hooks/refs (flagged lines about 39, 40, 64, 69).
-- Then EnergyBalanceCard.tsx, then the 3 display-name render tests.
+- Round 34 (now): EnergyBalanceCard.tsx react-hooks/refs (lines about 52, 69, 148).
+- Then the 3 react/display-name errors in scan render tests.
 - Row 2.2 remaining: src/app/food/history.tsx:66 listSessions limit (high priority); useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
-- Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
+- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed

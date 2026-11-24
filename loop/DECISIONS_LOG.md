@@ -9752,3 +9752,7 @@
 - 2026-11-25 02:43 history.tsx:66 unbounded read is queued as the next row 2.2 item, right after the lint errors close, because it is a real performance issue but not a blocker.
 - 2026-11-25 02:43 Round 32 (ProgressBar.tsx) accepted: the report shows the fix used useState and added one test. Lint errors went from 16 to 14 by its count.
 - 2026-11-25 02:43 Kept the full suite for the checkpoint at round 35 as planned. No full run this round.
+- 2026-11-25 02:44 Chose EnergyBalanceCard.tsx: the last report recommended it, Jev ranks it first, and it is one file, which keeps risk low.
+- 2026-11-25 02:44 history.tsx:66 listSessions limit stays next, since it is high priority but touches a data path and deserves its own round.
+- 2026-11-25 02:44 The untranslated 'of' at DailyMacroRing.tsx:96 is deferred to a string round, because this round allows no string changes.
+- 2026-11-25 02:44 Full suite waits for the checkpoint round 35 as planned; this round runs tsc, lint and targeted Jest only.

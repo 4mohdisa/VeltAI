@@ -49,7 +49,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 function Ring({ r, fraction, tint, reduceMotion }: { r: number; fraction: number; tint: string; reduceMotion: boolean }) {
   const c = RING_BOX / 2;
   const circumference = 2 * Math.PI * r;
-  const progress = useRef(new Animated.Value(fraction)).current;
+  const [progress] = useState(() => new Animated.Value(fraction));
 
   useEffect(() => {
     if (reduceMotion) {
@@ -145,7 +145,7 @@ export function EnergyBalanceCard({ day, loading, error, energyUnit }: EnergyBal
   // `day` (and so `net`) is only ever defined once this card has something to
   // show, but the hooks themselves can't be skipped.
   const net = day ? netOf(day) : null;
-  const netAnim = useRef(new Animated.Value(net ?? 0)).current;
+  const [netAnim] = useState(() => new Animated.Value(net ?? 0));
   const [displayNet, setDisplayNet] = useState(net ?? 0);
   // This card's own loading/error branches return before a day exists, so the
   // FIRST day to ever land here has no previous value to ease from — only a
