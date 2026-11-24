@@ -9841,3 +9841,5 @@
 - 2026-11-25 03:11 Ran expo lint in the checkpoint too, since the real warning count is still unmeasured and the run is read only.
 - 2026-11-25 03:11 Kept the Row 2.2 queue order: measurements render test next, then the display-name errors, then the camera mocks.
 - 2026-11-25 03:11 Kept Row 2.1 simulator check parked, because the E2E account has fewer than 250 gym dates and no approved seed path exists.
+- 2026-11-25 03:13 Round 61: chose the measurements.render.test.tsx swap (candidate 1) because it is the largest warning cluster, test only, and the same proven pattern. Jev rated run at 99%, so no second look needed.
+- 2026-11-25 03:13 Round 61: string work and app code (analyticsSink.ts) wait for later rounds, one file per round to keep Jev risk moderate.

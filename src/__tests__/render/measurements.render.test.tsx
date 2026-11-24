@@ -2,7 +2,8 @@
 // These EXECUTE the screen; they are not source-text greps.
 import MeasurementsScreen from '@/app/onboarding/measurements';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
-import { renderScreen, buttonWithTitle, allText, findAll } from './helpers';
+import { router } from 'expo-router';
+import { act, renderScreen, buttonWithTitle, allText, findAll } from './helpers';
 
 beforeEach(() => {
   useOnboardingStore.getState().reset();
@@ -36,7 +37,6 @@ test('ITEM 6: the age band matches the server exactly (13..120)', () => {
   const age = findAll(tree, (p) => p.label === 'Age')[0];
   const setAge = age.props.onChangeText as (t: string) => void;
 
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => setAge('12'));
   expect(allText(tree)).toContain('Enter an age between 13 and 120');
 
@@ -74,7 +74,6 @@ test('ITEM 4: the target-weight field follows the weight unit toggle', () => {
 test('ITEM 4: flipping kg<->lb CONVERTS the typed value instead of reinterpreting it', () => {
   const tree = renderScreen(<MeasurementsScreen />);
   const weight = findAll(tree, (p) => p.accessibilityLabel === 'Current weight in kilograms')[0];
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => (weight.props.onChangeText as (t: string) => void)('70'));
 
   // Flip to lb: 70 kg is 154.3 lb, NOT "70 lb" (which would silently restate
@@ -92,7 +91,6 @@ test('ITEM 4: flipping kg<->lb CONVERTS the typed value instead of reinterpretin
 test('ITEM 4: flipping cm<->ft/in carries the height across', () => {
   const tree = renderScreen(<MeasurementsScreen />);
   const cm = findAll(tree, (p) => p.accessibilityLabel === 'Height in centimetres')[0];
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => (cm.props.onChangeText as (t: string) => void)('180'));
 
   TestPress(findAll(tree, (p) => p.accessibilityLabel === 'ft / in')[0]);
@@ -105,7 +103,6 @@ test('ITEM 4: flipping cm<->ft/in carries the height across', () => {
 
 test('SYMPTOM 1: what you type is persisted before you press Continue', () => {
   const tree = renderScreen(<MeasurementsScreen />);
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   const age = findAll(tree, (p) => p.label === 'Age')[0];
   act(() => (age.props.onChangeText as (t: string) => void)('34'));
   TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
@@ -119,15 +116,13 @@ test('SYMPTOM 1: what you type is persisted before you press Continue', () => {
 test('ITEM 7: the screen never routes to a legal or consent screen', () => {
   const tree = renderScreen(<MeasurementsScreen />);
   TestPress(buttonWithTitle(tree, 'Continue')!); // blocked path
-  const { router } = require('expo-router') as { router: { push: jest.Mock; replace: jest.Mock } };
-  const targets = [...router.push.mock.calls, ...router.replace.mock.calls].flat().map(String);
+  const targets = [...(router.push as jest.Mock).mock.calls, ...(router.replace as jest.Mock).mock.calls].flat().map(String);
   expect(targets.some((t) => t.includes('legal'))).toBe(false);
   expect(targets.some((t) => t.includes('consent'))).toBe(false);
 });
 
 test('ITEM 1: height and weight are required, each with its own visible reason', () => {
   const tree = renderScreen(<MeasurementsScreen />);
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   // Fill age + sex so ONLY height/weight can be the blockers.
   act(() => (findAll(tree, (p) => p.label === 'Age')[0].props.onChangeText as (t: string) => void)('30'));
   TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
@@ -144,7 +139,6 @@ test('ITEM 1: height and weight are required, each with its own visible reason',
 
 test('ITEM 1: a complete form stores exactly what was typed, no substitution', () => {
   const tree = renderScreen(<MeasurementsScreen />);
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => (findAll(tree, (p) => p.label === 'Age')[0].props.onChangeText as (t: string) => void)('30'));
   TestPress(findAll(tree, (p) => p.accessibilityLabel === 'Male')[0]);
   act(() => (findAll(tree, (p) => p.accessibilityLabel === 'Height in centimetres')[0].props.onChangeText as (t: string) => void)('183'));
@@ -161,12 +155,10 @@ test('ITEM 1: a complete form stores exactly what was typed, no substitution', (
 function TestPress(node: { props: Record<string, unknown> }): void {
   const onPress = node.props.onPress as (() => void) | undefined;
   expect(typeof onPress).toBe('function');
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   act(() => onPress!());
 }
 
 test('ITEM 5: the ft/in the user typed are restored verbatim, not recomputed from cm', () => {
-  const { act } = require('./helpers') as { act: (cb: () => void) => void };
   // First visit: switch to ft/in and type a height.
   const first = renderScreen(<MeasurementsScreen />);
   const ftin = findAll(first, (p) => p.accessibilityLabel === 'ft / in')[0];
