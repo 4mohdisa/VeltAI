@@ -51,7 +51,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Round 44 (checkpoint): full tsc and Jest green.
 - Rounds 45-47: gymSession.emptyStates, gymStreakSkeleton, gymStreakStripFootnote render tests, require swapped for jest.requireActual.
-- Round 48: mealsScreen.strings.render.test.tsx, same swap. tsc 0, Jest 2 of 2, eslint 0.
+- Round 48: mealsScreen.strings.render.test.tsx, same swap.
+- Round 49: recipeLog.render.test.tsx, same swap, unused disable comment removed. tsc 0, Jest 2 of 2.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -60,8 +61,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 49: src/__tests__/render/recipeLog.render.test.tsx, same swap.
-- Then the same swap, one file per round, for: recipesList, savedMealsList, savedMealsLog, savedScreen, todayCard (all in src/__tests__/render/).
+- Round 50: src/__tests__/render/recipesList.render.test.tsx, same swap.
+- Then the same swap, one file per round, for: savedMealsList, savedMealsLog (check for unneeded disable comment), savedScreen, todayCard (all in src/__tests__/render/).
 - Then the biggest warnings: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx. Onboarding and signup render tests may use the same pattern.
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).

@@ -9807,3 +9807,7 @@
 - 2026-11-25 03:01 Kept the one-file-per-round pattern because Jev rates risk moderate and each round checks gates.
 - 2026-11-25 03:01 Picked the recipeLog swap as the next row 2.2 lint step, as the notes list it next.
 - 2026-11-25 03:01 Told Claude Code to report any top-level require outside a mock factory instead of changing it, so the swap stays a pure mock change.
+- 2026-11-25 03:02 Chose the next one-file lint swap (recipesList) to keep each round small, as Jev's moderate risk signal advises.
+- 2026-11-25 03:02 Round 49 is recorded as done from the latest report (recipeLog swap), so the next round is 50.
+- 2026-11-25 03:02 Kept the rule that a string change waits for the string round, so this prompt adds no strings.
+- 2026-11-25 03:02 Kept 2.1 simulator check parked; no seed or insert without an approved path.
