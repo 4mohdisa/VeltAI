@@ -9,9 +9,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2 and 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
-- Row 13 progress: barcode failed state in detail.tsx done (R240, R241). foodDays.ts useLoggedDays error and refetch done (R243, 5 tests).
-- Next (R244): calendar.tsx error state with Retry, one screen, with calendar.error.render.test.tsx (en).
-- Then: food.tsx error state (second caller), then the rest of Row 13.
+- Row 13 progress: barcode failed state in detail.tsx done (R240, R241). foodDays.ts useLoggedDays error and refetch done (R243). calendar.tsx error state done (R244).
+- Next (R245): food.tsx logged-days error with Retry, with food.loggedDays.render.test.tsx (en).
+- Then: the PHASE3_ROWS.md Row 13 line, then the aliases cleanup in foodDays.ts, then the rest of Row 13.
 - Last full green checkpoint R242 (tsc 0, 272 suites, 1,661 tests).
 
 ## Order
@@ -62,9 +62,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R243: foodDays.ts error: failure keeps dates and sets error; success clears it. useHydration not moved (hydrationErrorScreens.test.ts:34 pins it in hooks.ts; import cycle).
 - R243: calendar error state limited to foodDays.ts and calendar.tsx; new es, fr strings flagged for Isa.
 - R244: calendar error reuses an existing shared error component (no new component).
+- R245: food.tsx is the next Row 13 screen; it keeps the week strip visible and shows a notice above it.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings, calendar strings.
+- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings, calendar strings, food.loggedDaysFailed.
 - How far legal text is translated, and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing. Spanish four-digit numbers without separator.
@@ -95,10 +96,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Gotcha: Line 39 of OWNER_CHECKS_phase4.md quotes the old es sessionExpired wording. File is append only, leave it.
 
 ## Problems noticed, not fixed
-- food.tsx still uses useLoggedDays without the error state (next screen after calendar).
+- PHASE3_ROWS.md Row 13 has no line yet for the detail.tsx barcode work, the foodDays.ts change or the calendar change (add it).
 - days and loading aliases in foodDays.ts can go once food.tsx and calendar.tsx use data and isLoading.
 - lookupBarcodeAsync (scan.ts:409) is unused apart from scanSeam.test.ts:521.
-- PHASE3_ROWS.md Row 13 has no line yet for the detail.tsx barcode work or the foodDays.ts change (add it).
 - English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).

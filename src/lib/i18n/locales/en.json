@@ -330,7 +330,8 @@
     "confirmProduct": "Confirm product",
     "nameField": "Name",
     "gramsUnit": "g",
-    "pickDayLabel": "{{date}}. Pick a day"
+    "pickDayLabel": "{{date}}. Pick a day",
+    "loggedDaysFailed": "Couldn't load which days have food logged."
   },
   "savedMeals": {
     "logged": "Logged {{name}}.",

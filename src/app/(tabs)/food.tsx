@@ -214,7 +214,7 @@ export default function FoodLogScreen() {
   const selectedDate = useFoodStore((st) => st.selectedDate);
   const isPastDay = selectedDate < todayISO();
   const setSelectedDate = useFoodStore((st) => st.setSelectedDate);
-  const { days: loggedDays, refetch: refetchDays } = useLoggedDays();
+  const { days: loggedDays, error: loggedDaysError, refetch: refetchDays } = useLoggedDays();
   const { data: meals, isLoading: loading, error, refetch } = useFoodLog();
   const loadError = !!error;
   const sections = useMemo(() => buildSections(meals), [meals]);
@@ -486,6 +486,11 @@ export default function FoodLogScreen() {
                 below covers the case where there is nothing to show at all. */}
             {loadError && itemCount > 0 ? (
               <LoadFailedNotice message={t(isPastDay ? 'food.loadFailedPast' : 'food.loadFailed')} onRetry={refetch} />
+            ) : null}
+            {/* The dots could not be read: say so rather than let a dotless week
+                pass as "nothing logged". The strip stays usable for picking a day. */}
+            {!searching && loggedDaysError ? (
+              <LoadFailedNotice message={t('food.loggedDaysFailed')} onRetry={refetchDays} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}

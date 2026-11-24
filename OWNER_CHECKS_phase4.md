@@ -77,3 +77,4 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Confirm English grams from 1,000 up now show a separator (for example 1,234 g, formatGrams and formatMacro in src/lib/formatting.ts); below 1,000 English is unchanged.
 - [ ] es and fr wording needs review: barcodeScan.lookupFailedTitle, lookupFailedReason and lookupFailedHint in src/lib/i18n/locales/es.json and fr.json (agent translation, barcode network error).
 - [ ] es and fr wording needs review: calendar.loadFailedTitle and calendar.loadFailedMessage in src/lib/i18n/locales/es.json and fr.json (agent translation, calendar error state).
+- [ ] es and fr wording needs review: food.loggedDaysFailed in src/lib/i18n/locales/es.json and fr.json (agent translation, Food tab logged-days notice).

@@ -10635,3 +10635,8 @@
 - 2026-11-25 09:47 Asked for a new calendar.error.render.test.tsx in en only. es and fr render tests are parked in NOTES.
 - 2026-11-25 09:47 Asked for an OWNER_CHECKS_phase4.md append for the new es and fr calendar strings, because they need Isa's wording review (R243 rule).
 - 2026-11-25 09:47 Told Claude Code to reuse LoadFailedNotice or ErrorState and not create a component, to avoid duplicated logic.
+- 2026-11-25 09:50 R245: food.tsx is the next Row 13 screen, as the last report and the notes both recommend; it is the only other caller of useLoggedDays.
+- 2026-11-25 09:50 R245: the Food tab keeps the week strip visible on failure and shows a notice above it, since the strip still has data to show for past days.
+- 2026-11-25 09:50 R245: the Food tab uses LoadFailedNotice if it takes a retry action, otherwise ErrorState, and no new component is created.
+- 2026-11-25 09:50 R245: the PHASE3_ROWS.md Row 13 line and the aliases cleanup wait for later rounds to keep this prompt to one screen.
+- 2026-11-25 09:50 R245: the handover's 'next task: paywall 4xx toast' is ignored because notes R228 and R229 show it is done; the handover's row 2c next step is ignored as before.
