@@ -9,8 +9,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 strings open: MacroBars target and a11y labels (round 132, in progress), monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, summaryCards 'MTWTFSS' fallback check, Summary screen (src/app/(tabs)/index.tsx) and src/app/energy.tsx literal sweep (one file per round).
-- 2.3 done lines: GymSessionButton (rounds 128-129), MacroBars 'Not tracked' (round 130, partial). Add PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 strings open: Summary screen (src/app/(tabs)/index.tsx) round 133 in progress, then src/app/energy.tsx literal sweep, monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. One file per round.
+- 2.3 done: GymSessionButton (rounds 128-129), MacroBars fully translated incl. target text and a11y labels (round 132). Add PHASE4_ROWS.md note when 2.3 closes.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -49,7 +49,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 123: formatDuration rounds total minutes first.
 - Round 124-125: day letters from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
 - Round 126-128: WeekEnergyCard, EnergyBalanceCard, GymSessionButton translated. Isa to review es and fr wording.
-- Round 131: report flagged partly done (MacroBars target and a11y still English). Round 132 closes it before the Summary sweep.
+- Round 131-132: MacroBars target text and a11y labels translated (summary.target, summary.a11yNotTracked, summary.a11yOfGrams). Isa to review es and fr wording. The ' · ' separator sits inside summary.target.
+- Round 133: Summary screen sweep. Pinned assertions changed only if they hold old English text; recorded in its report.
+- Jev (round 128 handover): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible. Jev round 131 and 133: run 97-99%, risk 1.0 of 2. Kept to one file or component per round.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -58,7 +60,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-130: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton and render test, MacroBars 'Not tracked'.
+- Rounds 107-132: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton and render test, MacroBars fully translated.
 - Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126: tsc and Jest green (126: 244 suites, 1,456 tests, 4 snapshots).
 
 ## Blocked on Isa (not blocking the loop)
@@ -66,7 +68,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m').
-- Review es and fr wording: week card keys, six energy balance keys, gym logged label, summary.notTracked, summary target and a11y keys (round 132).
+- Review es and fr wording: week card keys, six energy balance keys, gym logged label, summary.notTracked, summary target and a11y keys.
 - Do not retry these questions; work on other surfaces.
 
 ## Parked
@@ -75,16 +77,18 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - delete-account.tsx swallowed-errors review.
 - Subscription screen es and fr render test.
 - Gym tab render test in es and fr for the translated month line.
+- MacroTargetRows render test in es and fr (no test checks the translated macro text yet).
 - formatNumber hardcoded en-AU.
 - formatting.ts:67 and :72 use device locale.
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
 
 ## Next
-- Round 132: finish MacroBars (target text and a11y labels, new summary keys in en, es, fr).
-- Then Summary screen (src/app/(tabs)/index.tsx) and src/app/energy.tsx literal sweep, one file per round.
+- Round 133: Summary screen sweep (src/app/(tabs)/index.tsx).
+- Then src/app/energy.tsx literal sweep, one file per round.
 - Then rest of the 2.3 open list, then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
+- Full suite at the next checkpoint (about round 134).
 
 ## Problems noticed, not fixed
 - formatStreak(0) in fr gives '0 jour' (correct French, differs from en).
@@ -107,5 +111,4 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
 - Weekday and month names on Hermes not checked on the simulator.
-- Other Summary cards may still have English literals (sweep continues).
-- Jev (round 128 handover): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible. Jev round 131: run 97%, risk 1.0 of 2. Kept to one component per round.
+- Other Summary cards may still have English literals (sweep in progress).

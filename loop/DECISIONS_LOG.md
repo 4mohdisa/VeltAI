@@ -10136,3 +10136,7 @@
 - 2026-11-25 04:48 Accept the round 131 change to summaryNoFabrication.test.ts (source check against t('summary.notTracked') instead of en.json value), since the component now reads the key. Record it for Isa's review. This round updates that same assertion to the new keys only.
 - 2026-11-25 04:48 Locale keys added under the existing summary section, not a new section. Needs Isa to review es and fr wording ('sin registrar', 'non suivi' and the new a11y strings).
 - 2026-11-25 04:48 Add the missing PHASE4_ROWS.md note for GymSessionButton and MacroBars when Row 2.3 closes, not in this round.
+- 2026-11-25 04:50 Chose the Summary sweep: it is the next open item in the 2.3 list and touches one file.
+- 2026-11-25 04:50 Kept one main file per round because Jev rates the risk of continuing without Isa at 1.0 of 2.
+- 2026-11-25 04:50 Left the full suite for a later checkpoint; this round runs only tsc, the affected Jest files and lint.
+- 2026-11-25 04:50 Treated the Jev run signal (99%) as agreement with the plan, so no change of task.
