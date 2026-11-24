@@ -65,7 +65,8 @@
     "check:assets": "node scripts/check-assets.mjs",
     "eas-build-pre-install": "node scripts/assert-build-env.mjs",
     "assert:env": "node scripts/assert-build-env.mjs",
-    "preflight": "node scripts/preflight.mjs"
+    "preflight": "node scripts/preflight.mjs",
+    "verify": "tsc --noEmit && npm run lint && jest --ci src/__tests__/localeParity.test.ts"
   },
   "jest": {
     "projects": [

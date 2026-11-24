@@ -10281,3 +10281,8 @@
 - 2026-11-25 05:40 Row 2 goes to a documentation round: backfill notes and fix stale i18n comments before more code work, because the previous two rounds repeated finished work.
 - 2026-11-25 05:40 Row 29 (npm run verify) stays after the docs round, as the next code task once the goals.saved question is settled.
 - 2026-11-25 05:40 Jev's advisory risk score (1.1) and low clean-completion chance (22%) point to a smaller task, so this round is docs only with no code change.
+- 2026-11-25 05:42 Row 29 comes next as the notes planned, because the docs round is finished and the verify command is a cheap gate for every later round.
+- 2026-11-25 05:42 Row 29 is split: this round covers only the app checks (tsc, expo lint, parity test). Go, migrations, manifest, secrets, full Jest and the CI file come in their own rows, because they need those rows built first.
+- 2026-11-25 05:42 Prettier stays unconfigured this round. Decision parked until a Prettier run shows how much it would change.
+- 2026-11-25 05:42 Full Jest is skipped this round because it is not a checkpoint round (next checkpoint is 170). Only tsc, lint and the parity test run.
+- 2026-11-25 05:42 The es and fr visibility question stays parked for Isa. It does not block the verify work, since parity is checked on the locale files regardless of whether the app shows them.
