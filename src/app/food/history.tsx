@@ -23,6 +23,7 @@ import { color, layout, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { dateLocale, formatCalories } from '@/lib/formatting';
 import { api } from '@/lib/api';
+import { GYM_SESSION_HYDRATE_LIMIT } from '@/lib/data/hooks';
 
 const DAYS = 7;
 
@@ -63,7 +64,7 @@ export default function MealHistoryScreen() {
     // Sessions come from the API rather than the gym store: the store's mapper
     // converts date to a display label ('Today', 'Mon 14 Jul') and loses the ISO
     // day we need to match against, so the store cannot answer this question.
-    const gymRows = await api.gym.listSessions();
+    const gymRows = await api.gym.listSessions({ limit: GYM_SESSION_HYDRATE_LIMIT });
     const gymDays = new Set(gymRows.map((r) => r.date));
     // One request per day: /api/food/summary is per-date. A failure on any day
     // fails the screen rather than showing a partial history that reads as

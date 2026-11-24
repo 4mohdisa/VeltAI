@@ -9767,3 +9767,7 @@
 - 2026-11-25 02:48 Round 37 takes the one-file display-name fix: it is the last lint error and Jev risk is high, so keep steps to one file.
 - 2026-11-25 02:48 The 59 lint warnings (mostly no-require-imports in tests) are deferred until after the lint errors reach 0, to avoid a large mixed change.
 - 2026-11-25 02:48 The round 36 result is accepted: photoScan.render.test.tsx:83 uses a named forwardRef function, 6 of 6 tests pass, and the stack trace in the log is treated as an expected output from the two deliberate failure tests (check in Row 22 if it persists).
+- 2026-11-25 02:49 Chose the history.tsx listSessions limit over the lint warnings because the notes mark it high priority and it is a data risk; lint warnings are not blocking.
+- 2026-11-25 02:49 Kept the round to one screen plus one data function because Jev rates continuation risk moderately high.
+- 2026-11-25 02:49 Default the new limit to 200, matching the hydrateGym cap, so the change is consistent and existing callers are unaffected.
+- 2026-11-25 02:49 Did not add pagination this round; the older sessions question is left for the report.

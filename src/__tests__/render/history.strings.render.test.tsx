@@ -7,6 +7,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import MealHistoryScreen from '@/app/food/history';
 import { api } from '@/lib/api';
+import { GYM_SESSION_HYDRATE_LIMIT } from '@/lib/data/hooks';
 import { formatCalories } from '@/lib/formatting';
 import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
@@ -47,6 +48,7 @@ test('a failed history read shows the history.loadFailed copy from en.json', asy
     await new Promise((r) => setImmediate(r));
   });
 
+  expect(api.gym.listSessions).toHaveBeenCalledWith({ limit: GYM_SESSION_HYDRATE_LIMIT });
   expect(findAll(tree, (p) => p.children === en.history.loadFailed).length).toBeGreaterThan(0);
   expect(findAll(tree, (p) => p.children === en.history.emptyTitle)).toHaveLength(0);
 });
