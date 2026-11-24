@@ -49,14 +49,13 @@ export function dayReadout(d: EnergyBalance, fmt: (n: number) => string): string
 export type WorkoutPip = { letter: string; date: string; trained: boolean };
 export type WorkoutsWeek = { sessions: number; minutes: number; untimed: number; pips: WorkoutPip[] };
 
-const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-
 /** This calendar week (Monday first) from logged sessions: how many, the minutes
  *  that were recorded, how many had no duration, and a pip per day. */
 export function workoutsWeek(sessions: GymSession[], today: string): WorkoutsWeek {
   let count = 0;
   let minutes = 0;
   let untimed = 0;
+  const letters = [...i18n.t('calendar.weekdayLetters')];
   const pips = weekOf(today).map((date, i) => {
     const onDay = date > today ? [] : sessionsOn(sessions, date);
     count += onDay.length;
@@ -64,7 +63,7 @@ export function workoutsWeek(sessions: GymSession[], today: string): WorkoutsWee
       if (s.duration_minutes == null) untimed += 1;
       else minutes += s.duration_minutes;
     }
-    return { letter: LETTERS[i], date, trained: onDay.length > 0 };
+    return { letter: letters[i], date, trained: onDay.length > 0 };
   });
   return { sessions: count, minutes, untimed, pips };
 }

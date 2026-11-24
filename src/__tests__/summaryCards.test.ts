@@ -95,14 +95,15 @@ describe('workoutsLine follows the app language', () => {
   const week = (minutes: number, untimed: number): WorkoutsWeek => ({ sessions: 3, minutes, untimed, pips: [] });
 
   test.each([
-    ['es', '1 h 45 min de entrenamiento · 1 sin duración', '2 sin duración', 'Aún no hay sesiones esta semana', 'Duración no registrada'],
-    ['fr', '1 h 45 min d’entraînement · 1 sans durée', '2 sans durée', "Aucune séance cette semaine pour l'instant", 'Durée non enregistrée'],
-  ])('%s', async (lang, singular, plural, none, unrecorded) => {
+    ['es', '1 h 45 min de entrenamiento · 1 sin duración', '2 sin duración', 'Aún no hay sesiones esta semana', 'Duración no registrada', 'LMXJVSD'],
+    ['fr', '1 h 45 min d’entraînement · 1 sans durée', '2 sans durée', "Aucune séance cette semaine pour l'instant", 'Durée non enregistrée', 'LMMJVSD'],
+  ])('%s', async (lang, singular, plural, none, unrecorded, letters) => {
     await i18n.changeLanguage(lang);
     expect(workoutsLine(week(105, 1))).toBe(singular);
     expect(workoutsLine(week(0, 2))).toBe(plural);
     expect(workoutsLine(workoutsWeek([], '2026-09-10'))).toBe(none);
     expect(workoutsLine(week(0, 0))).toBe(unrecorded);
+    expect(workoutsWeek([], '2026-09-10').pips.map((p) => p.letter).join('')).toBe(letters);
   });
 });
 

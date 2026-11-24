@@ -10101,3 +10101,8 @@
 - 2026-11-25 04:35 Round 123 takes candidate 1 (formatDuration rounding) because the last report recommended it and it is a small shared fix.
 - 2026-11-25 04:35 Full Jest run included because formatDuration is shared and any output change must be checked.
 - 2026-11-25 04:35 Round 122 closed: summaryCards workoutsLine uses formatHoursMinutes. es and fr spacing ('1 h 45 min') stays until Isa confirms.
+- 2026-11-25 04:36 Chose day letters (candidate 1) as the next step of the 2.3 string round, following the handover order; Jev ranked the same action at 99% run.
+- 2026-11-25 04:36 Day letters derived with Intl narrow weekday through dateLocale, so no new locale keys are needed and es and fr follow the app language.
+- 2026-11-25 04:36 Allowed the summaryCards test file as the second file for pinned day-letter assertions, per the one-main-file rule.
+- 2026-11-25 04:36 Full Jest run required because the change is a string change that can touch snapshots.
+- 2026-11-25 04:36 No Isa question: the es and fr hours spacing and the Sept question stay parked in OWNER_CHECKS_phase4.md.
