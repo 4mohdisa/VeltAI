@@ -4,7 +4,7 @@
 // empty/loading states with or without a backend. Mutations (createTemplate,
 // setScheduleDay, completeSession, …) are called directly via `api.gym.*` from
 // the screens, wrapped in try/catch there.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { api } from '@/lib/api';
 import type {
@@ -45,11 +45,14 @@ export function useApi<T>(fetcher: () => Promise<T>, fallback: T, deps: readonly
 
   // revalidate (below) reads through these instead of closing over fetcher/
   // fallback directly, so its own identity can stay empty-deps and stable —
-  // see its comment.
+  // see its comment. Updated in a layout effect, not during render, so they hold
+  // the latest values before any effect (a focus revalidate included) runs.
   const fetcherRef = useRef(fetcher);
-  fetcherRef.current = fetcher;
   const fallbackRef = useRef(fallback);
-  fallbackRef.current = fallback;
+  useLayoutEffect(() => {
+    fetcherRef.current = fetcher;
+    fallbackRef.current = fallback;
+  });
 
   useEffect(() => {
     let active = true;

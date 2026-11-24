@@ -9739,3 +9739,7 @@
 - 2026-11-25 02:38 The eslint sweep is report only this round so that each later fix touches one file, which lowers Jev-flagged risk.
 - 2026-11-25 02:38 Uncommitted loop files (loop/DECISIONS_LOG.md, loop/NOTES_phase4.md) are left alone, as the last report found they were changed outside Claude Code's work.
 - 2026-11-25 02:38 history.tsx listSessions limit and the useWeeklyMacros refetch test wait for the next rounds, after the lint findings are known.
+- 2026-11-25 02:40 Chose gymSchedule.ts because the last sweep recommended it and it is the only lint error under src/lib/data, inside Row 2 scope.
+- 2026-11-25 02:40 Kept to one file per round because Jev rates the risk of continuing as high.
+- 2026-11-25 02:40 Candidate 3 (unbounded history read) is a real data risk, so it goes next after the lint fixes unless the next sweep says otherwise.
+- 2026-11-25 02:40 Only a targeted Jest run this round. The full suite is due at the next checkpoint (every 5 rounds, round 35).

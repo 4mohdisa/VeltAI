@@ -174,3 +174,21 @@ test('useApi shows loading with the previous data while an input change re-fetch
   expect(hook.latest()).toMatchObject({ data: ['Back Squat'], loading: false, isError: false });
   hook.unmount();
 });
+
+test('useApi keeps revalidate stable across a re-render and revalidates with the latest fetcher', async () => {
+  const fetcher = jest.fn<Promise<string[]>, [string]>((query) => Promise.resolve([query]));
+  const useRows = (query: string) => useApi(() => fetcher(query), []);
+
+  const hook = await mountHook(useRows, 'bench');
+  const firstRevalidate = hook.latest()?.revalidate;
+
+  await hook.rerender('squat');
+  expect(hook.latest()?.revalidate).toBe(firstRevalidate);
+  expect(hook.latest()).toMatchObject({ data: ['bench'], loading: false });
+
+  TestRenderer.act(() => hook.latest()?.revalidate());
+  await settle();
+  expect(fetcher).toHaveBeenLastCalledWith('squat');
+  expect(hook.latest()).toMatchObject({ data: ['squat'], loading: false, isError: false });
+  hook.unmount();
+});
