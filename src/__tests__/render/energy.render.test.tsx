@@ -11,7 +11,9 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import EnergyScreen from '@/app/energy';
 import { useEnergyRange } from '@/lib/data/energyRange';
+import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
 import { readHook } from '../helpers/useApiHarness';
 import { act, allText, renderScreen } from './helpers';
@@ -116,4 +118,34 @@ test('useEnergyRange keeps the other week and reports no error when only one wee
     .mockResolvedValueOnce(weekly(FIXTURE_DAYS));
   expect(await readHook(useEnergyRange)).toMatchObject({ days: FIXTURE_DAYS, loading: false, isError: false });
   expect(mockGetWeek).toHaveBeenCalledTimes(2);
+});
+
+describe('follows the app language', () => {
+  afterAll(async () => {
+    await act(async () => {
+      await i18n.changeLanguage('en');
+    });
+  });
+
+  test.each([
+    ['en', en],
+    ['es', es],
+  ])('%s: the average burn line, legend and breakdown', async (lang, strings) => {
+    await act(async () => {
+      await i18n.changeLanguage(lang);
+    });
+    mockGetWeek.mockResolvedValue(weekly(FIXTURE_DAYS));
+    const tree = renderScreen(
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <EnergyScreen />
+      </SafeAreaProvider>,
+    );
+    await settle();
+
+    const text = allText(tree);
+    // Burns 1,500 / 1,800 / 1,750 average to 1,683.
+    expect(text).toContain(strings.dashboard.energyAverageBurned.replace('{{value}}', '1,683'));
+    expect(text).toContain(strings.dashboard.eatenAgainstBurned);
+    expect(text).toContain(strings.dashboard.breakdown);
+  });
 });

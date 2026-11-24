@@ -9,7 +9,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 strings: Summary screen sweep closed (round 133, no English left). Done: GymSessionButton, MacroBars, WeekEnergyCard, EnergyBalanceCard, formatting helpers, gym month title. Open: src/app/energy.tsx literal sweep, custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. One file per round. Add a PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 strings: Done: Summary screen, GymSessionButton, MacroBars, WeekEnergyCard, EnergyBalanceCard, formatting helpers, gym month title. Open, one file per round: src/app/energy.tsx literal sweep (round 135, in progress), custom-food 'Save food', ConfidenceBadge text, i18n header comments, summaryCards 'MTWTFSS' fallback check. Add a PHASE4_ROWS.md note when 2.3 closes.
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -50,8 +50,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 126-128: WeekEnergyCard, EnergyBalanceCard, GymSessionButton translated. Isa to review es and fr wording.
 - Round 131-132: MacroBars target text and a11y labels translated. Isa to review es and fr wording.
 - Round 133: Summary screen sweep closed, no change needed.
-- Round 134: checkpoint forced by loop note (round 133 report flagged a gate). Full tsc and Jest, no edits.
-- Jev (rounds 128-133): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible.
+- Round 134: checkpoint green: tsc 0 errors, Jest 245 suites, 1,462 tests, 4 snapshots.
+- Jev (rounds 128-134): risk of continuing without Isa scored 1.0 of 2. Keep tasks small and parked items visible.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -60,8 +60,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-133: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen.
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126: tsc and Jest green (126: 244 suites, 1,456 tests, 4 snapshots).
+- Rounds 107-134: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen.
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green.
 
 ## Blocked on Isa (not blocking the loop)
 - E2E account needs 250+ gym dates. Logged in OWNER_CHECKS_phase4.md.
@@ -84,9 +84,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - es and fr 'per day' wording differs between Summary card and week detail.
 
 ## Next
-- Round 134: checkpoint result. If green, continue. If red, fix the failing test first.
-- Then src/app/energy.tsx literal sweep, one file per round.
-- Then rest of the 2.3 open list, then add the 2.3 note to PHASE4_ROWS.md.
+- Round 135: energy.tsx literal sweep (one file, locale JSON as data, en and es test).
+- Then the rest of the 2.3 open list, then add the 2.3 note to PHASE4_ROWS.md.
 - Then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 
@@ -111,4 +110,3 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard weekday/month short names: check once on the simulator (Row 23).
 - Weekday and month names on Hermes not checked on the simulator.
-- Successful restore toast, WeekEnergyCard i18n access and 'per day' wording: see Parked.

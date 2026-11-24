@@ -224,7 +224,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
                         numberOfLines={1}
                         style={{ position: 'absolute', left: 0, bottom: heroY(avgBurn), paddingBottom: HERO_AVG_LINE }}
                       >
-                        {`${formatNumber(avgBurn)} ${t('dashboard.kcal')} ${t('dashboard.energyBalance.burned').toLowerCase()}`}
+                        {t('dashboard.energyAverageBurned', { value: formatNumber(avgBurn) })}
                       </Text>
                     </>
                   ) : null}
