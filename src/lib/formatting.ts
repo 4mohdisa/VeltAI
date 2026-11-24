@@ -24,9 +24,10 @@ export function formatCurrency(amount: number): string {
 }
 
 export function formatDuration(minutes: number): string {
-  if (minutes < 60) return i18n.t('gym.loggedMinutes', { minutes: Math.round(minutes) });
-  const h = Math.floor(minutes / 60);
-  const m = Math.round(minutes % 60);
+  const total = Math.round(minutes);
+  if (total < 60) return i18n.t('gym.loggedMinutes', { minutes: total });
+  const h = Math.floor(total / 60);
+  const m = total % 60;
   return m === 0 ? i18n.t('common.hours', { h }) : i18n.t('common.hoursMinutes', { h, m });
 }
 

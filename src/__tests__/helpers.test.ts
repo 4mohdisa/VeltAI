@@ -82,6 +82,7 @@ describe('formatting', () => {
     [60, '1h'],
     [90, '1h 30m'],
     [125, '2h 5m'],
+    [119.6, '2h'],
   ])('formatDuration(%p) → %p', (input, expected) => {
     expect(formatDuration(input)).toBe(expected);
   });

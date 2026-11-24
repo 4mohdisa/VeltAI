@@ -10098,3 +10098,6 @@
 - 2026-11-25 04:34 Allowed one pinned es/fr assertion edit in summaryCards.test.ts if it pins the old text, recorded in the report, per the Phase 4 rule for strings.
 - 2026-11-25 04:34 No simulator run this round: a string-only change; the Row 2 simulator check stays an owner check in OWNER_CHECKS_phase4.md.
 - 2026-11-25 04:34 Native spacing for es and fr ('0 h 30 min') kept as chosen in round 120/121. Isa may change es.json and fr.json later.
+- 2026-11-25 04:35 Round 123 takes candidate 1 (formatDuration rounding) because the last report recommended it and it is a small shared fix.
+- 2026-11-25 04:35 Full Jest run included because formatDuration is shared and any output change must be checked.
+- 2026-11-25 04:35 Round 122 closed: summaryCards workoutsLine uses formatHoursMinutes. es and fr spacing ('1 h 45 min') stays until Isa confirms.
