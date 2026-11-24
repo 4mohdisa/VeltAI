@@ -9645,3 +9645,8 @@
 - 2026-11-25 02:05 Rewrote the rejected prompt into 4 numbered steps (limit is 5). The step covers the same work: branch and Node check, gates, fixes if red, and BASELINE_phase4.md.
 - 2026-11-25 02:05 Ordered Row 1 step 2 before step 3 (Postgres) because the baseline numbers are needed first and the gates do not need the database.
 - 2026-11-25 02:05 Jev rated ask at 28%. Ignored, because ask is not allowed. Chose the smallest safe task (run) with risk 1.0 in mind.
+- 2026-11-25 02:07 Chose Row 1 step 3 because it is the next unfinished step of Row 1 and the notes name it as round 9.
+- 2026-11-25 02:07 Kept the prompt to 5 numbered steps and one task, per the loop rule.
+- 2026-11-25 02:07 Row 1 text corrected from 20 to 21 TestPG tests, because the report counted 21 and the backend run confirmed it.
+- 2026-11-25 02:07 Postgres install failure is parked in OWNER_CHECKS_phase4.md, not a stop, per the no questions rule.
+- 2026-11-25 02:07 Jev rated run at 99% with moderate risk (0.8). Took the smaller task (one row step) as advised for low confidence on the overall loop.
