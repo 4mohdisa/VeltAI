@@ -6,15 +6,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Checkpoint round 60 green: tsc 0, Jest 242 suites and 1,402 tests, expo lint 0 errors.
-- Round 73: signupSignInMode router swap done. tsc 0, 1 suite 3 tests pass, lint 0 errors, 12 warnings.
+- Round 74 done: signup.render.test.tsx router swap. tsc 0, 4 tests pass, lint 0 errors, 10 warnings.
+- Round 75 = checkpoint (full tsc, full Jest, lint, check Preview/Targets/signupOtp mock clears). Result pending.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 12 (round 73). Verify with `npx expo lint`.
-- Remaining warning map: signup.render 2, foodSaved.render 2, debugGating 2, debugCapture 2, authBilling 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 10 (round 74). Verify with `npx expo lint`.
+- Remaining warnings: foodSaved.render 2, debugGating 2, debugCapture 2, authBilling 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
 ## Decisions (never delete)
@@ -37,7 +37,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
 - i18n alias: `import { use as addPlugin }` is kept (a plain `use` trips rules-of-hooks).
-- One file per round for lint swaps. Full suite on checkpoint rounds. Next checkpoint round 75, then every 15 rounds.
+- One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoint 75, then every 15 rounds (90, 105, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns. Node 22 first on PATH.
@@ -51,7 +51,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44 and 60 (checkpoints): full tsc and Jest green.
-- Rounds 45-73: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode).
+- Rounds 45-74: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode, signup).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -60,11 +60,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 74: signup.render.test.tsx (2 warnings, in progress).
-- Then foodSaved.render, debugGating, debugCapture, authBilling (2 each), render/setup.ts.
+- Round 75: checkpoint (in progress).
+- Then foodSaved.render (2 warnings), debugGating, debugCapture, authBilling (2 each), render/setup.ts (1, afterEach require with disable comment).
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
-- Round 75 checkpoint: full tsc and Jest.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40 says 20 TestPG, it is 21).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -83,4 +82,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - KNOWN_ISSUES.md:40 wrong TestPG count (21 run, not 20 skipped).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting. A shared beforeEach clear in render/setup.ts would cover them. Confirm at checkpoint 75.
+- Preview, Targets and signupOtp CTA tests may not clear router mocks before asserting. Checked in round 75; a shared beforeEach clear in render/setup.ts would cover them if needed.

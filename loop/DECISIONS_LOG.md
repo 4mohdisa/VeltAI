@@ -9888,3 +9888,8 @@
 - 2026-11-25 03:25 Kept the same router swap pattern used in the completed render tests, so the change stays consistent.
 - 2026-11-25 03:25 Carry the round 75 checkpoint forward unchanged; it runs after the remaining lint swaps.
 - 2026-11-25 03:25 No owner steps added this round; nothing needs Isa.
+- 2026-11-25 03:26 Round 75 is the scheduled checkpoint from the notes (next checkpoint round 75, then every 15 rounds), so the full tsc and Jest run comes before more lint work.
+- 2026-11-25 03:26 Jev agrees with run (99%) and reports a clean last task (90%). Kept the same action. Did not take the 'look again' option because the choice follows the schedule.
+- 2026-11-25 03:26 Preview, Targets and signupOtp mock clears are checked in this round, not changed, so any fix is a separate small round with its own file.
+- 2026-11-25 03:26 Lint warning count threshold set at 10, matching the signup fix report (12 down to 10).
+- 2026-11-25 03:26 Work stays on loop/phase4 with no git writes, because the loop script commits.
