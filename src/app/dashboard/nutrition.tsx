@@ -247,7 +247,7 @@ export default function NutritionDetailScreen(): JSX.Element {
                 {mealSlotName(t, meal.slot)}
               </Text>
               <Text variant="footnote" color={color.secondaryLabel}>
-                {meal.time} · {formatEnergy(meal.calories, energyUnit)}
+                {t('nutrition.mealLine', { time: meal.time, energy: formatEnergy(meal.calories, energyUnit) })}
               </Text>
             </View>
             <Icon name="chevron-forward" size={18} color={color.tertiaryLabel} />

@@ -10202,3 +10202,7 @@
 - 2026-11-25 05:12 Did not follow Claude Code's suggested NEXT (energy unit) this round because the loop note asks for a checkpoint only; it is next after the result.
 - 2026-11-25 05:12 Jev suggested running a task (90%) and said continuing without Isa carries risk 0.9. The task is read only and changes no files, so the risk is low; the run is kept.
 - 2026-11-25 05:12 Treated the week.tsx ' – ' separator as still open (handover says untranslated; notes say round 145 used dashboard.rangeSeparator). Checked again in 2.3 sweep.
+- 2026-11-25 05:13 Round 149 picks the smaller task (meal row separator) over the energy unit setting because Jev's risk score is 0.9 and a small task is safer.
+- 2026-11-25 05:13 Energy unit setting stays the next task after this one; it touches units logic and needs its own round.
+- 2026-11-25 05:13 The meal row separator is moved into an i18n key so the visible text stays the same in all languages.
+- 2026-11-25 05:13 The 252 vs 251 suite count is left for the checkpoint notes; it is not a blocker since all suites pass.

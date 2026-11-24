@@ -5068,9 +5068,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  08:10
-                   · 
-                  420 kcal
+                  08:10 · 420 kcal
                 </Text>
               </View>
               <ViewManagerAdapter_SymbolModule
@@ -5192,9 +5190,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  13:05
-                   · 
-                  680 kcal
+                  13:05 · 680 kcal
                 </Text>
               </View>
               <ViewManagerAdapter_SymbolModule

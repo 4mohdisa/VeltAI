@@ -774,7 +774,8 @@
     "noMealsToday": "Aún no has registrado comidas hoy.",
     "gramsShort": "g",
     "percentValue": "{{value}} %",
-    "macroPercentFootnote": "Proteína {{protein}} · Carbohidratos {{carbs}} · Grasa {{fat}} · Fibra {{fibre}}"
+    "macroPercentFootnote": "Proteína {{protein}} · Carbohidratos {{carbs}} · Grasa {{fat}} · Fibra {{fibre}}",
+    "mealLine": "{{time}} · {{energy}}"
   },
   "plan": {
     "suggested": "Sugerido:",
