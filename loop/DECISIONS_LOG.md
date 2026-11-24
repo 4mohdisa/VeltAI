@@ -9854,3 +9854,7 @@
 - 2026-11-25 03:16 The loop flag said the last report was only partly done. The onboardingBodyType file is complete (tsc 0, its Jest test passes, lint warning cleared). The remaining eight lint files stay on the NEXT list and are handled one per round.
 - 2026-11-25 03:16 Backend and string rounds stay after the lint sweep, as planned in round 62. Jev ranked the same lint task first with confidence 1.00, so no second look is needed.
 - 2026-11-25 03:16 Next checkpoint remains round 75 (full tsc and Jest run).
+- 2026-11-25 03:17 Picked candidate 1 (one file lint swap) to keep the risk low, as Jev and the notes both advise.
+- 2026-11-25 03:17 Step 1 re-checks the round 64 file because the loop flagged the last report as partly done. Same handling as the round 64 flag: verify, then move on.
+- 2026-11-25 03:17 Jev signal says run 100%, risk 0.9 of 2. Kept to one file per round and full gates each round, so the risk stays contained.
+- 2026-11-25 03:17 Lint warnings expected to drop from 20 to 19 once the Dietary file is done.

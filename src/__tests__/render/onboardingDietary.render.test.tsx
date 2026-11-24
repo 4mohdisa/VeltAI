@@ -2,6 +2,7 @@
 // These EXECUTE the screen; they are not source-text greps.
 import DietaryScreen from '@/app/onboarding/dietary';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 beforeEach(() => {
@@ -21,6 +22,5 @@ test('picking a dietary option then pressing Continue navigates to the next onbo
   const cont = buttonWithTitle(tree, 'Continue');
   act(() => (cont!.props.onPress as () => void)());
 
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
   expect(router.push).toHaveBeenCalledWith('/onboarding/preview');
 });
