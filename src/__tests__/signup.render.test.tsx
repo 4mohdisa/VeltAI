@@ -5,6 +5,7 @@
 // path row 1 actually describes ("Clerk SDK (sign-in/sign-up)").
 import SignupScreen from '@/app/onboarding/signup';
 import { Pressable } from '@/components/primitives/Pressable';
+import { router } from 'expo-router';
 import { allText, buttonWithTitle, renderScreen } from './render/helpers';
 
 jest.mock('@/lib/auth/clerkEnv', () => ({
@@ -32,8 +33,7 @@ test('shows both legal links in the footer', () => {
 
 test('pressing the Terms link routes to /legal/terms', () => {
   const tree = renderScreen(<SignupScreen />);
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
-  router.push.mockClear();
+  (router.push as jest.Mock).mockClear();
 
   legalLinks(tree)[0].props.onPress();
   expect(router.push).toHaveBeenCalledWith('/legal/terms');
@@ -41,8 +41,7 @@ test('pressing the Terms link routes to /legal/terms', () => {
 
 test('pressing the Privacy Policy link routes to /legal/privacy', () => {
   const tree = renderScreen(<SignupScreen />);
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
-  router.push.mockClear();
+  (router.push as jest.Mock).mockClear();
 
   legalLinks(tree)[1].props.onPress();
   expect(router.push).toHaveBeenCalledWith('/legal/privacy');

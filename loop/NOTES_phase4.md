@@ -7,14 +7,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
 - Checkpoint round 60 green: tsc 0, Jest 242 suites and 1,402 tests, expo lint 0 errors.
-- Round 72: signupOtp router swap done (tsc 0, 1 suite 3 tests pass, lint 0 errors, 13 warnings).
+- Round 73: signupSignInMode router swap done. tsc 0, 1 suite 3 tests pass, lint 0 errors, 12 warnings.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 13 (round 72). Verify with `npx expo lint`.
-- Remaining warning map: signupSignInMode render test 1; signup.render, foodSaved.render, debugGating, debugCapture, authBilling 2 each; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 12 (round 73). Verify with `npx expo lint`.
+- Remaining warning map: signup.render 2, foodSaved.render 2, debugGating 2, debugCapture 2, authBilling 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
 ## Decisions (never delete)
@@ -51,7 +51,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44 and 60 (checkpoints): full tsc and Jest green.
-- Rounds 45-72: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtp).
+- Rounds 45-73: render tests cleared (measurements, onboardingActivity, BodyType, Cuisine, Dietary, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -60,8 +60,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 73: signupSignInMode router swap (in progress).
-- Then signup.render, foodSaved.render, debugGating, debugCapture, authBilling (2 each), render/setup.ts.
+- Round 74: signup.render.test.tsx (2 warnings, in progress).
+- Then foodSaved.render, debugGating, debugCapture, authBilling (2 each), render/setup.ts.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
 - Round 75 checkpoint: full tsc and Jest.
@@ -83,4 +83,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - KNOWN_ISSUES.md:40 wrong TestPG count (21 run, not 20 skipped).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
-- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting; relies on jest clearing mocks. Confirm at checkpoint 75 and add mockClear if needed. signupSignInMode success test handled in round 73.
+- Preview, Targets and signupOtp CTA tests do not clear router mocks before asserting. A shared beforeEach clear in render/setup.ts would cover them. Confirm at checkpoint 75.

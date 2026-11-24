@@ -9884,3 +9884,7 @@
 - 2026-11-25 03:24 Chose the router swap: smallest single file step, finishes the router set, matches the signupOtp pattern, and Jev also rates run at 99%.
 - 2026-11-25 03:24 Kept the string round and the doc fix for later: string changes wait for a string round, and the doc fix is not a gate.
 - 2026-11-25 03:24 Asked Claude Code to clear router.replace mock only in the success test if needed, to confirm the open question about mock clearing.
+- 2026-11-25 03:25 Chose the signup.render lint swap as the next single-file step, because it is the next item in the notes and Jev risk is moderate to high.
+- 2026-11-25 03:25 Kept the same router swap pattern used in the completed render tests, so the change stays consistent.
+- 2026-11-25 03:25 Carry the round 75 checkpoint forward unchanged; it runs after the remaining lint swaps.
+- 2026-11-25 03:25 No owner steps added this round; nothing needs Isa.
