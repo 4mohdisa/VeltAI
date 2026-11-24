@@ -1127,7 +1127,7 @@ export const api = {
   },
 
   gym: {
-    listSessions: (params?: { from?: string; to?: string }) => req.get<GymSession[]>('/api/gym/sessions', params),
+    listSessions: (params?: { from?: string; to?: string; limit?: number }) => req.get<GymSession[]>('/api/gym/sessions', params),
     createSession: (input: GymSessionInput) => req.post<GymSession>('/api/gym/sessions', input),
     updateSession: (id: string, patch: Partial<GymSessionInput>) => req.patch<GymSession>(`/api/gym/sessions/${id}`, patch),
     deleteSession: (id: string) => req.del<{ deleted: boolean }>(`/api/gym/sessions/${id}`),

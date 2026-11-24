@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"lume/backend/internal/auth"
@@ -67,7 +68,8 @@ type Streak struct {
 }
 
 type Store interface {
-	ListSessions(ctx context.Context, userID, from, to string) ([]Session, error)
+	// ListSessions returns newest first. limit 0 means every session.
+	ListSessions(ctx context.Context, userID, from, to string, limit int) ([]Session, error)
 	CreateSession(ctx context.Context, s *Session) error
 	GetSession(ctx context.Context, id string) (*Session, error)
 	UpdateSession(ctx context.Context, s *Session) error
@@ -194,7 +196,16 @@ func (h handler) listSessions(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	list, err := h.store.ListSessions(r.Context(), auth.UserID(r.Context()), from, to)
+	limit := 0
+	if q := r.URL.Query().Get("limit"); q != "" {
+		n, err := strconv.Atoi(q)
+		if err != nil || n <= 0 {
+			httpx.Error(w, http.StatusBadRequest, "limit must be a positive integer")
+			return
+		}
+		limit = n
+	}
+	list, err := h.store.ListSessions(r.Context(), auth.UserID(r.Context()), from, to, limit)
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, "storage error")
 		return

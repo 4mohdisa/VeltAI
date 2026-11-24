@@ -46,14 +46,15 @@ func (p *PGStore) ensureProfile(ctx context.Context, userID string) error {
 
 const sessionCols = `id::text, user_id, date::text, name, notes, duration_minutes, created_at`
 
-func (p *PGStore) ListSessions(ctx context.Context, userID, from, to string) ([]Session, error) {
+func (p *PGStore) ListSessions(ctx context.Context, userID, from, to string, limit int) ([]Session, error) {
 	rows, err := p.q.Query(ctx, `
 		SELECT `+sessionCols+`
 		FROM gym_sessions
 		WHERE user_id = $1
 		  AND date >= coalesce(nullif($2, '')::date, date)
 		  AND date <= coalesce(nullif($3, '')::date, date)
-		ORDER BY date DESC, created_at DESC`, userID, from, to)
+		ORDER BY date DESC, created_at DESC
+		LIMIT nullif($4::int, 0)`, userID, from, to, limit)
 	if err != nil {
 		return nil, err
 	}

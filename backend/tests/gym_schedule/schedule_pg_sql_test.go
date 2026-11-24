@@ -179,3 +179,44 @@ func TestPG_TemplateExercisesForStillScans(t *testing.T) {
 }
 
 func ptr[T any](v T) *T { return &v }
+
+// ListSessions had no LIMIT, so hydrating the Gym tab read every session a user
+// ever logged, plus every exercise in each. A limit must return only the newest
+// rows, and 0 must keep the full read for the callers that want a date range.
+func TestPG_ListSessionsLimitReturnsNewest(t *testing.T) {
+	_, pool := pgStore(t)
+	store := gym.NewPGStore(pool)
+	ctx := context.Background()
+	userID := "pg_list_sessions_limit"
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO profiles (id) VALUES ($1) ON CONFLICT DO NOTHING`, userID); err != nil {
+		t.Fatalf("seed profile: %v", err)
+	}
+	t.Cleanup(func() {
+		_, _ = pool.Exec(context.Background(), `DELETE FROM profiles WHERE id = $1`, userID)
+	})
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO gym_sessions (user_id, date)
+		 SELECT $1, date '2024-01-01' + n FROM generate_series(0, 999) AS n`, userID); err != nil {
+		t.Fatalf("seed sessions: %v", err)
+	}
+
+	all, err := store.ListSessions(ctx, userID, "", "", 0)
+	if err != nil {
+		t.Fatalf("list all: %v", err)
+	}
+	if len(all) != 1000 {
+		t.Fatalf("limit 0 read %d sessions, want 1000", len(all))
+	}
+
+	capped, err := store.ListSessions(ctx, userID, "", "", 200)
+	if err != nil {
+		t.Fatalf("list capped: %v", err)
+	}
+	if len(capped) != 200 {
+		t.Fatalf("limit 200 read %d sessions, want 200", len(capped))
+	}
+	if capped[0].Date != all[0].Date || capped[199].Date != all[199].Date {
+		t.Fatalf("capped read is not the newest 200: first %s last %s", capped[0].Date, capped[199].Date)
+	}
+}

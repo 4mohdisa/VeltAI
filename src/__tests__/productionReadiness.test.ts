@@ -2,7 +2,7 @@
 // hung connections, 5xx, latency. fetch is mocked; secure-store is the in-memory
 // jest mock (moduleNameMapper). No network.
 import { ApiError, api, isTransient } from '@/lib/api';
-import { hydrateFoodLog, hydrateGym } from '@/lib/data/hooks';
+import { GYM_SESSION_HYDRATE_LIMIT, hydrateFoodLog, hydrateGym } from '@/lib/data/hooks';
 import { logMeal } from '@/lib/data/mutations';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { useGymStore } from '@/lib/data/gymStore';
@@ -283,6 +283,30 @@ test('a successful gym hydration maps real sessions and streak into the store th
   expect(streak.current).toBe(4);
   expect(streak.longest).toBe(9);
   expect(streak.gymLoggedToday).toBe(true); // log-session.tsx's "already logged" gate
+});
+
+// The server holds every session a user ever logged. The mock answers like the
+// backend does: all of them, or the newest `limit` when the request asks.
+test('gym hydration reads a bounded number of sessions for a user with 1000 of them', async () => {
+  const seeded = Array.from({ length: 1000 }, (_, i) => ({
+    id: `session-${i}`,
+    user_id: 'u1',
+    date: todayISO(),
+    name: null,
+    notes: null,
+    duration_minutes: 45,
+    created_at: `${todayISO()}T07:00:00Z`,
+  }));
+  const streakRow = { current_streak: 1, longest_streak: 1, last_gym_date: null, freeze_used: false, last_freeze_date: null };
+  setFetch(
+    jest.fn(async (url: string) => {
+      if (url.includes('/api/gym/streak')) return jsonOk(streakRow);
+      const limit = Number(new URL(url, 'http://localhost').searchParams.get('limit')) || seeded.length;
+      return jsonOk(seeded.slice(0, limit));
+    }),
+  );
+  await hydrateGym();
+  expect(useGymStore.getState().sessions).toHaveLength(GYM_SESSION_HYDRATE_LIMIT);
 });
 
 // --- 4/5. Deployment config --------------------------------------------------

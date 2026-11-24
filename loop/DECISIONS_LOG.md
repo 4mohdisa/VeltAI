@@ -9650,3 +9650,8 @@
 - 2026-11-25 02:07 Row 1 text corrected from 20 to 21 TestPG tests, because the report counted 21 and the backend run confirmed it.
 - 2026-11-25 02:07 Postgres install failure is parked in OWNER_CHECKS_phase4.md, not a stop, per the no questions rule.
 - 2026-11-25 02:07 Jev rated run at 99% with moderate risk (0.8). Took the smaller task (one row step) as advised for low confidence on the overall loop.
+- 2026-11-25 02:09 Chose candidate 1 (Row 2a) because the notes put it first and it is the smallest Phase 3 fix with a measurable result.
+- 2026-11-25 02:09 Row 1 set to BUILT: the latest report shows 21 of 21 TestPG tests passing on lume_test_local with 0 skipped.
+- 2026-11-25 02:09 The ssh tunnel on 127.0.0.1:55432 is treated as possibly hosted. Prompts allow only localhost:5432 and lume_test_local. Reason: the stop rule forbids touching hosted data.
+- 2026-11-25 02:09 KNOWN_ISSUES.md line 40 (stale '20 skipped') goes into Row 2e, not fixed now, to keep this round to one task.
+- 2026-11-25 02:09 Rows 2c and 2d verification stays for a later round, after Row 2 is finished.

@@ -58,7 +58,7 @@ func (f *fakeStore) withExercises(s gym.Session) gym.Session {
 	return s
 }
 
-func (f *fakeStore) ListSessions(_ context.Context, userID, from, to string) ([]gym.Session, error) {
+func (f *fakeStore) ListSessions(_ context.Context, userID, from, to string, limit int) ([]gym.Session, error) {
 	out := []gym.Session{}
 	for _, s := range f.sessions {
 		if s.UserID != userID {
@@ -71,6 +71,9 @@ func (f *fakeStore) ListSessions(_ context.Context, userID, from, to string) ([]
 			continue
 		}
 		out = append(out, f.withExercises(*s))
+	}
+	if limit > 0 && len(out) > limit {
+		out = out[:limit]
 	}
 	return out, nil
 }
@@ -267,6 +270,25 @@ func TestSessionsDateRangeFilter(t *testing.T) {
 	w = do(t, mux, "user_1", "GET", "/api/gym/sessions", nil)
 	if list := decode[[]gym.Session](t, w); len(list) != 3 {
 		t.Fatalf("unfiltered list should have 3, got %d", len(list))
+	}
+}
+
+func TestSessionsLimit(t *testing.T) {
+	f := newFake()
+	mux := serve(f)
+	for _, d := range []string{"2026-07-01", "2026-07-05", "2026-07-10"} {
+		createSession(t, mux, "user_1", d)
+	}
+
+	w := do(t, mux, "user_1", "GET", "/api/gym/sessions?limit=2", nil)
+	wantStatus(t, w, http.StatusOK)
+	if list := decode[[]gym.Session](t, w); len(list) != 2 {
+		t.Fatalf("limit=2 list should have 2, got %d", len(list))
+	}
+
+	for _, bad := range []string{"0", "-1", "ten"} {
+		w = do(t, mux, "user_1", "GET", "/api/gym/sessions?limit="+bad, nil)
+		wantStatus(t, w, http.StatusBadRequest)
 	}
 }
 

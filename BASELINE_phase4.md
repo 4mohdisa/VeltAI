@@ -34,3 +34,14 @@ Every gate was green on the first run, so no fixes were made and the before and 
 ## Difference from the expected numbers
 
 The expected numbers were 241 suites, 1,386 tests and 20 skipped TestPG tests. The extra suite and tests come from commit e0c184d (rows 2c and 2d), which added `src/__tests__/australianDefaults.test.ts` and `backend/tests/food/afcd_pg_test.go` (TestPG_AFCDImportAndSearch).
+
+## Row 2a hydrateGym limit
+
+- Date: 25 Nov 2026
+- Read: `hydrateGym` (`src/lib/data/hooks.ts`) called `api.gym.listSessions()` with no parameters, which is `GET /api/gym/sessions`. The backend ran `PGStore.ListSessions` (`backend/internal/gym/pg.go`): `SELECT ... FROM gym_sessions WHERE user_id = $1 AND <optional date range> ORDER BY date DESC, created_at DESC` with no LIMIT, then loaded every exercise for every returned session. It returned every session the user had ever logged.
+- Cap: `GYM_SESSION_HYDRATE_LIMIT = 200` in `src/lib/data/hooks.ts`, sent as `?limit=200`; the SQL now ends `LIMIT nullif($4::int, 0)`, so a request without a limit reads the same rows as before.
+
+| measurement | seeded sessions | before | after |
+|---|---|---|---|
+| App: sessions `hydrateGym` puts in the Gym store (Jest, `src/__tests__/productionReadiness.test.ts`) | 1000 | 1000 | 200 |
+| Backend: rows `ListSessions` returns from lume_test_local (`TestPG_ListSessionsLimitReturnsNewest`) | 1000 | 1000 (no limit) | 200 (limit 200, the newest 200) |

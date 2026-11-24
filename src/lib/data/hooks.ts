@@ -164,10 +164,17 @@ async function hydrateSavedFoods(): Promise<void> {
     savedFoods: [...s.savedFoods.filter(keepAcrossHydration), ...rows.map(savedFoodFromApi)],
   }));
 }
+/** Newest sessions the Gym store holds. Older history stays on the server; the
+ *  month calendar and date-range views fetch their own windows. */
+export const GYM_SESSION_HYDRATE_LIMIT = 200;
+
 export async function hydrateGym(): Promise<void> {
   // Sessions and streak hydrate together. The Gym month calendar reads its own
   // month of sessions (useGymMonth), so nothing calendar-shaped is stored here.
-  const [sessions, streak] = await Promise.all([api.gym.listSessions(), api.gym.streak()]);
+  const [sessions, streak] = await Promise.all([
+    api.gym.listSessions({ limit: GYM_SESSION_HYDRATE_LIMIT }),
+    api.gym.streak(),
+  ]);
   // Distinct logged days — the only total we can actually prove from server data.
   const totalGymDays = new Set(sessions.map((r) => r.date)).size;
   useGymStore.setState((s) => ({

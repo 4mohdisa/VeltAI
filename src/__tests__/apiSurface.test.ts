@@ -249,6 +249,12 @@ const cases: Case[] = [
     path: '/api/gym/sessions?from=2026-07-01&to=2026-07-07',
   },
   {
+    name: 'gym.listSessions (limit)',
+    call: () => api.gym.listSessions({ limit: 200 }),
+    method: 'GET',
+    path: '/api/gym/sessions?limit=200',
+  },
+  {
     name: 'gym.createSession',
     call: () => api.gym.createSession({ date: '2026-07-01', name: 'Push' }),
     method: 'POST',
