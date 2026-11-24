@@ -9,12 +9,12 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Row 1 BUILT. Row 2 PARTIAL.
 - 2.1: only the simulator check of the Total tile is left. Parked in OWNER_CHECKS_phase4.md.
 - 2.2: done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG 24 of 24.
-- 2.3 strings: done so far: gym month title, formatting helpers, MyScheduleCard weekday, weekly day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton (both labels, round 128).
-- Round 129: GymSessionButton logged-state render test in en, es, fr (new file src/__tests__/render/gymSessionButton.render.test.tsx).
-- Still open in 2.3: MacroBars 'Not tracked' (pinned by summaryNoFabrication.test.ts), monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, summaryCards 'MTWTFSS' fallback check, Summary screen and src/app/energy.tsx literal sweep (one file per round).
+- 2.3 strings: done: gym month title, formatting helpers, MyScheduleCard weekday, weekly day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton (round 128) and its logged-state render test (round 129).
+- Still open in 2.3: MacroBars 'Not tracked' (round 130, in progress), monthTitle dateLocale check, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, summaryCards 'MTWTFSS' fallback check, Summary screen and src/app/energy.tsx literal sweep (one file per round).
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
+- Row 2.3 GymSessionButton rounds 128-129 are not yet noted in PHASE4_ROWS.md. Add one line when Row 2.3 closes.
 
 ## Lint
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
@@ -47,10 +47,10 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 120-122: es and fr month summary and weekly card use common.hoursMinutes ('1 h 45 min'). Isa to confirm.
 - Round 123: formatDuration rounds total minutes first.
 - Round 124-125: day letters from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
-- Round 126: WeekEnergyCard fully translated. Isa to review.
-- Round 127: EnergyBalanceCard translated. es and fr wording needs Isa review.
-- Round 128: GymSessionButton translated. Isa may prefer 'Sesión de gimnasio registrada hoy' and 'Séance enregistrée aujourd’hui' for screen readers.
-- Round 129: candidate 1 chosen. First prompt rejected for missing branch rule; rewritten with branch lock.
+- Round 126-128: WeekEnergyCard, EnergyBalanceCard, GymSessionButton translated. Isa to review es and fr wording.
+- Round 129: candidate 1 chosen. Branch lock added after a prompt was rejected for missing it.
+- Round 130: candidate 1 chosen (MacroBars 'Not tracked'). Jev risk 1.0 of 2, so the task is kept to one file and one pinned assertion. The pinned assertion in summaryNoFabrication.test.ts may read summary.notTracked from en.json (Phase 4 pinned-text rule).
+- Round 130: summary.notTracked = 'Not tracked' / 'Sin registrar' / 'Non suivi'. Isa to review es and fr.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -59,7 +59,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: history gym session read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-128: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton.
+- Rounds 107-129: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards day letters, WeekEnergyCard, EnergyBalanceCard, GymSessionButton and its render test.
 - Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126: tsc and Jest green (126: 244 suites, 1,456 tests, 4 snapshots).
 
 ## Blocked on Isa (not blocking the loop)
@@ -67,7 +67,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
 - Confirm es and fr hours and minutes spacing ('1 h 45 min' vs '1h 45m').
-- Review es and fr wording of the week card keys, the six energy balance keys and the gym logged label.
+- Review es and fr wording: week card keys, six energy balance keys, gym logged label (es 'Gimnasio registrado hoy', fr 'Salle enregistrée aujourd’hui'), summary.notTracked.
 - Do not retry these questions; work on other surfaces.
 
 ## Parked
@@ -80,11 +80,9 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatting.ts:67 and :72 use device locale.
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
-- MacroBars 'Not tracked' outside JSX, pinned by a test.
 
 ## Next
-- Round 130: Summary cards English literal sweep (MacroBars 'Not tracked' needs the pinned test updated and recorded in decisions).
-- Then Summary screen and src/app/energy.tsx literal sweep, one file per round.
+- Round 131: check the round 130 report. Then Summary screen and src/app/energy.tsx literal sweep, one file per round.
 - Then rest of the 2.3 open list, then 2.2 leftovers, then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
 

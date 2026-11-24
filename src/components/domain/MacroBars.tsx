@@ -2,6 +2,7 @@
 // its category accent on its small icon and its progress bar ONLY — the label,
 // value number, and track stay monochrome (functional colour, not decoration).
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { ProgressBar } from '@/components/display/ProgressBar';
@@ -38,6 +39,7 @@ export type MacroTargetRow = { label: string; macroKey: MacroStyleKey; consumed:
  *  accent on a light-2 track. Separate from MacroBars, which the nutrition
  *  detail still uses as it was. */
 export function MacroTargetRows({ rows }: { rows: MacroTargetRow[] }) {
+  const { t } = useTranslation();
   return (
     <View style={{ gap: space.lg }}>
       {rows.map(({ label, macroKey, consumed, target }) => {
@@ -50,7 +52,7 @@ export function MacroTargetRows({ rows }: { rows: MacroTargetRow[] }) {
               </Text>
               {consumed == null ? (
                 <Text variant="footnote" color={color.tertiaryLabel}>
-                  Not tracked · target {Math.round(target)} g
+                  {t('summary.notTracked')} · target {Math.round(target)} g
                 </Text>
               ) : (
                 <>

@@ -10127,3 +10127,7 @@
 - 2026-11-25 04:46 Kept candidate 1 (GymSessionButton render test): it is the open next step from round 128 and Jev ranks it highest.
 - 2026-11-25 04:46 Kept the test in one new file so the prompt touches one main file, as the repo rule requires.
 - 2026-11-25 04:46 Did not run the full suite: round 129 is not a checkpoint round.
+- 2026-11-25 04:47 Round 130: candidate 1 chosen. It is the smallest step in the open 2.3 list and matches the last handover's next task. Jev's risk score is 1.0 of 2, so I keep the task to one file and one pinned assertion.
+- 2026-11-25 04:47 Round 130: the pinned 'Not tracked' assertion in summaryNoFabrication.test.ts may change to read summary.notTracked from en.json. This follows the Phase 4 rule on pinned English text.
+- 2026-11-25 04:47 Round 130: es 'Sin registrar' and fr 'Non suivi' chosen for summary.notTracked. Isa to review these wordings in the Isa review list.
+- 2026-11-25 04:47 Round 130: GymSessionButton render test kept as written. Its 'at least one element' check matches the other render tests.

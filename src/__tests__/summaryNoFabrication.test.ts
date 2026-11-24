@@ -51,7 +51,7 @@ test('fibre is the real total, and still "Not tracked" when nothing knows it', (
   const s = code(src(SUMMARY));
   expect(s).toMatch(/macroKey: 'Fibre', consumed: fibreConsumed/);
   expect(s).toContain('useFibreConsumed()');
-  expect(code(src('src/components/domain/MacroBars.tsx'))).toContain('Not tracked');
+  expect(code(src('src/components/domain/MacroBars.tsx'))).toContain("t('summary.notTracked')");
   expect(code(src('src/lib/data/summaryCards.ts'))).toContain('known: withFibre > 0');
 });
 

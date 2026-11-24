@@ -1099,5 +1099,8 @@
     "body": "Meal photos and a summary of your logged data are processed by Google Gemini so scanning, insights and Ask Lume can work. Google processes them only to provide those features. Anthropic would receive the summary instead only if we switch on our backup AI provider.\n\nLume also counts which features you use — never what you log, never your food, weights or notes, and never sold.\n\nYou can turn either off any time in Settings → Privacy.",
     "notNow": "Not now",
     "continue": "Continue"
+  },
+  "summary": {
+    "notTracked": "Not tracked"
   }
 }

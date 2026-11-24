@@ -1101,5 +1101,8 @@
     "body": "Google Gemini procesa las fotos de tus comidas y un resumen de tus registros para que funcionen el escaneo, los análisis y Pregunta a Lume. Google los procesa solo para ofrecer esas funciones. Anthropic recibiría el resumen en su lugar solo si activamos nuestro proveedor de IA de respaldo.\n\nLume también cuenta qué funciones usas — nunca lo que registras, nunca tu comida, tu peso ni tus notas, y nunca se vende.\n\nPuedes desactivar cualquiera de las dos en cualquier momento en Ajustes → Privacidad.",
     "notNow": "Ahora no",
     "continue": "Continuar"
+  },
+  "summary": {
+    "notTracked": "Sin registrar"
   }
 }
