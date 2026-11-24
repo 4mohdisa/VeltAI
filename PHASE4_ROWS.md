@@ -2,7 +2,7 @@
 
 | number | area | what to do | files likely touched | test | status | notes |
 |---|---|---|---|---|---|---|
-| 1 | Foundation | Confirm branch loop/phase4, Node 22, .gitignore covers backend/.env, run full gates, write BASELINE_phase4.md, start local Postgres 17, create lume_test_local, run the 20 skipped TestPG tests | package.json, .gitignore, BASELINE_phase4.md | full gates, TestPG | DIFFERENT | |
+| 1 | Foundation | Confirm branch loop/phase4, Node 22, .gitignore covers backend/.env, run full gates, write BASELINE_phase4.md, start local Postgres 17, create lume_test_local, run the 20 skipped TestPG tests | package.json, .gitignore, BASELINE_phase4.md | full gates, TestPG | PARTIAL | Step 2 done 25 Nov 2026 on Node 22.23.5: tsc 0 errors, Jest 242 suites and 1,397 tests pass, Go 34 packages ok with 21 TestPG skipped (no database), recorded in BASELINE_phase4.md; Postgres and TestPG run still to do |
 | 2 | Phase 3 leftovers | Finish PHASE3_ROWS.md Rows 6, 13, 14, 15 and the items in loop/NOTES_phase3.md Parked and KNOWN_ISSUES.md; then set those rows built | src/lib/data, gym/schedule_pg.go, custom-food.tsx, ConfidenceBadge.tsx, goals screen | app Jest for changed files, Go for gym | DIFFERENT | |
 | 2b | Sign up, sign in, onboarding redesign | Check Mobbin MCP availability, write DESIGN_REFERENCES.md, redesign welcome, sign in, sign up and onboarding (goal, diet, units, activity, training days), editable in Settings | auth and onboarding screens, DESIGN_REFERENCES.md | Jest per state, Maestro flow, en es fr | DIFFERENT | |
 | 2c | Extra row built by Isa 25 Nov 2026 | Identify the work from the git log of 25 Nov 2026, describe it in one line, verify it | files from that commit | tests for that work | DIFFERENT | |

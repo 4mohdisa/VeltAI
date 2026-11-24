@@ -9636,3 +9636,12 @@
 - 2026-11-25 02:04 Rewrote the rejected prompt to say explicitly to work only on loop/phase4, never switch, push or merge, and to leave loop script files alone (the loop note said the last prompt lacked this).
 - 2026-11-25 02:04 Kept this round to one file (OWNER_CHECKS_phase4.md) because the report says it is still missing and multi part prompts were rejected before.
 - 2026-11-25 02:04 Chose candidate 1 over Row 1 steps because the file is needed before any owner step can be parked; it is the smallest safe task.
+- 2026-11-25 02:05 Chose option (a) for OWNER_CHECKS_phase4.md: keep the file as it is. It holds five real owner checks, and Isa asked for park and carry on, so deleting them is not allowed. Instructed Claude Code not to edit it.
+- 2026-11-25 02:05 Did not use action ask (Isa is away and the brief forbids questions). The Jev ask suggestion was not followed.
+- 2026-11-25 02:05 Jev confidence is low (0.33) and last-task-clean is 3%, so I chose the smallest candidate (branch, Node and ignore checks) over running the full gates.
+- 2026-11-25 02:05 Row 1 split into steps: step 1 (branch, Node, ignore checks) this round, step 2 (gates and BASELINE_phase4.md) next, then the Postgres step.
+- 2026-11-25 02:05 Rows 2c and 2d look built (commit e0c184d) but PHASE4_ROWS.md still says DIFFERENT. Verification is deferred to a later round so this round stays small.
+- 2026-11-25 02:05 Chose option (a) for OWNER_CHECKS_phase4.md: keep it as is, per the round 6 decision. Isa does not answer questions this week, and the file holds 5 real owner checks.
+- 2026-11-25 02:05 Rewrote the rejected prompt into 4 numbered steps (limit is 5). The step covers the same work: branch and Node check, gates, fixes if red, and BASELINE_phase4.md.
+- 2026-11-25 02:05 Ordered Row 1 step 2 before step 3 (Postgres) because the baseline numbers are needed first and the gates do not need the database.
+- 2026-11-25 02:05 Jev rated ask at 28%. Ignored, because ask is not allowed. Chose the smallest safe task (run) with risk 1.0 in mind.
