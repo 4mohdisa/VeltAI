@@ -9714,3 +9714,7 @@
 - 2026-11-25 02:30 Trusted the notes over the last report's NEXT list: the notes record dashboardSummary.render and hydrationErrorState.render as done in rounds 21-22, so the prompt asks for a grep check, not a rewrite.
 - 2026-11-25 02:30 Fixture rule for total_days stays as before: total_days equals the distinct-day count of the fixture, and where it is unclear it equals longest_streak, recorded in decisions.
 - 2026-11-25 02:30 Kept the prompt to one file and five numbered steps, with the no-touch list from the notes.
+- 2026-11-25 02:31 Round 25 runs a targeted check of 2.1, not the full Jest suite, because the change is fixtures and one assertion; the full suite runs on the checkpoint round 30. Reason: Jev risk is high, so keep steps small.
+- 2026-11-25 02:31 The simulator check of the Total tile moves to round 26, after the mock check is confirmed. 2.1 stays PARTIAL until both pass.
+- 2026-11-25 02:31 Added one assertion in productionReadiness.test.ts that the 1,000-session total is 1, as the previous report suggested. This pins the rule that the cap does not shrink the total.
+- 2026-11-25 02:31 Chose candidate 1 over Jev's ranking of the simulator check, because the mock side has not been run since the last edits and the simulator step depends on it.

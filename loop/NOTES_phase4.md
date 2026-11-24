@@ -4,13 +4,12 @@
 Finish the app (Apple side features, then testing), with no input from Isa. Progress is counted from PHASE4_ROWS.md (36 rows).
 
 ## State
-- Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main).
-- Phase 3 gates: tsc 0 errors, Jest 241 suites and 1,386 tests, Go 34 packages ok.
-- Baseline (BASELINE_phase4.md): tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG: 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
+- Branch loop/phase4 from loop/phase3 (Phase 3 not merged into main). Never work on main.
+- Baseline (BASELINE_phase4.md): tsc 0, Jest 242 suites and 1,397 tests, Go 34 ok. TestPG 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Round 15 checkpoint: tsc 0, Jest 242 suites and 1,400 tests pass.
-- Row 1 is BUILT.
-- Row 2 is PARTIAL. Sub steps: 2.1 total gym days (PARTIAL), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
-- Rows 2c and 2d (hand built, commit e0c184d) are still DIFFERENT. Verify and set status later.
+- Row 1 BUILT.
+- Row 2 PARTIAL. Sub steps: 2.1 total gym days (PARTIAL: mocks fixed, tests being confirmed, simulator check pending), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
+- Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has 5 open checks under 'Rows 2c and 2d'. Never overwrite or empty it.
 
 ## Decisions (never delete)
@@ -28,13 +27,14 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2 sub steps are named 2.1 to 2.5 so they do not clash with rows 2b, 2c, 2d.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Fixture total_days is 20 where longest_streak is 20. Where longest_streak is 9, total_days is 9.
-- Round 24: trust notes over the report's NEXT list. The report's dashboardSummary and hydrationErrorState items were done in rounds 21-22; a grep confirms them.
+- Round 24: trust notes over the report's NEXT list. The dashboardSummary and hydrationErrorState items were done in rounds 21-22.
+- Round 25: targeted tests for 2.1, not the full suite. Full suite runs on checkpoint round 30. Reason: Jev risk high, keep steps small.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-20: hydrateGym limit 200, total_days on backend, GymStreak.total_days in app, streakFromApi takes only row, hooks.ts distinct count removed, stale mocks fixed in gymStreak, gymFreeze, gymHistory, freeze, gymStreakStripFootnote.
-- Rounds 21-23: dashboardSummary.render, hydrationErrorState.render and summaryHydration.render got total_days.
-- Round 24 (in progress): productionReadiness.test.ts gets total_days on its API streak objects; grep confirms the two round 21-22 files.
+- Rounds 21-24: dashboardSummary, hydrationErrorState, summaryHydration and productionReadiness got total_days on their API streak objects.
+- Round 25 (in progress): confirm 2.1 callers, add one total assertion in productionReadiness.test.ts, targeted tsc, Jest and lint.
 
 ## Blocked on Isa
 (nothing)
@@ -43,7 +43,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 (nothing)
 
 ## Next
-- Round 25: if the round 24 report is clean, run the Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT only after both the mocks and the simulator check.
+- Round 26: Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak) with a seeded user. Set 2.1 BUILT only after both the mocks and the simulator check pass.
 - Then Row 2.2: fix react-hooks/set-state-in-effect at src/lib/data/hooks.ts:400. Then src/app/food/history.tsx:66 listSessions limit, gym/schedule_pg.go LIMIT order, 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
 - Then 2.3 (translations and Retry), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -57,4 +57,4 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from hooks.ts. Look at them in Row 22.
 - Jev risk high: keep steps to one file and check the gates each round.
-- zsh: quote glob patterns and pass Jest file lists quoted or via printf '%s\0' with xargs -0.
+- zsh: quote glob patterns and pass Jest file lists via printf '%s\0' with xargs -0.

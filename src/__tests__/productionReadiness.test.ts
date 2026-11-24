@@ -308,6 +308,7 @@ test('gym hydration reads a bounded number of sessions for a user with 1000 of t
   );
   await hydrateGym();
   expect(useGymStore.getState().sessions).toHaveLength(GYM_SESSION_HYDRATE_LIMIT);
+  expect(useGymStore.getState().streak.totalGymDays).toBe(1);
 });
 
 // --- 4/5. Deployment config --------------------------------------------------
