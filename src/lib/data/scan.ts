@@ -2,7 +2,7 @@
 // provided, the real backend scan (Gemini) runs and the confirmed result is
 // persisted server-side; with no image, or when the backend is unreachable, the
 // mock resolution is the offline experience (capture-first UX keeps working).
-import { api, type FoodLog } from '@/lib/api';
+import { api, ApiError, type FoodLog } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { deleteFoodItem, logMeal, registerMealCreate } from './mutations';
 import { barcodeProductFromApi, isServerId } from './mappers';
@@ -356,37 +356,58 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
   );
 }
 
+/** A barcode lookup's outcome. 'notFound' means the database answered and has
+ *  no such product (404 or an empty result); 'failed' means it could not be
+ *  asked (offline, timeout, 5xx), which is a network problem, not a miss. */
+export type BarcodeLookup =
+  | { status: 'found'; product: BarcodeProduct }
+  | { status: 'notFound' }
+  | { status: 'failed' };
+
 /** Barcode lookup — backend (Open Food Facts / USDA) first, mock DB fallback.
  *  `code` is required: callers must pass the actually-scanned barcode through
  *  (a silent default here once sent every lookup to one hardcoded product). */
-export function lookupBarcodeAsync(code: string): Promise<BarcodeProduct | null> {
+export function lookupBarcodeResult(code: string): Promise<BarcodeLookup> {
   // A barcode lookup is a scan from the user's point of view, so it reports the
   // same lifecycle — otherwise "scan success rate" silently means "camera scan
   // success rate" and the entry point with its own failure mode (product simply
   // not in the database) is invisible. The code itself is NEVER an event
   // property: it identifies a specific product the user ate.
   track('scan_started', { entry: 'barcode' });
-  return api.foodSearch
-    .barcode(code)
-    .then(barcodeProductFromApi)
-    .then((p) => {
-      if (p) track('scan_completed', { entry: 'barcode' });
-      else track('scan_failed', { entry: 'barcode', reason: 'not_found' });
-      return p;
-    })
-    .catch(() => {
-      track('scan_failed', { entry: 'barcode', reason: 'lookup_error' });
+  const notFound = (): BarcodeLookup => {
+    track('scan_failed', { entry: 'barcode', reason: 'not_found' });
+    return { status: 'notFound' };
+  };
+  return api.foodSearch.barcode(code).then(
+    (r): BarcodeLookup => {
+      if (!r) return notFound();
+      track('scan_completed', { entry: 'barcode' });
+      return { status: 'found', product: barcodeProductFromApi(r) };
+    },
+    async (e: unknown): Promise<BarcodeLookup> => {
+      const miss = e instanceof ApiError && e.status === 404;
       // The mock DB has ONE product in it. In a release build, falling back to
       // it means scanning that single real-world barcode while the backend is
-      // down returns invented Chobani macros presented as a database hit, and
-      // every other code silently reports "not found" when the truth is "we
-      // could not reach the server". Dev keeps it so the flow is demoable;
-      // release returns null and the caller shows its not-found overlay.
-      if (!isDevBuild()) return null;
-      return new Promise<BarcodeProduct | null>((resolve) => {
-        setTimeout(async () => resolve((await lookupBarcode(code)) ?? null), LOOKUP_MS);
-      });
-    });
+      // down returns invented Chobani macros presented as a database hit. Dev
+      // keeps it so the flow is demoable; release reports a 404 as not found and
+      // anything else as a failure, so the caller can say "we could not reach
+      // the server" instead of "not found".
+      if (!isDevBuild()) {
+        if (miss) return notFound();
+        track('scan_failed', { entry: 'barcode', reason: 'lookup_error' });
+        return { status: 'failed' };
+      }
+      await new Promise((r) => setTimeout(r, LOOKUP_MS));
+      const product = await lookupBarcode(code);
+      return product ? { status: 'found', product } : notFound();
+    },
+  );
+}
+
+/** The product, or null for any miss or failure (callers that need to tell a
+ *  network failure from an unknown product use lookupBarcodeResult). */
+export function lookupBarcodeAsync(code: string): Promise<BarcodeProduct | null> {
+  return lookupBarcodeResult(code).then((r) => (r.status === 'found' ? r.product : null));
 }
 
 // --- Scan review: save / discard / feedback ---------------------------------

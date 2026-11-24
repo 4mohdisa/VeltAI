@@ -16,13 +16,23 @@ jest.mock('@/lib/api', () => ({
       correction: jest.fn(),
       feedback: jest.fn(),
     },
+    foodSearch: { barcode: jest.fn() },
   },
 }));
 jest.mock('@/lib/data/scanPoller', () => ({ startScanPoller: jest.fn(() => jest.fn()) }));
 
 import { api, ApiError, type FoodLog, type ScanAngleImage, type ScanEstimate, type ScanResults } from '@/lib/api';
 import { startScanPoller } from '@/lib/data/scanPoller';
-import { discardScannedItem, scanChainsSettled, slotForNow, startMultiPhotoScan, startPhotoScan, updateFoodLogStatus } from '@/lib/data/scan';
+import {
+  discardScannedItem,
+  lookupBarcodeAsync,
+  lookupBarcodeResult,
+  scanChainsSettled,
+  slotForNow,
+  startMultiPhotoScan,
+  startPhotoScan,
+  updateFoodLogStatus,
+} from '@/lib/data/scan';
 import { useFoodStore, type StoredFoodItem } from '@/lib/data/foodStore';
 import { aiDetectedItems } from '@/lib/mock/ai';
 
@@ -480,5 +490,34 @@ describe('scan quota exhausted', () => {
     await flush();
 
     expect(analyzeMock).toHaveBeenCalledWith('IMG', 'image/jpeg');
+  });
+});
+
+// Release build (__DEV__ is false above): a failed lookup is a network problem,
+// reported apart from a product the database does not have.
+describe('lookupBarcodeResult', () => {
+  const barcodeMock = api.foodSearch.barcode as jest.Mock;
+
+  test('a 404 is an unknown product', async () => {
+    barcodeMock.mockRejectedValueOnce(new ApiError(404, 'not found'));
+    await expect(lookupBarcodeResult('0000000000000')).resolves.toEqual({ status: 'notFound' });
+  });
+
+  test.each([
+    ['offline', new TypeError('Network request failed')],
+    ['a timeout', Object.assign(new Error('request timed out'), { timedOut: true })],
+    ['a 5xx', new ApiError(503, 'unavailable')],
+  ])('%s is a failed lookup, not an unknown product', async (_label, error) => {
+    barcodeMock.mockRejectedValueOnce(error);
+    await expect(lookupBarcodeResult('9300605000000')).resolves.toEqual({ status: 'failed' });
+  });
+
+  test('a match maps the product, and lookupBarcodeAsync still resolves null on failure', async () => {
+    barcodeMock.mockResolvedValueOnce({ food_name: 'Greek Yoghurt', brand: 'Chobani', calories: 59, protein: 10, carbs: 4, fat: 0, fibre: 0, serving_size: 170 });
+    const found = await lookupBarcodeResult('9300605000000');
+    expect(found).toMatchObject({ status: 'found', product: { name: 'Greek Yoghurt', kcalPer100: 59 } });
+
+    barcodeMock.mockRejectedValueOnce(new TypeError('Network request failed'));
+    await expect(lookupBarcodeAsync('9300605000000')).resolves.toBeNull();
   });
 });

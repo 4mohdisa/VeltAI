@@ -817,7 +817,10 @@
     "lookingUp": "Looking up…",
     "notFoundMessage": "We couldn't match that barcode. Photograph the label instead and we'll read it.",
     "photographLabel": "Photograph the label",
-    "tryAnother": "Try another barcode"
+    "tryAnother": "Try another barcode",
+    "lookupFailedTitle": "Couldn't look up that barcode",
+    "lookupFailedReason": "We couldn't reach the food database.",
+    "lookupFailedHint": "Check your connection and try again."
   },
   "labelScan": {
     "permissionMessage": "Lume uses the camera to read the nutrition facts panel on packaging.",

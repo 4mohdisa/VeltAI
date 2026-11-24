@@ -20,7 +20,7 @@ const METRICS: Metrics = {
 const mockLookup = jest.fn();
 jest.mock('@/lib/data', () => ({
   ...jest.requireActual('@/lib/data'),
-  lookupBarcodeAsync: (...args: unknown[]) => mockLookup(...args),
+  lookupBarcodeResult: (...args: unknown[]) => mockLookup(...args),
 }));
 
 const mockScanLabel = jest.fn();
@@ -69,7 +69,7 @@ afterEach(async () => {
 });
 
 test('barcode scan: the viewfinder hint and the not-found overlay are in Spanish', async () => {
-  mockLookup.mockResolvedValue(null);
+  mockLookup.mockResolvedValue({ status: 'notFound' });
   const tree = render(<BarcodeScanScreen />);
   await settle();
   expect(allText(tree)).toContain(es.barcodeScan.hint);

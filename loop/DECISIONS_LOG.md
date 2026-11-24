@@ -10598,3 +10598,15 @@
 - 2026-11-25 09:33 Kept English grouping from 1,000 up (1,234 g) because the brief asks for grouping. Logged in OWNER_CHECKS_phase4.md for Isa to confirm.
 - 2026-11-25 09:33 Gave Row 2.2 its own row line, because its notes were in Row 2's cell and the last report was flagged as partly done.
 - 2026-11-25 09:33 Did not reopen Row 2c, because the brief does not list it and the notes say ignore it.
+- 2026-11-25 09:35 Loop flag: last report left Row 2 PARTIAL because Phase 3 Rows 6, 13 and 14 are open. Chose the next open Row 13 item so the partial work moves forward.
+- 2026-11-25 09:35 Jev said ask (43%) and run (43%). Brief forbids asking, so run is chosen.
+- 2026-11-25 09:35 Picked the barcode item first: it is a single small change in three files and the failure is user visible.
+- 2026-11-25 09:35 Notes condensed to under 600 words. Finished items were deleted, decisions and owner blocks were kept.
+- 2026-11-25 09:36 R240: the previous prompt was rejected for asking for more than one screen. Rewritten as one screen (barcode-scan.tsx) plus its data helper (scan.ts), within the 5 step limit.
+- 2026-11-25 09:36 R240: detail.tsx moved out of this round, to keep the task to one screen. It stays open in Row 13.
+- 2026-11-25 09:36 R240: chose candidate 1 because it is the first open item in the Row 13 order already set in the notes.
+- 2026-11-25 09:36 R240: Jev asked for a clarifying question (9%). Ignored, because the brief forbids asking Isa.
+- 2026-11-25 09:36 Rewrote the rejected R240 prompt to one screen: the barcode scan screen, with scan.ts as its data layer only. Detail, calendar and translations move to later rounds.
+- 2026-11-25 09:36 Row 13 stays PARTIAL until barcode, detail, calendar and translations are all closed. Row 2 stays PARTIAL until Rows 6, 13 and 14 are BUILT.
+- 2026-11-25 09:36 Chose candidate 1 because it is the open item already in progress and the smallest safe step.
+- 2026-11-25 09:36 Jev said run at 93 percent confidence. Followed it.

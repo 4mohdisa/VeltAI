@@ -11,13 +11,14 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
+import { ErrorState } from '@/components/display/ErrorState';
 import { Button } from '@/components/forms/Button';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { isDevBuild } from '@/lib/env';
-import { lookupBarcodeAsync } from '@/lib/data';
+import { lookupBarcodeResult, type BarcodeLookup } from '@/lib/data';
 import { openFoodDetail } from '@/lib/food/detailSubject';
 
 // A barcode in our mock database (resolves) vs one that isn't (not-found path).
@@ -27,33 +28,34 @@ const UNKNOWN_CODE = '0000000000000';
 export default function BarcodeScanScreen() {
   const { t } = useTranslation();
   const [permission, requestPermission] = useCameraPermissions();
-  const [notFound, setNotFound] = useState(false);
+  const [miss, setMiss] = useState<Exclude<BarcodeLookup['status'], 'found'> | null>(null);
   const [lookingUp, setLookingUp] = useState(false);
   const handled = useRef(false);
 
   // Database lookup only — NO AI. Found → confirm (with the scanned code so it
-  // fetches the right product); not found → label-photo fallback. The lookup goes
-  // through the data seam: backend (Open Food Facts / USDA) first, mock DB offline.
+  // fetches the right product); not found → label-photo fallback; failed (offline,
+  // timeout, 5xx) → network error with Retry. The lookup goes through the data
+  // seam: backend (Open Food Facts / USDA) first, mock DB in dev builds.
   const onDetected = async (code: string) => {
     if (handled.current) return;
     handled.current = true;
     haptics.success(); // barcode caught — feedback before the lookup round-trip
     setLookingUp(true);
-    const product = await lookupBarcodeAsync(code);
+    const result = await lookupBarcodeResult(code);
     setLookingUp(false);
-    if (product) {
+    if (result.status === 'found') {
       // The shared food-detail sheet does its own lookup; the code travels in
       // the subject store, never as a route param.
       openFoodDetail({ mode: 'barcode', code });
       router.replace('/food/detail');
     } else {
-      setNotFound(true);
+      setMiss(result.status);
     }
   };
 
   const retry = () => {
     handled.current = false;
-    setNotFound(false);
+    setMiss(null);
   };
 
   if (!permission) {
@@ -153,7 +155,7 @@ export default function BarcodeScanScreen() {
       ) : null}
 
       {/* Not-found → no AI lookup matched; fall back to photographing the label. */}
-      {notFound ? (
+      {miss === 'notFound' ? (
         <View
           style={{
             position: 'absolute',
@@ -177,6 +179,17 @@ export default function BarcodeScanScreen() {
               a nutrition label (audit 2026-08-06). */}
           <Button title={t('barcodeScan.photographLabel')} fullWidth={false} onPress={() => router.replace('/food/label-scan')} />
           <Button title={t('barcodeScan.tryAnother')} variant="tertiary" fullWidth={false} onPress={retry} />
+        </View>
+      ) : null}
+
+      {/* Lookup failed (offline, timeout, 5xx): a network problem, not a miss. */}
+      {miss === 'failed' ? (
+        <View style={{ position: 'absolute', inset: 0, backgroundColor: color.white, justifyContent: 'center' }}>
+          <ErrorState
+            title={t('barcodeScan.lookupFailedTitle')}
+            message={`${t('barcodeScan.lookupFailedReason')} ${t('barcodeScan.lookupFailedHint')}`}
+            onRetry={retry}
+          />
         </View>
       ) : null}
     </View>

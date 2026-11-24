@@ -817,7 +817,10 @@
     "lookingUp": "Recherche…",
     "notFoundMessage": "Nous n’avons pas trouvé ce code-barres. Photographiez plutôt l’étiquette et nous la lirons.",
     "photographLabel": "Photographier l’étiquette",
-    "tryAnother": "Essayer un autre code-barres"
+    "tryAnother": "Essayer un autre code-barres",
+    "lookupFailedTitle": "Impossible de rechercher ce code-barres",
+    "lookupFailedReason": "Nous n’avons pas pu joindre la base de données alimentaire.",
+    "lookupFailedHint": "Vérifiez votre connexion et réessayez."
   },
   "labelScan": {
     "permissionMessage": "Lume utilise l’appareil photo pour lire le tableau nutritionnel de l’emballage.",

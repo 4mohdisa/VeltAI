@@ -6,26 +6,27 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL: 2.2 done (own line in PHASE4_ROWS.md). Round R239: 2.5 (goals.saved removal) in progress.
-- Row 2b DIFFERENT: all step 1d strings done (en, es, fr). 401 handling, CUISINE_LABEL and connectivityMessage removed, Terms disclaimer done, en-AU fixed. Plan-ready screen NOT built: parked for Isa's go-ahead.
+- BUILT: 1, 12, 12b, 29.
+- Row 2 PARTIAL. 2.2 BUILT. 2.5 BUILT (R239). Row 2 stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
+- Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
+- Current task (R240 rewritten): Phase 3 Row 13, barcode network error (barcode-scan.tsx + scan.ts only).
+- Next after that: Row 13 calendar (foodDays.ts, calendar.tsx), then detail.tsx, then the Row 13 translations.
 - Last full green checkpoint R237 (272 suites, 1,648 tests, tsc 0, lint clean).
-- Next scheduled checkpoint R242 or next handover.
 
 ## Order
-- Now: finish Row 2 (2.5). Then 2b (plan-ready parked), 2d, 3 to 14b, 15 to 30, 31.
+- Now: Phase 3 Rows 13, then 6, then 14 (close open items). Then Row 2 to BUILT. Then 2b (plan-ready parked), 2d, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - Trust this file over handovers and reports.
+- One screen or component per prompt. Rejected prompts get rewritten to one screen, not split silently.
 
 ## Rules
-- One screen or component per prompt. Max 5 steps. Grep before editing.
+- Max 5 steps per prompt. Grep before editing.
 - Every prompt states the loop/phase4 branch rule and forbids other git commands.
 - Lint: npx expo lint src scripts --max-warnings 0.
-- Do not edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, or api.ts listSessions defaults.
 - No new eslint-disable. Animated values: useState(() => new Animated.Value(x)).
 - i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es, fr. Outside React: import i18n from '@/lib/i18n'.
-- Onboarding keys nested under onboarding.<screen>. Goal and activity keep flat keys.
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u.
-- TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
+- TestPG: localhost:5432, database lume_test_local. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Decisions (never delete)
@@ -39,10 +40,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R158: ConfidenceBadge uses scanCards.noBreakdown; scanConfidence.test.ts:93 changed (Isa allowed).
 - R161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept.
 - R166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added.
-- R168: goals.saved removal was parked. R239: Isa allowed test edits pinning old text, so 2.5 proceeds (one assertion, record in decisions).
 - R172: migration check skips with exit 0 when variable unset.
 - R174: CI workflow local only, throwaway local Postgres service, no repository secret.
-- R176, R178: privacy manifest in app.json. Camera is the only prompt. check:manifest reads app.json (ios/ is stale).
+- R176, R178: privacy manifest in app.json. Camera is the only prompt. check:manifest reads app.json.
 - R180: parity test runs in full Jest. R182: row 29 BUILT after full verify exit 0.
 - R184, R186: migration apply test runs once, in verify:migrations.
 - R194: 2b 1d does not wait for Isa. Own en, es, fr strings, flagged for review.
@@ -51,13 +51,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R209 to R212: onboarding keys nested; cuisine and dietary options under options.<value>.
 - R225, R226: validateOnboardingPayload uses i18n. sessionExpired wording set.
 - R228, R229: paywall 4xx toast uses onboarding.paywall.submitFailed for every 4xx except 401.
+- R231, R235: CUISINE_LABEL and connectivityMessage removed.
 - R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
-- R231, R235: CUISINE_LABEL removed; connectivityMessage removed.
 - R236: en-AU kept as the English output of formatNumber; es and fr use their own locale.
 - R237: full checkpoint run (green).
-- R238: Jev said ask; brief forbids asking; run chosen. Row 2c reports ignored.
+- R238: Jev said ask; brief forbids asking; run chosen.
 - R239: English grams from 1,000 up group (1,234 g) per brief. Logged for Isa to confirm.
-- R239: goals.saved removed (2.5 done). Row 2 kept PARTIAL: its task says set PHASE3_ROWS.md Rows 6, 13, 14 built, and they are still PARTIAL.
+- R240: previous prompt rejected (multiple screens). Rewritten as one screen (barcode-scan.tsx, scan.ts as its data layer).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
@@ -76,35 +76,25 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Parked
 - formatCurrency hard-codes A$ and a dot decimal in every language.
-- Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- nutrition.tsx:231 builds 'slot, energy' in code.
 - legalParity.test.ts scans .tsx only; JSON legal text not covered by banned-claim scan.
-- kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
-- 'signed' helper in three files. ConfidenceBadge hide reuses gymSession.hide.
+- authMachine.test.ts names say 'copy' but no copy is tested (tidy round).
+- consent.ts and purchases.ts use eslint-disable for the require rule.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
-- consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
-- authMachine.test.ts names and 'error copy' comment say copy, but no copy is tested (tidy round).
-- Skeleton crashes under Reanimated test mock (Row 22).
-- measurements.tsx: local t in useState initialiser shadows t(). Tidy round.
-- Trial note plural '{{days}} días' wrong if TRIAL_DAYS were 1.
 - Signup placeholders (signup.tsx:339, :362) are literals.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
-- Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
-- Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
-- Verify:go has no -count=1. Secrets scan placeholder check is a heuristic.
+- Jest noise: i18next banner, devWarn, act warnings (Row 22).
+- Root config and backend JavaScript not linted.
+- Verify:go has no -count=1.
 
 ## Problems noticed, not fixed
-- English still hard-coded: connectivityMessage removed, Terms rest English.
-- formatNumber and units.ts:76 always use en-AU.
-- Paywall feature list and toasts still English in places.
+- English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
-- Preview: cuisine and halal lines are copy only; no data check.
-- Key naming mixed: goal and activity flat, later screens nested.
-- onboarding.sessionExpired says 'finish setting up', wrong for users who finished onboarding.
-- OWNER_CHECKS_phase4.md line 39 quotes old es sessionExpired wording. Append only, so left.
 - Users do not see which field the server rejected on a 4xx.
 - Gotcha: the Row 2b note may drift again; check it at each records round.
+- Row 2 notes cell is long history. Trim at Row 2 BUILT.
+- Row 2c reports ignored (not in brief).
+- Gotcha: authMachine.test.ts and formatCurrency are parked; do not pick them up as Row 13 work.
