@@ -10384,3 +10384,7 @@
 - 2026-11-25 06:28 Round 192: checkpoint round per loop note. Picked the full type check and full Jest run with no file changes, because the loop asked for it.
 - 2026-11-25 06:28 Round 192: Jev ranked run 77% and the loop note already requires a checkpoint, so I kept run without a second look.
 - 2026-11-25 06:28 Round 192: the handover says to remove the duplicate migration test run, but round 186 already removed it. Not changing anything; will re-verify with grep in a later round before any change.
+- 2026-11-25 06:29 Round 193: the full suite is red from the step 1b regression. A red gate is not a reason to stop, so the fix comes first. Chose candidate 1 because it is the smallest task and the Jev risk signal is high.
+- 2026-11-25 06:29 Round 193: the fix changes signup.tsx only and keeps the test as is. The test pins the source shape, and the navigation behaviour is already correct.
+- 2026-11-25 06:29 Round 193: the Jev ranking (run 91%) agrees with the pick. The clean-finish estimate is low (12%), so the task is kept to one screen and five steps.
+- 2026-11-25 06:29 Round 193: the notes file was rewritten under 600 words. Finished items and repeated lines were merged or deleted.

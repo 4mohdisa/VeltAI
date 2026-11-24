@@ -111,11 +111,6 @@ function LegalLink({ label, href }: { label: string; href: Href }) {
 // buttons. It used to sit immediately beneath them, where a real session
 // mis-tapped it and landed on the Terms screen mid-flow (2026-08-08). The hit
 // slop is unchanged — proximity to the primary CTA was the hazard, not size.
-const LEGAL_LINKS: Record<string, { labelKey: string; href: Href }> = {
-  '{{terms}}': { labelKey: 'signup.legalTerms', href: '/legal/terms' as Href },
-  '{{privacy}}': { labelKey: 'signup.legalPrivacy', href: '/legal/privacy' as Href },
-};
-
 function LegalFooter() {
   const { t } = useTranslation();
   // The sentence is one locale key; each language places the links itself.
@@ -132,16 +127,17 @@ function LegalFooter() {
         marginTop: space.xl,
       }}
     >
-      {parts.map((part, i) => {
-        const link = LEGAL_LINKS[part];
-        return link ? (
-          <LegalLink key={part} label={t(link.labelKey)} href={link.href} />
+      {parts.map((part, i) =>
+        part === '{{terms}}' ? (
+          <LegalLink key={part} label={t('signup.legalTerms')} href={'/legal/terms' as Href} />
+        ) : part === '{{privacy}}' ? (
+          <LegalLink key={part} label={t('signup.legalPrivacy')} href={'/legal/privacy' as Href} />
         ) : (
           <Text key={i} variant="footnote" color={color.secondaryLabel}>
             {part}
           </Text>
-        );
-      })}
+        ),
+      )}
     </View>
   );
 }
