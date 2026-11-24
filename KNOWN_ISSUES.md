@@ -1,4 +1,4 @@
-# Known issues (Phase 3)
+# Known issues (Phase 4)
 
 Left as is in Phase 3. Each line says where the issue is and why it was left. Sources: the Parked section of loop/NOTES_phase3.md, the Parked list of loop/NOTES.md (earlier loop, rounds up to R1224) and the unfixed list from the session handovers. loop/NOTES.md has no separate Unfixed list. None of these were fixed in Phase 3. A file without a line number means the notes named no line.
 
@@ -38,7 +38,7 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 ## Backend
 - Progress entries are sorted oldest first before LIMIT 30, so the newest are dropped (backend/internal/gym/schedule_pg.go:765-767). Not a Phase 3 row.
 - 49 queries use WHERE id::text = $1, which bypasses the id index. Not a Phase 3 row.
-- With LUME_TEST_DATABASE_URL set, 21 TestPG tests run and pass. No disposable test database is configured.
+- With LUME_TEST_DATABASE_URL set, 21 TestPG tests run and pass. The database is local only and never hosted.
 - getMorningBrief swallows errors; getProfile's .catch hides errors; there is no anomalies endpoint. Not a Phase 3 row.
 - npm audit reports 48 vulnerabilities. Dependency upgrades are not in Phase 3.
 - The authenticated role is missing in local Postgres 17. Phase 4.

@@ -6,8 +6,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 87 done: settingsHelp.render.test.tsx uses a real jest.fn for router.push, cleared by the shared setup.ts reset. tsc 0 errors, render project 166 suites and 536 tests pass.
-- Round 88 in progress: KNOWN_ISSUES.md (analyticsSink warning recorded as accepted; TestPG count fixed to 21).
+- Round 88 in progress: KNOWN_ISSUES.md. Line 41 reworded to 'The database is local only and never hosted.' Header changed to Phase 4. Re-check tsc (0 errors) before marking done.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -27,24 +26,22 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
 - Prompts touch one screen, component or file each. Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
-- Shared router reset (setup.ts beforeEach) replaces per-test router mockClear. Local mocks that are not jest.fn or that wrap push keep their own clear until fixed.
-- Mock forwardRef components get named functions (display-name fix).
-- Factory cases use jest.requireActual (babel-jest hoists factories).
+- Shared router reset (setup.ts beforeEach) replaces per-test router mockClear.
+- Mock forwardRef components get named functions. Factory cases use jest.requireActual.
 - Test-body requires of mocked modules become top-level imports. Node built-ins become named top-level imports.
-- Reloads after jest.resetModules use jest.requireActual with a one-line comment.
 - setup.ts must not import expo-router at the top (breaks 18 suites that mock it).
-- Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
+- Animated values use useState(() => new Animated.Value(x)).
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
-- Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
-- A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment. No new eslint-disable comments in app code.
-- analyticsSink.ts:29 keeps its lazy require (PostHog loads only with a key). Accepted 1 warning (option C). Revisit in Row 29: async load with a small queue so launch events are not dropped.
+- Do not change api.ts listSessions defaults.
+- A required require keeps one reasoned eslint-disable-next-line comment. No new eslint-disable comments in app code.
+- analyticsSink.ts:29 keeps its lazy require. Accepted 1 warning. Revisit in Row 29 (async load with a queue).
 - i18n alias: `import { use as addPlugin }` is kept.
-- One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
+- One file per round for lint swaps. Full suite on checkpoint rounds (every 15: 90, 105, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - String changes wait for a string round (2.3).
-- Every round runs tsc and targeted Jest for changed files and reports results.
-- zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep, not PIPESTATUS.
+- Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
+- zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
 - Jev risk moderate to high: keep steps to one file and check gates each round.
 
 ## Done
@@ -53,21 +50,22 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-87: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture, debugGating requires fixed; setup.ts factory fixed; settingsHelp uses jest.fn.
+- Rounds 45-87: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn.
+- Round 88 (in progress): analyticsSink warning recorded as accepted in KNOWN_ISSUES.md; TestPG count fixed to 21.
 
 ## Blocked on Isa
-- Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
+- Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md.
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 88: KNOWN_ISSUES.md (in progress).
-- Round 89: render/setup.ts afterEach require('./helpers'): check early load is safe, verify with full render project.
+- Round 89: render/setup.ts afterEach require('./helpers'): check early load is safe, verify with `npx jest --selectProjects render`.
 - Round 90 checkpoint: full tsc and Jest.
-- Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
+- Then DailyMacroRing.tsx:96 'of' to nutrition.ringOf (string round, 2.3).
+- Then camera mocks: photoScan, labelScan, scanScreens.strings, or one shared expo-camera mock (stub copied in three files).
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
-- Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
+- Then 2.3 (translations and Retry, i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
@@ -76,10 +74,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - React act warnings from ScanReviewCard, 'API unreachable' warning from hooks.ts, logged stack trace in photoScan.render. Look at them in Row 22.
-- The expo-camera stub is copied into three scan tests. Move to one shared mock later.
-- Plain npx eslint at repo root reports about 11,000 errors, mostly in web/.next, web/out, ds-bundle/_vendor. Add to ESLint ignores (Row 29).
-- i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files and Preferences (Row 2.3).
+- Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
+- i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files (Row 2.3).
 - The history test assertion hardcodes isoDaysAgo(6) because DAYS isn't exported.
-- npx prettier --check flags noFabricatedData.test.ts. No Prettier config in repo, so not a gate.
-- DailyMacroRing.tsx:96 shows 'of' in English only.
+- settingsHelp mockPush is wrapped in a plain function, so the shared hook can't clear it. Check.
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
+- DailyMacroRing.tsx:96 shows 'of' in English only.

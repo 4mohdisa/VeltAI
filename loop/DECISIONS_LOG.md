@@ -9949,3 +9949,7 @@
 - 2026-11-25 03:42 Did not take the DailyMacroRing.tsx:96 string change this round. The notes rule says string changes wait for the 2.3 string round.
 - 2026-11-25 03:42 Round 87 (settingsHelp render test) is marked done. Its report shows tsc 0 errors and the render project passing (166 suites, 536 tests).
 - 2026-11-25 03:42 Round 88 is this docs round. Round 90 stays the checkpoint for full tsc and Jest.
+- 2026-11-25 03:43 Line 41 contradiction resolved without asking Isa: reworded the second sentence to 'The database is local only and never hosted.' Keeps the rule that the database is never hosted and removes the contradiction with the corrected count.
+- 2026-11-25 03:43 Header changed from Phase 3 to Phase 4 because the file now holds Phase 4 items.
+- 2026-11-25 03:43 Round 88 rerun with tsc and a grep because the loop flagged the last report as not having run its checks. A docs-only change needs only tsc and a reference check, not a full Jest run.
+- 2026-11-25 03:43 DailyMacroRing ringOf fix kept for the string round (2.3), not this round, to keep one file per round.
