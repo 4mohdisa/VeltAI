@@ -10560,3 +10560,7 @@
 - 2026-11-25 09:18 R230: Jev recommends run at 83%. I agree, and keep the round read only because the risk score is 0.9.
 - 2026-11-25 09:18 R230: the handover counts (268 suites, 1,579 tests) differ from the R227 notes (270 suites, 1,637 tests). This round's numbers become the record.
 - 2026-11-25 09:18 R230: CUISINE_LABEL cleanup is next if the checkpoint is green. Row 2c has no scope in the brief, so it is parked in OWNER_CHECKS_phase4.md when reached.
+- 2026-11-25 09:19 R231: chose the CUISINE_LABEL cleanup as the smallest next task. It is one file and clears a known gotcha.
+- 2026-11-25 09:19 R231: the handover and the last report disagree on whether the paywall reads CUISINE_LABEL. The prompt makes Claude Code grep first and decide from the code.
+- 2026-11-25 09:19 R231: the Row 2b records check stays queued for the next records round, as the notes say.
+- 2026-11-25 09:19 R231: the plan-ready screen stays parked. It needs Isa's go-ahead, so it is not picked.

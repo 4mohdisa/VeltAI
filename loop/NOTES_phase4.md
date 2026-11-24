@@ -6,18 +6,18 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT: screens 1a to 1d done, paywall strings done, preview and plan-ready screen not built.
-- R227 checkpoint green: 270 suites, 1,637 tests, tsc 0, lint 0. Handover cites 268 and 1,579; R230 numbers are the record.
+- BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
+- Row 2b DIFFERENT: screens 1a to 1d done, paywall strings done. Preview and plan-ready screen NOT built.
+- R230 checkpoint green: 270 suites, 1,637 tests, tsc 0. Older handover numbers (268, 1,579) are stale.
 - Next full checkpoint: R242 or next handover.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R230: checkpoint, read only, no file changes.
-- Then: CUISINE_LABEL cleanup in cuisines.ts (unused export, English label field).
-- Row 2c: no scope in the brief; park in OWNER_CHECKS and move on.
+- R231 (now): CUISINE_LABEL cleanup. Grep first; handover and report disagree on the paywall read.
+- Then: Row 2b records check against PHASE4_ROWS.md (drifts often).
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
+- Row 2c: no scope in the brief. Parked in OWNER_CHECKS, carry on.
 - A red round is fixed in a small round before new work.
-- At the next records round: check Row 2b notes in PHASE4_ROWS.md against the handover (it has drifted before).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -59,10 +59,11 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
 - R228: paywall 4xx toast uses onboarding.paywall.submitFailed. Server English 4xx text still shows; tracked in row 2b.
 - R229: CONNECTION_MESSAGE test constant reads en.onboarding.paywall.submitFailed.
-- R230: checkpoint round, read only, per handover.
+- R230: checkpoint round, read only. Green.
+- R231: CUISINE_LABEL cleanup chosen as next task (smallest). Grep decides the paywall read.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding screens, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
+- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
 - Whether es and fr should ever be shown (app is English only).
@@ -90,18 +91,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
+- Verify:go has no -count=1.
+- Secrets scan placeholder check is a heuristic.
 
 ## Problems noticed, not fixed
-- CUISINE_LABEL in cuisines.ts unused; English label field may be unused. The paywall cuisine line still reads it.
 - Paywall feature list and toasts still English in places; server 4xx text English.
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
-- Verify:go has no -count=1 (parked).
-- Secrets scan placeholder check is a heuristic.
 - Preview: cuisine and halal lines are copy only; no data check.
 - Key naming mixed: goal and activity flat, later screens nested.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who finished onboarding.
-- measurements.tsx local t shadows t().
 - Gotcha: the Row 2b note may drift again; check it at each records round.
