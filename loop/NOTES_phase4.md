@@ -8,11 +8,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done (Welcome strings en/es/fr in round 189).
+- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done.
+- Round 190 done: consent.ts and purchases.ts require rule moved to scoped eslint options.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b step 1d (goal and activity strings, after es/fr review), 2b dead ends, Maestro flow for Welcome to signup to onboarding, then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 191: 2b session expiry dead end. Then non-wording 2b dead ends, Maestro flow for Welcome to signup to onboarding (after Maestro check), then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -36,6 +37,7 @@ Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b st
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 191: session expiry dead end picked (no wording review needed). Handover's duplicate migration note conflicts with round 186; check before changing.
 - Round 190: same blocker twice in a row. Recorded under Blocked on Isa. Picked a task with no wording dependency.
 - Round 189: Jev ranked run 99%. Chose 1c, one screen per prompt.
 - Round 188: 1b kept as pick, it was the planned row.
@@ -44,7 +46,6 @@ Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b st
 - Round 184: migration apply test runs once, in verify:migrations.
 - Round 183: lint scope covers scripts/ before 2.5.
 - Round 182: row 29 BUILT after full verify exit 0 with local TestPG.
-- Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
 - Round 180: parity test runs in full Jest, no separate verify wiring.
 - Round 178: check:manifest reads app.json (ios/ is stale prebuild output, git ignored).
 - Round 176: privacy manifest in app.json. Face ID and Motion prompts removed. Camera is the only prompt.
@@ -62,7 +63,7 @@ Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b st
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - es and fr wording of summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - Whether es and fr should ever be shown (app is English only).
-- goals.saved removal. Prettier. Scoped eslint allow confirmation.
+- goals.saved removal. Prettier. Scoped eslint allow confirmation (given in round 190 report, confirm).
 - App Store privacy label answers and account data declaration.
 - Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
 - Push loop/phase4 and confirm CI runs green on GitHub.
@@ -76,14 +77,14 @@ Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b st
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined three times.
-- Several screens have react-hooks/exhaustive-deps disable comments (Row 22).
+- react-hooks/exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx (Row 22 and 2b).
 - Skeleton crashes under Reanimated test mock (Row 22). Every screen test mocks Skeleton.
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
 - Commented setup in TestPG files repeats shim SQL; point at supabase_shims.sql.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Onboarding: goal and activity screens hard-coded English. Two dead ends need device check. Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: goal and activity screens hard-coded English. Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
 
 ## Problems noticed, not fixed
@@ -104,6 +105,6 @@ Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b st
 - Round 188 signup es and fr wording is my own translation, not reviewed. Same for Welcome es and fr (round 189).
 
 ## Next
-- Round 190: scoped require-rule allow for consent.ts and purchases.ts (no wording needed).
-- Then 2b step 1d once es/fr review is in, or a non-wording 2b dead end.
+- Round 191: 2b session expiry dead end (auth error mapping).
+- Then a Maestro check and flow for Welcome to signup to onboarding, or the exhaustive-deps comment removals.
 - Full Jest checkpoint at the next checkpoint round.

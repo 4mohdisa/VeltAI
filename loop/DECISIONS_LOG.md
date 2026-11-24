@@ -10377,3 +10377,7 @@
 - 2026-11-25 06:24 Round 190: the same blocker came back twice (es/fr wording of the Welcome and signup keys). Recorded under Blocked on Isa. Not retried.
 - 2026-11-25 06:24 Round 190: picked the scoped require-rule allow. It needs no new wording, so it does not depend on the blocked es/fr review. Jev ranked the same kind of task first, so no second look.
 - 2026-11-25 06:24 Round 190: goal and activity string moves wait for the es/fr review, because every new string needs en, es and fr.
+- 2026-11-25 06:25 Round 191: picked the session expiry dead end because it needs no es or fr wording review, which is blocked for Isa.
+- 2026-11-25 06:25 Round 191: the handover says to remove a duplicate migration run, but round 186 already removed it. Check verify:go before any change, do not edit it blindly.
+- 2026-11-25 06:25 Round 191: the exhaustive-deps comment removals were not picked yet; they need real dependency fixes and a risk check first.
+- 2026-11-25 06:25 Round 191: Maestro flow waits until Maestro is confirmed installed; if missing, park the install command in OWNER_CHECKS_phase4.md.

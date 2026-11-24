@@ -30,6 +30,8 @@ import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore, validateOnboardingPayload } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
 import { devWarn, isDevBuild } from '@/lib/env';
+import { classifyConnectivity } from '@/lib/auth/machine';
+import i18n from '@/lib/i18n';
 
 export default function PaywallScreen() {
   const cuisines = useOnboardingStore((s) => s.cuisines);
@@ -80,6 +82,14 @@ export default function PaywallScreen() {
       navigate('/onboarding/done');
     } catch (e) {
       devWarn('[onboarding] submit failed:', e);
+      // An expired session is not a connection problem: send the user to sign
+      // in again rather than to their wifi settings.
+      if (classifyConnectivity(e, e instanceof ApiError ? e.status : undefined) === 'sessionExpired') {
+        showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'error' });
+        setSubmitting(false);
+        navigate('/onboarding/signup?mode=signin');
+        return;
+      }
       // Surface the SERVER's own explanation when it gave one. A 400 says
       // exactly which field it rejected; replacing that with "check your
       // connection" sent the user to fix their wifi over a validation error

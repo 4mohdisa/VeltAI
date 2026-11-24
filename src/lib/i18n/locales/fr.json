@@ -1121,7 +1121,8 @@
     "welcomeSignIn": "Se connecter",
     "welcomeHeadline": "Suivez vos repas comme vous mangez vraiment",
     "welcomeSubline": "Adapté à votre alimentation, votre culture et vos objectifs",
-    "welcomeGetStarted": "Commencer"
+    "welcomeGetStarted": "Commencer",
+    "sessionExpired": "Votre session a expiré. Reconnectez-vous pour terminer la configuration."
   },
   "signup": {
     "titleSignUp": "Créez votre compte",

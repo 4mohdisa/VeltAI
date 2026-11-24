@@ -122,20 +122,23 @@ export function mayHydrateCachedData(state: AuthState): boolean {
 // "server unreachable" in error copy).
 // ---------------------------------------------------------------------------
 
-export type ConnectivityProblem = 'offline' | 'serverDown' | 'none';
+export type ConnectivityProblem = 'offline' | 'serverDown' | 'sessionExpired' | 'none';
 
 /**
  * classifyConnectivity: a fetch TypeError with no response = device offline;
- * a 5xx response = server reachable but failing; anything else = not a
- * connectivity problem.
+ * a 5xx response = server reachable but failing; a 401 = the session expired
+ * (the API client has already tried one refresh), which is a sign-in problem,
+ * not a connection one; anything else = not a connectivity problem.
  */
 export function classifyConnectivity(error: unknown, status?: number): ConnectivityProblem {
+  if (status === 401) return 'sessionExpired';
   if (status != null && status >= 500) return 'serverDown';
   if (error instanceof TypeError) return 'offline';
   return 'none';
 }
 
-/** User-facing copy for a connectivity problem. */
+/** User-facing copy for a connectivity problem. sessionExpired has none here:
+ *  the caller sends the user to sign in instead. */
 export function connectivityMessage(problem: ConnectivityProblem): string | null {
   switch (problem) {
     case 'offline':

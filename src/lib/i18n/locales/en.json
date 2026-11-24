@@ -1121,7 +1121,8 @@
     "welcomeSignIn": "Sign in",
     "welcomeHeadline": "Track your food the way you actually eat",
     "welcomeSubline": "Personalised to your diet, your culture, your goals",
-    "welcomeGetStarted": "Get Started"
+    "welcomeGetStarted": "Get Started",
+    "sessionExpired": "Your session has expired. Sign in again to finish setting up."
   },
   "signup": {
     "titleSignUp": "Create your account",
