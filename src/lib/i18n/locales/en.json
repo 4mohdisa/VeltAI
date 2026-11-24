@@ -658,6 +658,7 @@
     "kcalEatenPerDay": "kcal in per day",
     "kcalNetPerDay": "kcal net per day",
     "weekNetAveragedOver": "Averaged over the {{value}} of {{total}} days Lume could compute",
+    "rangeSeparator": " – ",
     "caloriesEaten": "Calories eaten",
     "lastDays_one": "Last {{count}} day",
     "lastDays_other": "Last {{count}} days",

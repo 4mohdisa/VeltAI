@@ -4,14 +4,15 @@
 Finish the app (Apple side features, then testing) with no input from Isa. Progress is counted from PHASE4_ROWS.md (36 rows).
 
 ## State
-- Work only on branch loop/phase4 (from loop/phase3). Never switch, push, merge, rebase or touch main. The loop script commits.
+- Work only on branch loop/phase4. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) are DIFFERENT; verify later.
-- 2.1: only the simulator check of the Total tile is left (in OWNER_CHECKS_phase4.md).
+- Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
+- Handover at round 145. Claude Code knows only the handover summary: name files fully in prompts.
+- 2.1: only the simulator check of the Total tile is left (OWNER_CHECKS_phase4.md).
 - 2.2 done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings) in progress, one file per round. Round 143 done (week.tsx axis letters).
-- Round 144 (current): WeekEnergyCard private dayLetter replaced by weekdayLetter.
-- Open 2.3 items, in order: WeekEnergyCard dedupe (current); week.tsx:150 hardcoded dash; custom-food 'Save food'; ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; nutrition.tsx hardcoded 'g' and ' · ' join. Add a PHASE4_ROWS.md note when 2.3 closes.
+- 2.3 (strings) in progress, one file per round. Done: EnergyBalanceCard, GymSessionButton, MacroBars, energy screen, Summary, energyRange (weekdayShort, dayMonth, weekdayLetter), axis letters on energy, training, nutrition, week, WeekEnergyCard.
+- Round 145 (current): week.tsx:150 ' – ' separator translated (new key, en, es, fr).
+- Open 2.3 items, in order: custom-food 'Save food'; ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; nutrition.tsx hardcoded 'g' and ' · ' join. Then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard).
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -19,11 +20,10 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Use npx expo lint. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
-- No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
+- No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
 - TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
-- Morning brief free-plan refusal sets isError true (round 100). Revisit in Rows 6 and 7.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
@@ -32,7 +32,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Animated values use useState(() => new Animated.Value(x)).
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/helpers/useApiHarness.ts. Do not change api.ts listSessions defaults.
-- A required require keeps one reasoned eslint-disable-next-line. No new eslint-disable comments in app code. analyticsSink.ts:29 keeps its lazy require (accepted warning); revisit in Row 29.
+- One reasoned eslint-disable-next-line for a required require. No new eslint-disable comments in app code. analyticsSink.ts:29 keeps its lazy require (accepted warning); revisit in Row 29.
 - i18n alias: import { use as addPlugin } is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
 - Full suite on checkpoint rounds and after any change that can alter snapshots or strings.
@@ -40,15 +40,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - A sentence gets one full i18n key. Plurals use _one and _other only.
 - Code outside React uses import i18n from '@/lib/i18n'. Dates use dateLocale(i18n.language).
 - Rendering tests named *.render.test.tsx to get the jest-expo preset.
-- Day letters come from calendar.weekdayLetters (Monday first). Hermes ignores weekday narrow.
-- weekdayShort returns full name (VoiceOver label). weekdayLetter gives axis letters. Isa to review.
-- Summary 'summary' is a new top-level locale section. Isa to review.
-- 'Sept' (en-AU short month) kept. Isa to confirm.
-- Month summary keeps '0h 45m' in English (pinned by gymMonth.test.ts). es and fr use common.hoursMinutes ('1 h 45 min'). Isa to confirm.
+- Day letters come from calendar.weekdayLetters (Monday first). weekdayShort returns full name (VoiceOver label). weekdayLetter gives axis letters.
+- Summary 'summary' is a new top-level locale section.
 - Round 123: formatDuration rounds total minutes first.
 - Round 130: summaryNoFabrication.test.ts checks source for t('summary.notTracked'). Accepted.
-- Round 135: energy.tsx sentence uses dashboard.energyAverageBurned. Isa to review.
-- Jev (rounds 128-144): continuing without Isa, risk moderate to high. Keep tasks small and parked items visible.
+- Round 145: week separator uses a new key (no existing range separator key). Jev agrees with the pick.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -57,15 +53,15 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-143: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary screen, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition and week axis letters (en, es, fr tests).
-- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green (244 suites, 1,456 tests, 4 snapshots).
+- Rounds 107-144: i18n renders, dateLocale, formatStreak, formatDuration, formatHoursMinutes, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, dayMonth, energy, training, nutrition and week axis letters.
+- Checkpoints 44, 60, 75, 76, 90, 104, 118, 121-123, 125, 126, 134: tsc and Jest green. Last full run: 245 suites, 1,462 tests, 4 snapshots.
 
 ## Blocked on Isa (not blocking the loop)
-- E2E account needs 250+ gym dates (in OWNER_CHECKS_phase4.md).
+- E2E account needs 250+ gym dates (OWNER_CHECKS_phase4.md).
 - Should the morning brief free-plan refusal count as an error?
 - Confirm 'Sept' in English.
-- Confirm es and fr hours and minutes spacing.
-- Review es and fr wording: week card keys, six energy balance keys, gym logged label, summary.notTracked, summary target and a11y keys, energyAverageBurned.
+- Confirm es and fr hours and minutes spacing ('1 h 45 min').
+- Review es and fr wording of new keys: summary.*, gym.loggedTodayLabel, dashboard.energyBalance.*, dashboard.energyAverageBurned.
 - Confirm weekdayShort stays a full name.
 - Do not retry these; work on other surfaces.
 
@@ -78,11 +74,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
 - Energy screen ignores the energy unit setting (always kcal).
-- week.tsx:150 untranslated ' – ' dash.
+- Weekday and month names on Hermes not checked on the simulator.
 
 ## Next
-- Round 144: WeekEnergyCard dayLetter dedupe (current).
-- Then week.tsx dash, custom-food 'Save food', ConfidenceBadge, i18n header comments, summaryCards fallback, nutrition.tsx 'g' and ' · ', then the 2.3 note in PHASE4_ROWS.md.
+- Round 145: week.tsx separator (current).
+- Then custom-food 'Save food', ConfidenceBadge, i18n header comments, summaryCards fallback, nutrition.tsx 'g' and ' · ', then the 2.3 note in PHASE4_ROWS.md.
 - Then 2.2 leftovers, 2.4 (useGoals, Row 15), 2.5 (rest of Parked, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
@@ -106,6 +102,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Jest prints about 200 console blocks. Row 22.
 - formatNumber en-AU and MyScheduleCard short names: check once on the simulator (Row 23).
-- Weekday and month names on Hermes not checked on the simulator.
 - Other Summary cards may still have English literals (check in 2.3 sweep).
+- nutrition.tsx hardcodes 'g' and joins footnote with ' · '.
+- MacroTargetRows has no es or fr render test.
 - Round 136 weekdayShort decision and 'Sept' still need Isa's review.

@@ -147,7 +147,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
               unit={t('dashboard.kcalEatenPerDay')}
               sub={
                 week.length > 0
-                  ? `${dayMonth(week[0].date)} – ${dayMonth(week[week.length - 1].date)}`
+                  ? `${dayMonth(week[0].date)}${t('dashboard.rangeSeparator')}${dayMonth(week[week.length - 1].date)}`
                   : undefined
               }
               tight

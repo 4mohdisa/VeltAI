@@ -10187,3 +10187,5 @@
 - 2026-11-25 05:05 Chose candidate 1 (WeekEnergyCard dedupe): smallest step, named as NEXT in the last report, and Jev also ranks running the next action first. Jev risk is moderate to high, so I keep to one file per round.
 - 2026-11-25 05:05 Kept the 2.3 note in PHASE4_ROWS.md for when 2.3 closes. The nutrition and Week rounds are not logged there yet.
 - 2026-11-25 05:05 Still parking the English 'Sept', the weekdayShort full name and the es and fr hours and minutes spacing for Isa. They are not blocking.
+- 2026-11-25 05:06 Round 145: chose the week.tsx separator (candidate 1) because it is the smallest open 2.3 item and the handover and latest report both name it first. Jev agrees (run 100%).
+- 2026-11-25 05:06 Round 145: added one new locale key for the separator rather than reuse an existing key, because no existing key holds a range separator (checked in the prompt).
