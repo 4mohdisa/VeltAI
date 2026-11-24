@@ -9,9 +9,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 8 baseline (BASELINE_phase4.md): tsc 0 errors, Jest 242 suites and 1,397 tests pass, Go 34 packages ok. TestPG: 21 of 21 run on lume_test_local (localhost:5432, Postgres 17).
 - Round 15 checkpoint: tsc 0 errors, Jest 242 suites and 1,400 tests pass.
 - Row 1 is BUILT.
-- Row 2 is PARTIAL. Sub steps: 2.1 total gym days (code done, see below), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
-- Row 2.1 done in code: backend GET /api/gym/streak and freeze return total_days; GymStreak.total_days in src/lib/api.ts; streakFromApi(row) takes only the row; hydrateGym uses the server total.
-- Row 2.1 round 18: stale gym streak test mocks get total_days. Simulator check of the tile is still open (round 19).
+- Row 2 is PARTIAL. Sub steps: 2.1 total gym days (PARTIAL: backend, app and streakFromApi done, 8 stale mocks still lack total_days, tile sim check open), 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are still DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has 5 open checks under 'Rows 2c and 2d' (AFCD licence, AFCD load per database, Gemini billing cap, LUME_TIMEZONE, read AI_COSTS.md). Never overwrite or empty it.
 
@@ -26,7 +24,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 14a feedback chips in every profile, production included. Row 14b design intent audit: flows and defaults only.
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
 - Prompts ask for one screen, component or file each. Multi part work is split into rounds. A signature change and its test file may go together in one round.
-- Prompts have at most 5 numbered steps (loop rule).
+- Prompts have at most 5 numbered steps (loop rule). Mock batches are at most 3 files.
 - Progress line counts all 36 table rows.
 - When Jev confidence is low or risk is high, prefer the smaller task.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
@@ -44,7 +42,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 10: Row 2.1 hydrateGym limit 200.
 - Rounds 11-14: Row 2.1 total_days on backend, GymStreak.total_days in app, streakFromApi default changed.
 - Round 16: hooks.ts distinct count removed.
-- Round 17: mappers.ts streakFromApi takes only row; hooks.ts call updated; mappers.test.ts 5 calls updated. tsc 0 errors, 20 suites and 146 tests pass, plus 19 gym suites and 226 tests.
+- Round 17: mappers.ts streakFromApi takes only row; hooks.ts call updated; mappers.test.ts updated.
+- Round 18: 3 stale gym streak mocks given total_days (gymStreak.emptyStates, gymFreeze.emptyStates, gymStreak.render). tsc 0 errors. Report wrongly said 2.1 was fully done.
 
 ## Blocked on Isa
 (nothing)
@@ -53,15 +52,14 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 (nothing)
 
 ## Next
-- Round 18 (this round): add total_days to stale gym streak test mocks (at most 3 files). Set PHASE4_ROWS.md Row 2 note: 2.1 done, 2.2 to 2.5 open.
-- Round 19: Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT.
+- Round 19 (this round): add total_days to shared mockStreak in src/__tests__/helpers/useApiHarness.ts. Fix any assertion that pins undefined. Run tsc and the affected suites.
+- Round 20 and 21: the 8 remaining stale mocks, 3 files per round: gymStreakStripFootnote, gymHistory.render, gymHistory.emptyStates, freeze.render, dashboardSummary.render, hydrationErrorState.render, summaryHydration.render, productionReadiness.test.ts. Then Row 2.1 simulator check of the Total gym days tile (Gym, Profile, Streak). Set 2.1 BUILT only after both.
 - Then Row 2.2 (Phase 3 backend and data leftovers): fix react-hooks/set-state-in-effect at hooks.ts:400 first. Then gym/schedule_pg.go LIMIT order (oldest first then LIMIT 30 is wrong), 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
 - Then 2.3 (translations and Retry: gymRange, monthTitle, muscle cards, exercise progress, summaryCards, nutrition kcal label), 2.4 (useGoals isLoading, error, refetch, goals screen states, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted through backend, missing _one plural, goals.saved).
 - Then Row 2b (sign up redesign, Mobbin check), 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
 ## Problems noticed, not fixed
 - food/history.tsx:66 still calls listSessions() with no limit. Fix in 2.2 or 2.5.
-- Stale gym streak mocks without total_days (gymStreakStripFootnote, profileEmptyStates, gymHistory): fixed in round 18.
 - Older backend without total_days gives an undefined tile. Deploy the backend change with the app change (owner note in OWNER_CHECKS_phase4.md when deploy is written).
 - One react-hooks/set-state-in-effect lint error in src/lib/data/hooks.ts (line 400). Fix in 2.2.
 - ssh tunnel on 127.0.0.1:55432: unknown target. The 2c/2d owner check uses this port. Isa should confirm what it reaches before running the AFCD importer.
@@ -69,4 +67,4 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - KNOWN_ISSUES.md line 40 still says 20 TestPG tests skip. It is 21 and they run. Fix in Row 2.5.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from src/lib/data/hooks.ts. Not failing. Look at them in Row 22.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase4.md had uncommitted changes. Left alone for the loop script.
-- Jev risk 1.0 (rounds 14 to 18): keep steps to one or two files and check the gates each round.
+- Jev risk 1.0 (rounds 14 to 19): keep steps to one or two files and check the gates each round.

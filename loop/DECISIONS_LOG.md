@@ -9685,3 +9685,8 @@
 - 2026-11-25 02:23 Kept action run: Jev 99% run, risk 1.0 handled by keeping this round to one concern and at most 3 files.
 - 2026-11-25 02:23 Did not touch OWNER_CHECKS_phase4.md: the 5 open checks under Rows 2c and 2d stay as they are.
 - 2026-11-25 02:23 Row 2.2 starts after 2.1 is set BUILT, so the lint error stays for the next round.
+- 2026-11-25 02:24 Chose candidate 1 because Jev risk is 1.0 and last task clean odds are 47%, so the smallest task with the widest effect comes first.
+- 2026-11-25 02:24 Row 2.1 is reset to PARTIAL. The Round 18 report said 'stale mocks fixed', but 8 files still lack total_days, so the row is not done.
+- 2026-11-25 02:24 Kept the 3-file batch cap from the Round 18 prompt for the remaining 8 mocks.
+- 2026-11-25 02:24 Round 19 simulator check of the Total gym days tile moves after the mocks are fixed, so it runs on correct data.
+- 2026-11-25 02:24 The 'partly done' loop flag is handled by this round's fix. No new scope was added.
