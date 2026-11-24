@@ -8,6 +8,7 @@ import { MuscleChart } from '@/components/gym/MuscleChart';
 import { MyScheduleCard } from '@/components/gym/MyScheduleCard';
 import { monthView } from '@/lib/data/gymRange';
 import { useGymPatterns, useSchedule } from '@/lib/data/gymSchedule';
+import { dateLocale } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
@@ -71,6 +72,18 @@ test('MyScheduleCard: no plan yet shows three rest days, not a blank space', () 
   expect(text).toContain(en.gym.mySchedule);
   expect(text).toContain(en.gymLog.restDayTitle);
   expect(text).toContain(en.gym.daysPlanned_other.replace('{{count}}', '0'));
+});
+
+test('MyScheduleCard: the day-after-tomorrow weekday follows the app language, in French', async () => {
+  await act(async () => {
+    await i18n.changeLanguage('fr');
+  });
+  schedule({ loading: false, isError: false });
+  const now = new Date();
+  const dayAfter = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
+  const text = allText(renderScreen(<MyScheduleCard />));
+  expect(text).toContain(dayAfter.toLocaleDateString(dateLocale('fr'), { weekday: 'short' }));
+  expect(text).not.toContain(dayAfter.toLocaleDateString(dateLocale('en'), { weekday: 'short' }));
 });
 
 test('GymCalendar: legend, nav labels, weekday letters and day labels follow the app language', async () => {

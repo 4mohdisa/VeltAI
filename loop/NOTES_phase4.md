@@ -6,12 +6,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 113: delete stale device-locale test helpers.test.ts:107 (prompt issued).
+- Round 114: MyScheduleCard.tsx:62 weekday uses dateLocale(i18n.language) plus one fr or es render test (prompt issued).
 - Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG count is 24 (verified).
-  - 2.3 string round, one file per round. Done: formatting.ts dateLocale (round 112). Left: day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, shared Xh Ym formatter.
+  - 2.3 string round, one file per round. Done: formatting.ts dateLocale, round 112. Left: MyScheduleCard weekday (round 114), day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, shared Xh Ym formatter.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -47,7 +47,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk 0.9 of 2: keep steps small, one file per prompt, check gates each round.
+- Jev risk 1.0 of 2: keep steps small, one file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 - Round 113: stale helpers.test.ts:107 device-locale test deleted (pinned old behaviour, passed only on en-AU).
 
@@ -59,8 +59,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
 - Rounds 107-111: i18n renders (ring, gym month, workoutsLine, dayReadout), gymMonth monthTitle uses dateLocale.
-- Round 112: formatWeekdayDate and formatMonthYear use dateLocale, en, es, fr tests. Full Jest 243 suites, 1,428 tests green.
-- Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
+- Round 112: formatWeekdayDate and formatMonthYear use dateLocale, en, es, fr tests.
+- Round 113: stale device-locale helper test deleted. tsc 0 errors.
+- Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green. Last full run: 243 suites, 1,421 tests green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
@@ -78,7 +79,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - formatNumber hardcoded en-AU. formatStreak ('day'/'days') and formatDuration ('min') English only.
 
 ## Next
-- Round 113: delete stale helpers.test.ts:107 test, tsc, targeted Jest.
+- Round 114: MyScheduleCard.tsx:62 weekday, tsc, targeted Jest.
 - Then day letters, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
@@ -102,5 +103,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- monthTitle uses i18n.language in one place: confirm dateLocale everywhere in Row 14.
 - Tool note: the lint gate is npx expo lint.

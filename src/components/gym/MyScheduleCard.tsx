@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardHeaderRow, LoadFailedNotice, Skeleton } from '@/components/display';
 import { Text } from '@/components/primitives/Text';
 import { useSchedule } from '@/lib/data/gymSchedule';
+import { dateLocale } from '@/lib/formatting';
 import { categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 
 /** Weekday gutter — every workout name starts on one edge. */
@@ -25,7 +26,7 @@ const dayLabelStyle = (): TextStyle => ({ fontSize: 12.5, fontWeight: '600', lin
 const workoutNameStyle = (): TextStyle => ({ fontSize: 15, fontWeight: '500', lineHeight: 20 * PixelRatio.getFontScale() });
 
 export function MyScheduleCard() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { schedule, loading, isError, refetch } = useSchedule();
   // This tab stays mounted under the schedule screen: re-read on the way back so
   // an edit made there shows here.
@@ -59,7 +60,7 @@ export function MyScheduleCard() {
           ? t('foodLog.today')
           : offset === 1
             ? t('gym.tomorrow')
-            : date.toLocaleDateString(undefined, { weekday: 'short' }),
+            : date.toLocaleDateString(dateLocale(i18n.language), { weekday: 'short' }),
       name: template ? template.name : t('gymLog.restDayTitle'),
     };
   });

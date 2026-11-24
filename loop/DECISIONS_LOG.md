@@ -10067,3 +10067,6 @@
 - 2026-11-25 04:22 Round 113: delete the test 'keep the device-locale options the screens used inline' in helpers.test.ts. It pins behaviour that round 112 changed on purpose, and it passed only because this machine is en-AU. Recorded as an edit to a test that pins old behaviour, the same kind of edit Isa allowed in Phase 3 leftovers.
 - 2026-11-25 04:22 Chose the stale test fix over day letters because it is a small correctness fix that could fail on CI, and it is the report's first recommendation.
 - 2026-11-25 04:22 Jev ranked the same next action as the top choice, so no second look was needed.
+- 2026-11-25 04:23 Chose the MyScheduleCard weekday fix: it is the NEXT item from the last report, touches one component, and needs one render test, which fits the advice to keep steps small (Jev risk 1.0).
+- 2026-11-25 04:23 Round 114 starts after round 113. The full suite stays on checkpoint round 120.
+- 2026-11-25 04:23 Day letters and custom-food strings stay queued for the next rounds in the string round.
