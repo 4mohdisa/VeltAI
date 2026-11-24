@@ -10078,3 +10078,7 @@
 - 2026-11-25 04:27 Round 116 chose formatStreak and formatDuration because they are the next open string item and the shortest safe task.
 - 2026-11-25 04:27 Round 116 touches formatting.ts, the three locale files and helpers.test.ts in one round. Each locale file holds data only, so the one file per prompt rule is relaxed for this round only.
 - 2026-11-25 04:27 The hand built Xh Ym formatter is left for a later round so this round stays small.
+- 2026-11-25 04:29 Round 116 report accepted: formatStreak and formatDuration follow the app language; es and fr use the usual 'h min' style, not a word for word copy of English. If Isa wants '1h 30m' everywhere, it is a two value change in es.json and fr.json. Logged in OWNER_CHECKS_phase4.md as a low priority style choice.
+- 2026-11-25 04:29 Round 117 uses gymRange.ts as the one main file, with gymMonth.test.ts allowed as a second file only for a pinned string. Reason: the handover expects the es and fr '0h 30m' strings to need updating, and a red gate is not allowed to stay.
+- 2026-11-25 04:29 summaryCards.ts:78 moved to round 118 to keep the prompt to one main file.
+- 2026-11-25 04:29 formatDuration 1h 60m rounding bug kept for a later round. It is a separate fix in formatting.ts with its own test.
