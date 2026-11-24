@@ -9681,3 +9681,7 @@
 - 2026-11-25 02:21 Round 17 touches mappers.ts and its test together because the signature change and its 5 calls must land in one step to keep the gates green.
 - 2026-11-25 02:21 Kept the existing set-state-in-effect lint error out of scope; it belongs to Row 2.2.
 - 2026-11-25 02:21 Chose the planned round 17 step over the Row 2.2 candidates because Jev rated run at 100 percent and the step is already scoped to two files.
+- 2026-11-25 02:23 Chose the stale fixture fix over the simulator check: it is smaller, touches at most 3 test files, and does not need the running local backend. The simulator check moves to round 19.
+- 2026-11-25 02:23 Kept action run: Jev 99% run, risk 1.0 handled by keeping this round to one concern and at most 3 files.
+- 2026-11-25 02:23 Did not touch OWNER_CHECKS_phase4.md: the 5 open checks under Rows 2c and 2d stay as they are.
+- 2026-11-25 02:23 Row 2.2 starts after 2.1 is set BUILT, so the lint error stays for the next round.

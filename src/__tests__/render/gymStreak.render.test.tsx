@@ -33,6 +33,7 @@ const STREAK = {
   last_gym_date: '2026-09-12',
   freeze_used: false,
   last_freeze_date: null,
+  total_days: 23,
 };
 
 const settle = async () => {

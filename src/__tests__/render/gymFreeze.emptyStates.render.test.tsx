@@ -20,7 +20,7 @@ const json = (data: unknown) => Promise.resolve({ ok: true, status: 200, json: a
 // A 4xx is not retried (src/lib/api.ts retries only network errors and 5xx), so the failure lands at once.
 const failed = () => Promise.resolve({ ok: false, status: 400, json: async () => ({ data: null, error: 'Bad request' }) });
 
-const NO_STREAK = { current_streak: 0, longest_streak: 0, last_gym_date: null, freeze_used: false, last_freeze_date: null };
+const NO_STREAK = { current_streak: 0, longest_streak: 0, last_gym_date: null, freeze_used: false, last_freeze_date: null, total_days: 0 };
 
 const settle = async () => {
   await act(async () => {
@@ -84,7 +84,7 @@ test('a failed read with no streak shows the load failure and Retry runs the rea
 
 test('a real streak shows the sheet title and confirm copy from en.json', async () => {
   const tree = await renderFreeze(() =>
-    json({ current_streak: 4, longest_streak: 4, last_gym_date: '2026-11-20', freeze_used: false, last_freeze_date: null }),
+    json({ current_streak: 4, longest_streak: 4, last_gym_date: '2026-11-20', freeze_used: false, last_freeze_date: null, total_days: 9 }),
   );
 
   expect(hasText(tree, en.gym.freeze.title)).toBe(true);
