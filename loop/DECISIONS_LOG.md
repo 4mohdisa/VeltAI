@@ -10176,3 +10176,10 @@
 - 2026-11-25 05:02 nutrition.tsx chosen first because it is the open sibling of the training.tsx defect already fixed, and it is a one-line change with a render test.
 - 2026-11-25 05:02 week.tsx:265 and the WeekEnergyCard dedupe move to later rounds, one file each.
 - 2026-11-25 05:02 Training round report accepted: training.tsx is verified (tsc 0, 4 suites green).
+- 2026-11-25 05:03 Chose the week.tsx axis letter switch: it is the next open 2.3 item in the notes, it is one file, and it follows the nutrition.tsx pattern that just passed (Jev risk is moderate to high, so a small task).
+- 2026-11-25 05:03 Kept the week.tsx screen reader label on weekdayShort: it is a VoiceOver label, and the notes say weekdayShort returns the full name.
+- 2026-11-25 05:03 Marked the snapshot-change case as stop-and-report rather than update, so a snapshot is never silently rewritten.
+- 2026-11-25 05:03 Rewrote the rejected prompt: it now states the loop/phase4-only rule, forbids all git commands and names every file by full path.
+- 2026-11-25 05:03 Picked the week.tsx axis letters task (round 142 carry over): the last report covered nutrition.tsx, so week.tsx:265 is still open.
+- 2026-11-25 05:03 Kept WeekEnergyCard dedupe and the week.tsx:150 dash as next candidates, one file per round.
+- 2026-11-25 05:03 Ran only changed tests this round, since the last checkpoint was round 134 and the loop script will call the next full run.

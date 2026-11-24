@@ -37,7 +37,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
-import { burnOf, dayMonth, mean, netOf, useEnergyRange, weekdayShort } from '@/lib/data/energyRange';
+import { burnOf, dayMonth, mean, netOf, useEnergyRange, weekdayLetter, weekdayShort } from '@/lib/data/energyRange';
 import type { EnergyBalance } from '@/lib/types';
 
 // ---------------------------------------------------------------------------
@@ -262,7 +262,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                       numberOfLines={1}
                       style={{ flex: 1, textAlign: 'center', fontWeight: d.date === picked ? '700' : '400' }}
                     >
-                      {weekdayShort(d.date).charAt(0)}
+                      {weekdayLetter(d.date)}
                     </Text>
                   ))}
                 </View>
