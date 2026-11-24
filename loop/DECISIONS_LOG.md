@@ -9804,3 +9804,6 @@
 - 2026-11-25 03:00 Did not touch loop-owned files, so the loop script keeps control of DECISIONS_LOG.md and NOTES_phase4.md.
 - 2026-11-25 03:01 Kept the notes order: the remaining render test swaps come before the display-name errors, one file per round, because Jev rates risk moderate and the swap is the smallest safe step.
 - 2026-11-25 03:01 Round 47 (gymStreakStripFootnote) is marked done from the latest report: tsc 0, Jest 2 of 2, eslint 0.
+- 2026-11-25 03:01 Kept the one-file-per-round pattern because Jev rates risk moderate and each round checks gates.
+- 2026-11-25 03:01 Picked the recipeLog swap as the next row 2.2 lint step, as the notes list it next.
+- 2026-11-25 03:01 Told Claude Code to report any top-level require outside a mock factory instead of changing it, so the swap stays a pure mock change.
