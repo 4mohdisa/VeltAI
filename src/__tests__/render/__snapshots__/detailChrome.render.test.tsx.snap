@@ -3202,7 +3202,8 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      of 
+                      of
+                       
                       2,100
                        
                       kcal

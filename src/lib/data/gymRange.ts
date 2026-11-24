@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { api } from '@/lib/api';
+import i18n from '@/lib/i18n';
 import { todayISO } from './mappers';
 import { lastNDates } from './energyRange';
 import { fromIso, monthGrid } from './foodDays';
@@ -196,17 +197,18 @@ export function monthView(
 /** The line under the grid: the design's "6 sessions · 5h 10m", plus an honest
  *  note of sessions without a duration and of freeze days when there are any. */
 export function monthSummary(v: MonthView): string {
-  const parts = [`${v.sessions} session${v.sessions === 1 ? '' : 's'}`];
+  const parts = [i18n.t('gym.monthSessions', { count: v.sessions })];
   if (v.minutes > 0) parts.push(`${Math.floor(v.minutes / 60)}h ${v.minutes % 60}m`);
-  if (v.untimed > 0) parts.push(`${v.untimed} untimed`);
-  if (v.freezes > 0) parts.push(`${v.freezes} freeze${v.freezes === 1 ? '' : 's'}`);
+  if (v.untimed > 0) parts.push(i18n.t('gym.monthUntimed', { count: v.untimed }));
+  if (v.freezes > 0) parts.push(i18n.t('gym.monthFreezes', { count: v.freezes }));
   return parts.join(' · ');
 }
 
-/** "September", or "December 2025" for a month outside the current year — as the design names it. */
+/** "September", or "December 2025" for a month outside the current year — as the design names it,
+ *  in the app's current language. */
 export function monthTitle(month: string, today: string): string {
   const d = fromIso(month);
-  const name = d.toLocaleDateString(undefined, { month: 'long' });
+  const name = d.toLocaleDateString(i18n.language, { month: 'long' });
   return d.getFullYear() === fromIso(today).getFullYear() ? name : `${name} ${d.getFullYear()}`;
 }
 

@@ -6,6 +6,7 @@
 // the pure pieces the Gym tab draws from (lib/data/gymRange.ts).
 import { intensityOf, monthSummary, monthTitle, monthView } from '@/lib/data/gymRange';
 import type { GymSession } from '@/lib/api';
+import i18n from '@/lib/i18n';
 
 let n = 0;
 const row = (date: string, duration_minutes: number | null): GymSession => ({
@@ -123,5 +124,21 @@ describe('monthTitle', () => {
   test('the month name alone this year, with the year otherwise', () => {
     expect(monthTitle('2026-09-01', TODAY)).toBe('September');
     expect(monthTitle('2025-12-01', TODAY)).toBe('December 2025');
+  });
+});
+
+describe('the month line and title follow the app language', () => {
+  const view = (s: GymSession[], frozen: string[] = []) => monthView(TODAY, TODAY, s, [], frozen);
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each([
+    ['es', '2 sesiones · 0h 30m · 1 sin duración · 1 congelación', '1 sesión', 'septiembre', 'diciembre 2025'],
+    ['fr', '2 séances · 0h 30m · 1 sans durée · 1 gel', '1 séance', 'septembre', 'décembre 2025'],
+  ])('%s', async (lang, full, single, thisYear, otherYear) => {
+    await i18n.changeLanguage(lang);
+    expect(monthSummary(view([row('2026-09-01', 30), row('2026-09-02', null)], ['2026-09-04']))).toBe(full);
+    expect(monthSummary(view([row('2026-09-01', 45)]))).toBe(`${single} · 0h 45m`);
+    expect(monthTitle('2026-09-01', TODAY)).toBe(thisYear);
+    expect(monthTitle('2025-12-01', TODAY)).toBe(otherYear);
   });
 });

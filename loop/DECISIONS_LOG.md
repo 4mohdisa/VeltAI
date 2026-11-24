@@ -10045,3 +10045,7 @@
 - 2026-11-25 04:12 Picked the ring es and fr test first: round 106 changed the visible text but the existing i18n test only checks the screen reader label, so a regression would pass unseen. Small, one file, low risk (Jev run 98%).
 - 2026-11-25 04:12 Kept the test in the existing i18n test file instead of a new file, to keep the change to one file.
 - 2026-11-25 04:12 Rounds 107 onward: one string screen per round, as the string round rule says. Full Jest suite waits for checkpoint round 120.
+- 2026-11-25 04:13 Round 107 accepted: DailyMacroRing es and fr visible-line render tests added and green; the ring string item is closed.
+- 2026-11-25 04:13 Round 108 picks gymRange strings over the subscription es and fr render test: it is a user visible Phase 3 leftover under Row 14, and the subscription render test stays as candidate 2 for a later round.
+- 2026-11-25 04:13 gymRange tests are found by grep, not by a fixed file name, because the exact test file path is not recorded in the notes.
+- 2026-11-25 04:13 Changed assertions are listed in the report so the Phase 3 test edits are on record (Isa allowed edits to tests that pin old English text).

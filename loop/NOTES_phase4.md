@@ -10,7 +10,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 string round, one screen or component per round. Done: subscription.tsx (105), DailyMacroRing 'of' (106). Round 107: ring es and fr render tests. Then gymRange, summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
+  - 2.3 string round, one screen or file per round. Done: subscription.tsx (105), DailyMacroRing 'of' (106), ring es and fr render tests (107). Round 108: gymRange. Then summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -57,7 +57,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped.
 - Rounds 98-103: doc fix, getMorningBrief and getProfile errors surfaced, briefProfile tests, KNOWN_ISSUES fixes, subscription manage toast and busy state, restore spinner, subscription render test.
 - Round 105: subscription.tsx 22 strings to t(); subscription.* keys (13) in en, es, fr.
-- Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur). tsc 0, 2 suites green.
+- Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur).
+- Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr visible target line. tsc 0, lint 0.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
@@ -67,10 +68,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 - Shared billing-disabled toast helper (subscription.tsx restore and seePlans, profile/index.tsx).
 - delete-account.tsx swallowed-errors review.
+- Subscription screen es and fr render test (candidate after gymRange).
 
 ## Next
-- Round 107: ring es and fr visible-text render tests (in the existing i18n test file).
-- Then Row 13 and 14 strings one screen per round (gymRange, summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label), with snapshots regenerated.
+- Round 108: gymRange Gym month line strings and monthTitle language (en, es, fr).
+- Then summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
@@ -93,3 +95,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
+- DailyMacroRing es and fr covered. Ring string item closed.
