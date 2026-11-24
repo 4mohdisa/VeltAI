@@ -1127,7 +1127,12 @@
     "goalLose": "Perdre du poids",
     "goalMuscle": "Prendre du muscle",
     "goalEatHealthier": "Manger plus sainement",
-    "goalTrack": "Suivre ma nutrition"
+    "goalTrack": "Suivre ma nutrition",
+    "activityTitle": "Quel est votre niveau d'activité ?",
+    "activitySedentary": "Surtout assis (travail de bureau)",
+    "activityLight": "Activité légère (marche, exercice léger)",
+    "activityModerate": "Modérément actif (3-4 fois/semaine)",
+    "activityVeryActive": "Très actif (entraînement quotidien)"
   },
   "signup": {
     "titleSignUp": "Créez votre compte",

@@ -8,13 +8,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, paywall 401 (R205, SESSION_ENDED), saved answers on expired sessions done. Signup 401 verified (signup.tsx:66-69).
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal screen (R206), 401 handling on paywall, signup and launch gate, answers survive expired session.
 - R204 checkpoint green: tsc 0 errors, lint exit 0, full Jest 266 suites and 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R206 (now): 2b 1d goal screen strings in en, es, fr. Then activity options if separate. Then 2b 1d remaining screens, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
-Full Jest next checkpoint: R210 or when a checkpoint is due.
+R207 (now): 2b 1d activity.tsx strings in en, es, fr.
+Then: 1d measurements, body type, cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then OnbScaffold 'Go back' label. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Full Jest next checkpoint: R210 or when due.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -54,11 +55,12 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - R199: renderScreen wrapped in AppStateProvider (approved).
 - R201: caused 5 suite failures, fixed in R203.
 - R204: checkpoint green. Signup 401 verified by grep, not changed.
-- R205: paywall 401 uses SESSION_ENDED. Own toast and navigate removed. Toast mock moved to toastStore source.
-- R206: 1d split one screen per round, goal first. Handover's signup step was already done.
+- R205: paywall 401 uses SESSION_ENDED. Own toast and navigate removed.
+- R206: 1d split one screen per round, goal first. Handover's signup step already done.
+- R207: picked activity.tsx (Jev 99% run). Handover's signup SESSION_ENDED step skipped, already done per R204/R206.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
+- es and fr wording review: Welcome, signup, onboarding, goal screen (R206), summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -81,7 +83,7 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
 - Skeleton crashes under Reanimated test mock (Row 22).
-- Onboarding: activity hard-coded English until 1d done. Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
@@ -100,7 +102,6 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
-- Onboarding screens after signup are still hard-coded English (1d and 2c).
-- The signup placeholders are literals.
-- connectivityMessage hard-coded English and unused.
+- OnbScaffold has hard-coded accessibilityLabel 'Go back' used on every onboarding screen.
+- Signup placeholders are literals.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown.

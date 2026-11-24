@@ -1127,7 +1127,12 @@
     "goalLose": "Lose weight",
     "goalMuscle": "Build muscle",
     "goalEatHealthier": "Eat healthier",
-    "goalTrack": "Track my nutrition"
+    "goalTrack": "Track my nutrition",
+    "activityTitle": "How active are you?",
+    "activitySedentary": "Mostly sitting (office work)",
+    "activityLight": "Light activity (walks, light exercise)",
+    "activityModerate": "Moderately active (3-4x/week)",
+    "activityVeryActive": "Very active (daily training)"
   },
   "signup": {
     "titleSignUp": "Create your account",

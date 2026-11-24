@@ -10462,3 +10462,6 @@
 - 2026-11-25 06:56 R206: 1d split into one screen per round, goal screen first, activity options next if they sit in a separate file. Keeps each prompt small.
 - 2026-11-25 06:56 R206: Jev's run signal (92%) agrees with the next step in the recorded plan. Kept, with a small task size because its risk score is 0.8.
 - 2026-11-25 06:56 R206: the paywall 401 simulator check is still missing from OWNER_CHECKS_phase4.md. It is a record-only item for the next round that allows record edits.
+- 2026-11-25 06:58 R207: picked activity.tsx, the next step in the plan. Jev ranked it 99% run, so no look again.
+- 2026-11-25 06:58 R207: skipped the handover's signup SESSION_ENDED step. R206 notes say it was already done and the signup 401 was verified by grep (R204).
+- 2026-11-25 06:58 R207: es and fr goal wording from R206 is listed as a review item for Isa. It is not blocking.
