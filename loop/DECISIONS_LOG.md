@@ -10588,3 +10588,8 @@
 - 2026-11-25 09:30 R237: the handover's 'next task' (paywall 4xx toast) is already done (R228, R229). The handover is stale; this notes file is the source of truth.
 - 2026-11-25 09:30 R237: connectivityMessage and CUISINE_LABEL are already removed (R231, R235). The handover's gotcha list is stale on these points.
 - 2026-11-25 09:30 R237: the Claude report's 'recommended next' checkpoint is adopted as the chosen task. Jev also ranked run highest.
+- 2026-11-25 09:31 Row 2c ignored: not in the brief, and loop notes say reports asking for it are ignored.
+- 2026-11-25 09:31 Chose row 2.2 remaining over row 3 because the notes set that order and it is small and testable.
+- 2026-11-25 09:31 formatCurrency left out of this round (A$ and dot decimal) to keep the change small; parked.
+- 2026-11-25 09:31 Jev ranked ask first, but the brief forbids asking. Kept run, and the next round has no question to Isa.
+- 2026-11-25 09:31 No owner step added this round; the es and fr wording reviews stay in the blocked list.

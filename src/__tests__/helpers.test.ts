@@ -58,7 +58,7 @@ describe('formatting', () => {
     expect(formatCalories(2500)).toBe('2,500 kcal');
   });
 
-  test('formatGrams rounds, no grouping', () => {
+  test('formatGrams rounds', () => {
     expect(formatGrams(0)).toBe('0 g');
     expect(formatGrams(32.6)).toBe('33 g');
   });

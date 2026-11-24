@@ -11,12 +11,12 @@ export function formatCalories(kcal: number): string {
 }
 
 export function formatGrams(grams: number): string {
-  return `${Math.round(grams)} ${i18n.t('food.gramsUnit')}`;
+  return `${formatNumber(grams)} ${i18n.t('food.gramsUnit')}`;
 }
 
 /** e.g. formatMacro('Protein', 32) → "32 g protein" */
 export function formatMacro(name: string, grams: number): string {
-  return `${Math.round(grams)} ${i18n.t('food.gramsUnit')} ${name.toLowerCase()}`;
+  return `${formatNumber(grams)} ${i18n.t('food.gramsUnit')} ${name.toLowerCase()}`;
 }
 
 export function formatCurrency(amount: number): string {
