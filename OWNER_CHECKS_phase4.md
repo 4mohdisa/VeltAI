@@ -74,3 +74,4 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] es and fr wording needs review: dashboard.energyTarget in src/lib/i18n/locales/es.json and fr.json (agent translation).
 - [ ] es and fr wording needs review: scanCards.noBreakdown in src/lib/i18n/locales/es.json and fr.json (agent translation).
 - [ ] es and fr wording needs review: the Terms health disclaimer legal.terms.healthDisclaimer in src/lib/i18n/locales/es.json and fr.json (agent translation, legal text).
+- [ ] Confirm English grams from 1,000 up now show a separator (for example 1,234 g, formatGrams and formatMacro in src/lib/formatting.ts); below 1,000 English is unchanged.

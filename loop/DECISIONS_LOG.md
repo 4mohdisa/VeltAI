@@ -10593,3 +10593,8 @@
 - 2026-11-25 09:31 formatCurrency left out of this round (A$ and dot decimal) to keep the change small; parked.
 - 2026-11-25 09:31 Jev ranked ask first, but the brief forbids asking. Kept run, and the next round has no question to Isa.
 - 2026-11-25 09:31 No owner step added this round; the es and fr wording reviews stay in the blocked list.
+- 2026-11-25 09:33 Chose Row 2.5 over the other candidates: it is small, it unblocks Row 2, and it stays inside the allowed test edits.
+- 2026-11-25 09:33 Removing goals.saved is allowed now: Isa allowed edits to tests that pin old English text, so the one assertion at goalsReset.toast.render.test.tsx:44 may change. This overrides the R168 park.
+- 2026-11-25 09:33 Kept English grouping from 1,000 up (1,234 g) because the brief asks for grouping. Logged in OWNER_CHECKS_phase4.md for Isa to confirm.
+- 2026-11-25 09:33 Gave Row 2.2 its own row line, because its notes were in Row 2's cell and the last report was flagged as partly done.
+- 2026-11-25 09:33 Did not reopen Row 2c, because the brief does not list it and the notes say ignore it.

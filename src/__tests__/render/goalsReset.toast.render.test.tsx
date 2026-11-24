@@ -1,6 +1,6 @@
 // PHASE3_ROWS.md row 15, Goals screen (src/app/profile/goals.tsx) reset toast.
 // Pressing "Reset to AI recommendation" in custom mode shows the reset message
-// from en.json (goals.resetDone), not the generic goals.saved confirmation.
+// from en.json (goals.resetDone), not a generic save confirmation.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import GoalsScreen from '@/app/profile/goals';
@@ -23,7 +23,7 @@ beforeEach(() => {
   );
 });
 
-test('the reset control shows goals.resetDone, not goals.saved', async () => {
+test('the reset control shows goals.resetDone', async () => {
   const tree = renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <GoalsScreen />
@@ -41,5 +41,5 @@ test('the reset control shows goals.resetDone, not goals.saved', async () => {
 
   const message = useToastStore.getState().current?.message;
   expect(message).toBe(en.goals.resetDone);
-  expect(message).not.toBe(en.goals.saved);
+  expect(en.goals).not.toHaveProperty('saved');
 });
