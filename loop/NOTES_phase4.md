@@ -7,13 +7,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked). Row 2b DIFFERENT.
-- R224 verified R223: tsc 0, lint 0, 15 render suites pass. R224 closed.
+- R225 done: validateOnboardingPayload messages in en, es, fr (onboardingValidation.test.ts, 31 tests). Stale header in onboarding.ts fixed.
 - Last full checkpoint R218 (269 suites, 1,595 tests). Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R225 (now): validateOnboardingPayload to i18n, stale header in onboarding.ts.
-- Then: onboarding.sessionExpired copy; CUISINE_LABEL cleanup; paywall 4xx English (paywall.tsx:99-102); preview check.
+- R226 (now): onboarding.sessionExpired copy (says finish setting up; wrong for finished users).
+- Then: CUISINE_LABEL cleanup; paywall 4xx English (paywall.tsx:99-102); preview check.
 - Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - If a round shows failures: fix first, in a small round.
 
@@ -57,9 +57,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R222: paywall strings done. es and fr are agent wording for review.
 - R223: records only. R224 verified.
 - R225: validateOnboardingPayload i18n chosen over sessionExpired copy (same file, smaller). Jev 97% run agreed.
+- R226: sessionExpired copy fix chosen next (queue order). Jev 97% run agreed.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: all onboarding screens, paywall, measurements, body type, cuisine, dietary, targets, summary, preview, done, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
+- es and fr wording review: all onboarding screens, paywall, measurements, body type, cuisine, dietary, targets, summary, preview, done, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text, onboarding.validation block.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -101,7 +102,6 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Secrets scan placeholder check is a heuristic.
 - Signup placeholders are literals.
 - Preview: cuisine and halal lines are copy only; no data check.
-- Stale header in onboarding.ts lines 3 and 4 (fixing in R225).
-- CUISINE_LABEL in cuisines.ts is unused.
-- onboarding.sessionExpired says finish setting up; wrong for users who already completed onboarding.
-- validateOnboardingPayload toasts are English (fixing in R225).
+- CUISINE_LABEL in cuisines.ts is unused; the English label field may be unused too.
+- Paywall 4xx toast shows the server's English message (paywall.tsx:99-102).
+- Row 2b note has a stale 'Still open on the paywall' sentence; a later records round may drop it.

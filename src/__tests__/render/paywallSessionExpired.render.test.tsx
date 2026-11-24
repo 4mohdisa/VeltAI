@@ -8,7 +8,10 @@ import { router } from 'expo-router';
 import { showToast } from '@/components/display';
 import { ApiError } from '@/lib/api';
 import { registerSignOutExecutor } from '@/lib/auth/signOutSeam';
+import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
+import fr from '@/lib/i18n/locales/fr.json';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { act, buttonWithTitle, renderScreen } from './helpers';
 
@@ -67,6 +70,12 @@ beforeEach(() => {
   useOnboardingStore.getState().setGoal('lose');
 });
 
+afterEach(async () => {
+  await act(async () => {
+    await i18n.changeLanguage('en');
+  });
+});
+
 afterAll(() => registerSignOutExecutor(null));
 
 test('an expired session ends the Clerk session, keeps the answers and opens sign-in mode', async () => {
@@ -87,4 +96,29 @@ test('a network failure still shows the connection message and stays put', async
   expect(showToast).toHaveBeenCalledWith({ message: CONNECTION_MESSAGE, tone: 'error' });
   expect(router.push).not.toHaveBeenCalled();
   expect(mockSignOut).not.toHaveBeenCalled();
+});
+
+// The same toast reaches users who already finished onboarding (launch gate),
+// so the copy must not mention finishing setup.
+test('the expired-session copy is true for any signed-in user', () => {
+  expect(en.onboarding.sessionExpired).toBe('Your session ended. Sign in again to continue.');
+});
+
+test.each([
+  ['es', es],
+  ['fr', fr],
+])('%s: the expired-session toast is translated', async (lng, locale) => {
+  await act(async () => {
+    await i18n.changeLanguage(lng);
+  });
+  mockPost.mockRejectedValueOnce(new ApiError(401, 'invalid token'));
+  const tree = renderScreen(<PaywallScreen />);
+  await act(async () => {
+    (buttonWithTitle(tree, locale.onboarding.measurements.continue)!.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+
+  expect(locale.onboarding.sessionExpired).not.toBe(en.onboarding.sessionExpired);
+  expect(showToast).toHaveBeenCalledWith({ message: locale.onboarding.sessionExpired, tone: 'info' });
+  expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: en.onboarding.sessionExpired }));
 });

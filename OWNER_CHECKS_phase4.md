@@ -64,3 +64,5 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Review R224 fr wording for onboarding.validation.goalMissing: 'Choisissez votre objectif avant de terminer la configuration.' (agent translation).
 - [ ] Review R224 es wording for onboarding.validation.targetWeight: 'Tu peso objetivo no parece correcto — revísalo antes de terminar la configuración.' (agent translation).
 - [ ] Review R224 fr wording for onboarding.validation.targetWeight: 'Votre poids cible semble incorrect — vérifiez-le avant de terminer la configuration.' (agent translation).
+- [ ] Review R226 es wording for onboarding.sessionExpired: 'Tu sesión ha terminado. Vuelve a iniciar sesión para continuar.' (agent translation).
+- [ ] Review R226 fr wording for onboarding.sessionExpired: 'Votre session a pris fin. Reconnectez-vous pour continuer.' (agent translation).
