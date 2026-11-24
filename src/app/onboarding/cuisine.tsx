@@ -1,6 +1,7 @@
 // Cuisine — multi-select 2-col grid of emoji tiles. Drives which foods the
 // backend pre-seeds; at least one is required to continue.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { CUISINE_OPTIONS } from '@/components/onboarding/cuisines';
@@ -14,6 +15,7 @@ import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { CuisineType } from '@/lib/types';
 
 export default function CuisineScreen() {
+  const { t } = useTranslation();
   const cuisines = useOnboardingStore((s) => s.cuisines);
   const setCuisines = useOnboardingStore((s) => s.setCuisines);
 
@@ -28,11 +30,11 @@ export default function CuisineScreen() {
     <OnbScaffold
       step={3}
       scroll
-      title="What do you usually eat?"
-      subtitle="Select all that apply"
+      title={t('onboarding.cuisine.title')}
+      subtitle={t('onboarding.cuisine.subtitle')}
       footer={
         <Button
-          title="Continue"
+          title={t('onboarding.measurements.continue')}
           disabled={cuisines.length === 0}
           onPress={() => navigate('/onboarding/dietary')}
         />
@@ -41,6 +43,7 @@ export default function CuisineScreen() {
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.md }}>
         {CUISINE_OPTIONS.map((c) => {
           const selected = cuisines.includes(c.value);
+          const label = t(`onboarding.cuisine.options.${c.value}`);
           const fg = selected ? color.white : color.label;
           return (
             <Pressable
@@ -48,7 +51,7 @@ export default function CuisineScreen() {
               onPress={() => toggle(c.value)}
               haptic={false}
               minTapTarget={false}
-              accessibilityLabel={c.label}
+              accessibilityLabel={label}
               accessibilityState={{ selected }}
               style={{
                 width: '47%',
@@ -64,7 +67,7 @@ export default function CuisineScreen() {
             >
               <Text variant="title3">{c.emoji}</Text>
               <Text variant="bodyMedium" color={fg}>
-                {c.label}
+                {label}
               </Text>
             </Pressable>
           );

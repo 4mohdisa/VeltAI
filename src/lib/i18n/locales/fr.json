@@ -1185,6 +1185,20 @@
       "overweightDesc": "Plus de graisse corporelle, envie de perdre du poids",
       "muscular": "Musclé / Athlétique",
       "muscularDesc": "Bonne musculature, axé sur la performance"
+    },
+    "cuisine": {
+      "title": "Que mangez-vous habituellement ?",
+      "subtitle": "Sélectionnez tout ce qui s'applique",
+      "options": {
+        "south_asian": "Asie du Sud",
+        "east_asian": "Asie de l'Est",
+        "southeast_asian": "Asie du Sud-Est",
+        "middle_eastern": "Moyen-Orient",
+        "mediterranean": "Méditerranéenne",
+        "western": "Occidentale / Australienne",
+        "african": "Africaine",
+        "latin_american": "Latino-américaine"
+      }
     }
   },
   "signup": {

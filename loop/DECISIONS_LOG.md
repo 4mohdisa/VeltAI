@@ -10477,3 +10477,7 @@
 - 2026-11-25 08:45 This round is a checkpoint: full Jest and lint run after the screen change, because the notes set R210 as a full Jest checkpoint.
 - 2026-11-25 08:45 Asked the agent to verify and add the paywall and signup 401 simulator checks to OWNER_CHECKS_phase4.md, as the notes flagged them as missing. Append only.
 - 2026-11-25 08:45 Parked the rename of the local variable t in measurements.tsx for a later tidy round, to keep this round to one screen.
+- 2026-11-25 08:47 Chose cuisine over the report's suggested targets screen, because the notes set the order cuisine, dietary, targets, preview, done, paywall and the order was set at R210.
+- 2026-11-25 08:47 Skipped the handover item about the signup SESSION_ENDED dispatch: the notes record it as already done (R207).
+- 2026-11-25 08:47 Kept the one-screen-per-round rule and the R209 rule: reuse common keys only where the wording matches exactly.
+- 2026-11-25 08:47 Kept es and fr wording as the agent's own translation, flagged for Isa's review, as in R194 and R210.

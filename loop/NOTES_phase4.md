@@ -8,13 +8,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, 1d activity, 1d measurements (R209, en/es/fr, 37 keys), OnbScaffold 'Go back' uses common.goBack, 401 handling on paywall, signup and launch gate, answers survive expired session.
-- R204 checkpoint green: tsc 0 errors, lint exit 0, Jest 266 suites and 1,564 tests.
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, 1d activity, 1d measurements, 1d body type (R210, en/es/fr). OnbScaffold, 401 handling on paywall, signup and launch gate, answers survive expired session. Signup SESSION_ENDED done (R207).
+- R210 checkpoint green: tsc 0 errors, lint exit 0, Jest 268 suites and 1,579 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R210 (now): 1d body type strings (en, es, fr). Checkpoint: full Jest, tsc, lint.
-Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R211 (now): 1d cuisine screen strings (en, es, fr). Then 1d dietary, targets, preview, done, paywall strings (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -27,7 +26,7 @@ Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen p
 - Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u.
 - TestPG: localhost:5432, database lume_test_local. Never the ssh tunnel. Never print the URL.
 - Every prompt: Claude Code works only on loop/phase4, runs no git commit or push, states the branch rule first.
-- Onboarding i18n key style: nested onboarding.<screen> (set R210). Goal and activity keep flat keys.
+- Onboarding i18n keys nested as onboarding.<screen>. Goal and activity keep flat keys.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -54,13 +53,13 @@ Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen p
 - R199: renderScreen wrapped in AppStateProvider (approved).
 - R205: paywall 401 uses SESSION_ENDED.
 - R206: 1d split one screen per round, goal first.
-- R207: activity.tsx done. Signup SESSION_ENDED step already done per R204/R206.
-- R208: kept OnbScaffold over Jev's top pick. Shared component used by every onboarding screen.
-- R209: measurements done with common keys reused only where wording matched. Keys nested under onboarding.measurements.
-- R210: body type chosen (Jev agreed at 85%). Full Jest checkpoint this round.
+- R208: kept OnbScaffold. Shared component used by every onboarding screen.
+- R209: measurements keys nested under onboarding.measurements; common keys reused only where wording matched.
+- R210: body type nested under onboarding.bodyType (Jev agreed at 85%).
+- R211: cuisine before targets, following the R210 order.
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (incl. French ft / in and 'ans'), summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
+- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (incl. French ft / in and 'ans'), body type, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -69,10 +68,9 @@ Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen p
 - Camera string choice: plugin text vs infoPlist es/fr.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question, gain-weight or maintain goal in onboarding.
-- Simulator checks: answers survive a real Clerk expiry; signup, launch and paywall 401 routes (in OWNER_CHECKS_phase4.md).
+- Simulator checks (OWNER_CHECKS_phase4.md): answers survive a real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
 
 ## Parked
-- Simulator checks: Total tile (2.1), signup, launch and paywall 401 routes.
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
@@ -87,7 +85,7 @@ Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen p
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: cuisine, dietary, targets, preview, done, paywall strings and toasts.
+- Still hard-coded English: cuisine (R211 in progress), dietary, targets, preview, done, paywall strings and toasts.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -100,7 +98,5 @@ Then: 1d cuisine, dietary, targets, preview, done, paywall strings (one screen p
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
-- onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Signup placeholders are literals.
-- Nothing dispatches SIGNED_IN, so the auth machine stays in unknown.
-- Signup and paywall 401 routes still open sign-in without ending the Clerk session (verify; the R205 paywall fix may cover it).
+- Signup and paywall 401 routes: verify that the Clerk session ends (R205 may cover the paywall; signup needs a simulator check).

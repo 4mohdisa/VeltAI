@@ -1185,6 +1185,20 @@
       "overweightDesc": "Más grasa corporal, con ganas de perder peso",
       "muscular": "Musculoso / Atlético",
       "muscularDesc": "Buena musculatura, centrado en el rendimiento"
+    },
+    "cuisine": {
+      "title": "¿Qué sueles comer?",
+      "subtitle": "Selecciona todas las que correspondan",
+      "options": {
+        "south_asian": "Sudasiática",
+        "east_asian": "Asiática oriental",
+        "southeast_asian": "Sudeste asiático",
+        "middle_eastern": "Medio Oriente",
+        "mediterranean": "Mediterránea",
+        "western": "Occidental / Australiana",
+        "african": "Africana",
+        "latin_american": "Latinoamericana"
+      }
     }
   },
   "signup": {
