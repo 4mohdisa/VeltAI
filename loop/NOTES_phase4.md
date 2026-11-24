@@ -9,9 +9,9 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2 and 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
-- Row 13 progress: barcode failed state in detail.tsx done (R240, R241). foodDays.ts useLoggedDays error and refetch done (R243). calendar.tsx error state done (R244).
-- Next (R245): food.tsx logged-days error with Retry, with food.loggedDays.render.test.tsx (en).
-- Then: the PHASE3_ROWS.md Row 13 line, then the aliases cleanup in foodDays.ts, then the rest of Row 13.
+- Row 13: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245) all done.
+- Next: records round. Add Row 13 lines to PHASE3_ROWS.md (R245 changes), list what is left.
+- Then: remove days and loading aliases in foodDays.ts (update calendar test mock), es and fr render tests for error states, rest of Row 13.
 - Last full green checkpoint R242 (tsc 0, 272 suites, 1,661 tests).
 
 ## Order
@@ -62,7 +62,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R243: foodDays.ts error: failure keeps dates and sets error; success clears it. useHydration not moved (hydrationErrorScreens.test.ts:34 pins it in hooks.ts; import cycle).
 - R243: calendar error state limited to foodDays.ts and calendar.tsx; new es, fr strings flagged for Isa.
 - R244: calendar error reuses an existing shared error component (no new component).
-- R245: food.tsx is the next Row 13 screen; it keeps the week strip visible and shows a notice above it.
+- R245: food.tsx keeps the week strip visible and shows a notice above it. Button says 'Try again' (common.tryAgain, built into LoadFailedNotice).
+- Retry label: stays 'Try again' on every screen, because LoadFailedNotice is shared. The brief's 'Retry' wording is not used (applies to Row 13 and Row 14 retry buttons).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings, calendar strings, food.loggedDaysFailed.
@@ -82,7 +83,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Parked
 - formatCurrency hard-codes A$ and a dot decimal in every language.
-- Render tests in es and fr: Subscription, Gym tab, MacroTargetRows, failed barcode state, calendar error.
+- Render tests in es and fr: Subscription, Gym tab, MacroTargetRows, failed barcode state, calendar error, Food tab logged-days error.
 - legalParity.test.ts scans .tsx only; JSON legal text not covered by banned-claim scan.
 - authMachine.test.ts names say 'copy' but no copy is tested (tidy round).
 - consent.ts and purchases.ts use eslint-disable for the require rule.
@@ -96,8 +97,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Gotcha: Line 39 of OWNER_CHECKS_phase4.md quotes the old es sessionExpired wording. File is append only, leave it.
 
 ## Problems noticed, not fixed
-- PHASE3_ROWS.md Row 13 has no line yet for the detail.tsx barcode work, the foodDays.ts change or the calendar change (add it).
-- days and loading aliases in foodDays.ts can go once food.tsx and calendar.tsx use data and isLoading.
+- If the food-log read and the logged-days read both fail while the day has rows, two notices stack.
+- days and loading aliases in foodDays.ts can go once food.tsx and calendar.tsx use data and isLoading (calendar test mock returns only days).
 - lookupBarcodeAsync (scan.ts:409) is unused apart from scanSeam.test.ts:521.
 - English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).
 - formatStreak(0) in fr gives '0 jour'.

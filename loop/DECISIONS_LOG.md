@@ -10640,3 +10640,7 @@
 - 2026-11-25 09:50 R245: the Food tab uses LoadFailedNotice if it takes a retry action, otherwise ErrorState, and no new component is created.
 - 2026-11-25 09:50 R245: the PHASE3_ROWS.md Row 13 line and the aliases cleanup wait for later rounds to keep this prompt to one screen.
 - 2026-11-25 09:50 R245: the handover's 'next task: paywall 4xx toast' is ignored because notes R228 and R229 show it is done; the handover's row 2c next step is ignored as before.
+- 2026-11-25 09:52 Records round first: it is the recommended next step, is docs only, and it closes the Row 13 gap before more code changes.
+- 2026-11-25 09:52 Retry button label stays 'Try again' (common.tryAgain) across the app, because LoadFailedNotice is shared and changing it changes every screen. The brief's 'Retry' wording is not used. Reason: consistency and one shared component.
+- 2026-11-25 09:52 Jev's 'run' signal (76%) agrees with this choice. No reason to override.
+- 2026-11-25 09:52 Items found in the report that are not Row 13 work (the stacked notices, the aliases, the missing es and fr render tests) are listed for later rounds, not fixed now.
