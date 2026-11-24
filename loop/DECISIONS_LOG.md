@@ -10538,3 +10538,6 @@
 - 2026-11-25 09:13 Jev's 97% run agrees with the queue order, so no reason to deviate.
 - 2026-11-25 09:13 es and fr wording stays the agent's own translation and is flagged for Isa's review in OWNER_CHECKS_phase4.md.
 - 2026-11-25 09:13 Only the Row 2b note is updated this round; the status stays DIFFERENT until the wider 2b work finishes.
+- 2026-11-25 09:15 R227 is a full checkpoint: the loop flagged R226 for an unrun full suite, and the rules say full suites run on a checkpoint round. Jev ranked the checkpoint first at 96% and I agree.
+- 2026-11-25 09:15 Stale row 2b sentence removed in the same round, since it sits in the row the checkpoint updates and needs no code change.
+- 2026-11-25 09:15 Other candidates are queued after the checkpoint so a red suite is fixed before new strings are added.
