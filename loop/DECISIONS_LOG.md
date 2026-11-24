@@ -10121,3 +10121,9 @@
 - 2026-11-25 04:44 Round 128: chose candidate 1 (GymSessionButton), the last literal in src/components/domain/ and the smallest safe step. Jev ranks run at 99%, which agrees.
 - 2026-11-25 04:44 Round 128: one main file per prompt, locale JSON treated as data, so the prompt names GymSessionButton.tsx as the main file.
 - 2026-11-25 04:44 Round 128: MacroBars 'Not tracked' deferred to a later round because a test pins that literal.
+- 2026-11-25 04:45 Round 129: candidate 1 chosen (GymSessionButton logged-state render test), because the last report named it as the next step and it is small and testable. Jev ranks run at 97%, agreed.
+- 2026-11-25 04:45 Round 128 GymSessionButton wording (literal es and fr translations versus screen-reader phrasing) kept as is for Isa to review. Not blocking.
+- 2026-11-25 04:46 Round 129 prompt was rejected for not stating the loop/phase4 branch rule. Rewrote it with a branch lock at the top and a read only HEAD check before any edit.
+- 2026-11-25 04:46 Kept candidate 1 (GymSessionButton render test): it is the open next step from round 128 and Jev ranks it highest.
+- 2026-11-25 04:46 Kept the test in one new file so the prompt touches one main file, as the repo rule requires.
+- 2026-11-25 04:46 Did not run the full suite: round 129 is not a checkpoint round.
