@@ -6,14 +6,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- BUILT: 1, 12, 12b, 29. Verify exit 0 in round 183.
-- Migration apply test runs only in verify:migrations (duplicate removed round 186).
-- Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
-- Row 2b DIFFERENT (in progress): research done (DESIGN_REFERENCES.md). Step 1a (Welcome sign in link) done. Step 1b (signup title follows mode, Resend code, strings en/es/fr) done in round 188.
+- BUILT: 1, 12, 12b, 29.
+- Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
+- Row 2b DIFFERENT (in progress): research done. Steps 1a, 1b, 1c done (Welcome strings en/es/fr in round 189).
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then 2b step 1d (goal and activity screens), remaining 2b dead ends, Maestro flow for Welcome to signup to onboarding at the end of 2b, then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+Round 190: scoped require-rule allow for consent.ts and purchases.ts. Then 2b step 1d (goal and activity strings, after es/fr review), 2b dead ends, Maestro flow for Welcome to signup to onboarding, then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -21,7 +20,7 @@ Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then
 - No new eslint-disable in app code. setup.ts must not import expo-router at top.
 - Animated values: useState(() => new Animated.Value(x)).
 - Gym total days from the database (total_days), not the capped store.
-- i18n: keep import { use as addPlugin }. Locale JSON: json.dumps(indent=2, ensure_ascii=False) plus newline, after round trip check. One full key per sentence. Plurals _one and _other only.
+- i18n: keep import { use as addPlugin }. Locale JSON: json.dumps(indent=2, ensure_ascii=False) plus newline, after round trip check. One full key per sentence. Plurals _one and _other only. Every new string in en, es and fr.
 - Outside React: import i18n from '@/lib/i18n'. Dates: dateLocale(i18n.language).
 - Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u.
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
@@ -37,9 +36,10 @@ Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 189: Jev ranked run 99%. Chose 1c, the planned next step, one screen per prompt.
-- Round 188: Jev ranked 1b first (87%). Kept as pick: it was also the planned next row.
-- Round 187: 2b step 1 split into 1a and 1b, one screen per prompt.
+- Round 190: same blocker twice in a row. Recorded under Blocked on Isa. Picked a task with no wording dependency.
+- Round 189: Jev ranked run 99%. Chose 1c, one screen per prompt.
+- Round 188: 1b kept as pick, it was the planned row.
+- Round 187: 2b step 1 split into 1a and 1b.
 - Round 186: duplicate migration apply run removed from verify:go.
 - Round 184: migration apply test runs once, in verify:migrations.
 - Round 183: lint scope covers scripts/ before 2.5.
@@ -57,20 +57,20 @@ Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then
 - Round 123: formatDuration rounds total minutes first.
 
 ## Blocked on Isa (do not retry)
+- Welcome, signup and onboarding es and fr wording (blocked twice, round 190). Goal and activity string moves wait for this.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
-- es and fr wording of new keys (summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, signup.* and welcome keys).
+- es and fr wording of summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
 - Whether es and fr should ever be shown (app is English only).
 - goals.saved removal. Prettier. Scoped eslint allow confirmation.
 - App Store privacy label answers and account data declaration.
 - Camera string choice: plugin text vs es/fr strings in src/lib/i18n/infoPlist.
 - Push loop/phase4 and confirm CI runs green on GitHub.
-- Design question: add a training-days question, and a gain-weight or maintain goal to onboarding?
+- Design question: training-days question, gain-weight or maintain goal in onboarding?
 
 ## Parked
 - Row 2.1 simulator check of Total tile (owner check).
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
-- consent.ts:52, purchases.ts:63 and :173 use eslint-disable for require rule; move to scoped allow.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
@@ -81,9 +81,10 @@ Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
 - Commented setup in TestPG files repeats shim SQL; point at supabase_shims.sql.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
-- Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
+- Root config files and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
-- Onboarding: goal and activity screens hard-coded English (Welcome in 1c). Two dead ends need device check (Back after resume, Back to signup while signed in). Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Input placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: goal and activity screens hard-coded English. Two dead ends need device check. Session expiry shows misleading connection error. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders 'you@example.com' and '123456' are literals. Unmapped Clerk error codes show Clerk's English text.
+- Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -99,11 +100,10 @@ Round 189: 2b step 1c (Welcome headline, subline, Get Started to en/es/fr). Then
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
 - signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
-- Verify:go has no -count=1, so Go can reuse cached results (parked for later).
-- Round 187 locale file diff not confirmed (no git); key presence and JSON parse checked in round 188.
-- Round 188 signup es and fr wording is my own translation, not reviewed.
+- Verify:go has no -count=1, so Go can reuse cached results (parked).
+- Round 188 signup es and fr wording is my own translation, not reviewed. Same for Welcome es and fr (round 189).
 
 ## Next
-- Round 189: 2b step 1c, Welcome strings to en, es, fr with a render test.
-- Round 190: 2b step 1d, goal and activity onboarding screens.
+- Round 190: scoped require-rule allow for consent.ts and purchases.ts (no wording needed).
+- Then 2b step 1d once es/fr review is in, or a non-wording 2b dead end.
 - Full Jest checkpoint at the next checkpoint round.

@@ -14,4 +14,18 @@ module.exports = defineConfig([
       "@typescript-eslint/no-require-imports": ["warn", { allow: ["^posthog-react-native$"] }],
     },
   },
+  {
+    // react-native is required lazily so the node-env Jest suites can import this module.
+    files: ["src/lib/ai/consent.ts"],
+    rules: {
+      "@typescript-eslint/no-require-imports": ["warn", { allow: ["^react-native$"] }],
+    },
+  },
+  {
+    // Optional native modules: a static import would crash Expo Go.
+    files: ["src/lib/billing/purchases.ts"],
+    rules: {
+      "@typescript-eslint/no-require-imports": ["warn", { allow: ["^react-native-purchases(-ui)?$"] }],
+    },
+  },
 ]);

@@ -49,7 +49,6 @@ export async function ensureAiConsent(): Promise<boolean> {
   if (await hasAiConsent()) return true;
   // Lazy require: this module is imported by the (node-env) jest suites via
   // resetRegistry; react-native must not load at module scope there.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports -- see above
   const { Alert } = require('react-native') as typeof import('react-native');
   return new Promise((resolve) => {
     Alert.alert(

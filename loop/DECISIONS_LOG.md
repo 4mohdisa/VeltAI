@@ -10374,3 +10374,6 @@
 - 2026-11-25 06:23 Full Jest suite skipped this round; only changed and directly related files, since this is not a checkpoint round.
 - 2026-11-25 06:23 Simulator check skipped this round because the change is string-only; the Maestro flow for 2b is planned at the end of the row.
 - 2026-11-25 06:23 Recorded Jev's risk reading (1.0 of 2) as a reason to keep the task small rather than as an instruction.
+- 2026-11-25 06:24 Round 190: the same blocker came back twice (es/fr wording of the Welcome and signup keys). Recorded under Blocked on Isa. Not retried.
+- 2026-11-25 06:24 Round 190: picked the scoped require-rule allow. It needs no new wording, so it does not depend on the blocked es/fr review. Jev ranked the same kind of task first, so no second look.
+- 2026-11-25 06:24 Round 190: goal and activity string moves wait for the es/fr review, because every new string needs en, es and fr.

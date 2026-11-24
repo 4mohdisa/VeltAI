@@ -60,7 +60,6 @@ function loadModule(): PurchasesModule | null {
   if (purchasesModule) return purchasesModule;
   if (!REVENUECAT_IOS_KEY) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- optional native module; static import would crash Expo Go
     const mod = require('react-native-purchases');
     purchasesModule = (mod.default ?? mod) as PurchasesModule;
     return purchasesModule;
@@ -170,7 +169,6 @@ function loadUIModule(): PurchasesUIModule | null {
   if (uiModule) return uiModule; // injected (tests) or already loaded
   if (!REVENUECAT_IOS_KEY) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- optional native module; static import would crash Expo Go
     const mod = require('react-native-purchases-ui');
     uiModule = (mod.default ?? mod) as PurchasesUIModule;
     return uiModule;
