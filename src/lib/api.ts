@@ -1261,8 +1261,7 @@ export const api = {
             engaged: false,
             generated_at: now.toISOString(),
           } satisfies MorningBrief;
-        })
-        .catch(() => null),
+        }),
     // No PATCH endpoint exists server-side — best-effort no-ops.
     markBriefShown: (_id: string): Promise<void> => Promise.resolve(),
     markBriefEngaged: (_id: string): Promise<void> => Promise.resolve(),
@@ -1299,7 +1298,7 @@ export const api = {
     // Maps GET /api/ai/brain (the real endpoint; the task's /api/ai/profile
     // doesn't exist) → AIBrainProfile, honouring the not_enough_data state.
     getProfile: (): Promise<AIBrainProfile | null> =>
-      req.get<AiBrain>('/api/ai/brain').then(mapBrainToProfile).catch(() => null),
+      req.get<AiBrain>('/api/ai/brain').then(mapBrainToProfile),
 
     // 503 (ANTHROPIC_API_KEY unset) throws an ApiError the caller inspects.
     query: (question: string, screen?: string): Promise<AiAnswer> =>

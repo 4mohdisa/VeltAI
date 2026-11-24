@@ -1,7 +1,7 @@
 // AI brain data hooks — the seam between the AI screens and the backend. Every
-// hook tries the API on mount and degrades to an empty/null state on any
-// failure (no throws), so the screens render their empty/loading/not-enough-data
-// states with or without a backend. See src/lib/api ai.* for the endpoint
+// hook tries the API on mount; a failed read leaves the empty/null state and
+// sets isError (no throws), so the screens still render their
+// empty/loading/not-enough-data states with or without a backend. See src/lib/api ai.* for the endpoint
 // reconciliation (anomalies + PATCH mark-shown/engaged have no server route and
 // resolve to empty/no-op).
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -14,9 +14,10 @@ import { handleUpgradeRequired } from '@/lib/billing/upgradePrompt';
 /** Today's morning brief, or null when there's none / not enough data. Marks it
  *  shown (best-effort) once fetched. Fetches NOTHING until the one-time
  *  third-party-AI consent has been given (5.1.2(i)) — the card renders null. */
-export function useMorningBrief(): { brief: MorningBrief | null; loading: boolean } {
+export function useMorningBrief(): { brief: MorningBrief | null; loading: boolean; isError: boolean } {
   const [brief, setBrief] = useState<MorningBrief | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -30,6 +31,9 @@ export function useMorningBrief(): { brief: MorningBrief | null; loading: boolea
         setBrief(b);
         void api.ai.markBriefShown(b.id); // best-effort, no-op today
       })
+      .catch(() => {
+        if (active) setIsError(true);
+      })
       .finally(() => {
         if (active) setLoading(false);
       });
@@ -38,7 +42,7 @@ export function useMorningBrief(): { brief: MorningBrief | null; loading: boolea
     };
   }, []);
 
-  return { brief, loading };
+  return { brief, loading, isError };
 }
 
 type DismissType = 'insight' | 'anomaly';
@@ -97,9 +101,11 @@ export function useBrainProfile(): {
   profile: AIBrainProfile | null;
   loading: boolean;
   notEnoughData: boolean;
+  isError: boolean;
 } {
   const [profile, setProfile] = useState<AIBrainProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -107,6 +113,9 @@ export function useBrainProfile(): {
       .getProfile()
       .then((p) => {
         if (active) setProfile(p);
+      })
+      .catch(() => {
+        if (active) setIsError(true);
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -117,7 +126,7 @@ export function useBrainProfile(): {
   }, []);
 
   const notEnoughData = profile === null || profile.not_enough_data === true;
-  return { profile, loading, notEnoughData };
+  return { profile, loading, notEnoughData, isError };
 }
 
 /** One-shot AI query. `ask` resolves the answer text (or a friendly message);

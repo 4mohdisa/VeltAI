@@ -6,11 +6,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 98: loop flagged round 97 as partly done. Fixing TestPG count mismatch (21/22 to 24) in BASELINE_phase4.md, PHASE4_ROWS.md row 1 notes and KNOWN_ISSUES.md. Doc only.
+- Round 99: Row 2.2 item 1, getMorningBrief and getProfile error swallowing. Backend first, app only if a test breaks.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1 total gym days: code done, simulator check parked.
-  - 2.2 lint sweep done. TestPG progress fix done (24 of 24 pass). Backend items open.
-  - 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
+  - 2.2 lint sweep done. TestPG 24 of 24 pass. Backend items open: error swallowing (in progress), feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
+  - 2.3 Row 13 and 14 items. 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks. Never overwrite or empty it. Append only.
 
@@ -21,7 +21,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
 - TestPG database: localhost:5432, database lume_test_local (Row 1 decision). Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
-- TestPG count is 24 (verified round 97). Round 98 corrected stale 21/22 references.
+- TestPG count is 24 (verified round 97). Historical baseline lines 21 and 31 stay as recorded; line 32 holds the 24 result. Row 1 'what to do' cell stays as the original brief.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
@@ -42,9 +42,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - String changes wait for a string round (2.3).
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
 - A round that changes nothing still runs the gates and reports the exact output.
-- Row 2.2 closes only when every backend item below is done. Do not close it on lint alone.
+- Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk 1.5 of 2: keep steps small, check gates each round.
+- Jev risk 1.2 of 2: keep steps small, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 
 ## Done
@@ -54,6 +54,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 38-39: history.tsx gym session read limited (7-day window).
 - Round 96: schedule_pg.go GetExerciseProgress keeps newest N, returns oldest first. TestPG_ExerciseProgressLimitKeepsNewest written.
 - Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped. Progress bug entry removed from KNOWN_ISSUES.md.
+- Round 98: doc-only TestPG count fix (24) in BASELINE_phase4.md, PHASE4_ROWS.md row 1 notes and KNOWN_ISSUES.md. tsc 0 errors.
 - Checkpoints 44, 60, 75, 76, 90: tsc and Jest green (242 suites, 1,402 tests).
 
 ## Blocked on Isa
@@ -63,8 +64,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 98 (in progress): TestPG count fix in docs, grep, tsc.
-- Then Row 2.2 backend: 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
+- Round 99: getMorningBrief and getProfile error paths (backend, then app test only if it breaks).
+- Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
 - Then 2.3 (translations and Retry, i18n header comments, DailyMacroRing.tsx:96 'of' to nutrition.ringOf), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
 
@@ -78,7 +79,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - i18n index.ts header comments are out of date (Row 2.3).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Prettier has no repo config. Not a gate. Decide in Row 29.
-- KNOWN_ISSUES.md Backend entries said 'Not a Phase 3 row' (fixing in round 98).
+- KNOWN_ISSUES.md App section line 36 still says 'Not a Phase 3 row'. Backend Phase 3 wording to clean in 2.2 docs pass.
+- 'Phase 4 (out of scope)' section header in KNOWN_ISSUES.md clashes with the file's Phase 4 header.
 - If a render test adds jest.resetModules, the shared unmountAll misses trees created after the reset.
 - Nothing tests refetch in useWeeklyMacros.
 - DailyMacroRing.tsx:96 shows 'of' in English only; nutrition.ringOf exists.

@@ -9996,3 +9996,7 @@
 - 2026-11-25 03:57 Jev said run at 99% with high confidence, so I kept the run. Its risk score is 1.0 of 2, and the task is documentation only, so the risk is low.
 - 2026-11-25 03:57 Kept the step count at 5 and no code changes so the round stays small and the type check can confirm nothing broke.
 - 2026-11-25 03:57 Recorded the 24 count as dated 25 Nov 2026, the date in the last report, rather than inventing a new one.
+- 2026-11-25 03:58 Round 98 closed as a doc fix: TestPG count is 24 in the notes and KNOWN_ISSUES; no further edits to historical baseline lines 21 and 31 (they record what was true at the time, line 32 holds the 24 result).
+- 2026-11-25 03:58 Row 1 'what to do' cell left as the original brief wording (21 skipped TestPG tests); it is the spec, not a status. Row 1 stays BUILT.
+- 2026-11-25 03:58 Chose the smallest backend 2.2 item first (error swallowing) because it is contained, testable with mocks, and unblocks the rest of 2.2.
+- 2026-11-25 03:58 Did not ask Isa about the baseline wording; it does not block any row.

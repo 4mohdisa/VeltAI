@@ -746,3 +746,44 @@ func TestConsentIsPerUser(t *testing.T) {
 		t.Fatalf("non-consenting user allowed: %d", w.Code)
 	}
 }
+
+type erroringBrainStore struct{ *fakeStore }
+
+func (e *erroringBrainStore) GetBrain(context.Context, string) (*ai.Brain, error) {
+	return nil, errors.New("connection reset")
+}
+
+// A failed store read on the brain and morning-brief routes is a 500 with an
+// error envelope, never a 200 the client would read as empty.
+func TestBriefAndBrainReadErrors(t *testing.T) {
+	failingLogs := fullStore()
+	failingLogs.failFoodLogsFor = "user_1"
+	cases := []struct {
+		name     string
+		st       ai.Store
+		path     string
+		wantCode int
+	}{
+		{"brain store error", &erroringBrainStore{fullStore()}, "/api/ai/brain", http.StatusInternalServerError},
+		{"brain success", fullStore(), "/api/ai/brain", http.StatusOK},
+		{"morning brief store error", failingLogs, "/api/ai/morning-brief", http.StatusInternalServerError},
+		{"morning brief success", fullStore(), "/api/ai/morning-brief", http.StatusOK},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			w := do(t, newMux(tc.st, &fakeLLM{err: ai.ErrUnavailable}, fixedNow), http.MethodGet, tc.path, nil, "user_1")
+			if w.Code != tc.wantCode {
+				t.Fatalf("status = %d, want %d (body: %s)", w.Code, tc.wantCode, w.Body.String())
+			}
+			var env struct {
+				Error *string `json:"error"`
+			}
+			if err := json.Unmarshal(w.Body.Bytes(), &env); err != nil {
+				t.Fatalf("decode envelope: %v", err)
+			}
+			if gotErr := env.Error != nil; gotErr != (tc.wantCode != http.StatusOK) {
+				t.Fatalf("error field = %v, want set only on failure", env.Error)
+			}
+		})
+	}
+}

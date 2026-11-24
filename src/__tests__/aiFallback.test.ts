@@ -1,6 +1,6 @@
-// The ai.* client functions carry the "degrade to null/empty" logic the AI hooks
-// rely on (the backend doesn't expose every endpoint). These verify that intent
-// without rendering a hook.
+// The ai.* client functions: real endpoints reject with ApiError on failure,
+// and only the endpoints the backend doesn't expose degrade to empty. These
+// verify that intent without rendering a hook.
 import { api, ApiError } from '@/lib/api';
 
 function mockFetch(impl: () => { ok: boolean; status: number; json: () => Promise<unknown> }) {
@@ -23,9 +23,9 @@ describe('ai fallbacks', () => {
     expect(b?.brief).toBe('Eat more protein today.');
   });
 
-  test('getMorningBrief returns null on error (does not throw)', async () => {
+  test('getMorningBrief rejects with ApiError on error, not null', async () => {
     mockFetch(fail);
-    await expect(api.ai.getMorningBrief()).resolves.toBeNull();
+    await expect(api.ai.getMorningBrief()).rejects.toBeInstanceOf(ApiError);
   });
 
   test('getInsights rejects with ApiError on error, not an empty list', async () => {
@@ -45,9 +45,9 @@ describe('ai fallbacks', () => {
     await expect(api.ai.getAnomalies()).resolves.toEqual([]);
   });
 
-  test('getProfile returns null on error', async () => {
+  test('getProfile rejects with ApiError on error, not null', async () => {
     mockFetch(fail);
-    await expect(api.ai.getProfile()).resolves.toBeNull();
+    await expect(api.ai.getProfile()).rejects.toBeInstanceOf(ApiError);
   });
 
   test('getProfile honours not_enough_data', async () => {
