@@ -9867,3 +9867,7 @@
 - 2026-11-25 03:19 Kept the router swap pattern from onboardingDone (top-level import, no disable comment) for consistency.
 - 2026-11-25 03:19 Deferred string changes (DailyMacroRing 'of', i18n header comments) to a string round, per the rule in the notes.
 - 2026-11-25 03:19 Parked nothing new this round. The 2.1 simulator check and the Isa decision on the E2E gym account stay in OWNER_CHECKS_phase4.md.
+- 2026-11-25 03:20 Chose the router swap for onboardingIndex because the latest report recommends it and Jev's risk is moderate, so one small file is the safer step.
+- 2026-11-25 03:20 Kept the lint sweep ahead of the Row 2.2 backend and Row 2.3 string work, matching the order set in the notes.
+- 2026-11-25 03:20 Deferred the DailyMacroRing 'of' string fix to a string round, as the notes require.
+- 2026-11-25 03:20 Kept the rule that prompts touch one file each and that the loop script commits, so Claude Code is told not to commit.

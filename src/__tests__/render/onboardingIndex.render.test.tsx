@@ -3,6 +3,7 @@
 // navigation chooser), so only expo-router's router (already mocked in
 // src/__tests__/render/setup.ts) stands in for the real navigator.
 import WelcomeScreen from '@/app/onboarding/index';
+import { router } from 'expo-router';
 import { allText, buttonWithTitle, renderScreen } from './helpers';
 
 test('shows the welcome headline', () => {
@@ -12,8 +13,7 @@ test('shows the welcome headline', () => {
 
 test('pressing Get Started routes to /onboarding/goal', () => {
   const tree = renderScreen(<WelcomeScreen />);
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
-  router.push.mockClear();
+  (router.push as jest.Mock).mockClear();
 
   (buttonWithTitle(tree, 'Get Started')!.props.onPress as () => void)();
   expect(router.push).toHaveBeenCalledWith('/onboarding/goal');
