@@ -1,5 +1,7 @@
 import '@/lib/i18n';
 
+import { unmountAll } from './helpers';
+
 // Render-test setup. These tests mount real React Native components through
 // react-test-renderer (jest-expo preset), so they exercise the actual JSX
 // branches — unlike the node-env suite, which can only read source text.
@@ -56,7 +58,5 @@ beforeEach(() => {
 // subscribed to the zustand stores and keeps writing to them, which poisons
 // the next test's fixture.
 afterEach(() => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { unmountAll } = require('./helpers') as { unmountAll: () => void };
   unmountAll();
 });

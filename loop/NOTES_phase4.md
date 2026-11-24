@@ -6,8 +6,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 88 done (verified in round 90 report: tsc 0 errors, render 166 suites / 536 tests pass).
-- Round 90 (now): checkpoint. Full tsc and full app Jest, no edits. Report failures only.
+- Round 90 done: checkpoint green (tsc 0 errors, 242 suites, 1,402 tests, saved to /tmp/lume_jest_checkpoint.txt).
+- Round 91 (now): render/setup.ts afterEach require('./helpers') to top-level import. One file.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
@@ -38,23 +38,23 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - A required require keeps one reasoned eslint-disable-next-line comment. No new eslint-disable comments in app code.
 - analyticsSink.ts:29 keeps its lazy require. Accepted 1 warning. Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
-- One file per round for lint swaps. Full suite on checkpoint rounds (90, 105, ...).
+- One file per round for lint swaps. Full suite on checkpoint rounds (105, 120, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - String changes wait for a string round (2.3).
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc, a grep and the render project if no test file changed status.
 - A round that changes nothing still runs the gates and reports the exact output.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk moderate to high: keep steps to one file and check gates each round.
+- Jev risk high (0.9 of 2): keep steps to one file and check gates each round.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
-- Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
+- Rounds 44, 60, 75, 76, 90 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
 - Rounds 45-87: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; settingsHelp uses jest.fn.
 - Round 88: analyticsSink warning recorded as accepted in KNOWN_ISSUES.md; TestPG count fixed to 21; KNOWN_ISSUES header Phase 4.
-- Round 89: verification only, render 166 suites / 536 tests pass, KNOWN_ISSUES grep clean.
+- Round 89: verification only, render 166 suites / 536 tests pass.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md.
@@ -63,8 +63,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 90: checkpoint result pending (full tsc and full Jest). If red, round 91 fixes the failing suites first.
-- Round 91: render/setup.ts afterEach require('./helpers'): check early load is safe, verify with `npx jest --selectProjects render`.
+- Round 91: render/setup.ts afterEach require('./helpers') to top-level import. Verify with tsc and `npx jest --selectProjects render`. If it breaks, revert.
 - Then DailyMacroRing.tsx:96 'of' to nutrition.ringOf (string round, 2.3).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings, or one shared expo-camera mock.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
@@ -76,7 +75,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - ssh tunnel on 127.0.0.1:55432: unknown target. Isa should confirm before the AFCD importer runs.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
-- React act warnings from ScanReviewCard, 'API unreachable' warning from hooks.ts (devWarn output in render logs), logged stack trace in photoScan.render. Look at them in Row 22.
+- React act warnings from ScanReviewCard, 'API unreachable' devWarn from src/lib/data/hooks.ts:72 in render logs, logged stack trace in photoScan.render. Look at them in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
 - i18n index.ts header says French is 'intentionally partial' and lng says 'picker was removed'. Check against locale files (Row 2.3).
 - The history test assertion hardcodes isoDaysAgo(6) because DAYS isn't exported.
@@ -84,4 +83,4 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - No test for refetch in useWeeklyMacros (src/lib/data/hooks.ts).
 - DailyMacroRing.tsx:96 shows 'of' in English only.
 - KNOWN_ISSUES.md has a section '## Phase 4 (out of scope)' that should be renamed to 'Parked for later'.
-- KNOWN_ISSUES.md header and the TestPG count must match the real run (21 tests).
+- KNOWN_ISSUES.md TestPG count must match the real run (21 tests). Line 40 still says 20: fix in the 2.2 docs step.
