@@ -10322,3 +10322,6 @@
 - 2026-11-25 05:55 Round 176: Row 12a uses app.json ios.privacyManifests when there is no ios/ folder, since the app is configured through Expo config.
 - 2026-11-25 05:55 Round 176: HealthKit and notification usage strings are left for rows 11 and 10. Reason: those features are not built yet.
 - 2026-11-25 05:55 Round 176: Jev's advisory run signal agrees with the Row 12 order in the notes. No override.
+- 2026-11-25 06:00 Round 177: chose the checkpoint over Row 12b. The loop flagged the Row 12a report as only partly done, and a full tsc and Jest run is the only check that covers the whole 12a change before a script is built on it. Jev's 97% for 12b did not account for this flag. The Expo config and five Jest files were checked, but not the full suite, and the productName test failed once during the round.
+- 2026-11-25 06:00 Round 177: this round changes no files, per the loop note. Failures are recorded for the next round to fix.
+- 2026-11-25 06:00 Round 176: privacy manifest placed in app.json (ios.privacyManifests), not ios/PrivacyInfo.xcprivacy, because /ios is git ignored prebuild output.
