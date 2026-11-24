@@ -9678,3 +9678,6 @@
 - 2026-11-25 02:20 Tile now reads the server total through the mapper default, so no tile file changes are needed in this round.
 - 2026-11-25 02:20 No simulator flow for this round: data wiring only, no layout change. Simulator check goes in the Row 2.1 close round.
 - 2026-11-25 02:20 Lint error at hooks.ts:405 and food/history.tsx:66 stay in the Row 2.2 queue, as recorded before.
+- 2026-11-25 02:21 Round 17 touches mappers.ts and its test together because the signature change and its 5 calls must land in one step to keep the gates green.
+- 2026-11-25 02:21 Kept the existing set-state-in-effect lint error out of scope; it belongs to Row 2.2.
+- 2026-11-25 02:21 Chose the planned round 17 step over the Row 2.2 candidates because Jev rated run at 100 percent and the step is already scoped to two files.

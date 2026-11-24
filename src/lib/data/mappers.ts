@@ -226,12 +226,12 @@ export const sessionsFromApi = (rows: ApiGymSession[]): GymSession[] =>
     notes: r.notes ?? undefined,
   }));
 
-export const streakFromApi = (row: GymStreak, prev: Streak, totalGymDays = row.total_days): Streak => ({
+export const streakFromApi = (row: GymStreak): Streak => ({
   current: row.current_streak,
   longest: row.longest_streak,
   // The server counts distinct session dates over all of the user's sessions,
   // so the "Total" tile no longer depends on how many sessions the app fetched.
-  totalGymDays,
+  totalGymDays: row.total_days,
   freezesAvailable: row.freeze_used ? 0 : 1, // one freeze per streak (backend semantics)
   gymLoggedToday: row.last_gym_date === todayISO(),
   freezeDate: row.last_freeze_date ?? null,

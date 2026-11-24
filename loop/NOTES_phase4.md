@@ -11,8 +11,9 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 1 is BUILT.
 - Row 2 is PARTIAL. Sub steps: 2.1 total gym days, 2.2 backend and data leftovers, 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Row 2.1 backend done (GET /api/gym/streak and freeze return total_days, Go tests pass).
-- Row 2.1 app: GymStreak.total_days in src/lib/api.ts. streakFromApi in mappers.ts defaults to row.total_days.
-- Row 2.1 NOT finished: hooks.ts hydrateGym still passes a capped distinct count. Round 16 removes it (hooks.ts only). Round 17 removes prev and totalGymDays from streakFromApi and updates 5 calls in mappers.test.ts.
+- Row 2.1 app: GymStreak.total_days in src/lib/api.ts. streakFromApi defaults to row.total_days.
+- Row 2.1 hooks.ts done (round 16): hydrateGym no longer counts distinct days; it calls streakFromApi with two args.
+- Row 2.1 NOT finished: round 17 removes prev and totalGymDays from streakFromApi (mappers.ts) and drops prev from 5 calls in mappers.test.ts.
 - Rows 2c and 2d (hand built, commit e0c184d) are still DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has 5 open checks under 'Rows 2c and 2d' (AFCD licence, AFCD load per database, Gemini billing cap, LUME_TIMEZONE, read AI_COSTS.md). Never overwrite or empty it.
 
@@ -26,7 +27,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Launch soon: no major UI changes. Fix flaws and flows. Sign up, sign in, onboarding and new Phase 4 screens may be designed fresh. Use Mobbin MCP for references, log in DESIGN_REFERENCES.md, never copy real apps. Big visual ideas go to OWNER_CHECKS_phase4.md as post launch UI items.
 - Row 14a feedback chips in every profile, production included. Row 14b design intent audit: flows and defaults only.
 - Rows 2c and 2d are extra rows, BUILT only after their tests pass.
-- Prompts ask for one screen, component or file each. Multi part work is split into rounds.
+- Prompts ask for one screen, component or file each. Multi part work is split into rounds. A signature change and its test file may go together in one round.
 - Prompts have at most 5 numbered steps (loop rule).
 - Progress line counts all 36 table rows.
 - When Jev confidence is low or risk is high, prefer the smaller task.
@@ -36,7 +37,6 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 1 TestPG count is 21 (round 9).
 - Row 2.1 total gym days comes from the database (total_days), not from the capped store. A correct total beats the cap (round 12).
 - Row 2 sub steps are named 2.1 to 2.5 so they do not clash with rows 2b, 2c, 2d (round 12).
-- Round 14 and 15: multi file or partial rounds were left unfinished. Round 16 touches one file only.
 
 ## Done
 - Rounds 1-2: row list prompts rejected (too many components).
@@ -49,6 +49,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 13: GymStreak.total_days added in src/lib/api.ts, fixtures updated.
 - Round 14: streakFromApi default changed to row.total_days; mapper test updated.
 - Round 15: checkpoint, gates green, no file changes.
+- Round 16: hooks.ts distinct count removed, two-arg streakFromApi call. tsc 0 errors, 31 suites and 181 tests pass.
 
 ## Blocked on Isa
 (nothing)
@@ -57,8 +58,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 (nothing)
 
 ## Next
-- Round 16 (this round): hooks.ts only. Delete the distinct count and pass two arguments to streakFromApi. Run tsc and the hook related tests.
-- Round 17: mappers.ts remove prev and totalGymDays from streakFromApi. Update the 5 calls in src/__tests__/mappers.test.ts. Run tsc and changed tests.
+- Round 17 (this round): mappers.ts remove prev and totalGymDays from streakFromApi. Update the 5 calls in src/__tests__/mappers.test.ts. Adjust hooks.ts call only if the signature needs it. Run tsc and changed tests.
 - Round 18: Row 2.1 close. Check the Total gym days tile in the simulator (Gym, Profile, Streak). Set 2.1 BUILT.
 - Then Row 2.2 (Phase 3 backend and data leftovers): gym/schedule_pg.go LIMIT order (oldest first then LIMIT 30 is wrong), 49 WHERE id::text queries, getMorningBrief and getProfile error swallowing, feature_used allowlist, app_version vs build number, export as .json file, one exportData function, lint, npm audit with safe fix.
 - Then 2.3 (translations and Retry: gymRange, monthTitle, muscle cards, exercise progress, summaryCards, nutrition kcal label), 2.4 (useGoals isLoading, error, refetch, goals screen states, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted through backend, missing _one plural, goals.saved).
@@ -66,11 +66,11 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 
 ## Problems noticed, not fixed
 - food/history.tsx:66 still calls listSessions() with no limit. Fix in 2.2 or 2.5.
-- One react-hooks/set-state-in-effect lint error at src/lib/data/hooks.ts:405. Fix in 2.2 lint step.
+- One react-hooks/set-state-in-effect lint error in src/lib/data/hooks.ts (now near line 400). Fix in 2.2 lint step.
 - ssh tunnel on 127.0.0.1:55432: unknown target. The 2c/2d owner check uses this port. Isa should confirm what it reaches before running the AFCD importer.
 - Postgres runs as a brew service. Database setup (roles, schema, 18 migrations) is manual. Rows 17 and 26 should script it.
 - KNOWN_ISSUES.md line 40 still says 20 TestPG tests skip. It is 21 and they run. Fix in Row 2.5.
 - Jest prints React act(...) warnings from ScanReviewCard and an 'API unreachable' warning from src/lib/data/hooks.ts. Not failing. Look at them in Row 22.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase4.md had uncommitted changes. Left alone for the loop script.
 - Jev rated ask higher than run. Ignored (ask is not allowed).
-- Jev risk 1.0 (rounds 14 to 16): keep steps to one file and check the gates each round.
+- Jev risk 1.0 (rounds 14 to 17): keep steps to one or two files and check the gates each round.

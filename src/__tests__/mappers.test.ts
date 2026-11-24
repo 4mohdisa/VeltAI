@@ -10,7 +10,6 @@ import {
   barcodeProductFromApi,
 } from '@/lib/data/mappers';
 import type { FoodLog, GymStreak, GymSession, SavedFood, SubscriptionStatus, FoodSearchResult } from '@/lib/api';
-import type { Streak } from '@/lib/data/gymStore';
 
 function foodLog(o: Partial<FoodLog>): FoodLog {
   return {
@@ -107,9 +106,8 @@ test('mealsFromLogs leaves status undefined for a non-scan row', () => {
 });
 
 test('streakFromApi maps streak + derives gymLoggedToday/freezes', () => {
-  const prev: Streak = { current: 0, longest: 0, totalGymDays: 42, freezesAvailable: 1, gymLoggedToday: false };
   const row: GymStreak = { current_streak: 5, longest_streak: 10, last_gym_date: todayISO(), freeze_used: false, last_freeze_date: null, total_days: 37 };
-  const s = streakFromApi(row, prev);
+  const s = streakFromApi(row);
   expect(s.current).toBe(5);
   expect(s.longest).toBe(10);
   expect(s.totalGymDays).toBe(row.total_days);
@@ -117,24 +115,21 @@ test('streakFromApi maps streak + derives gymLoggedToday/freezes', () => {
   expect(s.gymLoggedToday).toBe(true);
 });
 
-test('streakFromApi takes the total from the server, not the previous value', () => {
-  const prev: Streak = { current: 0, longest: 0, totalGymDays: 200, freezesAvailable: 1, gymLoggedToday: false };
+test('streakFromApi takes the total from total_days', () => {
   const row: GymStreak = { current_streak: 0, longest_streak: 0, last_gym_date: null, freeze_used: false, last_freeze_date: null, total_days: 1234 };
-  expect(streakFromApi(row, prev).totalGymDays).toBe(1234);
+  expect(streakFromApi(row).totalGymDays).toBe(1234);
 });
 
 test('streakFromApi: a used freeze leaves 0 available', () => {
-  const prev: Streak = { current: 0, longest: 0, totalGymDays: 0, freezesAvailable: 1, gymLoggedToday: false };
-  const s = streakFromApi({ current_streak: 1, longest_streak: 1, last_gym_date: '2000-01-01', freeze_used: true, last_freeze_date: null, total_days: 0 }, prev);
+  const s = streakFromApi({ current_streak: 1, longest_streak: 1, last_gym_date: '2000-01-01', freeze_used: true, last_freeze_date: null, total_days: 0 });
   expect(s.freezesAvailable).toBe(0);
   expect(s.gymLoggedToday).toBe(false);
 });
 
 test('streakFromApi carries the active freeze day (V7: the calendar draws it on its date)', () => {
-  const prev: Streak = { current: 0, longest: 0, totalGymDays: 0, freezesAvailable: 1, gymLoggedToday: false };
-  const on = streakFromApi({ current_streak: 3, longest_streak: 3, last_gym_date: '2026-09-09', freeze_used: true, last_freeze_date: '2026-09-10', total_days: 0 }, prev);
+  const on = streakFromApi({ current_streak: 3, longest_streak: 3, last_gym_date: '2026-09-09', freeze_used: true, last_freeze_date: '2026-09-10', total_days: 0 });
   expect(on.freezeDate).toBe('2026-09-10');
-  const off = streakFromApi({ current_streak: 3, longest_streak: 3, last_gym_date: '2026-09-09', freeze_used: false, last_freeze_date: null, total_days: 0 }, prev);
+  const off = streakFromApi({ current_streak: 3, longest_streak: 3, last_gym_date: '2026-09-09', freeze_used: false, last_freeze_date: null, total_days: 0 });
   expect(off.freezeDate).toBeNull();
 });
 

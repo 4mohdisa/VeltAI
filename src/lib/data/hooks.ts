@@ -175,10 +175,10 @@ export async function hydrateGym(): Promise<void> {
     api.gym.listSessions({ limit: GYM_SESSION_HYDRATE_LIMIT }),
     api.gym.streak(),
   ]);
-  useGymStore.setState((s) => ({
+  useGymStore.setState({
     sessions: sessionsFromApi(sessions),
-    streak: streakFromApi(streak, s.streak),
-  }));
+    streak: streakFromApi(streak),
+  });
 }
 
 // --- Food log ---------------------------------------------------------------
