@@ -669,7 +669,6 @@
     "weekEatenAverage_one": "En el último {{count}} día consumiste {{value}} al día de media.",
     "weekEatenAverage_other": "En los últimos {{count}} días consumiste {{value}} al día de media.",
     "weekAverageLine": "Media de {{value}}",
-    "weekTarget": "Objetivo: {{value}}.",
     "energyTarget": "Objetivo: {{value}}.",
     "surplusVsDeficit": "Superávit vs. déficit",
     "weekNoNetTitle": "Aún sin neto",

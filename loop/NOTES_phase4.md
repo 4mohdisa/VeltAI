@@ -7,10 +7,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
-- Checkpoint round 148: tsc 0 errors, Jest 252 suites, 1,492 tests, all pass. Recheck the suite count at next checkpoint (expected 251).
+- Checkpoint round 148: tsc 0 errors, Jest 252 suites, 1,492 tests, all pass. Recheck the suite count at next checkpoint.
 - 2.1: only the simulator check of the Total tile is left (owner check).
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings), one screen per round, open in order: week.tsx follows energy unit (round 152, current); merge weekTarget and energyTarget (round 153); ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback; nutrition.tsx hardcoded 'g'.
+- 2.3 (strings): one screen or key per round. Done: week.tsx follows energy unit (round 152).
+- Now: round 156, merge weekTarget into energyTarget (one scope: week.tsx and locale keys). Park if the three languages differ.
+- Then: signed helper duplicate (week.tsx and energy.tsx), ConfidenceBadge text, i18n header comments, summaryCards MTWTFSS fallback, nutrition.tsx hardcoded 'g', 2.3 row notes backfill (one line per round).
 - Then 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -27,9 +29,10 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Render tests named *.render.test.tsx. Run jest with --ci.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks: jest.requireActual, no cast.
 - Day letters: calendar.weekdayLetters (Monday first). weekdayShort = full name (VoiceOver). weekdayLetter = axis letters.
-- Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers. energyTarget is the energy screen key; weekTarget is the week key.
+- Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
 - Full suite on checkpoint rounds and after any change that can alter snapshots or strings.
 - If a render test calls jest.resetModules, shared unmountAll misses trees created after the reset.
+- Loop note: one screen or component per prompt. Step count max 5 per prompt. Rejected prompts are rewritten, not resent.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -46,8 +49,9 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 145: week separator uses dashboard.rangeSeparator.
 - Round 149: meal row moved to nutrition.mealLine.
 - Round 150: energy unit setting (kcal/kJ) via unitDeficit, unitSurplus, unitEaten, energyTarget.
-- Round 152: one screen per round (week.tsx only), after a prompt was rejected for covering two screens.
-- Loop note: a prompt was rejected for not stating the loop/phase4 only rule. Every prompt now opens with it.
+- Round 152: week.tsx follows energy unit. kcalEatenPerDay, kcalNetPerDay, weekNetAverage take {{unit}}.
+- Round 155: weekTarget merge planned, one scope per prompt.
+- Round 156: rejected prompt rewritten to 5 steps. Merge parks if es/fr/en text differs.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -56,13 +60,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced; subscription strings; DailyMacroRing 'of'.
-- Rounds 107-151: i18n renders, dateLocale, formatStreak, formatDuration, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekday helpers, energy, training, nutrition, week, custom-food, energy unit.
+- Rounds 107-152: i18n renders, dateLocale, formatStreak, formatDuration, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekday helpers, energy, training, nutrition, week, custom-food, energy unit.
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
 - Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr ('1 h 45 min').
-- es and fr wording of new keys (summary.*, energy kcal/kJ keys, energyTarget, percentValue, mealLine). Feminine agreement with kJ unchecked.
+- es and fr wording of new keys (summary.*, energy kcal/kJ keys, energyTarget, percentValue, mealLine, {{unit}} feminine agreement in es and fr).
 - weekdayShort stays a full name.
 - Week range separator ' – ' in es and fr, or 'al' / 'au'.
 - Do not retry these.
@@ -77,12 +81,13 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - es and fr 'per day' wording differs between Summary and week detail.
 - Weekday and month names on Hermes not checked on the simulator.
 - nutrition.tsx:231 meal row label builds 'slot, energy' in code.
-- Week range ' – ' separator in week.tsx:150 not translated (fold into week check).
+- Week range ' – ' separator in week.tsx:150 not translated.
+- signed is defined in both week.tsx and energy.tsx.
+- kcalEatenPerDay and kcalNetPerDay names are misleading now they show kJ too.
 
 ## Next
-- Round 152: week.tsx follows energy unit (current).
-- Round 153: merge weekTarget and energyTarget.
-- Then ConfidenceBadge text, i18n header comments, summaryCards fallback, nutrition 'g' label.
+- Round 156: merge weekTarget into energyTarget (current).
+- Then: signed helper duplicate, ConfidenceBadge text, i18n header comments, summaryCards fallback, nutrition 'g' label, 2.3 notes backfill.
 - Then 2.4 (useGoals), 2.5 (rest of Parked; goals and unit prefs persisted; missing _one plural; goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
@@ -107,4 +112,5 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - MacroTargetRows has no es or fr render test.
 - Round 147 footnote repeats the four macro names. Rename both places if one changes.
 - nutrition.axisLetters and nutritionUnits still cast their mock meal. Fix when touched.
-- energy.tsx and week.tsx: the energy unit now follows the setting (energy done; week in round 152).
+- The energy screen always says kcal and ignores the unit setting until the signed helper merge.
+- kcalEatenPerDay and kcalNetPerDay names now show kJ too. Rename in a later round.

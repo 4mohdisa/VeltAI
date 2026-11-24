@@ -667,7 +667,6 @@
     "weekEatenAverage_one": "Over the last {{count}} day you ate {{value}} a day on average.",
     "weekEatenAverage_other": "Over the last {{count}} days you ate {{value}} a day on average.",
     "weekAverageLine": "{{value}} average",
-    "weekTarget": "Target {{value}}.",
     "energyTarget": "Target {{value}}.",
     "surplusVsDeficit": "Surplus vs deficit",
     "weekNoNetTitle": "No net yet",

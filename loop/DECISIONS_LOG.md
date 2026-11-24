@@ -10221,3 +10221,15 @@
 - 2026-11-25 05:19 Chose week.tsx energy unit as the next task because the latest report and the notes both name it as next; one screen per round.
 - 2026-11-25 05:19 Kept weekTarget and energyTarget separate this round; merging them is round 153 so the change stays small.
 - 2026-11-25 05:19 Rejected the week range separator task for now; it is folded into the week check, and the energy unit change comes first.
+- 2026-11-25 05:22 Kept the merge as the next task, the same as Jev's top pick. The flagged partial work is the missing 2.3 row notes in PHASE4_ROWS.md, so the prompt backfills them in the same round.
+- 2026-11-25 05:22 The prompt stops the merge if the English, Spanish or French text of the two keys differs, rather than guessing.
+- 2026-11-25 05:22 Locale files are written only after a round trip check, as the notes require.
+- 2026-11-25 05:22 The misleading kcalEatenPerDay and kcalNetPerDay key names stay for now. Renaming them is a separate, later step.
+- 2026-11-25 05:22 Round 155: the previous prompt was rejected for covering more than one screen, so this prompt covers only week.tsx plus the shared locale keys.
+- 2026-11-25 05:22 Round 155: the 2.3 notes backfill for GymSessionButton, MacroBars, Summary, energyRange, nutrition, week and WeekEnergyCard is deferred to a later round, one line per round, to keep prompts small.
+- 2026-11-25 05:22 Round 155: weekTarget merge is conditional on identical text in all three languages. If the text differs, the round reports and changes nothing.
+- 2026-11-25 05:22 Round 155: Jev ranks run at 99% and risk is 1.1 of 2. The rejection points to a scope problem, so a smaller task is the right call.
+- 2026-11-25 05:23 Rewrote the rejected prompt to five numbered steps, the maximum, and kept the same single scope (weekTarget merge), because it is the smallest next step and Jev's advice agrees.
+- 2026-11-25 05:23 Step 1 stops the merge if the three languages differ, so no text changes without a check, because Round 154 only assumed identical text.
+- 2026-11-25 05:23 Locale writes must pass a round trip check first, per the notes rule, to avoid byte drift.
+- 2026-11-25 05:23 Snapshots are protected by running jest with --ci, so no snapshot gets written silently.

@@ -208,7 +208,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
           {avgIn14 != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
               {`${t('dashboard.weekEatenAverage', { count: days.length, value: formatEnergy(avgIn14, unit) })}${
-                target != null ? ` ${t('dashboard.weekTarget', { value: formatEnergy(target, unit) })}` : ''
+                target != null ? ` ${t('dashboard.energyTarget', { value: formatEnergy(target, unit) })}` : ''
               }`}
             </Text>
           ) : null}
