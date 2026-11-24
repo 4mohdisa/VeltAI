@@ -3,6 +3,7 @@
 // source-text greps.
 import DoneScreen from '@/app/onboarding/done';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
+import { router } from 'expo-router';
 import { act, allText, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
@@ -24,7 +25,6 @@ test('the hand-off timer replaces the stack with the main tabs', () => {
       jest.advanceTimersByTime(750);
     });
 
-    const { router } = require('expo-router') as { router: { replace: jest.Mock } };
     expect(router.replace).toHaveBeenCalledWith('/(tabs)');
   } finally {
     jest.useRealTimers();

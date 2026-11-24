@@ -7,14 +7,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
 - Checkpoint round 60 green: tsc 0, Jest 242 suites and 1,402 tests, expo lint 0 errors.
-- Round 64: onboardingCuisine.render swap done. Lint warnings 20. Loop flagged round 64 as partial; round 65 step 1 re-verified the file.
+- Round 65: onboardingDietary.render swapped to top-level import. Cuisine was already committed in b350990. Lint warnings 19.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 20 (round 64). Verify with `npx expo lint`.
-- Remaining warning map: noFabricatedData 15; signup.render, foodSaved.render, debugGating, debugCapture, authBilling 2 each; onboardingDietary, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests 1 each (expo-router require in test body); render/setup.ts; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 19 (round 65). Verify with `npx expo lint`.
+- Remaining warning map: noFabricatedData 15; signup.render, foodSaved.render, debugGating, debugCapture, authBilling 2 each; onboardingDone, Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests 1 each; render/setup.ts; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
 ## Decisions (never delete)
@@ -35,7 +35,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
-- i18n alias: `import i18next, { use as addPlugin }` is kept (a plain `use` trips rules-of-hooks).
+- i18n alias: `import { use as addPlugin }` is kept (a plain `use` trips rules-of-hooks).
 - One file per round for lint swaps. Full suite on checkpoint rounds. Next checkpoint round 75, then every 15 rounds.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
@@ -44,7 +44,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Jev risk moderate: keep steps to one file and check gates each round.
 - Round 62: Jev's pick taken over my Row 2.2 backend pick. Backend work follows after the lint sweep.
-- Round 64 and 65 flags: loop check said the report looked partial. Each time the one file was checked and found complete. Step 1 of the next prompt re-verifies it.
+- Round 64 and 65 flags: each round's file was checked and found complete. Step 1 of each prompt re-verifies the file.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -53,8 +53,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Rounds 44 and 60 (checkpoints): full tsc and Jest green.
-- Rounds 45-63: render tests cleared, measurements.render, onboardingActivity.render, onboardingBodyType.render cleared.
-- Round 64: onboardingCuisine.render cleared.
+- Rounds 45-65: render tests cleared (measurements, onboardingActivity, onboardingBodyType, onboardingCuisine, onboardingDietary).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -63,8 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 65: onboardingDietary.render (top-level expo-router import).
-- Then Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests, one per round.
+- Round 66: onboardingDone.render (top-level expo-router import).
+- Then Goal, Index, Preview, Targets, signupOtp, signupSignInMode render tests, one per round.
 - Then signup.render, foodSaved.render, debugGating, debugCapture, authBilling (2 each), render/setup.ts.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.

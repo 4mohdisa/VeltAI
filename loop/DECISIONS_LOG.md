@@ -9858,3 +9858,7 @@
 - 2026-11-25 03:17 Step 1 re-checks the round 64 file because the loop flagged the last report as partly done. Same handling as the round 64 flag: verify, then move on.
 - 2026-11-25 03:17 Jev signal says run 100%, risk 0.9 of 2. Kept to one file per round and full gates each round, so the risk stays contained.
 - 2026-11-25 03:17 Lint warnings expected to drop from 20 to 19 once the Dietary file is done.
+- 2026-11-25 03:18 Chose the one-file lint swap named as NEXT in the last report: it is small, already pattern-proven on Dietary and Cuisine, and Jev rates running at 100% confidence.
+- 2026-11-25 03:18 Kept the one-file-per-round rule and the full gate set (tsc, targeted Jest, eslint unused directives, require count, expo lint) because Jev rates the risk moderate.
+- 2026-11-25 03:18 Deferred the DailyMacroRing string change to a string round, as the notes require.
+- 2026-11-25 03:18 Round 66 is a targeted round. The next checkpoint stays at round 75.
