@@ -6,15 +6,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 80 done: router.replace clear removed from src/__tests__/render/signupSignInMode.render.test.tsx. tsc 0, file green, lint 0 errors.
-- Round 81 in progress: foodSaved.render.test.tsx, two require lines (24, 25) to no-require-imports fix.
+- Round 81 done: foodSaved.render.test.tsx both requires moved to jest.requireActual. tsc 0, file green, lint 0 errors, 8 warnings.
+- Round 82 in progress: authBilling.test.ts (2 warnings, around line 259).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 10 (last measured). Verify with `npx expo lint`.
-- Remaining warnings: foodSaved.render 2, debugGating 2, debugCapture 2, authBilling 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 8 (last measured, round 81). Verify with `npx expo lint`.
+- Remaining warnings: authBilling 2; debugGating 2; debugCapture 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
 - `eslint --format unix` no longer exists. Use `npx expo lint`.
 
 ## Decisions (never delete)
@@ -52,11 +52,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green.
-- Rounds 45-74: render tests cleared of require and router swaps.
-- Round 77: shared router beforeEach in setup.ts.
-- Round 78: onboardingIndex router clear removed.
-- Round 79: signup.render.test.tsx router.push clears removed.
-- Round 80: signupSignInMode router.replace clear removed.
+- Rounds 45-81: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved requires fixed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -65,10 +61,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 81: foodSaved.render.test.tsx two no-require-imports (lines 24, 25).
-- Then debugGating, debugCapture, authBilling (2 each), render/setup.ts afterEach require (1).
+- Round 82: authBilling.test.ts 2 no-require-imports (around line 259).
+- Then debugGating (112, 141), debugCapture (25, 78), render/setup.ts afterEach require (38).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
-- Then app code src/lib/analyticsSink.ts (no-require-imports).
+- Then app code src/lib/analyticsSink.ts (line 29, no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round; i18n header comments), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES.md line 40 says 20 TestPG, it is 21).

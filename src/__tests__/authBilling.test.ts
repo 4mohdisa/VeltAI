@@ -1,4 +1,7 @@
 // Clerk + RevenueCat wiring — logic tests (no rendering).
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import {
   api,
   ApiError,
@@ -256,7 +259,7 @@ describe('hosted paywall outcome mapping', () => {
 // rejection and a chargeback risk, so every user-facing mention of the trial
 // must derive from TRIAL_DAYS rather than hardcoding a number.
 describe('trial length consistency', () => {
-  const read = (p: string) => require('fs').readFileSync(require('path').join(__dirname, '..', '..', p), 'utf8');
+  const read = (p: string) => readFileSync(join(__dirname, '..', '..', p), 'utf8');
 
   test('TRIAL_DAYS is the single source of truth and matches the documented dashboard value', () => {
     expect(TRIAL_DAYS).toBe(7);

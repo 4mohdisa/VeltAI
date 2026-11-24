@@ -9919,3 +9919,8 @@
 - 2026-11-25 03:34 Kept the doc fix for KNOWN_ISSUES.md:40 for a later round to avoid mixing docs with test edits.
 - 2026-11-25 03:34 Did not add disable comments; the rule says remove any that become unused.
 - 2026-11-25 03:34 Round 80 is recorded as done (router.replace clear removed from signupSignInMode, tsc, file tests and lint green).
+- 2026-11-25 03:35 Chose authBilling.test.ts as the next single-file lint swap, because the last report and the notes both recommend it. Each round touches one file, which keeps Jev's risk score low.
+- 2026-11-25 03:35 Lint count conflict: the notes say 10 warnings, the handover says 18, and the latest report says 8 after foodSaved. I'm using the latest report (8, with authBilling next) as the reference and will re-measure with `npx expo lint` in the prompt's step 5.
+- 2026-11-25 03:35 No disable comments are added. Requires inside jest.mock factories use jest.requireActual, and test-body requires become top-level imports, as the notes' established rules say.
+- 2026-11-25 03:35 Kept the targeted-Jest-only rule for this round. The full suite waits for the round 90 checkpoint.
+- 2026-11-25 03:35 Jev advice (run, 98%) is consistent with the choice. No override needed.
