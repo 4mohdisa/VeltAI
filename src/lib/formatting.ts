@@ -3,7 +3,7 @@
 import i18n from '@/lib/i18n';
 
 export function formatNumber(value: number): string {
-  return Math.round(value).toLocaleString('en-AU');
+  return Math.round(value).toLocaleString(dateLocale(i18n.language));
 }
 
 export function formatCalories(kcal: number): string {
@@ -42,9 +42,10 @@ export function formatStreak(days: number): string {
   return i18n.t('common.days', { count: days });
 }
 
-/** The date-formatting locale for an app language. English is formatted as
- *  Australian English (day before month, dd/mm/yyyy), since Australia is the
- *  first market; a bare 'en' would format US-style ("Nov 25", 11/25/2026). */
+/** The date and number formatting locale for an app language. English is
+ *  formatted as Australian English (day before month, dd/mm/yyyy), since
+ *  Australia is the first market; a bare 'en' would format US-style ("Nov 25",
+ *  11/25/2026). Spanish and French use their own separators. */
 export function dateLocale(language: string): string {
   return language === 'en' ? 'en-AU' : language;
 }

@@ -10580,3 +10580,7 @@
 - 2026-11-25 09:26 R234: Terms disclaimer translation accepted as done (legal.terms keys, en, es, fr). Rest of Terms and Privacy text stays English; the choice of how far to translate it is parked for Isa, because legalParity.test.ts reads headings by source regex.
 - 2026-11-25 09:26 R235: chose connectivityMessage next over en-AU. It is smaller, it is dead or near dead text, and it removes English from the auth path. Jev ranked run at 76%, which agrees.
 - 2026-11-25 09:26 R235: if connectivityMessage has no production callers, delete it with its tests instead of translating it (no dead code rule). Record the choice in the row 2b note.
+- 2026-11-25 09:27 R236: picked en-AU hard-coding over row 2d, because it is the next item in Order and is small. Jev ranked the same first (run 98%).
+- 2026-11-25 09:27 R236: English keeps the en-AU output so existing pinned tests still pass. es and fr use their own locale.
+- 2026-11-25 09:27 R235 (done): connectivityMessage was unused in production, so it was removed with its assertions. The classifyConnectivity coverage stays.
+- 2026-11-25 09:27 R236: the authMachine test names and the stale 'error copy' comment are a tidy item for later, not this round.

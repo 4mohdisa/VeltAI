@@ -7,13 +7,11 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Branch loop/phase4 only. Loop script commits. Never switch, push, merge, rebase or touch main.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29. Row 2 PARTIAL (2.5 parked).
-- Row 2b DIFFERENT: screens 1a to 1d, done screen, paywall strings, 401 handling, paywall 4xx toast, CUISINE cleanup, Terms disclaimer (R234). Plan-ready screen NOT built (needs Isa's go-ahead).
+- Row 2b DIFFERENT: all step 1d strings done (en, es, fr). 401 handling, CUISINE_LABEL cleanup, Terms disclaimer done. connectivityMessage removed (R235). Plan-ready screen NOT built: waits for Isa's go-ahead.
 - Last full checkpoint R230 green (270 suites, 1,637 tests, tsc 0). Next checkpoint R242 or next handover.
-- Last lint run: Terms round (R234), clean.
 
 ## Order
-- Now: 2b connectivityMessage (src/lib/auth/machine.ts). Delete if unused, else translate.
-- Then: en-AU hard-coding (formatNumber in src/lib/formatting.ts, units.ts:76).
+- Now: en-AU hard-coding (formatNumber in src/lib/formatting.ts, units.ts:76). Round 236.
 - Then 2d, 2.2 remaining, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - A red round is fixed in a small round before new work.
@@ -45,28 +43,21 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R172: migration check skips with exit 0 when variable unset.
 - R174: CI workflow local only, throwaway local Postgres service, no repository secret.
 - R176, R178: privacy manifest in app.json. Camera is the only prompt. check:manifest reads app.json (ios/ is stale).
-- R180: parity test runs in full Jest.
-- R182: row 29 BUILT after full verify exit 0 with local TestPG.
+- R180: parity test runs in full Jest. R182: row 29 BUILT after full verify exit 0.
 - R184, R186: migration apply test runs once, in verify:migrations.
 - R194: 2b 1d does not wait for Isa. Own en, es, fr strings, flagged for review.
 - R195, R196, R198, R205: 401 routes dispatch SESSION_ENDED. Session cleared, answers kept.
 - R199: renderScreen wrapped in AppStateProvider (approved).
-- R206: 1d split one screen per round. R208: OnbScaffold kept.
 - R209 to R212: onboarding keys nested; cuisine and dietary options under options.<value>.
-- R219: done screen translated. Plan-ready screen NOT built: needs Isa's go-ahead.
-- R222: paywall strings done. es and fr are agent wording for review.
-- R225: validateOnboardingPayload i18n chosen over sessionExpired copy.
-- R226: sessionExpired copy 'Your session ended. Sign in again to continue.'
+- R225, R226: validateOnboardingPayload uses i18n. sessionExpired: 'Your session ended. Sign in again to continue.'
 - R228, R229: paywall 4xx toast uses onboarding.paywall.submitFailed for every 4xx except 401. Server English text never shown.
-- R230: checkpoint round, read only. Green.
-- R231: CUISINE_LABEL and unused label field removed.
-- R233: Terms disclaimer chosen over connectivityMessage. Done R234 (legal.terms, en, es, fr).
-- R234: rest of Terms and Privacy text stays English. How far to translate is parked for Isa (legalParity.test.ts reads headings by source regex).
-- R235: connectivityMessage chosen next over en-AU. Delete if no production callers (no dead code), else translate.
+- R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
+- R231, R235: CUISINE_LABEL removed; connectivityMessage removed (unused).
+- R236: en-AU kept as the English output of formatNumber, so pinned tests pass. es and fr use their own locale.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer.
-- How far legal text is translated (Terms and Privacy rest, headings), and legal review in each language.
+- How far legal text is translated, and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing.
 - Whether es and fr should ever be shown (app is English only).
@@ -81,12 +72,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## Parked
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- formatNumber (src/lib/formatting.ts) and units.ts:76 hard-coded to en-AU. nutrition.tsx:231 builds 'slot, energy' in code.
-- legalParity.test.ts scans .tsx source only; text moved to JSON is not covered by its banned-claim scan.
+- nutrition.tsx:231 builds 'slot, energy' in code.
+- legalParity.test.ts scans .tsx only; text moved to JSON is not covered by its banned-claim scan.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - 'signed' helper in three files. ConfidenceBadge hide reuses gymSession.hide.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
+- authMachine.test.ts names and the 'error copy' comment in machine.ts say copy, but no copy is tested (tidy round).
 - Skeleton crashes under Reanimated test mock (Row 22).
 - measurements.tsx: local t in useState initialiser shadows t(). Tidy round.
 - Trial note plural '{{days}} días' wrong if TRIAL_DAYS were 1.
@@ -94,8 +86,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Nothing dispatches SIGNED_IN, so the auth machine stays unknown or signedOut.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
-- Verify:go has no -count=1.
-- Secrets scan placeholder check is a heuristic.
+- Verify:go has no -count=1. Secrets scan placeholder check is a heuristic.
 
 ## Problems noticed, not fixed
 - Paywall feature list and toasts still English in places.

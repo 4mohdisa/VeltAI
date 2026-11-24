@@ -128,9 +128,9 @@ describe('follows the app language', () => {
   });
 
   test.each([
-    ['en', en],
-    ['es', es],
-  ])('%s: the average burn line, legend and breakdown', async (lang, strings) => {
+    ['en', en, '1,683'],
+    ['es', es, '1683'],
+  ])('%s: the average burn line, legend and breakdown', async (lang, strings, average) => {
     await act(async () => {
       await i18n.changeLanguage(lang);
     });
@@ -143,8 +143,9 @@ describe('follows the app language', () => {
     await settle();
 
     const text = allText(tree);
-    // Burns 1,500 / 1,800 / 1,750 average to 1,683.
-    expect(text).toContain(strings.dashboard.energyAverageBurned.replace('{{value}}', '1,683 kcal'));
+    // Burns 1,500 / 1,800 / 1,750 average to 1,683, in the language's own
+    // number format (Spanish does not group four-digit numbers).
+    expect(text).toContain(strings.dashboard.energyAverageBurned.replace('{{value}}', `${average} kcal`));
     expect(text).toContain(strings.dashboard.eatenAgainstBurned);
     expect(text).toContain(strings.dashboard.breakdown);
   });

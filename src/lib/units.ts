@@ -9,7 +9,8 @@
 // testable and reusable from any screen or the settings store.
 import type { TFunction } from 'i18next';
 
-import { formatNumber } from '@/lib/formatting';
+import i18n from '@/lib/i18n';
+import { dateLocale, formatNumber } from '@/lib/formatting';
 
 // ---------------------------------------------------------------------------
 // Dimensions + unit ids
@@ -73,7 +74,7 @@ const KJ_PER_KCAL = 4.184;
 // ---------------------------------------------------------------------------
 
 function group(value: number, fractionDigits = 0): string {
-  return value.toLocaleString('en-AU', {
+  return value.toLocaleString(dateLocale(i18n.language), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
