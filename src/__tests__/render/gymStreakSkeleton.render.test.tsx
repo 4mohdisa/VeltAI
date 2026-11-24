@@ -39,12 +39,12 @@ jest.mock('@/components/gym', () => ({
 }));
 // A host stand-in the test can find (the real Skeleton needs reanimated's useReducedMotion).
 jest.mock('@/components/display/LoadingSkeleton', () => ({
-  Skeleton: () => require('react').createElement('View', { testID: 'skeleton' }),
+  Skeleton: () => jest.requireActual('react').createElement('View', { testID: 'skeleton' }),
 }));
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: () => ({}),
-  useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
+  useFocusEffect: (cb: () => void) => jest.requireActual('react').useEffect(cb, [cb]),
   usePathname: () => '/(tabs)/gym',
   Href: {},
 }));

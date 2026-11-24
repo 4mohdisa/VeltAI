@@ -9795,3 +9795,7 @@
 - 2026-11-25 02:58 Kept the string change (DailyMacroRing 'of') for a string round, per the rule that string changes wait.
 - 2026-11-25 02:58 Prompt forbids editing loop-managed files and OWNER_CHECKS_phase4.md so the open owner checks stay intact.
 - 2026-11-25 02:58 Prompt asks for a revert of only this file if the swap breaks it twice, so a failed attempt never leaves the tree red.
+- 2026-11-25 02:59 Keep one file per round for the lint sweep because Jev risk is moderate and the last round finished cleanly.
+- 2026-11-25 02:59 Tests-only change, so no string round is needed and no translation is touched.
+- 2026-11-25 02:59 Chose gymStreakSkeleton as the next file because the last report named it as next, and it may hold a second require that the prompt must handle.
+- 2026-11-25 02:59 Prompt asks for the full path of every file, because the brief warns that /Users/isa paths do not exist.
