@@ -41,18 +41,18 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - String changes wait for a string round.
 - i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
-- Handover at round 50: Claude Code restarted with the handover summary. Name full paths in every prompt.
+- Handover at round 50 done. Name full paths in every prompt.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
 - Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
 - Round 27: simulator check of Total tile blocked, parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
-- Rounds 38-39: history.tsx gym session read limited (listSessions with limit GYM_SESSION_HYDRATE_LIMIT, 7-day window).
+- Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Round 44 (checkpoint): full tsc and Jest green.
-- Rounds 45-49: gymSession.emptyStates, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog render tests: require swapped for jest.requireActual.
-- Round 50: recipesList.render.test.tsx swap done. tsc 0, Jest 3 of 3, eslint clean.
+- Rounds 45-50: gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList render tests swapped.
+- Round 51: savedMealsList.render.test.tsx swapped. tsc 0, Jest 1 suite 2 tests pass, eslint clean.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -61,10 +61,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 51: savedMealsList.render.test.tsx swap (in progress).
-- Then savedMealsLog (remove unused disable comment), savedScreen, todayCard (all in src/__tests__/render/).
-- Then the biggest warnings: src/__tests__/noFabricatedData.test.ts (15), src/__tests__/render/measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern.
-- Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual).
+- Round 52: savedMealsLog.render.test.tsx swap (remove unused disable comment).
+- Then savedScreen, todayCard (src/__tests__/render/).
+- Then noFabricatedData.test.ts (15), measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern.
+- Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual). Consider one shared expo-camera mock.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
 - Row 2.2 remaining: display-name errors in photoScan.render.test.tsx:83 and scanScreens.strings.render.test.tsx:48; useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix. ScanReviewCard act warnings are Row 22.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of' with nutrition.ringOf, a string round), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40 says 20 TestPG, it is 21).

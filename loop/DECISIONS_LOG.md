@@ -9814,3 +9814,6 @@
 - 2026-11-25 03:04 Kept the one-file swap as the next task, as the NOTES Next list and the handover both specify. Jev rates run at 99 percent and risk is moderate, so a single small file is the safer step.
 - 2026-11-25 03:04 Added the full gate set (tsc, targeted Jest, eslint with unused-directive check, require count) because the handover requires it for each file.
 - 2026-11-25 03:04 Recorded the recipesList swap (round 50) as done, based on the latest report.
+- 2026-11-25 03:04 Chose the smallest step: one file per round, as the handover and Jev risk note recommend (Jev risk moderate).
+- 2026-11-25 03:04 Recorded round 51 (savedMealsList swap) as done: the latest report shows tsc 0, Jest 1 suite and 2 tests passing, eslint clean.
+- 2026-11-25 03:04 Kept the rule that a disable comment made unused by a swap is removed, per the existing decisions.
