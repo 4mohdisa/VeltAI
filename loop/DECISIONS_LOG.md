@@ -10622,3 +10622,11 @@
 - 2026-11-25 09:43 R242: checkpoint chosen because the loop note requires one task only: full type check and full app Jest, no file changes.
 - 2026-11-25 09:43 R242: the R240 partial check is covered by this full run, so no separate re-run is needed.
 - 2026-11-25 09:43 R242: the dead lookupBarcodeAsync in scan.ts stays for now, because removing it means deleting a pinned assertion that needs Isa's approval.
+- 2026-11-25 09:44 R243: chose candidate 1 (calendar, Row 13) to follow the loop order and the notes; Jev agreed with run, so no second look needed.
+- 2026-11-25 09:44 R243: calendar fix limited to one screen and one hook, per the one screen per prompt rule.
+- 2026-11-25 09:44 R243: new calendar strings flagged in OWNER_CHECKS_phase4.md for Isa's es and fr review, as all earlier own strings were.
+- 2026-11-25 09:44 Rewrote the rejected prompt to one data module (foodDays.ts). calendar.tsx moves to the next round, so the prompt touches one component only.
+- 2026-11-25 09:44 Kept the R243 scope (foodDays.ts and calendar.tsx). Only the data layer goes first, which makes the screen round small.
+- 2026-11-25 09:44 Did not add any strings this round, so no new es or fr wording is needed before Isa's review.
+- 2026-11-25 09:44 Left the lookupBarcodeAsync removal blocked, because it needs Isa's approval (R242).
+- 2026-11-25 09:44 Logged the R243 split in the notes, so the next round starts from calendar.tsx.

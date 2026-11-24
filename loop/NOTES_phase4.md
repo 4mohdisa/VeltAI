@@ -9,16 +9,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2 and 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready screen parked for Isa's go-ahead.
-- R240 and R241: barcode failed state in src/app/food/detail.tsx uses lookupBarcodeResult with Retry. Done.
-- R242: full checkpoint (tsc and full Jest, no file changes). Covers the R240 re-run.
-- Next: R243 calendar (foodDays.ts, calendar.tsx). Then rest of Row 13 translations.
-- Last full green checkpoint R237 (272 suites, 1,648 tests, tsc 0, lint clean).
+- Barcode failed state in detail.tsx uses lookupBarcodeResult with Retry. Done (R240, R241).
+- R242: full checkpoint green (tsc 0, 272 suites, 1,661 tests).
+- R243: split. Next round: foodDays.ts error and refetch (data layer). Then calendar.tsx error state with Retry (screen). Then rest of Row 13.
+- Last full green checkpoint R242.
 
 ## Order
 - Phase 3 Rows 13, 6, 14. Then Row 2 to BUILT. Then 2b (plan-ready parked), 2d, 3 to 14b, 15 to 30, 31.
 - Row 2c: not in the brief. Parked in OWNER_CHECKS. Reports asking for it are ignored.
 - Trust this file over handovers and reports.
-- One screen or component per prompt. Rejected prompts get rewritten to one screen.
+- One screen or component per prompt. Rejected prompts get rewritten to one screen. Rejected once (R243 prompt named two files plus a screen): split.
 
 ## Rules
 - Max 5 steps per prompt. Grep before editing.
@@ -26,9 +26,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Lint: npx expo lint src scripts --max-warnings 0.
 - No new eslint-disable. Animated values: useState(() => new Animated.Value(x)).
 - i18n: keep import { use as addPlugin }. One full key per sentence. Plurals _one and _other only. Every new string in en, es, fr.
-- Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. zsh file lists do not split: run each file by its own command.
+- Render tests *.render.test.tsx. Jest --ci, one file per command, never -u.
 - TestPG: localhost:5432, database lume_test_local. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
+- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, or the api.ts listSessions defaults.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps and carry on.
@@ -55,13 +56,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R231, R235: CUISINE_LABEL and connectivityMessage removed.
 - R233, R234: Terms disclaimer in legal.terms. Rest of Terms and Privacy stays English.
 - R236: en-AU kept as the English output of formatNumber; es and fr use their own locale.
-- R237: full checkpoint (green).
 - R239: English grams from 1,000 up group (1,234 g) per brief. Logged for Isa to confirm.
-- R240, R241: barcode failed state via lookupBarcodeResult. One screen per prompt.
-- R242: checkpoint chosen per loop note. lookupBarcodeAsync stays until Isa approves removing its pinned test.
+- R240, R241: barcode failed state via lookupBarcodeResult.
+- R242: checkpoint. lookupBarcodeAsync stays until Isa approves removing its pinned test.
+- R243: calendar error state limited to foodDays.ts and calendar.tsx; new es, fr strings flagged for Isa. Split into two rounds (one component each).
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings.
+- es and fr wording review: onboarding, paywall, validation, sessionExpired, goals.loadFailed, Save food, kJ, energyTarget, noBreakdown, healthDisclaimer.text, paywall 4xx, Terms disclaimer, barcode failed strings, calendar strings.
 - How far legal text is translated, and legal review in each language.
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr. '80 %' spacing. Spanish four-digit numbers without separator.
@@ -80,7 +81,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - formatCurrency hard-codes A$ and a dot decimal in every language.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - legalParity.test.ts scans .tsx only; JSON legal text not covered by banned-claim scan.
-- authMachine.test.ts names say 'copy' but no copy is tested (tidy round).
+- authMachine.test.ts names say 'copy' but no copy is tested (tidy round). Do not pick up as Row 13 work.
 - consent.ts and purchases.ts use eslint-disable for the require rule.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders (signup.tsx:339, :362) are literals.
@@ -90,6 +91,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
 - Failed barcode state has no es or fr render test (keys covered by localeParity).
+- PHASE3_ROWS.md Row 13 has no line for the detail.tsx barcode work (add it).
 
 ## Problems noticed, not fixed
 - English still hard-coded in Terms rest and formatNumber / units.ts:76 (en-AU).
@@ -100,5 +102,6 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Users do not see which field the server rejected on a 4xx.
 - Dev builds: a 404 matched by the mock records no scan_completed event (dev analytics only).
 - Gotcha: the Row 2b note may drift again; check it at each records round.
-- Gotcha: authMachine.test.ts and formatCurrency are parked; do not pick them up as Row 13 work.
+- Gotcha: Line 39 of OWNER_CHECKS_phase4.md quotes the old es sessionExpired wording. File is append only, leave it.
 - Row 2c reports ignored (not in brief).
+- Checkpoint report R242 said 'Simulator flow not run'. Expected: no simulator check in Row 13 rounds.

@@ -7,17 +7,21 @@
 // with no date and pulled the user's ENTIRE unpaginated log history, with every
 // macro and scan_results blob on every row, only to read the `date` off each one.
 //
-// Every dot still stands for a real row; a day with no logs simply has no dot,
-// and a failed call draws no dots at all rather than guessing.
+// Every dot still stands for a real row; a day with no logs simply has no dot.
+// A failed call reports `error` and keeps whatever dots it already had, so the
+// caller can say "couldn't load" instead of passing an outage off as an empty
+// log (the same contract as useHydration's callers in ./hooks).
 import { useCallback, useEffect, useState } from 'react';
 
 import { api } from '@/lib/api';
+import type { Async } from './hooks';
 
-export type LoggedDays = {
+/** `data` and `isLoading` follow Async like useGoals; `days` and `loading` are
+ *  the same values under the names the Food tab and calendar already read. */
+export type LoggedDays = Async<ReadonlySet<string>> & {
   /** ISO YYYY-MM-DD strings that have at least one food row. */
   days: ReadonlySet<string>;
   loading: boolean;
-  refetch: () => void;
 };
 
 const EMPTY: ReadonlySet<string> = new Set<string>();
@@ -25,6 +29,7 @@ const EMPTY: ReadonlySet<string> = new Set<string>();
 export function useLoggedDays(): LoggedDays {
   const [days, setDays] = useState<ReadonlySet<string>>(EMPTY);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   const [nonce, setNonce] = useState(0);
 
   useEffect(() => {
@@ -35,11 +40,12 @@ export function useLoggedDays(): LoggedDays {
         if (!active) return;
         // `?? []` keeps a null body a dotless calendar rather than a crash.
         setDays(new Set(dates ?? []));
+        setError(null); // a later success clears an earlier failure
       })
-      .catch(() => {
-        // No backend, or the call failed. Draw NO dots — a dot is a claim that a
-        // day has a log, and we cannot make that claim from a failed request.
-        if (active) setDays(EMPTY);
+      .catch((e: unknown) => {
+        // No backend, or the call failed. Report it and leave the dots alone:
+        // an empty set here would claim "nothing logged", which we do not know.
+        if (active) setError(e instanceof Error ? e : new Error('logged days failed'));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -54,7 +60,7 @@ export function useLoggedDays(): LoggedDays {
     setNonce((n) => n + 1);
   }, []);
 
-  return { days, loading, refetch };
+  return { data: days, days, isLoading: loading, loading, error, refetch };
 }
 
 // --- pure date helpers, exported so the node suite can test them directly -----
