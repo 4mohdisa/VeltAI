@@ -6,10 +6,9 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL (2.3 strings done, 2.4 useGoals done, 2.5 not started). Row 29 PARTIAL.
-- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci (258 suites, 1,516 tests, includes localeParity), verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set).
-- Round 173 (current): close loop-flagged gap (done in step 1), add secrets scan to verify.
-- Row 29 still missing: secrets scan (173), manifest check (after Row 12), CI workflow file (.github/workflows, local only).
+- Row 1 BUILT. Row 2 PARTIAL (2.3 done, 2.4 done, 2.5 not started). Row 29 PARTIAL.
+- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci (includes localeParity), verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan.
+- Row 29 still missing: CI workflow file (round 174, local only), manifest check (after Row 12).
 - Last full checkpoint: round 170. Next full checkpoint: round 180.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -37,6 +36,8 @@ Row 29 (finish) -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
+- Round 174: loop flag on round 173 handled by reconciling row 29 status (PARTIAL). Parity test runs inside full Jest, so no extra verify step.
+- Round 174: CI workflow is local only, uses a throwaway local Postgres service, no repository secret.
 - Round 173: loop flag closed by checking verify chain, not by new code. Secrets scan before manifest check (manifest needs Row 12).
 - Round 172: migration check skips with exit 0 when variable unset.
 - Round 170: analyticsSink warning cleared by scoped config allow.
@@ -82,8 +83,9 @@ Row 29 (finish) -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Jest prints about 200 console blocks; act warnings from ScanReviewCard; react-test-renderer deprecated. Row 22.
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
+- Secrets scan placeholder check is a heuristic: a real key containing 123456 or abcdef would pass.
 
 ## Next
-- Round 173: close loop-flagged gap; add secrets scan to verify (Row 29).
-- Then Row 29: CI workflow file (local only). Manifest check after Row 12.
+- Round 174: row 29 close-out (status reconciled, CI workflow file local only).
 - Then 2.5 goals and unit prefs via backend, 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+- Manifest check after Row 12.

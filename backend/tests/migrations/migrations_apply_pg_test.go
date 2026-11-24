@@ -20,17 +20,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// supabaseShims stands in for what Supabase provides before any migration runs:
-// the API roles the policies grant to, and the auth helpers they call.
-const supabaseShims = `
-DO $$ BEGIN
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'authenticated') THEN CREATE ROLE authenticated; END IF;
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'service_role') THEN CREATE ROLE service_role; END IF;
-END $$;
-CREATE SCHEMA auth;
-CREATE FUNCTION auth.uid() RETURNS text LANGUAGE sql STABLE AS $$ SELECT current_setting('request.jwt.claim.sub', true) $$;
-CREATE FUNCTION auth.jwt() RETURNS jsonb LANGUAGE sql STABLE AS $$ SELECT '{}'::jsonb $$;
-`
+// shimsFile stands in for what Supabase provides before any migration runs.
+const shimsFile = "supabase_shims.sql"
 
 // localTestConfig parses the URL and refuses anything but a local lume_test*
 // database. The error never contains the URL, which may hold a password.
@@ -87,7 +78,11 @@ func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
 	}
 	defer conn.Close(ctx)
 
-	if _, err := conn.Exec(ctx, supabaseShims); err != nil {
+	shims, err := os.ReadFile(shimsFile)
+	if err != nil {
+		t.Fatalf("read %s: %v", shimsFile, err)
+	}
+	if _, err := conn.Exec(ctx, string(shims)); err != nil {
 		t.Fatalf("apply Supabase shims: %v", err)
 	}
 	names := migrationNames(t)

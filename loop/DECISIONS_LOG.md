@@ -10308,3 +10308,7 @@
 - 2026-11-25 05:50 Round 173: the secrets scan test builds fake keys at runtime so no secret-like literal lands in the repo.
 - 2026-11-25 05:50 Round 172: migration check skips with exit 0 when LUME_TEST_DATABASE_URL is unset (same as TestPG).
 - 2026-11-25 05:50 Round 170: analyticsSink warning cleared by a scoped config allow, not a code change.
+- 2026-11-25 05:53 Round 174: loop flag on round 173 handled by reconciling row 29 status. The handover says DIFFERENT, the notes and report say PARTIAL. The row stays PARTIAL, because the verify chain now has the parity test and the secrets scan.
+- 2026-11-25 05:53 Round 174: the parity test already runs inside full jest --ci, which verify calls, so no extra verify step is needed for it. Confirmed by the round 173 report.
+- 2026-11-25 05:53 Round 174: CI workflow written as a local file with a throwaway local Postgres service, so TestPG and the migration check run in CI. No repository secret is referenced. Never pushed.
+- 2026-11-25 05:53 Round 174: Row 2.5 (goals and unit prefs via backend) waits one round, because the flag needed closing first. Jev ranked the same order, so no second look was needed.

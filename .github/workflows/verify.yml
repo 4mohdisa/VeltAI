@@ -1,0 +1,49 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          # Throwaway credentials for a database that exists only for this job.
+          POSTGRES_DB: lume_test_local
+          POSTGRES_USER: lume
+          POSTGRES_PASSWORD: lume_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U lume -d lume_test_local"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      LUME_TEST_DATABASE_URL: postgres://lume:lume_ci@localhost:5432/lume_test_local?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+      - run: npm ci
+      # The TestPG tests expect lume_test_local to hold the Supabase shims and
+      # every migration, the same setup the local database was given.
+      - name: Prepare test database
+        run: |
+          psql "$LUME_TEST_DATABASE_URL" -q -v ON_ERROR_STOP=1 -f backend/tests/migrations/supabase_shims.sql
+          for f in supabase/migrations/*.sql; do
+            psql "$LUME_TEST_DATABASE_URL" -q -v ON_ERROR_STOP=1 -f "$f"
+          done
+      - run: npm run verify
