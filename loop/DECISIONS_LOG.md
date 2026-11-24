@@ -10061,3 +10061,6 @@
 - 2026-11-25 04:20 Jev's 99% run agrees; no reason to diverge.
 - 2026-11-25 04:20 Kept the morning brief free-plan refusal question parked: it is a product decision, not a blocker for this task.
 - 2026-11-25 04:20 Round 111 is not a checkpoint; full suite stays for round 120.
+- 2026-11-25 04:21 Chose candidate 1 because the handover and Jev's run signal both point to it, and it is one file with a clear regression test.
+- 2026-11-25 04:21 Ran the full Jest suite this round because a date format change can alter snapshots, even though no strings change.
+- 2026-11-25 04:21 Kept the rule of one file per prompt and at most five steps.

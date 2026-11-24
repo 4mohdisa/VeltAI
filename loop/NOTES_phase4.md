@@ -6,13 +6,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 110 done: dayReadout uses dateLocale, es and fr tests. Full suite 243 suites, 1,421 tests, 4 snapshots green.
-- Round 111: gymRange monthTitle uses dateLocale(i18n.language) with en, es, fr tests.
+- Round 112: formatting.ts:67,72 use dateLocale(i18n.language) with en, es, fr tests (prompt issued).
 - Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
-  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries, TestPG count to 22 after the schedule_pg test runs.
-  - 2.3 string round, one file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange month line (108), summaryCards workoutsLine (109), dayReadout (110). Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
+  - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries. TestPG count is 24 (verified).
+  - 2.3 string round, one file per round. Left: day letters (summaryCards.ts:45), custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), i18n header comments, shared Xh Ym formatter.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -24,9 +23,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
 - TestPG database: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
-- TestPG count is 24 (verified round 97). A handover saying 21 or 22 is stale.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
-- Morning brief free-plan refusal sets isError true (decided round 100, keep). Revisit in Rows 6 and 7.
+- Morning brief free-plan refusal sets isError true (decided round 100). Revisit in Rows 6 and 7.
 - Subscription render test keeps the typed __setPurchasesModule fake (no jest.mock, reset in finally).
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
@@ -42,33 +40,29 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
-- Full suite on checkpoint rounds (120, 135, ...).
-- String changes wait for the string round (2.3), done in parts. Always run the full suite after string changes.
-- Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
+- Full suite on checkpoint rounds (120, 135, ...) and after any change that can alter snapshots or strings.
+- Locale files rewritten with json.dumps(indent=2, ensure_ascii=False) plus newline.
+- A sentence gets one full i18n key. Plurals use _one and _other only.
+- Code outside React uses import i18n from '@/lib/i18n'. Dates use dateLocale(i18n.language).
+- Every round runs tsc and targeted Jest for changed files and reports results.
 - Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
 - Jev risk 0.9 of 2: keep steps small, one file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 
-## Done
+## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
-- Rounds 10-26: hydrateGym limit 200, total_days on backend and app, streakFromApi takes only row, stale mocks fixed.
+- Rounds 10-26: hydrateGym limit 200, total_days, streakFromApi, stale mocks fixed.
 - Rounds 28-43, 88-95: lint at 0 errors, 1 accepted warning.
-- Rounds 38-39: history.tsx gym session read limited (7-day window).
-- Round 96: schedule_pg.go GetExerciseProgress keeps newest N, returns oldest first.
-- Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped.
-- Rounds 98-103: doc fix, getMorningBrief and getProfile errors surfaced, briefProfile tests, KNOWN_ISSUES fixes, subscription manage toast and busy state, restore spinner, subscription render test.
-- Round 105: subscription.tsx strings to t(); subscription.* keys in en, es, fr.
-- Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur).
-- Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr.
-- Round 108: gymRange month line and monthTitle use app language (gym.monthSessions, monthUntimed, monthFreezes).
-- Round 109: summaryCards workoutsLine uses i18n, es and fr tests.
-- Round 110: dashboard.dayReadout key in en, es, fr; dateLocale used.
+- Rounds 38-39: history gym session read limited (7-day window).
+- Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
+- Rounds 98-106: getMorningBrief and getProfile errors surfaced, subscription strings, DailyMacroRing 'of'.
+- Rounds 107-111: i18n renders (ring, gym month, workoutsLine, dayReadout), gymMonth monthTitle uses dateLocale.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
-- New TestPG (schedule_pg progress, TestPG_ExerciseProgressLimitKeepsNewest) has never run: needs LUME_TEST_DATABASE_URL on localhost lume_test_local. Run it in the next round that can, then drop the progress bug from KNOWN_ISSUES.md.
+- Open for Isa (not blocking): should the morning brief free-plan refusal count as an error?
 
 ## Parked
 - Row 2.1 simulator check of the Total tile.
@@ -76,14 +70,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - delete-account.tsx swallowed-errors review.
 - Subscription screen es and fr render test.
 - Gym tab render test in es and fr for the translated month line.
-- Hours and minutes format (Xh Ym) hand built in gymRange.ts:200 and summaryCards.ts. One shared formatter.
-- formatting.ts:67,72 date formatting uses device language. Fix with the app language.
+- Hours and minutes format (Xh Ym) hand built in gymRange.ts:200 and summaryCards.ts.
 - Day letters (MTWTFSS) hardcoded in summaryCards.ts:45.
-- Open for Isa (parked, not blocking): should the morning brief free-plan refusal count as an error?
 
 ## Next
-- Round 111: gymRange monthTitle uses dateLocale (en, es, fr tests).
-- Then formatting.ts:67,72 device locale, then day letters, then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
+- Round 112: formatting.ts:67,72 use dateLocale (en, es, fr tests), full suite.
+- Then day letters, then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
@@ -94,18 +86,17 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - No app-wide en/es/fr key parity test yet (Row 29).
-- React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72 in render logs. src/lib/data is off limits for now. Look at them in Row 22.
+- React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72. src/lib/data is off limits for now. Look at them in Row 22.
 - react-test-renderer is deprecated and warns in hook tests. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Revisit in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
-- Prettier has no repo config. Not a gate. Decide in Row 29.
-- KNOWN_ISSUES.md 'Phase 4 (out of scope)' section clashes with the header. Fix in the docs round. KNOWN_ISSUES.md Backend section still has Phase 3 wording.
+- Prettier has no repo config. Decide in Row 29.
+- KNOWN_ISSUES.md 'Phase 4 (out of scope)' section clashes with the header. KNOWN_ISSUES.md Backend section still has Phase 3 wording. Fix in the docs round.
 - If a render test adds jest.resetModules, the shared unmountAll misses trees created after the reset.
 - Nothing tests refetch in useWeeklyMacros.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- formatting.ts:67,72 pass undefined locale to toLocaleDateString (see Parked).
 - delete-account.tsx swallowed errors not checked yet.
 - Tool note: the lint gate is npx expo lint.

@@ -12,7 +12,9 @@ import {
   formatTime,
   formatWeekdayDate,
   formatMonthYear,
+  dateLocale,
 } from '@/lib/formatting';
+import i18n from '@/lib/i18n';
 import { devWarn } from '@/lib/env';
 import {
   METRIC_PREFERENCES,
@@ -113,6 +115,23 @@ describe('formatting', () => {
   test('formatTime zero-pads', () => {
     expect(formatTime(new Date(2026, 0, 1, 18, 0))).toBe('18:00');
     expect(formatTime(new Date(2026, 0, 1, 9, 5))).toBe('09:05');
+  });
+});
+
+describe('formatWeekdayDate / formatMonthYear follow the app language', () => {
+  // 21 November: en-AU puts the day first ("Saturday 21 November"); es and fr use their own words and order.
+  const d = new Date(2026, 10, 21);
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each(['en', 'es', 'fr'])('%s', async (lang) => {
+    await i18n.changeLanguage(lang);
+    expect(formatWeekdayDate(d)).toBe(d.toLocaleDateString(dateLocale(lang), { weekday: 'long', day: 'numeric', month: 'long' }));
+    expect(formatMonthYear(d)).toBe(d.toLocaleDateString(dateLocale(lang), { month: 'long', year: 'numeric' }));
+  });
+
+  test('en is Australian, day before month', async () => {
+    await i18n.changeLanguage('en');
+    expect(formatWeekdayDate(d)).toBe('Saturday 21 November');
   });
 });
 
