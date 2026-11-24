@@ -1101,6 +1101,9 @@
     "continue": "Continue"
   },
   "summary": {
-    "notTracked": "Not tracked"
+    "notTracked": "Not tracked",
+    "target": " · target {{grams}} g",
+    "a11yNotTracked": "{{label}}, not tracked, target {{grams}} grams",
+    "a11yOfGrams": "{{label}}, {{value}} of {{target}} grams"
   }
 }

@@ -45,14 +45,14 @@ export function MacroTargetRows({ rows }: { rows: MacroTargetRow[] }) {
       {rows.map(({ label, macroKey, consumed, target }) => {
         const tint = MACRO[macroKey]?.color ?? color.black;
         return (
-          <View key={macroKey} style={{ gap: space.sm }} accessible accessibilityLabel={consumed == null ? `${label}, not tracked, target ${Math.round(target)} grams` : `${label}, ${Math.round(consumed)} of ${Math.round(target)} grams`}>
+          <View key={macroKey} style={{ gap: space.sm }} accessible accessibilityLabel={consumed == null ? t('summary.a11yNotTracked', { label, grams: Math.round(target) }) : t('summary.a11yOfGrams', { label, value: Math.round(consumed), target: Math.round(target) })}>
             <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
               <Text variant="callout" color={color.label} style={{ flex: 1, fontWeight: '500', lineHeight: 20 }}>
                 {label}
               </Text>
               {consumed == null ? (
                 <Text variant="footnote" color={color.tertiaryLabel}>
-                  {t('summary.notTracked')} · target {Math.round(target)} g
+                  {t('summary.notTracked')}{t('summary.target', { grams: Math.round(target) })}
                 </Text>
               ) : (
                 <>

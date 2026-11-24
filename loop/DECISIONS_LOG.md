@@ -10131,3 +10131,8 @@
 - 2026-11-25 04:47 Round 130: the pinned 'Not tracked' assertion in summaryNoFabrication.test.ts may change to read summary.notTracked from en.json. This follows the Phase 4 rule on pinned English text.
 - 2026-11-25 04:47 Round 130: es 'Sin registrar' and fr 'Non suivi' chosen for summary.notTracked. Isa to review these wordings in the Isa review list.
 - 2026-11-25 04:47 Round 130: GymSessionButton render test kept as written. Its 'at least one element' check matches the other render tests.
+- 2026-11-25 04:48 Round 131 report was flagged as partly done. Finish MacroBars before starting the Summary sweep, so the loop does not move on with a half translated row.
+- 2026-11-25 04:48 Chose candidate 1 because Jev risk is 1.0 of 2. Keep one component, its locale keys and one test file per round.
+- 2026-11-25 04:48 Accept the round 131 change to summaryNoFabrication.test.ts (source check against t('summary.notTracked') instead of en.json value), since the component now reads the key. Record it for Isa's review. This round updates that same assertion to the new keys only.
+- 2026-11-25 04:48 Locale keys added under the existing summary section, not a new section. Needs Isa to review es and fr wording ('sin registrar', 'non suivi' and the new a11y strings).
+- 2026-11-25 04:48 Add the missing PHASE4_ROWS.md note for GymSessionButton and MacroBars when Row 2.3 closes, not in this round.

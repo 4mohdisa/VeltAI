@@ -1103,6 +1103,9 @@
     "continue": "Continuar"
   },
   "summary": {
-    "notTracked": "Sin registrar"
+    "notTracked": "Sin registrar",
+    "target": " · objetivo {{grams}} g",
+    "a11yNotTracked": "{{label}}, sin registrar, objetivo {{grams}} gramos",
+    "a11yOfGrams": "{{label}}, {{value}} de {{target}} gramos"
   }
 }
