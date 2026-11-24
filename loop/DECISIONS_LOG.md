@@ -10022,3 +10022,8 @@
 - 2026-11-25 04:07 Morning brief free-plan refusal counts as an error (isError). This stays as decided in round 100, so no question is asked to Isa.
 - 2026-11-25 04:07 Handover TestPG count (21 to 22) is stale. The count stays at 24 per round 97. Not acting on it.
 - 2026-11-25 04:07 The successful restore toast test is a gap, not a blocker. It moves into the string round (2.3) with the toast text.
+- 2026-11-25 04:08 Kept the checkpoint task over Jev's string round (Jev 94%). Reason: the loop script flagged round 103 as partly done and asked for a full type check and full app Jest run before any new work; the string round touches many files and needs a clean baseline first.
+- 2026-11-25 04:08 Round 104 is treated as the checkpoint, so the full suite runs now. Round 105 is the string round, as the notes said.
+- 2026-11-25 04:08 Restore busy test keeps the typed __setPurchasesModule fake (already a recorded decision). No question to Isa needed.
+- 2026-11-25 04:08 Morning brief free-plan refusal stays isError true (decided round 100). No question to Isa needed.
+- 2026-11-25 04:08 Round 102 and 103 close-out is confirmed by read-only grep, no edits.

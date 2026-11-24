@@ -6,11 +6,12 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 104: close out round 102 (verify restore busy spinner and KNOWN_ISSUES subscription line). Round 103 reported done; loop check flagged partly done. Verify, then move on.
+- Round 104: checkpoint. Full tsc and full app Jest, no file changes. Verify rounds 102 and 103 (restore busy spinner, KNOWN_ISSUES subscription line) with grep.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1 gym days: code done, simulator check parked.
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 Row 13 and 14 items, subscription English text, restore toast test. 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
+  - 2.3 string round: subscription English text, Restore label, DailyMacroRing 'of', restore success toast test, Row 13 and 14 items, i18n header comments.
+  - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -39,7 +40,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
-- Full suite on checkpoint rounds (105, 120, ...).
+- Full suite on checkpoint rounds (104, 120, ...). Round 104 was made a checkpoint by the loop note.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - String changes wait for the string round (2.3).
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
@@ -60,7 +61,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 100: aiBrain.briefProfile.test.ts (7 tests).
 - Round 101: KNOWN_ISSUES.md docs fixed.
 - Round 102: subscription manage failure toast and busy state.
-- Round 103: restore busy spinner passed to Button; subscription render test (6 tests). Verify in round 104.
+- Round 103: restore busy spinner passed to Button; subscription render test (6 tests).
 - Checkpoints 44, 60, 75, 76, 90: tsc and Jest green (242 suites, 1,402 tests).
 
 ## Blocked on Isa
@@ -70,8 +71,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 104: verify round 102/103 close-out (restore busy, KNOWN_ISSUES line).
-- Then 2.3 string round: subscription screen hardcoded English (incl. Restore label), DailyMacroRing.tsx:96 'of' to nutrition.ringOf, restore success toast test, Row 13 and 14 items, i18n header comments.
+- Round 104: checkpoint (full tsc, full app Jest, no edits) and grep close-out for rounds 102 and 103.
+- Round 105: 2.3 string round (see list above).
 - Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
