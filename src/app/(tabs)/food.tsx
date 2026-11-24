@@ -704,7 +704,7 @@ function CaloriesCard({
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
 }) {
   const { t } = useTranslation();
-  const goals = useGoals();
+  const goals = useGoals().data;
   const columns = [
     { name: t('nutrition.protein'), tint: categoryAccent.protein, value: macros.protein, target: goals.protein },
     { name: t('nutrition.carbs'), tint: categoryAccent.carbs, value: macros.carbs, target: goals.carbs },

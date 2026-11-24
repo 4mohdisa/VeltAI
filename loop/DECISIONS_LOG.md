@@ -10269,3 +10269,6 @@
 - 2026-11-25 05:34 Keep ' – ' in es and fr for the separator until Isa reviews wording (already in Blocked list).
 - 2026-11-25 05:34 Round 165 separator task ends with a render test so the fix is proven in en, es and fr.
 - 2026-11-25 05:34 Notes trimmed: finished items removed, repeats merged.
+- 2026-11-25 05:35 Chose 2.4 over the Row 29 verify wiring because the brief orders Phase 3 leftovers before tests, and goals with no load or error state is a user-visible gap.
+- 2026-11-25 05:35 Added a grep first step because the last two rounds asked for work that was already done.
+- 2026-11-25 05:35 Kept the Jev signal advisory: it said run 78%, which matches the plan, so no override.

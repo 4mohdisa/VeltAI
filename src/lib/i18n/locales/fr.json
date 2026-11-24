@@ -206,7 +206,8 @@
     "savedAsYouType": "Vos chiffres, sans intervention de Lume. Enregistrés à mesure que vous tapez.",
     "eyebrow": "Cibles quotidiennes",
     "gramsField": "{{label}} (g)",
-    "percentField": "{{label}} (%)"
+    "percentField": "{{label}} (%)",
+    "loadFailed": "Impossible de charger vos cibles recommandées."
   },
   "addMenu": {
     "title": "Ajouter un repas",

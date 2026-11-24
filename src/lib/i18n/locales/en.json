@@ -206,7 +206,8 @@
     "savedAsYouType": "Your numbers, untouched by Lume. Saved as you type.",
     "eyebrow": "Daily targets",
     "gramsField": "{{label}} (g)",
-    "percentField": "{{label}} (%)"
+    "percentField": "{{label}} (%)",
+    "loadFailed": "Couldn't load your recommended targets."
   },
   "addMenu": {
     "title": "Add meal",

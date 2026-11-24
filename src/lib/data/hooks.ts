@@ -455,9 +455,9 @@ export async function hydrateGoals(): Promise<void> {
   useSettingsStore.getState().setServerGoals(g ? goalsFromApi(g) : null);
 }
 
-export function useGoals(): MacroGoals {
-  useHydration(hydrateGoals);
-  return useEffectiveGoals();
+export function useGoals(): Async<MacroGoals> {
+  const { isLoading, error, refetch } = useHydration(hydrateGoals);
+  return { data: useEffectiveGoals(), isLoading, error, refetch };
 }
 
 /** Fetch the server's own entitlement record and store it. On any failure

@@ -206,7 +206,8 @@
     "savedAsYouType": "Tus números, sin cambios de Lume. Se guardan mientras escribes.",
     "eyebrow": "Metas diarias",
     "gramsField": "{{label}} (g)",
-    "percentField": "{{label}} (%)"
+    "percentField": "{{label}} (%)",
+    "loadFailed": "No se pudieron cargar tus metas recomendadas."
   },
   "addMenu": {
     "title": "Añadir comida",
