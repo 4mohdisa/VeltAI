@@ -1,21 +1,25 @@
 // Dietary — multi-select pills. "None" is mutually exclusive with the rest:
 // picking it clears the others, picking anything else clears "None".
+import { useTranslation } from 'react-i18next';
+
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, MultiSelectField } from '@/components/forms';
 import { navigate } from '@/lib/nav';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement } from '@/lib/types';
 
-const DIETARY: { label: string; value: DietaryRequirement }[] = [
-  { label: 'Halal', value: 'halal' },
-  { label: 'Vegetarian', value: 'vegetarian' },
-  { label: 'Vegan', value: 'vegan' },
-  { label: 'Gluten-free', value: 'gluten_free' },
-  { label: 'Dairy-free', value: 'dairy_free' },
-  { label: 'None', value: 'none' },
-];
+// Labels live in onboarding.dietary.options, keyed by these values.
+const DIETARY = [
+  'halal',
+  'vegetarian',
+  'vegan',
+  'gluten_free',
+  'dairy_free',
+  'none',
+] as const satisfies readonly DietaryRequirement[];
 
 export default function DietaryScreen() {
+  const { t } = useTranslation();
   const dietary = useOnboardingStore((s) => s.dietary_requirements);
   const setDietaryReqs = useOnboardingStore((s) => s.setDietaryReqs);
 
@@ -29,11 +33,15 @@ export default function DietaryScreen() {
   return (
     <OnbScaffold
       step={4}
-      title="Any dietary requirements?"
-      subtitle="We'll filter your food database accordingly"
-      footer={<Button title="Continue" onPress={() => navigate('/onboarding/preview')} />}
+      title={t('onboarding.dietary.title')}
+      subtitle={t('onboarding.dietary.subtitle')}
+      footer={<Button title={t('onboarding.measurements.continue')} onPress={() => navigate('/onboarding/preview')} />}
     >
-      <MultiSelectField options={DIETARY} selected={dietary} onChange={handleChange} />
+      <MultiSelectField
+        options={DIETARY.map((value) => ({ label: t(`onboarding.dietary.options.${value}`), value }))}
+        selected={dietary}
+        onChange={handleChange}
+      />
     </OnbScaffold>
   );
 }

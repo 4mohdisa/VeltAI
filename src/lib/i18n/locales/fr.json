@@ -1199,6 +1199,18 @@
         "african": "Africaine",
         "latin_american": "Latino-américaine"
       }
+    },
+    "dietary": {
+      "title": "Avez-vous des restrictions alimentaires ?",
+      "subtitle": "Nous filtrerons votre base d'aliments en conséquence",
+      "options": {
+        "halal": "Halal",
+        "vegetarian": "Végétarien",
+        "vegan": "Végan",
+        "gluten_free": "Sans gluten",
+        "dairy_free": "Sans lactose",
+        "none": "Aucune"
+      }
     }
   },
   "signup": {

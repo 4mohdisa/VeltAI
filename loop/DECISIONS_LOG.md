@@ -10481,3 +10481,6 @@
 - 2026-11-25 08:47 Skipped the handover item about the signup SESSION_ENDED dispatch: the notes record it as already done (R207).
 - 2026-11-25 08:47 Kept the one-screen-per-round rule and the R209 rule: reuse common keys only where the wording matches exactly.
 - 2026-11-25 08:47 Kept es and fr wording as the agent's own translation, flagged for Isa's review, as in R194 and R210.
+- 2026-11-25 08:49 R212: dietary screen chosen, following the R211 order (cuisine, then dietary, targets, preview, done, paywall). Jev ranked the same pick at 99%.
+- 2026-11-25 08:49 R212: dietary reuses shared option labels only if a shared file exists; otherwise labels are nested under onboarding.dietary. Reason: keep the cuisine pattern.
+- 2026-11-25 08:49 R212: es and fr wording is own translation, listed for Isa review in the blocked list. Reason: app launch needs translated onboarding.

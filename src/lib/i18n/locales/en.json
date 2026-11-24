@@ -1199,6 +1199,18 @@
         "african": "African",
         "latin_american": "Latin American"
       }
+    },
+    "dietary": {
+      "title": "Any dietary requirements?",
+      "subtitle": "We'll filter your food database accordingly",
+      "options": {
+        "halal": "Halal",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan",
+        "gluten_free": "Gluten-free",
+        "dairy_free": "Dairy-free",
+        "none": "None"
+      }
     }
   },
   "signup": {
