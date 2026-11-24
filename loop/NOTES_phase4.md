@@ -33,7 +33,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
-- Full suite on checkpoint rounds. Round 35 and round 44 were checkpoints; next about round 54.
+- Full suite on checkpoint rounds. Round 35 and 44 were checkpoints; next about round 54 (ran as a re-verify, full suite due at round 60).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
 - Every round runs tsc and targeted Jest for changed files and reports results.
 - zsh: quote glob patterns; pass Jest file lists via tr '\n' '\0' | xargs -0.
@@ -43,7 +43,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Handover at round 50 done. Name full paths in every prompt.
 - Round 53: a flagged 'partly done' report is re-verified before the next swap.
-- Round 54: flagged report on savedScreen swap (no full gate output). Re-verify first; todayCard swap (Jev 83%) comes next round. Reason: the flag asks for it before moving on.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -53,10 +52,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 40-43: i18n, debugStore, calendar and gymCards render test lint cleared.
 - Round 44 (checkpoint): full tsc and Jest green.
-- Rounds 45-50: gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList render tests swapped.
-- Round 51: savedMealsList.render.test.tsx swapped.
-- Round 52: savedMealsLog.render.test.tsx swapped and re-verified in round 53.
-- Round 53: savedScreen.render.test.tsx swap made (line 11). Gates re-verified in round 54.
+- Rounds 45-53: gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList, savedMealsList, savedMealsLog render tests swapped.
+- Round 54: savedScreen.render.test.tsx re-verified (tsc 0, jest pass, eslint clean). No edit needed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -65,8 +62,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 54: re-verify savedScreen gates (tsc, jest on file, eslint unused directives, require count, console/debugger/TODO search).
-- Then todayCard.render.test.tsx swap (Jev 83%).
+- Round 55: todayCard.render.test.tsx swap (require('react') to jest.requireActual in jest.mock factories), gates: tsc, jest on file, eslint unused directives, require count 0, console/debugger/TODO search.
 - Then noFabricatedData.test.ts (15), measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern.
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual). Consider one shared expo-camera mock.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).

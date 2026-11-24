@@ -39,8 +39,7 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({ Skeleton: () => null 
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: () => ({}),
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
+  useFocusEffect: (cb: () => void) => jest.requireActual('react').useEffect(cb, [cb]),
   usePathname: () => '/(tabs)/gym',
   Href: {},
 }));
