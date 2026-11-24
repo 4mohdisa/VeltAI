@@ -9847,3 +9847,6 @@
 - 2026-11-25 03:14 Rule kept: a require() outside a jest.mock factory becomes a top-level import; inside a factory it becomes jest.requireActual.
 - 2026-11-25 03:14 Warning count is 23 after the measurements swap (report). The handover's 49 is stale. Re-check with npx expo lint before the next swap.
 - 2026-11-25 03:14 Chose the onboarding/signup render file over analyticsSink.ts: it stays inside test code, one file per round, and matches the queue in the notes.
+- 2026-11-25 03:15 Switched to Jev's pick (onboardingBodyType). Reason: it is a one file, low risk swap that matches the previous round's NEXT, and Jev's confidence on the next action is 0.98. I weighed the Row 2.2 backend items (id::text queries, error swallowing) higher in value, but they are larger, multi file tasks, and the risk signal is moderate, so the smaller step is right this round. Backend work comes next.
+- 2026-11-25 03:15 Keep one file per round for the remaining onboarding and signup render tests (Dietary, Cuisine, Done, Goal, Index, Preview, Targets, signupOtp, signupSignInMode).
+- 2026-11-25 03:15 Round 62 result: onboardingActivity.render.test.tsx cleared; expo lint warnings 23 to 22.
