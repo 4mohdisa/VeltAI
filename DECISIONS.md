@@ -64,6 +64,8 @@ in git — this file is not a changelog.
 - The analytics opt-out is a **persisted privacy choice** (secure-store): it survives restart AND sign-out — `reset()` deliberately does not clear it, because "off means fully off" is a published claim.
 - Third-party-AI consent (guideline 5.1.2(i)): one persisted acknowledgment gates every point where data leaves for Gemini or Anthropic — photo/label capture, Ask-Lumo, the insights screen and the morning-brief fetch. Nothing is uploaded and no AI endpoint is called before it. Cleared on sign-out.
 - Health data is never used for advertising and never shared beyond the disclosed processors.
+- The iOS privacy manifest lives in `app.json` (`ios.privacyManifests`), not in `/ios`, which is git ignored and rebuilt by prebuild. Its collected data types follow `PRIVACY_DATA.md`; update both together.
+- Removed iOS prompts (PHASE4 row 12a): Face ID (`expo-secure-store` `faceIDPermission: false`, nothing uses `requireAuthentication`) and Motion (`expo-sensors` `motionPermission: false`, only the debug Accelerometer is used and it needs no prompt). Turning either back on needs the plugin option and an es and fr string in `src/lib/i18n/infoPlist/`.
 
 ## UI conventions
 

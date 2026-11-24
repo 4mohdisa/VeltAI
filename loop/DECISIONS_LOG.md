@@ -10312,3 +10312,13 @@
 - 2026-11-25 05:53 Round 174: the parity test already runs inside full jest --ci, which verify calls, so no extra verify step is needed for it. Confirmed by the round 173 report.
 - 2026-11-25 05:53 Round 174: CI workflow written as a local file with a throwaway local Postgres service, so TestPG and the migration check run in CI. No repository secret is referenced. Never pushed.
 - 2026-11-25 05:53 Round 174: Row 2.5 (goals and unit prefs via backend) waits one round, because the flag needed closing first. Jev ranked the same order, so no second look was needed.
+- 2026-11-25 05:54 Chose the verification task first because the loop flag says the type check and tests were not run last round, and the flag must be cleared before new work.
+- 2026-11-25 05:54 Used the TestPG migration test with the variable set only for one command, to confirm the shim file move works on the local database.
+- 2026-11-25 05:54 Jev ranked run highest (86%) and that matches this choice, so no second look was needed.
+- 2026-11-25 05:54 Row 12 stays next after this round, as the last report recommended; the manifest check still waits for it.
+- 2026-11-25 05:54 Row 29 stays PARTIAL until the manifest check exists.
+- 2026-11-25 05:55 Round 176: the loop rejected the previous prompt for not restricting work to loop/phase4. This prompt states the branch rule and a read-only branch check first.
+- 2026-11-25 05:55 Round 176: Row 12 is split into 12a (manifest and strings, this round) and 12b (check script). Reason: Jev gives a 9 percent clean-finish signal, so take the smaller task.
+- 2026-11-25 05:55 Round 176: Row 12a uses app.json ios.privacyManifests when there is no ios/ folder, since the app is configured through Expo config.
+- 2026-11-25 05:55 Round 176: HealthKit and notification usage strings are left for rows 11 and 10. Reason: those features are not built yet.
+- 2026-11-25 05:55 Round 176: Jev's advisory run signal agrees with the Row 12 order in the notes. No override.

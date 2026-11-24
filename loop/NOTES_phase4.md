@@ -5,15 +5,17 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
+- Prompts must restate the branch rule (round 175 prompt was rejected for missing it).
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL (2.3 done, 2.4 done, 2.5 not started). Row 29 PARTIAL.
-- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci (includes localeParity), verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan.
-- Row 29 still missing: CI workflow file (round 174, local only), manifest check (after Row 12).
+- Row 1 BUILT. Row 2 PARTIAL (2.3 and 2.4 done, 2.5 not started). Row 29 PARTIAL.
+- Row 12 splits into 12a (manifest and strings, in progress round 176) and 12b (check script).
+- Row 29 verify chain: tsc, lint --max-warnings 0, full Jest --ci, verify:go (race), verify:migrations (skips unless LUME_TEST_DATABASE_URL set), secrets:scan. Still missing: manifest check (after 12b).
+- CI workflow: .github/workflows/verify.yml, local only, never run on GitHub.
 - Last full checkpoint: round 170. Next full checkpoint: round 180.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Row 29 (finish) -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -> 3 to 14b -> 15 to 30 -> 31.
+Row 12a, 12b -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -> 3 to 14b -> 15 to 30 -> 31.
 
 ## Rules
 - Lint: npx expo lint. Verify never passes with warnings.
@@ -36,9 +38,9 @@ Row 29 (finish) -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 174: loop flag on round 173 handled by reconciling row 29 status (PARTIAL). Parity test runs inside full Jest, so no extra verify step.
-- Round 174: CI workflow is local only, uses a throwaway local Postgres service, no repository secret.
-- Round 173: loop flag closed by checking verify chain, not by new code. Secrets scan before manifest check (manifest needs Row 12).
+- Round 175: round 174 verified by tsc, go vet, migration test, parity test and lint on changed files.
+- Round 174: CI workflow local only, throwaway local Postgres service, no repository secret. Shim SQL moved to backend/tests/migrations/supabase_shims.sql.
+- Round 173: secrets scan runs before manifest check.
 - Round 172: migration check skips with exit 0 when variable unset.
 - Round 170: analyticsSink warning cleared by scoped config allow.
 - Round 168: goals.saved kept; removal needs a non-allowed test edit. Parked.
@@ -71,21 +73,24 @@ Row 29 (finish) -> 2.5 goals and unit prefs via backend -> 2.2 remaining -> 2b -
 - Several screens have react-hooks/exhaustive-deps disable comments (Row 22).
 - Skeleton crashes under Reanimated test mock; every screen test mocks it (Row 22).
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
+- Migration apply test runs twice in CI (verify:go and verify:migrations).
+- Commented setup in days_pg_test.go and similar TestPG files repeats shim SQL; point at supabase_shims.sql.
 
 ## Problems noticed, not fixed
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives undefined tile. Deploy backend with app (owner note).
 - Postgres is a brew service; database setup manual. Rows 17 and 26 should script it.
-- migration apply test runs twice in verify when variable set (verify:go and verify:migrations). Cheap, but a duplicate.
 - days_pg_test.go setup comment shows socket URL, which the guard refuses.
 - Phase 2 iOS notes say backend returns 401 without Clerk token. Probably stale. Check in Row 16.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Jest prints about 200 console blocks; act warnings from ScanReviewCard; react-test-renderer deprecated. Row 22.
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
-- Secrets scan placeholder check is a heuristic: a real key containing 123456 or abcdef would pass.
+- Secrets scan placeholder check is a heuristic.
+- consent.ts and purchases.ts eslint-disable for require rule (see Parked).
 
 ## Next
-- Round 174: row 29 close-out (status reconciled, CI workflow file local only).
+- Round 176: Row 12a privacy manifest and usage strings (app.json or ios/PrivacyInfo.xcprivacy, plus en/es/fr strings).
+- Then Row 12b check script, which closes the manifest part of row 29.
 - Then 2.5 goals and unit prefs via backend, 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
-- Manifest check after Row 12.
+- Full checkpoint at round 180.
