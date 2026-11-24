@@ -51,9 +51,7 @@ export default function SubscriptionScreen() {
     if (restoring) return;
     if (!billing) {
       showToast({
-        message: isDevBuild()
-          ? 'Billing not configured (dev).'
-          : 'Purchases are temporarily unavailable. Please try again later.',
+        message: isDevBuild() ? t('profile.billingNotConfigured') : t('profile.purchasesUnavailable'),
         tone: 'info',
       });
       return;
@@ -62,12 +60,12 @@ export default function SubscriptionScreen() {
     try {
       const info = await restorePurchases();
       showToast({
-        message: hasProEntitlement(info) ? 'Subscription restored.' : 'No purchases to restore.',
+        message: hasProEntitlement(info) ? t('profile.subscriptionRestored') : t('profile.noPurchasesToRestore'),
         tone: hasProEntitlement(info) ? 'success' : 'info',
       });
       refresh();
     } catch {
-      showToast({ message: "Couldn't reach the store — try again later.", tone: 'error' });
+      showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
     } finally {
       setRestoring(false);
     }
@@ -79,9 +77,7 @@ export default function SubscriptionScreen() {
       // the app should not have started (see requiredEnv), so say something
       // true rather than "(dev)".
       showToast({
-        message: isDevBuild()
-          ? 'Billing not configured (dev).'
-          : 'Purchases are temporarily unavailable. Please try again later.',
+        message: isDevBuild() ? t('profile.billingNotConfigured') : t('profile.purchasesUnavailable'),
         tone: 'info',
       });
       return;
@@ -93,17 +89,14 @@ export default function SubscriptionScreen() {
     switch (outcome) {
       case 'purchased':
       case 'restored':
-        showToast({ message: "You're all set — welcome to Lume Pro!", tone: 'success' });
+        showToast({ message: t('subscription.welcomePro'), tone: 'success' });
         refresh();
         break;
       case 'unavailable':
-        showToast({
-          message: 'Plans could not be loaded — the store offering is not available right now.',
-          tone: 'error',
-        });
+        showToast({ message: t('subscription.plansUnavailable'), tone: 'error' });
         break;
       case 'error':
-        showToast({ message: "The store couldn't be reached — try again later.", tone: 'error' });
+        showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
         break;
       case 'cancelled':
         break; // dismissing the sheet is a choice
@@ -113,22 +106,22 @@ export default function SubscriptionScreen() {
   return (
     <Screen
       variant="floating"
-      eyebrow="Billing"
-      title="Subscription"
+      eyebrow={t('subscription.eyebrow')}
+      title={t('settings.subscription')}
       showBack contentStyle={{ gap: space.xl }}
       footer={
         <View style={{ gap: space.sm }}>
           {effectiveEntitled ? (
             <Button
-              title="Manage subscription"
+              title={t('subscription.manage')}
               variant="secondary"
               loading={managing}
               onPress={() => void manage()}
             />
           ) : (
-            <Button title="See plans" onPress={() => void seePlans()} />
+            <Button title={t('subscription.seePlans')} onPress={() => void seePlans()} />
           )}
-          <Button title="Restore Purchases" variant="tertiary" loading={restoring} onPress={() => void restore()} />
+          <Button title={t('profile.restorePurchases')} variant="tertiary" loading={restoring} onPress={() => void restore()} />
         </View>
       }
     >
@@ -142,14 +135,12 @@ export default function SubscriptionScreen() {
               Lume Pro
             </Text>
             <Badge
-              label={loading ? 'Checking…' : effectiveEntitled ? 'Active' : 'Not subscribed'}
+              label={loading ? t('subscription.checking') : effectiveEntitled ? t('subscription.active') : t('subscription.notSubscribed')}
               icon={loading ? undefined : effectiveEntitled ? 'checkmark-circle' : 'close-circle'}
             />
           </View>
           <Text variant="body" color={color.secondaryLabel}>
-            {effectiveEntitled
-              ? 'Your subscription is active. Billing, renewal and cancellation are managed through your Apple account.'
-              : 'Plans, pricing and the free trial are shown on the plans screen before any purchase.'}
+            {effectiveEntitled ? t('subscription.activeBody') : t('subscription.inactiveBody')}
           </Text>
         </View>
       </Card>
@@ -159,14 +150,11 @@ export default function SubscriptionScreen() {
           {/* "development mode" is dev-only copy: in a release build a missing
               RevenueCat key is a packaging mistake, not a mode, and App Review
               would be reading it. */}
-          {isDevBuild()
-            ? 'Billing is not configured in this build (development mode).'
-            : 'Subscriptions are temporarily unavailable. Please try again later.'}
+          {isDevBuild() ? t('subscription.notConfiguredDev') : t('subscription.unavailable')}
         </Text>
       ) : (
         <Text variant="footnote" color={color.secondaryLabel}>
-          Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name →
-          Subscriptions — Apple handles all billing.
+          {t('subscription.autoRenew')}
         </Text>
       )}
     </Screen>

@@ -10027,3 +10027,13 @@
 - 2026-11-25 04:08 Restore busy test keeps the typed __setPurchasesModule fake (already a recorded decision). No question to Isa needed.
 - 2026-11-25 04:08 Morning brief free-plan refusal stays isError true (decided round 100). No question to Isa needed.
 - 2026-11-25 04:08 Round 102 and 103 close-out is confirmed by read-only grep, no edits.
+- 2026-11-25 04:09 Chose the 2.3 string part because the last report named it as NEXT and it is small and testable; it is also the Round 105 item in the notes.
+- 2026-11-25 04:09 Kept the morning brief free-plan refusal as isError true, as decided in round 100. Revisit in Rows 6 and 7.
+- 2026-11-25 04:09 Kept the typed __setPurchasesModule fake for the restore busy test. No jest.mock. Export from authBilling.test.ts is not needed now.
+- 2026-11-25 04:09 Did not act on the handover TestPG count of 22. The verified count is 24 (round 97). The handover is stale.
+- 2026-11-25 04:09 Did not touch 127.0.0.1:55432. TestPG uses localhost lume_test_local only.
+- 2026-11-25 04:09 Rewrote the rejected prompt to touch one screen only (subscription.tsx). The DailyMacroRing 'of' string moves to round 106 as its own single-file prompt, per the loop note.
+- 2026-11-25 04:09 Kept the string round in parts, as already decided. Each part touches one screen or component.
+- 2026-11-25 04:09 Chose candidate 1 over the restore toast test because the string work is the open Row 2.3 item in progress and closes a known English-only gap.
+- 2026-11-25 04:09 Jev ranked the run action at 97%, which matches. Kept the step count to 5 and the scope to one screen because Jev's risk score is 1.0 and the last task finished cleanly only 52% of the time.
+- 2026-11-25 04:09 Did not ask Isa anything. The restore-fake question and the morning brief refusal question are already recorded as decided (round 100 keeps isError true).

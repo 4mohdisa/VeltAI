@@ -147,6 +147,21 @@
     "helpAndFeedback": "Ayuda y comentarios",
     "helpAndFeedbackHint": "Abre un formulario para informar de un problema o compartir una idea."
   },
+  "subscription": {
+    "eyebrow": "Facturación",
+    "manage": "Gestionar suscripción",
+    "seePlans": "Ver planes",
+    "checking": "Comprobando…",
+    "active": "Activa",
+    "notSubscribed": "Sin suscripción",
+    "activeBody": "Tu suscripción está activa. La facturación, la renovación y la cancelación se gestionan desde tu cuenta de Apple.",
+    "inactiveBody": "Los planes, los precios y la prueba gratuita se muestran en la pantalla de planes antes de cualquier compra.",
+    "welcomePro": "¡Todo listo — te damos la bienvenida a Lume Pro!",
+    "plansUnavailable": "No se pudieron cargar los planes — la oferta de la tienda no está disponible ahora mismo.",
+    "notConfiguredDev": "La facturación no está configurada en esta compilación (modo de desarrollo).",
+    "unavailable": "Las suscripciones no están disponibles temporalmente. Inténtalo de nuevo más tarde.",
+    "autoRenew": "Las suscripciones se renuevan automáticamente hasta que las canceles. Cancela cuando quieras en Ajustes → tu nombre → Suscripciones — Apple gestiona toda la facturación."
+  },
   "preferences": {
     "title": "Preferencias",
     "measurementSystem": "Sistema de medida",

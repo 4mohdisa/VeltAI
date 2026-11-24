@@ -147,6 +147,21 @@
     "helpAndFeedback": "Aide et commentaires",
     "helpAndFeedbackHint": "Ouvre un formulaire pour signaler un problème ou partager une idée."
   },
+  "subscription": {
+    "eyebrow": "Facturation",
+    "manage": "Gérer l'abonnement",
+    "seePlans": "Voir les offres",
+    "checking": "Vérification…",
+    "active": "Actif",
+    "notSubscribed": "Non abonné",
+    "activeBody": "Votre abonnement est actif. La facturation, le renouvellement et la résiliation sont gérés depuis votre compte Apple.",
+    "inactiveBody": "Les offres, les tarifs et l'essai gratuit sont présentés sur l'écran des offres avant tout achat.",
+    "welcomePro": "Tout est prêt — bienvenue dans Lume Pro !",
+    "plansUnavailable": "Impossible de charger les offres — l'offre de la boutique n'est pas disponible pour le moment.",
+    "notConfiguredDev": "La facturation n'est pas configurée dans cette version (mode développement).",
+    "unavailable": "Les abonnements sont temporairement indisponibles. Veuillez réessayer plus tard.",
+    "autoRenew": "Les abonnements se renouvellent automatiquement jusqu'à résiliation. Résiliez à tout moment dans Réglages → votre nom → Abonnements — Apple gère toute la facturation."
+  },
   "preferences": {
     "title": "Préférences",
     "measurementSystem": "Système de mesure",

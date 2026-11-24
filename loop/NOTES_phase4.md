@@ -6,11 +6,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 104: checkpoint. Full tsc and full app Jest, no file changes. Verify rounds 102 and 103 (restore busy spinner, KNOWN_ISSUES subscription line) with grep.
+- Round 104 checkpoint passed: tsc 0 errors, Jest 243 suites and 1,413 tests green.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1 gym days: code done, simulator check parked.
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 string round: subscription English text, Restore label, DailyMacroRing 'of', restore success toast test, Row 13 and 14 items, i18n header comments.
+  - 2.3 string round, one screen or component per round. Part 1 (round 105): subscription.tsx. Part 2 (round 106): DailyMacroRing.tsx 'of' via nutrition.ringOf. Later parts: Row 13 and 14 items, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -22,14 +22,14 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
 - Local Postgres and sandbox keys only. Never touch hosted services. Isa deploys himself.
 - TestPG database: localhost:5432, database lume_test_local. Never the ssh tunnel on 127.0.0.1:55432. Never print LUME_TEST_DATABASE_URL.
-- TestPG count is 24 (verified round 97). A handover saying 21 to 22 is stale: do not act on it.
+- TestPG count is 24 (verified round 97). A handover saying 21 or 22 is stale.
 - RevenueCat only, no Stripe. No free tier: 7 day Apple trial gives every feature, no trial when buying straight away.
-- Morning brief free-plan refusal sets isError true (decided round 100, keep). Revisit with entitlement state in Rows 6 and 7.
+- Morning brief free-plan refusal sets isError true (decided round 100, keep). Revisit in Rows 6 and 7.
 - Subscription render test keeps the typed __setPurchasesModule fake (no jest.mock, reset in finally).
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin for references, log in DESIGN_REFERENCES.md, never copy real apps.
-- Prompts touch one screen, component or file each. Max 5 numbered steps. Name every file by full path.
+- Prompts touch ONE screen, component or file each (a rejected prompt touched two). Max 5 numbered steps. Name every file by full path.
 - Every prompt must say: work only on loop/phase4, never switch, push or merge.
 - Shared router reset (setup.ts beforeEach) replaces per-test router mockClear.
 - setup.ts must not import expo-router at the top (breaks 18 suites that mock it).
@@ -40,13 +40,13 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - analyticsSink.ts:29 keeps its lazy require (accepted 1 warning). Revisit in Row 29.
 - i18n alias: `import { use as addPlugin }` is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
-- Full suite on checkpoint rounds (104, 120, ...). Round 104 was made a checkpoint by the loop note.
+- Full suite on checkpoint rounds (120, 135, ...).
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
-- String changes wait for the string round (2.3).
+- String changes wait for the string round (2.3), done in parts.
 - Every round runs tsc and targeted Jest for changed files and reports results. Docs-only rounds run tsc and a grep.
 - Row 2.2 closes only when every backend item is done. Do not close it on lint alone.
 - zsh: quote glob patterns. Node 22 first on PATH. Count errors with grep.
-- Jev risk 1.0 of 2: keep steps small, check gates each round.
+- Jev risk 1.0 of 2: keep steps small, one file per prompt, check gates each round.
 - Loop repeats finished tasks: do not pick work already recorded as done.
 
 ## Done
@@ -62,7 +62,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 101: KNOWN_ISSUES.md docs fixed.
 - Round 102: subscription manage failure toast and busy state.
 - Round 103: restore busy spinner passed to Button; subscription render test (6 tests).
-- Checkpoints 44, 60, 75, 76, 90: tsc and Jest green (242 suites, 1,402 tests).
+- Round 104: checkpoint, tsc 0, Jest 243 suites and 1,413 tests.
+- Checkpoints 44, 60, 75, 76, 90: tsc and Jest green.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates. Logged in OWNER_CHECKS_phase4.md. Do not retry until Isa answers.
@@ -71,8 +72,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 104: checkpoint (full tsc, full app Jest, no edits) and grep close-out for rounds 102 and 103.
-- Round 105: 2.3 string round (see list above).
+- Round 105: 2.3 string part 1 (subscription.tsx strings to en, es, fr; prompt sent, result pending).
+- Round 106: 2.3 string part 2 (DailyMacroRing.tsx 'of' via nutrition.ringOf).
+- Then Row 13 and 14 strings one screen per round (gymRange, summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label), with snapshots regenerated.
 - Then 2.2: feature_used allowlist; app_version vs build number; export as .json file; one exportData; useWeeklyMacros refetch test; npm audit safe fix; 49 WHERE id::text queries.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c and 2d owner rows, rows 3 to 14b, 15 to 30, then 31.
@@ -82,7 +84,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - ssh tunnel on 127.0.0.1:55432: unknown target. Do not touch.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
-- React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72 in render logs. Look at them in Row 22.
+- React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72 in render logs. src/lib/data is off limits for now. Look at them in Row 22.
 - react-test-renderer is deprecated and warns in hook tests. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Revisit in Row 22.
 - Plain npx eslint at repo root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
@@ -92,5 +94,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Nothing tests refetch in useWeeklyMacros.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint does not exist).
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
-- Successful restore from not-entitled shows 'No purchases to restore.' toast: untested. Also delete-account.tsx not reviewed for swallowed errors.
-- Handover TestPG count (21 to 22) is stale. Count stays at 24.
+- Successful restore from not-entitled shows 'No purchases to restore.' toast: untested. delete-account.tsx not reviewed for swallowed errors.
+- Handover TestPG count (21 or 22) is stale. Count stays at 24.
+- Restore fake store in the busy test: Isa did not answer whether to share mockPurchases from authBilling.test.ts. Keep the typed fake for now.
