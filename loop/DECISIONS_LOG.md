@@ -10070,3 +10070,6 @@
 - 2026-11-25 04:23 Chose the MyScheduleCard weekday fix: it is the NEXT item from the last report, touches one component, and needs one render test, which fits the advice to keep steps small (Jev risk 1.0).
 - 2026-11-25 04:23 Round 114 starts after round 113. The full suite stays on checkpoint round 120.
 - 2026-11-25 04:23 Day letters and custom-food strings stay queued for the next rounds in the string round.
+- 2026-11-25 04:24 Picked the formatting.ts date helpers because the last report named them as the next task and they are the last shared formatter gap in 2.3.
+- 2026-11-25 04:24 Full Jest run this round because the task changes strings (gotcha: a string change broke a snapshot in round 106).
+- 2026-11-25 04:24 Agree with Jev's run recommendation. Kept the step to one file plus locale keys, matching the one-file-per-prompt rule (Jev risk 0.9 of 2).

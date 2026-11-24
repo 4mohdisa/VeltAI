@@ -41,8 +41,14 @@ export function dateLocale(language: string): string {
   return language === 'en' ? 'en-AU' : language;
 }
 
-const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** "Wed 10 Jun" — weekday and month names from the app language, in the
+ *  design's day-before-month order without the comma Intl puts after the weekday. */
+function shortDayMonth(date: Date): string {
+  const locale = dateLocale(i18n.language);
+  const weekday = date.toLocaleDateString(locale, { weekday: 'short' });
+  const month = date.toLocaleDateString(locale, { month: 'short' });
+  return `${weekday} ${date.getDate()} ${month}`;
+}
 
 function sameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -52,14 +58,14 @@ function sameDay(a: Date, b: Date): boolean {
 export function formatRelativeDate(date: Date, now: Date = new Date()): string {
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
-  if (sameDay(date, now)) return 'Today';
-  if (sameDay(date, yesterday)) return 'Yesterday';
-  return `${WEEKDAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]}`;
+  if (sameDay(date, now)) return i18n.t('foodLog.today');
+  if (sameDay(date, yesterday)) return i18n.t('history.yesterday');
+  return shortDayMonth(date);
 }
 
 /** "Mon 29 Jun 2026" — used for trial dates etc. */
 export function formatLongDate(date: Date): string {
-  return `${WEEKDAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+  return `${shortDayMonth(date)} ${date.getFullYear()}`;
 }
 
 /** "Saturday 21 November" in the app language — the full day label. */

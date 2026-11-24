@@ -7880,7 +7880,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 Breakdown
               </Text>
               <View
-                accessibilityLabel="Wed 2 Sep, In 1,975 · burned 1,890, +85 kcal"
+                accessibilityLabel="Wed 2 Sept, In 1,975 · burned 1,890, +85 kcal"
                 accessible={true}
                 style={
                   {
@@ -7934,7 +7934,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Wed 2 Sep
+                      Wed 2 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -8024,7 +8024,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Thu 3 Sep, In 2,000 · burned 1,900, +100 kcal"
+                accessibilityLabel="Thu 3 Sept, In 2,000 · burned 1,900, +100 kcal"
                 accessible={true}
                 style={
                   {
@@ -8078,7 +8078,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Thu 3 Sep
+                      Thu 3 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -8168,7 +8168,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Fri 4 Sep, In 1,790 · burn not computed, —"
+                accessibilityLabel="Fri 4 Sept, In 1,790 · burn not computed, —"
                 accessible={true}
                 style={
                   {
@@ -8222,7 +8222,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Fri 4 Sep
+                      Fri 4 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -8295,7 +8295,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Sat 5 Sep, In 2,050 · burned 1,920, +130 kcal"
+                accessibilityLabel="Sat 5 Sept, In 2,050 · burned 1,920, +130 kcal"
                 accessible={true}
                 style={
                   {
@@ -8349,7 +8349,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Sat 5 Sep
+                      Sat 5 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -8439,7 +8439,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Sun 6 Sep, In 2,075 · burned 1,930, +145 kcal"
+                accessibilityLabel="Sun 6 Sept, In 2,075 · burned 1,930, +145 kcal"
                 accessible={true}
                 style={
                   {
@@ -8493,7 +8493,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Sun 6 Sep
+                      Sun 6 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -10739,7 +10739,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 Breakdown
               </Text>
               <View
-                accessibilityLabel="Wed 2 Sep, Rest day, 0 min"
+                accessibilityLabel="Wed 2 Sept, Rest day, 0 min"
                 accessible={true}
                 style={
                   {
@@ -10793,7 +10793,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Wed 2 Sep
+                      Wed 2 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -10883,7 +10883,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Thu 3 Sep, Rest day, 0 min"
+                accessibilityLabel="Thu 3 Sept, Rest day, 0 min"
                 accessible={true}
                 style={
                   {
@@ -10937,7 +10937,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Thu 3 Sep
+                      Thu 3 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -11027,7 +11027,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Fri 4 Sep, Legs, —"
+                accessibilityLabel="Fri 4 Sept, Legs, —"
                 accessible={true}
                 style={
                   {
@@ -11081,7 +11081,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Fri 4 Sep
+                      Fri 4 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -11154,7 +11154,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Sat 5 Sep, Rest day, 0 min"
+                accessibilityLabel="Sat 5 Sept, Rest day, 0 min"
                 accessible={true}
                 style={
                   {
@@ -11208,7 +11208,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Sat 5 Sep
+                      Sat 5 Sept
                     </Text>
                     <Text
                       numberOfLines={1}
@@ -11298,7 +11298,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                 </View>
               </View>
               <View
-                accessibilityLabel="Sun 6 Sep, Pull day · 47 min, 47 min"
+                accessibilityLabel="Sun 6 Sept, Pull day · 47 min, 47 min"
                 accessible={true}
                 style={
                   {
@@ -11352,7 +11352,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                         ]
                       }
                     >
-                      Sun 6 Sep
+                      Sun 6 Sept
                     </Text>
                     <Text
                       numberOfLines={1}

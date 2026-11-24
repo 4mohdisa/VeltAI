@@ -15,6 +15,9 @@ import {
   dateLocale,
 } from '@/lib/formatting';
 import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
+import fr from '@/lib/i18n/locales/fr.json';
 import { devWarn } from '@/lib/env';
 import {
   METRIC_PREFERENCES,
@@ -109,6 +112,23 @@ describe('formatting', () => {
   test('formatTime zero-pads', () => {
     expect(formatTime(new Date(2026, 0, 1, 18, 0))).toBe('18:00');
     expect(formatTime(new Date(2026, 0, 1, 9, 5))).toBe('09:05');
+  });
+});
+
+describe('formatRelativeDate / formatLongDate follow the app language', () => {
+  const now = new Date(2026, 5, 16, 12, 0); // Tue 16 Jun 2026
+  afterAll(() => i18n.changeLanguage('en'));
+
+  test.each([
+    ['en', en, 'Wed 10 Jun', 'Mon 29 Jun 2026'],
+    ['es', es, 'mié 10 jun', 'lun 29 jun 2026'],
+    ['fr', fr, 'mer. 10 juin', 'lun. 29 juin 2026'],
+  ])('%s', async (lang, strings, older, long) => {
+    await i18n.changeLanguage(lang);
+    expect(formatRelativeDate(new Date(2026, 5, 16, 8, 30), now)).toBe(strings.foodLog.today);
+    expect(formatRelativeDate(new Date(2026, 5, 15, 23, 59), now)).toBe(strings.history.yesterday);
+    expect(formatRelativeDate(new Date(2026, 5, 10), now)).toBe(older);
+    expect(formatLongDate(new Date(2026, 5, 29))).toBe(long);
   });
 });
 
