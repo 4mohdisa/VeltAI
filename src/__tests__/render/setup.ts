@@ -35,7 +35,9 @@ jest.mock('@/lib/haptics', () => ({
 
 // expo-secure-store backs the persisted onboarding store (see the node suite's
 // mock); render tests need the same in-memory stand-in.
-jest.mock('expo-secure-store', () => require('../mocks/expoSecureStore'));
+jest.mock('expo-secure-store', () =>
+  jest.requireActual<typeof import('../mocks/expoSecureStore')>('../mocks/expoSecureStore'),
+);
 
 // The router spy is shared by every test in a file, so clear its calls first;
 // otherwise a route asserted in one test could have been pushed by another.

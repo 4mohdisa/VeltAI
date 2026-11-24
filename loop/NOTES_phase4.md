@@ -6,15 +6,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 83 done: debugCapture.test.ts lint fixed (jest.requireActual for the reset reload, top-level import for the flag-off test). tsc 0, file green (40 tests), lint 0 errors, 4 warnings.
-- Round 84 in progress: debugGating.test.ts:112 and :141.
+- Round 84 done: debugGating.test.ts 2 warnings fixed (child_process as top-level named import, jest.requireActual with comment). tsc 0, file green (11 tests), lint 0 errors, 2 warnings.
+- Round 85 in progress: render/setup.ts:38 require.
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 4 (round 83). Verify with `npx expo lint`.
-- Remaining warnings: debugGating 2; render/setup.ts 1; src/lib/analyticsSink.ts 1 (app code).
+- Errors: 0. Warnings: 2 (round 84).
+- Remaining warnings: render/setup.ts:38; src/lib/analyticsSink.ts:29 (app code).
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
@@ -33,6 +33,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Factory cases use jest.requireActual (babel-jest hoists factories).
 - Test-body requires of mocked modules become top-level imports. Node built-ins become named top-level imports.
 - Reloads after jest.resetModules use jest.requireActual with a one-line comment.
+- setup.ts must not import expo-router at the top (breaks 18 suites that mock it).
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
@@ -53,7 +54,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-83: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling and debugCapture requires fixed.
+- Rounds 45-84: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture and debugGating requires fixed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -62,8 +63,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 84: debugGating.test.ts 2 no-require-imports (lines 112, 141).
-- Then render/setup.ts afterEach require (38).
+- Round 85: render/setup.ts:38 require (jest.requireMock, no top-level expo-router import).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
 - Then app code src/lib/analyticsSink.ts (line 29, no-require-imports).
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.

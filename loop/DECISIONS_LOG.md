@@ -9931,3 +9931,8 @@
 - 2026-11-25 03:37 Chose the debugGating lint fix because it is one file, the same pattern as debugCapture, and the lowest risk for Jev's moderate-high risk score.
 - 2026-11-25 03:37 Kept one file per round and asked for no eslint-disable comments, following the notes rule for lint swaps.
 - 2026-11-25 03:37 Left the full Jest suite for the next checkpoint (round 90), since this round is only one file.
+- 2026-11-25 03:38 Chose the render/setup.ts:38 fix as the next round: it is the next item in the agreed order, touches one file and keeps the Jev risk low.
+- 2026-11-25 03:38 Agreed with Jev (run 99%): no reason to override. Keeping one file per round because Jev rates risk moderate to high.
+- 2026-11-25 03:38 Round 84 (debugGating.test.ts) accepted: tsc 0, file green 11/11, lint down to 2 warnings. Child_process import treated as a Node built-in, per the agreed rule.
+- 2026-11-25 03:38 Checkpoint stays at round 90 (full tsc and Jest), as planned.
+- 2026-11-25 03:38 analyticsSink.ts:29 is app code and is left for its own round after setup.ts.
