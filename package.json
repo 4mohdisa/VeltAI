@@ -67,8 +67,8 @@
     "assert:env": "node scripts/assert-build-env.mjs",
     "preflight": "node scripts/preflight.mjs",
     "verify": "tsc --noEmit && npm run lint -- --max-warnings 0 && jest --ci && npm run verify:go && npm run verify:migrations && npm run secrets:scan && npm run check:manifest",
-    "verify:go": "cd backend && go test -race ./...",
-    "verify:migrations": "cd backend && go test -count=1 -v -run '^TestPG_MigrationsApplyToEmptyDatabase$' ./tests/migrations",
+    "verify:go": "cd backend && go test -race $(go list ./... | grep -v '/tests/migrations$')",
+    "verify:migrations": "cd backend && go test -race -count=1 -v ./tests/migrations",
     "secrets:scan": "node scripts/secrets-scan.mjs",
     "check:manifest": "node scripts/checkPrivacyManifest.js"
   },

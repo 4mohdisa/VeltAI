@@ -6,12 +6,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Rows 12 and 12b BUILT. Row 29 BUILT. Round 182: full verify with TestPG on local lume_test_local, 27 of 27 TestPG passed, 0 skipped, verify exit 0, lint 0 warnings. Recorded in BASELINE_phase4.md.
-- Row 2 PARTIAL: 2.3 and 2.4 done. 2.5 to re-check with grep. 2.2 remaining.
+- Rows 1, 12, 12b, 29 BUILT. Row 29 lint covers src and scripts (0 errors, 0 warnings). Verify exit 0 in round 183, 27 of 27 TestPG.
+- Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44). 2.2 remaining.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+Round 184: remove duplicate migration apply run in verify. Then 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -23,7 +23,7 @@ Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 r
 - Outside React: import i18n from '@/lib/i18n'. Dates: dateLocale(i18n.language).
 - Render tests named *.render.test.tsx. Jest --ci, one file per command, never -u.
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
-- Max 5 steps per prompt. One screen or component per prompt. Grep before editing and before asking for work.
+- Max 5 steps per prompt. One screen or component per prompt. Grep before editing.
 - Every prompt states the loop/phase4 branch rule first.
 
 ## Decisions (never delete)
@@ -34,7 +34,8 @@ Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 r
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Round 183: lint scope fix before 2.5, because scripts/ errors can pass verify.
+- Round 184: migration apply test runs once, in verify:migrations. verify:go excludes that package.
+- Round 183: lint scope covers scripts/ before 2.5, because scripts/ errors can pass verify.
 - Round 182: verify with local TestPG recorded. Row 29 BUILT.
 - Round 181: row 29 BUILT only if full verify exits 0 with zero lint warnings.
 - Round 180: parity test runs in full Jest, so no separate wiring into verify.
@@ -68,11 +69,12 @@ Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 r
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined three times.
 - Several screens have react-hooks/exhaustive-deps disable comments (Row 22).
-- Skeleton crashes under Reanimated test mock (Row 22).
+- Skeleton crashes under Reanimated test mock (Row 22). Every screen test mocks Skeleton.
 - Weekday and month names on Hermes unchecked. Targets card height 360 not checked on device.
-- Migration apply test runs twice per verify when the variable is set.
 - Commented setup in TestPG files repeats shim SQL; point at supabase_shims.sql.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
+- Root config files (app.config.js, eslint.config.js) and backend JavaScript not linted.
+- preflight.mjs exits 1 on this machine; FAIL items not inspected.
 
 ## Problems noticed, not fixed
 - Local ios/ prebuild output is stale until npx expo prebuild. Do not edit ios/.
@@ -87,9 +89,8 @@ Round 183: lint covers scripts/ (Row 29 follow-up). Then 2.5 (grep first), 2.2 r
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 - Secrets scan placeholder check is a heuristic.
-- signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx.
-- Signed helper and hide button reuse noted above; not fixed.
+- signed helper defined in ConfidenceBadge.tsx, week.tsx and energy.tsx. Not fixed.
 
 ## Next
-- Round 183: lint covers scripts/, verify exit 0 with zero warnings.
-- Then 2.5 (grep first), 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
+- Round 184: remove duplicate migration apply run in verify, verify exit 0, 0 warnings.
+- Then 2b (check Mobbin MCP with claude mcp list first), 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.

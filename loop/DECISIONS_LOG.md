@@ -10351,3 +10351,6 @@
 - 2026-11-25 06:08 Chose candidate 1: it is small, concrete and was the NEXT item in the last report. Jev ranked the same action first at 89 percent, so no second look was needed.
 - 2026-11-25 06:08 Round 182 TestPG run is accepted: 27 TestPG tests ran with zero skips, verify exit 0 with local lume_test_local. Row 29 stays BUILT.
 - 2026-11-25 06:08 Lint scope fix goes before Row 2.5 because a lint gap lets errors in scripts/ pass verify, which the exit rule forbids.
+- 2026-11-25 06:10 Chose the duplicate migration test fix first, as the handover recommends. It is small and clean, and Jev's risk score (0.7) favours a smaller task.
+- 2026-11-25 06:10 Kept the migration test in verify:migrations so its coverage stays the same, and removed only the second run from verify:go.
+- 2026-11-25 06:10 Row 2b comes next, after this fix, because the Mobbin check is a read only step and needs no code change.

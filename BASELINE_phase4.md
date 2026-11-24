@@ -80,3 +80,22 @@ Migration apply check: passed, 18 migrations applied to a throwaway lume_test_mi
 | `verify:migrations` | passed, 18 migrations applied |
 | `secrets:scan` | 910 files checked, 0 findings |
 | `check:manifest` | OK |
+
+## Migration apply test runs once, round 184
+
+25 Nov 2026, Node 22.23.5, branch loop/phase4, LUME_TEST_DATABASE_URL set for the command only (local lume_test_local; the value is not recorded). `npm run verify` exit code 0, log in /tmp/lume_verify_round184.log.
+
+`verify:go` now runs `go test -race` on every package except backend/tests/migrations. `verify:migrations` now runs that whole package (`go test -race -count=1 -v ./tests/migrations`), so its 6 non-database tests are not lost.
+
+| Count | Before (round 183) | After (round 184) |
+|---|---|---|
+| TestPG_MigrationsApplyToEmptyDatabase runs per verify | 2 | 1 |
+| Go packages ok | 34 in `verify:go`, migrations package run again in `verify:migrations` | 33 in `verify:go` + 1 in `verify:migrations` = 34 |
+| Go packages with no test files | 14 | 14 |
+| Migrations package tests passed | 7 (`verify:go`) + 1 (`verify:migrations`) | 7 (`verify:migrations`) |
+| TestPG (separate `go test -race -count=1 -v -run TestPG ./...`) | 27 of 27 | 27 of 27 |
+| tsc / lint | 0 errors / 0 errors, 0 warnings | 0 errors / 0 errors, 0 warnings |
+| Jest | 260 suites, 1,534 tests | 260 suites, 1,534 tests |
+| Migrations applied | 18 | 18 |
+| secrets:scan | 910 files, 0 findings | 910 files, 0 findings |
+| check:manifest | OK | OK |
