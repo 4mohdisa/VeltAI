@@ -10526,3 +10526,6 @@
 - 2026-11-25 09:08 Jev risk is 1.0 and the last task was 53% likely clean, so I chose the smallest task on the list over the validation toast fix.
 - 2026-11-25 09:08 Paywall strings count as done for step 1d. The es and fr wording stays open for Isa's review, logged in OWNER_CHECKS_phase4.md.
 - 2026-11-25 09:08 The English validation toasts, the stale header, sessionExpired copy and the CUISINE_LABEL cleanup stay queued in that order for the next rounds.
+- 2026-11-25 09:09 Chose verification first: the loop flagged R223 as not checked, and the notes say to fix failures in a small round before new strings. Jev ranks the run action highest, which agrees.
+- 2026-11-25 09:09 Kept the round to checks and small fixes so the risk score stays low, since the Jev risk reading is 1.3 of 2.
+- 2026-11-25 09:09 Corrected the paywall round number to R222 in the row 2b notes, because the notes record the paywall strings in R222 and the report flagged R221 as a guess.

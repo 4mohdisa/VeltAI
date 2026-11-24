@@ -8,13 +8,14 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked.
-- Row 2b DIFFERENT. Done: goal, activity, measurements, body type, cuisine, dietary, targets, disclaimer, paywall, done screen strings (en, es, fr). Open: preview screen, validateOnboardingPayload toasts (English), records for paywall (R223).
+- Row 2b DIFFERENT. Done: all step 1d screens and paywall (en, es, fr, tests). Open: validateOnboardingPayload toasts (English), stale header, sessionExpired copy, CUISINE_LABEL cleanup.
+- R223 was records only and its checks were not run. R224 verifies it.
 - Last full checkpoint R218: tsc 0, lint 0, 269 suites, 1,595 tests. Next checkpoint R227 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-- R223: records only (PHASE4_ROWS.md, OWNER_CHECKS_phase4.md) for paywall step 1d.
-- Then: English validateOnboardingPayload messages via i18n in src/lib/stores/onboarding.ts; stale header in same file; onboarding.sessionExpired copy; CUISINE_LABEL and unused English label cleanup in cuisines.ts; preview screen; then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+- R224: verify R223 (tsc, full lint, changed render tests). Fix failures first, small.
+- Then: English validateOnboardingPayload messages via i18n in src/lib/stores/onboarding.ts; stale header in same file; onboarding.sessionExpired copy; CUISINE_LABEL and unused English label cleanup in cuisines.ts; preview screen check; then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 - If a round shows failures: fix first, in a small round, before new strings.
 
 ## Rules
@@ -56,10 +57,11 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R206: 1d split one screen per round.
 - R208: kept OnbScaffold, shared by every onboarding screen.
 - R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
-- R219 (corrected R220): done screen strings translated. markCompleted() only sets completed; answers cleared on sign-out (resetRegistry.ts). Plan-ready screen NOT built: needs Isa's go-ahead.
+- R219: done screen strings translated. markCompleted() only sets completed; answers cleared on sign-out (resetRegistry.ts). Plan-ready screen NOT built: needs Isa's go-ahead.
 - R221 rejected for covering more than one screen.
 - R222: paywall strings done. es and fr kept as agent wording for review.
-- R223: loop flagged partial last round. Records closed first, docs only, because Jev risk is high.
+- R223: records closed, docs only. Checks not run; R224 verifies.
+- R224: verification round first, because R223 was flagged as partly done.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: all onboarding screens, paywall (onboarding.paywall), measurements, body type, cuisine, dietary, targets, summary, preview, done, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, healthDisclaimer.text.
@@ -107,3 +109,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Signup placeholders are literals.
 - Simulator check needed for Clerk session end on signup and paywall 401 routes.
 - Preview: cuisine and halal lines are copy only; no data check.
+- Stale header in onboarding.ts lines 3 and 4 says cleared on markCompleted; answers are cleared on sign-out.
+- CUISINE_LABEL in cuisines.ts is unused.
+- onboarding.sessionExpired says finish setting up; wrong for users who already completed onboarding.
+- validateOnboardingPayload toasts are English.
