@@ -6,15 +6,15 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 84 done: debugGating.test.ts 2 warnings fixed (child_process as top-level named import, jest.requireActual with comment). tsc 0, file green (11 tests), lint 0 errors, 2 warnings.
-- Round 85 in progress: render/setup.ts:38 require.
+- Round 85 done: render/setup.ts factory uses jest.requireActual. tsc 0, render project 166 suites and 536 tests green. Lint 0 errors, 1 warning.
+- Round 86 in progress: src/lib/analyticsSink.ts:29 (app code, no-require-imports).
 - Row 1 BUILT. Row 2 PARTIAL: 2.1 total gym days (code done, simulator check parked), 2.2 lint and backend leftovers (in progress), 2.3 Row 13 and 14 items, 2.4 useGoals (Row 15), 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (hand built, commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0. Warnings: 2 (round 84).
-- Remaining warnings: render/setup.ts:38; src/lib/analyticsSink.ts:29 (app code).
+- Errors: 0. Warnings: 1.
+- Remaining warning: src/lib/analyticsSink.ts:29 (app code).
 - Use `npx expo lint`. Plain eslint at repo root is noisy (web/, ds-bundle/).
 
 ## Decisions (never delete)
@@ -39,6 +39,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
 - Do not change api.ts listSessions defaults (would add ?limit to gymRange reads and break apiSurface.test.ts).
 - A required require (fresh module via jest.isolateModules) keeps one reasoned eslint-disable-next-line comment.
+- No new eslint-disable comments in app code.
 - i18n alias: `import { use as addPlugin }` is kept.
 - One file per round for lint swaps. Full suite on checkpoint rounds. Checkpoints every 15 rounds (90, 105, ...), plus any round the loop script marks.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). No seed or insert without an approved path.
@@ -54,7 +55,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Rounds 28-43: react-hooks, display-name, i18n, debugStore, calendar and gymCards lint fixes.
 - Rounds 38-39: history.tsx gym session read limited (7-day window, GYM_SESSION_HYDRATE_LIMIT).
 - Rounds 44, 60, 75, 76 (checkpoints): full tsc and Jest green (242 suites, 1,402 tests).
-- Rounds 45-84: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture and debugGating requires fixed.
+- Rounds 45-85: render tests cleared of require and router swaps; shared router beforeEach in setup.ts; foodSaved, authBilling, debugCapture, debugGating requires fixed; setup.ts factory fixed.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -63,9 +64,9 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 85: render/setup.ts:38 require (jest.requireMock, no top-level expo-router import).
+- Round 86: src/lib/analyticsSink.ts:29 (top-level import if safe, else typed lazy load, no disable comment).
 - Then settingsHelp.render.test.tsx: clear its own wrapped mockPush.
-- Then app code src/lib/analyticsSink.ts (line 29, no-require-imports).
+- Then render/setup.ts afterEach require('./helpers'): check early load is safe, verify with full render project.
 - Then camera mocks: photoScan, labelScan, scanScreens.strings (jest.requireActual), or one shared expo-camera mock.
 - Round 90 checkpoint: full tsc and Jest.
 - Row 2.2 backend: gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; useWeeklyMacros refetch test; npm audit with safe fix.

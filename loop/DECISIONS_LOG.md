@@ -9936,3 +9936,8 @@
 - 2026-11-25 03:38 Round 84 (debugGating.test.ts) accepted: tsc 0, file green 11/11, lint down to 2 warnings. Child_process import treated as a Node built-in, per the agreed rule.
 - 2026-11-25 03:38 Checkpoint stays at round 90 (full tsc and Jest), as planned.
 - 2026-11-25 03:38 analyticsSink.ts:29 is app code and is left for its own round after setup.ts.
+- 2026-11-25 03:39 Chose analyticsSink.ts:29 first because it is the last app-code lint warning and it ships in the bundle, so it matters more than test-only warnings.
+- 2026-11-25 03:39 Kept one file per round to hold Jev's moderate to high risk down.
+- 2026-11-25 03:39 Forbade new eslint-disable comments in app code so the lint fix is real, not hidden.
+- 2026-11-25 03:39 Left setup.ts afterEach and settingsHelp mockPush for later rounds, as the last report recommended.
+- 2026-11-25 03:39 Round 85 marked done: setup.ts factory now uses jest.requireActual; lint 0 errors, 1 warning; render project 166 suites and 536 tests passing.
