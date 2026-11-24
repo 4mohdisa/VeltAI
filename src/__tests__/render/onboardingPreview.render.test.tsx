@@ -4,6 +4,7 @@
 import PreviewScreen from '@/app/onboarding/preview';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
@@ -23,6 +24,5 @@ test('pressing the account CTA navigates to the next onboarding route', () => {
   const cta = buttonWithTitle(tree, 'Create my account →');
   act(() => (cta!.props.onPress as () => void)());
 
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
   expect(router.push).toHaveBeenCalledWith('/onboarding/signup');
 });

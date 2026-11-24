@@ -9871,3 +9871,7 @@
 - 2026-11-25 03:20 Kept the lint sweep ahead of the Row 2.2 backend and Row 2.3 string work, matching the order set in the notes.
 - 2026-11-25 03:20 Deferred the DailyMacroRing 'of' string fix to a string round, as the notes require.
 - 2026-11-25 03:20 Kept the rule that prompts touch one file each and that the loop script commits, so Claude Code is told not to commit.
+- 2026-11-25 03:21 Picked the router swap over the string and backend tasks: Jev says run at 100% and risk is moderate, so a one file lint step is the safest next move.
+- 2026-11-25 03:21 Kept the prompt to one file and five steps, as the notes require for lint swaps.
+- 2026-11-25 03:21 Left the 'of' string fix, the KNOWN_ISSUES count and the i18n header comments for the string round, since String changes wait for a string round.
+- 2026-11-25 03:21 Left the Index file change uncommitted for the loop script to commit, as the report says it is done and verified.
