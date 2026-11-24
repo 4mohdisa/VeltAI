@@ -9875,3 +9875,6 @@
 - 2026-11-25 03:21 Kept the prompt to one file and five steps, as the notes require for lint swaps.
 - 2026-11-25 03:21 Left the 'of' string fix, the KNOWN_ISSUES count and the i18n header comments for the string round, since String changes wait for a string round.
 - 2026-11-25 03:21 Left the Index file change uncommitted for the loop script to commit, as the report says it is done and verified.
+- 2026-11-25 03:22 Chose candidate 1 because Jev ranks it 99% run and the lint queue is one file per round; it is the smallest safe step.
+- 2026-11-25 03:22 Kept the one file per round rule because Jev risk is 0.9 (moderate to high).
+- 2026-11-25 03:22 Left the Preview CTA router.push mockClear gap and the string fixes (DailyMacroRing 'of', KNOWN_ISSUES count, i18n header comments) for later rounds, since string changes wait for a string round.

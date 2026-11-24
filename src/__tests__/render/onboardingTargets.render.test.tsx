@@ -3,6 +3,7 @@
 import TargetsScreen from '@/app/onboarding/targets';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 const METRICS: Metrics = {
@@ -31,6 +32,5 @@ test('accepting the target navigates to the next onboarding route', () => {
   const cont = buttonWithTitle(tree, "Looks right — let's go");
   act(() => (cont!.props.onPress as () => void)());
 
-  const { router } = require('expo-router') as { router: { push: jest.Mock } };
   expect(router.push).toHaveBeenCalledWith('/onboarding/paywall');
 });
