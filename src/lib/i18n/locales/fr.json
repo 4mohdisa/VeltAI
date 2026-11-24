@@ -1255,5 +1255,8 @@
     "toastCodeSent": "Code envoyé à {{email}}.",
     "toastSetupUnchecked": "Impossible de vérifier votre configuration : on continue avec ce qui est enregistré sur cet appareil.",
     "toastServerUnreachable": "Impossible de joindre le serveur : on vous configure ici et on synchronisera plus tard."
+  },
+  "healthDisclaimer": {
+    "text": "Lume fournit des informations générales sur la nutrition et l'activité physique. Il ne s'agit pas d'un avis médical. Consultez un professionnel de santé avant de modifier de façon importante votre alimentation ou votre routine d'exercice."
   }
 }

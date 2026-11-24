@@ -1,18 +1,17 @@
 // HealthDisclaimer — App Store guideline 1.4.1 (physical harm): apps that compute
 // nutrition/fitness targets must visibly state they are not medical advice.
-// Placed on: onboarding targets, goals settings, and inside the Terms.
+// Placed on: onboarding targets, goals settings and nutrition detail. The text
+// lives in healthDisclaimer.text in each locale file.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 
-export const HEALTH_DISCLAIMER_TEXT =
-  'Lume provides general nutrition and fitness information. It is not medical advice. ' +
-  'Consult a healthcare professional before making significant changes to your diet or exercise routine.';
-
 export function HealthDisclaimer(): JSX.Element {
+  const { t } = useTranslation();
   return (
     <View
       accessibilityRole="text"
@@ -26,7 +25,7 @@ export function HealthDisclaimer(): JSX.Element {
     >
       <Icon name="information-circle-outline" size={16} color={color.tertiaryLabel} style={{ marginTop: 1 }} />
       <Text variant="caption" color={color.secondaryLabel} style={{ flex: 1 }}>
-        {HEALTH_DISCLAIMER_TEXT}
+        {t('healthDisclaimer.text')}
       </Text>
     </View>
   );

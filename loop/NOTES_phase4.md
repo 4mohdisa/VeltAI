@@ -8,12 +8,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, 1d activity, 1d measurements, 1d body type, 1d cuisine, 1d dietary (R212). OnbScaffold, 401 handling on paywall, signup and launch gate, answers survive expired session.
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal, activity, measurements, body type, cuisine, dietary, targets (R213). OnbScaffold; 401 handling on paywall, signup and launch gate; answers survive expired session.
 - Last checkpoint R210: tsc 0, lint exit 0, Jest 268 suites and 1,579 tests. Next checkpoint at R215 or later.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R213 (now): 1d targets screen strings (en, es, fr). Then 1d preview, done, paywall (one screen per round). Signup SESSION_ENDED fix when a signup round is open. Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R215 (now): translate shared HealthDisclaimer (en, es, fr). R216: signup SESSION_ENDED fix (signup.tsx continueAfterAuth). Then 1d preview, done, paywall (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -53,15 +53,15 @@ R213 (now): 1d targets screen strings (en, es, fr). Then 1d preview, done, paywa
 - R199: renderScreen wrapped in AppStateProvider (approved).
 - R205: paywall 401 uses SESSION_ENDED.
 - R206: 1d split one screen per round, goal first.
-- R208: kept OnbScaffold. Shared component used by every onboarding screen.
-- R209: measurements keys nested under onboarding.measurements.
-- R210: body type nested under onboarding.bodyType.
-- R211: cuisine before targets. Keys nested under onboarding.cuisine with options.<value>. Continue reuses onboarding.measurements.continue.
-- R212: dietary chosen per R211 order. Labels nested under onboarding.dietary.options.<value>.
-- R213: targets next per R212 order. Signup SESSION_ENDED fix kept as a candidate for a later round.
+- R208: kept OnbScaffold, shared by every onboarding screen.
+- R209 to R212: onboarding keys nested under onboarding.<screen>; cuisine and dietary options under options.<value>.
+- R211: cuisine before targets. Continue reuses onboarding.measurements.continue.
+- R213: targets done. Signup SESSION_ENDED fix kept as a later candidate.
+- R214: disclaimer translated first, because targets claimed es and fr but its disclaimer was still English.
+- R215: prompt rejected for covering two components. Rewritten as one component only (HealthDisclaimer.tsx).
 
 ## Blocked on Isa (do not retry)
-- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (incl. French ft / in and 'ans'), body type, cuisine (Spanish feminine agreement, French mixed region and adjective style), dietary (Spanish feminine forms, 'Sans lactose' vs 'Sans produits laitiers'), targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
+- es and fr wording review: Welcome, signup, onboarding, goal, activity (masculine forms), measurements (French ft / in and 'ans'), body type, cuisine (Spanish feminine agreement, French mixed region and adjective style), dietary (Spanish feminine forms, 'Sans lactose' vs 'Sans produits laitiers'), targets, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one, HealthDisclaimer (R215).
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - Whether es and fr should ever be shown (app is English only).
@@ -76,7 +76,7 @@ R213 (now): 1d targets screen strings (en, es, fr). Then 1d preview, done, paywa
 - Paywall builds its cuisine line from English CUISINE_LABEL in src/components/onboarding/cuisines.ts. Remove the label field once the paywall is translated.
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
-- formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
+- formatNumber in src/lib/formatting.ts hardcoded to en-AU (es and fr show 2,100). units.ts also en-AU.
 - WeekEnergyCard reads i18n directly. nutrition.tsx:231 builds 'slot, energy' in code.
 - kcalEatenPerDay and kcalNetPerDay names misleading (renames not allowed).
 - ConfidenceBadge hide reuses gymSession.hide. 'signed' helper defined in three files.
@@ -86,10 +86,10 @@ R213 (now): 1d targets screen strings (en, es, fr). Then 1d preview, done, paywa
 - measurements.tsx: local variable t in a useState initialiser shadows t(). Rename in a tidy round.
 - Onboarding: two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
-- Signup 401 route opens sign in without SESSION_ENDED (candidate for a signup round).
-- Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy (onboarding.sessionExpired).
+- Signup 401 route opens sign in without SESSION_ENDED (R216 candidate).
+- Completed users see 'Sign in again to finish setting up' (onboarding.sessionExpired). Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: preview, done, paywall strings and toasts. Targets is in R213.
+- Still hard-coded English: preview, done, paywall strings and toasts.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
