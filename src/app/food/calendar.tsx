@@ -2,15 +2,17 @@
 // 5). A sheet over the Food tab: month grid, a dot on every day that has food
 // logged, and a jump back to today.
 //
-// The dots come from useLoggedDays, which derives them from the user's own rows;
-// a failed fetch draws none rather than guessing. Future days are inert — the
-// log records what was eaten.
+// The dots come from useLoggedDays, which derives them from the user's own rows.
+// A failed fetch shows an error with Retry instead of a dotless month, which
+// would claim nothing was logged. Future days are inert — the log records what
+// was eaten.
 import { useEffect, useState } from 'react';
 import { PixelRatio, StyleSheet, View } from 'react-native';
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { ErrorState } from '@/components/display/ErrorState';
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -25,7 +27,7 @@ export default function FoodCalendarScreen() {
   const { t } = useTranslation();
   const selectedDate = useFoodStore((s) => s.selectedDate);
   const setSelectedDate = useFoodStore((s) => s.setSelectedDate);
-  const { days: loggedDays } = useLoggedDays();
+  const { days: loggedDays, error, refetch } = useLoggedDays();
   // Which month the grid is showing — starts on the selected day's month.
   const [month, setMonth] = useState(selectedDate);
   const today = isoDate(new Date());
@@ -38,6 +40,14 @@ export default function FoodCalendarScreen() {
   const cells = monthGrid(month);
   const monthLabel = formatMonthYear(fromIso(month));
   const nextDisabled = addMonths(month, 1) > today && fromIso(month).getMonth() === fromIso(today).getMonth();
+
+  if (error) {
+    return (
+      <SheetContent variant="leading" title={t('calendar.title')} onClose={() => router.back()}>
+        <ErrorState title={t('calendar.loadFailedTitle')} message={t('calendar.loadFailedMessage')} onRetry={refetch} />
+      </SheetContent>
+    );
+  }
 
   return (
     <SheetContent variant="leading" title={t('calendar.title')} subtitle={t('calendar.subtitle')} onClose={() => router.back()}>

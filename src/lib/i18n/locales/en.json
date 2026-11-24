@@ -395,7 +395,9 @@
     "dayLogged": "{{date}}, has food logged",
     "jumpToToday": "Jump to today",
     "previousMonth": "Previous month",
-    "nextMonth": "Next month"
+    "nextMonth": "Next month",
+    "loadFailedTitle": "Couldn't load your calendar",
+    "loadFailedMessage": "The days you logged food on can't be shown right now."
   },
   "gymSession": {
     "nothingScheduled": "Nothing scheduled",

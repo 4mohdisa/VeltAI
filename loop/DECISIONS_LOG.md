@@ -10630,3 +10630,8 @@
 - 2026-11-25 09:44 Did not add any strings this round, so no new es or fr wording is needed before Isa's review.
 - 2026-11-25 09:44 Left the lookupBarcodeAsync removal blocked, because it needs Isa's approval (R242).
 - 2026-11-25 09:44 Logged the R243 split in the notes, so the next round starts from calendar.tsx.
+- 2026-11-25 09:47 Chose calendar.tsx first, as the last report recommended. It is one screen, which matches the one-screen-per-prompt rule.
+- 2026-11-25 09:47 food.tsx is left for a later round because it is a second screen. Keeps each prompt to one screen.
+- 2026-11-25 09:47 Asked for a new calendar.error.render.test.tsx in en only. es and fr render tests are parked in NOTES.
+- 2026-11-25 09:47 Asked for an OWNER_CHECKS_phase4.md append for the new es and fr calendar strings, because they need Isa's wording review (R243 rule).
+- 2026-11-25 09:47 Told Claude Code to reuse LoadFailedNotice or ErrorState and not create a component, to avoid duplicated logic.

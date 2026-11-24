@@ -395,7 +395,9 @@
     "dayLogged": "{{date}}, repas enregistrés",
     "jumpToToday": "Aller à aujourd’hui",
     "previousMonth": "Mois précédent",
-    "nextMonth": "Mois suivant"
+    "nextMonth": "Mois suivant",
+    "loadFailedTitle": "Impossible de charger votre calendrier",
+    "loadFailedMessage": "Les jours où vous avez enregistré des repas ne peuvent pas être affichés pour le moment."
   },
   "gymSession": {
     "nothingScheduled": "Rien de prévu",

@@ -395,7 +395,9 @@
     "dayLogged": "{{date}}, con comida registrada",
     "jumpToToday": "Ir a hoy",
     "previousMonth": "Mes anterior",
-    "nextMonth": "Mes siguiente"
+    "nextMonth": "Mes siguiente",
+    "loadFailedTitle": "No se pudo cargar tu calendario",
+    "loadFailedMessage": "Ahora mismo no se pueden mostrar los días en que registraste comidas."
   },
   "gymSession": {
     "nothingScheduled": "Nada programado",
