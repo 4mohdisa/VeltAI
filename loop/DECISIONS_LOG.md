@@ -10049,3 +10049,7 @@
 - 2026-11-25 04:13 Round 108 picks gymRange strings over the subscription es and fr render test: it is a user visible Phase 3 leftover under Row 14, and the subscription render test stays as candidate 2 for a later round.
 - 2026-11-25 04:13 gymRange tests are found by grep, not by a fixed file name, because the exact test file path is not recorded in the notes.
 - 2026-11-25 04:13 Changed assertions are listed in the report so the Phase 3 test edits are on record (Isa allowed edits to tests that pin old English text).
+- 2026-11-25 04:16 Chose summaryCards workoutsLine as the next string item because the previous round's notes listed it next and it is one file.
+- 2026-11-25 04:16 Jev ranks the same task highest (run 99%). Kept it since it matches the planned order and is a small change.
+- 2026-11-25 04:16 Gym tab render test and custom-food string stay queued for later rounds to keep each prompt to one file.
+- 2026-11-25 04:16 Round 108 (gymRange) recorded as done and verified by the latest report: tsc 0, 243 suites and 1,417 tests pass.

@@ -964,7 +964,10 @@
     "loading": "Loading this week…",
     "loadFailed": "Couldn't load this week's sessions",
     "a11yLabel_one": "Workouts this week: {{count}} session.",
-    "a11yLabel_other": "Workouts this week: {{count}} sessions."
+    "a11yLabel_other": "Workouts this week: {{count}} sessions.",
+    "noSessions": "No sessions yet this week",
+    "untimed_one": "{{count}} without a duration",
+    "untimed_other": "{{count}} without a duration"
   },
   "pendingSync": {
     "waiting_one": "{{count}} change waiting to sync",

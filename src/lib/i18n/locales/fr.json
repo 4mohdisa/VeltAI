@@ -964,7 +964,10 @@
     "loading": "Chargement de cette semaine…",
     "loadFailed": "Impossible de charger les séances de cette semaine",
     "a11yLabel_one": "Entraînements cette semaine : {{count}} séance.",
-    "a11yLabel_other": "Entraînements cette semaine : {{count}} séances."
+    "a11yLabel_other": "Entraînements cette semaine : {{count}} séances.",
+    "noSessions": "Aucune séance cette semaine pour l'instant",
+    "untimed_one": "{{count}} sans durée",
+    "untimed_other": "{{count}} sans durée"
   },
   "pendingSync": {
     "waiting_one": "{{count}} modification en attente de synchronisation",

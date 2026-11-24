@@ -6,11 +6,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 ## State
 - Branch loop/phase4 from loop/phase3. Never work on main.
 - Repo root: /Users/mohammedisa/Development/projects-app/LumeAI.
-- Round 104 checkpoint passed (tsc 0, Jest 243 suites, 1,413 tests). Next full suite: round 120.
+- Round 104 checkpoint passed (tsc 0, Jest 243 suites, 1,413 tests). Round 108 passed (1,417 tests). Next full suite: round 120.
 - Row 1 BUILT. Row 2 PARTIAL.
   - 2.1: code done. Simulator check parked (E2E account needs 250+ gym dates, Isa to decide).
   - 2.2 open: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-  - 2.3 string round, one screen or file per round. Done: subscription.tsx (105), DailyMacroRing 'of' (106), ring es and fr render tests (107). Round 108: gymRange. Then summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
+  - 2.3 string round, one screen or file per round. Done: subscription.tsx, DailyMacroRing 'of', ring es and fr tests, gymRange (108). Round 109: summaryCards workoutsLine. Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label, i18n header comments.
   - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - Rows 2c and 2d (commit e0c184d) are DIFFERENT. Verify and set status later.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
@@ -56,9 +56,10 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 96: schedule_pg.go GetExerciseProgress keeps newest N, returns oldest first.
 - Round 97: 24 of 24 TestPG pass on localhost lume_test_local, 0 skipped.
 - Rounds 98-103: doc fix, getMorningBrief and getProfile errors surfaced, briefProfile tests, KNOWN_ISSUES fixes, subscription manage toast and busy state, restore spinner, subscription render test.
-- Round 105: subscription.tsx 22 strings to t(); subscription.* keys (13) in en, es, fr.
+- Round 105: subscription.tsx strings to t(); subscription.* keys in en, es, fr.
 - Round 106: DailyMacroRing 'of' via nutrition.ringOf (en of, es de, fr sur).
-- Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr visible target line. tsc 0, lint 0.
+- Round 107: dailyMacroRing.i18n.render.test.tsx covers es and fr.
+- Round 108: gymRange month line and monthTitle use app language (gym.monthSessions, monthUntimed, monthFreezes with _one and _other). detailChrome macros snapshot updated.
 - Checkpoints 44, 60, 75, 76, 90, 104: tsc and Jest green.
 
 ## Blocked on Isa
@@ -69,10 +70,11 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Shared billing-disabled toast helper (subscription.tsx restore and seePlans, profile/index.tsx).
 - delete-account.tsx swallowed-errors review.
 - Subscription screen es and fr render test (candidate after gymRange).
+- Gym tab render test in es and fr (src/app/(tabs)/gym.tsx) for the translated month line.
 
 ## Next
-- Round 108: gymRange Gym month line strings and monthTitle language (en, es, fr).
-- Then summaryCards workoutsLine, custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
+- Round 109: summaryCards workoutsLine (en, es, fr plurals).
+- Then custom-food 'Save food', ConfidenceBadge text, nutrition kcal label (snapshots regenerated), one per round.
 - Then 2.2 backend items and the rest of 2.2.
 - Then 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Row 2b, 2c, 2d, rows 3 to 14b, 15 to 30, then 31.
@@ -82,7 +84,7 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - ssh tunnel on 127.0.0.1:55432: unknown target. Do not touch.
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
-- No app-wide en/es/fr key parity test yet (Row 29). No es or fr render test for the subscription screen.
+- No app-wide en/es/fr key parity test yet (Row 29).
 - React act warnings from ScanReviewCard and devWarn from src/lib/data/hooks.ts:72 in render logs. src/lib/data is off limits for now. Look at them in Row 22.
 - react-test-renderer is deprecated and warns in hook tests. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Revisit in Row 22.
@@ -95,4 +97,6 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - The history test hardcodes isoDaysAgo(6) because DAYS isn't exported.
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
 - Restore fake store in the busy test: keep the typed fake for now.
-- DailyMacroRing es and fr covered. Ring string item closed.
+- Hours and minutes format (5h 10m) is hand built in English.
+- summaryCards.ts:35, formatting.ts:67,72 pass undefined locale to toLocaleDateString. Fix with the app language in the string round or Row 22.
+- delete-account.tsx swallowed errors not checked yet.

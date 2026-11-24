@@ -4,6 +4,7 @@
 // null so the card can say so instead of printing a zero.
 import type { StoredMeal } from './foodStore';
 import type { EnergyBalance, GymSession } from '@/lib/api';
+import i18n from '@/lib/i18n';
 import { burnOf, mean, netOf } from './energyRange';
 import { fromIso, weekOf } from './foodDays';
 import { sessionsOn } from './gymRange';
@@ -65,11 +66,13 @@ export function workoutsWeek(sessions: GymSession[], today: string): WorkoutsWee
 /** The line under the session count. No per-session calories exist, so where the
  *  design says "2,000 kcal burned in the gym" this says the time that was logged. */
 export function workoutsLine(w: WorkoutsWeek): string {
-  if (w.sessions === 0) return 'No sessions yet this week';
+  if (w.sessions === 0) return i18n.t('workoutsWeek.noSessions');
   const parts: string[] = [];
-  if (w.minutes > 0) parts.push(`${Math.floor(w.minutes / 60)}h ${w.minutes % 60}m trained`);
-  if (w.untimed > 0) parts.push(`${w.untimed} without a duration`);
-  return parts.join(' · ') || 'Duration not recorded';
+  if (w.minutes > 0) {
+    parts.push(i18n.t('dashboard.durationTrained', { value: `${Math.floor(w.minutes / 60)}h ${w.minutes % 60}m` }));
+  }
+  if (w.untimed > 0) parts.push(i18n.t('workoutsWeek.untimed', { count: w.untimed }));
+  return parts.join(' · ') || i18n.t('gymHistory.durationNotRecorded');
 }
 
 /** Share of a target for a ring; 0 with no target, so an unknown goal draws an empty ring. */

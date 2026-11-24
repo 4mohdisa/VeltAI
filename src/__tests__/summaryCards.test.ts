@@ -9,8 +9,10 @@ import {
   weekStat,
   workoutsLine,
   workoutsWeek,
+  type WorkoutsWeek,
 } from '@/lib/data/summaryCards';
 import type { EnergyBalance, GymSession } from '@/lib/api';
+import i18n from '@/lib/i18n';
 
 const day = (date: string, calories_in: number, out: number | null, net: number | null): EnergyBalance => ({
   date,
@@ -86,4 +88,20 @@ test('ringFraction draws an empty ring without a target', () => {
   expect(ringFraction(1240, 0)).toBe(0);
   expect(ringFraction(1050, 2100)).toBe(0.5);
   expect(ringFraction(5000, 2100)).toBe(1);
+});
+
+describe('workoutsLine follows the app language', () => {
+  afterAll(() => i18n.changeLanguage('en'));
+  const week = (minutes: number, untimed: number): WorkoutsWeek => ({ sessions: 3, minutes, untimed, pips: [] });
+
+  test.each([
+    ['es', '1h 45m de entrenamiento · 1 sin duración', '2 sin duración', 'Aún no hay sesiones esta semana', 'Duración no registrada'],
+    ['fr', '1h 45m d’entraînement · 1 sans durée', '2 sans durée', "Aucune séance cette semaine pour l'instant", 'Durée non enregistrée'],
+  ])('%s', async (lang, singular, plural, none, unrecorded) => {
+    await i18n.changeLanguage(lang);
+    expect(workoutsLine(week(105, 1))).toBe(singular);
+    expect(workoutsLine(week(0, 2))).toBe(plural);
+    expect(workoutsLine(workoutsWeek([], '2026-09-10'))).toBe(none);
+    expect(workoutsLine(week(0, 0))).toBe(unrecorded);
+  });
 });
