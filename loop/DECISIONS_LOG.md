@@ -9893,3 +9893,7 @@
 - 2026-11-25 03:26 Preview, Targets and signupOtp mock clears are checked in this round, not changed, so any fix is a separate small round with its own file.
 - 2026-11-25 03:26 Lint warning count threshold set at 10, matching the signup fix report (12 down to 10).
 - 2026-11-25 03:26 Work stays on loop/phase4 with no git writes, because the loop script commits.
+- 2026-11-25 03:27 Jev ranked the setup.ts beforeEach first (85%). I kept the checkpoint because the loop script marks this round as a checkpoint and says to change no files. Reason Jev cannot see: the setup.ts change touches every render test, so the full baseline (242 suites, 1,402 tests) must be reconfirmed first, and the last checkpoint report already passed, so a fresh baseline is needed before any shared setup edit.
+- 2026-11-25 03:27 The beforeEach in setup.ts is the next round's task, after this checkpoint is green.
+- 2026-11-25 03:27 Did not add the notes' 'checkpoint every 15 rounds' schedule to the script. Script decides checkpoints.
+- 2026-11-25 03:27 Kept the Jev risk reading (1.0, moderate) in mind: this round touches no files, so the risk of continuing is low.
