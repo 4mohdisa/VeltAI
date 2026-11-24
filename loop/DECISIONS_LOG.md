@@ -9820,3 +9820,5 @@
 - 2026-11-25 03:05 Chose savedScreen (candidate 1), the same ranking Jev gave at 87%. It is the next item in the Row 2.2 swap list and needs one file, so it fits the risk guidance.
 - 2026-11-25 03:05 Added a re-verify step for savedMealsLog before moving on, because the loop flagged the last report as partly done. This costs one small check and does not change any file.
 - 2026-11-25 03:05 Did not run the full suite: this is not a checkpoint round (next checkpoint about round 54).
+- 2026-11-25 03:07 Chose the re-verify task over the todayCard swap because the automatic check flagged the last report as partly done. The report printed only the edited line for savedScreen and gave no full gate output for that file, so the change is not yet verified. Jev's 83% pick for todayCard is next round.
+- 2026-11-25 03:07 Kept the change to one file per round, per the Jev risk note (moderate).

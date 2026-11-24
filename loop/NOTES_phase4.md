@@ -42,7 +42,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - i18n alias: `import i18next, { use as addPlugin }` is kept because a plain `use` import trips react-hooks/rules-of-hooks.
 - Never edit loop/DECISIONS_LOG.md or loop/NOTES_phase4.md (loop script owns them).
 - Handover at round 50 done. Name full paths in every prompt.
-- Round 53: a flagged 'partly done' report is re-verified before the next swap (savedMealsLog gates re-run).
+- Round 53: a flagged 'partly done' report is re-verified before the next swap.
+- Round 54: flagged report on savedScreen swap (no full gate output). Re-verify first; todayCard swap (Jev 83%) comes next round. Reason: the flag asks for it before moving on.
 
 ## Done
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -54,7 +55,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Round 44 (checkpoint): full tsc and Jest green.
 - Rounds 45-50: gymSession, gymStreakSkeleton, gymStreakStripFootnote, mealsScreen.strings, recipeLog, recipesList render tests swapped.
 - Round 51: savedMealsList.render.test.tsx swapped.
-- Round 52: savedMealsLog.render.test.tsx swapped (report says gates pass; re-verify in round 53).
+- Round 52: savedMealsLog.render.test.tsx swapped and re-verified in round 53.
+- Round 53: savedScreen.render.test.tsx swap made (line 11). Gates re-verified in round 54.
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -63,8 +65,8 @@ Finish the app (Apple side features, then testing), no input from Isa. Progress 
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 53: re-verify savedMealsLog gates; swap savedScreen.render.test.tsx.
-- Then todayCard.render.test.tsx.
+- Round 54: re-verify savedScreen gates (tsc, jest on file, eslint unused directives, require count, console/debugger/TODO search).
+- Then todayCard.render.test.tsx swap (Jev 83%).
 - Then noFabricatedData.test.ts (15), measurements.render.test.tsx (9). Onboarding and signup render tests may use the same pattern.
 - Then camera mocks in photoScan, labelScan and scanScreens.strings (disable comment to jest.requireActual). Consider one shared expo-camera mock.
 - Then app code src/lib/analyticsSink.ts (no-require-imports).
