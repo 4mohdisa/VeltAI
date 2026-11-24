@@ -5,6 +5,7 @@
 // display in the user's chosen unit but are stored canonically in cm / kg.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, SegmentedField, TextField } from '@/components/forms';
@@ -16,15 +17,16 @@ import type { Sex } from '@/lib/types';
 type HeightUnit = 'cm' | 'ftin';
 type WeightUnit = 'kg' | 'lb';
 
-const SEX_OPTIONS: { label: string; value: Sex | '' }[] = [
-  { label: 'Male', value: 'male' },
-  { label: 'Female', value: 'female' },
-  { label: 'Prefer not to say', value: 'other' },
-];
+const SEX_OPTIONS = [
+  { labelKey: 'onboarding.measurements.sexMale', value: 'male' },
+  { labelKey: 'onboarding.measurements.sexFemale', value: 'female' },
+  { labelKey: 'onboarding.measurements.sexOther', value: 'other' },
+] as const satisfies readonly { labelKey: string; value: Sex }[];
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
 export default function MeasurementsScreen() {
+  const { t } = useTranslation();
   const setMeasurements = useOnboardingStore((s) => s.setMeasurements);
   const goal = useOnboardingStore((s) => s.goal);
   const showTarget = goal === 'lose' || goal === 'muscle';
@@ -166,40 +168,40 @@ export default function MeasurementsScreen() {
   const ageError =
     ageText.trim() === ''
       ? submitted
-        ? 'Enter your age'
+        ? t('onboarding.measurements.ageRequired')
         : undefined
       : !Number.isFinite(ageNum) || ageNum < 13 || ageNum > 120
-        ? 'Enter an age between 13 and 120'
+        ? t('onboarding.measurements.ageRange', { min: 13, max: 120 })
         : undefined;
 
-  const sexError = sexValue === '' && submitted ? 'Choose one so your targets are accurate' : undefined;
+  const sexError = sexValue === '' && submitted ? t('onboarding.measurements.sexRequired') : undefined;
 
   const heightEmpty =
     heightUnit === 'cm' ? heightCmText.trim() === '' : feetText.trim() === '' && inchesText.trim() === '';
   const weightEmpty = weightText.trim() === '';
 
   const heightError = (() => {
-    if (heightEmpty) return submitted ? 'Enter your height' : undefined;
+    if (heightEmpty) return submitted ? t('onboarding.measurements.heightRequired') : undefined;
     if (heightUnit === 'cm') {
       if (heightCmText.trim() === '') return undefined;
       const n = parseFloat(heightCmText);
       return Number.isFinite(n) && n >= 100 && n <= 250
         ? undefined
-        : 'Enter a height between 100 and 250 cm';
+        : t('onboarding.measurements.heightRangeCm', { min: 100, max: 250 });
     }
     if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
     const cm = heightToCm();
-    return cm != null && cm >= 100 && cm <= 250 ? undefined : 'Enter a height between 3 and 8 ft';
+    return cm != null && cm >= 100 && cm <= 250 ? undefined : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
   })();
 
   const weightError = (() => {
-    if (weightEmpty) return submitted ? 'Enter your weight' : undefined;
+    if (weightEmpty) return submitted ? t('onboarding.measurements.weightRequired') : undefined;
     const kg = toKg(weightText);
     return kg != null && kg >= 30 && kg <= 300
       ? undefined
       : weightUnit === 'kg'
-        ? 'Enter a weight between 30 and 300 kg'
-        : 'Enter a weight between 66 and 661 lb';
+        ? t('onboarding.measurements.weightRangeKg', { min: 30, max: 300 })
+        : t('onboarding.measurements.weightRangeLb', { min: 66, max: 661 });
   })();
 
   // Height and weight are REQUIRED as of 2026-08-08: they feed BMR directly,
@@ -238,23 +240,23 @@ export default function MeasurementsScreen() {
     <OnbScaffold
       step={7}
       scroll
-      title="A few more details"
-      subtitle="To calculate your personal targets"
-      footer={<Button title="Continue" onPress={handleContinue} />}
+      title={t('onboarding.measurements.title')}
+      subtitle={t('onboarding.measurements.subtitle')}
+      footer={<Button title={t('onboarding.measurements.continue')} onPress={handleContinue} />}
     >
       <View style={{ gap: space.xl }}>
         <TextField
-          label="Age"
+          label={t('onboarding.measurements.ageLabel')}
           value={ageText}
           onChangeText={setAgeText}
           keyboardType="number-pad"
-          placeholder="e.g. 28"
+          placeholder={t('onboarding.measurements.agePlaceholder')}
           error={ageError}
         />
 
         <SegmentedField<Sex | ''>
-          label="Sex"
-          options={SEX_OPTIONS}
+          label={t('onboarding.measurements.sexLabel')}
+          options={SEX_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
           value={sexValue}
           onChange={setSexValue}
           error={sexError}
@@ -262,10 +264,10 @@ export default function MeasurementsScreen() {
 
         <View style={{ gap: space.sm }}>
           <SegmentedField<HeightUnit>
-            label="Height"
+            label={t('onboarding.measurements.heightLabel')}
             options={[
-              { label: 'cm', value: 'cm' },
-              { label: 'ft / in', value: 'ftin' },
+              { label: t('onboarding.measurements.unitCm'), value: 'cm' },
+              { label: t('onboarding.measurements.unitFtIn'), value: 'ftin' },
             ]}
             value={heightUnit}
             onChange={changeHeightUnit}
@@ -275,8 +277,8 @@ export default function MeasurementsScreen() {
               value={heightCmText}
               onChangeText={setHeightCmText}
               keyboardType="decimal-pad"
-              placeholder="170 cm"
-              accessibilityLabel="Height in centimetres"
+              placeholder={t('onboarding.measurements.heightCmPlaceholder')}
+              accessibilityLabel={t('onboarding.measurements.heightCmA11y')}
               error={heightError}
             />
           ) : (
@@ -286,8 +288,8 @@ export default function MeasurementsScreen() {
                   value={feetText}
                   onChangeText={setFeetText}
                   keyboardType="number-pad"
-                  placeholder="5 ft"
-                  accessibilityLabel="Height, feet"
+                  placeholder={t('onboarding.measurements.heightFeetPlaceholder')}
+                  accessibilityLabel={t('onboarding.measurements.heightFeetA11y')}
                   error={heightError}
                 />
               </View>
@@ -296,8 +298,8 @@ export default function MeasurementsScreen() {
                   value={inchesText}
                   onChangeText={setInchesText}
                   keyboardType="number-pad"
-                  placeholder="9 in"
-                  accessibilityLabel="Height, inches"
+                  placeholder={t('onboarding.measurements.heightInchesPlaceholder')}
+                  accessibilityLabel={t('onboarding.measurements.heightInchesA11y')}
                 />
               </View>
             </View>
@@ -306,10 +308,10 @@ export default function MeasurementsScreen() {
 
         <View style={{ gap: space.sm }}>
           <SegmentedField<WeightUnit>
-            label="Current weight"
+            label={t('onboarding.measurements.weightLabel')}
             options={[
-              { label: 'kg', value: 'kg' },
-              { label: 'lb', value: 'lb' },
+              { label: t('onboarding.measurements.unitKg'), value: 'kg' },
+              { label: t('onboarding.measurements.unitLb'), value: 'lb' },
             ]}
             value={weightUnit}
             onChange={changeWeightUnit}
@@ -318,21 +320,31 @@ export default function MeasurementsScreen() {
             value={weightText}
             onChangeText={setWeightText}
             keyboardType="decimal-pad"
-            placeholder={weightUnit === 'kg' ? '70 kg' : '154 lb'}
-            accessibilityLabel={
-              weightUnit === 'kg' ? 'Current weight in kilograms' : 'Current weight in pounds'
-            }
+            placeholder={t(
+              weightUnit === 'kg'
+                ? 'onboarding.measurements.weightKgPlaceholder'
+                : 'onboarding.measurements.weightLbPlaceholder',
+            )}
+            accessibilityLabel={t(
+              weightUnit === 'kg' ? 'onboarding.measurements.weightKgA11y' : 'onboarding.measurements.weightLbA11y',
+            )}
             error={weightError}
           />
         </View>
 
         {showTarget ? (
           <TextField
-            label={`Target weight (${weightUnit})`}
+            label={t('onboarding.measurements.targetLabel', {
+              unit: t(weightUnit === 'kg' ? 'onboarding.measurements.unitKg' : 'onboarding.measurements.unitLb'),
+            })}
             value={targetText}
             onChangeText={setTargetText}
             keyboardType="decimal-pad"
-            placeholder={weightUnit === 'kg' ? '65 kg' : '143 lb'}
+            placeholder={t(
+              weightUnit === 'kg'
+                ? 'onboarding.measurements.targetKgPlaceholder'
+                : 'onboarding.measurements.targetLbPlaceholder',
+            )}
           />
         ) : null}
       </View>

@@ -10469,3 +10469,6 @@
 - 2026-11-25 06:59 R207 activity screen accepted as DONE. es and fr wording stays flagged for Isa (masculine forms), listed under Blocked.
 - 2026-11-25 06:59 Handover step 'apply SESSION_ENDED to signup continueAfterAuth' stays skipped; already done per R204 and R206.
 - 2026-11-25 06:59 Notes trimmed to fit the 600 word limit. Decisions are kept in full in substance; repeats merged.
+- 2026-11-25 07:02 R209: chose the measurements screen, the next item in the agreed 1d order, over Jev's top pick. Jev ranked the same candidates and agreed on the next action. Reason: keeps the one screen per round rule and the small size.
+- 2026-11-25 07:02 R209: skipped the handover's signup SESSION_ENDED step. R204 and R206 already applied it, as R207 recorded.
+- 2026-11-25 07:02 R209: the measurements strings reuse existing common keys where the wording matches. No duplicate keys.

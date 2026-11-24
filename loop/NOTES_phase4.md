@@ -8,13 +8,13 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal (R206), 1d activity (R207), 401 handling on paywall, signup and launch gate, answers survive expired session.
+- Row 2b DIFFERENT: done 1a, 1b, 1c, 1d goal (R206), 1d activity (R207), R208 OnbScaffold 'Go back' uses common.goBack, 401 handling on paywall, signup and launch gate, answers survive expired session.
 - R204 checkpoint green: tsc 0 errors, lint exit 0, Jest 266 suites and 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R208 (now): OnbScaffold 'Go back' label (en, es, fr).
-Then: 1d measurements, body type, cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R209 (now): 1d measurements screen strings (en, es, fr).
+Then: 1d body type, cuisine, dietary, targets, preview, done, paywall strings (one screen per round). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 Full Jest at checkpoint R210 or when due.
 
 ## Rules
@@ -55,7 +55,8 @@ Full Jest at checkpoint R210 or when due.
 - R205: paywall 401 uses SESSION_ENDED.
 - R206: 1d split one screen per round, goal first.
 - R207: activity.tsx done. Handover's signup SESSION_ENDED step skipped, already done per R204/R206.
-- R208: kept OnbScaffold over Jev's top pick. Shared component used by every onboarding screen, small fix, clears a hard-coded label before the remaining 1d screens. Also the report's NEXT.
+- R208: kept OnbScaffold over Jev's top pick. Shared component used by every onboarding screen. Uses common.goBack.
+- R209: measurements next per order. Reuse common keys where wording matches.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: Welcome, signup, onboarding, goal screen, activity screen (masculine forms), summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
@@ -84,7 +85,7 @@ Full Jest at checkpoint R210 or when due.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
-- Still hard-coded English: measurements, body type, cuisine, dietary, targets, preview, done, paywall strings and toasts.
+- Still hard-coded English: body type, cuisine, dietary, targets, preview, done, paywall strings and toasts.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -100,3 +101,4 @@ Full Jest at checkpoint R210 or when due.
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Signup placeholders are literals.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown.
+- Paywall and signup 401 simulator checks not yet in OWNER_CHECKS_phase4.md (verify and add).
