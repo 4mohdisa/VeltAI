@@ -9771,3 +9771,6 @@
 - 2026-11-25 02:49 Kept the round to one screen plus one data function because Jev rates continuation risk moderately high.
 - 2026-11-25 02:49 Default the new limit to 200, matching the hydrateGym cap, so the change is consistent and existing callers are unaffected.
 - 2026-11-25 02:49 Did not add pagination this round; the older sessions question is left for the report.
+- 2026-11-25 02:51 Accepted the previous report's choice not to add a default limit in api.ts: it would add ?limit=200 to the gymRange reads and break apiSurface.test.ts.
+- 2026-11-25 02:51 Chose the 7 day date bound over the lint batch: a cap alone can silently drop rows in a busy week, and the fix is one screen and one call.
+- 2026-11-25 02:51 Kept the step count to one screen and one test file so the Jev risk stays low.

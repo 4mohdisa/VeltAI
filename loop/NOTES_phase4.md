@@ -13,8 +13,8 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - OWNER_CHECKS_phase4.md has open checks under 'Rows 2c and 2d' and one for the 2.1 simulator check. Never overwrite or empty it.
 
 ## Lint state
-- Errors: 0 (npx expo lint). Round 37 fixed the last display-name error.
-- Warnings: 59 (57 no-require-imports, mostly tests; 1 import/first; 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37). Now the next lint batch.
+- Errors: 0 (npx expo lint).
+- Warnings: 59 (57 no-require-imports, mostly tests; 1 import/first; 1 import/no-named-as-default-member at src/lib/i18n/index.ts:37).
 
 ## Decisions (never delete)
 - No questions to Isa this week. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -31,6 +31,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Animated values use useState(() => new Animated.Value(x)), not ref .current reads during render.
 - Row 2.1 total gym days comes from the database (total_days), not from the capped store.
 - Do not edit src/lib/mock/data.ts or src/__tests__/useApiHarness.ts for 2.1.
+- Do not change api.ts listSessions defaults: a default limit would add ?limit to gymRange reads and break apiSurface.test.ts.
 - Full suite on checkpoint rounds. Round 35 was a checkpoint (242 suites, 1,402 tests green); next about round 40.
 - 2.1 simulator check stays parked (E2E account needs 250 or more gym dates). Do not seed or insert data without an approved seed path.
 - Every round runs tsc and targeted Jest for changed files and reports the results.
@@ -44,6 +45,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Round 27: simulator check of Total tile blocked. Parked.
 - Rounds 28-37: react-hooks and display-name lint fixes. Lint errors now 0.
 - Round 35 checkpoint green.
+- Round 38: history.tsx reads gym sessions with limit GYM_SESSION_HYDRATE_LIMIT (200).
 
 ## Blocked on Isa
 - Decide how the E2E account gets 250 or more gym dates (new seed user under its own Clerk id, or a one-off local SQL insert). Logged in OWNER_CHECKS_phase4.md.
@@ -52,7 +54,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Row 2.1 simulator check of the Total tile.
 
 ## Next
-- Round 38 (now): history.tsx:66 listSessions limit (one screen, one data function, default 200).
+- Round 39 (now): history.tsx bounds the session read to the last 7 days (from plus limit), if listSessions takes from.
 - Then the 59 lint warnings in small batches.
 - Row 2.2 remaining: useWeeklyMacros refetch test; gym/schedule_pg.go LIMIT order; 49 WHERE id::text queries; getMorningBrief and getProfile error swallowing; feature_used allowlist; app_version vs build number; export as .json file; one exportData function; npm audit with safe fix.
 - Then 2.3 (translations and Retry, including DailyMacroRing.tsx:96 'of'), 2.4 (useGoals, Row 15), 2.5 (rest of Parked list, goals and unit prefs persisted, missing _one plural, goals.saved, KNOWN_ISSUES line 40).
@@ -64,7 +66,7 @@ Finish the app (Apple side features, then testing), with no input from Isa. Prog
 - Postgres is a brew service. Database setup is manual. Rows 17 and 26 should script it.
 - KNOWN_ISSUES.md line 40 says 20 TestPG tests skip. It is 21 and they run. Fix in 2.5.
 - Phase 2 iOS notes say the backend returns 401 without a Clerk token. Backend has Clerk dev keys, so the note is probably stale. Check in Row 16.
-- Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render (probably deliberate failure tests). Look at them in Row 22.
+- Jest prints React act(...) warnings from ScanReviewCard, an 'API unreachable' warning from hooks.ts, and a logged stack trace in photoScan.render. Look at them in Row 22.
 - Nothing tests refetch in useWeeklyMacros (src/lib/data/hooks.ts).
 - The expo-camera stub is copied into three scan tests. Move it to one shared mock later.
 - Running plain npx eslint at repo root reports about 11,000 errors, nearly all in web/.next, web/out, ds-bundle/_vendor. Add those to ESLint ignores or fix (Row 29).

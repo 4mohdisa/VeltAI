@@ -48,7 +48,10 @@ test('a failed history read shows the history.loadFailed copy from en.json', asy
     await new Promise((r) => setImmediate(r));
   });
 
-  expect(api.gym.listSessions).toHaveBeenCalledWith({ limit: GYM_SESSION_HYDRATE_LIMIT });
+  expect(api.gym.listSessions).toHaveBeenCalledWith({
+    from: isoDaysAgo(6),
+    limit: GYM_SESSION_HYDRATE_LIMIT,
+  });
   expect(findAll(tree, (p) => p.children === en.history.loadFailed).length).toBeGreaterThan(0);
   expect(findAll(tree, (p) => p.children === en.history.emptyTitle)).toHaveLength(0);
 });
