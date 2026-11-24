@@ -2,6 +2,7 @@
 // haptic, and auto-advances after a beat so the selected state is visible first.
 import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { OptionCard } from '@/components/onboarding/OptionCard';
@@ -12,14 +13,15 @@ import { space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { Goal } from '@/lib/types';
 
-const GOALS: { label: string; value: Goal; icon: string }[] = [
-  { label: 'Lose weight', value: 'lose', icon: 'flame' },
-  { label: 'Build muscle', value: 'muscle', icon: 'barbell' },
-  { label: 'Eat healthier', value: 'eat_healthier', icon: 'restaurant' },
-  { label: 'Track my nutrition', value: 'track', icon: 'stats-chart' },
-];
+const GOALS = [
+  { labelKey: 'onboarding.goalLose', value: 'lose', icon: 'flame' },
+  { labelKey: 'onboarding.goalMuscle', value: 'muscle', icon: 'barbell' },
+  { labelKey: 'onboarding.goalEatHealthier', value: 'eat_healthier', icon: 'restaurant' },
+  { labelKey: 'onboarding.goalTrack', value: 'track', icon: 'stats-chart' },
+] as const satisfies readonly { labelKey: string; value: Goal; icon: string }[];
 
 export default function GoalScreen() {
+  const { t } = useTranslation();
   const goal = useOnboardingStore((s) => s.goal);
   const setGoal = useOnboardingStore((s) => s.setGoal);
   const reduceMotion = useReduceMotion();
@@ -41,13 +43,13 @@ export default function GoalScreen() {
   };
 
   return (
-    <OnbScaffold step={1} title="What's your main goal?">
+    <OnbScaffold step={1} title={t('onboarding.goalTitle')}>
       <View style={{ gap: space.md }}>
         {GOALS.map((g, i) => (
           <OptionCard
             key={g.value}
             icon={g.icon}
-            label={g.label}
+            label={t(g.labelKey)}
             selected={goal === g.value}
             onPress={() => pick(g.value)}
             delay={i * 60}

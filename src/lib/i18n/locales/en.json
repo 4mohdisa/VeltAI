@@ -1122,7 +1122,12 @@
     "welcomeHeadline": "Track your food the way you actually eat",
     "welcomeSubline": "Personalised to your diet, your culture, your goals",
     "welcomeGetStarted": "Get Started",
-    "sessionExpired": "Your session has expired. Sign in again to finish setting up."
+    "sessionExpired": "Your session has expired. Sign in again to finish setting up.",
+    "goalTitle": "What's your main goal?",
+    "goalLose": "Lose weight",
+    "goalMuscle": "Build muscle",
+    "goalEatHealthier": "Eat healthier",
+    "goalTrack": "Track my nutrition"
   },
   "signup": {
     "titleSignUp": "Create your account",

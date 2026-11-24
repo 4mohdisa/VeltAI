@@ -1122,7 +1122,12 @@
     "welcomeHeadline": "Suivez vos repas comme vous mangez vraiment",
     "welcomeSubline": "Adapté à votre alimentation, votre culture et vos objectifs",
     "welcomeGetStarted": "Commencer",
-    "sessionExpired": "Votre session a expiré. Reconnectez-vous pour terminer la configuration."
+    "sessionExpired": "Votre session a expiré. Reconnectez-vous pour terminer la configuration.",
+    "goalTitle": "Quel est votre objectif principal ?",
+    "goalLose": "Perdre du poids",
+    "goalMuscle": "Prendre du muscle",
+    "goalEatHealthier": "Manger plus sainement",
+    "goalTrack": "Suivre ma nutrition"
   },
   "signup": {
     "titleSignUp": "Créez votre compte",

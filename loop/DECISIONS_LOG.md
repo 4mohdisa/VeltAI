@@ -10458,3 +10458,7 @@
 - 2026-11-25 06:54 R205 chosen as the next step, as already set in the notes, to finish the 401 route pattern before the strings work (Jev agrees: run).
 - 2026-11-25 06:54 Signup 401 verified by R204 grep: it already dispatches SESSION_ENDED, so no change there.
 - 2026-11-25 06:54 Notes updated: R204 done, R205 in progress, 1d next. Blocked-on-Isa list kept as is.
+- 2026-11-25 06:56 R206: chose 2b 1d (goal screen) as the next task. The handover's recommended signup 401 change is already done (signup.tsx:66-69 dispatches SESSION_ENDED), so it is not repeated.
+- 2026-11-25 06:56 R206: 1d split into one screen per round, goal screen first, activity options next if they sit in a separate file. Keeps each prompt small.
+- 2026-11-25 06:56 R206: Jev's run signal (92%) agrees with the next step in the recorded plan. Kept, with a small task size because its risk score is 0.8.
+- 2026-11-25 06:56 R206: the paywall 401 simulator check is still missing from OWNER_CHECKS_phase4.md. It is a record-only item for the next round that allows record edits.

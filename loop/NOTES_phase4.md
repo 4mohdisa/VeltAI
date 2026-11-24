@@ -8,12 +8,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, saved answers on expired sessions done. Signup 401 verified in R204: dispatches SESSION_ENDED (signup.tsx:66-69).
+- Row 2b DIFFERENT: research, 1a to 1c, session expiry, launch gate 401, paywall 401 (R205, SESSION_ENDED), saved answers on expired sessions done. Signup 401 verified (signup.tsx:66-69).
 - R204 checkpoint green: tsc 0 errors, lint exit 0, full Jest 266 suites and 1,564 tests.
 - OWNER_CHECKS_phase4.md: append only.
 
 ## Order
-R205 (now): paywall 401 uses SESSION_ENDED (same pattern as signup). Then 2b 1d (goal and activity strings, own en/es/fr, flagged). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
+R206 (now): 2b 1d goal screen strings in en, es, fr. Then activity options if separate. Then 2b 1d remaining screens, 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31.
 Full Jest next checkpoint: R210 or when a checkpoint is due.
 
 ## Rules
@@ -54,6 +54,8 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - R199: renderScreen wrapped in AppStateProvider (approved).
 - R201: caused 5 suite failures, fixed in R203.
 - R204: checkpoint green. Signup 401 verified by grep, not changed.
+- R205: paywall 401 uses SESSION_ENDED. Own toast and navigate removed. Toast mock moved to toastStore source.
+- R206: 1d split one screen per round, goal first. Handover's signup step was already done.
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review (Welcome, signup, onboarding, summary, kJ, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one).
@@ -66,10 +68,10 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Training-days question, gain-weight or maintain goal in onboarding.
 - Simulator check: answers survive a real Clerk expiry or revocation.
-- Simulator checks: signup and launch 401 routes (listed in OWNER_CHECKS_phase4.md).
+- Simulator checks: signup, launch and paywall 401 routes (add paywall to OWNER_CHECKS_phase4.md).
 
 ## Parked
-- Simulator checks: Total tile (2.1), signup and launch 401 routes.
+- Simulator checks: Total tile (2.1), signup, launch and paywall 401 routes.
 - Shared billing-disabled toast helper. delete-account.tsx swallows errors.
 - Render tests in es and fr: Subscription, Gym tab, MacroTargetRows.
 - formatNumber and units.ts hardcoded to en-AU; formatting.ts uses device locale.
@@ -79,11 +81,12 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - exhaustive-deps disable comments: appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - consent.ts and purchases.ts use eslint-disable for the require rule (Row 2b or 3).
 - Skeleton crashes under Reanimated test mock (Row 22).
-- Onboarding: goal and activity hard-coded English (1d). Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
+- Onboarding: activity hard-coded English until 1d done. Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Unmapped Clerk error codes show Clerk's English text.
 - Nothing dispatches SIGNED_IN, so the auth machine stays in unknown or signedOut.
 - Completed users see 'Sign in again to finish setting up' when their session ends. Wrong copy.
 - connectivityMessage returns hard-coded English; no screen uses it.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
+- Paywall feature list, unavailable message and store and billing toasts are hard-coded English.
 - Jest noise: i18next banner, devWarn, act warnings, deprecated react-test-renderer (Row 22).
 - Root config files and backend JavaScript not linted. preflight.mjs exits 1 on this machine.
 
@@ -96,7 +99,6 @@ Full Jest next checkpoint: R210 or when a checkpoint is due.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Secrets scan placeholder check is a heuristic.
-- Paywall 401 still opens sign in without ending the Clerk session (R205, in progress).
 - onboarding.sessionExpired says 'finish setting up', wrong for users who completed onboarding.
 - Onboarding screens after signup are still hard-coded English (1d and 2c).
 - The signup placeholders are literals.

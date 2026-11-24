@@ -1122,7 +1122,12 @@
     "welcomeHeadline": "Registra tu comida tal como comes de verdad",
     "welcomeSubline": "Adaptado a tu dieta, tu cultura y tus objetivos",
     "welcomeGetStarted": "Empezar",
-    "sessionExpired": "Tu sesión ha caducado. Vuelve a iniciar sesión para terminar la configuración."
+    "sessionExpired": "Tu sesión ha caducado. Vuelve a iniciar sesión para terminar la configuración.",
+    "goalTitle": "¿Cuál es tu objetivo principal?",
+    "goalLose": "Perder peso",
+    "goalMuscle": "Ganar músculo",
+    "goalEatHealthier": "Comer más sano",
+    "goalTrack": "Controlar mi nutrición"
   },
   "signup": {
     "titleSignUp": "Crea tu cuenta",

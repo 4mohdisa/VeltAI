@@ -1,6 +1,10 @@
 // Onboarding "Goal" step — single-select cards that auto-advance on tap.
 // These EXECUTE the screen; they are not source-text greps.
 import GoalScreen from '@/app/onboarding/goal';
+import i18n from '@/lib/i18n';
+import en from '@/lib/i18n/locales/en.json';
+import es from '@/lib/i18n/locales/es.json';
+import fr from '@/lib/i18n/locales/fr.json';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { router } from 'expo-router';
@@ -11,6 +15,30 @@ jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => f
 beforeEach(() => {
   useOnboardingStore.getState().reset();
   (useReduceMotion as jest.Mock).mockReturnValue(false);
+});
+
+afterEach(async () => {
+  await act(async () => {
+    await i18n.changeLanguage('en');
+  });
+});
+
+test.each([
+  ['en', en],
+  ['es', es],
+  ['fr', fr],
+])('%s: the headline and every goal card read from the locale file', async (lng, locale) => {
+  await act(async () => {
+    await i18n.changeLanguage(lng);
+  });
+  const tree = renderScreen(<GoalScreen />);
+  const { goalTitle, goalLose, goalMuscle, goalEatHealthier, goalTrack } = locale.onboarding;
+
+  expect(allText(tree)).toContain(goalTitle);
+  for (const label of [goalLose, goalMuscle, goalEatHealthier, goalTrack]) {
+    expect(findAll(tree, (p) => p.accessibilityLabel === label)[0]).toBeDefined();
+  }
+  if (lng !== 'en') expect(allText(tree)).not.toContain(en.onboarding.goalTitle);
 });
 
 test('the headline renders', () => {
