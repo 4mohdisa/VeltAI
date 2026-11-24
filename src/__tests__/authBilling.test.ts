@@ -152,7 +152,7 @@ describe('401 → refresh → retry → sign-out-on-failure', () => {
     expect(t1.effects).toEqual(['refreshToken']);
     const t2 = transition(t1.state, { type: 'REFRESH_FAILED' });
     expect(t2.state).toBe('signedOut');
-    expect(t2.effects).toEqual(expect.arrayContaining(['purgeAllState', 'route:signIn']));
+    expect(t2.effects).toEqual(expect.arrayContaining(['purgeExpiredSession', 'route:signIn']));
   });
 });
 

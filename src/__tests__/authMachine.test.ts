@@ -44,7 +44,7 @@ describe('scenario table', () => {
   test('refresh fails → sign out, purge, session-expired toast', () => {
     const t = transition('expired', { type: 'REFRESH_FAILED' });
     expect(t.state).toBe('signedOut');
-    expect(t.effects).toEqual(expect.arrayContaining(['purgeAllState', 'route:signIn', 'toast:sessionExpired']));
+    expect(t.effects).toEqual(expect.arrayContaining(['purgeExpiredSession', 'route:signIn', 'toast:sessionExpired']));
   });
 
   test('401 on any request → one refresh attempt', () => {

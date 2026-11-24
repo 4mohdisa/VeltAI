@@ -19,6 +19,7 @@ export type AuthEvent =
   | { type: 'REFRESH_FAILED' }
   | { type: 'UNAUTHORIZED' } // a request returned 401
   | { type: 'SIGN_OUT' }
+  | { type: 'SESSION_ENDED' } // Clerk ended the session without an app sign-out (expiry, revocation)
   | { type: 'ACCOUNT_DELETED' }
   | { type: 'FOREGROUND_AFTER_IDLE' }; // backgrounded > 30 min
 
@@ -31,6 +32,7 @@ export type AuthEffect =
   | 'retryFailedRequest' // after a 401→refresh success, replay the failed call
   | 'revalidateSession' //  silent validity check (foreground / cold start)
   | 'purgeAllState' //      clear every store + secure-store + offline queue
+  | 'purgeExpiredSession' // the same, but keep the in-progress onboarding answers
   | 'toast:sessionExpired';
 
 export type Transition = { state: AuthState; effects: AuthEffect[] };
@@ -80,8 +82,14 @@ export function transition(state: AuthState, event: AuthEvent): Transition {
 
     case 'REFRESH_FAILED':
       return state === 'expired'
-        ? { state: 'signedOut', effects: ['purgeAllState', 'route:signIn', 'toast:sessionExpired'] }
+        ? { state: 'signedOut', effects: ['purgeExpiredSession', 'route:signIn', 'toast:sessionExpired'] }
         : stay(state);
+
+    case 'SESSION_ENDED':
+      // The user did not sign out: their session expired or was revoked. Their
+      // onboarding answers live only on this device, so they survive the purge.
+      if (state === 'deleted') return stay(state);
+      return { state: 'signedOut', effects: ['purgeExpiredSession', 'route:signIn', 'toast:sessionExpired'] };
 
     case 'SIGN_OUT':
       // After ACCOUNT_DELETED, the purge's executeSignOut ends the Clerk session,

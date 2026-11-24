@@ -22,8 +22,9 @@ import { __resetForTests as resetOfflineQueue } from '@/lib/offline/queue';
 // this device would collect from someone who was never asked. Clearing it means
 // the next account re-answers the consolidated disclosure, exactly as it
 // re-acknowledges AI processing.
+const ONBOARDING_KEY = 'lume.onboarding';
 const SECURE_KEYS = [
-  'lume.onboarding',
+  ONBOARDING_KEY,
   'lume.offline.queue',
   'forkPromptDismissed',
   'labelPromptDismissed',
@@ -31,14 +32,16 @@ const SECURE_KEYS = [
   STORAGE_KEYS.analyticsEnabled,
 ];
 
-/** Clear every store, persisted key, and the offline queue. Never throws. */
-export async function resetAllStores(): Promise<void> {
+/** Clear every store, persisted key, and the offline queue. Never throws.
+ *  keepOnboarding (an expired session, not a sign-out) leaves the in-progress
+ *  onboarding answers and saved step, which exist only on this device. */
+export async function resetAllStores({ keepOnboarding = false }: { keepOnboarding?: boolean } = {}): Promise<void> {
   // Zustand stores — every one has a reset (asserted by test).
   useFoodStore.getState().reset();
   useGymStore.getState().reset();
   useUserStore.getState().resetProfile();
   useSettingsStore.getState().reset();
-  useOnboardingStore.getState().reset();
+  if (!keepOnboarding) useOnboardingStore.getState().reset();
   useToastStore.getState().dismiss();
 
   // Offline queue (in-memory + persisted).
@@ -51,6 +54,7 @@ export async function resetAllStores(): Promise<void> {
   // Persisted flags/keys.
   await setHasCompletedOnboarding(false).catch(() => {});
   for (const key of SECURE_KEYS) {
+    if (keepOnboarding && key === ONBOARDING_KEY) continue;
     await deleteItem(key).catch(() => {});
   }
   __resetAiConsentCache(); // the next account re-acknowledges AI processing

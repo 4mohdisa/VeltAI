@@ -10395,3 +10395,5 @@
 - 2026-11-25 06:33 Kept the existing sessionExpired string and sign-in route; no new strings, so no new translation review item.
 - 2026-11-25 06:33 Simulator check of the 401 route parked as an owner check because Jest cannot show Clerk's active session state.
 - 2026-11-25 06:33 Duplicate migration test run left for later; it is cheap and not blocking.
+- 2026-11-25 06:34 Round 196: picked candidate 1 over the Clerk session clearing. Saved answers are a data loss risk and already queued next in the notes order. The session clearing shares the same sign out path, so it follows once the path is mapped.
+- 2026-11-25 06:34 Round 196: Jev ranks run at 91 percent, so I kept the run action. Its risk score is high, so the prompt limits the change to the onboarding answers only and keeps the other stores' sign out behaviour.

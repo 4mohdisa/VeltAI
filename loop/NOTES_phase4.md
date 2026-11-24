@@ -8,11 +8,11 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL: 2.1 to 2.4 done. 2.5 parked (needs Isa to allow a change to goalsReset.toast.render.test.tsx line 44).
-- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry dead end fixed (r191). Signup 401 handling fixed (r194): signup.tsx continueAfterAuth sends a 401 to sign-in. Full Jest green at r193: 263 suites, 1,553 tests.
+- Row 2b DIFFERENT (in progress): research and steps 1a to 1c done. Session expiry dead end fixed (r191). Signup 401 fixed (r194). Launch gate 401 fixed (r195, src/app/index.tsx, launchGate401.render.test.tsx, simulator check logged). Full Jest green at r193: 263 suites, 1,553 tests.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
-Round 195: index.tsx launch gate 401 (in progress). Then saved onboarding answers after an unrefreshable expired session. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient (cheap).
+Round 196: saved onboarding answers after an unrefreshable expired session (in progress). Then clear rejected Clerk session on the three 401 routes. Then 2b 1d (goal and activity strings, own en/es/fr, flagged for review). Then 2c, 2d, 2.2 remaining, 3 to 14b, 15 to 30, then 31. Remove duplicate migration test run when convenient (cheap).
 
 ## Rules
 - Lint: npx expo lint <files> --max-warnings 0. Verify never passes with warnings.
@@ -47,9 +47,9 @@ Round 195: index.tsx launch gate 401 (in progress). Then saved onboarding answer
 - Round 180: parity test runs in full Jest, no separate verify wiring.
 - Round 182: row 29 BUILT after full verify exit 0 with local TestPG.
 - Round 184 and 186: migration apply test runs once, in verify:migrations.
-- Round 194: 401 fix in signup.tsx chosen as a concrete bug, one screen.
 - Round 194: 2b 1d no longer waits for Isa. Write own en/es/fr strings, flag for review in OWNER_CHECKS, carry on.
-- Round 195: launch gate 401 in index.tsx next. Reuses classifyConnectivity and the Round 194 route. No new strings.
+- Round 195: launch gate 401 in index.tsx done, reuses classifyConnectivity and the Round 194 route.
+- Round 196: saved onboarding answers chosen over Clerk session clearing (data loss risk, queued next).
 
 ## Blocked on Isa (do not retry)
 - es and fr wording review: Welcome, signup, onboarding.sessionExpired, summary.*, kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, Save food, range separator, '80 %' spacing, lastSessions_one.
@@ -80,7 +80,7 @@ Round 195: index.tsx launch gate 401 (in progress). Then saved onboarding answer
 - Root config files and backend JavaScript not linted.
 - preflight.mjs exits 1 on this machine; FAIL items not inspected.
 - Onboarding: goal and activity hard-coded English (in progress, 1d). Two dead ends need device check. Paywall unavailable message is developer wording. Target weight has no validation. Overweight option uses a burger emoji. Static paywall step precedes RevenueCat paywall. Signup placeholders are literals. Unmapped Clerk error codes show Clerk's English text.
-- Onboarding: saved answers may be lost if token refresh fails on an expired session (not confirmed on device).
+- Onboarding: saved answers may be lost if token refresh fails on an expired session (in progress, Round 196).
 - connectivityMessage returns hard-coded English; no screen uses it.
 - Cuisine, dietary, preview, measurements, body type, targets, paywall and done are hard-coded English.
 
@@ -99,4 +99,5 @@ Round 195: index.tsx launch gate 401 (in progress). Then saved onboarding answer
 - Secrets scan placeholder check is a heuristic.
 - Verify:go has no -count=1, so Go can reuse cached results (parked).
 - Migration apply test runs twice per verify when the variable is set (fix in cleanup).
-- When an expired session cannot be refreshed, the app signs out and resets all stores, which may clear saved onboarding answers (see Parked).
+- When an expired session cannot be refreshed, the app signs out and resets all stores, which may clear saved onboarding answers (being fixed in Round 196).
+- On all three 401 routes (launch gate, signup status check, onboarding paywall), the rejected Clerk session should be cleared before sign-in to avoid an 'already signed in' loop. Not done.

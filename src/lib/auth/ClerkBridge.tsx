@@ -5,7 +5,8 @@
 //   2. registers the machine's refresh/validate runtime (configureAuthRuntime)
 //   3. registers the sign-out executor (machine-initiated sign-outs end the
 //      Clerk session too)
-//   4. observes isSignedIn and drives the machine's SIGNED_IN / SIGN_OUT events
+//   4. observes isSignedIn and reports a session Clerk ended on its own
+//      (SESSION_ENDED); an app-initiated sign-out has already purged and routed
 //   5. ties RevenueCat identity to the Clerk user id (logIn / logOut)
 // Clerk is the source of truth for identity; the machine derives app state.
 import { useEffect, useRef } from 'react';
@@ -14,7 +15,7 @@ import { useAuth } from '@clerk/clerk-expo';
 import { setAuthTokenProvider, setTokenRefreshHandler, setUnauthorizedHandler } from '@/lib/api';
 import { onAuthUserChanged } from '@/lib/billing/purchases';
 import { useAppState, configureAuthRuntime } from './appState';
-import { registerSignOutExecutor } from './signOutSeam';
+import { consumeAppSignOut, registerSignOutExecutor } from './signOutSeam';
 
 export function ClerkBridge(): null {
   const { isLoaded, isSignedIn, userId, getToken, signOut } = useAuth();
@@ -48,11 +49,12 @@ export function ClerkBridge(): null {
     prevSignedIn.current = isSignedIn;
 
     if (isSignedIn) {
+      consumeAppSignOut(); // a flag left by an earlier sign-out no longer applies
       void onAuthUserChanged(userId ?? null);
       return;
     }
     void onAuthUserChanged(null);
-    if (was === true) dispatch({ type: 'SIGN_OUT' });
+    if (was === true && !consumeAppSignOut()) dispatch({ type: 'SESSION_ENDED' });
   }, [isLoaded, isSignedIn, userId, dispatch]);
 
   return null;

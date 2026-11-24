@@ -19,6 +19,7 @@ import {
 import { resetAllStores } from './resetRegistry';
 import { executeSignOut } from './signOutSeam';
 import { showToast } from '@/components/display/toastStore';
+import i18n from '@/lib/i18n';
 import { subscribe as subscribeQueue } from '@/lib/offline/queue';
 
 // --- Injectable runtime seams (Clerk lands here later) -----------------------
@@ -82,6 +83,10 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
           void resetAllStores();
           void executeSignOut();
           break;
+        case 'purgeExpiredSession':
+          void resetAllStores({ keepOnboarding: true });
+          void executeSignOut();
+          break;
         case 'route:onboarding':
           router.replace('/onboarding' as Href);
           break;
@@ -91,7 +96,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
         case 'route:signIn':
           // Sign-in lives inside the onboarding flow until Clerk ships a
           // dedicated screen.
-          router.replace('/onboarding/signup' as Href);
+          router.replace('/onboarding/signup?mode=signin' as Href);
           break;
         case 'refreshToken':
           void runtime.refresh().then((ok) => dispatch({ type: ok ? 'REFRESH_SUCCEEDED' : 'REFRESH_FAILED' }));
@@ -102,7 +107,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
           });
           break;
         case 'toast:sessionExpired':
-          showToast({ message: 'Your session expired — please sign in again.', tone: 'info' });
+          showToast({ message: i18n.t('onboarding.sessionExpired'), tone: 'info' });
           break;
         case 'retryFailedRequest':
           // The API client owns retry (its 401 handler re-issues after refresh);
