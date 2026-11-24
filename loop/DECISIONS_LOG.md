@@ -9718,3 +9718,8 @@
 - 2026-11-25 02:31 The simulator check of the Total tile moves to round 26, after the mock check is confirmed. 2.1 stays PARTIAL until both pass.
 - 2026-11-25 02:31 Added one assertion in productionReadiness.test.ts that the 1,000-session total is 1, as the previous report suggested. This pins the rule that the cap does not shrink the total.
 - 2026-11-25 02:31 Chose candidate 1 over Jev's ranking of the simulator check, because the mock side has not been run since the last edits and the simulator step depends on it.
+- 2026-11-25 02:33 Chose candidate 1 over the simulator check because the latest report flagged the 1,000-session assertion as unable to tell a server total from a count of loaded sessions. A cheap, one-file fix goes first, and it matches the Jev risk advice to keep steps small.
+- 2026-11-25 02:33 Used total_days 365 in the mock rather than spreading sessions over dates, because one mock value is a smaller edit and proves the number comes from the streak response.
+- 2026-11-25 02:33 Kept Row 2.1 PARTIAL until the simulator check passes, so the row is not marked BUILT on mocks alone.
+- 2026-11-25 02:33 Used a targeted Jest run on one file, not the full suite. The full suite waits for checkpoint round 30.
+- 2026-11-25 02:33 Trusted the notes over the report's NEXT list, as the notes rule says.
