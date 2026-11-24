@@ -144,7 +144,7 @@ describe('follows the app language', () => {
 
     const text = allText(tree);
     // Burns 1,500 / 1,800 / 1,750 average to 1,683.
-    expect(text).toContain(strings.dashboard.energyAverageBurned.replace('{{value}}', '1,683'));
+    expect(text).toContain(strings.dashboard.energyAverageBurned.replace('{{value}}', '1,683 kcal'));
     expect(text).toContain(strings.dashboard.eatenAgainstBurned);
     expect(text).toContain(strings.dashboard.breakdown);
   });

@@ -10206,3 +10206,6 @@
 - 2026-11-25 05:13 Energy unit setting stays the next task after this one; it touches units logic and needs its own round.
 - 2026-11-25 05:13 The meal row separator is moved into an i18n key so the visible text stays the same in all languages.
 - 2026-11-25 05:13 The 252 vs 251 suite count is left for the checkpoint notes; it is not a blocker since all suites pass.
+- 2026-11-25 05:15 Chose the energy unit fix (candidate 1): it is a concrete user-visible bug, on the Next list, and small enough to finish in one round. Jev rated continuing at risk 0.8 with the task small; accepted.
+- 2026-11-25 05:15 Kept the round 149 result (nutrition.mealLine) as built; no re-check needed.
+- 2026-11-25 05:15 Left PHASE4_ROWS.md 2.3 note for a later round, after the remaining 2.3 items are done.

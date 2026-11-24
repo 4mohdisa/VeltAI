@@ -36,6 +36,8 @@ import { Text } from '@/components/primitives/Text';
 import { accent, categoryAccent, color, layout, radius, space } from '@/lib/design/tokens';
 import { formatNumber, formatRelativeDate } from '@/lib/formatting';
 import { burnOf, mean, netOf, useEnergyRange, weekdayLetter } from '@/lib/data/energyRange';
+import { useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy, kcalToDisplay } from '@/lib/units';
 import type { EnergyBalance } from '@/lib/types';
 
 // ---------------------------------------------------------------------------
@@ -87,6 +89,8 @@ export default function EnergyScreen(): JSX.Element {
 
 function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }): JSX.Element {
   const { t } = useTranslation();
+  const unit = useUnitPreferences().energy;
+  const amount = (kcal: number) => formatNumber(kcalToDisplay(kcal, unit));
   const net = netOf(latest);
   const latestBurn = burnOf(latest);
 
@@ -169,15 +173,15 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
         <View style={{ gap: space.lg }}>
           {net != null ? (
             <StatLine
-              value={signed(net)}
-              unit={net < 0 ? t('dashboard.kcalDeficit') : t('dashboard.kcalSurplus')}
+              value={signed(kcalToDisplay(net, unit))}
+              unit={net < 0 ? t('dashboard.unitDeficit', { unit }) : t('dashboard.unitSurplus', { unit })}
               sub={t('dashboard.energyNetSub', { day: dayLabel })}
               tight
             />
           ) : (
             <StatLine
-              value={formatNumber(latest.calories_in)}
-              unit={t('dashboard.kcalEaten')}
+              value={amount(latest.calories_in)}
+              unit={t('dashboard.unitEaten', { unit })}
               sub={t('dashboard.energyAddBodyStats')}
               tight
             />
@@ -196,13 +200,13 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
                   <Plot
                     cols={heroCols}
                     height={HERO_H}
-                    ceiling={formatNumber(heroScale)}
+                    ceiling={amount(heroScale)}
                     barWidthRatio={HERO_BAR_RATIO}
                     gap={HERO_GAP}
                     dimOpacity={HERO_DIM_OPACITY}
                     gutterWidth={CHART_GUTTER_W}
                     scaleLabelWidth={SCALE_LABEL_W}
-                    summary={t('dashboard.energyHeroSummary', { value: spanned, total: days.length, scale: formatNumber(heroScale) })}
+                    summary={t('dashboard.energyHeroSummary', { value: spanned, total: days.length, scale: formatEnergy(heroScale, unit) })}
                   />
                   {avgBurn != null ? (
                     <>
@@ -224,7 +228,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
                         numberOfLines={1}
                         style={{ position: 'absolute', left: 0, bottom: heroY(avgBurn), paddingBottom: HERO_AVG_LINE }}
                       >
-                        {t('dashboard.energyAverageBurned', { value: formatNumber(avgBurn) })}
+                        {t('dashboard.energyAverageBurned', { value: formatEnergy(avgBurn, unit) })}
                       </Text>
                     </>
                   ) : null}
@@ -250,15 +254,15 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
           <Plot
             cols={secCols}
             height={SEC_H}
-            ceiling={formatNumber(secScale)}
+            ceiling={amount(secScale)}
             gutterWidth={CHART_GUTTER_W}
             scaleLabelWidth={SCALE_LABEL_W}
-            summary={t('dashboard.energyWeekSummary', { count: week.length, value: formatNumber(secScale) })}
+            summary={t('dashboard.energyWeekSummary', { count: week.length, value: formatEnergy(secScale, unit) })}
           />
           <Axis labels={week.map((d) => weekdayLetter(d.date))} gutterWidth={CHART_GUTTER_W} />
           {weekAvgIn != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
-              {t('dashboard.energyAverageEaten', { value: formatNumber(weekAvgIn) })}
+              {t('dashboard.energyAverageEaten', { value: formatEnergy(weekAvgIn, unit) })}
             </Text>
           ) : null}
         </View>
@@ -276,8 +280,8 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
               tint={r.tint}
               label={r.label}
               sub={r.sub}
-              value={formatNumber(r.value)}
-              unit={t('dashboard.kcal')}
+              value={amount(r.value)}
+              unit={unit}
               fraction={r.value / rowMax}
             />
           ))}
@@ -286,7 +290,7 @@ function Body({ days, latest }: { days: EnergyBalance[]; latest: EnergyBalance }
 
       <Text variant="footnote" color={color.tertiaryLabel} style={{ paddingHorizontal: space.xs }}>
         {latest.target != null
-          ? `${t('dashboard.energyNetNote')} ${t('dashboard.weekTarget', { value: formatNumber(latest.target) })}`
+          ? `${t('dashboard.energyNetNote')} ${t('dashboard.energyTarget', { value: formatEnergy(latest.target, unit) })}`
           : t('dashboard.energyNetNote')}
       </Text>
     </>

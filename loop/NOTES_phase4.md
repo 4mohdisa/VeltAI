@@ -7,12 +7,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Work only on branch loop/phase4. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL. Rows 2c and 2d (commit e0c184d) DIFFERENT; verify later.
-- Round 148 checkpoint: tsc 0 errors, Jest 252 suites, 1,492 tests, 4 snapshots, all pass. One suite unaccounted for (251 expected); low priority, recheck at next checkpoint.
+- Round 148 checkpoint: tsc 0 errors, Jest 252 suites, 1,492 tests, 4 snapshots, all pass. One suite unaccounted for (251 expected); recheck at next checkpoint.
 - 2.1: only the simulator check of the Total tile is left (OWNER_CHECKS_phase4.md).
 - 2.2 done except: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 (strings) in progress, one file per round. Done: custom-food, EnergyBalanceCard, GymSessionButton, MacroBars, energy, Summary, energyRange, axis letters, WeekEnergyCard, week range separator (uses dashboard.rangeSeparator), nutrition units and footnote.
-- Round 149 (current): nutrition.tsx meal row ' · ' moved to i18n key nutrition.mealLine.
-- Open 2.3 items, in order: energy screen follows energy unit setting (always kcal now); ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; nutrition.tsx hardcoded 'g' after chart scale; then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator, custom-food, nutrition units, axis letters).
+- 2.3 (strings) in progress, one file per round. Done: custom-food, EnergyBalanceCard, GymSessionButton, MacroBars, energy average line, Summary, energyRange, axis letters, WeekEnergyCard, week range separator, nutrition units and footnote, nutrition.mealLine (round 149).
+- Open 2.3 items, in order: energy screen follows energy unit setting (round 150, current); ConfidenceBadge text; i18n header comments; summaryCards MTWTFSS fallback check; nutrition.tsx hardcoded 'g' after chart scale; then add a PHASE4_ROWS.md note for 2.3 (missing: GymSessionButton, MacroBars, Summary, energyRange, nutrition, Week, WeekEnergyCard, range separator, custom-food, nutrition units, axis letters, mealLine).
 - 2.4 useGoals (Row 15). 2.5 rest of Phase 3 leftovers.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
@@ -27,12 +26,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Live AI calls only in the AI contract row, max 30 a day, logged in AI_TEST_LOG.md.
 - Sentry for crashes, PostHog for analytics, names and counts only.
 - Launch soon: no major UI changes. Fix flaws and flows. New Phase 4 screens may be designed fresh. Use Mobbin, log in DESIGN_REFERENCES.md, never copy real apps.
-- Prompts touch one main file each. Max 5 numbered steps. Name every file by full path. Every prompt states the loop/phase4-only rule and forbids git commands.
+- Do not edit src/lib/mock/data.ts or src/__tests__/helpers/useApiHarness.ts. Do not change api.ts listSessions defaults.
+- One reasoned eslint-disable-next-line for a required require. No new eslint-disable comments in app code. analyticsSink.ts:29 keeps its lazy require (accepted warning); revisit in Row 29.
 - Shared router reset (setup.ts beforeEach). setup.ts must not import expo-router at the top.
 - Animated values use useState(() => new Animated.Value(x)).
 - Row 2.1 total gym days comes from the database (total_days), not the capped store.
-- Do not edit src/lib/mock/data.ts or src/__tests__/helpers/useApiHarness.ts. Do not change api.ts listSessions defaults.
-- One reasoned eslint-disable-next-line for a required require. No new eslint-disable comments in app code. analyticsSink.ts:29 keeps its lazy require (accepted warning); revisit in Row 29.
 - i18n alias: import { use as addPlugin } is kept.
 - cameraMock(getTakePicture, getPermission?) is the shared camera stub. Factory mocks use jest.requireActual with no cast.
 - Full suite on checkpoint rounds and after any change that can alter snapshots or strings.
@@ -47,7 +45,8 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Round 145: week separator uses dashboard.rangeSeparator. Jev agreed.
 - Round 146: Save food pick. es 'Guardar alimento', fr 'Enregistrer l’aliment' pending Isa's wording review.
 - Round 147: nutrition.gramsShort, percentValue, macroPercentFootnote added. es/fr '80 %' spacing pending Isa review.
-- Round 149: meal row separator moved to nutrition.mealLine (smaller task chosen over energy unit; Jev risk 0.9).
+- Round 149: meal row moved to nutrition.mealLine (smaller task chosen over energy unit; Jev risk 0.9).
+- Round 150: energy unit fix chosen (candidate 1 of 3). Jev risk 0.8 for continuing; task is small and concrete.
 
 ## Done (condensed)
 - Rounds 1-9: row list, PHASE4_ROWS.md, Row 1.
@@ -56,7 +55,7 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - Rounds 38-39: gym session history read limited (7-day window).
 - Rounds 96-97: schedule_pg progress keeps newest N; 24 of 24 TestPG pass.
 - Rounds 98-106: morning brief and profile errors surfaced, subscription strings, DailyMacroRing 'of'.
-- Rounds 107-148: i18n renders, dateLocale, formatStreak, formatDuration, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, energy, training, nutrition, week, custom-food, nutrition units.
+- Rounds 107-149: i18n renders, dateLocale, formatStreak, formatDuration, workoutsLine, summaryCards, WeekEnergyCard, EnergyBalanceCard, GymSessionButton, MacroBars, Summary, weekdayShort, weekdayLetter, energy, training, nutrition, week, custom-food, nutrition units, nutrition.mealLine.
 - Round 148 checkpoint: 252 suites, 1,492 tests, 4 snapshots, all pass.
 
 ## Blocked on Isa (not blocking the loop)
@@ -78,10 +77,11 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - WeekEnergyCard reads i18n directly, not useTranslation.
 - es and fr 'per day' wording differs between Summary card and week detail.
 - Weekday and month names on Hermes not checked on the simulator.
+- Meal row screen reader label at nutrition.tsx:231 still builds 'slot, energy' in code.
 
 ## Next
-- Round 149: meal row separator (current). Read the result before the next edit.
-- Then energy screen unit setting, ConfidenceBadge, i18n header comments, summaryCards fallback, nutrition 'g' label, then the 2.3 note in PHASE4_ROWS.md.
+- Round 150: energy screen unit setting (current). Read the result before the next edit.
+- Then ConfidenceBadge text, i18n header comments, summaryCards fallback, nutrition 'g' label, then the 2.3 note in PHASE4_ROWS.md.
 - Then 2.2 leftovers, 2.4 (useGoals, Row 15), 2.5 (rest of Parked, goals and unit prefs persisted, missing _one plural, goals.saved).
 - Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 
@@ -107,4 +107,6 @@ Finish the app (Apple side features, then testing) with no input from Isa. Progr
 - formatNumber en-AU and MyScheduleCard short names: check once on the simulator (Row 23).
 - MacroTargetRows has no es or fr render test.
 - Round 147 footnote repeats the four macro names from nutrition.protein/carbs/fat/fibre. Rename both places if one changes.
+- The ' – ' separator in week.tsx:150 is not translated; fold into the week range check.
+- energy.tsx unit fix done in round 150 only if it passed; otherwise carry over.
 - Suite count 252 vs 251 expected: one unidentified suite, recheck at next checkpoint.
