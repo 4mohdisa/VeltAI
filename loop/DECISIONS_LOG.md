@@ -9799,3 +9799,6 @@
 - 2026-11-25 02:59 Tests-only change, so no string round is needed and no translation is touched.
 - 2026-11-25 02:59 Chose gymStreakSkeleton as the next file because the last report named it as next, and it may hold a second require that the prompt must handle.
 - 2026-11-25 02:59 Prompt asks for the full path of every file, because the brief warns that /Users/isa paths do not exist.
+- 2026-11-25 03:00 Chose the one-file swap for gymStreakStripFootnote because the notes say one file per round and Jev risk is moderate.
+- 2026-11-25 03:00 Kept the prompt to 4 steps with full paths, Node 22 first on PATH, and the report format, as the notes require.
+- 2026-11-25 03:00 Did not touch loop-owned files, so the loop script keeps control of DECISIONS_LOG.md and NOTES_phase4.md.

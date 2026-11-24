@@ -25,12 +25,11 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
 // screen is the first render test to need one, to re-read the month on focus.
 // Same router/useLocalSearchParams shape as the shared mock, plus a stand-in
 // that just runs the effect once on mount (test-renderer never "focuses").
-// require(), not an import: jest.mock()'s factory cannot close over them.
+// jest.requireActual, not an import: jest.mock()'s factory cannot close over them.
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: () => ({}),
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  useFocusEffect: (cb: () => void) => require('react').useEffect(cb, [cb]),
+  useFocusEffect: (cb: () => void) => jest.requireActual('react').useEffect(cb, [cb]),
   usePathname: () => '/(tabs)/gym',
   Href: {},
 }));
