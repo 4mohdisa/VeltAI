@@ -10299,3 +10299,7 @@
 - 2026-11-25 05:45 Handled the flag by treating Row 29 as still PARTIAL: verify runs only tsc, lint and Jest, but Row 29 also requires Go with race, migrations, manifest, secrets scan and the CI file. Next step is the Go race step, one small slice.
 - 2026-11-25 05:45 Go step first because it is the smallest remaining slice and the backend has the most tests to protect.
 - 2026-11-25 05:45 Did not add a CI workflow file yet; it comes after the other steps in Row 29.
+- 2026-11-25 05:46 Chose candidate 1 because the loop check flagged round 171 as partly done, and row 29 still lacks the migration step; closing that gap first keeps the verify chain honest.
+- 2026-11-25 05:46 Migration check skips with exit 0 when the test database variable is unset, matching how TestPG already behaves, so verify stays runnable without the database.
+- 2026-11-25 05:46 Jev rated the last task only 60% clean and risk 0.8. Kept a single small step rather than a larger row, as the advice suggests.
+- 2026-11-25 05:46 Did not start row 2.5 yet, because the verify chain must be green and honest before adding backend persistence.

@@ -21,8 +21,8 @@ import (
 
 const migrationsDir = "../../../supabase/migrations"
 
-// allSQL returns each migration's content, in filename (application) order.
-func allSQL(t *testing.T) []string {
+// migrationNames returns the migration filenames in application order.
+func migrationNames(t *testing.T) []string {
 	t.Helper()
 	entries, err := os.ReadDir(migrationsDir)
 	if err != nil {
@@ -38,8 +38,14 @@ func allSQL(t *testing.T) []string {
 	if len(names) < 8 {
 		t.Fatalf("expected ≥8 migrations, found %d", len(names))
 	}
+	return names
+}
+
+// allSQL returns each migration's content, lowercased, in application order.
+func allSQL(t *testing.T) []string {
+	t.Helper()
 	var out []string
-	for _, n := range names {
+	for _, n := range migrationNames(t) {
 		b, err := os.ReadFile(filepath.Join(migrationsDir, n))
 		if err != nil {
 			t.Fatalf("read %s: %v", n, err)

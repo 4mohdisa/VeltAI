@@ -66,8 +66,9 @@
     "eas-build-pre-install": "node scripts/assert-build-env.mjs",
     "assert:env": "node scripts/assert-build-env.mjs",
     "preflight": "node scripts/preflight.mjs",
-    "verify": "tsc --noEmit && npm run lint -- --max-warnings 0 && jest --ci && npm run verify:go",
-    "verify:go": "cd backend && go test -race ./..."
+    "verify": "tsc --noEmit && npm run lint -- --max-warnings 0 && jest --ci && npm run verify:go && npm run verify:migrations",
+    "verify:go": "cd backend && go test -race ./...",
+    "verify:migrations": "cd backend && go test -count=1 -v -run '^TestPG_MigrationsApplyToEmptyDatabase$' ./tests/migrations"
   },
   "jest": {
     "projects": [

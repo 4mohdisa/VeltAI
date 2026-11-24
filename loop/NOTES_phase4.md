@@ -7,10 +7,10 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
 - Row 1 BUILT. Row 2 PARTIAL (2.3 strings done; 2.4 useGoals states done; 2.5 not started). Row 29 PARTIAL.
-- Row 29 now: npm run verify = tsc, expo lint --max-warnings 0, full Jest --ci (258 suites, 1,516 tests, passing at round 170).
-- Round 171 (current): reviewer flagged round 170 as partly done. Row 29 is still PARTIAL. Adding Go race step to verify.
-- Last full checkpoint: round 170 (tsc 0, lint 0 warnings, Jest 258 suites). Next full checkpoint: round 180.
-- Row 29 still missing: migration test, manifest check, secrets scan, CI workflow file (.github/workflows, local only).
+- Row 29 now: npm run verify = tsc, expo lint --max-warnings 0, full Jest --ci (258 suites, 1,516 tests), verify:go (go test -race ./...). 34 Go packages ok at round 171.
+- Round 172 (current): close the round 171 gap (check package.json and row 29 notes), then add verify:migrations (skips without LUME_TEST_DATABASE_URL).
+- Last full checkpoint: round 170. Next full checkpoint: round 180.
+- Row 29 still missing: migration test (in progress), manifest check, secrets scan, CI workflow file (.github/workflows, local only).
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Order
@@ -49,6 +49,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 168: goals.saved kept. Removing it needs a non-allowed test edit. Parked until Isa allows it.
 - Round 169: Prettier left unconfigured (parked for Isa).
 - Round 170: analyticsSink warning cleared by scoped config allow, not code change.
+- Round 172: migration check skips with exit 0 when LUME_TEST_DATABASE_URL is unset (same as TestPG).
 
 ## Blocked on Isa (not blocking, do not retry)
 - E2E account needs 250+ gym dates. Morning brief free-plan refusal: is it an error?
@@ -74,6 +75,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - formatStreak(0) in fr gives '0 jour'.
 - Older backend without total_days gives an undefined tile. Deploy backend with app (owner note).
 - Postgres is a brew service; database setup manual. Rows 17 and 26 should script it.
+- TestPG tests skip inside verify unless LUME_TEST_DATABASE_URL points at lume_test_local. Row 1 needs a real run.
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
@@ -81,6 +83,6 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Nutrition scale '418g' has no space; kept for Phase 1 look.
 
 ## Next
-- Round 171: Go race step in verify (Row 29).
-- Then Row 29: migration test, manifest check, secrets scan, CI workflow file.
+- Round 172: close round 171 gap; add verify:migrations (Row 29).
+- Then Row 29: manifest check, secrets scan, CI workflow file.
 - Then 2.5 goals and unit prefs via backend, 2.2 remaining, 2b, 3 to 14b, 15 to 30, then 31.
