@@ -10397,3 +10397,13 @@
 - 2026-11-25 06:33 Duplicate migration test run left for later; it is cheap and not blocking.
 - 2026-11-25 06:34 Round 196: picked candidate 1 over the Clerk session clearing. Saved answers are a data loss risk and already queued next in the notes order. The session clearing shares the same sign out path, so it follows once the path is mapped.
 - 2026-11-25 06:34 Round 196: Jev ranks run at 91 percent, so I kept the run action. Its risk score is high, so the prompt limits the change to the onboarding answers only and keeps the other stores' sign out behaviour.
+- 2026-11-25 06:38 Chose the full Jest checkpoint: the Round 196 report recommends it because shared auth code changed and many screens load it. Jev ranked run first with 85% confidence; agreed.
+- 2026-11-25 06:38 Kept Round 196 saved onboarding answers as shipped (report marks it done, simulator check parked in OWNER_CHECKS_phase4.md).
+- 2026-11-25 06:38 Clearing the rejected Clerk session on the 401 routes stays queued next, since it touches the same auth area and should follow a green checkpoint.
+- 2026-11-25 06:39 Round 197 chosen: full Jest checkpoint before more auth work, because shared auth code changed in Round 196 and many screens load it. Jev rates running at 92%, which agrees.
+- 2026-11-25 06:39 Round 197 prompt rewritten after the loop rejected the previous prompt for not stating the loop/phase4-only rule. The new prompt states the branch rule first, bans every git command except git branch --show-current, and bans printing env values.
+- 2026-11-25 06:39 Full run may be split by directory if it hits the command time limit. Totals are reported as sums.
+- 2026-11-25 06:39 Test assertions may change only when they pin the old Round 196 behaviour, and each change must be recorded.
+- 2026-11-25 06:39 Round 197 prompt rewritten to 5 steps after the loop rejected the 8 step prompt. Scope kept to the checkpoint only.
+- 2026-11-25 06:39 The 401 session clearing fix moves to the next round, after the checkpoint result is known.
+- 2026-11-25 06:39 Checkpoint uses one npx jest --ci command as a full suite run, because this is a checkpoint round after shared auth changes.

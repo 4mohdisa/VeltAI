@@ -3,7 +3,7 @@
 // or Clerk ends it on its own, the user goes to sign in with the session expired
 // message and the in-progress onboarding answers survive. A refresh that works
 // changes nothing, and a deliberate sign-out still clears them.
-import type { ReactElement } from 'react';
+import { useEffect, type ReactElement } from 'react';
 import { router } from 'expo-router';
 
 import { showToast } from '@/components/display/toastStore';
@@ -41,7 +41,10 @@ const SAVED_STEP = '/onboarding/measurements';
 
 let dispatch!: (event: AuthEvent) => void;
 function Probe(): null {
-  dispatch = useAppState().dispatch;
+  const { dispatch: appDispatch } = useAppState();
+  useEffect(() => {
+    dispatch = appDispatch;
+  }, [appDispatch]);
   return null;
 }
 
