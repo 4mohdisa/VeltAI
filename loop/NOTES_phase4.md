@@ -6,13 +6,12 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. The loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH="$HOME/.nvm/versions/node/v22.23.5/bin:$PATH" first.
-- Row 1 BUILT. Row 2 PARTIAL (2.4 useGoals states done, round 166, es/fr wording pending review).
+- Row 1 BUILT. Row 2 PARTIAL (2.3 strings done, 2.4 useGoals states done, 2.5 goals and unit prefs persistence not started).
 - Last full checkpoint: round 163 (tsc 0, Jest 257 suites, 1,507 tests, all pass). Next full checkpoint: round 170.
-- Round 167 (current): 2.5 step. Remove unused goals.saved, close missing _one plural (grep first).
+- Round 168 (current): docs round. Backfill PHASE4_ROWS.md notes for rows 1 and 2, fix stale i18n header comments, park goals.saved removal.
 - 2.2 left: feature_used allowlist, app_version vs build number, export as .json, one exportData, useWeeklyMacros refetch test, npm audit safe fix, 49 WHERE id::text queries.
-- 2.3 queue: notes backfill in PHASE4_ROWS.md; i18n header comments.
 - 2.5 left: goals and unit prefs persisted via backend (smallest change).
-- Then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31. Row 29 (npm run verify, wire localeParity) comes in its place in the order.
+- After the docs round: Row 29 (npm run verify, wire localeParity) comes next in place of its order slot, then Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
 - OWNER_CHECKS_phase4.md: append only, never overwrite or empty.
 
 ## Rules
@@ -29,6 +28,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Energy: formatEnergy(value, unit) for sentences, kcalToDisplay for bare numbers.
 - Full suite on checkpoint rounds and after changes that can alter snapshots or strings.
 - Max 5 steps per prompt. One screen or component per prompt. Grep before editing.
+- Grep before asking for work: the last two rounds repeated finished work.
 
 ## Decisions (never delete)
 - No questions to Isa. Park owner steps in OWNER_CHECKS_phase4.md and carry on.
@@ -49,6 +49,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Round 161: parity test at src/__tests__/localeParity.test.ts. addMenu.voice and addMenu.describeOutLoud kept in en and fr, unused, parked for voice logging.
 - Round 162: parity test stays Jest-only until Row 29 creates npm run verify.
 - Round 166: useGoals returns data, isLoading, error, refetch. goals.loadFailed added. Real Skeleton needs a Reanimated mock in goals render tests.
+- Round 168: goals.saved is kept. Removing it needs goalsReset.toast.render.test.tsx:44 and comments on lines 3 and 26 changed, which is not the allowed old-English-text edit. Parked until Isa allows it.
 
 ## Blocked on Isa (not blocking)
 - E2E account needs 250+ gym dates.
@@ -56,6 +57,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - 'Sept' in English. Hours and minutes spacing in es and fr.
 - es and fr wording of new keys (summary.*, energy kJ keys, energyTarget, percentValue, mealLine, noBreakdown, goals.loadFailed, {{unit}} agreement, Save food, range separator, '80 %' spacing).
 - lastSessions_one in es and fr reads awkwardly.
+- goals.saved removal (see round 168).
 - Do not retry these.
 
 ## Parked
@@ -81,7 +83,7 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - Phase 2 iOS notes say backend returns 401 without a Clerk token. Probably stale. Check in Row 16.
 - Plain npx eslint at root reports about 11,000 errors in web/ and ds-bundle/. Add to ESLint ignores (Row 29).
 - Prettier has no repo config. Decide in Row 29.
-- KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round.
+- KNOWN_ISSUES.md Backend section has Phase 3 wording. Docs round (Row 30).
 - Nothing tests refetch in useWeeklyMacros.
 - getAnomalies and dismissAnomaly swallow errors on purpose (endpoint missing).
 - Successful restore from not-entitled shows 'No purchases to restore.' toast: untested.
@@ -91,10 +93,9 @@ Finish the app (Apple features, then tests) with no input from Isa. Progress = P
 - React act warnings from ScanReviewCard; devWarn from hooks.ts:72. Row 22.
 - react-test-renderer is deprecated. Row 22.
 - useBrainProfile unmount test cannot fail if its guard is removed. Row 22.
-- src/lib/i18n/index.ts comment says French is 'intentionally partial'.
 - Nutrition scale '418g' has no space; other screens use '120 g'. Kept for Phase 1 look.
 
 ## Next
-- Round 167: 2.5 step (goals.saved, _one plural). Fix any failure in the next round.
-- Then: 2.3 notes backfill, i18n header comments.
-- Then 2.5 goals and unit prefs persisted via backend, Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.
+- Round 168: docs round (row notes backfill, i18n header comments).
+- Then: Row 29 (npm run verify, wire localeParity, ESLint ignores for web/ and ds-bundle/).
+- Then 2.5 goals and unit prefs persisted via backend (smallest change), 2.2 remaining items, Rows 2b, 2c, 2d, 3 to 14b, 15 to 30, then 31.

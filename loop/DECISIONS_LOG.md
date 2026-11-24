@@ -10276,3 +10276,8 @@
 - 2026-11-25 05:39 Jev ranks run at 94%; kept the run action. Row 29 stays second because it needs a larger verify script.
 - 2026-11-25 05:39 Asked Claude Code to grep before editing because the last rounds asked for finished work.
 - 2026-11-25 05:39 Kept new es and fr wording marked pending Isa review, as before, instead of asking him.
+- 2026-11-25 05:40 Chose candidate 1 over the Jev pick of the same task is not needed: Jev ranked this task first (89%), and I agree. Reason: it is the smaller, safer step, and the last report shows goals.saved needs a test assertion change that is outside Isa's allowance (the test pins a key, not old English text), so it is parked instead.
+- 2026-11-25 05:40 Parked goals.saved removal: it changes goalsReset.toast.render.test.tsx beyond the allowed 'old English text' edit. Keep the key. Revisit only if Isa explicitly allows it.
+- 2026-11-25 05:40 Row 2 goes to a documentation round: backfill notes and fix stale i18n comments before more code work, because the previous two rounds repeated finished work.
+- 2026-11-25 05:40 Row 29 (npm run verify) stays after the docs round, as the next code task once the goals.saved question is settled.
+- 2026-11-25 05:40 Jev's advisory risk score (1.1) and low clean-completion chance (22%) point to a smaller task, so this round is docs only with no code change.

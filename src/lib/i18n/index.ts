@@ -1,9 +1,9 @@
 // i18n setup — i18next + react-i18next (pure JS, no native module). English is
-// the full source locale; Spanish is a complete translation of the migrated
-// keys; French is intentionally partial to prove fallback-to-English works.
+// the source locale; Spanish and French carry every English key, with matching
+// placeholders and plurals, as src/__tests__/localeParity.test.ts enforces.
 //
-// Device language is detected via Hermes Intl (no expo-localization needed) and
-// used as the default; the Preferences language picker overrides it at runtime.
+// The app starts in English (lng below) and nothing switches language yet;
+// deviceLanguage() reads the device locale via Hermes Intl for when a picker returns.
 import i18next, { use as addPlugin } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
