@@ -11061,3 +11061,7 @@
 - 2026-11-26 02:16 Diet and cuisine updates use a narrow route, not POST /api/onboarding, so saved foods are not re-seeded and the whole row is not rewritten.
 - 2026-11-26 02:16 No es or fr strings, per Isa's English-only override.
 - 2026-11-26 02:16 Did not re-send the appState.tsx:119 disable task. Notes now say it is the only exhaustive-deps item left, pending Isa.
+- 2026-11-26 02:24 Chose candidate 1 over Jev's pick (audit-routes, 81%). Reason Jev cannot see: the last round added two methods to the goals.Store interface, and only some Go packages were run. Any other package with a fake Store will fail to compile, so the loop's flag must be cleared first.
+- 2026-11-26 02:24 Audit-routes fix moves to next round, where it can also check the new /api/onboarding/preferences route.
+- 2026-11-26 02:24 Only test-file stubs may be added for the new Store methods; no behaviour change.
+- 2026-11-26 02:24 TestPG run for one command only, URL never printed.

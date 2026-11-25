@@ -15,8 +15,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - exhaustive-deps: only appState.tsx:119 left (needs Isa answer). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b (PARTIAL)
-- Done: step sweep, training days in onboarding store and editable in src/app/profile/goals.tsx (device only), goal and activity editable, Eat healthier kept, goal mapping via goalTypeOf.
-- Now: diet and cuisine editable in src/app/profile via a narrow backend route (not POST /api/onboarding, which rewrites the row and re-seeds saved foods).
+- Done: step sweep, training days stored on device, goal and activity editable in src/app/profile/goals.tsx, goal mapping via goalTypeOf.
+- Done (last round): diet and cuisine editable in Profile > Preferences via GET and PATCH /api/onboarding/preferences (narrow route, no onboarding rewrite, no migration).
+- Open: last round's checks flagged as incomplete. Re-run this round: Go compile across all packages (goals.Store gained two methods), TestPG once, tsc, Jest, lint.
 - Plan-ready summary: parked until Isa approves design.
 - Maestro: shared with row 23, not run.
 
@@ -48,7 +49,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
 - Checkpoint round: read only, full tsc and full app Jest, no file changes.
 - Goal and activity editing split from diet, cuisine and training days. Unrelated edits reverted.
-- Rejected prompt (no branch rule) rewritten; new prompt names loop/phase4 and bans branch switching.
+- Round (diet and cuisine): Jev ranked audit-routes first (81%); kept the open-check task because the Store interface change can break other packages' fakes, which Jev cannot see.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -67,7 +68,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Training days: store on device only (no backend field) or add a field.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text: device look.
-- es and fr text for 14 goals.plan.* and 5 onboarding.trainingDays.* keys (parked, English only for now).
+- Diet and cuisine: es and fr text for 8 preferences.food.* keys and 14 goals.plan.* and 5 onboarding.trainingDays.* keys (English only for now).
+- Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
@@ -76,14 +78,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - paywall.tsx:81 passes onboarding payload with as unknown as Onboarding; type mismatch would go unnoticed.
 - Missing tests: useEnergyBalance day refetch; BottomSheet lifecycle; ScanReviewCard weight-only refetch; gym re-run timing.
 - Food tab Retry: verify in Row 30. formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
+- Food search ranking caches cuisine preferences up to 5 minutes; edits take effect after expiry.
+- SettingsList has no disabled style: loading or failed rows only ignore taps.
 - Nothing dispatches SIGNED_IN. Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
+- scripts/audit-routes.mjs crashes: reads missing src/lib/api/index.ts. Next round.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Row 2b: diet and cuisine editable in src/app/profile, backend route first (this round).
+1. Row 2b: close open checks (this round). Then audit-routes.mjs fix (also checks the new preferences route).
 2. Row 2b: plan-ready summary (parked until Isa approves design).
 3. Row 3 remainder after Isa signs off.
 4. Gym key rename only after Isa approves.
