@@ -4,7 +4,7 @@
 // dispatch ACCOUNT_DELETED (machine purges every store/queue, ends the Clerk
 // session, RevenueCat identity resets via the bridge, routes to onboarding).
 import { useEffect, useRef, useState } from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { Trans, useTranslation } from 'react-i18next';
 import Svg, { Circle, Path } from 'react-native-svg';
@@ -17,7 +17,7 @@ import { color, layout, space } from '@/lib/design/tokens';
 import { useAppState } from '@/lib/auth/appState';
 import { api } from '@/lib/api';
 import { showToast } from '@/components/display/toastStore';
-import { openManageSubscription } from '@/lib/billing/subscriptionLinks';
+import { isManageSubscriptionAvailable, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 
 /** The design's side padding on this screen. No token covers it. */
 const SIDE_PADDING = 24;
@@ -140,7 +140,7 @@ export default function DeleteAccountScreen() {
           <Text variant="footnote" color={color.secondaryLabel}>
             {t('settings.deleteAccountDetails.subscriptionNote')}
           </Text>
-          {Platform.OS === 'ios' ? (
+          {isManageSubscriptionAvailable() ? (
             <Button title={t('subscription.manage')} variant="tertiary" onPress={() => void openSubscriptions()} />
           ) : null}
         </View>
