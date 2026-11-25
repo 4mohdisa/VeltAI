@@ -10847,3 +10847,7 @@
 - 2026-11-26 00:55 Helper created first and used only by delete-account; profile/subscription.tsx moves next round, so the URL briefly exists twice. Accepted to keep one screen per round.
 - 2026-11-26 00:55 Android hiding done with Platform.OS check; Apple link makes no sense there. Matches the NOTES 'hide Manage button on Android' item.
 - 2026-11-26 00:55 Chose this over Food Try again because it is the open Next item and the report flagged both the duplicate and the platform bug. Jev 95% run accepted.
+- 2026-11-26 00:56 Chose the subscription screen switch to the shared helper: it finishes the one URL copy started last round and is a single screen, as the one screen rule requires.
+- 2026-11-26 00:56 Kept the Food tab Try again and the gym key cleanup for later: both touch more than one screen or file group, and the subscription switch is smaller and has a clean test.
+- 2026-11-26 00:56 Asked the screen to add a false-return test only if none exists: the helper already has one, so this keeps the diff small.
+- 2026-11-26 00:56 Jev said run 100 percent with a clean-finish chance of 86 percent. I still chose a small task because the previous task was partial in its notes.

@@ -10,6 +10,7 @@
 // Restore Purchases is busy while the store restore runs.
 import { Linking } from 'react-native';
 import { showToast } from '@/components/display/toastStore';
+import { APPLE_SUBSCRIPTIONS_URL } from '@/lib/billing/subscriptionLinks';
 import { __setPurchasesModule, setDevEntitled, type CustomerInfo, type PurchasesModule } from '@/lib/billing/purchases';
 import en from '@/lib/i18n/locales/en.json';
 import { useSettingsStore } from '@/lib/settings/store';
@@ -127,7 +128,7 @@ describe('Manage subscription', () => {
     jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     const tree = await renderEntitled();
     await press(tree);
-    expect(Linking.openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
+    expect(Linking.openURL).toHaveBeenCalledWith(APPLE_SUBSCRIPTIONS_URL);
     expect(showToast).not.toHaveBeenCalled();
   });
 

@@ -15,6 +15,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
 - Row 4 BUILT. Delete order is identity first, then rows. Clerk 404 counts as deleted (tested).
+- Delete screen opens Apple subscriptions through lib/billing/subscriptionLinks.ts (iOS only button). Tested, 9 of 9.
 - Last full checkpoint: tsc 0 errors, 281 suites, 1,694 tests. Next checkpoint at handover.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 
@@ -50,7 +51,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Delete screen text in en.json. Failed delete shows plain fallback text for every failure, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
 - Checkpoint round rule: no file changes; gates reported, fixes in next round.
-- Round (next): chose subscription URL move to lib/billing and Android hiding, scoped to delete-account only (one screen rule). profile/subscription.tsx follows.
+- Delete screen subscription URL moved to lib/billing, Android hidden (done).
+- Subscription screen follows the delete screen: same helper, one copy of the URL.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -82,17 +84,17 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 - The deletion Postgres test seeds all 29 tables (the 5 of 29 note is stale).
 - Delete screen 502 shows server text (check in Row 4 follow up).
+- Earlier subscription note test calls openURL.mockRestore() itself; redundant with afterEach, left alone.
 
 ## Next
-1. Delete screen: URL moved to lib/billing, Android hidden (this round).
-2. profile/subscription.tsx uses lib/billing helper (remove its copy of the URL).
-3. Food tab Try again reloads both reads.
-4. Duplicate gym keys cleanup.
-5. Settle the handover count at the next checkpoint.
-6. Phase 3 Row 14 remainder, so Row 2 can close.
+1. profile/subscription.tsx uses lib/billing helper, MANAGE_URL removed (this round).
+2. Food tab Try again reloads both reads.
+3. Duplicate gym keys cleanup.
+4. Settle the handover count at the next checkpoint.
+5. Phase 3 Row 14 remainder, so Row 2 can close.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
-- One screen per prompt. Rejected prompts are rewritten to a single screen (the last one covered two screens and was rejected).
+- One screen per prompt. Rejected prompts are rewritten to a single screen.

@@ -4,7 +4,7 @@
 // dev build → an honest "not configured" note. No fabricated dates or prices —
 // pricing lives on the RevenueCat paywall and in App Store subscription
 // management, both reachable from here.
-import { Linking, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -14,13 +14,12 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { useEntitlement } from '@/lib/billing/entitlement';
+import { openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
 import { useServerEntitlement } from '@/lib/data';
 import { isDevBuild } from '@/lib/env';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const MANAGE_URL = 'https://apps.apple.com/account/subscriptions';
 
 export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
@@ -38,13 +37,10 @@ export default function SubscriptionScreen() {
   const manage = async () => {
     if (managing) return;
     setManaging(true);
-    try {
-      await Linking.openURL(MANAGE_URL);
-    } catch {
+    if (!(await openManageSubscription())) {
       showToast({ message: t('profile.manageSubscriptionFailed'), tone: 'error' });
-    } finally {
-      setManaging(false);
     }
+    setManaging(false);
   };
 
   const restore = async () => {
