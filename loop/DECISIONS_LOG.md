@@ -11569,3 +11569,8 @@
 - 2026-11-26 05:49 Did not stop: rows remain open and no danger was found. Jev stop at 30% was weighed and rejected on that basis.
 - 2026-11-26 05:49 Did not ask: Jev ask at 13% is rejected, the brief forbids asking, and the open owner questions are parked.
 - 2026-11-26 05:49 Kept Row 3 after Isa's Apple sign off as the notes decided, to avoid a Clerk Apple setup that only Isa can do.
+- 2026-11-26 05:51 Chose the checkpoint because the last report asked for one and the rules require a full run after a change to a shared screen.
+- 2026-11-26 05:51 Flaw 2 (email errors as toasts) stays parked: changing it alters two existing tests, which needs Isa's sign off.
+- 2026-11-26 05:51 Flaw 3 (raw Clerk English fallback) is next after the checkpoint, as a small mapping change with a test.
+- 2026-11-26 05:51 Jev confidence on the run choice was high (0.85) and matches the checkpoint rule, so no second look was needed.
+- 2026-11-26 05:51 Kept the English only override: the es and fr notes from the last report are ignored.
