@@ -11279,3 +11279,7 @@
 - 2026-11-26 03:49 Full Jest run allowed this round because it is the verification of the flagged report, read only unless a red comes from the last change.
 - 2026-11-26 03:49 Kept the status PARTIAL for row 5 until Isa answers the open consent questions.
 - 2026-11-26 03:49 Reconciled the handover count (289 suites, 1,759 tests) with the notes count (292, 1,777) by taking the real numbers from this run.
+- 2026-11-26 03:51 Chose candidate 1, the same as Jev (86%) and as my notes' next item 2. Concrete reason: the 403 messages are hardcoded English in the AI path, which breaks the i18n rule for every AI refusal; the withdraw switch needs a backend consent change that is not started.
+- 2026-11-26 03:51 Handled the loop flag by adding step 1 (reconcile stale test counts in repo docs) to this prompt, so the flagged report is closed before the new task starts.
+- 2026-11-26 03:51 Kept English-only rule: new keys go in en.json and onto ENGLISH_ONLY where es and fr lack them, per Isa's override.
+- 2026-11-26 03:51 Row 5b withdraw switch and daily limit copy stay queued as next items, one surface per round.

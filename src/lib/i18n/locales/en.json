@@ -1154,7 +1154,8 @@
     "suggestionProtein": "How's my protein this week?",
     "suggestionGymDays": "Am I eating enough on gym days?",
     "suggestionTopFood": "What's my most logged food?",
-    "suggestionGoal": "How close am I to my goal?"
+    "suggestionGoal": "How close am I to my goal?",
+    "consentNeeded": "Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy."
   },
   "aiConsent": {
     "title": "AI features and usage data",

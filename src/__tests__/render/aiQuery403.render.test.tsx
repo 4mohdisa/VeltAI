@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import AIQueryScreen from '@/app/ai-query';
+import en from '@/lib/i18n/locales/en.json';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 const mockQuery = jest.fn();
@@ -57,7 +58,7 @@ test('a 403 from the server opens /ai-consent and shows the permission message',
 
   expect(mockQuery).toHaveBeenCalledTimes(1);
   expect(router.push).toHaveBeenCalledWith('/ai-consent');
-  expect(allText(tree)).toContain('Ask Lume needs your permission');
+  expect(allText(tree)).toContain(en.aiQuery.consentNeeded);
 });
 
 test('after consent is accepted, asking again shows the answer and does not reopen /ai-consent', async () => {
@@ -74,5 +75,5 @@ test('after consent is accepted, asking again shows the answer and does not reop
   expect(mockQuery).toHaveBeenCalledTimes(2);
   expect(router.push).toHaveBeenCalledTimes(1);
   expect(allText(tree)).toContain('Your protein is on track this week.');
-  expect(allText(tree)).not.toContain('Ask Lume needs your permission');
+  expect(allText(tree)).not.toContain(en.aiQuery.consentNeeded);
 });

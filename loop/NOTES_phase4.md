@@ -10,15 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f blocked on Isa).
-- Last full run: tsc 0 errors, Jest 292 suites, 1,777 tests (before the 403 test; expect 1,778). Route audit 93 of 93.
+- Row 5 report reconciled: tsc 0 errors, Jest 292 of 292 suites, 1,778 of 1,778 tests (includes 403 test). Route audit 93 of 93.
 - Consent moves done and checked by tests: Ask Lume, insights, photo capture, label scan, 403 retry.
 
 ## Next (one surface per round)
-1. IN PROGRESS: verify the flagged Row 5 report (tsc and full Jest rerun; reconcile counts).
-2. Move the two 403 messages in aiBrain.ts into en.json keys (add to ENGLISH_ONLY if needed).
-3. Row 5b: withdraw switch in Settings, then daily limit copy.
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-5. Row 3 remainder after Isa signs off.
+1. IN PROGRESS: move the two 403 messages in aiBrain.ts into en.json keys (add to ENGLISH_ONLY if needed), after reconciling stale counts in repo docs.
+2. Row 5b: withdraw switch in Settings, then daily limit copy.
+3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+4. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -51,6 +50,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
+- Round (this one): Jev pick 403 move chosen, with the reconcile step added to close the flag.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision). Recommended twice; not retried.
@@ -65,7 +65,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Parked
 - Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent. Users must repeat the action.
-- AI 403 messages in aiBrain.ts are hardcoded English, not en.json keys.
 - profile/privacy.tsx hardcoded 'Your data' title.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.

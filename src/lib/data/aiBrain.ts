@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { api, ApiError } from '@/lib/api';
 import { hasAiConsent } from '@/lib/ai/consent';
+import i18n from '@/lib/i18n';
 import type { AIAnomaly, AIBrainProfile, AIInsight, MorningBrief } from '@/lib/types';
 import { handleUpgradeRequired } from '@/lib/billing/upgradePrompt';
 
@@ -169,7 +170,7 @@ export function useAIQuery(): {
         // module, and expo-router (behind nav) must not load at module scope.
         const { navigate } = require('@/lib/nav') as typeof import('@/lib/nav');
         navigate('/ai-consent');
-        return 'Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.';
+        return i18n.t('aiQuery.consentNeeded');
       }
       // 503 carries the server's own explanation ("could not verify your
       // subscription — try again shortly"). Surfacing the generic unavailable

@@ -11,7 +11,7 @@ Rows
 - Built: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29.
 - Partial: 2b, 3, 5 (5b open), 6b.
 - 6b: steps a to e are built. Only step f is open: es and fr text, which needs Isa.
-- Last full run: tsc 0 errors; Jest 289 suites and 1,759 tests pass. That run was before the paywallHref helper and the completed-flag change. Since then only the affected test files have been run, and all pass.
+- Last full run (26 Nov 2026, after the row 5 consent moves): tsc 0 errors; Jest 292 suites and 1,778 tests pass.
 
 Built this session (row 6b)
 - paywall.tsx:
