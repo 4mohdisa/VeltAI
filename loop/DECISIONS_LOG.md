@@ -10688,3 +10688,7 @@
 - 2026-11-25 23:50 Told Claude Code not to guess round numbers. The Row 6 round label (R253) is unconfirmed and stays as the report gave it until Isa checks it.
 - 2026-11-25 23:50 Excluded lint and Go tests from this round to keep it to one thing, as the loop note asks.
 - 2026-11-25 23:50 Kept Row 6 as BUILT for now. The evidence is a before and after query measurement plus passing targeted tests, and the Row 14 work comes next.
+- 2026-11-25 23:51 R254 picks candidate 1 (Row 14a) over 14b: it is the smallest step and Row 14 blocks Row 2. Jev agrees (run 90%).
+- 2026-11-25 23:51 The last round ran the full suite and it was green (275 suites, 1,673 tests, tsc 0). Recorded as the new checkpoint, round label R253 (unconfirmed, same as before). No full suite next round.
+- 2026-11-25 23:51 Round numbers after R252 are taken from the loop script labels, not guessed. R254 is this round's label, to be confirmed by the loop script.
+- 2026-11-25 23:51 Row 14 steps are split into 14a (gym month line), 14b (Retry buttons), 14c (workoutsLine and nutrition spoken kcal) so each round stays small.

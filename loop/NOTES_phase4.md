@@ -12,16 +12,16 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Row 13 BUILT (R252). Phase 3 Row 15 done (R166). Phase 3 Row 6 BUILT (round label R253 from report, unconfirmed; no code change, bounds and before and after numbers recorded).
-- Row 2 PARTIAL until Phase 3 Row 14 is BUILT (Row 6 now done).
+- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Row 13 BUILT (R252). Phase 3 Row 15 done (R166). Phase 3 Row 6 BUILT (label R253, unconfirmed).
+- Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT: plan-ready summary parked for Isa.
-- Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests). Next checkpoint: this round (R253 or next label, check notes), read only run.
-- Current: Phase 3 Row 14 (Gym month line in English keys, Retry on muscle cards and exercise progress, workoutsLine, nutrition spoken kcal snapshot).
+- Last full green checkpoint: tsc 0, 275 suites, 1,673 tests (label R253, unconfirmed). Next full suite: only at the next checkpoint round.
+- Current: Phase 3 Row 14. Split: 14a gym month line (gymRange.ts) in progress (R254). 14b Retry on muscle cards and exercise progress. 14c workoutsLine and nutrition spoken kcal snapshot.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
 - Every prompt states the branch rule and forbids other git commands.
-- Lint: npx expo lint src scripts --max-warnings 0.
+- Lint: npx expo lint src scripts --max-warnings 0 (changed files only on normal rounds).
 - No new eslint-disable. Animated values: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoint rounds, as one command with no file list.
 - A round with no Jest run is not done.
@@ -47,7 +47,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R247, R248 calendar.tsx and food.tsx read data only. R250 verify only, no alias removal.
 - R251 one notice when both Food tab reads fail; food-log error takes priority.
 - useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
-- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169 and backend LIMIT kept. Measured 1,000 sessions: rows sent 6,000 to 1,200 exercise rows, exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
+- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169 and backend LIMIT kept. Measured 1,000 sessions: rows sent 6,000 to 1,200 exercise rows; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
+- R254 picks Row 14a over 14b (smallest step; Row 14 blocks Row 2). Jev agrees.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script, park the rest.
@@ -71,7 +72,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R249 alias removal (see Blocked).
 - Food tab: 'Try again' on the food-log notice reloads only the food log when both reads fail.
 - PERF_BASELINE.md lines 34 and 41 stale (say no LIMIT and full history). Fix after checkpoint.
-- Open hotspots: useHydration has no freshness window; gym/history.tsx uses .map not FlatList; backend lookups use id::text = $1 (skips primary key index); gym/schedule_pg.go sorts oldest first then LIMIT 30.
+- Open hotspots: useHydration has no freshness window; gym/history.tsx uses .map not FlatList; backend lookups use id::text = $1 (skips primary key index, 49 queries); gym/schedule_pg.go sorts oldest first then LIMIT 30.
+- Phase 3 Row 13 older text still lists saved and translation items as open; R252 records the checks.
 
 ## Problems noticed, not fixed
 - English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) in fr gives '0 jour' (fr parked).
@@ -79,5 +81,5 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose. Users do not see which field the server rejected on 4xx.
 - OWNER_CHECKS_phase4.md line 39 quotes old es wording. Append only, leave it.
-- Phase 3 Row 13 older text still lists saved and translation items as open; R252 records the checks.
 - The R247 note says isLoading, but calendar.tsx reads only data.
+- getMorningBrief and getProfile swallow errors (Phase 3 Parked, Row 14 step e).
