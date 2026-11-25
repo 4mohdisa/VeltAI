@@ -11397,3 +11397,6 @@
 - 2026-11-26 04:51 Next round verifies step 2a with one test file, tsc and lint before any new surface is touched, as the rules require after a flagged report.
 - 2026-11-26 04:51 One surface per round kept, because the Jev risk signal is high on recent rounds.
 - 2026-11-26 04:51 Jev is advisory only. Chose the smallest task (a read only verify) because its confidence is low and the last report was flagged.
+- 2026-11-26 04:52 Chose the photo scan screen first because step 2b is one screen per round and the photo scan is the most used AI entry point (smallest safe task, Jev risk high).
+- 2026-11-26 04:52 Deferred the other-code 429 expect line to a later round so this round touches one surface only.
+- 2026-11-26 04:52 Did not ask Isa anything; the two open questions from step 2a stay in Blocked (plain 429 queueable, brief and insights at the limit).

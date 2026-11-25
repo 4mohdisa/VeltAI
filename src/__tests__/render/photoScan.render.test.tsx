@@ -199,6 +199,44 @@ test('a pipeline rejection from an exhausted scan quota shows the real paywall t
   expect(useToastStore.getState().current).toMatchObject({ message: 'Scan limit reached', tone: 'info' });
 });
 
+test('a used-up daily AI allowance shows the server message, drops the placeholder and does not fall back', async () => {
+  const message = "You've used today's AI allowance. It resets at midnight UTC.";
+  mockTakePicture.mockResolvedValue({ base64: 'b64-top' });
+  mockPipeline.mockRejectedValue(new ApiError(429, message, { code: 'ai_daily_limit_reached' }));
+
+  const itemCount = () => Object.values(useFoodStore.getState().byDate).flat().flatMap((m) => m.items).length;
+  const before = itemCount();
+
+  const tree = renderCapture();
+  press(tree, 'Capture photo');
+  await settle();
+  pressTitle(tree, 'Use this photo');
+  await act(async () => {
+    await scanChainsSettled();
+  });
+
+  expect(useToastStore.getState().current).toMatchObject({ message, tone: 'info' });
+  expect(mockAnalyze).not.toHaveBeenCalled();
+  expect(itemCount()).toBe(before);
+});
+
+test('a plain 429 with no code keeps the existing sync fallback, not the daily-limit message', async () => {
+  mockTakePicture.mockResolvedValue({ base64: 'b64-top' });
+  mockPipeline.mockRejectedValue(new ApiError(429, 'too many requests'));
+  mockAnalyze.mockRejectedValue(new ApiError(429, 'too many requests'));
+
+  const tree = renderCapture();
+  press(tree, 'Capture photo');
+  await settle();
+  pressTitle(tree, 'Use this photo');
+  await act(async () => {
+    await scanChainsSettled();
+  });
+
+  expect(mockAnalyze).toHaveBeenCalledTimes(1);
+  expect(useToastStore.getState().current).toMatchObject({ message: 'Scanning your meal…', tone: 'info' });
+});
+
 test('a non-upgrade pipeline rejection falls back to the sync scan, calling api.scan.analyze then api.scan.confirm', async () => {
   mockTakePicture.mockResolvedValue({ base64: 'b64-top' });
   mockPipeline.mockRejectedValue(new Error('503'));

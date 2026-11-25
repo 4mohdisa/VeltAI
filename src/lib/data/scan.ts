@@ -13,6 +13,7 @@ import { exampleBarcodeProduct, lookupBarcode, type BarcodeProduct } from '@/lib
 import type { MealSlot } from '@/lib/mock/data';
 import type { ScanFeedbackRating } from '@/lib/types';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
+import { showToast } from '@/components/display/toastStore';
 import { devWarn, isDevBuild } from '@/lib/env';
 
 // Active status pollers keyed by the LOCAL review-row id, so save/discard can
@@ -36,11 +37,24 @@ function trackScanChain(p: Promise<void>): void {
   inFlightScans.add(tracked);
 }
 
-/** The free daily scan allowance is spent: remove the optimistic placeholder
- *  (there will be no result to fill it) and present the paywall. */
-function scanBlockedByQuota(localId: string, e: unknown): void {
-  deleteFoodItem(localId);
-  void handleUpgradeRequired(e);
+/** The server refused the scan for the whole day: a 402 (no subscription) or a
+ *  429 for a used-up daily AI allowance. The sync endpoint refuses identically,
+ *  so falling back would only burn a second refusal. Remove the optimistic
+ *  placeholder (there will be no result to fill it) and show the reason: the
+ *  paywall for a 402, the server's own message for the daily limit. Returns
+ *  false for any other error. */
+function scanRefused(localId: string, e: unknown): boolean {
+  if (isUpgradeRequired(e)) {
+    deleteFoodItem(localId);
+    void handleUpgradeRequired(e);
+    return true;
+  }
+  if (e instanceof ApiError && e.code === 'ai_daily_limit_reached') {
+    deleteFoodItem(localId);
+    showToast({ message: e.message, tone: 'info' });
+    return true;
+  }
+  return false;
 }
 
 /** Resolves once every in-flight scan chain has settled, including chains
@@ -160,10 +174,7 @@ export function startPhotoScan(
         activePollers.set(id, stop);
       })
       .catch((e: unknown) => {
-        // 402 = out of free scans. The sync endpoint is gated identically, so
-        // falling back would just burn a second refusal: surface the paywall
-        // and drop the placeholder row instead.
-        if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
+        if (scanRefused(id, e)) return;
         // Pipeline unavailable (503 no key / unreachable) → old sync endpoint.
         devWarn('[scan] pipeline unavailable, falling back to sync scan:', e);
         fallbackSyncScan(id, slot, imageBase64, mimeType);
@@ -220,7 +231,7 @@ export function startMultiPhotoScan(images: { image_base64: string; mime_type?: 
       activePollers.set(id, stop);
     })
     .catch((e: unknown) => {
-      if (isUpgradeRequired(e)) return scanBlockedByQuota(id, e);
+      if (scanRefused(id, e)) return;
       // Multi endpoint unavailable → degrade to the single-image path with the
       // primary (top) shot; never lose the capture.
       devWarn('[scan] multi pipeline unavailable, falling back:', e);
@@ -350,6 +361,7 @@ function fallbackSyncScan(localId: string, slot: MealSlot, imageBase64: string, 
       );
     })
     .catch((e: unknown) => {
+      if (scanRefused(localId, e)) return;
       devWarn('[scan] pipeline + sync fallback both failed:', e);
       updateFoodLogStatus(localId, 'failed', null, 'pipeline_and_sync_failed');
     }),

@@ -10,23 +10,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: done and tested. aiquota, UTC day, default 20, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
-- Row 5 step 2a: done in narrowed form. Only a 429 with ai_daily_limit_reached is never retried or queued. Plain 429 stays queueable (offline queue replays writes).
-- Step 2a report was flagged as partly done. Verify first next round (test file, tsc, lint).
+- Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
+- Row 5 step 2a: checked by a test and read (productionReadiness.test.ts, tsc, lint). Only ai_daily_limit_reached is non-retryable. Plain 429 stays queueable.
 - Last full checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
 
 ## Next
-1. Verify Row 5 step 2a (read only, one test file, tsc, lint).
-2. Row 5 step 2b: scan screens show server limit message (one screen per round).
+1. Row 5 step 2b: photo scan screen shows server limit message (in progress).
+2. Row 5 step 2b: label scan and pipeline screens (one per round).
 3. Row 5 step 2c: AI query screen shows server limit message.
 4. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
 5. Row 3 after Isa signs off the Apple steps.
 6. Maestro flows (2b, 23) once Maestro is confirmed.
+7. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- One task and one surface per prompt. Max 5 steps per prompt.
+- One task and one surface per prompt. Max 5 steps.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked and is not retried.
@@ -45,10 +45,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Daily AI limit default 20. Background insight rebuilds count.
-- Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable (step 2a, narrowed on purpose).
-- Brief and insights keep fallback text at the limit (manager decision; existing test pins it).
-- aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest can't parse expo-router).
+- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count.
+- Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable.
+- Brief and insights keep fallback text at the limit (existing test pins it).
+- aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest cannot parse expo-router).
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
@@ -63,7 +63,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error (defaults in use); consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit; plain 429 queueable confirmation.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -75,7 +75,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
 - Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
-- act() warnings left: accountLocale 6, integrationsLocale 6, photoScan 4, confidenceBadge.noBreakdown 3, brainProfileCard.numbers 2, scanCards.strings 2. preferencesLocale.render.test.tsx is done or next (check first).
+- act() warnings left: accountLocale 6, integrationsLocale 6, photoScan 4, confidenceBadge.noBreakdown 3, brainProfileCard.numbers 2, scanCards.strings 2.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
