@@ -25,6 +25,7 @@ const ENGLISH_ONLY = new Set([
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',
+  'onboarding.measurements.targetRequired',
   'settings.privacyDetails.aiAllow',
   'settings.privacyDetails.aiConsentedOn',
   'settings.privacyDetails.dataTitle',

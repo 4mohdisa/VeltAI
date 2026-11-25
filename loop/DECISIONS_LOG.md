@@ -11537,3 +11537,8 @@
 - 2026-11-26 05:39 Recorded under Blocked on Isa: Row 2b dead end 7 sign off (Isa to confirm onboarding.paywall.plansUnavailable closes it). The same blocker came back twice. Not retried.
 - 2026-11-26 05:39 Prompt limits this round to type check and full Jest. No lint, Go or simulator runs, so the round stays small and read only.
 - 2026-11-26 05:39 Jev risk 1.2 with clean completion 79%: kept the smallest possible task (no file changes).
+- 2026-11-26 05:40 Checkpoint round read as green (tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests; no reds, nothing to fix). Recorded in State.
+- 2026-11-26 05:40 Dead end 8 chosen next: it is the smallest open Row 2b item and matches the recorded next step. Jev rated run at 99% with high confidence, so no change of pick.
+- 2026-11-26 05:40 Subscription toast rewording and Row 6b remaining work kept in Next, one surface per round.
+- 2026-11-26 05:40 Reused the existing weight validator and inline error, so no second validator is added.
+- 2026-11-26 05:40 Notes condensed to stay under 600 words. No decisions removed.

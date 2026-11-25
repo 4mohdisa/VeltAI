@@ -198,14 +198,21 @@ export default function MeasurementsScreen() {
       : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
   })();
 
-  const weightError = (() => {
-    if (weightEmpty) return submitted ? t('onboarding.measurements.weightRequired') : undefined;
-    return draftWeightKg != null && draftWeightKg >= 30 && draftWeightKg <= 300
+  // One rule for both body weights (current and target): required, and 30 to
+  // 300 kg in the unit the user picked.
+  const bodyWeightError = (text: string, kg: number | null, requiredKey: string) => {
+    if (text.trim() === '') return submitted ? t(requiredKey) : undefined;
+    return kg != null && kg >= 30 && kg <= 300
       ? undefined
       : weightUnit === 'kg'
         ? t('onboarding.measurements.weightRangeKg', { min: 30, max: 300 })
         : t('onboarding.measurements.weightRangeLb', { min: 66, max: 661 });
-  })();
+  };
+  const weightError = bodyWeightError(weightText, draftWeightKg, 'onboarding.measurements.weightRequired');
+  const targetEmpty = showTarget && targetText.trim() === '';
+  const targetError = showTarget
+    ? bodyWeightError(targetText, draftTargetKg, 'onboarding.measurements.targetRequired')
+    : undefined;
 
   // Height and weight are REQUIRED as of 2026-08-08: they feed BMR directly,
   // and substituting a population median invented the user's body data.
@@ -214,9 +221,11 @@ export default function MeasurementsScreen() {
     sexValue === '' ||
     heightEmpty ||
     weightEmpty ||
+    targetEmpty ||
     !!ageError ||
     !!heightError ||
-    !!weightError;
+    !!weightError ||
+    !!targetError;
 
   const handleContinue = () => {
     // Always reveal the reason first. Pressing Continue on an incomplete form
@@ -344,6 +353,7 @@ export default function MeasurementsScreen() {
             })}
             value={targetText}
             onChangeText={setTargetText}
+            error={targetError}
             keyboardType="decimal-pad"
             placeholder={t(
               weightUnit === 'kg'

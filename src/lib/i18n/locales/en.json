@@ -1243,6 +1243,7 @@
       "weightRangeKg": "Enter a weight between {{min}} and {{max}} kg",
       "weightRangeLb": "Enter a weight between {{min}} and {{max}} lb",
       "targetLabel": "Target weight ({{unit}})",
+      "targetRequired": "Enter your target weight",
       "targetKgPlaceholder": "65 kg",
       "targetLbPlaceholder": "143 lb"
     },
