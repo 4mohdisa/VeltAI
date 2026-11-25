@@ -6,6 +6,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { router, type Href } from 'expo-router';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, SegmentedField, TextField } from '@/components/forms';
@@ -241,6 +242,9 @@ export default function MeasurementsScreen() {
     <OnbScaffold
       step={8}
       scroll
+      // Signup sits below this step, and by now the user is signed in, so back
+      // skips it and returns to preview instead of the provider buttons.
+      onBack={() => router.dismissTo('/onboarding/preview' as Href)}
       title={t('onboarding.measurements.title')}
       subtitle={t('onboarding.measurements.subtitle')}
       footer={<Button title={t('onboarding.measurements.continue')} onPress={handleContinue} />}

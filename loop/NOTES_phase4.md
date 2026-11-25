@@ -11,22 +11,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
-- Row 2b dead end 1 (Sign in link on Welcome): built; welcome.render.test.tsx.
-- Row 2b dead end 2 (auth title by mode): built; welcome.render.test.tsx and signupSignInMode.render.test.tsx. Shared screenTitle helper: src/__tests__/render/helpers.tsx.
-- Row 2b dead end 3 (Resend on code step): built; signupResend.render.test.tsx (11 of 11 tests, including retry after failure).
+- Row 2b dead ends 1 to 3 built (welcome.render.test.tsx, signupSignInMode.render.test.tsx, signupResend.render.test.tsx). Shared helper screenTitle in src/__tests__/render/helpers.tsx.
+- Row 2b dead end 4 built: OnbScaffold back goes to ONBOARDING_ROOT when no history (onboardingScaffold.render.test.tsx).
 
 ## Next
-1. Row 2b dead end 4: onboarding back fallback when no history. In progress.
-2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 3 now built; says no maintain option, no training days, no i18n; all now exist).
+1. Row 2b dead end 5: after sign in, back from measurements shows sign up buttons while signed in. Check first, then fix or test.
+2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 4 now built).
 3. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
-4. Row 6b: remaining work that does not depend on step (f).
+4. Row 6b: remaining work not tied to step (f).
 5. Row 3 after Isa signs off the Apple steps (owner).
 6. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- Briefs name files that do not exist (welcome.tsx, src/locales). Check paths with grep before use.
+- Briefs may name files that do not exist (welcome.tsx, src/locales). Check paths with grep first.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check or leaves a gap is flagged; next round verifies it first.
@@ -61,7 +60,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 
 ## Blocked on Isa (park, do not retry)
-- Row 6b step (f): stale strings. Names none; deferred under English only. Repeated twice; not retried.
+- Row 6b step (f): stale strings. Names none; deferred under English only. Not retried.
+- Back on a resumed onboarding step goes to Welcome, not the previous step. Needs one shared step list. Isa to decide.
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.

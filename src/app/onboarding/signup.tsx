@@ -162,6 +162,12 @@ function LegalFooter() {
 
 // --- Real Clerk flows (rendered only when a key is configured) ----------------
 
+// Clerk refuses a second sign-in while a session is active. The user is
+// already signed in, so continue the flow instead of showing an error.
+function isSessionExists(e: unknown): boolean {
+  return (e as { errors?: { code?: string }[] })?.errors?.[0]?.code === 'session_exists';
+}
+
 // Clerk's error codes mapped to copy. Module scope: it only runs inside event
 // handlers, so i18n.t reads the language current at that moment.
 function clerkMessage(e: unknown): string {
@@ -205,7 +211,8 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         // No session: the user cancelled or the flow needs extra steps.
         showToast({ message: t('signup.toastCancelled'), tone: 'info' });
       } catch (e) {
-        showToast({ message: clerkMessage(e), tone: 'error' });
+        if (isSessionExists(e)) await continueAfterAuth(dispatch);
+        else showToast({ message: clerkMessage(e), tone: 'error' });
       } finally {
         setBusy(null);
       }
@@ -252,11 +259,12 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
       setStage('code');
       showToast({ message: t('signup.toastCodeSent', { email: addr }), tone: 'info' });
     } catch (e) {
-      showToast({ message: clerkMessage(e), tone: 'error' });
+      if (isSessionExists(e)) await continueAfterAuth(dispatch);
+      else showToast({ message: clerkMessage(e), tone: 'error' });
     } finally {
       setBusy(null);
     }
-  }, [email, mode, signUp, signIn, upLoaded, inLoaded, prepareCode, t]);
+  }, [email, mode, signUp, signIn, upLoaded, inLoaded, prepareCode, dispatch, t]);
 
   const resendCode = useCallback(async () => {
     setCodeError(undefined);

@@ -11510,3 +11510,8 @@
 - 2026-11-26 05:29 No resend cooldown: Clerk already limits send frequency and the loading state blocks double taps. Not an owner step; revisit only if Isa asks.
 - 2026-11-26 05:29 Dead end 3 (resend retry) is treated as built: Resend stays enabled after a failure and a retry test passes.
 - 2026-11-26 05:29 Scaffold path is not assumed; the round locates OnbScaffold with grep before editing.
+- 2026-11-26 05:30 Chose Row 2b dead end 5 as the next task: Claude Code recommended it and it is the smallest open step. Jev ranks run at 91%, so no reason to override.
+- 2026-11-26 05:30 Step 1 is a check first, so the round may end with no code change if the path is already handled.
+- 2026-11-26 05:30 Back on a resumed step stays on Welcome. Changing it to the previous step needs one shared step list, so it is parked for Isa, not built.
+- 2026-11-26 05:30 DESIGN_REFERENCES.md refresh moved to the next round to keep this round to one surface.
+- 2026-11-26 05:30 Notes trimmed to keep them readable. No decision was deleted; repeated Parked and Blocked lines were merged.
