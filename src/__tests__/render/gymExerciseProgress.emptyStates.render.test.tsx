@@ -73,8 +73,8 @@ test('a failed progress read shows the load failure, not the empty state', async
 
   expect(hasText(tree, en.gym.loadFailed)).toBe(true);
   expect(hasText(tree, en.gymExerciseProgress.emptyTitle)).toBe(false);
-  // useExerciseProgress exposes no refetch, so the notice carries no Retry.
-  expect(findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain).length).toBe(0);
+  // findAll sees the Pressable and its host view, so check presence, not a count.
+  expect(findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain).length).toBeGreaterThan(0);
 });
 
 test('a successful read with no progress shows the empty state', async () => {

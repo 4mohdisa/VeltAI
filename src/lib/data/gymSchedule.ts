@@ -165,11 +165,12 @@ export function useExerciseProgress(name: string, limit?: number): {
   progress: ExerciseProgress | null;
   loading: boolean;
   isError: boolean;
+  refetch: () => void;
 } {
-  const { data, loading, isError } = useApi<ExerciseProgress | null>(
+  const { data, loading, isError, refetch } = useApi<ExerciseProgress | null>(
     () => (name ? api.gym.getExerciseProgress(name, limit) : Promise.resolve(null)),
     null,
     [name, limit],
   );
-  return { progress: data, loading, isError };
+  return { progress: data, loading, isError, refetch };
 }

@@ -156,7 +156,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
   const name = params.name ?? '';
   const { t } = useTranslation();
   const title = name || t('gymExerciseProgress.exerciseFallback');
-  const { progress, loading, isError } = useExerciseProgress(name);
+  const { progress, loading, isError, refetch } = useExerciseProgress(name);
   const { exercises, loading: libraryLoading } = useExercises({ q: name });
   const exercise = exercises.find((ex) => ex.name.toLowerCase() === name.toLowerCase());
 
@@ -166,8 +166,7 @@ export default function ExerciseProgressScreen(): JSX.Element {
     }
 
     if (isError && !progress) {
-      // ponytail: no Retry, useExerciseProgress exposes no refetch (src/lib/data is off limits)
-      return <LoadFailedNotice message={t('gym.loadFailed')} />;
+      return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
     }
 
     const empty = (

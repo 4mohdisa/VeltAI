@@ -10704,3 +10704,6 @@
 - 2026-11-25 23:54 R257: the next surface is Row 14b muscle cards. It does not depend on the blocked R249 approval, so it is safe to run.
 - 2026-11-25 23:54 R257: Jev ranks the same top task (run 98%). Kept my pick, which matches the candidate order in the notes.
 - 2026-11-25 23:54 R257: English only at launch. The prompt forbids es and fr edits.
+- 2026-11-25 23:56 R258 picks exercise progress Retry over the stale muscles.tsx comment; the comment fix is parked with GymPatternsCard (one component per round rule).
+- 2026-11-25 23:56 Notes condensed to stay near the 600 word limit. All decisions, blocked items and parked items are kept.
+- 2026-11-25 23:56 R257 recorded as done. Row 2 stays PARTIAL until Phase 3 Row 14 is BUILT.
