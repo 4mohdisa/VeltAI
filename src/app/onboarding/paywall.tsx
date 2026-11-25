@@ -154,7 +154,7 @@ export default function PaywallScreen() {
 
   return (
     <OnbScaffold
-      step={10}
+      step={11}
       scroll
       title={t('onboarding.paywall.title')}
       footer={

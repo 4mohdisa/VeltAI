@@ -412,7 +412,7 @@ export default function SignupScreen() {
   const [mode, setMode] = useState<Mode>(modeParam === 'signin' ? 'signin' : 'signup');
   return (
     <OnbScaffold
-      step={6}
+      step={7}
       title={mode === 'signin' ? t('signup.titleSignIn') : t('signup.titleSignUp')}
       footer={<LegalFooter />}
     >

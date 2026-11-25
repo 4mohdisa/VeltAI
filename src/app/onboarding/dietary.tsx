@@ -32,7 +32,7 @@ export default function DietaryScreen() {
 
   return (
     <OnbScaffold
-      step={4}
+      step={5}
       title={t('onboarding.dietary.title')}
       subtitle={t('onboarding.dietary.subtitle')}
       footer={<Button title={t('onboarding.measurements.continue')} onPress={() => navigate('/onboarding/preview')} />}

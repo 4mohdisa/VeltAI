@@ -80,7 +80,7 @@ export default function TargetsScreen() {
 
   return (
     <OnbScaffold
-      step={9}
+      step={10}
       title={t('onboarding.targets.title')}
       footer={
         <View style={{ gap: space.md }}>

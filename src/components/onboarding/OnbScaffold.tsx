@@ -32,7 +32,7 @@ export type OnbScaffoldProps = {
 
 export function OnbScaffold({
   step = 1,
-  totalSteps = 10,
+  totalSteps = 11,
   title,
   subtitle,
   showBack = true,

@@ -1154,6 +1154,15 @@
     "activityLight": "Light activity (walks, light exercise)",
     "activityModerate": "Moderately active (3-4x/week)",
     "activityVeryActive": "Very active (daily training)",
+    "trainingDays": {
+      "title": "How many days a week do you train?",
+      "options": {
+        "days_0": "0 days",
+        "days_1_2": "1 to 2 days",
+        "days_3_4": "3 to 4 days",
+        "days_5_plus": "5 or more days"
+      }
+    },
     "measurements": {
       "title": "A few more details",
       "subtitle": "To calculate your personal targets",

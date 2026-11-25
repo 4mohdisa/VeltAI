@@ -239,7 +239,7 @@ export default function MeasurementsScreen() {
 
   return (
     <OnbScaffold
-      step={7}
+      step={8}
       scroll
       title={t('onboarding.measurements.title')}
       subtitle={t('onboarding.measurements.subtitle')}

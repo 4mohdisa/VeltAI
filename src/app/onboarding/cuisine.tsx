@@ -28,7 +28,7 @@ export default function CuisineScreen() {
 
   return (
     <OnbScaffold
-      step={3}
+      step={4}
       scroll
       title={t('onboarding.cuisine.title')}
       subtitle={t('onboarding.cuisine.subtitle')}

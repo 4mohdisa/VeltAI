@@ -9,15 +9,23 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 
 ## State
 - Branch loop/phase4. Loop script commits.
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b status unclear, recheck in progress.
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 3, 2b.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
 - Last checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass. Go gates and lint not run at that checkpoint.
 - TestPG: 26 pass on lume_test_local. Race green.
-- exhaustive-deps: removable disables all removed (ParameterForm, BottomSheet, TodayCard, ScanReviewCard, energy.ts). Kept: SliderField:68, BottomSheet:95, 103, 134 (Reanimated writes), gymSchedule.ts:78, debug/impl/index.tsx:99. appState.tsx:119 parked (see Blocked).
+- exhaustive-deps: only appState.tsx:119 remains (parked). Kept disables: SliderField:68, BottomSheet:95, 103, 134, gymSchedule.ts:78, debug/impl/index.tsx:99.
+
+## Row 2b open items (PARTIAL)
+- Training days question: missing (round task now).
+- Goal, activity, diet, cuisine not editable in src/app/profile (only goals and units are).
+- Plan-ready summary screen: approved in decisions, not built yet.
+- signup.tsx placeholders at 337 and 360 stay English literals (English-only rule).
+- Maestro flow: shared with row 23, not run.
+- Last report was flagged as partly done. Do not mark 2b BUILT until all five items close.
 
 ## Rules
 - One module per prompt, max 5 steps. Grep first. State branch rule, forbid other git commands, end with report format.
-- Report wording: built or checked by a test only. Never write "verified".
+- Report wording: built or checked by a test only. Never write 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints. Render tests are *.render.test.tsx.
 - Animated: useState(() => new Animated.Value(x)).
@@ -44,8 +52,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps: compute plain values in render, depend on them, no disable. Reanimated SharedValue write: keep disable. Real missing dependency: fix unless behaviour changes (then park).
 - Stale plan items (disable not present) are dropped, not added to Blocked.
-- Jev asked for ask at 90%, 74%, 52%; kept run because the brief forbids ask.
+- Jev asked for ask at 90%, 74%, 52%, and 36% now; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
+- Round: training days question chosen first (spec item, missing per last report).
 
 ## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
@@ -54,12 +63,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 Gym month line and Retry with backend stopped.
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
 - Approve foodDays.test.ts edit and removing days and loading aliases (R249).
-- Approve R258 and R260 Retry assertion changes. Approve plan-ready summary (2b).
+- Approve R258 and R260 Retry assertion changes.
 - Row 3: confirm Apple hidden on Android; native sheet or browser flow; owner steps 1 to 7.
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
-- appState.tsx:119 exhaustive-deps: changing to snap.effects makes repeated identical batches run again (behaviour change). Recommendation: yes, plus one render test. Disable kept. Asked twice; parked in OWNER_CHECKS_phase4.md, not asked again.
+- appState.tsx:119 exhaustive-deps: recommendation yes plus one render test. Parked in OWNER_CHECKS_phase4.md, not asked again.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
@@ -69,7 +78,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
-- signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
+- Nothing dispatches SIGNED_IN.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - seedChildRows depends on exercise_library seed; local user 'lume' absent.
 - 26 vs 28 TestPG pass lines: likely subtests, unconfirmed.
@@ -82,13 +91,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
 
 ## Next
-1. Row 2b status recheck (this round, read only).
-2. Append appState.tsx:119 recommendation to OWNER_CHECKS_phase4.md (append only).
-3. Finish Row 2b open items.
-4. BottomSheet open and close lifecycle render test.
-5. Row 3 remainder after Isa signs off.
-6. Gym key rename only after Isa approves.
-7. Next checkpoint: run Go gates and lint, record numbers in BASELINE_phase4.md.
+1. Row 2b: training days question (this round).
+2. Row 2b: goal, activity, diet and cuisine editable in src/app/profile.
+3. Row 2b: plan-ready summary screen (approved).
+4. Row 3 remainder after Isa signs off.
+5. Gym key rename only after Isa approves.
+6. Next checkpoint: run Go gates and lint, record numbers in BASELINE_phase4.md.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.

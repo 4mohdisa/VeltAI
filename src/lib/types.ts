@@ -60,6 +60,9 @@ export type Goal = 'lose' | 'muscle' | 'eat_healthier' | 'track';
 /** Activity values map 1:1 to the backend's activity-factor table. */
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'very_active';
 
+/** Weekly training days, asked in onboarding. Stored only: no plan input reads it yet. */
+export type TrainingDays = 'days_0' | 'days_1_2' | 'days_3_4' | 'days_5_plus';
+
 export type Sex = 'male' | 'female' | 'other';
 
 export type CuisineType =

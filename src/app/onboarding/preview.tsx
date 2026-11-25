@@ -35,7 +35,7 @@ export default function PreviewScreen() {
 
   return (
     <OnbScaffold
-      step={5}
+      step={6}
       scroll
       title={t('onboarding.preview.title')}
       footer={

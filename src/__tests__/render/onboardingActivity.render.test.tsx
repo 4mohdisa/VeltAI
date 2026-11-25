@@ -59,7 +59,7 @@ test('picking an activity level navigates to the next onboarding route', () => {
       jest.advanceTimersByTime(300);
     });
 
-    expect(router.push).toHaveBeenCalledWith('/onboarding/cuisine');
+    expect(router.push).toHaveBeenCalledWith('/onboarding/training-days');
   } finally {
     jest.useRealTimers();
   }

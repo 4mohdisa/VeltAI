@@ -40,6 +40,11 @@ const ENGLISH_ONLY = new Set([
   'settings.deleteAccountDetails.confirmLabel',
   'settings.deleteAccountDetails.deleted',
   'settings.deleteAccountDetails.failed',
+  'onboarding.trainingDays.title',
+  'onboarding.trainingDays.options.days_0',
+  'onboarding.trainingDays.options.days_1_2',
+  'onboarding.trainingDays.options.days_3_4',
+  'onboarding.trainingDays.options.days_5_plus',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

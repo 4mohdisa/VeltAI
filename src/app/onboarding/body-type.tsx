@@ -112,7 +112,7 @@ export default function BodyTypeScreen() {
 
   return (
     <OnbScaffold
-      step={8}
+      step={9}
       scroll
       title={t('onboarding.bodyType.title')}
       subtitle={t('onboarding.bodyType.subtitle')}

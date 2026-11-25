@@ -35,10 +35,10 @@ export default function ActivityScreen() {
     haptics.selection();
     if (timer.current) clearTimeout(timer.current);
     if (reduceMotion) {
-      navigate('/onboarding/cuisine');
+      navigate('/onboarding/training-days');
       return;
     }
-    timer.current = setTimeout(() => navigate('/onboarding/cuisine'), 300);
+    timer.current = setTimeout(() => navigate('/onboarding/training-days'), 300);
   };
 
   return (

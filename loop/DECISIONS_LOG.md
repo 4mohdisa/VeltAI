@@ -11004,3 +11004,7 @@
 - 2026-11-26 01:43 appState.tsx:119 is parked, not asked. Keep the disable, and append the recommendation (dependency on snap.effects plus one render test) to OWNER_CHECKS_phase4.md in a later round. No more asks.
 - 2026-11-26 01:43 The loop flagged the last report as partly done. This round re-runs tsc and the grep for energy.ts to close that flag.
 - 2026-11-26 01:43 Trimmed the notes to the word limit. Merged repeated lines. No decision was deleted.
+- 2026-11-26 01:45 Chose the training days question first: the spec names it, the last report found it missing, and the report flagged the row as partly done, so this closes that gap before the other open items.
+- 2026-11-26 01:45 Treated the plan-ready summary as approved, because the Decisions section already records that approval. Removed the stale Blocked line for it.
+- 2026-11-26 01:45 Row 2b stays PARTIAL until training days, profile editing, the plan-ready summary and the shared Maestro flow are all closed. Do not mark it BUILT early.
+- 2026-11-26 01:45 Jev gave ask 36%. Kept run because the brief forbids ask.

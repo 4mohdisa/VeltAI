@@ -15,6 +15,7 @@ import type {
   Goal,
   OnboardingSession,
   Sex,
+  TrainingDays,
 } from '@/lib/types';
 
 type Measurements = {
@@ -41,6 +42,8 @@ type Measurements = {
 
 type OnboardingState = OnboardingSession & {
   completed: boolean;
+  /** Not sent in POST /api/onboarding; the backend has no field for it yet. */
+  training_days: TrainingDays;
   height_unit: 'cm' | 'ftin' | null;
   weight_unit: 'kg' | 'lb' | null;
   height_ft_text: string | null;
@@ -55,6 +58,7 @@ type OnboardingState = OnboardingSession & {
   setLastStep: (route: string) => void;
   setGoal: (goal: Goal) => void;
   setActivity: (level: ActivityLevel) => void;
+  setTrainingDays: (days: TrainingDays) => void;
   setCuisines: (cuisines: CuisineType[]) => void;
   setDietaryReqs: (reqs: DietaryRequirement[]) => void;
   setMeasurements: (m: Measurements) => void;
@@ -64,9 +68,10 @@ type OnboardingState = OnboardingSession & {
   reset: () => void;
 };
 
-const EMPTY: Omit<OnboardingState, 'setLastStep' | 'setGoal' | 'setActivity' | 'setCuisines' | 'setDietaryReqs' | 'setMeasurements' | 'setCalorieTarget' | 'setBodyType' | 'markCompleted' | 'reset'> = {
+const EMPTY: Omit<OnboardingState, 'setLastStep' | 'setGoal' | 'setActivity' | 'setTrainingDays' | 'setCuisines' | 'setDietaryReqs' | 'setMeasurements' | 'setCalorieTarget' | 'setBodyType' | 'markCompleted' | 'reset'> = {
   goal: null,
   activity_level: null,
+  training_days: 'days_3_4',
   cuisines: [],
   dietary_requirements: [],
   age: null,
@@ -91,6 +96,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       setLastStep: (last_step) => set({ last_step }),
       setGoal: (goal) => set({ goal }),
       setActivity: (activity_level) => set({ activity_level }),
+      setTrainingDays: (training_days) => set({ training_days }),
       setCuisines: (cuisines) => set({ cuisines }),
       setDietaryReqs: (dietary_requirements) => set({ dietary_requirements }),
       setMeasurements: (m) => set((s) => ({ ...s, ...m })),
