@@ -396,7 +396,7 @@ function DevSignup() {
   const next = () => navigate('/onboarding/measurements');
   return (
     <View style={{ gap: space.md }}>
-      <Button title={t('signup.continueApple')} icon="logo-apple" variant="primary" onPress={next} />
+      <AppleSignInButton onPress={next} />
       <Button title={t('signup.continueGoogle')} icon="logo-google" variant="secondary" onPress={next} />
       <Button title={t('signup.continueEmail')} variant="tertiary" onPress={next} />
       <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>

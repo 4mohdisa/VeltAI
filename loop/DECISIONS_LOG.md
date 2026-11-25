@@ -10758,3 +10758,8 @@
 - 2026-11-26 00:18 Jev run 88% agreed with the run. Used the smallest step because the last task finished only partly and the risk score is 1.1.
 - 2026-11-26 00:18 Kept the browser OAuth Apple flow as the working choice (R268). The native sheet stays an Isa decision.
 - 2026-11-26 00:18 Only Jest run is the appleSignInButton render test, to satisfy the rule that a round with no Jest run is not done.
+- 2026-11-26 00:19 Chose the DevSignup Apple button first: it is the smallest open item and the last report's Jev signal rates a clean finish as unlikely, so a small task is safer than starting Row 4.
+- 2026-11-26 00:19 Recorded the nutrition spoken label as blocked: the English-only key failed the parity rule twice, so it is not retried until Isa decides the parity rule.
+- 2026-11-26 00:19 Kept the native Apple sheet question and the Android Apple decision as open items for Isa, not new work.
+- 2026-11-26 00:19 Removed the Row 2.5 reference from the notes: the row does not exist in PHASE4_ROWS.md or PHASE3_ROWS.md.
+- 2026-11-26 00:19 Used the checkpoint figures from these notes (279 suites, 1,687 tests) and did not use the older R242 figure from the handover.
