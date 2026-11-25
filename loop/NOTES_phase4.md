@@ -8,22 +8,22 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row exit rule met. Never ask
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b (plan-ready summary and Maestro flow open), 3, 5 (5a closed; 5b open), 6 (gate and webhook built; closing gaps this round).
-- Go checkpoint: 49 packages, 770 tests, race clean. Lint 0.
-- Frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests; 4 snapshots.
-- TestPG: 7 in tests/scan and 11 webhook cases pass on lume_test_local.
-- Route audit: 93 of 93 consumed; 2 anomaly routes broken by design. ROUTE_COVERAGE.md regenerated.
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
+- PARTIAL: 2b (plan-ready summary and Maestro flow open), 3, 5 (5a closed; 5b open), 6b (app side of the gate).
+- Row 6 close: 96 routes gated or public; 213 tests in changed packages pass with the database.
+- Last frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests. Go checkpoint before row 6 close: 49 packages, 770 tests, race clean.
+- Route audit: 93 of 93 consumed; ROUTE_COVERAGE.md regenerated.
+- Round in progress: checkpoint (tsc and full app Jest, read only). Previous prompt was rejected for asking for more than one thing.
 
 ## Next
-1. Row 6 close: no free scan allowance; public route review; REFUND_REVERSED; refused 402 reason.
-2. Row 5b: consent screen, Settings switch, daily limits. Waits for Isa's consent version choice.
+1. Checkpoint result, then Row 6b: onboarding save only after trial or purchase; 402 treated as subscription required; reason copy; refresh after purchase; leftovers (STATUS.md:32, api.ts:929, test name). Split into one module per prompt.
+2. Row 5b: consent screen, Settings switch, daily limits. Consent version 1.
 3. Maestro onboarding flow for 2b and 23 once Maestro is confirmed.
 4. Plan-ready summary: parked until Isa approves.
-5. Row 3 remainder after Isa signs off. Gym key rename after Isa approves.
+5. Row 3 remainder after Isa signs off.
 
 ## Rules
-- One module per prompt, max 5 steps. Grep first. Prompts name branch loop/phase4 and forbid switching.
+- One task per prompt: one module or one screen or one component, max 5 steps. Grep first. Prompts name branch loop/phase4 and forbid switching.
 - Only git command: git branch --show-current. Never push.
 - Report wording: built, or checked by a test. Never 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
@@ -52,29 +52,32 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row exit rule met. Never ask
 - Row 5 split: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at; GET/POST/DELETE /api/ai/consent; six AI routes gated. Consent read error stays 500 and still refused.
 - Row 6 chosen over 5b: no owner dependency.
 - Webhook secret from env only; if unset, webhook refuses events.
-- No free tier: 7 day Apple trial gives every feature. Scan free allowance removed (row 6 close).
-- Public routes limited to auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback.
+- No free tier: 7 day Apple trial gives every feature. Scan free allowance removed.
+- Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - REFUND_REVERSED restores state from event expiry. 402 gains reason field.
+- Row 6b: onboarding answers stay on device until trial or purchase confirmed; dismissed paywall never calls save.
+- Analytics and debug reports stay gated (Isa to review).
+- Consent version 1 for row 5b.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
-- Row 5a closing check: 500 vs 403 for consent read errors; whether to add a consent version.
+- Row 5a: 500 vs 403 for consent read errors.
 - E2E account needs 250+ gym dates: use seed script.
 - Prettier. App Store privacy label and account data declaration.
 - Push loop/phase4 and confirm CI on GitHub.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line and Retry with backend stopped.
-- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit and removal of days and loading aliases; R258 and R260 Retry assertions.
+- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; R258 and R260 Retry assertions.
 - Row 3: confirm Apple hidden on Android; native sheet or browser; owner steps 1 to 7.
 - Parity line in OWNER_CHECKS_phase4.md: Isa closes.
-- App-wide ErrorState 'Retry' vs 'Try again'.
-- Rename gym.monthSessions and gym.monthFreezes.
+- App-wide ErrorState 'Retry' vs 'Try again'. Rename gym.monthSessions and gym.monthFreezes.
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
 - Goal change rule; training days device only or backend field.
-- Go-ahead for plan-ready summary.
-- Route audit in npm run verify? Commit ROUTE_COVERAGE.md?
-- Preview re-runs (about 400 ms) on unchanged params. Eat healthier and training days labels may shrink on narrow phones.
+- Go-ahead for plan-ready summary. Route audit in npm run verify? Commit ROUTE_COVERAGE.md?
+- Preview re-runs (about 400 ms). Eat healthier and training days labels may shrink on narrow phones.
 - Cuisine change adds no saved foods for new cuisines.
-- Deferred: es and fr text for goals.plan, preferences.food, onboarding.trainingDays.
+- Deferred es and fr text for goals.plan, preferences.food, onboarding.trainingDays.
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
+- Sandbox testers need a subscription for all features; analytics and debug reports gated.
+- Integration revoke kept public: confirm.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
@@ -90,8 +93,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row exit rule met. Never ask
 - Audit script always rewrites ROUTE_COVERAGE.md.
 - Packages with no test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
-- Row 5b: daily limit error copy must be English and shown by the app.
+- Row 5b: daily limit error copy English, shown by the app.
 - Background AI sweep skipping users without consent: no test yet (pgstore.go join).
-- Gate 402 does not distinguish refused reasons in app copy; app reads reason later.
-- src/lib/api.ts:929 status comment lacks 'refunded'. Update in an app round.
+- Gate 402 reason is read by the app in row 6b.
 - RevenueCat events still ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
+- STATUS.md:32 still describes 3 free scans a day. TestLabel_WritesSessionRowForQuota keeps an old name for a quota that no longer exists.

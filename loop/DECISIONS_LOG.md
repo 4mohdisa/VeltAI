@@ -11113,3 +11113,12 @@
 - 2026-11-26 02:47 Removing the free daily scan allowance: the Phase 4 decision is no free tier, so every paid feature needs trial or active.
 - 2026-11-26 02:47 Public routes limited to auth, webhook, subscription and offers, legal, health, consent, deletion, export and feedback, so expired users can still leave and keep their data.
 - 2026-11-26 02:47 REFUND_REVERSED restores state from the event expiry, so a refunded user is not stuck until renewal.
+- 2026-11-26 02:53 Chose row 6b first: the Row 6 gate currently blocks new users from finishing onboarding, which is a broken core flow and the report's top BLOCKED item.
+- 2026-11-26 02:53 Onboarding answers stay on the device until a trial or purchase is confirmed. Dismissing the paywall does not call POST /api/onboarding. Reason: the gate is correct on the backend and the save must follow it.
+- 2026-11-26 02:53 Integration revoke (DELETE /api/integrations/{provider}) stays public. Reason: it withdraws consent and cuts third party access, so a lapsed user must still be able to do it.
+- 2026-11-26 02:53 Analytics and debug reports stay gated for now. Reason: no-free-tier decision; the tester impact is parked in OWNER_CHECKS_phase4.md for Isa's review.
+- 2026-11-26 02:53 Consent text version 1 is used for row 5b. Reason: the rule is never to wait for Isa; he can change the version later through the stored version field.
+- 2026-11-26 02:53 Chose the checkpoint, since the loop note asks for one read only task after the rejected prompt.
+- 2026-11-26 02:53 Rewrote the prompt to one task with two commands, no file changes, and the report format at the end.
+- 2026-11-26 02:53 Jev ranks run at 61%; I agree with run. Going ahead does not risk Isa, since the round changes nothing.
+- 2026-11-26 02:53 Row 6b stays the next real task. It is one module per prompt, so it will be split on the following round.
