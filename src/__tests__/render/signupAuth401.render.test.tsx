@@ -111,3 +111,15 @@ test('a successful status check continues without an error message', async () =>
   expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ tone: 'error' }));
   expect(mockSignOut).not.toHaveBeenCalled();
 });
+
+test('a 402 opens the paywall with the refusal reason, not the server message', async () => {
+  mockGet.mockRejectedValueOnce(Object.assign(new Error('subscription required'), { status: 402, reason: 'refunded' }));
+  await verifyEmailCode();
+
+  expect(router.push).toHaveBeenCalledWith('/onboarding/paywall?reason=refunded');
+  expect(router.push).not.toHaveBeenCalledWith('/onboarding/measurements');
+  expect(showToast).not.toHaveBeenCalledWith(
+    expect.objectContaining({ message: en.signup.toastServerUnreachable }),
+  );
+  expect(mockSignOut).not.toHaveBeenCalled();
+});

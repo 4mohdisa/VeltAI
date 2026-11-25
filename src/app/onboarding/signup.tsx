@@ -29,7 +29,7 @@ import { navigate } from '@/lib/nav';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity, type AuthEvent } from '@/lib/auth/machine';
-import { api } from '@/lib/api';
+import { api, type ApiError } from '@/lib/api';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { resolvePostAuth } from '@/lib/onboarding/postAuth';
 import { getHasCompletedOnboarding, setHasCompletedOnboarding } from '@/lib/storage/secureStore';
@@ -54,6 +54,8 @@ type Mode = 'signup' | 'signin';
  * - 200 not completed  → they genuinely have no record; start the flow.
  * - 401                → the session is not valid: sign in again. Not a
  *                        network error, and the saved answers stay as they are.
+ * - 402                → no plan grants access: the paywall, told the refusal
+ *                        reason, as the launch gate does.
  * - request FAILED     → we do not know. Trust the local completion flag if
  *                        there is one, and only fall through to the flow when
  *                        nothing local says otherwise. Say so either way.
@@ -68,6 +70,11 @@ async function continueAfterAuth(dispatch: (event: AuthEvent) => void): Promise<
       // The machine ends the rejected Clerk session, keeps the onboarding
       // answers, opens sign-in and shows the expired message.
       dispatch({ type: 'SESSION_ENDED' });
+      return;
+    }
+    const { status, reason } = e as Partial<ApiError>;
+    if (status === 402) {
+      navigate(reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall');
       return;
     }
   }

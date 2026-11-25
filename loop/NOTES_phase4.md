@@ -12,18 +12,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built, 402 launch gate line recorded; open: f stale English wording).
 - Last full run: tsc 0 errors; Jest 289 suites, 1,759 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
+- Checkpoint round done (read only, clean). Loop flag cleared.
 - App tests mock the API, so the 402 gate is untested end to end in the app.
-- Checkpoint round requested again: first prompt was rejected (no branch rule). Rewritten with branch check.
 
 ## Next
-1. Checkpoint: tsc and full app Jest, read only (clears loop flag).
-2. signup.tsx continueAfterAuth: 402 after sign-in opens paywall with reason.
-3. Completed flag skips onboarding, so 402s hit in tabs. Route-level check.
-4. Row 6b (f): English free-tier wording in plansUnavailable, storeError.
-5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
-6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-7. Plan-ready summary: parked until Isa approves.
-8. Row 3 remainder after Isa signs off.
+1. signup.tsx continueAfterAuth: 402 after sign-in opens paywall with reason. (IN PROGRESS)
+2. Completed flag skips onboarding, so 402s hit in tabs. Route-level check.
+3. Row 6b (f): English free-tier wording in plansUnavailable, storeError.
+4. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
+5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+6. Plan-ready summary: parked until Isa approves.
+7. Row 3 remainder after Isa signs off.
 
 ## Rules
 - One task per prompt: one file or component, max 5 steps. Find files with find first (grep -rl matches contents, not names).
@@ -76,5 +75,6 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans; TestLabel_WritesSessionRowForQuota keeps its old name.
-- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (see Next 3).
-- Problem found in report: a user with the completion flag skips the paywall (see Next 3).
+- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (see Next 2).
+- A user with the completion flag skips the paywall (see Next 2).
+- es and fr still describe a free tier (plansUnavailable, storeError); notConfirmed has no translation (English only for now).

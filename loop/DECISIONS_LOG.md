@@ -11179,3 +11179,6 @@
 - 2026-11-26 03:15 Jev ranks the checkpoint highest (run 89%); chose the same task, which is a cheap, read-only check that also clears the loop flag.
 - 2026-11-26 03:15 Kept the signup 402 fix as the next task because it is a single file and the 402 path is untested end to end.
 - 2026-11-26 03:15 Returning user answers missing from the phone stays parked in OWNER_CHECKS_phase4.md; not blocking.
+- 2026-11-26 03:16 Chose the signup 402 fix: it is small, one file, and the approved launch gate rule already defines the behaviour. Jev also ranks run first.
+- 2026-11-26 03:16 Checkpoint cleared: tsc 0 errors, Jest 289 suites and 1,759 tests pass, read only, no files changed.
+- 2026-11-26 03:16 Report says 'built' or 'checked by a test' only; the reported double Jest run is noted and no re-run is needed.
