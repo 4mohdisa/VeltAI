@@ -31,7 +31,12 @@ import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 type MacroKey = keyof typeof KCAL_PER_G;
 
-const PLAN_GOALS = ['lose', 'track', 'muscle'] as const satisfies readonly PlanGoal[];
+const PLAN_GOALS = [
+  { value: 'lose', labelKey: 'goals.plan.goalOptions.lose' },
+  { value: 'track', labelKey: 'goals.plan.goalOptions.track' },
+  { value: 'eat_healthier', labelKey: 'goals.plan.goalEatHealthier' },
+  { value: 'muscle', labelKey: 'goals.plan.goalOptions.muscle' },
+] as const satisfies readonly { value: PlanGoal; labelKey: string }[];
 const ACTIVITY_LEVELS = ['sedentary', 'light', 'moderate', 'very_active'] as const satisfies readonly ActivityLevel[];
 
 /** The design's calorie figure is a borderless 126pt field; no token is a width. */
@@ -125,7 +130,7 @@ export default function GoalsScreen() {
         value={goalForDerivation(profile.goal)}
         onChange={(v) => changePlan({ goal: v })}
         disabled={planDisabled}
-        options={PLAN_GOALS.map((value) => ({ label: t(`goals.plan.goalOptions.${value}`), value }))}
+        options={PLAN_GOALS.map((g) => ({ label: t(g.labelKey), value: g.value }))}
       />
       <SegmentedField
         variant="inset"

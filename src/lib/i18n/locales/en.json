@@ -237,6 +237,7 @@
         "track": "Maintain",
         "muscle": "Gain"
       },
+      "goalEatHealthier": "Eat healthier",
       "activityOptions": {
         "sedentary": "Sitting",
         "light": "Light",

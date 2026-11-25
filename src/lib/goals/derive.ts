@@ -34,21 +34,24 @@ export function deriveGoals(profile: UserProfile): MacroGoals {
   });
 }
 
-/** The three goals the formula acts on: lose, maintain ('track') and gain ('muscle'). */
-export type PlanGoal = Extract<Goal, 'lose' | 'track' | 'muscle'>;
+/** The stored goals: lose, maintain ('track'), eat healthier and gain ('muscle').
+ *  The formula maintains for both 'track' and 'eat_healthier'. */
+export type PlanGoal = Goal;
 
 /** UserProfile.goal carries app-level goals ('consistency', 'sleep', …) that the
- *  shared formula does not know; everything that is not lose/muscle maintains. */
+ *  shared formula does not know; anything not lose, muscle or eat-better maintains. */
 export function goalForDerivation(goal: UserProfile['goal']): PlanGoal {
   if (goal === 'lose') return 'lose';
   if (goal === 'muscle') return 'muscle';
+  if (goal === 'eat-better') return 'eat_healthier';
   return 'track';
 }
 
-/** A stored goal (onboarding or goals row) as UserProfile.goal. The maintain
- *  goals become 'consistency', which goalForDerivation maps back to 'track'. */
+/** A stored goal (onboarding or goals row) as UserProfile.goal, the inverse of
+ *  goalForDerivation: 'track' becomes 'consistency', 'eat_healthier' 'eat-better'. */
 export function goalTypeOf(goal: string | null): GoalType | undefined {
   if (goal === 'lose' || goal === 'muscle') return goal;
-  if (goal === 'track' || goal === 'eat_healthier') return 'consistency';
+  if (goal === 'eat_healthier') return 'eat-better';
+  if (goal === 'track') return 'consistency';
   return undefined;
 }

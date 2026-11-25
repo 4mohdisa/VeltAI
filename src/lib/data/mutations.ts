@@ -241,8 +241,10 @@ export const applyFreeze = (offsetDays = 0) => {
  * leaves the old plan in place and the caller shows the error.
  */
 export async function savePlan(patch: { goal?: PlanGoal; activityLevel?: ActivityLevel }): Promise<void> {
-  const onb = await api.onboarding.get();
-  const profile = { ...useUserStore.getState().profile, ...bodyFromOnboarding(onb) };
+  // Only the body metrics come from onboarding; the goal and activity level in
+  // the store are the stored plan, which a change to the other row must keep.
+  const { goal: _goal, activityLevel: _activityLevel, ...metrics } = bodyFromOnboarding(await api.onboarding.get());
+  const profile = { ...useUserStore.getState().profile, ...metrics };
   if (patch.goal) profile.goal = goalTypeOf(patch.goal) ?? profile.goal;
   if (patch.activityLevel) profile.activityLevel = patch.activityLevel;
   const targets = deriveGoals(profile);

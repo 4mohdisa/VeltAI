@@ -11029,3 +11029,7 @@
 - 2026-11-26 01:56 Plan-ready summary screen stays parked: it needs Isa's design approval.
 - 2026-11-26 01:56 Persistence through the existing profile API client, with a backend change parked rather than made, to keep this round inside src/app/profile.
 - 2026-11-26 01:56 Jev risk score 0.9 noted; the loop still runs because the brief forbids asking Isa. Jev is advice only.
+- 2026-11-26 02:05 Chose the Goal row fix over diet/cuisine/training days because the last report shows a silent data change (eat healthier becomes track on save), which is a correctness bug in the work just finished. Closes the partly-done flag before moving on.
+- 2026-11-26 02:05 Added a fourth Goal option rather than hiding the stored goal, so the user sees their real goal. One new English key, listed in ENGLISH_ONLY.
+- 2026-11-26 02:05 Activity-level saves keep the stored goal unless the Goal row changed. Reason: the save must not alter fields the user did not touch.
+- 2026-11-26 02:05 Import cycle between mutations.ts and hooks.ts parked, not fixed, to keep the round small.

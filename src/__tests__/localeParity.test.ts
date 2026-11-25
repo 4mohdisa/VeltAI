@@ -56,6 +56,8 @@ const ENGLISH_ONLY = new Set([
   'goals.plan.activityOptions.very_active',
   'goals.plan.saved',
   'goals.plan.saveFailed',
+  // English only build
+  'goals.plan.goalEatHealthier',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

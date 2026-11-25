@@ -34,14 +34,14 @@ const json = (data: unknown, status = 200) =>
   Promise.resolve({ ok: status < 300, status, json: async () => ({ data, error: status < 300 ? null : 'error' }) });
 
 let putBodies: Record<string, unknown>[];
-const mockFetch = (putStatus: number) =>
+const mockFetch = (putStatus: number, goalsRow: Record<string, unknown> = GOALS_ROW) =>
   jest.fn((url: string, init?: Init) => {
     if (url.includes('/api/goals') && init?.method === 'PUT') {
       const body = JSON.parse(init.body ?? '{}') as Record<string, unknown>;
       putBodies.push(body);
-      return putStatus < 300 ? json({ ...GOALS_ROW, ...body }) : json(null, putStatus);
+      return putStatus < 300 ? json({ ...goalsRow, ...body }) : json(null, putStatus);
     }
-    if (url.includes('/api/goals')) return json(GOALS_ROW);
+    if (url.includes('/api/goals')) return json(goalsRow);
     if (url.includes('/api/onboarding')) return json(ONBOARDING);
     if (url.includes('/api/profile')) return json(PROFILE_ROW);
     return json({});
@@ -143,4 +143,43 @@ test('error: a failed save keeps the old plan and shows the error toast', async 
   expect(useToastStore.getState().current?.message).toBe(en.goals.plan.saveFailed);
   expect(option(tree, en.goals.plan.goalOptions.lose).props.accessibilityState).toEqual({ selected: true });
   expect(option(tree, en.goals.plan.goalOptions.muscle).props.disabled).toBe(false);
+});
+
+describe('a stored eat healthier goal', () => {
+  const EAT_HEALTHIER_ROW = { ...GOALS_ROW, weight_goal: 'eat_healthier' };
+
+  test('shows as selected', async () => {
+    (globalThis as unknown as { fetch: unknown }).fetch = mockFetch(200, EAT_HEALTHIER_ROW);
+    const tree = render();
+    await settle();
+    await settle();
+
+    expect(option(tree, en.goals.plan.goalEatHealthier).props.accessibilityState).toEqual({ selected: true });
+    expect(option(tree, en.goals.plan.goalOptions.track).props.accessibilityState).toEqual({ selected: false });
+  });
+
+  test('changing only the activity level sends the stored goal unchanged', async () => {
+    (globalThis as unknown as { fetch: unknown }).fetch = mockFetch(200, EAT_HEALTHIER_ROW);
+    const tree = render();
+    await settle();
+    await settle();
+
+    await press(tree, en.goals.plan.activityOptions.light);
+
+    expect(putBodies).toHaveLength(1);
+    expect(putBodies[0]).toMatchObject({ weight_goal: 'eat_healthier', activity_level: 'light' });
+    expect(option(tree, en.goals.plan.goalEatHealthier).props.accessibilityState).toEqual({ selected: true });
+  });
+
+  test('changing the Goal row sends the chosen value', async () => {
+    (globalThis as unknown as { fetch: unknown }).fetch = mockFetch(200, EAT_HEALTHIER_ROW);
+    const tree = render();
+    await settle();
+    await settle();
+
+    await press(tree, en.goals.plan.goalOptions.track);
+
+    expect(putBodies[0]).toMatchObject({ weight_goal: 'track', activity_level: 'moderate' });
+    expect(option(tree, en.goals.plan.goalOptions.track).props.accessibilityState).toEqual({ selected: true });
+  });
 });
