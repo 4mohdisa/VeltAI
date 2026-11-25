@@ -1,4 +1,4 @@
-// Free/Pro gate — the SERVER-SIDE enforcement. A client-only gate is
+// Subscription gate — the SERVER-SIDE enforcement. A client-only gate is
 // bypassable by anyone holding a valid token, so these tests are the real
 // guarantee. Hermetic: fake stores, httptest, no DB.
 package entitlementtests
@@ -10,38 +10,38 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"lume/backend/internal/auth"
 	"lume/backend/internal/entitlement"
 )
 
 type fakeSubs struct {
-	active bool
-	err    error
-	calls  int
+	state     string
+	expiresAt *time.Time
+	err       error
+	calls     int
 }
 
-func (f *fakeSubs) IsActive(context.Context, string) (bool, error) {
+func (f *fakeSubs) Entitlement(context.Context, string) (string, *time.Time, error) {
 	f.calls++
-	return f.active, f.err
+	return f.state, f.expiresAt, f.err
 }
 
-type fakeScans struct {
-	count int
-	err   error
+func subscribed() *fakeSubs {
+	exp := time.Now().Add(24 * time.Hour)
+	return &fakeSubs{state: entitlement.StateActive, expiresAt: &exp}
 }
-
-func (f *fakeScans) CountScansToday(context.Context, string) (int, error) { return f.count, f.err }
 
 // serve mounts a gate over a handler that records whether it was reached.
-func serve(t *testing.T, subs entitlement.SubStore, scans entitlement.ScanCounter, cfg entitlement.Config) (*http.ServeMux, *bool) {
+func serve(t *testing.T, subs entitlement.SubStore, cfg entitlement.Config) (*http.ServeMux, *bool) {
 	t.Helper()
 	reached := false
 	inner := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		reached = true
 		w.WriteHeader(http.StatusOK)
 	})
-	g := entitlement.New(subs, scans, cfg)
+	g := entitlement.New(subs, cfg)
 	mux := http.NewServeMux()
 	mux.Handle("/", g.Middleware(inner))
 	return mux, &reached
@@ -59,11 +59,28 @@ func do(t *testing.T, mux *http.ServeMux, method, path, user string) *httptest.R
 }
 
 func defaultCfg() entitlement.Config {
-	return entitlement.Config{FreeScansPerDay: 3, Enforce: true}
+	return entitlement.Config{Enforce: true}
+}
+
+type refusal struct {
+	Upgrade bool   `json:"upgrade_required"`
+	Feature string `json:"feature"`
+	Reason  string `json:"reason"`
+}
+
+func refusalOf(t *testing.T, rec *httptest.ResponseRecorder) refusal {
+	t.Helper()
+	var env struct {
+		Error refusal `json:"error"`
+	}
+	if err := json.Unmarshal(rec.Body.Bytes(), &env); err != nil {
+		t.Fatalf("decode: %v (body %s)", err, rec.Body)
+	}
+	return env.Error
 }
 
 // ---------------------------------------------------------------------------
-// Policy table — the gated surface, asserted explicitly.
+// Policy table — the public surface, asserted explicitly.
 // ---------------------------------------------------------------------------
 
 func TestPolicyTable(t *testing.T) {
@@ -71,37 +88,44 @@ func TestPolicyTable(t *testing.T) {
 		method, path string
 		want         entitlement.Requirement
 	}{
-		// Paid AI — gated.
-		{"POST", "/api/scan", entitlement.ScanQuota},
-		{"POST", "/api/scan/pipeline", entitlement.ScanQuota},
-		{"POST", "/api/scan/label", entitlement.ScanQuota},
+		// Every feature route is gated: there is no free tier.
+		{"POST", "/api/scan", entitlement.Pro},
+		{"POST", "/api/scan/pipeline", entitlement.Pro},
+		{"POST", "/api/scan/label", entitlement.Pro},
+		{"POST", "/api/scan/confirm", entitlement.Pro},
 		{"GET", "/api/ai/insights", entitlement.Pro},
 		{"GET", "/api/ai/morning-brief", entitlement.Pro},
 		{"POST", "/api/ai/query", entitlement.Pro},
 		{"POST", "/api/ai/brain/rebuild", entitlement.Pro},
+		{"GET", "/api/ai/brain", entitlement.Pro},
+		{"POST", "/api/ai/consent", entitlement.Pro},
+		{"GET", "/api/integrations", entitlement.Pro},
 		{"GET", "/api/integrations/strava/connect", entitlement.Pro},
 		{"POST", "/api/integrations/whoop/sync", entitlement.Pro},
+		{"POST", "/api/food/logs", entitlement.Pro},
+		{"GET", "/api/food/search", entitlement.Pro},
+		{"POST", "/api/gym/sessions", entitlement.Pro},
+		{"GET", "/api/gym/streak", entitlement.Pro},
+		{"PUT", "/api/goals", entitlement.Pro},
+		{"POST", "/api/body-weight", entitlement.Pro},
+		{"GET", "/api/onboarding", entitlement.Pro},
+		{"POST", "/api/onboarding", entitlement.Pro},
+		{"GET", "/api/profile", entitlement.Pro},
+		{"PATCH", "/api/profile", entitlement.Pro},
+		{"GET", "/api/energy-balance", entitlement.Pro},
+		{"GET", "/api/unknown-new-route", entitlement.Pro}, // gated by default
 
-		// NEVER gated — these must stay free forever.
-		{"POST", "/api/food/logs", entitlement.Free},       // manual logging
-		{"GET", "/api/food/logs", entitlement.Free},        // your own data
-		{"POST", "/api/food/quick-add", entitlement.Free},  // manual logging
-		{"GET", "/api/food/search", entitlement.Free},      // no AI cost
-		{"GET", "/api/food/barcode/123", entitlement.Free}, // DB lookup, no AI
-		{"GET", "/api/export", entitlement.Free},           // GDPR access
-		{"DELETE", "/api/profile", entitlement.Free},       // account deletion
-		{"GET", "/api/profile", entitlement.Free},
-		{"PATCH", "/api/profile", entitlement.Free},
+		// NEVER gated — a user can always manage their account and leave.
 		{"GET", "/api/subscription", entitlement.Free},
-		{"GET", "/api/energy-balance", entitlement.Free},
-		{"POST", "/api/gym/sessions", entitlement.Free}, // all gym is free
-		{"GET", "/api/gym/streak", entitlement.Free},
-		{"GET", "/api/ai/brain", entitlement.Free},               // a read of stored data, no LLM call
-		{"GET", "/api/integrations", entitlement.Free},           // must always see connections
-		{"DELETE", "/api/integrations/strava", entitlement.Free}, // must always be able to revoke
-		{"POST", "/api/scan/confirm", entitlement.Free},          // persists an already-paid-for scan
-		{"POST", "/api/scan/correction", entitlement.Free},       // learning signal, no LLM call
-		{"GET", "/api/scan/calibration", entitlement.Free},       // your own data
+		{"GET", "/api/ai/consent", entitlement.Free},
+		{"DELETE", "/api/ai/consent", entitlement.Free},
+		{"DELETE", "/api/integrations/strava", entitlement.Free}, // revoke a connection
+		{"GET", "/api/export", entitlement.Free},                 // GDPR access
+		{"DELETE", "/api/profile", entitlement.Free},             // account deletion
+		{"POST", "/api/feedback", entitlement.Free},
+		{"POST", "/api/webhooks/revenuecat", entitlement.Free},
+		{"POST", "/api/webhooks/clerk", entitlement.Free},
+		{"GET", "/api/integrations/strava/callback", entitlement.Free},
 	}
 	for _, c := range cases {
 		if got := entitlement.PolicyFor(c.method, c.path); got != c.want {
@@ -111,11 +135,11 @@ func TestPolicyTable(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
-// Pro-only routes
+// Gated routes
 // ---------------------------------------------------------------------------
 
-func TestProRouteDeniedForFreeUser(t *testing.T) {
-	mux, reached := serve(t, &fakeSubs{active: false}, &fakeScans{}, defaultCfg())
+func TestGatedRouteDeniedWithoutSubscription(t *testing.T) {
+	mux, reached := serve(t, &fakeSubs{}, defaultCfg())
 	rec := do(t, mux, "GET", "/api/ai/insights", "user_free")
 
 	if rec.Code != http.StatusPaymentRequired {
@@ -124,22 +148,13 @@ func TestProRouteDeniedForFreeUser(t *testing.T) {
 	if *reached {
 		t.Fatal("handler ran despite the gate denying — no paid API call may happen")
 	}
-	var env struct {
-		Error struct {
-			Upgrade bool   `json:"upgrade_required"`
-			Feature string `json:"feature"`
-		} `json:"error"`
-	}
-	if err := json.Unmarshal(rec.Body.Bytes(), &env); err != nil {
-		t.Fatalf("decode: %v (body %s)", err, rec.Body)
-	}
-	if !env.Error.Upgrade || env.Error.Feature != "ai_insights" {
-		t.Errorf("body = %s, want upgrade_required + feature ai_insights", rec.Body)
+	if got := refusalOf(t, rec); !got.Upgrade || got.Feature != "ai_insights" || got.Reason != entitlement.ReasonNotSubscribed {
+		t.Errorf("body = %s, want upgrade_required, feature ai_insights, reason not_subscribed", rec.Body)
 	}
 }
 
-func TestProRouteAllowedForSubscriber(t *testing.T) {
-	mux, reached := serve(t, &fakeSubs{active: true}, &fakeScans{}, defaultCfg())
+func TestGatedRouteAllowedForSubscriber(t *testing.T) {
+	mux, reached := serve(t, subscribed(), defaultCfg())
 	if rec := do(t, mux, "GET", "/api/ai/insights", "user_pro"); rec.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200", rec.Code)
 	}
@@ -148,59 +163,76 @@ func TestProRouteAllowedForSubscriber(t *testing.T) {
 	}
 }
 
-func TestFreeRouteNeverConsultsSubscription(t *testing.T) {
-	subs := &fakeSubs{active: false}
-	mux, reached := serve(t, subs, &fakeScans{}, defaultCfg())
-	for _, p := range []string{"/api/food/logs", "/api/export", "/api/gym/sessions"} {
-		if rec := do(t, mux, "POST", p, "user_free"); rec.Code != http.StatusOK {
-			t.Errorf("%s: status = %d, want 200 (free route)", p, rec.Code)
+func TestScansRequireSubscription(t *testing.T) {
+	for _, path := range []string{"/api/scan", "/api/scan/pipeline", "/api/scan/label"} {
+		mux, reached := serve(t, &fakeSubs{}, defaultCfg())
+		rec := do(t, mux, "POST", path, "user_free")
+		if rec.Code != http.StatusPaymentRequired || *reached {
+			t.Errorf("%s without a subscription: status = %d, reached = %v, want 402 and not reached", path, rec.Code, *reached)
+		}
+		if got := refusalOf(t, rec); got.Feature != "ai_scan" {
+			t.Errorf("%s: feature = %q, want ai_scan", path, got.Feature)
+		}
+		mux, _ = serve(t, subscribed(), defaultCfg())
+		if rec := do(t, mux, "POST", path, "user_pro"); rec.Code != http.StatusOK {
+			t.Errorf("%s for a subscriber: status = %d, want 200", path, rec.Code)
+		}
+	}
+}
+
+func TestPublicRouteNeverConsultsSubscription(t *testing.T) {
+	subs := &fakeSubs{}
+	mux, reached := serve(t, subs, defaultCfg())
+	for _, r := range []struct{ method, path string }{
+		{"GET", "/api/export"},
+		{"DELETE", "/api/profile"},
+		{"POST", "/api/feedback"},
+	} {
+		if rec := do(t, mux, r.method, r.path, "user_free"); rec.Code != http.StatusOK {
+			t.Errorf("%s %s: status = %d, want 200 (public route)", r.method, r.path, rec.Code)
 		}
 	}
 	if !*reached {
-		t.Fatal("free routes were blocked")
+		t.Fatal("public routes were blocked")
 	}
 	if subs.calls != 0 {
-		t.Errorf("subscription checked %d times on free routes — wasted DB work", subs.calls)
+		t.Errorf("subscription checked %d times on public routes — wasted DB work", subs.calls)
 	}
 }
 
 // ---------------------------------------------------------------------------
-// Scan quota
+// Refusal reason — one case per reason, derived from the stored state
 // ---------------------------------------------------------------------------
 
-func TestScanQuotaAllowsUnderLimitAndBlocksAt(t *testing.T) {
-	for _, tc := range []struct {
-		used, limit int
-		wantCode    int
+func TestRefusalReasonForEveryState(t *testing.T) {
+	past := time.Now().Add(-time.Hour)
+	future := time.Now().Add(time.Hour)
+	cases := []struct {
+		name      string
+		state     string
+		expiresAt *time.Time
+		want      string
 	}{
-		{0, 3, http.StatusOK},
-		{2, 3, http.StatusOK},
-		{3, 3, http.StatusPaymentRequired}, // limit reached
-		{9, 3, http.StatusPaymentRequired},
-		{0, 0, http.StatusPaymentRequired}, // no free scans configured
-	} {
-		cfg := entitlement.Config{FreeScansPerDay: tc.limit, Enforce: true}
-		mux, _ := serve(t, &fakeSubs{active: false}, &fakeScans{count: tc.used}, cfg)
-		rec := do(t, mux, "POST", "/api/scan/pipeline", "user_free")
-		if rec.Code != tc.wantCode {
-			t.Errorf("used=%d limit=%d: status = %d, want %d", tc.used, tc.limit, rec.Code, tc.wantCode)
-		}
+		{"trial ended", entitlement.StateTrial, &past, entitlement.ReasonTrialEnded},
+		{"expired", entitlement.StateExpired, &past, entitlement.ReasonExpired},
+		{"active past expiry", entitlement.StateActive, &past, entitlement.ReasonExpired},
+		{"billing failed", entitlement.StateBillingIssue, nil, entitlement.ReasonBillingFailed},
+		{"cancelled ended", entitlement.StateCancelledActive, &past, entitlement.ReasonCancelledEnded},
+		{"refunded", entitlement.StateRefunded, &future, entitlement.ReasonRefunded},
+		{"not subscribed", "", nil, entitlement.ReasonNotSubscribed},
 	}
-}
-
-func TestScanQuotaIrrelevantForSubscriber(t *testing.T) {
-	// A subscriber with 500 scans today still gets through: quota is free-tier only.
-	mux, _ := serve(t, &fakeSubs{active: true}, &fakeScans{count: 500}, defaultCfg())
-	if rec := do(t, mux, "POST", "/api/scan/pipeline", "user_pro"); rec.Code != http.StatusOK {
-		t.Fatalf("status = %d, want 200 for subscriber", rec.Code)
-	}
-}
-
-func TestScanQuotaNegativeLimitMeansUnlimited(t *testing.T) {
-	cfg := entitlement.Config{FreeScansPerDay: -1, Enforce: true}
-	mux, _ := serve(t, &fakeSubs{active: false}, &fakeScans{count: 9999}, cfg)
-	if rec := do(t, mux, "POST", "/api/scan", "user_free"); rec.Code != http.StatusOK {
-		t.Fatalf("status = %d, want 200 (quota disabled)", rec.Code)
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			mux, reached := serve(t, &fakeSubs{state: tc.state, expiresAt: tc.expiresAt}, defaultCfg())
+			rec := do(t, mux, "POST", "/api/ai/query", "u1")
+			if rec.Code != http.StatusPaymentRequired || *reached {
+				t.Fatalf("status = %d, reached = %v, want 402 and not reached", rec.Code, *reached)
+			}
+			got := refusalOf(t, rec)
+			if !got.Upgrade || got.Feature != "ai_insights" || got.Reason != tc.want {
+				t.Fatalf("body = %s, want upgrade_required, feature ai_insights, reason %s", rec.Body, tc.want)
+			}
+		})
 	}
 }
 
@@ -209,7 +241,7 @@ func TestScanQuotaNegativeLimitMeansUnlimited(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestSubscriptionLookupErrorFailsClosed(t *testing.T) {
-	mux, reached := serve(t, &fakeSubs{err: errors.New("db down")}, &fakeScans{}, defaultCfg())
+	mux, reached := serve(t, &fakeSubs{err: errors.New("db down")}, defaultCfg())
 	rec := do(t, mux, "GET", "/api/ai/insights", "user_x")
 
 	if *reached {
@@ -222,20 +254,9 @@ func TestSubscriptionLookupErrorFailsClosed(t *testing.T) {
 	}
 }
 
-func TestScanCounterErrorFailsClosed(t *testing.T) {
-	mux, reached := serve(t, &fakeSubs{active: false}, &fakeScans{err: errors.New("db down")}, defaultCfg())
-	rec := do(t, mux, "POST", "/api/scan/pipeline", "user_x")
-	if *reached {
-		t.Fatal("FAILED OPEN: scan ran while the allowance was unverifiable")
-	}
-	if rec.Code != http.StatusServiceUnavailable {
-		t.Fatalf("status = %d, want 503", rec.Code)
-	}
-}
-
 func TestMissingIdentityFailsClosed(t *testing.T) {
 	// Defence in depth: the auth middleware should already have rejected this.
-	mux, reached := serve(t, &fakeSubs{active: true}, &fakeScans{}, defaultCfg())
+	mux, reached := serve(t, subscribed(), defaultCfg())
 	rec := do(t, mux, "GET", "/api/ai/insights", "") // no user in context
 	if *reached {
 		t.Fatal("FAILED OPEN: gated handler ran with no authenticated identity")
@@ -245,9 +266,9 @@ func TestMissingIdentityFailsClosed(t *testing.T) {
 	}
 }
 
-func TestNilStoresFailClosed(t *testing.T) {
-	// A misconfigured gate (no stores wired) must deny, not wave everyone through.
-	mux, reached := serve(t, nil, nil, defaultCfg())
+func TestNilStoreFailsClosed(t *testing.T) {
+	// A misconfigured gate (no store wired) must deny, not wave everyone through.
+	mux, reached := serve(t, nil, defaultCfg())
 	if rec := do(t, mux, "GET", "/api/ai/insights", "u1"); rec.Code != http.StatusServiceUnavailable {
 		t.Fatalf("status = %d, want 503", rec.Code)
 	}
@@ -261,10 +282,10 @@ func TestNilStoresFailClosed(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestEnforceFalseOpensEverything(t *testing.T) {
-	cfg := entitlement.Config{FreeScansPerDay: 0, Enforce: false}
-	subs := &fakeSubs{active: false}
-	mux, _ := serve(t, subs, &fakeScans{count: 100}, cfg)
-	for _, p := range []string{"/api/ai/insights", "/api/scan/pipeline"} {
+	cfg := entitlement.Config{Enforce: false}
+	subs := &fakeSubs{}
+	mux, _ := serve(t, subs, cfg)
+	for _, p := range []string{"/api/ai/insights", "/api/scan/pipeline", "/api/food/logs"} {
 		if rec := do(t, mux, "POST", p, "u1"); rec.Code != http.StatusOK {
 			t.Errorf("%s: status = %d, want 200 with enforcement off", p, rec.Code)
 		}

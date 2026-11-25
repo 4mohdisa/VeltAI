@@ -447,10 +447,8 @@ func TestLabel_HandlerConfidenceFloorIs80(t *testing.T) {
 	}
 }
 
-// A label scan must write a scan_sessions row, because CountScansToday counts
-// those rows and nothing else. Without one, POST /api/scan/label was a billable
-// gemini-2.5-flash call that never consumed the free-tier quota — an unmetered
-// paid path capped only by the 10/min rate limiter (600 calls/hour/account).
+// A label scan must write a scan_sessions row, so every paid Gemini call
+// leaves one session row per user, a label scan included.
 func TestLabel_WritesSessionRowForQuota(t *testing.T) {
 	g, srv := geminiServer(t,
 		`{"food_name":"Granola","serving_size_g":50,"calories_per_serving":200,"protein_g":5,"carbs_g":30,"fat_g":6,"fibre_g":4,"confidence":90}`)

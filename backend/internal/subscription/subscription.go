@@ -139,13 +139,12 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 		var body struct {
 			Event struct {
 				entitlement.Event
-				ID               string   `json:"id"`
-				AppUserID        string   `json:"app_user_id"`
-				EventTimestampMs *int64   `json:"event_timestamp_ms"`
-				Store            string   `json:"store"`
-				ProductID        string   `json:"product_id"`
-				TransferredFrom  []string `json:"transferred_from"`
-				TransferredTo    []string `json:"transferred_to"`
+				ID              string   `json:"id"`
+				AppUserID       string   `json:"app_user_id"`
+				Store           string   `json:"store"`
+				ProductID       string   `json:"product_id"`
+				TransferredFrom []string `json:"transferred_from"`
+				TransferredTo   []string `json:"transferred_to"`
 			} `json:"event"`
 		}
 		if err := httpx.Decode(r, &body); err != nil {
@@ -323,19 +322,19 @@ func intervalFromProduct(productID string) string {
 	}
 }
 
-// IsActive reports whether the user currently holds an entitlement. It is the
+// Entitlement returns the user's stored state and expiry. It is the
 // SERVER-SIDE source of truth the entitlement gate consults — the client's
 // RevenueCat SDK view is advisory only, since anyone with a valid token could
-// lie about it. A user with no subscription row is simply not active (no error).
-func (s *PGStore) IsActive(ctx context.Context, userID string) (bool, error) {
+// lie about it. A user with no subscription row has an empty state (no error).
+func (s *PGStore) Entitlement(ctx context.Context, userID string) (string, *time.Time, error) {
 	sub, err := s.Get(ctx, userID)
 	if errors.Is(err, ErrNotFound) {
-		return false, nil
+		return "", nil, nil
 	}
 	if err != nil {
-		return false, err
+		return "", nil, err
 	}
-	return isActive(sub), nil
+	return sub.Status, sub.ExpiresAt, nil
 }
 
 // acceptedSecrets returns the non-empty secrets a webhook may authenticate

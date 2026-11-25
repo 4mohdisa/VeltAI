@@ -52,6 +52,8 @@ func TestStateForEveryFixture(t *testing.T) {
 		{"billing_issue_no_grace", true, entitlement.StateBillingIssue, nil},
 		{"expiration", true, entitlement.StateExpired, ms(fixtureBaseMs + 6*hour)},
 		{"refund", true, entitlement.StateRefunded, ms(fixtureBaseMs + 7*hour)},
+		{"refund_reversed", true, entitlement.StateActive, ms(fixtureBaseMs + 60*day)},
+		{"refund_reversed_lapsed", true, entitlement.StateExpired, ms(fixtureBaseMs + 7*hour)},
 		{"product_change", false, "", nil},
 	}
 	for _, tc := range cases {

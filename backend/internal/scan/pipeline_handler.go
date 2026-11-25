@@ -65,9 +65,8 @@ type PipelineStore interface {
 	// metrics on the session once the run completes.
 	UpdatePipelineSession(ctx context.Context, sessionID string, imageQuality, geometryConf, aiConf, overallConf int, referenceObject string, plateDetected bool, processingMs int) error
 	// CreateLabelSession inserts a scan_sessions row (scan_type 'label') with
-	// no food_log, so a nutrition-label scan consumes the free-tier quota.
-	// CountScansToday counts scan_sessions rows; POST /api/scan/label wrote
-	// none, so it made unlimited paid Gemini calls for free-tier users.
+	// no food_log, so every paid Gemini call, a nutrition-label scan included,
+	// leaves one session row per user.
 	CreateLabelSession(ctx context.Context, userID string) (id string, err error)
 }
 

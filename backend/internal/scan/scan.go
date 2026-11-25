@@ -868,20 +868,3 @@ var validRatings = map[string]bool{
 func confidencePercent(confidence float64) int {
 	return int(clamp(math.Round(confidence*100), 0, 100))
 }
-
-// CountScansToday counts the user's AI scans in the current server-calendar
-// day, backing the free-tier scan quota. Counting existing scan_sessions rows
-// avoids a second source of truth (and a migration), which only works while
-// every paid Gemini call writes exactly one session row. That invariant was
-// FALSE for POST /api/scan/label, which made a billable call and wrote nothing,
-// so free-tier users had an unmetered path; it now writes a 'label' row before
-// the call. If you add a Gemini call site, write a session row or this quota
-// silently stops covering it.
-func (s *PGStore) CountScansToday(ctx context.Context, userID string) (int, error) {
-	var n int
-	err := s.q.QueryRow(ctx,
-		`SELECT count(*) FROM scan_sessions
-		 WHERE user_id = $1 AND created_at >= date_trunc('day', now())`,
-		userID).Scan(&n)
-	return n, err
-}

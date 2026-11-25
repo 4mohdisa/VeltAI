@@ -15,111 +15,25 @@ import (
 // gated in entitlement.PolicyFor or named here, or TestEveryRouteIsGatedOrPublic
 // fails.
 var publicRoutes = map[string]bool{
-	// Webhooks and the OAuth callback sit outside the authenticated mux.
+	// Auth and session: webhooks and the OAuth callback sit outside the
+	// authenticated mux.
 	"POST /api/webhooks/clerk":                  true,
 	"POST /api/webhooks/revenuecat":             true,
 	"GET /api/integrations/{provider}/callback": true,
 
-	// Account, consent, export and subscription status.
-	"GET /api/profile":       true,
-	"PATCH /api/profile":     true,
-	"DELETE /api/profile":    true,
-	"GET /api/export":        true,
-	"GET /api/subscription":  true,
-	"GET /api/ai/consent":    true,
-	"POST /api/ai/consent":   true,
-	"DELETE /api/ai/consent": true,
+	// Subscription status read, so the app can show the paywall.
+	"GET /api/subscription": true,
 
-	// Onboarding, goals and body weight.
-	"GET /api/onboarding":               true,
-	"POST /api/onboarding":              true,
-	"GET /api/onboarding/preferences":   true,
-	"PATCH /api/onboarding/preferences": true,
-	"GET /api/goals":                    true,
-	"PUT /api/goals":                    true,
-	"GET /api/body-weight":              true,
-	"POST /api/body-weight":             true,
-	"DELETE /api/body-weight/{id}":      true,
-	"GET /api/energy-balance":           true,
-	"GET /api/energy-balance/week":      true,
-
-	// Manual food logging, search, barcode, saved foods, recipes and meals.
-	"GET /api/food/logs":              true,
-	"POST /api/food/logs":             true,
-	"GET /api/food/logs/{id}":         true,
-	"PATCH /api/food/logs/{id}":       true,
-	"DELETE /api/food/logs/{id}":      true,
-	"GET /api/food/summary":           true,
-	"GET /api/food/days":              true,
-	"GET /api/food/search":            true,
-	"GET /api/food/barcode/{barcode}": true,
-	"GET /api/food/saved":             true,
-	"POST /api/food/saved":            true,
-	"DELETE /api/food/saved/{id}":     true,
-	"POST /api/food/quick-add":        true,
-	"GET /api/food/portion-memory":    true,
-	"GET /api/recipes":                true,
-	"POST /api/recipes":               true,
-	"GET /api/recipes/{id}":           true,
-	"PATCH /api/recipes/{id}":         true,
-	"DELETE /api/recipes/{id}":        true,
-	"POST /api/recipes/{id}/log":      true,
-	"GET /api/saved-meals":            true,
-	"POST /api/saved-meals":           true,
-	"POST /api/saved-meals/{id}/log":  true,
-	"DELETE /api/saved-meals/{id}":    true,
-
-	// Scan follow-ups that make no AI call.
-	"POST /api/scan/confirm":           true,
-	"POST /api/scan/correction":        true,
-	"POST /api/scan/feedback":          true,
-	"GET /api/scan/calibration":        true,
-	"GET /api/scan/calibration-report": true,
-
-	// Stored AI results that make no AI call.
-	"GET /api/ai/brain":                  true,
-	"POST /api/ai/insights/{id}/dismiss": true,
-
-	// All gym features.
-	"GET /api/gym/exercises":                  true,
-	"GET /api/gym/exercises/{id}":             true,
-	"PATCH /api/gym/exercises/{id}":           true,
-	"DELETE /api/gym/exercises/{id}":          true,
-	"GET /api/gym/last-logged/{exercise_id}":  true,
-	"GET /api/gym/patterns":                   true,
-	"GET /api/gym/progress/{exercise_name}":   true,
-	"GET /api/gym/schedule":                   true,
-	"PUT /api/gym/schedule":                   true,
-	"PUT /api/gym/schedule/{day}":             true,
-	"GET /api/gym/sessions":                   true,
-	"POST /api/gym/sessions":                  true,
-	"PATCH /api/gym/sessions/{id}":            true,
-	"DELETE /api/gym/sessions/{id}":           true,
-	"POST /api/gym/sessions/{id}/complete":    true,
-	"POST /api/gym/sessions/{id}/exercises":   true,
-	"GET /api/gym/streak":                     true,
-	"POST /api/gym/streak/freeze":             true,
-	"GET /api/gym/templates":                  true,
-	"POST /api/gym/templates":                 true,
-	"GET /api/gym/templates/{id}":             true,
-	"PATCH /api/gym/templates/{id}":           true,
-	"DELETE /api/gym/templates/{id}":          true,
-	"POST /api/gym/templates/{id}/exercises":  true,
-	"PATCH /api/gym/template-exercises/{id}":  true,
-	"DELETE /api/gym/template-exercises/{id}": true,
-	"GET /api/gym/today":                      true,
-	"POST /api/gym/calories/preview":          true,
-
-	// Integrations: listing and disconnecting stay free so a lapsed
-	// subscriber can always see and revoke a connection.
-	"GET /api/integrations":               true,
+	// Consent read and withdraw; revoking an integration withdraws consent
+	// for that third party.
+	"GET /api/ai/consent":                 true,
+	"DELETE /api/ai/consent":              true,
 	"DELETE /api/integrations/{provider}": true,
 
-	// Product analytics, feedback and test build reports.
-	"POST /api/analytics/events": true,
-	"POST /api/feedback":         true,
-	"GET /api/debug-reports":     true,
-	"POST /api/debug-reports":    true,
+	// Data export, account deletion and feedback.
+	"GET /api/export":     true,
+	"DELETE /api/profile": true,
+	"POST /api/feedback":  true,
 }
 
 var routePattern = regexp.MustCompile(`Handle(?:Func)?\("([A-Z]+) (/api/[^"]*)"`)

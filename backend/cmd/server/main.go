@@ -166,14 +166,14 @@ func main() {
 	aiSvc.Routes(api)
 	go runRebuildSweeps(aiSvc)
 
-	// Free/Pro enforcement wraps the authenticated mux: identity is already
-	// verified by the time the gate runs, and the whole gated surface lives in
+	// Subscription enforcement wraps the authenticated mux: identity is already
+	// verified by the time the gate runs, and the whole public surface lives in
 	// one policy table (internal/entitlement). Ordering matters — auth first,
 	// then entitlement, then the routes.
-	gate := entitlement.New(subs, scanStore, entitlement.LoadConfig())
+	gate := entitlement.New(subs, entitlement.LoadConfig())
 	// Rate limiting sits AFTER auth (it keys on the verified user id) and BEFORE
 	// entitlement, so a flood costs one indexed upsert rather than the
-	// entitlement path's subscription + scan-count lookups. Counters live in
+	// entitlement path's subscription lookup. Counters live in
 	// Postgres: per-process counters would mean N instances allow N x the limit,
 	// which is the same as not limiting. Built once — a limiter constructed per
 	// request has no memory and enforces nothing.

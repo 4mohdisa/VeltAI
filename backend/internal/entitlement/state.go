@@ -23,6 +23,7 @@ type Event struct {
 	Type                      string `json:"type"`
 	PeriodType                string `json:"period_type"`
 	CancelReason              string `json:"cancel_reason"`
+	EventTimestampMs          *int64 `json:"event_timestamp_ms"`
 	ExpirationAtMs            *int64 `json:"expiration_at_ms"`
 	GracePeriodExpirationAtMs *int64 `json:"grace_period_expiration_at_ms"`
 }
@@ -50,8 +51,46 @@ func StateFor(e Event) (state string, expiresAtMs *int64, ok bool) {
 		return StateBillingIssue, e.GracePeriodExpirationAtMs, true
 	case "EXPIRATION":
 		return StateExpired, e.ExpirationAtMs, true
+	case "REFUND_REVERSED":
+		// The refund is undone: access comes back if the period it paid for is
+		// still running at the time of the event.
+		if e.ExpirationAtMs == nil || e.EventTimestampMs == nil || *e.ExpirationAtMs <= *e.EventTimestampMs {
+			return StateExpired, e.ExpirationAtMs, true
+		}
+		if e.PeriodType == "TRIAL" {
+			return StateTrial, e.ExpirationAtMs, true
+		}
+		return StateActive, e.ExpirationAtMs, true
 	}
 	return "", nil, false
+}
+
+// Refusal reasons in the 402 body, so the app can say why access ended.
+const (
+	ReasonTrialEnded     = "trial_ended"
+	ReasonExpired        = "expired"
+	ReasonBillingFailed  = "billing_failed"
+	ReasonCancelledEnded = "cancelled_ended"
+	ReasonRefunded       = "refunded"
+	ReasonNotSubscribed  = "not_subscribed"
+)
+
+// RefusalReason names why a stored state does not grant access. An active
+// state that no longer grants has passed its expiry with no renewal.
+func RefusalReason(state string) string {
+	switch state {
+	case StateTrial:
+		return ReasonTrialEnded
+	case StateActive, StateExpired:
+		return ReasonExpired
+	case StateBillingIssue:
+		return ReasonBillingFailed
+	case StateCancelledActive:
+		return ReasonCancelledEnded
+	case StateRefunded:
+		return ReasonRefunded
+	}
+	return ReasonNotSubscribed
 }
 
 // Grants reports whether a stored state gives Pro access at now. Trial, active,

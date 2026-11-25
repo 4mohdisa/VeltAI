@@ -117,7 +117,7 @@ func TestPG_WebhookFixturesSetEntitlementState(t *testing.T) {
 	store := subscription.NewPGStore(pool)
 	mux := http.NewServeMux()
 	subscription.RegisterWebhook(mux, store, webhookSecret)
-	gated, _ := serve(t, store, nil, defaultCfg())
+	gated, _ := serve(t, store, defaultCfg())
 	shiftMs := time.Now().UnixMilli() - (fixtureBaseMs + 10*3600000)
 
 	cases := []struct {
@@ -136,6 +136,9 @@ func TestPG_WebhookFixturesSetEntitlementState(t *testing.T) {
 		{"product change leaves state alone", []string{"initial_purchase", "product_change"}, []string{"ok", "ignored"}, entitlement.StateActive, true},
 		{"expiration ends access", []string{"initial_purchase", "expiration"}, []string{"ok", "ok"}, entitlement.StateExpired, false},
 		{"refund ends access", []string{"initial_purchase", "refund"}, []string{"ok", "ok"}, entitlement.StateRefunded, false},
+		{"refund reversed restores access", []string{"initial_purchase", "refund", "refund_reversed"}, []string{"ok", "ok", "ok"}, entitlement.StateActive, true},
+		{"refund reversed after the period ends stays expired", []string{"initial_purchase", "refund", "refund_reversed_lapsed"}, []string{"ok", "ok", "ok"}, entitlement.StateExpired, false},
+		{"older refund reversal never overwrites a newer expiration", []string{"initial_purchase", "out_of_order_expiration_older", "refund_reversed"}, []string{"ok", "ok", "ignored"}, entitlement.StateExpired, false},
 		{"older event never overwrites a newer one", []string{"out_of_order_renewal_newer", "out_of_order_expiration_older"}, []string{"ok", "ignored"}, entitlement.StateActive, true},
 		{"duplicate delivery applies once", []string{"initial_purchase", "expiration", "expiration"}, []string{"ok", "ok", "ignored"}, entitlement.StateExpired, false},
 	}

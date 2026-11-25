@@ -11108,3 +11108,8 @@
 - 2026-11-26 02:41 Chose Row 6 over Row 5b because 5b needs the consent version Isa has not approved. Row 6 has no Isa dependency.
 - 2026-11-26 02:41 Jev ranked the run action high with low confidence on continuing without Isa. Kept the run action because Row 6 is a backend module with no owner input needed, and it is split into five small steps.
 - 2026-11-26 02:41 Webhook secret is read from the environment only. If unset, the webhook refuses events.
+- 2026-11-26 02:47 Chose row 6 closing over 5b: the automatic check flagged row 6 as partly done, and row 6 has no owner dependency.
+- 2026-11-26 02:47 Jev said ask 56%. Not used: ask is banned. The work is backend and tests only, so risk is low.
+- 2026-11-26 02:47 Removing the free daily scan allowance: the Phase 4 decision is no free tier, so every paid feature needs trial or active.
+- 2026-11-26 02:47 Public routes limited to auth, webhook, subscription and offers, legal, health, consent, deletion, export and feedback, so expired users can still leave and keep their data.
+- 2026-11-26 02:47 REFUND_REVERSED restores state from the event expiry, so a refunded user is not stuck until renewal.
