@@ -13,6 +13,7 @@ import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { useSettingsStore } from '@/lib/settings/store';
 import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 jest.mock('@/lib/billing/purchases', () => ({
@@ -255,3 +256,14 @@ test.each([['an unknown reason', 'something_new'], ['no reason', undefined]])(
     expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.paywall.storeError, tone: 'error' });
   },
 );
+
+// --- Refresh after purchase (row 6b step e) ---------------------------------
+
+test('a confirmed purchase refreshes the stored entitlement once', async () => {
+  useSettingsStore.getState().setServerEntitlement({ isActive: false, status: 'none' });
+  const setEntitlement = jest.spyOn(useSettingsStore.getState(), 'setServerEntitlement');
+  await pressContinue();
+  expect(setEntitlement).toHaveBeenCalledTimes(1);
+  expect(useSettingsStore.getState().serverEntitlement).toEqual(expect.objectContaining({ isActive: true }));
+  setEntitlement.mockRestore();
+});

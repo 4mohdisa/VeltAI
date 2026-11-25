@@ -23,6 +23,8 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { api, ApiError, sleep, type Onboarding } from '@/lib/api';
 import { bodyFromOnboarding } from '@/lib/data/hooks';
+import { entitlementFromApi } from '@/lib/data/mappers';
+import { useSettingsStore } from '@/lib/settings/store';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
@@ -35,7 +37,8 @@ import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity } from '@/lib/auth/machine';
 
 // Right after a purchase the backend may not have RevenueCat's webhook yet, so
-// the subscription check is retried before the screen gives up.
+// the subscription check is retried before the screen gives up. The confirmed
+// status replaces the stored entitlement, so later screens read the new plan.
 const CONFIRM_ATTEMPTS = 4;
 const CONFIRM_DELAY_MS = 1500;
 
@@ -43,7 +46,10 @@ async function subscriptionConfirmed(): Promise<boolean> {
   for (let attempt = 0; attempt < CONFIRM_ATTEMPTS; attempt++) {
     if (attempt > 0) await sleep(CONFIRM_DELAY_MS);
     const sub = await api.subscription.get().catch(() => null);
-    if (sub?.is_active) return true;
+    if (sub?.is_active) {
+      useSettingsStore.getState().setServerEntitlement(entitlementFromApi(sub));
+      return true;
+    }
   }
   return false;
 }
