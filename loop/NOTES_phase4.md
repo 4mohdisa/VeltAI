@@ -10,12 +10,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. 9 of 38 BUILT or EXACT, 0 EXACT.
-- Last checkpoint (282 suites, 1,704 tests, tsc 0, lint clean) passed. Measurements render test (13) added after, passing.
+- Last checkpoint (282 suites, 1,704 tests, tsc 0, lint clean) passed. Measurements render test added after, passing.
 - TestPG: 26 pass on lume_test_local. Race green.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT. Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: browser oauth_apple flow; AppleSignInButton on signup and DevSignup.
-- Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
-- energy.ts exhaustive-deps disable removed (useApi takes module-level fetchers, deps complete). Tests pass.
+- Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Remainder in progress.
+- ParameterForm.tsx: disable gone, paramsKey memo removed. Done.
+- BottomSheet.tsx:88: disable removed, dependency list complete. Three Reanimated disables stay. Done.
 
 ## Rules
 - One module per prompt, max 5 steps, grep first. Every prompt states the branch rule and forbids other git commands.
@@ -48,9 +49,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps fix: compute plain values in render, depend on them, no disable. ParameterForm tells parent via a params effect after commit (tested).
 - Before removing a disable in BottomSheet or similar: Reanimated SharedValue write = keep; real missing dependency = fix, unless it changes behaviour (then park).
-- Done: TodayCard:237 (revalidate stable), ScanReviewCard:118 (namesKey), energy.ts:37 (module-level fetchers).
+- Done: TodayCard:237, ScanReviewCard:118, energy.ts:37, ParameterForm:141, BottomSheet:88.
 - A stale plan item (disable not present) is dropped, not added to Blocked.
-- Jev asked for ask at 90%; kept run because the brief forbids ask. The one Isa question is parked in OWNER_CHECKS_phase4.md.
+- Jev asked for ask at 90% and 74%; kept run because the brief forbids ask. The one Isa question is parked in OWNER_CHECKS_phase4.md.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -64,7 +65,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes (es and fr key moves).
-- appState.tsx:119 exhaustive-deps: listing snap.effects would make a repeated identical batch run again. Behaviour change, so disable kept. Question in OWNER_CHECKS_phase4.md.
+- appState.tsx:119 exhaustive-deps: a repeated identical batch would run again. Behaviour change, so disable kept. Question in OWNER_CHECKS_phase4.md.
+- Preview re-runs (about 400 ms) when an edit leaves params unchanged, e.g. a blank optional field. Skipping would change behaviour. Parked question.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts) with different shapes. Merge only if it changes no behaviour.
@@ -74,8 +76,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
 - measurements.tsx Continue recomputes heightToCm() and toKg().
-- Disables left: BottomSheet.tsx:88 (check first), ParameterForm.tsx:141 (in progress), appState.tsx:119 (owner question).
-- Keep: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
+- Disables left: appState.tsx:119 (owner question). Keep: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
 - Missing tests: BottomSheet open and close lifecycle; ScanReviewCard weight-only change does not refetch; gym re-run timing.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - seedChildRows depends on exercise_library seed; local user 'lume' absent.
@@ -89,12 +90,11 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - zsh: use arrays or ${=var}.
 
 ## Next
-1. ParameterForm.tsx:141 disable (this round). Park if the fix changes behaviour.
-2. BottomSheet.tsx:88 (grep first, check Reanimated writes).
-3. Lifecycle and weight-only tests.
-4. Phase 3 Row 14 remainder, so Row 2 can close.
-5. Row 3 remainder after Isa signs off.
-6. Gym key rename only after Isa approves.
+1. Phase 3 Row 14 remainder (this round). When BUILT, Row 2 can close.
+2. Lifecycle and weight-only render tests.
+3. Measurements Continue recompute.
+4. Row 3 remainder after Isa signs off.
+5. Gym key rename only after Isa approves.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.

@@ -10958,3 +10958,8 @@
 - 2026-11-26 01:31 Kept the prompt to one module with a park path if the fix changes behaviour, per the disable rule in the notes.
 - 2026-11-26 01:31 Logged the energy.ts spotted items (duplicate private useApi in energy.ts and gymSchedule.ts; no refetch-on-day-change test) under Parked, not as new work, to keep this round small.
 - 2026-11-26 01:31 Did not use action ask: the appState.tsx:119 question is already parked in OWNER_CHECKS_phase4.md and the brief forbids asking.
+- 2026-11-26 01:32 Chose candidate 1: the notes say to close partial flags before any new row, and Row 2 cannot close without Phase 3 Row 14.
+- 2026-11-26 01:32 Jev ranked ask at 74%. Kept run, because the brief forbids ask and the parked question sits in OWNER_CHECKS_phase4.md.
+- 2026-11-26 01:32 Accepted the ParameterForm.tsx:141 result: disable already removed, paramsKey memo deleted, tests pass. Dropped the stale Next item for it.
+- 2026-11-26 01:32 Dropped the stale handover Next items (BottomSheet grep, ParameterForm) because the latest report says both are done.
+- 2026-11-26 01:32 Preview re-run on blank optional edits (about 400 ms) is a behaviour question. Parked, not changed.
