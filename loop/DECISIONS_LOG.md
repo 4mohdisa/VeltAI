@@ -10963,3 +10963,13 @@
 - 2026-11-26 01:32 Accepted the ParameterForm.tsx:141 result: disable already removed, paramsKey memo deleted, tests pass. Dropped the stale Next item for it.
 - 2026-11-26 01:32 Dropped the stale handover Next items (BottomSheet grep, ParameterForm) because the latest report says both are done.
 - 2026-11-26 01:32 Preview re-run on blank optional edits (about 400 ms) is a behaviour question. Parked, not changed.
+- 2026-11-26 01:34 Chose Row 2 close: it is the only open flag blocking Row 2, and Phase 3 Row 14 is now BUILT per the latest report.
+- 2026-11-26 01:34 Row 14 simulator flow is not run this round: simulator checks belong to Row 23, so it is not a blocker here.
+- 2026-11-26 01:34 Asked Row 2 to close only if every listed item is shown done in code, so a stale flag is not closed on faith.
+- 2026-11-26 01:34 Ignored the Jev ask advice (20%): the brief forbids ask, and the next step is a small read-only task.
+- 2026-11-26 01:34 Trimmed the notes to under 600 words, as the brief requires. No decision was removed; each was shortened in place.
+- 2026-11-26 01:34 Rewrote the rejected prompt: added the branch rule, forbade every other git command, kept one module, stated the report format.
+- 2026-11-26 01:34 Chose candidate 1 because the loop note says to close partial flags before any new row, and the Row 14 BUILT report makes Row 2 closable.
+- 2026-11-26 01:34 Row 14 simulator flow stays in Row 23 (already decided), so it does not block Row 2.
+- 2026-11-26 01:34 Handover lists five exhaustive-deps disables as still present; notes said removed. Prompt does not touch them; re-grep before any disable work.
+- 2026-11-26 01:34 Jev suggested ask at 17 percent; not taken because the brief forbids ask.
