@@ -11352,3 +11352,5 @@
 - 2026-11-26 04:29 Followed the Jev advice to run, not to ask (Isa's rule: never ask).
 - 2026-11-26 04:29 Named every file fully in the prompt because a handover just happened.
 - 2026-11-26 04:29 Compressed the notes below 600 words; no items removed from Blocked on Isa or the Parked list beyond merging repeats.
+- 2026-11-26 04:30 Kept the checkpoint task over Jev's accountLocale pick: the loop note marks this round as a checkpoint, and the last full run predates the preferencesCopy and preferencesLocale fixes, so the baseline is stale. Jev cannot see the checkpoint rule.
+- 2026-11-26 04:30 Checkpoint round is read only except for fixing reds caused by the last change (preferencesLocale.render.test.tsx).
