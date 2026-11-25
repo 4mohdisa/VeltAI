@@ -874,12 +874,6 @@
     "scanningAngles": "Analyse de {{shots}} angles…",
     "captureFailed": "Impossible de prendre la photo. Veuillez réessayer."
   },
-  "gymCount": {
-    "sessions_one": "{{count}} séance",
-    "sessions_other": "{{count}} séances",
-    "freezes_one": "{{count}} gel",
-    "freezes_other": "{{count}} gels"
-  },
   "gymCalendar": {
     "legendLabel": "La teinte va de moins à plus d’entraînement",
     "less": "Moins",

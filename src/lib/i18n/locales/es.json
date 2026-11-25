@@ -874,12 +874,6 @@
     "scanningAngles": "Escaneando {{shots}} ángulos…",
     "captureFailed": "No se pudo tomar la foto. Inténtalo de nuevo."
   },
-  "gymCount": {
-    "sessions_one": "{{count}} sesión",
-    "sessions_other": "{{count}} sesiones",
-    "freezes_one": "{{count}} congelación",
-    "freezes_other": "{{count}} congelaciones"
-  },
   "gymCalendar": {
     "legendLabel": "El sombreado va de menos a más entrenamiento",
     "less": "Menos",

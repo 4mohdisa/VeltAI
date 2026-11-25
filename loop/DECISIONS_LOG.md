@@ -10877,3 +10877,8 @@
 - 2026-11-26 01:06 Chose candidate 1: it is the next item in the notes, one screen, and small. Jev also ranks run at 100% confidence.
 - 2026-11-26 01:06 Kept the rule of one screen per prompt and the English only override.
 - 2026-11-26 01:06 Prompt forbids any git command except git branch --show-current, as the brief requires.
+- 2026-11-26 01:07 Chose the duplicate gym keys cleanup as Next item 2 in the notes: it is the next open cleanup and touches one concern.
+- 2026-11-26 01:07 Subscription helper task (Next item 1) closed: subscription.tsx now uses isManageSubscriptionAvailable(), checked by 8 passing tests and a clean type check and lint.
+- 2026-11-26 01:07 Allowed deleting the removed key from es.json and fr.json only as a key removal, not a translation, to keep the parity test green under the English-only override. Recorded for review.
+- 2026-11-26 01:07 Kept the Food tab retry label and the delete screen mockRestore cleanup for later rounds to keep this round to one concern.
+- 2026-11-26 01:07 Did not re-raise the parity line in OWNER_CHECKS_phase4.md: Isa's override says he closes it himself and the file is append-only.

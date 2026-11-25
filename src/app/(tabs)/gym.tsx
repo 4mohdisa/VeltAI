@@ -166,7 +166,7 @@ export default function GymLogScreen() {
               )}
               {!gymLoading && !gymError ? (
                 <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
-                  {`${t('gymCount.sessions', { count: streak.totalGymDays })} · ${t('gymCount.freezes', { count: streak.freezesAvailable })}`}
+                  {`${t('gym.monthSessions', { count: streak.totalGymDays })} · ${t('gym.monthFreezes', { count: streak.freezesAvailable })}`}
                 </Text>
               ) : null}
             </View>

@@ -68,7 +68,7 @@ function dayLabel(d: MonthDay, t: TFunction): string {
   if (d.future) return t('gymCalendar.upcoming', { when });
   if (d.frozen) return t('gymCalendar.frozen', { when, today });
   if (d.sessions === 0) return t('gymCalendar.noSession', { when, today });
-  const count = t('gymCount.sessions', { count: d.sessions });
+  const count = t('gym.monthSessions', { count: d.sessions });
   const length =
     d.minutes == null ? t('gymCalendar.durationUnknown') : t('gymCalendar.minutes', { minutes: d.minutes });
   return t('gymCalendar.sessionDay', { when, count, length, today });

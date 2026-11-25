@@ -896,12 +896,6 @@
     "scanningAngles": "Scanning {{shots}} angles…",
     "captureFailed": "Couldn't take the photo — try again."
   },
-  "gymCount": {
-    "sessions_one": "{{count}} session",
-    "sessions_other": "{{count}} sessions",
-    "freezes_one": "{{count}} freeze",
-    "freezes_other": "{{count}} freezes"
-  },
   "gymCalendar": {
     "legendLabel": "Shading runs from less to more training",
     "less": "Less",
