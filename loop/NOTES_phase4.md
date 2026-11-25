@@ -10,16 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
-- Last full run (before preferencesCopy and preferencesLocale fixes): tsc 0 errors; 293 suites, 1,784 tests pass.
-- Round in progress: checkpoint (full tsc and full Jest, no file changes). Result goes in the next handover.
+- Last full run (checkpoint, passed): tsc 0 errors; 293 suites, 1,784 tests pass. Console: 89 error, 80 warn lines.
 - Backend: go vet clean, go test -race, 29 TestPG pass on lume_test_local, 0 skipped.
-- Done: aiQuery.notEnoughData used in aiBrain.ts; settings.privacyDetails.dataTitle used as export section title; unused keys removed; showSupportNotice false; act() flush in tabbar and preferencesCopy; preferencesLocale flushed (6 to 0, 3 new [data] warns).
+- Done: aiQuery.notEnoughData used in aiBrain.ts; settings.privacyDetails.dataTitle used as export section title; unused keys removed; showSupportNotice false; act() flush in tabbar, preferencesCopy and preferencesLocale.
 
 ## Next
-1. Checkpoint result from this round: fix only reds caused by preferencesLocale.render.test.tsx.
-2. Flush act() warnings, one file per round: accountLocale (6), integrationsLocale (6), photoScan (4), confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2). Method: await act(async () => {}) after renderScreen.
-3. Row 3 remainder after Isa signs off.
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+1. Flush act() warnings, one file per round: accountLocale (6, in progress), integrationsLocale (6), photoScan (4), confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2). Method: await act(async () => {}) after renderScreen.
+2. Row 3 remainder after Isa signs off.
+3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -53,7 +51,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false.
 - One file per round for act() fixes; flush stays inline in each test file, not a shared helper.
-- Checkpoint pick kept over Jev's accountLocale pick: checkpoint rule, and the last full run is stale.
+- Checkpoint pick kept over Jev's pick last round: checkpoint rule. Checkpoint now passed.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -70,7 +68,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- Console noise from error-path tests (about 72 deliberate warns, including [data] warns from the flush; needs scoped spies).
+- Console noise from error-path tests (about 72 deliberate warns; needs scoped spies).
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.

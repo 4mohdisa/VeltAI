@@ -36,6 +36,7 @@ test.each([
       <AccountScreen />
     </SafeAreaProvider>,
   );
+  await act(async () => {});
 
   const text = allText(tree);
   expect(text).toContain(locale.settings.accountEyebrow);

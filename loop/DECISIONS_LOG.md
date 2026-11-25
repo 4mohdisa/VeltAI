@@ -11354,3 +11354,6 @@
 - 2026-11-26 04:29 Compressed the notes below 600 words; no items removed from Blocked on Isa or the Parked list beyond merging repeats.
 - 2026-11-26 04:30 Kept the checkpoint task over Jev's accountLocale pick: the loop note marks this round as a checkpoint, and the last full run predates the preferencesCopy and preferencesLocale fixes, so the baseline is stale. Jev cannot see the checkpoint rule.
 - 2026-11-26 04:30 Checkpoint round is read only except for fixing reds caused by the last change (preferencesLocale.render.test.tsx).
+- 2026-11-26 04:31 Checkpoint passed (tsc 0 errors, 293 of 293 suites, 1,784 of 1,784 tests), so the checkpoint rule ends and the act() fix is the next task.
+- 2026-11-26 04:31 Chose accountLocale (6 warnings) because it is the next file in the agreed order and is the smallest safe step; Jev ranked the same task first.
+- 2026-11-26 04:31 Maestro stays behind the act() work because Maestro install is not confirmed and it can be parked without blocking.
