@@ -73,7 +73,7 @@ function ChipRow({ title, muscles }: { title: string; muscles: string[] }): JSX.
 
 export function GymPatternsCard(): JSX.Element {
   const { t } = useTranslation();
-  const { patterns: rawPatterns, loading, isError } = useGymPatterns();
+  const { patterns: rawPatterns, loading, isError, refetch } = useGymPatterns();
   const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
@@ -92,7 +92,7 @@ export function GymPatternsCard(): JSX.Element {
     !patterns || (patterns.avg_sessions_per_week === 0 && patterns.most_trained_muscles.length === 0);
 
   // A failed read is not "not enough data": say so instead of the keep-logging prompt.
-  if (isError && notEnough) return <LoadFailedNotice message={t('gym.loadFailed')} />;
+  if (isError && notEnough) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
 
   if (notEnough) {
     return (

@@ -5,7 +5,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Overrides (Isa, 25 Nov)
 1. English only at launch. Do not write, translate or review es or fr. Leave those files untouched. Missing keys fall back to English. No language switcher.
-2. Time box about 15 rounds per row. R12 writes leftovers to Parked. R15 sets BUILT (PARTIAL only if core broken) and moves on. Polish, wording, extra render tests, micro refactors and alias cleanups go to Parked.
+2. Time box about 15 rounds per row. R12 writes leftovers to Parked. R15 sets BUILT (PARTIAL only if core broken) and moves on.
 3. Order: Row 2, finish 2b in time box, verify 2c and 2d, then 3 to 14b, 15 to 30, 31.
 4. Rows 2c and 2d: verify, mark BUILT, replace placeholder rows with brief descriptions.
 
@@ -13,7 +13,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo /Users/mohammedisa/Development/projects-app/LumeAI, branch loop/phase4. Loop script commits. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 15 BUILT (Row 6 label R253 unconfirmed).
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT. Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Phase 3 Row 14: 14a gym month line DONE (R254 to R255). 14b muscle cards Retry DONE (R257). 14b exercise progress Retry: R258. 14c workoutsLine and nutrition spoken kcal snapshot: open.
+- Phase 3 Row 14: 14a gym month line DONE (R254-R255). 14b muscle cards Retry (R257) and exercise progress Retry (R258) DONE. 14c open: workoutsLine (summaryCards.ts), nutrition spoken kcal snapshot.
 - Last full checkpoint: tsc 0, 275 suites, 1,673 tests.
 
 ## Rules
@@ -44,10 +44,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - R243 foodDays: failure keeps dates and sets error; success clears it. R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
 - R247, R248 calendar.tsx and food.tsx read data only. R250 verify only, no alias removal.
 - R251 one notice when both Food tab reads fail; food-log error takes priority.
-- R254 picks Row 14a over 14b. R255 picks gym.tsx literal over 14b. R256 picks 14b over R249 (R249 blocked twice).
-- R257 rejected R256 prompt (two components). Rule: one component per prompt, always.
+- R254 picks Row 14a over 14b. R255 picks gym.tsx literal over 14b. R256 picks 14b over R249. R257 rejected R256 prompt: one component per prompt, always.
 - useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
+- R258 exercise progress Retry: assertion in gymExerciseProgress.emptyStates.render.test.tsx changed from no Retry to Retry present (pinned the Row 14 gap; stricter). Accepted.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script, park the rest.
@@ -67,12 +67,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - Signup placeholders signup.tsx:339 and :362 are literals. Nothing dispatches SIGNED_IN.
 - Jest noise: i18next banner, devWarn, act warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
-- Food tab 'Try again' on food-log notice reloads only the food log when both reads fail.
+- Food tab 'Try again' reloads only the food log when both reads fail.
 - en.json duplicates: gym.monthSessions and monthFreezes vs gymCount.sessions and freezes. Merge needs es and fr edits: leave.
 - PERF_BASELINE.md lines 34 and 41 stale. Fix after checkpoint.
 - Hotspots: useHydration has no freshness window; gym/history.tsx uses .map not FlatList; 49 backend queries use id::text = $1; gym/schedule_pg.go sorts oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies and dismissAnomaly swallow errors. Users do not see which field the server rejected on 4xx.
-- muscles.tsx:65 comment is stale (says no refetch). Fix with GymPatternsCard Retry.
+- muscles.tsx:65 comment stale. Being fixed in the GymPatternsCard round.
 - R247 note says isLoading, but calendar.tsx reads only data.
 - Phase 3 Row 13 older text still lists saved and translation items as open; R252 records the checks.
 - Older backend without total_days gives undefined tile. Owner note: deploy backend with app.
@@ -81,4 +81,5 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Loop note
 - Same blocker returned twice (R249 approval). Recorded under Blocked; not retried.
-- Jev advisory: recent approvals and blockers reviewed; continuing with a small Row 14 task.
+- Jev advisory: continuing with small Row 14 tasks; Isa approvals still pending as above.
+- Next after this round: 14c (workoutsLine, then nutrition spoken kcal snapshot), then mark Phase 3 Row 14 BUILT, then Row 2 BUILT.

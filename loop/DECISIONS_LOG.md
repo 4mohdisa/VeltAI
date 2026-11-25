@@ -10707,3 +10707,6 @@
 - 2026-11-25 23:56 R258 picks exercise progress Retry over the stale muscles.tsx comment; the comment fix is parked with GymPatternsCard (one component per round rule).
 - 2026-11-25 23:56 Notes condensed to stay near the 600 word limit. All decisions, blocked items and parked items are kept.
 - 2026-11-25 23:56 R257 recorded as done. Row 2 stays PARTIAL until Phase 3 Row 14 is BUILT.
+- 2026-11-25 23:58 Accepted the assertion change in gymExerciseProgress.emptyStates.render.test.tsx: it pinned the missing Retry, which is the Row 14 gap itself. It now checks for the button and is stricter. Recorded here for Isa's review; not a blocker.
+- 2026-11-25 23:58 Chose the GymPatternsCard Retry because it is in flight, small, and parked together with the stale comment. Claude Code greps first so it does not duplicate R257 if Retry already exists.
+- 2026-11-25 23:58 Not asking Isa about the Row 14 order; 14c follows after this round.

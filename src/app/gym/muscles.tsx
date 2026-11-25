@@ -62,7 +62,6 @@ export default function MuscleFocusScreen(): JSX.Element {
     }
 
     if (isError && !hasData) {
-      // useGymPatterns exposes no refetch, so the notice carries no Retry.
       return <LoadFailedNotice message={t('gym.loadFailed')} />;
     }
 
