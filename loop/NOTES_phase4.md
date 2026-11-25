@@ -10,16 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
-- Tabbar act() warnings fixed (13 of 13 pass, 0 act warnings). Full suite not run since setup.ts change.
-- Last full run (before setup.ts): tsc 0 errors; 292 suites, 1,778 tests pass; lint clean; locale parity 3 of 3.
-- Backend: go vet, go test -race, 29 TestPG passed, 0 skipped.
+- Full suite checkpoint passed: tsc 0 errors; 293 suites, 1,784 tests; 4 snapshots; act() warnings 35 (tab bar 0).
+- Backend last run: go vet, go test -race, 29 TestPG passed, 0 skipped.
 
 ## Next
-1. Full suite checkpoint: verify setup.ts and tabbar change (previous report skipped it).
-2. Flush act() warnings one file per round: preferencesCopy, preferencesLocale, accountLocale, integrationsLocale, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers, scanCards.strings.
-3. Remove unused keys aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff (en, es, fr together).
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-5. Row 3 remainder after Isa signs off.
+1. Flush act() warnings, one file per round: preferencesCopy (current), preferencesLocale, accountLocale, integrationsLocale, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers, scanCards.strings.
+2. Remove unused keys aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff (en, es, fr together).
+3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+4. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -50,12 +48,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change.
-- Jev advice to ask is not followed: asking is not allowed; run the smallest task.
+- Asking is not allowed: run the smallest task (Jev advice to ask not followed).
 - i18next showSupportNotice false.
+- Chose preferencesCopy first, one file per round.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
-- es and fr text for row 6b keys, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen.
+- es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'; needs approval.
 - Row 5: 500 vs 403 read errors; consent version; consent analytics wording; provider copy; whether consent turns analytics on; replace vs navigate.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
@@ -78,4 +77,3 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 6b: merge three near-duplicate test-result lines.
-- Still hardcoded or unused: src/app/legal/terms.tsx free tier wording is blocked above; keys listed in Next 3 are unused.

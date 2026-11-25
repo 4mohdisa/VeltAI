@@ -11345,3 +11345,6 @@
 - 2026-11-26 04:26 Followed Jev's run recommendation; it fits the rule to run the smallest safe task and not ask.
 - 2026-11-26 04:26 Kept the fix limited to setup.ts and tabbar; other failures go to BLOCKED so one round does not sprawl.
 - 2026-11-26 04:26 Trimmed the notes to fit the 600 word limit. No item was dropped; repeated items were merged.
+- 2026-11-26 04:27 Chose preferencesCopy first: the notes rule is one file per round, although the last report suggested both preferences files together.
+- 2026-11-26 04:27 Jev's 94% run signal agreed, so the loop runs the next task instead of asking.
+- 2026-11-26 04:27 Full suite checkpoint passed with no changes needed, so the next rounds go back to small single file fixes.

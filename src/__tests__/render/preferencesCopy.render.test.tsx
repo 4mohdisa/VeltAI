@@ -41,11 +41,13 @@ const render = async (lng: string) => {
   await act(async () => {
     await i18n.changeLanguage(lng);
   });
-  return renderScreen(
+  const tree = renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <PreferencesScreen />
     </SafeAreaProvider>,
   );
+  await act(async () => {});
+  return tree;
 };
 
 afterAll(async () => {
