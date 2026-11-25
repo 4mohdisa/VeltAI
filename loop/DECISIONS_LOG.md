@@ -11206,3 +11206,7 @@
 - 2026-11-26 03:22 Kept Jev's 'run' signal (61%) as the action. The task stays small (one verify round, no new feature), which matches the low confidence (0.42).
 - 2026-11-26 03:22 Did not pick the mid session 402 routing, because it needs a routing decision and the row 6b wording is not yet verified.
 - 2026-11-26 03:22 Kept English only, per Isa's override, so no es or fr text is requested.
+- 2026-11-26 03:23 Chose verify first: the loop flag marks the last report as partly done, and the notes rule says verify an incomplete report before moving on.
+- 2026-11-26 03:23 Recorded that the launch gate is src/app/index.tsx, not src/app/onboarding/index.tsx, because the named file does not exist and nothing else was changed.
+- 2026-11-26 03:23 Lint and tsc were not run last round, so this round runs both on the touched files only, not the full suite (not a checkpoint).
+- 2026-11-26 03:23 Jev said ask 54%; not used because the brief forbids asking and the parked list covers the open questions.
