@@ -214,7 +214,7 @@ export default function FoodLogScreen() {
   const selectedDate = useFoodStore((st) => st.selectedDate);
   const isPastDay = selectedDate < todayISO();
   const setSelectedDate = useFoodStore((st) => st.setSelectedDate);
-  const { days: loggedDays, error: loggedDaysError, refetch: refetchDays } = useLoggedDays();
+  const { data: loggedDays, error: loggedDaysError, refetch: refetchDays } = useLoggedDays();
   const { data: meals, isLoading: loading, error, refetch } = useFoodLog();
   const loadError = !!error;
   const sections = useMemo(() => buildSections(meals), [meals]);

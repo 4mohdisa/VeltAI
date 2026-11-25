@@ -10653,3 +10653,6 @@
 - 2026-11-25 23:36 The alias removal is split across rounds so no prompt touches two screens. This is a cleanup, so it stays inside the Row 13 time box and is not its own polish round.
 - 2026-11-25 23:36 Kept the Row 13 retry label as 'Try again' (shared LoadFailedNotice). Unchanged from R240 to R245.
 - 2026-11-25 23:36 Row 2b plan-ready summary screen: approved by Isa on 25 Nov (see Decisions). It is built inside the 2b time box, not parked. Handover said it waited for a go-ahead, but the approval is recorded, so the NOTES file wins.
+- 2026-11-25 23:38 R248 chosen: it is the next step in the approved Row 13 sequence, and Claude Code recommended it. Jev run 100% agrees.
+- 2026-11-25 23:38 R247 note mismatch (calendar reads data only, not isLoading) is left for a later records round, so no rewrite of the old line now.
+- 2026-11-25 23:38 es and fr render tests stay parked (English only override).

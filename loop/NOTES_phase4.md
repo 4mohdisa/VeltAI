@@ -15,10 +15,9 @@ Items needing Isa's decision stay on Blocked on Isa.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2, 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 BUILT.
-- Row 2b DIFFERENT: step 1d strings done (en, es, fr). Plan-ready summary approved, build in 2b time box.
-- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245).
-- R246 rejected (more than one screen). Rewritten.
-- Next: R247 calendar.tsx reads data and isLoading, mock full shape. R248 food.tsx same. R249 remove days and loading aliases in foodDays.ts.
+- Row 2b DIFFERENT: step 1d strings done (en). Plan-ready summary approved, build in 2b time box.
+- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245), calendar.tsx reads data (R247).
+- Next: R248 food.tsx reads data (in progress). R249 remove days and loading aliases in foodDays.ts and both calendar test mocks.
 - Last full green checkpoint R242 (tsc 0, 272 suites, 1,661 tests).
 
 ## Rules
@@ -50,6 +49,7 @@ Items needing Isa's decision stay on Blocked on Isa.
 - R242 lookupBarcodeAsync stays until Isa approves removing its test.
 - R243 foodDays error: failure keeps dates and sets error; success clears it.
 - R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
+- R247 calendar.tsx reads data only (not isLoading). PHASE3 R247 note says isLoading: correct in a later records round.
 - Retry label stays 'Try again' (shared LoadFailedNotice).
 
 ## Blocked on Isa (do not retry)
@@ -78,7 +78,7 @@ Items needing Isa's decision stay on Blocked on Isa.
 - Two Food tab notices stack if food-log and logged-days reads both fail.
 - Row 13 older text lists saved and translation items as open. Check against code at records round.
 - English hard-coded in Terms rest, formatNumber, units.ts:76.
-- formatStreak(0) in fr gives '0 jour'.
+- formatStreak(0) in fr gives '0 jour' (fr parked).
 - Older backend without total_days gives undefined tile. Owner note: deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose.
