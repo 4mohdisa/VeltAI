@@ -90,14 +90,18 @@ export class ApiError extends Error {
   /** True when the backend's entitlement gate refused a Pro feature (402).
    *  Callers present the paywall rather than a generic error. */
   upgradeRequired: boolean;
-  /** Which feature was gated ('ai_scan' | 'ai_insights' | 'integrations'). */
+  /** Which feature was gated ('ai_scan' | 'ai_insights' | 'integrations' | 'pro'). */
   feature?: string;
-  constructor(status: number, message: string, gate?: { upgradeRequired?: boolean; feature?: string }) {
+  /** Why the gate refused, from the stored subscription state ('trial_ended' |
+   *  'expired' | 'billing_failed' | 'cancelled_ended' | 'refunded' | 'not_subscribed'). */
+  reason?: string;
+  constructor(status: number, message: string, gate?: { upgradeRequired?: boolean; feature?: string; reason?: string }) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.upgradeRequired = gate?.upgradeRequired ?? false;
     this.feature = gate?.feature;
+    this.reason = gate?.reason;
   }
 }
 
@@ -105,10 +109,11 @@ export class ApiError extends Error {
  *  structured object so the client can branch. Normalise both shapes. */
 function parseApiError(status: number, error: unknown): ApiError {
   if (error != null && typeof error === 'object') {
-    const e = error as { message?: unknown; upgrade_required?: unknown; feature?: unknown };
+    const e = error as { message?: unknown; upgrade_required?: unknown; feature?: unknown; reason?: unknown };
     return new ApiError(status, typeof e.message === 'string' ? e.message : `HTTP ${status}`, {
       upgradeRequired: e.upgrade_required === true,
       feature: typeof e.feature === 'string' ? e.feature : undefined,
+      reason: typeof e.reason === 'string' ? e.reason : undefined,
     });
   }
   return new ApiError(status, typeof error === 'string' ? error : `HTTP ${status}`);
@@ -926,7 +931,7 @@ export type DebugReportInput = {
 export type DebugReportRow = Omit<DebugReportInput, 'image_base64'> & { id: string };
 
 export type SubscriptionStatus = {
-  status: string; // 'none' | 'trialing' | 'active' | 'cancelled' | 'expired' | 'past_due'
+  status: string; // 'none' | 'trialing' | 'active' | 'cancelled' | 'expired' | 'past_due' | 'refunded'
   is_active: boolean;
   platform: string | null;
   plan_interval: string | null;

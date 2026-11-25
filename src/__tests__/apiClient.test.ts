@@ -121,6 +121,56 @@ describe('entitlement 402', () => {
     expect(e.message).toContain('free scans');
   });
 
+  test('402 with a reason exposes it on the error', async () => {
+    mockFetch(() => ({
+      ok: false,
+      status: 402,
+      json: async () => ({
+        data: null,
+        error: { message: 'This feature is part of Lume Pro.', upgrade_required: true, feature: 'ai_insights', reason: 'refunded' },
+      }),
+    }));
+    const e = (await api.ai.query('How is my protein?').catch((err: unknown) => err)) as ApiError;
+    expect(e).toBeInstanceOf(ApiError);
+    expect(e.status).toBe(402);
+    expect(e.upgradeRequired).toBe(true);
+    expect(e.feature).toBe('ai_insights');
+    expect(e.reason).toBe('refunded');
+  });
+
+  test('402 without a reason leaves reason undefined and still asks for an upgrade', async () => {
+    mockFetch(() => ({
+      ok: false,
+      status: 402,
+      json: async () => ({
+        data: null,
+        error: { message: 'This feature is part of Lume Pro.', upgrade_required: true, feature: 'pro' },
+      }),
+    }));
+    const e = (await api.foodLogs.list().catch((err: unknown) => err)) as ApiError;
+    expect(e.status).toBe(402);
+    expect(e.upgradeRequired).toBe(true);
+    expect(e.feature).toBe('pro');
+    expect(e.reason).toBeUndefined();
+  });
+
+  test('a 400 string error carries no reason', async () => {
+    mockFetch(() => ({ ok: false, status: 400, json: async () => ({ data: null, error: 'invalid JSON body' }) }));
+    const e = (await api.foodLogs.list().catch((err: unknown) => err)) as ApiError;
+    expect(e.status).toBe(400);
+    expect(e.upgradeRequired).toBe(false);
+    expect(e.reason).toBeUndefined();
+  });
+
+  test('a refunded subscription status comes through as not active', async () => {
+    mockFetch(() =>
+      ok({ status: 'refunded', is_active: false, platform: 'ios', plan_interval: 'month', expires_at: '2026-11-01T00:00:00Z' }),
+    );
+    const s = await api.subscription.get();
+    expect(s.status).toBe('refunded');
+    expect(s.is_active).toBe(false);
+  });
+
   test('a plain string error still parses and is NOT an upgrade prompt', async () => {
     mockFetch(() => ({ ok: false, status: 500, json: async () => ({ data: null, error: 'database error' }) }));
     const err = (await api.foodLogs.list().catch((e: unknown) => e)) as ApiError;
