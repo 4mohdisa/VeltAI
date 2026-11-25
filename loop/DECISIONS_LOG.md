@@ -10925,3 +10925,7 @@
 - 2026-11-26 01:19 Kept the checkpoint over Jev's purchases.ts pick: the loop note requires a checkpoint after the gym.tsx change, and the last full run predates the subscription test change (6 to 8 tests).
 - 2026-11-26 01:19 Purchases.ts becomes the next task (round after this checkpoint), so Jev's pick is taken one round later, not dropped.
 - 2026-11-26 01:19 Removed Next items 1 and 3 from the notes: gym.tsx disable is removed, and subscriptionLinks.ts already holds the single Platform.OS check.
+- 2026-11-26 01:20 Dropped the purchases.ts item: it has no eslint-disable (the report confirmed it). Recorded as stale, not as an Isa blocker.
+- 2026-11-26 01:20 Picked measurements.tsx (candidate 1) as the next real lint target from the report.
+- 2026-11-26 01:20 Kept the parity line in OWNER_CHECKS_phase4.md untouched: the file is append-only and Isa closes that line himself.
+- 2026-11-26 01:20 This round changes files, so it is not a checkpoint round. Full suites are not needed.

@@ -127,24 +127,27 @@ export default function MeasurementsScreen() {
   // succeeded, so anything typed and not submitted died with the reload
   // (audit 2026-08-08). Values are stored canonically (cm / kg); range errors
   // are surfaced separately, so a half-typed number persists rather than
-  // being discarded.
+  // being discarded. The canonical values are worked out here, in render, so
+  // the effect depends on plain values rather than on the unit-aware helpers.
+  const typedAge = parseInt(ageText, 10);
+  const draftAge = Number.isFinite(typedAge) ? typedAge : null;
+  const draftHeightCm = heightToCm();
+  const draftWeightKg = toKg(weightText);
+  const draftTargetKg = showTarget ? toKg(targetText) : null;
   useEffect(() => {
-    const typedAge = parseInt(ageText, 10);
     setMeasurements({
-      age: Number.isFinite(typedAge) ? typedAge : null,
+      age: draftAge,
       sex: sexValue === '' ? null : sexValue,
-      height_cm: heightToCm(),
-      weight_kg: toKg(weightText),
-      target_weight_kg: showTarget ? toKg(targetText) : null,
+      height_cm: draftHeightCm,
+      weight_kg: draftWeightKg,
+      target_weight_kg: draftTargetKg,
       // Display state — never sent, only used to redraw the form as left.
       height_unit: heightUnit,
       weight_unit: weightUnit,
       height_ft_text: heightUnit === 'ftin' ? feetText : null,
       height_in_text: heightUnit === 'ftin' ? inchesText : null,
     });
-    // heightToCm/toKg close over the unit toggles, so those are dependencies too.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ageText, sexValue, heightCmText, feetText, inchesText, weightText, targetText, heightUnit, weightUnit, showTarget]);
+  }, [setMeasurements, draftAge, sexValue, draftHeightCm, draftWeightKg, draftTargetKg, heightUnit, weightUnit, feetText, inchesText]);
 
   // `submitted` flips on the first Continue press. Before it, only fields the
   // user has actually filled in show errors (no shouting at an untouched

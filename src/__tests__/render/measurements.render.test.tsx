@@ -113,6 +113,27 @@ test('SYMPTOM 1: what you type is persisted before you press Continue', () => {
   expect(useOnboardingStore.getState().sex).toBe('male');
 });
 
+test('SYMPTOM 1: height, weight and units persist in canonical form as they change, before Continue', () => {
+  const tree = renderScreen(<MeasurementsScreen />);
+  const type = (label: string, text: string) =>
+    act(() => (findAll(tree, (p) => p.accessibilityLabel === label)[0].props.onChangeText as (t: string) => void)(text));
+
+  type('Current weight in kilograms', '70');
+  expect(useOnboardingStore.getState().weight_kg).toBe(70);
+
+  // The unit flip converts the text, so the stored kilograms hold and the unit is saved.
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'lb')[0]);
+  expect(useOnboardingStore.getState().weight_unit).toBe('lb');
+  expect(useOnboardingStore.getState().weight_kg).toBeCloseTo(70, 1);
+
+  // ft/in typing reaches the store as centimetres, with the typed boxes kept.
+  TestPress(findAll(tree, (p) => p.accessibilityLabel === 'ft / in')[0]);
+  type('Height, feet', '6');
+  type('Height, inches', '0');
+  expect(useOnboardingStore.getState().height_cm).toBe(183);
+  expect(useOnboardingStore.getState().height_ft_text).toBe('6');
+});
+
 test('ITEM 7: the screen never routes to a legal or consent screen', () => {
   const tree = renderScreen(<MeasurementsScreen />);
   TestPress(buttonWithTitle(tree, 'Continue')!); // blocked path
