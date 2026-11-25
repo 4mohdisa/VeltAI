@@ -5,11 +5,12 @@
 // user signed in. The subscription note links to Apple's subscription settings,
 // and the final step's prompt shows DELETE in bold. The API client
 // is mocked, not the screen.
-import { Linking, StyleSheet } from 'react-native';
+import { Linking, Platform, StyleSheet } from 'react-native';
 import type { ReactTestInstance } from 'react-test-renderer';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import DeleteAccountScreen from '@/app/profile/delete-account';
+import { APPLE_SUBSCRIPTIONS_URL, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { type } from '@/lib/design/tokens';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
@@ -91,6 +92,10 @@ beforeEach(() => {
   mockShowToast.mockReset();
 });
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 test('confirmation comes first, and the subscription warning before the final step', () => {
   const tree = render();
   expect(allText(tree)).toContain('This permanently deletes your account and all of your data');
@@ -110,6 +115,26 @@ test('the subscription note links to Apple subscription settings', () => {
   expect(openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
   expect(mockDelete).not.toHaveBeenCalled();
   openURL.mockRestore();
+});
+
+test.each([
+  ['ios', true],
+  ['android', false],
+] as const)('on %s the Manage subscription button shown is %s, and the note always shows', (os, shown) => {
+  jest.replaceProperty(Platform, 'OS', os);
+  const tree = render();
+  press(tree, 'Continue');
+  expect(allText(tree)).toContain('Deleting your account does not cancel an active subscription.');
+  expect(buttonWithTitle(tree, 'Manage subscription') !== undefined).toBe(shown);
+});
+
+test('openManageSubscription opens the Apple subscriptions URL, and reports a link that fails', async () => {
+  const openURL = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+  expect(APPLE_SUBSCRIPTIONS_URL).toBe('https://apps.apple.com/account/subscriptions');
+  await expect(openManageSubscription()).resolves.toBe(true);
+  expect(openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
+  openURL.mockRejectedValue(new Error('no handler'));
+  await expect(openManageSubscription()).resolves.toBe(false);
 });
 
 test('Cancel leaves without calling the API', () => {

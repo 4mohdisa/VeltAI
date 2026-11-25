@@ -10,12 +10,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
-- BUILT: 1, 2.2, 2c, 2d, 12, 12b, 29. Progress: 8 of 38 BUILT or EXACT, 0 EXACT.
+- BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress: 9 of 38 BUILT or EXACT, 0 EXACT.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL: steps 1, 2, 3a, 3b, 3c done. Deletion Postgres test seeds all 29 UserTables (verified by script comparison in the last report; handover claim of 5 of 29 is stale). Close-out round in progress: Clerk path order, 404 as success, delete screen fallback text and subscription note.
-- Checkpoint green (last full run): tsc 0 errors, 281 suites, 1,694 tests; Go internal/account and internal/auth ok; tests/regression and tests/migrations ok (14 passed).
+- Row 4 BUILT. Delete order is identity first, then rows. Clerk 404 counts as deleted (tested).
+- Last full checkpoint: tsc 0 errors, 281 suites, 1,694 tests. Next checkpoint at handover.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 
 ## Rules
@@ -34,22 +34,23 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## Decisions (never delete)
 - Isa approved: plan-ready summary; training days and gain or maintain goal in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000.
 - formatDuration rounds total minutes first. ConfidenceBadge uses scanCards.noBreakdown. useGoals returns data, isLoading, error, refetch.
-- Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json, camera-only prompt. Migration apply test runs once in verify:migrations.
+- Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json, camera-only prompt.
 - 2b 1d does not wait for Isa. 401 routes dispatch SESSION_ENDED. renderScreen wrapped in AppStateProvider (approved).
-- Onboarding keys nested, options under options.<value>. validateOnboardingPayload uses i18n. en-AU kept as formatNumber output.
+- Onboarding keys nested, options under options.<value>. en-AU kept as formatNumber output.
 - Barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
 - foodDays keeps dates, sets error on failure, clears on success. Food-log error wins when both reads fail.
 - 14a over 14b. 14b over R249 mapping. Retry label stays 'Try again' (common.tryAgain).
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept.
 - Retry assertions changed in gymExerciseProgress.emptyStates and gymMuscles.render. Accepted, sign-off requested.
-- Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
+- Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
 - Nutrition spoken label stays English, literal, no key.
-- Row 4: step 1 over signup pin. Step 2: oauth_states cleared in profile store delete, no migration. Step 3a: oauth_states in auth.ExportTableNames; export and deletion lists kept separate, drift test keeps them in step. Step 3c: child tables counted by parent ids before delete.
+- Row 4: oauth_states cleared in profile store delete, no migration. oauth_states in auth.ExportTableNames; export and deletion lists kept separate, drift test keeps them in step. Child tables counted by parent ids before delete.
+- Row 4 identity first (Clerk, then rows) accepted: a Clerk failure returns 502 and keeps rows, so retry is safe.
 - Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through one named list (ENGLISH_ONLY) with a reason. Missing es and fr keys fall back to English.
-- Delete screen text in en.json (settings.deleteAccountDetails). Failed delete shows plain fallback text for every failure, never server text.
+- Delete screen text in en.json. Failed delete shows plain fallback text for every failure, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
 - Checkpoint round rule: no file changes; gates reported, fixes in next round.
-- Round (Row 4 close-out): chose close-out over Food Try again, because it is smaller and Jev's clean-finish chance is low.
+- Round (next): chose subscription URL move to lib/billing and Android hiding, scoped to delete-account only (one screen rule). profile/subscription.tsx follows.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -71,7 +72,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Food tab Try again reloads food log only when both reads fail.
 - Duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave until cleanup round.
-- seedChildRows uses the first exercise_library row, so it depends on the library seed migration. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
+- seedChildRows uses the first exercise_library row. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
@@ -79,15 +80,19 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use 'verified' (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
+- The deletion Postgres test seeds all 29 tables (the 5 of 29 note is stale).
+- Delete screen 502 shows server text (check in Row 4 follow up).
 
 ## Next
-1. Row 4 close-out: Clerk path order and 404 as success; delete screen fallback text and subscription note. Mark BUILT if clean.
-2. Then Food tab Try again (both reads).
-3. Then duplicate gym keys.
-4. Settle the handover count at the next checkpoint.
+1. Delete screen: URL moved to lib/billing, Android hidden (this round).
+2. profile/subscription.tsx uses lib/billing helper (remove its copy of the URL).
+3. Food tab Try again reloads both reads.
+4. Duplicate gym keys cleanup.
+5. Settle the handover count at the next checkpoint.
+6. Phase 3 Row 14 remainder, so Row 2 can close.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
-- One screen per prompt. Rejected prompts are rewritten to a single screen.
+- One screen per prompt. Rejected prompts are rewritten to a single screen (the last one covered two screens and was rejected).

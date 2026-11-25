@@ -10840,3 +10840,10 @@
 - 2026-11-26 00:52 Treated the handover claim that only 5 of 29 tables are seeded as stale. The latest report compared the lists by script and found 29 of 29, so it is recorded as resolved.
 - 2026-11-26 00:52 The OWNER_CHECKS parity line is answered by the 25 Nov override, so it is not raised again; Isa closes it himself.
 - 2026-11-26 00:52 Row 4 owner check for a live Clerk deletion is left to the Row 23 simulator flow, not to a separate owner step.
+- 2026-11-26 00:54 Row 4 close-out accepted with identity first deletion order: a Clerk failure returns 502 and keeps rows, so retry is safe.
+- 2026-11-26 00:54 Chose shared subscription helper over Food Try again: the report flagged a duplicated URL and an Android bug, and the change is small.
+- 2026-11-26 00:54 Jev run 95% accepted; the task is small, so no need for a smaller split.
+- 2026-11-26 00:55 Rejected prompt covered two screens. Rewritten to one screen plus one new helper file, per the single-screen rule.
+- 2026-11-26 00:55 Helper created first and used only by delete-account; profile/subscription.tsx moves next round, so the URL briefly exists twice. Accepted to keep one screen per round.
+- 2026-11-26 00:55 Android hiding done with Platform.OS check; Apple link makes no sense there. Matches the NOTES 'hide Manage button on Android' item.
+- 2026-11-26 00:55 Chose this over Food Try again because it is the open Next item and the report flagged both the duplicate and the platform bug. Jev 95% run accepted.
