@@ -6,13 +6,13 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 ## Overrides (Isa, 25 Nov)
 1. English only. Do not write, translate or review es or fr. Leave those files untouched. Missing keys fall back to English. No language switcher.
 2. Time box about 15 rounds per row. R12 writes leftovers to Parked. R15 sets BUILT (PARTIAL only if core broken).
-3. Order: Row 2 (finish 2b in time box), verify 2c and 2d, then 3 to 14b, 15 to 30, 31.
+3. Order: finish Row 2 and 2b, verify 2c and 2d, then 3 to 14b, 15 to 30, 31.
 4. Rows 2c and 2d: verify, mark BUILT, replace placeholder rows with brief descriptions.
 
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
 - BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 15 BUILT.
-- Phase 3 Row 14: 14a, 14b done (R254 to R260, Retry on muscle cards, patterns card, exercise progress, muscle focus). Open: 14c workoutsLine (summaryCards.ts), nutrition spoken kcal snapshot.
+- Phase 3 Row 14: 14a, 14b, 14c done. Open: nutrition spoken kcal label and snapshot (R262).
 - Then Row 14 BUILT, then Row 2 BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Last full checkpoint R242 (tsc 0, 275 suites, 1,673 tests). Next checkpoint R265.
@@ -41,7 +41,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - useLoggedDays keeps own state (moving useHydration breaks hydrationErrorScreens.test.ts:34, import cycle). Retry label stays 'Try again'.
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
 - R258, R260 Retry assertions changed from no Retry to Retry present (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted.
-- R261 14c before early checkpoint. Jev ask 17% not used (no questions).
+- R261 14c before early checkpoint. R262 14c workoutsLine needed no change (keys already in en.json). Jev ask 17% not used (no questions).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -50,15 +50,17 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - Simulator: 401 answers after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers (cold start, scroll, memory).
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
 - Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Blocked twice.
+- Approve the R258 and R260 Retry assertion changes (sign-off requested).
 - Approve plan-ready summary (2b).
 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
-- es and fr render tests parked until Isa restarts localisation.
+- es and fr render tests parked until Isa restarts localisation. Calendar and Food error states in es and fr not checked.
+- workoutsWeek.untimed_one and _other have identical English text. Redundant _one form, harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise. Root config and backend JS not linted. verify:go has no -count=1.
-- Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only.
+- Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only. Two Food notices can stack if both reads fail (review).
 - en.json duplicate gym keys (gym.monthSessions/monthFreezes vs gymCount.sessions/freezes): leave.
 - PERF_BASELINE.md lines 34, 41 stale (gym read now limited).
 - Hotspots: useHydration no freshness window; gym/history.tsx uses .map not FlatList; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
@@ -69,4 +71,4 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Loop note
 - Jev advisory: keep small Row 14 tasks. Isa approvals still pending.
-- Next: 14c workoutsLine, then nutrition kcal snapshot, then Row 14 BUILT, then Row 2 BUILT. Checkpoint R265.
+- Next: nutrition kcal label, then Row 14 BUILT, then Row 2 BUILT. Checkpoint R265.

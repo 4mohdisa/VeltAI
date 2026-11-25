@@ -10717,3 +10717,7 @@
 - 2026-11-26 00:01 R261 kept the checkpoint at R265 instead of running it now, as set in the notes. Reason: one item per round.
 - 2026-11-26 00:01 R261 did not use action ask for the Jev 17% ask signal. Isa's standing rule is no questions.
 - 2026-11-26 00:01 R261 accepted the R258 and R260 Retry assertion changes as already recorded in the notes.
+- 2026-11-26 00:02 R262 chose the nutrition kcal label as the next task, as the notes order says. 14c workoutsLine needed no code change because it already uses en.json keys.
+- 2026-11-26 00:02 Row 14 and Row 2 BUILT wait until the kcal label is done, in the next round.
+- 2026-11-26 00:02 Snapshot regeneration done by deleting one stale entry and running one file without --ci, not by -u, to keep the rule that -u is never used.
+- 2026-11-26 00:02 Notes trimmed to fit the 600 word limit. Decisions kept in full in meaning, merged where they repeat.
