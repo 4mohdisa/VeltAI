@@ -11318,3 +11318,6 @@
 - 2026-11-26 04:14 Check settings.privacyDetails.aiTurningOff before removing it, because the previous report flagged it as possibly unused.
 - 2026-11-26 04:14 Only remove keys from locale files and the ENGLISH_ONLY list; no user visible text changes, so the Privacy screen looks the same.
 - 2026-11-26 04:14 Run only the changed and related Jest files this round; the full suite waits for the next checkpoint, as the notes require.
+- 2026-11-26 04:19 Chose the full suite checkpoint first: the loop flagged the last report, setup.ts changed, and Jest was only run per file.
+- 2026-11-26 04:19 Did not touch legal copy in privacy.tsx or terms.tsx: it needs Isa's approval (already parked).
+- 2026-11-26 04:19 Jev's run score (49%) agrees with this choice; the ask option is not used.
