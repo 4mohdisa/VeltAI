@@ -9,12 +9,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; step f es and fr text blocked).
-- Last full run: tsc 0; Jest 289 suites, 1,759 tests. Go 49 packages, 770 tests, race clean.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; step f es and fr deferred).
+- paywallHref unit test added: src/__tests__/nav.test.ts, 4 of 4 (checked by a test).
+- Last full run: tsc 0; Jest 289 suites, 1,759 tests (before the paywallHref and completed-flag changes).
 - Route audit: 93 of 93 consumed.
 
 ## Next
-1. Row 6b: paywallHref unit test in src/lib/nav.ts; merge duplicate test-result lines in its notes.
+1. Round verify: rerun nav.test.ts, tsc, lint; merge row 6b notes to one line.
 2. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1 (approval pending).
 3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 4. Plan-ready summary: parked until Isa approves.
@@ -78,4 +79,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - A returning user without a subscription goes back to onboarding (GET /api/onboarding gets 402).
 - A plan that ends while the app is open meets 402s in the tabs with no paywall.
 - es and fr still describe a free tier (plansUnavailable, storeError); no es or fr text for onboarding.paywall.refusal.* or notConfirmed.
-- paywallHref has no unit test (next task). Dev and PHASE3_ROWS.md row 14 note too long.
+- Dev and PHASE3_ROWS.md row 14 note too long.

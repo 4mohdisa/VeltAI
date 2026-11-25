@@ -11218,3 +11218,7 @@
 - 2026-11-26 03:25 Chose the paywallHref test over the 402 routing task: 402 routing is already parked as Blocked on Isa, and the small test is a clean, low-risk finish for row 6b.
 - 2026-11-26 03:25 Merging the three row 6b test-result lines is a notes-only edit; the row status stays PARTIAL.
 - 2026-11-26 03:25 Notes condensed to fit the 600 word limit. No decisions or blocked items were dropped; repeats were merged.
+- 2026-11-26 03:27 Chose verification first because the loop check flagged the last report as partly done; the report skipped the full Jest run and the lint and tsc results need confirming.
+- 2026-11-26 03:27 Did not pick the report's recommended 402-while-open routing: it is on Blocked on Isa and was flagged twice, so it is not retried.
+- 2026-11-26 03:27 Kept row 6b PARTIAL: step f (es and fr text) is deferred per Isa's English-only override, but the row is not closed until the verification passes and Isa decides whether to mark it BUILT.
+- 2026-11-26 03:27 Terms copy at src/app/legal/terms.tsx:71 is legal copy and stays parked for Isa.
