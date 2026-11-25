@@ -10776,3 +10776,8 @@
 - 2026-11-26 00:24 The automatic partly-done flag on the Row 4 step 1 report is handled first in this round by re-running its checks, since the report's claims were not yet verified in the loop.
 - 2026-11-26 00:24 Jev run 76% agrees with the next task. It is kept because the task is small and backend only.
 - 2026-11-26 00:24 No round number is recorded. The notes do not give the current round number, so none is guessed.
+- 2026-11-26 00:26 Chose the Settings delete screen check (candidate 1) over the signupDevFallback pin: it is the next item in Next and is one screen, which fits the Jev advice to prefer a smaller task after a partly clean round.
+- 2026-11-26 00:26 Kept Row 4 status at PARTIAL (not BUILT) because the seed coverage gap and the export gap are still open.
+- 2026-11-26 00:26 Ran only one Jest file and the type check this round, since the full checkpoint comes later.
+- 2026-11-26 00:26 Jev run 99% accepted as the advice to continue; no reason to override.
+- 2026-11-26 00:26 Left the Row 4 step 3 items (seed coverage, oauth_states in export) for later rounds rather than mixing them into a screen round.

@@ -14,7 +14,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
-- Row 4 DIFFERENT. Step 1 done (account/tables.go, tables_test.go: 29 entries, both directions tested). Step 2 in progress: oauth_states cleared in DELETE /api/profile, Postgres test on lume_test_local.
+- Row 4 PARTIAL. Step 1 done (account/tables.go, tables_test.go: 29 entries, both directions tested, re-verified). Step 2 done: DELETE /api/profile and the Clerk user.deleted webhook both go through pgProfileStore.Delete, one statement removing oauth_states and profiles. Tests: profile_delete_test.go (unit plus Postgres on lume_test_local). Step 2 is not yet written in PHASE4_ROWS.md notes; the Settings check round does that.
 - Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label open (blocked).
 - Row 6 label 'R253' still unconfirmed.
 - Last full checkpoint (26 Nov 2026): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
@@ -49,7 +49,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - DevSignup Apple button uses AppleSignInButton. Accepted.
 - Nutrition spoken label stays English, literal, no key.
 - Row 4 step 1 chosen over signup platform pin: Jev 87%.
-- Row 4 step 2: oauth_states cleared by explicit delete in handler, not a migration (smallest change, no schema change).
+- Row 4 step 2: oauth_states cleared in the profile store delete (one statement), not a migration (smallest change, no schema change).
+- Settings delete check chosen over signupDevFallback pin: next in Next, one screen. Jev 99% run.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -77,17 +78,18 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - PERF_BASELINE.md lines 34 and 41 describe gym read as unbounded: out of date, fix in Row 19.
-- Row 4 Settings delete screen and confirmation not yet checked.
-- Lists to keep in step: auth.ExportTableNames and account.UserTables overlap. oauth_states is not in the export list. rate_limit_counters may hold user ids in text keys (swept in minutes, not listed).
+- Row 4 seed coverage: Postgres delete test seeds 5 of 29 tables; the other 24 only check zero rows. Seed each table (Row 4 step 3).
+- Row 4 export: oauth_states not in auth.ExportTableNames. Decide and add (Row 4 step 3).
+- rate_limit_counters may hold user ids in text keys (swept in minutes, not listed).
+- Lists to keep in step: auth.ExportTableNames and account.UserTables overlap.
 
 ## Next
-1. Re-verify Row 4 step 1 (flagged as partly done): gofmt, vet, go test -race ./internal/account.
-2. Row 4 step 2: clear oauth_states in DELETE /api/profile, unit test, Postgres test on lume_test_local.
-3. Pin platform in signupDevFallback.render.test.tsx.
-4. Row 4 Settings delete screen and confirmation check.
-5. Next full checkpoint: after the next batch of changes. Confirm the round number before recording it.
+1. Row 4 Settings delete screen check (confirm first, DELETE /api/profile, sign out, 502 keeps user signed in). Render test settingsDeleteAccount.render.test.tsx.
+2. Pin platform in signupDevFallback.render.test.tsx.
+3. Row 4 step 3: seed all UserTables in the Postgres delete test; add oauth_states to export.
+4. Next full checkpoint after the next batch of changes. Confirm the round number from these notes before recording it.
 
 ## Loop note
 - Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried.
-- Auto check flagged Row 4 step 1 report as partly done: re-verified first in the next round.
+- Latest handover round references (R265 checkpoint) are not in these notes: do not use them until confirmed.
 - Jev signals used as advice only. Smaller tasks chosen when the last task was partial.
