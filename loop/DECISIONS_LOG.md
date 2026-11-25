@@ -11465,3 +11465,7 @@
 - 2026-11-26 05:18 Row 3 stays parked: it needs Isa's Apple Developer and Clerk steps first.
 - 2026-11-26 05:18 Row 2b Mobbin check is next after 6b: it is a read only check that can unblock the design work.
 - 2026-11-26 05:18 Status of Row 5 kept as BUILT with owner check pending; the three owner lines are already in OWNER_CHECKS_phase4.md.
+- 2026-11-26 05:19 Dropped the row 6b merge: the last report found no duplicate test-result lines and merging would remove facts. The row stays as it is.
+- 2026-11-26 05:19 Picked step (f) because it is the only open item in row 6b, and it is smaller than a new feature (Jev rates the last task clean at only 13%).
+- 2026-11-26 05:19 Treated the handover's 'Row 5 step 2b' as stale: NOTES says Row 5 is closed, so it is not a candidate.
+- 2026-11-26 05:19 Kept English only, per Isa's override.

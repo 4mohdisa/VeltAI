@@ -14,7 +14,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Last checkpoint green: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race 36 packages ok.
 
 ## Next
-1. Row 6b: merge duplicate test-result lines (in progress this round).
+1. Row 6b step (f): fix confirmed stale strings named in the row notes (in progress).
 2. Row 2b: check Mobbin MCP (claude mcp list); write DESIGN_REFERENCES.md if available.
 3. Row 3 after Isa signs off the Apple steps (owner).
 4. Maestro flows (2b, 23) once Maestro is confirmed.
@@ -37,6 +37,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Row 5: scan limits handled where errors are caught (scan.ts, label-scan.tsx). Ask Lume limit in the hook (aiBrain.ts), returns null on daily limit. Consent gate on server first. Consent on profiles.ai_consent_at; consent read error 500. Allow and Not now equal weight. Plain 429 stays queueable; only ai_daily_limit_reached non-retryable. Brief and insights keep fallback text at limit. rate_limit_counters not reused. Kept src/app/ai-consent.tsx. Background insight rebuilds count against allowance. Consent gate merged into one helper in backend/internal/consent.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
+- Row 6b merge of duplicate notes dropped: no duplicate lines found; merging would remove facts.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
