@@ -42,11 +42,12 @@ test('a failed read shows the load failure, not the empty state', () => {
   expect(hasText(tree, en.gymMuscles.title)).toBe(true);
 });
 
-test('the failed-read notice has no Retry, because useGymPatterns exposes no refetch', () => {
-  mockPatterns({ patterns: null, isError: true });
+test('the failed-read notice offers Try again, wired to the useGymPatterns refetch', () => {
+  (useGymPatterns as jest.Mock).mockReturnValue({ patterns: null, isError: true, loading: false, refetch: jest.fn() });
   const tree = renderMuscles();
 
-  expect(findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain).length).toBe(0);
+  // findAll sees the Pressable and its host view, so check presence, not a count.
+  expect(findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain).length).toBeGreaterThan(0);
 });
 
 test('a successful read with no volume shows the empty state from en.json', () => {

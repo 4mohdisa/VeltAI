@@ -37,7 +37,7 @@ const BACK_PRESSED_OPACITY = 0.6;
 export default function MuscleFocusScreen(): JSX.Element {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { patterns, loading, isError } = useGymPatterns();
+  const { patterns, loading, isError, refetch } = useGymPatterns();
   const map = patterns?.muscle_volume_map ?? null;
 
   // The known groups plus anything else the server actually sent (the library
@@ -62,7 +62,7 @@ export default function MuscleFocusScreen(): JSX.Element {
     }
 
     if (isError && !hasData) {
-      return <LoadFailedNotice message={t('gym.loadFailed')} />;
+      return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
     }
 
     if (!hasData) {

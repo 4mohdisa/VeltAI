@@ -10710,3 +10710,6 @@
 - 2026-11-25 23:58 Accepted the assertion change in gymExerciseProgress.emptyStates.render.test.tsx: it pinned the missing Retry, which is the Row 14 gap itself. It now checks for the button and is stricter. Recorded here for Isa's review; not a blocker.
 - 2026-11-25 23:58 Chose the GymPatternsCard Retry because it is in flight, small, and parked together with the stale comment. Claude Code greps first so it does not duplicate R257 if Retry already exists.
 - 2026-11-25 23:58 Not asking Isa about the Row 14 order; 14c follows after this round.
+- 2026-11-26 00:00 R260: picked muscle focus Retry over workoutsLine and the kcal snapshot. It was the recommended next step and closes the 14b gap.
+- 2026-11-26 00:00 R260: gymMuscles.render.test.tsx assertion changed from no Retry to Retry present, same as R258, because the reason it pinned (no refetch) is no longer true. Accepted as an assertion-only edit.
+- 2026-11-26 00:00 R260: ran the task rather than asking. Isa's standing rule is no questions. The step is one screen and one assertion, so the risk is small.
