@@ -11138,3 +11138,12 @@
 - 2026-11-26 03:01 Step (c) retry is done (4 checks, 1.5 s apart, injectable timing); recorded in the rows file on the next rows update.
 - 2026-11-26 03:01 The repeated blocker (es and fr text for onboarding.paywall.notConfirmed) is recorded under Blocked on Isa. It is not retried.
 - 2026-11-26 03:01 Copy for paywall errors is English only and stays in ENGLISH_ONLY.
+- 2026-11-26 03:03 Chose Row 6b (d) first: it is the next step in the plan and needs no owner input. The loop note said the last task was only partly done; step 5 of this prompt records steps a to c and the wording change in the row, which closes that gap.
+- 2026-11-26 03:03 Stayed English only, per Isa's override. es and fr copy is not requested again (it came back twice).
+- 2026-11-26 03:03 Terms text in terms.tsx is legal copy, so it goes to OWNER_CHECKS_phase4.md, not to a code change.
+- 2026-11-26 03:03 Agree with Jev's run signal (68%). Kept the task to one module and five steps because the last task was rated 65% clean.
+- 2026-11-26 03:03 Kept row 5b for later: it depends on consent version and copy, and row 6b is closer to done.
+- 2026-11-26 03:04 Rejected prompt was rewritten to cover one screen (paywall.tsx) with its strings and its test, max 5 steps, because the loop note said it asked for more than one screen or component.
+- 2026-11-26 03:04 Chose row 6b (d) over the other candidates: it is the next open step of the row already in progress, and it needs no owner input.
+- 2026-11-26 03:04 Terms text (legal copy) and es/fr wording stay parked for Isa; not in this prompt.
+- 2026-11-26 03:04 Jev's 61% run signal agrees with the pick; the smaller one-screen scope follows its low-confidence advice.

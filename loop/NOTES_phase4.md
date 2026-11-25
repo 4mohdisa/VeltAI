@@ -9,23 +9,22 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (a, b, c done).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a, b, c done; English wording of plansUnavailable and storeError changed; step d in progress; row not yet updated for c or wording).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests pass. Go: 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so they cannot see the 402 gate. First real check: sandbox run after 6b.
 
 ## Next
-1. Fix plansUnavailable and storeError copy (still say free tier, later in Settings). In progress.
-2. Row 6b (d): reason copy per reason (English, ENGLISH_ONLY).
+1. Row 6b (d): English message per refusal reason on paywall.tsx. Prompt rejected once for scope; rewritten to one screen.
+2. Row 6b (f): stale free scan wording at scanSeam.test.ts:450, STATUS.md:32, test name TestLabel_WritesSessionRowForQuota.
 3. Row 6b (e): refresh after purchase.
-4. Row 6b (f): stale message at scanSeam.test.ts:450, STATUS.md:32, test name TestLabel_WritesSessionRowForQuota.
-5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
-6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-7. Plan-ready summary: parked until Isa approves.
-8. Row 3 remainder after Isa signs off.
+4. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
+5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+6. Plan-ready summary: parked until Isa approves.
+7. Row 3 remainder after Isa signs off.
 
 ## Rules
-- One task per prompt: one module, screen or component, max 5 steps. Grep first. Branch loop/phase4, no switching.
+- One task per prompt: one screen or component, max 5 steps. Grep first. Branch loop/phase4, no switching.
 - Only git command: git branch --show-current. Never push.
 - Report wording: built, or checked by a test. Never 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
@@ -39,6 +38,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Training days stay on device. savePlan sends only body metrics. Goal and activity editing on goals row; diet, cuisine, training days on preferences.
 - Row 6b: onboarding answers stay on device until trial or purchase confirmed; dismissed paywall never calls save.
 - Row 6b (c): retry GET /api/subscription 4 times, 1.5 s apart, injectable timing.
+- Row 6b (a, b, c, wording) recorded in the row by the step-d round.
 - Row 6 chosen over 5b: no owner dependency. Smallest 6b module first.
 - Webhook secret from env only; if unset, webhook refuses events.
 - No free tier: 7 day Apple trial gives every feature.
@@ -53,13 +53,15 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json.
 - Exhaustive-deps: no disable except Reanimated SharedValue writes.
 - Analytics and debug reports stay gated (Isa to review).
-- Paywall error copy names no free tier and no later step in Settings (no free tier rule).
+- Paywall error copy names no free tier and no later step in Settings.
+- Loop note: prompts cover one screen or component, max 5 steps.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - Row 5a 500 vs 403 consent read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
-- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; app-wide 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend field; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- es and fr text for goals.plan, preferences.food, onboarding.trainingDays, onboarding.paywall.notConfirmed (deferred; came back twice, do not retry).
+- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; app-wide 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend field; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating; consent version needed.
+- es and fr text for goals.plan, preferences.food, onboarding.trainingDays, onboarding.paywall.notConfirmed, onboarding.paywall.plansUnavailable, onboarding.paywall.storeError (deferred; do not retry).
+- Terms text src/app/legal/terms.tsx:71 describes a free tier and scan allowance (legal copy).
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
 
 ## Parked
@@ -72,5 +74,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Background AI sweep skipping no-consent users: no test. PHASE3_ROWS.md row 14 note over 17,000 chars: trim later.
-- Returning user without subscription is sent to paywall at sign-in (GET /api/onboarding gets 402). Dev builds with billing off need LUME_GATING_ENABLED=false.
+- Returning user without subscription goes to onboarding (GET /api/onboarding gets 402). Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Sandbox webhook timing: the 4 x 1.5 s paywall budget is a guess; the two constants are the only thing to change.
+- Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
+- Stale free-scan wording: STATUS.md:32, scanSeam.test.ts:450 (see Next 2).
+- Terms legal copy at terms.tsx:71 stays parked for Isa.

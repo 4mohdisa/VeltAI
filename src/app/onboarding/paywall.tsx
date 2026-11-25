@@ -21,7 +21,7 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api, sleep, type Onboarding } from '@/lib/api';
+import { api, ApiError, sleep, type Onboarding } from '@/lib/api';
 import { bodyFromOnboarding } from '@/lib/data/hooks';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
@@ -46,6 +46,16 @@ async function subscriptionConfirmed(): Promise<boolean> {
     if (sub?.is_active) return true;
   }
   return false;
+}
+
+// The 402 gate's refusal reasons (backend/internal/entitlement/state.go).
+const REFUSAL_REASONS = ['trial_ended', 'expired', 'billing_failed', 'cancelled_ended', 'refunded', 'not_subscribed'];
+
+/** The i18n key for a 402 refusal; an unknown or missing reason uses storeError. */
+function refusalKey(reason: string | undefined): string {
+  return reason && REFUSAL_REASONS.includes(reason)
+    ? `onboarding.paywall.refusal.${reason}`
+    : 'onboarding.paywall.storeError';
 }
 
 export default function PaywallScreen() {
@@ -108,9 +118,12 @@ export default function PaywallScreen() {
         dispatch({ type: 'SESSION_ENDED' });
         return;
       }
-      // Any other failure, a 4xx included, shows translated copy. The server's
-      // message is English-only and is kept in the dev log above.
-      showToast({ message: t('onboarding.paywall.submitFailed'), tone: 'error' });
+      // A 402 says why access was refused; any other failure, a 4xx included,
+      // shows translated copy. The server's message is English-only and is
+      // kept in the dev log above.
+      const message =
+        e instanceof ApiError && e.status === 402 ? t(refusalKey(e.reason)) : t('onboarding.paywall.submitFailed');
+      showToast({ message, tone: 'error' });
       setSubmitting(false);
     }
   };

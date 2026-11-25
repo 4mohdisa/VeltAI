@@ -32,7 +32,15 @@ jest.mock('@/lib/api', () => ({
     onboarding: { post: (...args: unknown[]) => mockPost(...args) },
     subscription: { get: () => mockSubscription() },
   },
-  ApiError: class ApiError extends Error {},
+  ApiError: class ApiError extends Error {
+    status: number;
+    reason?: string;
+    constructor(status: number, message: string, gate?: { reason?: string }) {
+      super(message);
+      this.status = status;
+      this.reason = gate?.reason;
+    }
+  },
 }));
 
 const activeSubscription = { status: 'active', is_active: true, platform: 'ios', plan_interval: 'month', expires_at: null };
@@ -222,3 +230,28 @@ test('a dismissal makes no subscription check and never waits', async () => {
   expect(mockSleep).not.toHaveBeenCalled();
   expect(mockPost).not.toHaveBeenCalled();
 });
+
+// --- Refusal reasons (row 6b step d) ----------------------------------------
+// A 402 from the save names why access was refused; the screen shows the
+// matching English message, and an unknown or missing reason uses storeError.
+
+test.each(Object.entries(en.onboarding.paywall.refusal))(
+  'a 402 with reason %s shows its message',
+  async (reason, message) => {
+    const { ApiError } = jest.requireMock('@/lib/api');
+    mockPost.mockRejectedValueOnce(new ApiError(402, 'subscription required', { reason }));
+    await pressContinue();
+    expect(showToast).toHaveBeenCalledWith({ message, tone: 'error' });
+    expect(useOnboardingStore.getState().completed).toBe(false);
+  },
+);
+
+test.each([['an unknown reason', 'something_new'], ['no reason', undefined]])(
+  'a 402 with %s shows the store error',
+  async (_label, reason) => {
+    const { ApiError } = jest.requireMock('@/lib/api');
+    mockPost.mockRejectedValueOnce(new ApiError(402, 'subscription required', { reason }));
+    await pressContinue();
+    expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.paywall.storeError, tone: 'error' });
+  },
+);

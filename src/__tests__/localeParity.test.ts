@@ -22,6 +22,12 @@ const others = Object.entries(LOCALES).filter(([lang]) => lang !== 'en');
 
 // English only, per Isa override 25 Nov: es and fr fall back to en for these.
 const ENGLISH_ONLY = new Set([
+  'onboarding.paywall.refusal.trial_ended',
+  'onboarding.paywall.refusal.expired',
+  'onboarding.paywall.refusal.billing_failed',
+  'onboarding.paywall.refusal.cancelled_ended',
+  'onboarding.paywall.refusal.refunded',
+  'onboarding.paywall.refusal.not_subscribed',
   'settings.deleteAccountDetails.confirmWord',
   'settings.deleteAccountDetails.continue',
   'settings.deleteAccountDetails.understandContinue',

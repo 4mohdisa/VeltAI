@@ -1316,6 +1316,14 @@
       "storeError": "The purchase didn't go through and you weren't charged. Please try again.",
       "submitFailed": "Couldn't finish setup — check your connection and try again.",
       "notConfirmed": "We couldn't confirm your subscription yet. Try again in a moment.",
+      "refusal": {
+        "trial_ended": "Your trial has ended. Choose a plan to keep using Lume.",
+        "expired": "Your subscription has expired. Renew it to keep using Lume.",
+        "billing_failed": "Your last payment didn't go through. Update your payment method with the App Store to keep using Lume.",
+        "cancelled_ended": "Your cancelled subscription has ended. Choose a plan to keep using Lume.",
+        "refunded": "Your subscription was refunded, so it's no longer active. Choose a plan to keep using Lume.",
+        "not_subscribed": "We couldn't find an active subscription. Choose a plan to keep using Lume."
+      },
       "trialNote": "Plans and pricing are shown on the next screen. {{days}}-day free trial, auto-renews, cancel anytime in Settings.",
       "features": {
         "unlimitedLogging": "Unlimited food logging",
