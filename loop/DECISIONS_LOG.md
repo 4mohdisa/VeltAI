@@ -11305,3 +11305,8 @@
 - 2026-11-26 04:11 Jev ranks run at 84%; the choice agrees, so no override.
 - 2026-11-26 04:11 Kept the verify round read-only except for reds caused by the last change, per the checkpoint rule in the notes.
 - 2026-11-26 04:11 Marked the aiBrain not-enough-data test as checked by a test; no status change for row 5.
+- 2026-11-26 04:12 Chose the verify round first because the loop flagged the last report as partly done, and the rule is that a skipped check is verified before the next task.
+- 2026-11-26 04:12 Kept the checkpoint frontend result as clean (tsc 0, 293 suites, 1,784 tests, lint 0 warnings) since the report shows it was run.
+- 2026-11-26 04:12 Limited the fix scope to row 5a and 6b code so the verify round cannot widen into unrelated refactors.
+- 2026-11-26 04:12 Used the TestPG URL for one command only, per the notes rule, so the password-free local URL is never printed or stored.
+- 2026-11-26 04:12 Did not stop or ask: the Jev signal shows high confidence in run, and the risk reading is low.
