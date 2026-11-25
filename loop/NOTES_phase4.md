@@ -9,18 +9,19 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to d built; launch gate 402 and sign-in 402 done; open: e shared paywall link, f English free-tier wording).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to d built; step e: index.tsx uses paywallHref, signup.tsx in progress; step f open).
 - Last full run: tsc 0; Jest 289 suites, 1,759 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so the 402 gate is untested end to end in the app.
 
 ## Next
-1. Row 6b (e): paywallHref(reason) in src/lib/nav.ts, used by index.tsx (IN PROGRESS, one screen per round). Then signup.tsx. Then rerun launchGate401, launchGate402, signupAuth401.
-2. Row 6b (f): English free-tier wording in plansUnavailable and storeError.
-3. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1 (approval pending).
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-5. Plan-ready summary: parked until Isa approves.
-6. Row 3 remainder after Isa signs off.
+1. Row 6b (e): signup.tsx continueAfterAuth to paywallHref (IN PROGRESS, one screen per round). Then run signupAuth401.
+2. Rerun launchGate401 and launchGate402 after the helper change.
+3. Row 6b (f): English free-tier wording in plansUnavailable and storeError.
+4. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1 (approval pending).
+5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+6. Plan-ready summary: parked until Isa approves.
+7. Row 3 remainder after Isa signs off.
 
 ## Rules
 - One task per prompt, one screen or component per prompt, max 5 steps. Find files with find first (grep -rl matches contents, not names).
@@ -37,6 +38,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart, injectable timing. Confirmed purchase writes status to settings store.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set.
+- paywallHref(reason?) in src/lib/nav.ts: optional reason, so a 402 with no reason keeps the plain link.
 - REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
@@ -62,7 +64,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
-- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch.
+- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref has no test of its own (covered by launch gate tests).
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style.
 - Nothing dispatches SIGNED_IN. Root config and backend JS not linted. verify:go lacks -count=1. Audit script rewrites ROUTE_COVERAGE.md.
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.

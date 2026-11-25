@@ -11198,3 +11198,7 @@
 - 2026-11-26 03:20 Chose the nav helper first because it removes the duplicated paywall link and unblocks both launch screens.
 - 2026-11-26 03:20 Kept Jev's pick (run, 88%). No reason to override it.
 - 2026-11-26 03:20 English only, per Isa's override. No es or fr work this round.
+- 2026-11-26 03:21 Chose candidate 1 because the previous round's NEXT item was exactly this, and it is one screen, small, and closes the open step (e) of row 6b. Jev also ranks running the next action highest.
+- 2026-11-26 03:21 Kept the helper's optional reason parameter (already reported as a deliberate choice), because a required string would change the plain /onboarding/paywall link.
+- 2026-11-26 03:21 Asked for the PHASE4_ROWS.md note line here because the last report said Row 6b had no line for the helper, and the rule is to record a row's progress.
+- 2026-11-26 03:21 Kept the English only override from Isa: no es or fr work in this round.

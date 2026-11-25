@@ -25,7 +25,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
-import { navigate } from '@/lib/nav';
+import { navigate, paywallHref } from '@/lib/nav';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity, type AuthEvent } from '@/lib/auth/machine';
@@ -74,7 +74,7 @@ async function continueAfterAuth(dispatch: (event: AuthEvent) => void): Promise<
     }
     const { status, reason } = e as Partial<ApiError>;
     if (status === 402) {
-      navigate(reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall');
+      navigate(paywallHref(reason));
       return;
     }
   }
