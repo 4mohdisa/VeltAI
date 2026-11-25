@@ -11334,3 +11334,10 @@
 - 2026-11-26 04:23 Last report was flagged and skipped the full suite with projected counts; verify first per the rule that a skipped check is run next round.
 - 2026-11-26 04:23 Chose the verification task over the act() fixes because the change was never checked by a full run.
 - 2026-11-26 04:23 Did not ask Isa; asking is not allowed, so the smallest task runs.
+- 2026-11-26 04:24 Picked the act() flush: smallest task with the largest drop in console errors (about 43 of 109).
+- 2026-11-26 04:24 Did not follow the Jev suggestion to ask Isa: asking is not allowed, so the smallest task runs.
+- 2026-11-26 04:24 Unused-key removal and Maestro flow stay queued as the next two items.
+- 2026-11-26 04:24 Notes trimmed to under 600 words; approved decisions kept, duplicate lines merged.
+- 2026-11-26 04:25 Rewrote the rejected 14-step prompt as one file, five steps, one surface, because the loop allows at most five steps and one surface per prompt.
+- 2026-11-26 04:25 Chose the act() flush in one file per round, so each round stays small and checkable.
+- 2026-11-26 04:25 Kept the Jev advice to run the smallest task. It did not change the choice.

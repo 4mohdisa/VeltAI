@@ -43,9 +43,10 @@ const pressableWithLabel = (tree: ReturnType<typeof renderScreen>, label: string
   findAll(tree, (p) => p.accessibilityLabel === label && typeof p.onPress === 'function')[0];
 
 describe('LumeTabBar renders the design bar', () => {
-  test('exactly the three design tabs, in order — not every injected route', () => {
+  test('exactly the three design tabs, in order — not every injected route', async () => {
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     for (const label of ['Summary', 'Food', 'Gym']) {
       expect(pressableWithLabel(tree, label)).toBeTruthy();
     }
@@ -53,16 +54,18 @@ describe('LumeTabBar renders the design bar', () => {
     expect(pressableWithLabel(tree, 'Profile')).toBeFalsy();
   });
 
-  test('the focused tab is marked selected for VoiceOver', () => {
+  test('the focused tab is marked selected for VoiceOver', async () => {
     const { props } = makeProps(1); // food
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     expect(pressableWithLabel(tree, 'Food').props.accessibilityState).toEqual({ selected: true });
     expect(pressableWithLabel(tree, 'Summary').props.accessibilityState).toEqual({ selected: false });
   });
 
-  test('the add button is labelled and announces that it expands', () => {
+  test('the add button is labelled and announces that it expands', async () => {
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     const plus = pressableWithLabel(tree, 'Add');
     expect(plus).toBeTruthy();
     expect(plus.props.accessibilityState).toEqual({ expanded: false });
@@ -70,9 +73,10 @@ describe('LumeTabBar renders the design bar', () => {
 });
 
 describe('the react-navigation press contract', () => {
-  test('pressing an unfocused tab emits tabPress and then navigates', () => {
+  test('pressing an unfocused tab emits tabPress and then navigates', async () => {
     const { props, emitted, navigate } = makeProps(0);
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Gym').props.onPress();
     });
@@ -80,18 +84,20 @@ describe('the react-navigation press contract', () => {
     expect(navigate).toHaveBeenCalledWith('gym', undefined);
   });
 
-  test('a screen that prevents the default is not navigated over', () => {
+  test('a screen that prevents the default is not navigated over', async () => {
     const { props, navigate } = makeProps(0, true);
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Gym').props.onPress();
     });
     expect(navigate).not.toHaveBeenCalled();
   });
 
-  test('pressing the already-focused tab emits but does not re-navigate', () => {
+  test('pressing the already-focused tab emits but does not re-navigate', async () => {
     const { props, emitted, navigate } = makeProps(0);
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Summary').props.onPress();
     });
@@ -100,9 +106,10 @@ describe('the react-navigation press contract', () => {
     expect(navigate).not.toHaveBeenCalled();
   });
 
-  test('long press is emitted', () => {
+  test('long press is emitted', async () => {
     const { props, emitted } = makeProps(0);
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Food').props.onLongPress();
     });
@@ -111,9 +118,10 @@ describe('the react-navigation press contract', () => {
 });
 
 describe('the add menu', () => {
-  test('is closed until the button is pressed, then offers both logs', () => {
+  test('is closed until the button is pressed, then offers both logs', async () => {
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     expect(pressableWithLabel(tree, 'Log gym session')).toBeFalsy();
 
     act(() => {
@@ -123,10 +131,11 @@ describe('the add menu', () => {
     expect(pressableWithLabel(tree, 'Log food')).toBeTruthy();
   });
 
-  test('each row routes where the design says it does', () => {
+  test('each row routes where the design says it does', async () => {
     (router.push as jest.Mock).mockClear();
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Add').props.onPress();
     });
@@ -138,10 +147,11 @@ describe('the add menu', () => {
     expect(pressableWithLabel(tree, 'Log food')).toBeFalsy();
   });
 
-  test('the gym row opens the log-session sheet', () => {
+  test('the gym row opens the log-session sheet', async () => {
     (router.push as jest.Mock).mockClear();
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Add').props.onPress();
     });
@@ -151,9 +161,10 @@ describe('the add menu', () => {
     expect(router.push).toHaveBeenCalledWith('/gym/log-session');
   });
 
-  test('the scrim dismisses it', () => {
+  test('the scrim dismisses it', async () => {
     const { props } = makeProps();
     const tree = renderScreen(<LumeTabBar {...props} />);
+    await act(async () => {});
     act(() => {
       pressableWithLabel(tree, 'Add').props.onPress();
     });
