@@ -11506,3 +11506,7 @@
 - 2026-11-26 05:28 Recorded the repeated blocker (Row 6b step f, stale strings) under Blocked on Isa and did not retry it, per the loop note.
 - 2026-11-26 05:28 Treated the Welcome ?mode=signin title check as done: the latest report shows a test pinning the title to en.signup.titleSignIn, so it is no longer flagged.
 - 2026-11-26 05:28 Kept the shared screenTitle helper in src/__tests__/render/helpers.tsx, since src/__tests__/helpers/ may not be edited, and recorded that in notes.
+- 2026-11-26 05:29 Chose dead end 4 over the audit refresh: it is a real navigation flaw and a small test-backed change; the doc refresh is next.
+- 2026-11-26 05:29 No resend cooldown: Clerk already limits send frequency and the loading state blocks double taps. Not an owner step; revisit only if Isa asks.
+- 2026-11-26 05:29 Dead end 3 (resend retry) is treated as built: Resend stays enabled after a failure and a retry test passes.
+- 2026-11-26 05:29 Scaffold path is not assumed; the round locates OnbScaffold with grep before editing.

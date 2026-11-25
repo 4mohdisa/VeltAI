@@ -11,12 +11,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
-- Row 2b dead end 1 (Sign in link on Welcome): built; checked by welcome.render.test.tsx (6 of 6).
-- Row 2b dead end 2 (auth title by mode): built; checked by welcome.render.test.tsx (signin title = en.signup.titleSignIn) and signupSignInMode.render.test.tsx. Shared screenTitle helper lives in src/__tests__/render/helpers.tsx.
+- Row 2b dead end 1 (Sign in link on Welcome): built; welcome.render.test.tsx.
+- Row 2b dead end 2 (auth title by mode): built; welcome.render.test.tsx and signupSignInMode.render.test.tsx. Shared screenTitle helper: src/__tests__/render/helpers.tsx.
+- Row 2b dead end 3 (Resend on code step): built; signupResend.render.test.tsx (11 of 11 tests, including retry after failure).
 
 ## Next
-1. Row 2b dead end 3: Resend code on the email code step. In progress (signupResend.render.test.tsx exists; check it first).
-2. Refresh the stale audit in DESIGN_REFERENCES.md (lists dead ends 1 and 2 as open; says no maintain option, no training days, no i18n. All now exist).
+1. Row 2b dead end 4: onboarding back fallback when no history. In progress.
+2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 3 now built; says no maintain option, no training days, no i18n; all now exist).
 3. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
 4. Row 6b: remaining work that does not depend on step (f).
 5. Row 3 after Isa signs off the Apple steps (owner).
@@ -56,10 +57,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
 - Jev low confidence on a round where stop was considered: stop rejected, rows remain open.
-- Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx (src/__tests__/helpers/ is not editable beyond useApiHarness.ts, which is forbidden).
+- Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
+- Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 
 ## Blocked on Isa (park, do not retry)
-- Row 6b step (f): stale strings. Names none; deferred under English only. Repeated twice in a row; not retried.
+- Row 6b step (f): stale strings. Names none; deferred under English only. Repeated twice; not retried.
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.

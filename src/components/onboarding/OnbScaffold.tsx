@@ -4,7 +4,7 @@
 // NOT the old OnboardingStep (which is bound to the legacy 19-step steps.ts).
 import { useEffect, type ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
-import { router, usePathname } from 'expo-router';
+import { router, usePathname, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,6 +14,7 @@ import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
+import { ONBOARDING_ROOT } from '@/lib/onboarding/resume';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 
 export type OnbScaffoldProps = {
@@ -71,7 +72,11 @@ export function OnbScaffold({
   const bg = dark ? color.black : color.white;
   const titleColor = dark ? color.white : color.label;
   const subtitleColor = dark ? color.gray300 : color.secondaryLabel;
-  const handleBack = onBack ?? (() => router.back());
+  // A resumed step has no history (the launch gate jumps straight to it), so
+  // back falls back to the start of the flow; the answers stay in the store.
+  // ponytail: Welcome, not the previous step; no shared step-order list exists.
+  const handleBack =
+    onBack ?? (() => (router.canGoBack() ? router.back() : router.replace(ONBOARDING_ROOT as Href)));
 
   const header = (
     <>
