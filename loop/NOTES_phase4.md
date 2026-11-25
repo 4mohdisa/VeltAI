@@ -53,9 +53,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jev 'ask' overruled when the brief forbids ask.
 - Rejected prompts (more than one module) are rewritten to one module.
 - purchases.ts and consent.ts have no eslint-disable: dropped.
-- exhaustive-deps fix pattern (measurements.tsx, gym.tsx, ParameterForm.tsx done): compute plain values in render, depend on them, no disable.
+- exhaustive-deps fix pattern (measurements.tsx, gym.tsx, ParameterForm.tsx, BottomSheet.tsx done): compute plain values in render, depend on them, no disable.
 - ParameterForm: parent is told after render commits via a params effect (one behaviour change, tested).
 - Before removing any disable in BottomSheet.tsx, check whether it is a Reanimated SharedValue write (keep) or a real exhaustive-deps miss (fix).
+- BottomSheet.tsx:88 removed (real missing dependency). Behaviour unchanged, no test added. Lint and tsc clean.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -78,8 +79,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - measurements.tsx Continue handler still calls heightToCm() and toKg(); could reuse draft values.
 - ParameterForm preview effect lists both paramsKey and params; paramsKey is redundant. Also re-runs when raw values change but params match.
-- exhaustive-deps disables left: BottomSheet.tsx:88, TodayCard.tsx:237, ScanReviewCard.tsx:118, appState.tsx:119, energy.ts:37.
+- exhaustive-deps disables left: TodayCard.tsx:237 (next), ScanReviewCard.tsx:118, appState.tsx:119, energy.ts:37.
 - Deliberate disables to keep: SliderField.tsx and BottomSheet.tsx Reanimated writes (reasons written next to them), gymSchedule.ts:78, src/debug/impl/index.tsx:99. Three test files also have disables.
+- BottomSheet open and close lifecycle test missing (mount on open, slide down then unmount on close, immediate unmount with Reduce Motion). Only the close label is tested.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
 - 26 vs 28 TestPG pass lines: extra 2 likely subtests, not confirmed.
@@ -91,14 +93,16 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 - Gym screens: no test covers the re-run timing after the gym.tsx dependency change.
+- Measurements Continue handler recomputes heightToCm() and toKg() (see above).
 
 ## Next
-1. BottomSheet.tsx:88 disable: check Reanimated write first, then fix or keep (in progress).
-2. TodayCard.tsx:237, then ScanReviewCard.tsx:118, appState.tsx:119, energy.ts:37. One per round.
+1. TodayCard.tsx:237 disable: check Reanimated write first, then fix or keep (in progress).
+2. ScanReviewCard.tsx:118, appState.tsx:119, energy.ts:37. One per round.
 3. ParameterForm preview effect: drop redundant paramsKey.
-4. Phase 3 Row 14 remainder, so Row 2 can close.
-5. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
-6. Gym key rename only after Isa approves.
+4. BottomSheet lifecycle render test (after the disable work).
+5. Phase 3 Row 14 remainder, so Row 2 can close.
+6. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
+7. Gym key rename only after Isa approves.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.

@@ -227,15 +227,12 @@ export function TodayCard(): JSX.Element {
 
   // A screen regaining focus (e.g. back from logging a session) re-reads
   // silently — revalidate never flips `loading`, so this never blanks the
-  // card to the skeleton below. revalidate is excluded from deps: useToday()
-  // hands back a new function identity every render (its own fetcher closure
-  // isn't memoized), so depending on it here would re-fire on every re-render
-  // this effect itself causes, not just on focus.
+  // card to the skeleton below. revalidate is stable (useApi memoizes it and
+  // reads the fetcher through a ref), so this fires on focus only.
   useFocusEffect(
     useCallback(() => {
       revalidate();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
+    }, [revalidate]),
   );
 
   if (loading) {

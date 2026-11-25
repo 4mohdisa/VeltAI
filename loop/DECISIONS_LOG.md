@@ -10938,3 +10938,7 @@
 - 2026-11-26 01:24 Parked the ParameterForm preview effect (redundant paramsKey) for a later round, because one module per prompt and BottomSheet is already queued.
 - 2026-11-26 01:24 Kept the instruction to check for a Reanimated SharedValue write before any removal, per the decision on exhaustive-deps fixes.
 - 2026-11-26 01:24 Marked ParameterForm.tsx exhaustive-deps disable as done: the latest report removed it and its checks passed.
+- 2026-11-26 01:25 BottomSheet.tsx:88 disable removed: it was a real missing dependency, not a Reanimated write. Behaviour unchanged, so no test added in this round (reported by Claude Code).
+- 2026-11-26 01:25 Next task is TodayCard.tsx:237: smallest remaining disable fix, same pattern as the done rows. Chosen over the BottomSheet lifecycle test to keep rounds small after Jev's low-risk advice.
+- 2026-11-26 01:25 BottomSheet lifecycle test (mount, slide down, unmount, Reduce Motion) kept as a candidate for a later round; logged in Parked, not dropped.
+- 2026-11-26 01:25 Jev signal read as advice only. Run chosen; no ask, since the brief forbids it.
