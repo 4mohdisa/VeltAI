@@ -11210,3 +11210,11 @@
 - 2026-11-26 03:23 Recorded that the launch gate is src/app/index.tsx, not src/app/onboarding/index.tsx, because the named file does not exist and nothing else was changed.
 - 2026-11-26 03:23 Lint and tsc were not run last round, so this round runs both on the touched files only, not the full suite (not a checkpoint).
 - 2026-11-26 03:23 Jev said ask 54%; not used because the brief forbids asking and the parked list covers the open questions.
+- 2026-11-26 03:25 Recorded the mid session 402 paywall routing task under Blocked on Isa, because it needs a routing decision and was flagged twice. Not retried this round.
+- 2026-11-26 03:25 Chose the English wording fix (candidate 1) because it is small, does not depend on the routing decision or on es and fr work, and was the next item in the notes.
+- 2026-11-26 03:25 Kept Jev's ranking in mind: its next action run at 64% and a low risk score support running a small task. Did not follow the 34% ask option, because Isa does not take questions.
+- 2026-11-26 03:25 Kept Isa's English only override: no es or fr edits in this task.
+- 2026-11-26 03:25 Rejected prompt fixed: the branch rule (work only on loop/phase4, only git branch --show-current, never push, merge or switch) is now the first line of the prompt and the round stops if the branch differs.
+- 2026-11-26 03:25 Chose the paywallHref test over the 402 routing task: 402 routing is already parked as Blocked on Isa, and the small test is a clean, low-risk finish for row 6b.
+- 2026-11-26 03:25 Merging the three row 6b test-result lines is a notes-only edit; the row status stays PARTIAL.
+- 2026-11-26 03:25 Notes condensed to fit the 600 word limit. No decisions or blocked items were dropped; repeats were merged.
