@@ -10721,3 +10721,7 @@
 - 2026-11-26 00:02 Row 14 and Row 2 BUILT wait until the kcal label is done, in the next round.
 - 2026-11-26 00:02 Snapshot regeneration done by deleting one stale entry and running one file without --ci, not by -u, to keep the rule that -u is never used.
 - 2026-11-26 00:02 Notes trimmed to fit the 600 word limit. Decisions kept in full in meaning, merged where they repeat.
+- 2026-11-26 00:06 R263 Run, not ask. Jev put 84% on ask, but the brief forbids ask. The blocker is already settled by the English-only override: the label is English, so no key is needed and no parity or es/fr edit is required.
+- 2026-11-26 00:06 R263 Phase 3 Row 14 can be set BUILT once the checkpoint is green. The only open item was the spoken label, which needs no change under English-only. Reason: the override removes the translation work it was meant to do.
+- 2026-11-26 00:06 R263 Checkpoint now (R265 per schedule is close enough, and the last report was flagged for tests not run). Full tsc and jest --ci are the gate before any status change.
+- 2026-11-26 00:06 R263 Do not change localeParity or the typed tests. Editing them would break Isa's override that es and fr stay untouched.

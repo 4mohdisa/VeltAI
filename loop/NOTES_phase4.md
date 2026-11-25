@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 4
 
 ## Goal
-Finish with no input from Isa. Progress = PHASE4_ROWS.md.
+Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa; park owner steps and carry on.
 
 ## Overrides (Isa, 25 Nov)
 1. English only. Do not write, translate or review es or fr. Leave those files untouched. Missing keys fall back to English. No language switcher.
@@ -12,10 +12,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
 - BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 15 BUILT.
-- Phase 3 Row 14: 14a, 14b, 14c done. Open: nutrition spoken kcal label and snapshot (R262).
-- Then Row 14 BUILT, then Row 2 BUILT.
+- Phase 3 Row 14: 14a, 14b, 14c done. Spoken meal label (nutrition.tsx ~231) stays English, no key (R263).
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Last full checkpoint R242 (tsc 0, 275 suites, 1,673 tests). Next checkpoint R265.
+- Last full checkpoint R242 (tsc 0, 275 suites, 1,673 tests). R265 checkpoint in progress (tsc and full jest --ci).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -26,7 +25,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - A round with no Jest run is not done.
 - TestPG: localhost:5432, lume_test_local. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, or api.ts listSessions defaults.
+- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts (until approved).
+- Locale files: src/lib/i18n/locales/. Nutrition screen: src/app/dashboard/nutrition.tsx.
 
 ## Decisions (never delete)
 - Isa approved (25 Nov): plan-ready summary; training days and gain or maintain goal in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000 (1,234 g, Isa to confirm).
@@ -37,11 +37,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - R231, R235 CUISINE_LABEL and connectivityMessage removed. R233, R234 Terms disclaimer in legal.terms. R236 en-AU kept as formatNumber output.
 - R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
 - R243 to R251 foodDays keeps dates, sets error on failure, clears on success. Calendar and Food tab read data only. One notice when both Food reads fail; food-log error wins.
-- R254 14a over 14b. R255 gym.tsx literal over 14b. R256 14b over R249. R257 one component per prompt, always.
-- useLoggedDays keeps own state (moving useHydration breaks hydrationErrorScreens.test.ts:34, import cycle). Retry label stays 'Try again'.
+- R254 14a over 14b. R255 gym.tsx literal over 14b. R256 14b over R249. R257 one component per prompt.
+- useLoggedDays keeps own state (moving useHydration breaks hydrationErrorScreens.test.ts:34). Retry label stays 'Try again'.
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
-- R258, R260 Retry assertions changed from no Retry to Retry present (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted.
-- R261 14c before early checkpoint. R262 14c workoutsLine needed no change (keys already in en.json). Jev ask 17% not used (no questions).
+- R258, R260 Retry assertions changed from no Retry to Retry present (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted, sign-off requested.
+- R261 14c before early checkpoint. R262 14c workoutsLine needed no change.
+- R263 Nutrition spoken label stays English. An en-only key fails localeParity and 13 typed tests. English-only override means no change needed. Row 14 BUILT once checkpoint green. Jev ask 84% not used (no questions).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -49,14 +50,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - Push loop/phase4 and confirm CI green on GitHub.
 - Simulator: 401 answers after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers (cold start, scroll, memory).
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
-- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Blocked twice.
-- Approve the R258 and R260 Retry assertion changes (sign-off requested).
+- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Blocked three times.
+- Approve the R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation. Calendar and Food error states in es and fr not checked.
-- workoutsWeek.untimed_one and _other have identical English text. Redundant _one form, harmless.
+- workoutsWeek.untimed_one and _other identical English. Harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise. Root config and backend JS not linted. verify:go has no -count=1.
@@ -70,5 +71,6 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 
 ## Loop note
-- Jev advisory: keep small Row 14 tasks. Isa approvals still pending.
-- Next: nutrition kcal label, then Row 14 BUILT, then Row 2 BUILT. Checkpoint R265.
+- Jev advisory on ask (84%) and risk (1.9) noted. Kept run: the brief bans ask, and the only blocker is settled by the English-only override.
+- Next: R265 checkpoint result, then Row 14 BUILT, then Row 2 BUILT, then verify 2c and 2d.
+- Last round was flagged for tests not run. This round runs tsc and full jest --ci.
