@@ -9,14 +9,15 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; 402 launch gate built, verification in progress; open: f stale strings, English only part).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; 402 launch gate line recorded; open: f stale strings, English only part).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so the 402 gate is untested in the app. First real check: sandbox run.
+- Last report flagged (full Jest suite skipped). Verification round is in progress.
 
 ## Next
-1. Verify the 402 launch gate change (render test, 401 test, paywall suites, lint), record the row 6b line.
-2. signup.tsx continueAfterAuth: a 402 after sign-in is treated as unreachable. Add the same 402 branch.
+1. Verify round: 402 launch gate (row 6b line, tsc, full Jest with --ci, lint on index.tsx and paywall.tsx). Record result.
+2. signup.tsx continueAfterAuth: a 402 after sign-in is treated as unreachable. Add the same 402 branch (Jev 92%).
 3. Completed flag on phone skips onboarding and meets 402s in tabs. Needs a route-level check.
 4. Row 6b (f): English stale free-tier wording in paywall strings (plansUnavailable, storeError). English only.
 5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
@@ -30,7 +31,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
-- Jest --ci, one file per command, never -u. Full suite only on checkpoints.
+- Jest --ci, one file per command, never -u. Full suite only on checkpoints or when a flagged report needs it.
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only. AI tests live in backend/tests/ai.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
@@ -82,3 +83,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans; TestLabel_WritesSessionRowForQuota keeps its old name.
 - es and fr for onboarding.paywall.refusal.* and notConfirmed missing; plansUnavailable and storeError still describe a free tier in es and fr.
+- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (route-level check needed, see Next 3).

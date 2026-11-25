@@ -11167,3 +11167,6 @@
 - 2026-11-26 03:12 Chose verification first because the loop flagged the last report as partly done, and the rule is to verify an incomplete report before moving on.
 - 2026-11-26 03:12 Jev suggested ask; ask is not allowed, so the choice is run. The returning user purchase question is parked in OWNER_CHECKS_phase4.md as a product decision, not blocked on a reply.
 - 2026-11-26 03:12 Parked the returning user purchase dead end: the choice between skipping the save and changing the backend contract is a product decision. Default kept: the save runs only with answers on the phone; the purchase dead end stays open until Isa decides.
+- 2026-11-26 03:14 Loop flag set on the last report (full Jest suite skipped), so verify first per the Incomplete report rule. Jev's pick (signup 402 branch, 92%) is next round, not this one.
+- 2026-11-26 03:14 Reason for keeping the verify step over Jev's pick: the flag says the report is incomplete, and the signup change would build on an unverified base.
+- 2026-11-26 03:14 Full Jest run is allowed this round because the flagged report skipped it; this is not a checkpoint round, so the run is read only apart from the one fix the prompt allows.
