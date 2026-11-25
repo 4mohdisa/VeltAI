@@ -126,6 +126,69 @@ func seedRestOfUserTables(t *testing.T, pool *pgxpool.Pool, id string) {
 	}
 }
 
+// childTable is a table with no user column, reached only through its parent's
+// foreign key. insert adds one child row under the user's parent row.
+type childTable struct {
+	table, fk, parent, insert string
+}
+
+var childTables = []childTable{
+	{"gym_exercises", "session_id", "gym_sessions",
+		`INSERT INTO gym_exercises (session_id, name) SELECT id, 'bench' FROM gym_sessions WHERE user_id = $1`},
+	{"recipe_ingredients", "recipe_id", "recipes",
+		`INSERT INTO recipe_ingredients (recipe_id, food_name, quantity_g) SELECT id, 'oats', 50 FROM recipes WHERE user_id = $1`},
+	{"saved_meal_items", "saved_meal_id", "saved_meals",
+		`INSERT INTO saved_meal_items (saved_meal_id, food_name, quantity_g) SELECT id, 'oats', 50 FROM saved_meals WHERE user_id = $1`},
+	{"template_exercises", "template_id", "workout_templates",
+		`INSERT INTO template_exercises (template_id, exercise_id)
+		  SELECT id, (SELECT id FROM exercise_library ORDER BY id LIMIT 1) FROM workout_templates WHERE user_id = $1`},
+	{"scan_images", "scan_session_id", "scan_sessions",
+		`INSERT INTO scan_images (scan_session_id, angle) SELECT id, 'top' FROM scan_sessions WHERE user_id = $1`},
+}
+
+// seedChildRows adds one row to each child table under the parent rows that
+// seedRestOfUserTables gave the user.
+func seedChildRows(t *testing.T, pool *pgxpool.Pool, id string) {
+	t.Helper()
+	for _, c := range childTables {
+		if _, err := pool.Exec(context.Background(), c.insert, id); err != nil {
+			t.Fatalf("seed %s %s: %v", c.table, id, err)
+		}
+	}
+}
+
+// parentIDs returns, per child table, the ids of the user's parent rows. They
+// are read before the delete so the child rows can still be counted after it.
+func parentIDs(t *testing.T, pool *pgxpool.Pool, id string) map[string][]string {
+	t.Helper()
+	ids := map[string][]string{}
+	for _, c := range childTables {
+		var parents []string
+		sql := fmt.Sprintf("SELECT coalesce(array_agg(id::text), '{}') FROM %s WHERE user_id = $1", c.parent)
+		if err := pool.QueryRow(context.Background(), sql, id).Scan(&parents); err != nil {
+			t.Fatalf("read %s ids: %v", c.parent, err)
+		}
+		ids[c.table] = parents
+	}
+	return ids
+}
+
+// rowCounts counts the user's rows in every UserTables table and every child
+// table, the child rows found through parents.
+func rowCounts(t *testing.T, pool *pgxpool.Pool, id string, parents map[string][]string) map[string]int {
+	t.Helper()
+	counts := userRowCounts(t, pool, id)
+	for _, c := range childTables {
+		var n int
+		sql := fmt.Sprintf("SELECT count(*) FROM %s WHERE %s::text = ANY($1)", c.table, c.fk)
+		if err := pool.QueryRow(context.Background(), sql, parents[c.table]).Scan(&n); err != nil {
+			t.Fatalf("count %s: %v", c.table, err)
+		}
+		counts[c.table] = n
+	}
+	return counts
+}
+
 func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 	pool := exportPool(t)
 	a := fmt.Sprintf("delete_a_%d", os.Getpid())
@@ -134,13 +197,15 @@ func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 		seedUser(t, pool, id)
 		seedOAuthState(t, pool, id)
 		seedRestOfUserTables(t, pool, id)
+		seedChildRows(t, pool, id)
 	}
-	for table, n := range userRowCounts(t, pool, a) {
+	parentsA, parentsB := parentIDs(t, pool, a), parentIDs(t, pool, b)
+	for table, n := range rowCounts(t, pool, a, parentsA) {
 		if n == 0 {
 			t.Fatalf("%s has no seeded row for user A, so the delete check would prove nothing", table)
 		}
 	}
-	before := userRowCounts(t, pool, b)
+	before := rowCounts(t, pool, b, parentsB)
 	for table, n := range before {
 		if n == 0 {
 			t.Fatalf("%s has no seeded row for user B", table)
@@ -151,12 +216,12 @@ func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 		t.Fatalf("DELETE /api/profile = %d, body %s", rec.Code, rec.Body)
 	}
 
-	for table, n := range userRowCounts(t, pool, a) {
+	for table, n := range rowCounts(t, pool, a, parentsA) {
 		if n != 0 {
 			t.Errorf("%s still has %d rows for the deleted user", table, n)
 		}
 	}
-	after := userRowCounts(t, pool, b)
+	after := rowCounts(t, pool, b, parentsB)
 	for table, n := range before {
 		if after[table] != n {
 			t.Errorf("%s: user B had %d rows, now %d", table, n, after[table])

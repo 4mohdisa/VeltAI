@@ -10798,3 +10798,8 @@
 - 2026-11-26 00:32 Dropped the 'verified' wording fix from Next: the last report showed 0 uses in PHASE4_ROWS.md, so it is already done.
 - 2026-11-26 00:32 Kept the English-only override: the delete screen i18n move stays Parked, not done now, because the task is backend only.
 - 2026-11-26 00:32 Used the local Postgres login that works on this Mac for TestPG, since backend/.env names a user that does not exist locally. The URL is never printed or saved.
+- 2026-11-26 00:35 Chose candidate 1 (child table cascade) over the delete-screen text. Reason: deletion completeness is a privacy and store review requirement, and the cascade from five child tables is not yet proven by any test. The text task is cosmetic and English only under Isa's override, so it waits.
+- 2026-11-26 00:35 Jev put 81% on candidate 1 and ranked another task first. Kept candidate 1 for the reason above, which Jev cannot weigh: the English only override lowers the value of the text move.
+- 2026-11-26 00:35 Allowed an additive migration if a child table lacks ON DELETE CASCADE, applied to lume_test_local only. Hosted migrations stay Isa's step.
+- 2026-11-26 00:35 Row 4 stays PARTIAL until the account deletion checks (29 tables and the five child tables) are all green and the delete screen text is done.
+- 2026-11-26 00:35 Round number not recorded: the handover did not state it, so no count was guessed.
