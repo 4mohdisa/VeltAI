@@ -11016,3 +11016,7 @@
 - 2026-11-26 01:50 Kept action run, not ask: the brief forbids ask. Jev's risk score (0.9) is noted; the task is small, touches no hosted service and changes only assertions and a comment.
 - 2026-11-26 01:50 Comment fix at targets.tsx:43 is included because the renumbering is the same change, and the comment text is the only code-adjacent edit.
 - 2026-11-26 01:50 Step numbers are not pinned by any test, so no new test was added this round; that gap is parked below.
+- 2026-11-26 01:51 Chose the step sweep close-out first because the loop check flagged the last report as partly done; seven grep-matched test files were listed but not run.
+- 2026-11-26 01:51 Kept the English only override: no es or fr text was added.
+- 2026-11-26 01:51 Kept Row 2b PARTIAL; it does not close until the profile editing and plan-ready summary items are done.
+- 2026-11-26 01:51 Kept appState.tsx:119 parked; the exhaustive-deps cleanup is not in this round.

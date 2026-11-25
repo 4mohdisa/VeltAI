@@ -16,11 +16,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - exhaustive-deps: only appState.tsx:119 remains (parked). Kept disables: SliderField:68, BottomSheet:95, 103, 134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b open items (PARTIAL)
-- Onboarding step renumbering: 21 onboarding test files pass (145 tests). Signup and paywall render tests: running next (step sweep close-out).
-- Training days question: DONE in code (onboarding store only, not sent to plan).
+- Step sweep: 16 signup and paywall render files pass (63 tests). Loop check flagged 7 grep-matched files as not run: running now.
+- Training days question: done in code (onboarding store only, not sent to plan).
 - Goal, activity, diet, cuisine, training days not editable in src/app/profile yet.
 - Plan-ready summary screen: approved, not built.
-- signup.tsx placeholders stay English literals.
 - Maestro flow: shared with row 23, not run.
 - Do not mark 2b BUILT until all items close.
 
@@ -28,8 +27,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - One module per prompt, max 5 steps. Grep first. State branch rule, forbid other git commands, end with report format.
 - Report wording: built or checked by a test only. Never write 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
-- Jest --ci, one file per command, never -u. Full suite only on checkpoints. Render tests are *.render.test.tsx.
-- Animated: useState(() => new Animated.Value(x)).
+- Jest --ci, one file per command, never -u. Full suite only on checkpoints.
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only.
 - zsh: use arrays or ${=var}.
@@ -49,14 +47,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Row 3: browser oauth_apple flow. Apple hidden on Android.
 - Nutrition spoken label stays English, literal, no key.
 - Row 4: oauth_states cleared in profile store delete. Clerk first, then rows; Clerk failure returns 502 and keeps rows. Clerk 404 counts as deleted.
-- Parity: English-only keys exempt via ENGLISH_ONLY with reason (includes 5 training days keys). Failed delete shows plain fallback, never server text.
+- Parity: English-only keys exempt via ENGLISH_ONLY with reason. Failed delete shows plain fallback, never server text.
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; the other removed.
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps: compute plain values in render, depend on them, no disable. Reanimated SharedValue write: keep disable. Real missing dependency: fix unless behaviour changes (then park).
 - Stale plan items (disable not present) are dropped, not added to Blocked.
-- Jev asked for ask at 90%, 74%, 52%, 36%; kept run because the brief forbids ask.
+- Jev advice only; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
-- Step sweep round: 21 onboarding files pass; close-out of signup and paywall tests and targets.tsx comment (steps 8 and 10) queued.
 
 ## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
@@ -70,34 +67,27 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
-- appState.tsx:119 exhaustive-deps: recommendation yes plus one render test. Parked in OWNER_CHECKS_phase4.md.
+- appState.tsx:119 exhaustive-deps: recommendation yes plus one render test.
 - Approve es and fr text for the 5 training days keys; approve plan-ready summary screen.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
-- No test pins onboarding step numbers or step count; a wrong number would pass unnoticed. Add one if cheap.
-- 'Continue enabled' test on training days cannot fail (default always selected).
+- No test pins onboarding step numbers or step count. Add one if cheap.
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
 - Food tab Retry: verify in Row 30.
-- formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
+- formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
 - Nothing dispatches SIGNED_IN.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
-- seedChildRows depends on exercise_library seed; local user 'lume' absent.
-- 26 vs 28 TestPG pass lines: likely subtests, unconfirmed.
-- Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows in ScrollView; gym refetch on open; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
+- Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
-- Older backend without total_days gives undefined tile.
-- KNOWN_ISSUES.md Phase 3 wording; PERF_BASELINE.md lines 34, 41; PHASE4_ROWS.md 2.2 and 2b banned check word (Row 30).
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
-- consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
-- Loop keeps resending disables already removed: task list should say only appState.tsx:119 remains.
 
 ## Next
-1. Row 2b: close step sweep (signup and paywall render tests, targets.tsx comment).
+1. Row 2b: close step sweep (7 unrun files, this round).
 2. Row 2b: goal, activity, diet, cuisine and training days editable in src/app/profile.
 3. Row 2b: plan-ready summary screen (approved).
 4. Row 3 remainder after Isa signs off.
