@@ -11522,3 +11522,7 @@
 - 2026-11-26 05:34 Kept the 401 rule from the approved launch gate (401 ends session), so no new routing rule was invented.
 - 2026-11-26 05:34 Recorded the repeated Isa-dependent item (back to preview target and Clerk session_exists on device) under Blocked on Isa per the loop note; not retried.
 - 2026-11-26 05:34 Jev confidence 0.91 and run 94%: followed the run action. Risk 1.3 is handled by the one-surface, five-step limit in the prompt.
+- 2026-11-26 05:35 Chose candidate 1 because the approved launch gate rule already says a 401 ends the session, so the Isa question in the report is answered by an existing decision and needs no ask.
+- 2026-11-26 05:35 Jev ranked the same action (run). No change to the choice.
+- 2026-11-26 05:35 Kept the change to paywall.tsx and one test file to respect one surface per round while risk is high.
+- 2026-11-26 05:35 Trimmed the notes to under 600 words by merging repeats and removing finished work. Approved decisions are kept as one line each.

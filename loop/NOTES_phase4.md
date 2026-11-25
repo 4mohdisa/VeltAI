@@ -10,13 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b dead ends 1 to 5 built. Neighbour tests (signupAuth401, ssoSignin, signupOtp, signupSignInMode, signupResend, welcome, measurements, onboardingSignedInBack) checked by a test: all pass.
-- Dead end 6 open (session ends between signup and paywall; final save shows connection message).
+- Row 2b dead ends 1 to 5 built. Dead end 6: final save built and checked by a test (paywallSessionExpired.render.test.tsx). Gap: subscriptionConfirmed() before the save treats a 401 as not active.
 - Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; go test -race ./... ok.
 
 ## Next
-1. Row 2b dead end 6 (in progress this round).
-2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 5 built, 6 open).
+1. Row 2b: 401 on subscriptionConfirmed ends the session (in progress).
+2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 6 status).
 3. Row 6b: remaining work not tied to step (f).
 4. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
 5. Row 3 after Isa signs off the Apple steps (owner).
@@ -24,11 +23,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
-- Every prompt states the branch rule first and names files fully.
-- Check paths with grep first. Briefs may name files that do not exist.
-- One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
-- Report wording: built, or checked by a test. Never 'verified'.
-- A report that skips a check or leaves a gap is flagged; next round verifies it first.
+- Every prompt states the branch rule first and names files fully. Grep paths first; briefs may name missing files.
+- One task and one surface per prompt. Max 5 steps. Rejected prompt is rewritten, not sent.
+- Report wording: built, or checked by a test. Never 'verified'. A skipped check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked and is not retried.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
@@ -39,8 +36,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; brief and insights keep fallback text at limit; kept src/app/ai-consent.tsx; background rebuilds count against allowance; consent gate in backend/internal/consent.
-- Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast. Isa to confirm on device.
+- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first, in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
+- Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -54,18 +51,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
-- One surface per round while risk is high.
-- Jev low confidence on a round where stop was considered: stop rejected, rows remain open.
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
+- Jev low confidence on a round where stop was considered: stop rejected.
 
 ## Blocked on Isa (park, do not retry)
-- Row 6b step (f): stale strings. Deferred under English only.
+- Row 6b step (f) stale strings and es/fr text: deferred under English only.
 - Back on a resumed onboarding step goes to Welcome. Needs one shared step list.
 - A 402 while the app is open is not routed to the paywall.
-- es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
-- Row 2b (repeated twice, not retried): whether back on measurements goes to preview is the right target; Clerk SSO session_exists on device (email path certain).
+- legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
+- Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable; label scan exit; scan.ts vs photo capture screen.
+- Row 2b: whether back on measurements goes to preview; Clerk SSO session_exists on device.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -75,7 +71,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only. Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- Console noise: about 67 deliberate [data], [onboarding], [meals] warns; needs scoped spies.
+- About 67 deliberate console warns from [data], [onboarding], [meals]; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.

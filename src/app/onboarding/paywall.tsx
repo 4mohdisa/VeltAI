@@ -45,7 +45,11 @@ const CONFIRM_DELAY_MS = 1500;
 async function subscriptionConfirmed(): Promise<boolean> {
   for (let attempt = 0; attempt < CONFIRM_ATTEMPTS; attempt++) {
     if (attempt > 0) await sleep(CONFIRM_DELAY_MS);
-    const sub = await api.subscription.get().catch(() => null);
+    const sub = await api.subscription.get().catch((e: unknown) => {
+      // An expired session is not "not confirmed yet": the caller ends it.
+      if (classifyConnectivity(e) === 'sessionExpired') throw e;
+      return null;
+    });
     if (sub?.is_active) {
       useSettingsStore.getState().setServerEntitlement(entitlementFromApi(sub));
       return true;
@@ -97,6 +101,14 @@ export default function PaywallScreen() {
     ...(dietary.includes('halal') ? [t('onboarding.paywall.features.halal')] : []),
   ];
 
+  // An expired session is not a connection problem. The machine ends the
+  // rejected Clerk session, keeps the onboarding answers, opens sign-in and
+  // shows the expired message.
+  const endExpiredSession = () => {
+    setSubmitting(false);
+    dispatch({ type: 'SESSION_ENDED' });
+  };
+
   // Persist onboarding (unchanged from before) and enter the app.
   const completeOnboarding = async () => {
     const session = useOnboardingStore.getState();
@@ -122,12 +134,8 @@ export default function PaywallScreen() {
       navigate('/onboarding/done');
     } catch (e) {
       devWarn('[onboarding] submit failed:', e);
-      // An expired session is not a connection problem. The machine ends the
-      // rejected Clerk session, keeps the onboarding answers, opens sign-in and
-      // shows the expired message.
       if (classifyConnectivity(e) === 'sessionExpired') {
-        setSubmitting(false);
-        dispatch({ type: 'SESSION_ENDED' });
+        endExpiredSession();
         return;
       }
       // A 402 says why access was refused; any other failure, a 4xx included,
@@ -143,7 +151,15 @@ export default function PaywallScreen() {
   // Save only once the backend confirms a trial or an active plan; until then
   // the answers stay on the device.
   const completeIfSubscribed = async () => {
-    if (!(await subscriptionConfirmed())) {
+    let confirmed: boolean;
+    try {
+      confirmed = await subscriptionConfirmed();
+    } catch {
+      // subscriptionConfirmed only throws on a 401.
+      endExpiredSession();
+      return;
+    }
+    if (!confirmed) {
       showToast({ message: t('onboarding.paywall.notConfirmed'), tone: 'info' });
       setSubmitting(false);
       return;

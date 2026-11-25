@@ -27,17 +27,24 @@ jest.mock('@/components/display', () => ({
   Skeleton: () => null,
 }));
 
+const mockBillingEnabled = jest.fn(() => false);
+const mockPresentPaywall = jest.fn();
 jest.mock('@/lib/billing/purchases', () => ({
-  isBillingEnabled: () => false,
-  presentPaywall: jest.fn(),
+  isBillingEnabled: () => mockBillingEnabled(),
+  presentPaywall: () => mockPresentPaywall(),
   restorePurchases: jest.fn(),
   hasProEntitlement: () => false,
   TRIAL_DAYS: 7,
 }));
 
 const mockPost = jest.fn();
+const mockSubscriptionGet = jest.fn();
 jest.mock('@/lib/api', () => ({
-  api: { onboarding: { post: (...args: unknown[]) => mockPost(...args) } },
+  api: {
+    onboarding: { post: (...args: unknown[]) => mockPost(...args) },
+    subscription: { get: () => mockSubscriptionGet() },
+  },
+  sleep: () => Promise.resolve(),
   ApiError: class ApiError extends Error {
     status: number;
     constructor(status: number, message: string) {
@@ -51,10 +58,10 @@ const mockSignOut = jest.fn().mockResolvedValue(undefined);
 
 const CONNECTION_MESSAGE = en.onboarding.paywall.submitFailed;
 
-async function pressContinue(): Promise<void> {
+async function pressContinue(title = 'Continue'): Promise<void> {
   const tree = renderScreen(<PaywallScreen />);
   await act(async () => {
-    (buttonWithTitle(tree, 'Continue')!.props.onPress as () => void)();
+    (buttonWithTitle(tree, title)!.props.onPress as () => void)();
     await new Promise((r) => setImmediate(r));
   });
 }
@@ -62,6 +69,8 @@ async function pressContinue(): Promise<void> {
 beforeEach(() => {
   jest.mocked(showToast).mockClear();
   mockPost.mockReset();
+  mockSubscriptionGet.mockReset();
+  mockBillingEnabled.mockReturnValue(false);
   mockSignOut.mockClear();
   registerSignOutExecutor(mockSignOut);
   useOnboardingStore.getState().reset();
@@ -85,6 +94,21 @@ test('an expired session ends the Clerk session, keeps the answers and opens sig
   expect(mockSignOut).toHaveBeenCalledTimes(1);
   expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.sessionExpired, tone: 'info' });
   expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: CONNECTION_MESSAGE }));
+  expect(router.replace).toHaveBeenCalledWith('/onboarding/signup?mode=signin');
+  expect(useOnboardingStore.getState().goal).toBe('lose');
+});
+
+test('a 401 on the subscription check ends the session and keeps the answers', async () => {
+  mockBillingEnabled.mockReturnValue(true);
+  mockPresentPaywall.mockResolvedValueOnce('purchased');
+  mockSubscriptionGet.mockRejectedValueOnce(new ApiError(401, 'invalid token'));
+  await pressContinue(en.onboarding.paywall.seePlans);
+
+  expect(mockSubscriptionGet).toHaveBeenCalledTimes(1);
+  expect(mockPost).not.toHaveBeenCalled();
+  expect(mockSignOut).toHaveBeenCalledTimes(1);
+  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.sessionExpired, tone: 'info' });
+  expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: en.onboarding.paywall.notConfirmed }));
   expect(router.replace).toHaveBeenCalledWith('/onboarding/signup?mode=signin');
   expect(useOnboardingStore.getState().goal).toBe('lose');
 });
