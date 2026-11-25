@@ -11341,3 +11341,7 @@
 - 2026-11-26 04:25 Rewrote the rejected 14-step prompt as one file, five steps, one surface, because the loop allows at most five steps and one surface per prompt.
 - 2026-11-26 04:25 Chose the act() flush in one file per round, so each round stays small and checkable.
 - 2026-11-26 04:25 Kept the Jev advice to run the smallest task. It did not change the choice.
+- 2026-11-26 04:26 Chose the full suite checkpoint first: the last report skipped it after the setup.ts change, and the rule says a skipped check is verified the next round.
+- 2026-11-26 04:26 Followed Jev's run recommendation; it fits the rule to run the smallest safe task and not ask.
+- 2026-11-26 04:26 Kept the fix limited to setup.ts and tabbar; other failures go to BLOCKED so one round does not sprawl.
+- 2026-11-26 04:26 Trimmed the notes to fit the 600 word limit. No item was dropped; repeated items were merged.

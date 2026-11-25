@@ -10,19 +10,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
-- Checkpoint (last full run): tsc 0 errors; Jest 293 suites, 1,784 tests pass; console 49 blocks, 109 error, 80 warn; lint clean; locale parity 3 of 3.
+- Tabbar act() warnings fixed (13 of 13 pass, 0 act warnings). Full suite not run since setup.ts change.
+- Last full run (before setup.ts): tsc 0 errors; 292 suites, 1,778 tests pass; lint clean; locale parity 3 of 3.
 - Backend: go vet, go test -race, 29 TestPG passed, 0 skipped.
 
 ## Next
-1. Flush act() warnings one test file per round: tabbar (now), then preferencesCopy, preferencesLocale, integrationsLocale, accountLocale, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers, scanCards.strings.
-2. Remove unused keys aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff (en, es, fr together).
-3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-4. Row 3 remainder after Isa signs off.
+1. Full suite checkpoint: verify setup.ts and tabbar change (previous report skipped it).
+2. Flush act() warnings one file per round: preferencesCopy, preferencesLocale, accountLocale, integrationsLocale, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers, scanCards.strings.
+3. Remove unused keys aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff (en, es, fr together).
+4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+5. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- One task per prompt, one surface, max 5 steps. Loop rejects longer prompts.
+- One task per prompt, one surface, max 5 steps.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
@@ -76,3 +78,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 6b: merge three near-duplicate test-result lines.
+- Still hardcoded or unused: src/app/legal/terms.tsx free tier wording is blocked above; keys listed in Next 3 are unused.
