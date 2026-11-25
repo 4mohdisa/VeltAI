@@ -1,7 +1,7 @@
 // PHASE4_ROWS.md Row 4: the Settings Delete account flow. It confirms before
 // any call (and warns that a subscription is not cancelled), Cancel makes no
 // call, confirming calls DELETE /api/profile once, success hands off to the
-// ACCOUNT_DELETED sign-out purge, and a 502 shows the error and keeps the
+// ACCOUNT_DELETED sign-out purge, and a 502 shows a plain error and keeps the
 // user signed in. The API client is mocked, not the screen.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
@@ -99,15 +99,16 @@ test('confirming calls DELETE /api/profile once and success signs out', async ()
   expect(mockDispatch).toHaveBeenCalledWith({ type: 'ACCOUNT_DELETED' });
 });
 
-test('a 502 shows the error and does not sign out', async () => {
+test('a 502 shows a plain error, never the server text, and does not sign out', async () => {
   const { ApiError } = jest.requireActual<typeof import('@/lib/api')>('@/lib/api');
   mockDelete.mockRejectedValue(new ApiError(502, 'could not delete the account with the sign-in provider — try again'));
   const tree = render();
   await reachFinalStep(tree)();
   expect(mockDelete).toHaveBeenCalledTimes(1);
-  expect(mockShowToast).toHaveBeenCalledWith(
-    expect.objectContaining({ tone: 'error', message: expect.stringContaining('could not delete the account') }),
-  );
+  expect(mockShowToast).toHaveBeenCalledWith({
+    message: "Couldn't delete your account. Check your connection and try again.",
+    tone: 'error',
+  });
   expect(mockDispatch).not.toHaveBeenCalled();
   expect(buttonWithTitle(tree, 'Delete account')!.props.loading).toBe(false);
 });

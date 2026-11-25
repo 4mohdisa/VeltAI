@@ -10803,3 +10803,7 @@
 - 2026-11-26 00:35 Allowed an additive migration if a child table lacks ON DELETE CASCADE, applied to lume_test_local only. Hosted migrations stay Isa's step.
 - 2026-11-26 00:35 Row 4 stays PARTIAL until the account deletion checks (29 tables and the five child tables) are all green and the delete screen text is done.
 - 2026-11-26 00:35 Round number not recorded: the handover did not state it, so no count was guessed.
+- 2026-11-26 00:37 Chose candidate 1 because the loop flagged a missing type check last round, and this task runs the type check first while also closing the open Row 4 follow-up.
+- 2026-11-26 00:37 Jev ranks run at 99 percent but gives last-task-clean only 11 percent and risk 0.8. Kept a small, single-file task per the advice rule.
+- 2026-11-26 00:37 Added a rule that if localeParity fails on new English keys, the key move is reverted and parked, so the loop does not break the parity test while English-only keys remain unresolved.
+- 2026-11-26 00:37 Did not repeat the 3c seed-order dependency (exercise_library seed) in this prompt; it stays in Parked.

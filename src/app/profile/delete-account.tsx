@@ -14,7 +14,7 @@ import { TextField } from '@/components/forms/TextField';
 import { Text } from '@/components/primitives/Text';
 import { color, layout, space } from '@/lib/design/tokens';
 import { useAppState } from '@/lib/auth/appState';
-import { api, ApiError } from '@/lib/api';
+import { api } from '@/lib/api';
 import { showToast } from '@/components/display/toastStore';
 
 /** The design's side padding on this screen. No token covers it. */
@@ -58,11 +58,9 @@ export default function DeleteAccountScreen() {
       await api.profile.delete();
       showToast({ message: 'Your account has been deleted.', tone: 'success' });
       dispatch({ type: 'ACCOUNT_DELETED' });
-    } catch (e) {
-      showToast({
-        message: e instanceof ApiError ? e.message : "Couldn't delete your account. Check your connection and try again.",
-        tone: 'error',
-      });
+    } catch {
+      // Never the server's text: it is written for logs, not for the user.
+      showToast({ message: "Couldn't delete your account. Check your connection and try again.", tone: 'error' });
       setDeleting(false);
     }
   };

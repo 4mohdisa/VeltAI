@@ -14,7 +14,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL. Steps 1, 2, 3a, 3b done (all 29 UserTables seeded and checked, zero leftover rows). Step 3c next: child tables gym_exercises, recipe_ingredients, saved_meal_items, template_exercises, scan_images with own rows, cascade proven.
+- Row 4 PARTIAL. Steps 1, 2, 3a, 3b, 3c done. 34 tables seeded and checked (29 UserTables + 5 child tables), zero leftover rows, all child FKs cascade (no migration needed).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label blocked.
 - Row 6 label 'R253' still unconfirmed.
 - Last full checkpoint: tsc 0 errors, 280 suites, 1,689 tests. Handover count unsettled: settle at next checkpoint.
@@ -26,7 +26,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
-- App rounds need a Jest run. Backend rounds: Go tests for changed packages, plus tests/regression and tests/migrations when ExportTableNames changes.
+- App rounds need a Jest run and a type check. Backend rounds: Go tests for changed packages, plus tests/regression and tests/migrations when ExportTableNames changes.
+- Any round with no type check or test run gets flagged by the loop. Always run tsc when TS files change.
 - TestPG: localhost:5432, lume_test_local, local Postgres login that works on this Mac (not backend/.env user 'lume'). Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts (until approved).
@@ -45,9 +46,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Retry assertions changed in gymExerciseProgress.emptyStates and gymMuscles.render. Accepted, sign-off requested.
 - Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
 - Nutrition spoken label stays English, literal, no key.
-- Row 4: step 1 over signup pin (Jev 87%). Step 2: oauth_states cleared in profile store delete, no migration. Settings delete check over signupDevFallback pin. Step 3a: oauth_states in auth.ExportTableNames (Jev 91%); export and deletion lists kept separate, drift test keeps them in step. Step 3b: seeded all 29 tables (Jev-free, next step was the required one).
-- Row 4 step 3c picked over the delete-screen text (Jev ranked the text first, 81% on child tables). Reason: deletion completeness is a privacy and store requirement; cascade from child tables is unproven; text move is cosmetic under English only.
-- 'verified' wording check passes (0 uses in code; PHASE4_ROWS.md 2.2 and 2b notes still use it, fix in Row 30).
+- Row 4: step 1 over signup pin (Jev 87%). Step 2: oauth_states cleared in profile store delete, no migration. Settings delete check over signupDevFallback pin. Step 3a: oauth_states in auth.ExportTableNames (Jev 91%); export and deletion lists kept separate, drift test keeps them in step. Step 3b: seeded all 29 tables. Step 3c: child tables seeded, counted by parent ids before delete (Jev 81%, picked over delete-screen text).
+- 'verified' wording check passes in code (0 uses); PHASE4_ROWS.md 2.2 and 2b notes still use it, fix in Row 30.
+- Delete-screen text to en.json only (English-only override). If localeParity fails on new English keys, revert the key move and park it.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -64,9 +65,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
-- Settings delete screen text in the file, not i18n keys. On 502 it shows the raw server message (next after 3c).
-- eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
+- eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Food tab Try again reloads food log only when both reads fail.
 - en.json duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave.
@@ -77,12 +77,15 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PERF_BASELINE.md lines 34 and 41 describe gym read as unbounded: fix in Row 19.
 - rate_limit_counters may hold user ids in text keys (swept in minutes, not listed).
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
+- seedChildRows uses the first exercise_library row, so it depends on the library seed migration. Local DATABASE_URL user 'lume' does not exist locally.
+- Deletion Postgres test seeds 34 of the user tables; any new table must be added to UserTables and to the test.
 
 ## Next
-1. Row 4 step 3c: child tables with own rows in the deletion Postgres test, cascade checked, all green.
-2. Then: move delete-account text to en.json, plain message on 502.
+1. Delete-account text to en.json, plain message on 502 (Row 4 follow-up). Type check and parity test run this round.
+2. Then: rerun tests/regression and tests/migrations after the export list change if not yet run in a checkpoint.
 3. Full checkpoint after the next batch (tsc, app Jest, Go race). Confirm the round number before recording it.
 
 ## Loop note
-- Jev signals are advice only. Smaller tasks chosen when the last task was partial.
+- Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
+- Last round was flagged for no type check or test run. Fixed by running tsc in the next round.
 - Report wording checked each round: no 'verified' in new text.

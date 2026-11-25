@@ -88,3 +88,5 @@ Steps only Isa can do. Each says what, where and why.
 5. Apple Developer portal, the Services ID from step 2: paste the redirect URL Clerk shows on the Apple connection into its Return URLs.
 6. Clerk dashboard, development instance, allowed redirect URLs: add `lume://sso-callback` (the `scheme` in `app.json` plus the `sso-callback` path that `useSSO` uses).
 7. Test "Continue with Apple" on the sign up screen with the development instance, on a real iPhone and on the Simulator, and confirm a new account and a returning account both sign in.
+
+- Row 4, delete account screen: its text cannot move into en.json while English-only rounds forbid es and fr edits, because localeParity.test.ts fails on any en key that es and fr lack. Choose: allow es and fr keys for it, or let the parity test accept en-only keys.
