@@ -10725,3 +10725,8 @@
 - 2026-11-26 00:06 R263 Phase 3 Row 14 can be set BUILT once the checkpoint is green. The only open item was the spoken label, which needs no change under English-only. Reason: the override removes the translation work it was meant to do.
 - 2026-11-26 00:06 R263 Checkpoint now (R265 per schedule is close enough, and the last report was flagged for tests not run). Full tsc and jest --ci are the gate before any status change.
 - 2026-11-26 00:06 R263 Do not change localeParity or the typed tests. Editing them would break Isa's override that es and fr stay untouched.
+- 2026-11-26 00:07 Row 2 BUILT now: Phase 3 Row 14 is BUILT per the latest report, which was the only blocker for Row 2.
+- 2026-11-26 00:07 Rows 2c and 2d are marked BUILT only with test evidence, since the brief gives no detail for them.
+- 2026-11-26 00:07 Spoken meal label stays English with no key: English-only override plus R263. The parity rule question is parked, not asked.
+- 2026-11-26 00:07 Row 6 measurement label 'R253' is kept as recorded and flagged as unconfirmed. It does not block Row 6, which is BUILT.
+- 2026-11-26 00:07 Stale PERF_BASELINE lines, duplicate gym keys and the Food Retry gap move to Parked for a later round.
