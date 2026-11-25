@@ -16,7 +16,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - exhaustive-deps: only appState.tsx:119 remains (parked). Kept disables: SliderField:68, BottomSheet:95, 103, 134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b open items (PARTIAL)
-- Step sweep: 16 signup and paywall render files pass (63 tests). Loop check flagged 7 grep-matched files as not run: running now.
+- Step sweep: last report said 28 onboarding-importing files plus 8 others all pass. Loop flagged it as partly done; re-check round running (grep list plus one run per file).
 - Training days question: done in code (onboarding store only, not sent to plan).
 - Goal, activity, diet, cuisine, training days not editable in src/app/profile yet.
 - Plan-ready summary screen: approved, not built.
@@ -54,6 +54,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Stale plan items (disable not present) are dropped, not added to Blocked.
 - Jev advice only; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
+- Sweep flag: re-check round re-runs the grep and each file; closed only when the list matches.
 
 ## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
@@ -87,9 +88,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
 
 ## Next
-1. Row 2b: close step sweep (7 unrun files, this round).
+1. Row 2b: re-check sweep (this round), record file list and counts.
 2. Row 2b: goal, activity, diet, cuisine and training days editable in src/app/profile.
-3. Row 2b: plan-ready summary screen (approved).
+3. Row 2b: plan-ready summary screen (waits for Isa's approval of the design; keep parked until then).
 4. Row 3 remainder after Isa signs off.
 5. Gym key rename only after Isa approves.
 6. Next checkpoint: run Go gates and lint, record numbers in BASELINE_phase4.md.

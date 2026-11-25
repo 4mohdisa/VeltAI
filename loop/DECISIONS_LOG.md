@@ -11020,3 +11020,7 @@
 - 2026-11-26 01:51 Kept the English only override: no es or fr text was added.
 - 2026-11-26 01:51 Kept Row 2b PARTIAL; it does not close until the profile editing and plan-ready summary items are done.
 - 2026-11-26 01:51 Kept appState.tsx:119 parked; the exhaustive-deps cleanup is not in this round.
+- 2026-11-26 01:53 Chose the sweep re-check first because the loop flagged the last report as partly done; the profile editing task waits one round.
+- 2026-11-26 01:53 The sweep counts as closed only when the grep list and every listed file's run match the earlier report.
+- 2026-11-26 01:53 Jev ranked the run action highest (87%); kept run, as the brief requires, and the task is small and read mostly.
+- 2026-11-26 01:53 The plan-ready summary screen stays parked until Isa approves it, so it is not the next pick.
