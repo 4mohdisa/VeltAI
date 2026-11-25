@@ -11,13 +11,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
 - Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
-- Row 5 step 2a: checked by a test and read (productionReadiness.test.ts, tsc, lint). Only ai_daily_limit_reached is non-retryable. Plain 429 stays queueable.
+- Row 5 step 2a: checked by a test and read. Only ai_daily_limit_reached is non-retryable. Plain 429 stays queueable.
+- Row 5 step 2b photo scan: done in src/lib/data/scan.ts (scanRefused), checked by photoScan.render.test.tsx (9 of 9).
 - Last full checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
 
 ## Next
-1. Row 5 step 2b: photo scan screen shows server limit message (in progress).
-2. Row 5 step 2b: label scan and pipeline screens (one per round).
-3. Row 5 step 2c: AI query screen shows server limit message.
+1. Row 5 step 2b: verify scanRefused against scanSeam.test.ts and the barcode and label render tests (one per command). Last round skipped this.
+2. Row 5 step 2b: label scan screen (src/app/food/label-scan.tsx) shows the limit message.
+3. Row 5 step 2c: AI query screen shows the limit message.
 4. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
 5. Row 3 after Isa signs off the Apple steps.
 6. Maestro flows (2b, 23) once Maestro is confirmed.
@@ -39,6 +40,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
+- Row 5 photo scan limit handled in scan.ts (scanRefused), not the screen: the error is caught there. Accepted; the scope question is closed.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -63,7 +65,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit; plain 429 queueable confirmation.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -73,6 +75,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
+- Server limit message is English only (by the English-only rule).
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
 - Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
 - act() warnings left: accountLocale 6, integrationsLocale 6, photoScan 4, confidenceBadge.noBreakdown 3, brainProfileCard.numbers 2, scanCards.strings 2.

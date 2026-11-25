@@ -11400,3 +11400,6 @@
 - 2026-11-26 04:52 Chose the photo scan screen first because step 2b is one screen per round and the photo scan is the most used AI entry point (smallest safe task, Jev risk high).
 - 2026-11-26 04:52 Deferred the other-code 429 expect line to a later round so this round touches one surface only.
 - 2026-11-26 04:52 Did not ask Isa anything; the two open questions from step 2a stay in Blocked (plain 429 queueable, brief and insights at the limit).
+- 2026-11-26 04:54 Accepted the photo scan limit change in src/lib/data/scan.ts instead of the screen file: the error is caught there and the screen never sees it. This closes the scope question, so it is not asked of Isa.
+- 2026-11-26 04:54 Verify-first rule applied: the last report skipped the neighbouring scan tests, so this round checks them before any new surface.
+- 2026-11-26 04:54 Chose the smallest task with high risk on recent rounds, per Jev's signal and the one-surface rule.
