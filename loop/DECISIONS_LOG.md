@@ -10985,3 +10985,7 @@
 - 2026-11-26 01:38 Kept appState.tsx:119 blocked: Isa has not answered and the brief forbids asking again.
 - 2026-11-26 01:38 Kept the Jev advice to run: it is advice only and the brief forbids ask.
 - 2026-11-26 01:38 Notes trimmed to fit under 600 words. Every Approved, Blocked and Parked item is kept in shortened form, nothing dropped.
+- 2026-11-26 01:39 Chose the checkpoint because the last handover asked for a full tsc and full Jest run with no file changes, and the measurements edits came after the last full checkpoint.
+- 2026-11-26 01:39 Jev suggested run at 83%. Kept run, which also matches the brief. Jev's risk score of 0.9 is noted, but this round is read only, so the risk is low.
+- 2026-11-26 01:39 Did not retry appState.tsx:119. It is on the Blocked list and was asked twice.
+- 2026-11-26 01:39 Parked the two items spotted in measurements.tsx (changeHeightUnit still calls heightToCm; cm rounding mismatch) for a later row, because the checkpoint must change no files.
