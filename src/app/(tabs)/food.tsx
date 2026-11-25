@@ -638,6 +638,7 @@ export default function FoodLogScreen() {
             <ErrorState
               message={t(isPastDay ? 'food.empty.loadFailedPast' : 'food.empty.loadFailed')}
               onRetry={reloadBoth}
+              retryLabel={t('common.tryAgain')}
             />
           ) : loading ? (
             <View style={{ paddingTop: space.lg }}>

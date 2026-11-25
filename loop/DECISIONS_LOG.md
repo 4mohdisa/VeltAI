@@ -10885,3 +10885,7 @@
 - 2026-11-26 01:08 Picked candidate 1: smallest task, named as NEXT in the last report, one file, cleanup only. Jev agrees (run 98%).
 - 2026-11-26 01:08 Food tab retry label unify and the Platform.OS helper move to the next rounds, in that order.
 - 2026-11-26 01:08 gym.monthSessions now also backs the all-time streak count. Parked for a naming fix; not changed this round because renaming keys touches many files.
+- 2026-11-26 01:09 Picked the Food retry label unify as the smallest open item in Next (25 Nov). Jev rated it 99% run, so the choice matches.
+- 2026-11-26 01:09 Removed the redundant openURL.mockRestore() item from Next: it was done in the last round and checked by a test.
+- 2026-11-26 01:09 errorState.retry is deleted from all three locale files only if no other code uses it. This is a deletion, not a translation, so parity holds.
+- 2026-11-26 01:09 OWNER_CHECKS_phase4.md parity line is left as is (append only). Isa closes it himself.

@@ -12,12 +12,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
 - Last checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
-- Duplicate gym keys removed: gym.monthSessions and gym.monthFreezes kept, gymCount block deleted in en, es and fr (deletion only). Lint and 5 tests pass. Full suite not yet run since.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Row 4 delete account BUILT. Helper isManageSubscriptionAvailable() in subscriptionLinks.ts.
+- Redundant openURL.mockRestore() removed (checked by a test, 9 of 9).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -53,7 +53,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Subscription screen follows the delete screen: same helper, one copy of the URL. Done.
 - Round choice: prompt rejected for two screens, rewritten to one. Platform helper done.
 - Round 2026 (duplicate gym keys): one key per meaning kept; the other removed from en.json, and from es/fr as a key deletion only (no translation) so parity holds.
-- 25 Nov: picked the redundant mockRestore cleanup over the Food retry label (smaller, named as next). Jev agreed.
+- 25 Nov: redundant mockRestore cleanup done and checked by a test.
+- 25 Nov: Food retry label unify picked as next (smallest open item). Jev agreed.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -74,8 +75,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
-- Food tab: 'Try again' on notices and 'Retry' on the empty-list error. Unify in cleanup.
-- Inline Platform.OS checks: move into one export in subscriptionLinks.ts.
+- Food tab retry label: in progress this round (Next 1).
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
@@ -86,11 +86,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 
 ## Next
-1. Remove redundant openURL.mockRestore() (this round).
-2. Food tab retry label unify (cleanup).
-3. Move inline Platform.OS checks into one export in subscriptionLinks.ts.
-4. Phase 3 Row 14 remainder, so Row 2 can close.
-5. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
+1. Food tab retry label unify on common.tryAgain (this round).
+2. Move inline Platform.OS checks into one export in subscriptionLinks.ts.
+3. Phase 3 Row 14 remainder, so Row 2 can close.
+4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.

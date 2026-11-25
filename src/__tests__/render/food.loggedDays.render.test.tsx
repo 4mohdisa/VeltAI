@@ -94,10 +94,8 @@ type Tree = Awaited<ReturnType<typeof renderFoodTab>>;
 // allText's JSON.stringify trips on a circular prop in the full Food screen tree,
 // so match the rendered string children directly.
 const hasText = (tree: Tree, text: string) => findAll(tree, (p) => p.children === text).length > 0;
-// LoadFailedNotice says "Try again"; the empty-list ErrorState says "Retry".
-const RETRY_LABELS: unknown[] = [en.common.tryAgain, en.errorState.retry];
 const retryButtons = (tree: Tree) =>
-  findAll(tree, (p) => RETRY_LABELS.includes(p.accessibilityLabel) && typeof p.onPress === 'function');
+  findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain && typeof p.onPress === 'function');
 const weekStripShown = (tree: Tree) =>
   findAll(tree, (p) => p.accessibilityLabel === en.weekStrip.previousWeek).length > 0;
 
