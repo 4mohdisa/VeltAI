@@ -10,15 +10,16 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3, 5 (5a built; 5b open).
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Go checkpoint: 49 packages, 770 tests pass, race clean, go vet clean. Lint 0 findings. BASELINE_phase4.md written.
+- Go checkpoint: 49 packages, 770 tests pass, race clean, go vet clean. Lint 0 findings.
 - Frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; 4 snapshots pass.
-- 7 TestPG tests in tests/scan: all ran against lume_test_local and passed, 0 skipped (closed).
+- 7 TestPG tests in tests/scan ran against lume_test_local and passed.
+- requireScanConsent fails closed (scan.go): nil store or no consent gives 403 ai_consent_required. Read error gives 500 (kept on purpose; Isa to confirm).
 - Route audit: 93 of 93 consumed. Two anomaly routes broken by design. ROUTE_COVERAGE.md regenerated; Isa decides commit or delete.
 - 2b open: plan-ready summary (needs Isa go-ahead); Maestro flow shared with row 23, not run.
 - exhaustive-deps: only appState.tsx:119 left (needs Isa).
 
 ## Next
-1. requireScanConsent fail closed (scan.go:42) with tests. This round. Chosen over 5b because it closes a consent hole and Jev ranked it first.
+1. Round cleanup: remove redundant var _ ConsentStore if proven; confirm 500 read error and AI routes match; OWNER_CHECKS entry. Row 5 stays PARTIAL.
 2. Row 5b app consent screen, Settings switch, daily AI limits (getConsent, setConsent, revokeConsent in src/lib/api.ts).
 3. Row 6 entitlements webhook with fixtures.
 4. Maestro onboarding flow for 2b and 23 once Maestro is confirmed installed.
@@ -53,6 +54,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Training days stay on device; no backend field.
 - Row 5 split: 5a backend store and route gate; 5b app consent screen, Settings switch, daily limits.
 - 5a: consent on profiles.ai_consent_at; routes GET/POST/DELETE /api/ai/consent exist; all six AI routes gated. No new table or routes.
+- Consent read error stays 500 (not 403) so a DB hiccup does not re-show consent to agreed users. Still refused. Isa may switch (OWNER_CHECKS).
 - Consent version: parked in OWNER_CHECKS for Isa. Built without version until he decides.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
@@ -71,10 +73,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Approve goal change rule. Training days: device only or add a backend field.
 - Go-ahead for plan-ready summary screen.
 - Whether route audit runs in npm run verify. Whether to commit ROUTE_COVERAGE.md.
+- Consent version and whether pre-version consents are asked again. 500 vs 403 for consent read errors.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).
-- Consent version and whether pre-version consents are asked again.
 - Deferred: es and fr text for goals.plan, preferences.food, onboarding.trainingDays.
 
 ## Parked
@@ -93,4 +95,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Audit script always rewrites ROUTE_COVERAGE.md; no skip option.
 - Packages with no test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
-- Row 5 consent scan path: requireScanConsent fail closed is in progress this round (see Next 1).
+- Row 5b: daily limit error copy must be English and shown by the app.

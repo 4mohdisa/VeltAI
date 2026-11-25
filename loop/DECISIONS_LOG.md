@@ -11092,3 +11092,7 @@
 - 2026-11-26 02:34 Latest report accepted: the 7 TestPG tests live in tests/scan and all passed with 0 skipped. The notes now name the package.
 - 2026-11-26 02:34 Consent version and pre-version consent handling stay parked in OWNER_CHECKS_phase4.md; no version field is added in this round.
 - 2026-11-26 02:34 This round is not a checkpoint: scoped Go tests and TestPG for tests/scan only.
+- 2026-11-26 02:37 Loop flagged the last report as partly done. Chose a short cleanup round before 5b so the consent work is closed, not left half open.
+- 2026-11-26 02:37 Kept consent read errors at 500, not 403 ai_consent_required. A 403 would make a user who already agreed see the consent screen again on a database error. The request is still refused, so the fail closed rule holds. Isa may still choose 403 (logged in OWNER_CHECKS_phase4.md).
+- 2026-11-26 02:37 Run over 5b because the open fail closed hole is a consent issue and Jev ranks the cleanup first; risk score is high, so keep the step small.
+- 2026-11-26 02:37 Jev signals used only as a second opinion. Chose run (72%) over ask. Asking is not allowed under the no-questions rule.
