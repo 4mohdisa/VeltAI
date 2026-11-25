@@ -11271,3 +11271,7 @@
 - 2026-11-26 03:46 Kept the checkpoint read only except for fixing consent-caused reds, per the checkpoint rule in the notes.
 - 2026-11-26 03:46 Kept the four old alert keys in en.json because es.json and fr.json still contain them, which the locale parity test needs.
 - 2026-11-26 03:46 Ask Lume 403 path: accepted the report's approach (open /ai-consent, no alert). Analytics-at-consent stays a blocked question for Isa.
+- 2026-11-26 03:47 Chose candidate 1 because the loop flagged the last report as partly done; notes rule says verify first before moving on.
+- 2026-11-26 03:47 The brief names src/__tests__/aiConsentScreen.test.ts, which does not exist; the step uses find to locate the real files instead of assuming names.
+- 2026-11-26 03:47 The four unused alert keys stay in place until Isa signs off, as in the blocked list.
+- 2026-11-26 03:47 Row 5 stays PARTIAL until the withdraw switch (5b) is built.

@@ -28,25 +28,51 @@ const METRICS: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
-test('a 403 from the server opens /ai-consent and shows the permission message', async () => {
-  const { ApiError } = jest.requireActual<typeof import('@/lib/api')>('@/lib/api');
-  mockQuery.mockRejectedValueOnce(new ApiError(403, 'ai_consent_required'));
+const { ApiError } = jest.requireActual<typeof import('@/lib/api')>('@/lib/api');
 
-  const tree = renderScreen(
+beforeEach(() => mockQuery.mockReset());
+
+async function send(tree: ReturnType<typeof renderScreen>, question: string): Promise<void> {
+  const input = findAll(tree, (p) => p.accessibilityLabel === 'Ask a question')[0];
+  act(() => (input.props.onChangeText as (t: string) => void)(question));
+  const button = findAll(tree, (p) => p.accessibilityLabel === 'Send')[0];
+  await act(async () => {
+    (button.props.onPress as () => void)();
+    await new Promise((r) => setImmediate(r));
+  });
+}
+
+const render = () =>
+  renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <AIQueryScreen />
     </SafeAreaProvider>,
   );
 
-  const input = findAll(tree, (p) => p.accessibilityLabel === 'Ask a question')[0];
-  act(() => (input.props.onChangeText as (t: string) => void)("How's my protein this week?"));
-  const send = findAll(tree, (p) => p.accessibilityLabel === 'Send')[0];
-  await act(async () => {
-    (send.props.onPress as () => void)();
-    await new Promise((r) => setImmediate(r));
-  });
+test('a 403 from the server opens /ai-consent and shows the permission message', async () => {
+  mockQuery.mockRejectedValueOnce(new ApiError(403, 'ai_consent_required'));
+
+  const tree = render();
+  await send(tree, "How's my protein this week?");
 
   expect(mockQuery).toHaveBeenCalledTimes(1);
   expect(router.push).toHaveBeenCalledWith('/ai-consent');
   expect(allText(tree)).toContain('Ask Lume needs your permission');
+});
+
+test('after consent is accepted, asking again shows the answer and does not reopen /ai-consent', async () => {
+  mockQuery
+    .mockRejectedValueOnce(new ApiError(403, 'ai_consent_required'))
+    .mockResolvedValueOnce({ state: 'ok', answer: 'Your protein is on track this week.' });
+
+  const tree = render();
+  await send(tree, "How's my protein this week?");
+  expect(router.push).toHaveBeenCalledTimes(1);
+
+  await send(tree, "How's my protein this week?");
+
+  expect(mockQuery).toHaveBeenCalledTimes(2);
+  expect(router.push).toHaveBeenCalledTimes(1);
+  expect(allText(tree)).toContain('Your protein is on track this week.');
+  expect(allText(tree)).not.toContain('Ask Lume needs your permission');
 });
