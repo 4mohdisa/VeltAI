@@ -10713,3 +10713,7 @@
 - 2026-11-26 00:00 R260: picked muscle focus Retry over workoutsLine and the kcal snapshot. It was the recommended next step and closes the 14b gap.
 - 2026-11-26 00:00 R260: gymMuscles.render.test.tsx assertion changed from no Retry to Retry present, same as R258, because the reason it pinned (no refetch) is no longer true. Accepted as an assertion-only edit.
 - 2026-11-26 00:00 R260: ran the task rather than asking. Isa's standing rule is no questions. The step is one screen and one assertion, so the risk is small.
+- 2026-11-26 00:01 R261 chose 14c workoutsLine: it is the next open Row 14 item and small. Jev ranked the same first.
+- 2026-11-26 00:01 R261 kept the checkpoint at R265 instead of running it now, as set in the notes. Reason: one item per round.
+- 2026-11-26 00:01 R261 did not use action ask for the Jev 17% ask signal. Isa's standing rule is no questions.
+- 2026-11-26 00:01 R261 accepted the R258 and R260 Retry assertion changes as already recorded in the notes.

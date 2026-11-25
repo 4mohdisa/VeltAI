@@ -6,21 +6,21 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 ## Overrides (Isa, 25 Nov)
 1. English only. Do not write, translate or review es or fr. Leave those files untouched. Missing keys fall back to English. No language switcher.
 2. Time box about 15 rounds per row. R12 writes leftovers to Parked. R15 sets BUILT (PARTIAL only if core broken).
-3. Order: Row 2, finish 2b in time box, verify 2c and 2d, then 3 to 14b, 15 to 30, 31.
+3. Order: Row 2 (finish 2b in time box), verify 2c and 2d, then 3 to 14b, 15 to 30, 31.
 4. Rows 2c and 2d: verify, mark BUILT, replace placeholder rows with brief descriptions.
 
 ## State
-- Repo /Users/mohammedisa/Development/projects-app/LumeAI, branch loop/phase4. Loop script commits. export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
+- Branch loop/phase4. Export PATH first. Loop script commits.
 - BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 15 BUILT.
-- Phase 3 Row 14: 14a and 14b done (R254 to R259). R260 muscle focus Retry in progress. 14c open: workoutsLine (summaryCards.ts), nutrition spoken kcal snapshot.
+- Phase 3 Row 14: 14a, 14b done (R254 to R260, Retry on muscle cards, patterns card, exercise progress, muscle focus). Open: 14c workoutsLine (summaryCards.ts), nutrition spoken kcal snapshot.
 - Then Row 14 BUILT, then Row 2 BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Last full checkpoint R242: tsc 0, 275 suites, 1,673 tests. Next checkpoint R265.
+- Last full checkpoint R242 (tsc 0, 275 suites, 1,673 tests). Next checkpoint R265.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
 - Every prompt states branch rule and forbids other git commands.
-- Lint changed files: npx expo lint <files> --max-warnings 0. No new eslint-disable.
+- Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
 - A round with no Jest run is not done.
@@ -36,11 +36,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - R209 to R212 onboarding keys nested, options under options.<value>. R225, R226 validateOnboardingPayload uses i18n. R228, R229 paywall 4xx toast uses onboarding.paywall.submitFailed except 401.
 - R231, R235 CUISINE_LABEL and connectivityMessage removed. R233, R234 Terms disclaimer in legal.terms. R236 en-AU kept as formatNumber output.
 - R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
-- R243 to R251 foodDays keeps dates and sets error on failure, clears on success. Calendar and Food tab read data only. One notice when both Food reads fail; food-log error wins.
-- R254 14a over 14b. R255 gym.tsx literal over 14b. R256 14b over R249. R257 rejected R256 prompt: one component per prompt, always.
+- R243 to R251 foodDays keeps dates, sets error on failure, clears on success. Calendar and Food tab read data only. One notice when both Food reads fail; food-log error wins.
+- R254 14a over 14b. R255 gym.tsx literal over 14b. R256 14b over R249. R257 one component per prompt, always.
 - useLoggedDays keeps own state (moving useHydration breaks hydrationErrorScreens.test.ts:34, import cycle). Retry label stays 'Try again'.
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
-- R258 and R260: Retry assertions changed from no Retry to Retry present (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted.
+- R258, R260 Retry assertions changed from no Retry to Retry present (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted.
+- R261 14c before early checkpoint. Jev ask 17% not used (no questions).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -58,16 +59,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise. Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only.
-- en.json duplicate gym month keys: leave.
-- PERF_BASELINE.md lines 34, 41 stale.
+- en.json duplicate gym keys (gym.monthSessions/monthFreezes vs gymCount.sessions/freezes): leave.
+- PERF_BASELINE.md lines 34, 41 stale (gym read now limited).
 - Hotspots: useHydration no freshness window; gym/history.tsx uses .map not FlatList; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
-- R247 note says isLoading; calendar reads data only.
 - Phase 3 Row 13 older text lists saved and translation items as open. R252 records checks.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
-- gymRange.ts:198 comment harmless.
 
 ## Loop note
 - Jev advisory: keep small Row 14 tasks. Isa approvals still pending.
-- Next: 14c workoutsLine, then nutrition kcal snapshot, then Row 14 BUILT, then Row 2 BUILT.
+- Next: 14c workoutsLine, then nutrition kcal snapshot, then Row 14 BUILT, then Row 2 BUILT. Checkpoint R265.
