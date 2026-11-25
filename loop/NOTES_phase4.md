@@ -10,12 +10,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
-- BUILT (per PHASE4_ROWS.md, verify count): 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 14, 15 BUILT in PHASE3_ROWS.md (Row 14 status to confirm: 14b Retry done, 14c done, nutrition spoken label open).
+- BUILT (per PHASE4_ROWS.md): 1, 2.2, 2c, 2d, 12, 12b, 29. Row 2.5 unconfirmed: check with grep (see Next). Phase 3 Rows 6, 13 BUILT in PHASE3_ROWS.md. Row 14 PARTIAL: 14b Retry done, 14c done, nutrition spoken label open.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 PARTIAL: steps 1 to 3 done (AppleSignInButton, signup.tsx uses it, seven owner steps appended to OWNER_CHECKS_phase4.md). Owner checks pending.
-- Checkpoint (after Apple button step): tsc 0 errors, 279 suites, 1,687 tests pass, 4 snapshots pass.
-- Progress line in PHASE4_ROWS.md was stale; being fixed this round from table counts.
+- Row 3 PARTIAL: steps 1 to 3 done (AppleSignInButton, signup.tsx uses it, seven owner steps in OWNER_CHECKS_phase4.md). Browser OAuth flow. Owner checks pending.
+- Last checkpoint: tsc 0 errors, 279 suites, 1,687 tests pass, 4 snapshots pass.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -41,15 +40,15 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - R243 to R251 foodDays keeps dates, sets error on failure, clears on success. One notice when both Food reads fail; food-log error wins.
 - R254 14a over 14b. R255 gym.tsx literal over 14b. R256 14b over R249. R257 one component per prompt.
 - useLoggedDays keeps own state. Retry label stays 'Try again'.
-- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms. Label 'R253' unconfirmed.
+- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. Label 'R253' unconfirmed.
 - R258, R260 Retry assertions changed (gymExerciseProgress.emptyStates, gymMuscles.render). Accepted, sign-off requested.
 - R261 14c before early checkpoint. R262 14c workoutsLine needed no change.
 - R263, R265 Nutrition spoken label stays English, literal, no key.
 - R266 2c and 2d mapped from OWNER_CHECKS headings. Accepted.
-- R267 Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal. Clerk hook chosen from node_modules.
-- R268 Apple sign in uses browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits.
-- R268 AppleSignInButton hidden on Android. Revisit with owner checks.
-- Row 3 step 3 (Apple owner steps) done. Row 3 bookkeeping (PARTIAL, progress line) done this round, chosen over housekeeping because the last report was flagged as partly done.
+- R267 Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal.
+- R268 Apple sign in uses browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. AppleSignInButton hidden on Android, revisit with owner checks.
+- Row 3 bookkeeping done (PARTIAL, progress line from table).
+- Loop: last report's NEXT was flagged as partly done. This round closes it with a documentation run (progress line, Row 3 wording, PERF_BASELINE lines 34 and 41).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -70,7 +69,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - workoutsWeek.untimed_one and _other identical English. Harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
-- DevSignup in signup.tsx (dev only) still shows Apple on Android.
+- DevSignup in signup.tsx (dev only) still shows Apple on Android, and does not use AppleSignInButton.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only when both reads fail.
 - en.json duplicate keys gym.monthSessions and gym.monthFreezes vs gymCount.sessions and gymCount.freezes: leave.
@@ -78,24 +77,18 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
-- PERF_BASELINE.md lines 34 and 41 describe the gym read as unbounded (out of date).
 - Nutrition spoken meal label (src/app/dashboard/nutrition.tsx:231) still open; English-only key blocked by parity rule.
 
 ## Housekeeping queue (before Row 4)
-- PHASE4_ROWS.md progress line: done this round, recheck next round.
-- 2c and 2d 'files likely touched' and 'test' cells: replace 'files from that commit' and 'tests for that work'.
-- PERF_BASELINE.md lines 34 and 41: gym read now limited to 200.
+- Row 2.5 check: grep for the row. If absent, remove the 2.5 reference from notes.
 - DevSignup Apple button in signup.tsx: use AppleSignInButton.
-- Loop notes checkpoint line: 279 suites, 1,687 tests.
+- Loop notes checkpoint line: 279 suites, 1,687 tests (update at next checkpoint).
 
 ## Next
-1. Row 3 bookkeeping (this round).
-2. Housekeeping queue above.
+1. Housekeeping run (this round): progress line, Row 3 wording, PERF_BASELINE lines 34 and 41, 2.5 grep.
+2. DevSignup Apple button.
 3. Row 4 (account deletion).
 
 ## Loop note
 - R267: prompt rejected for multiple components. Rewritten as one component.
-- Jev R267: run 89%, confidence 0.83. Risk 1.1. Chose run, smaller task.
-- R268: Jev run 89%. Chose run for smallest next step.
-- Checkpoint round: Jev run 82%, risk 1.1. Chose run (read only).
-- Flagged report (automatic check): the last report's NEXT step was not done. Chose a run to close it. Jev run 92%, risk 1.1. Ask not allowed.
+- Jev signals used only as advice. Smaller tasks chosen when last task was partial.

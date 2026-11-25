@@ -31,16 +31,16 @@ Data layer (`src/lib/data/hooks.ts`): there is no React Query and no staleTime. 
 | GET /api/food/days | `user_id`, optional date range, DISTINCT (`food/pg.go:174-179`) | `food_logs_user_date_idx` |
 | GET /api/food/summary | `user_id`, `date`, `status` (`food/pg.go:159`) | `food_logs_user_date_idx` |
 | GET /api/food/saved | `user_id` (`food/pg.go:205-207`) | `saved_foods_user_idx` |
-| GET /api/gym/sessions | `user_id`, optional date range, no LIMIT (`gym/pg.go:52-56`) | `gym_sessions_user_date_idx (user_id, date)` |
+| GET /api/gym/sessions | `user_id`, optional date range, optional LIMIT (`gym/pg.go:52-57`); the app sends 200 | `gym_sessions_user_date_idx (user_id, date)` |
 | Session exercises | `session_id = ANY(...)` (`gym/pg.go:93-95`) | `gym_exercises_session_idx` |
 | GET /api/gym/progress/{name} | `gs.user_id`, `ge.name ILIKE` (`gym/schedule_pg.go:760-767`) | user and session covered; `name ILIKE` has no index |
 | GET /api/gym/exercises | filters, LIMIT 200 (`gym/schedule_pg.go:54`) | not checked against the exercise_library indexes |
 
 ## Hotspots
 
-- `src/lib/data/hooks.ts:170`: `hydrateGym` calls `api.gym.listSessions()` with no date range, and `gym/pg.go:52-56` has no LIMIT, so every gym load returns the user's full session history and its exercises. Planned fix: a bounded range or a page size on the history read. Needs Isa, because `src/lib/data` is off limits.
+- `src/lib/data/hooks.ts:175`: `hydrateGym` calls `api.gym.listSessions({ limit: GYM_SESSION_HYDRATE_LIMIT })` (200, `hooks.ts:169`), and `gym/pg.go:57` applies it as `LIMIT`, so a gym load returns at most the newest 200 sessions and their exercises. Older history stays on the server; the month calendar and date-range views fetch their own windows.
 - `src/lib/data/hooks.ts:53-93`: `useHydration` has no freshness window, so each of the 6 `useGym()` screens (gym tab, profile, freeze, streak, history, log-session) refetches sessions and streak on every mount. Planned fix: skip the refetch when the store was hydrated in the last N seconds. Needs Isa (`src/lib/data`).
-- `src/app/gym/history.tsx:41`: all sessions render through `.map` inside a ScrollView, with no virtualisation. Combined with the unbounded read above, the heavy user mounts every row. Planned fix: a FlatList with `keyExtractor`, keeping the current card look.
+- `src/app/gym/history.tsx:41`: all sessions render through `.map` inside a ScrollView, with no virtualisation. With the 200-session read above, the heavy user mounts up to 200 rows. Planned fix: a FlatList with `keyExtractor`, keeping the current card look.
 - `src/app/(tabs)/food.tsx:416`: the SectionList has no `getItemLayout`. The rows vary in height, so it is likely not worth adding. Planned fix: none until the scroll fps is measured.
 - Backend, 49 queries: these use `WHERE id::text = $1` (for example `food/pg.go:66`, `gym/pg.go:143`). Casting the uuid column to text stops the primary-key index from being used, so each lookup by id is a sequential scan. Planned fix: compare `id = $1::uuid`, with a test, once a slow route is measured.
 - `gym/schedule_pg.go:764`: `ge.name ILIKE $2` has no index on `gym_exercises.name`. Rows are first narrowed by the user's sessions, so the expected cost is low. Planned fix: measure before adding an index.

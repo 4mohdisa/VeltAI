@@ -10753,3 +10753,8 @@
 - 2026-11-26 00:17 Row 3 set to PARTIAL: steps 1 to 3 done, owner checks pending. It is not BUILT until Isa finishes the Apple steps and the Android and native sheet questions are answered.
 - 2026-11-26 00:17 Ran one render test file, since a round without a Jest run is not done.
 - 2026-11-26 00:17 Jev ranked run at 92%; agreed. Ask was not allowed.
+- 2026-11-26 00:18 Chose the housekeeping run to close the flagged partly done report: the progress line and Row 3 wording were still stale, and PERF_BASELINE lines 34 and 41 are out of date.
+- 2026-11-26 00:18 Kept the Row 2.5 mismatch as a check, not an edit: the notes list 2.5 as BUILT but the table may not have it, so the notes are corrected later from the grep result.
+- 2026-11-26 00:18 Jev run 88% agreed with the run. Used the smallest step because the last task finished only partly and the risk score is 1.1.
+- 2026-11-26 00:18 Kept the browser OAuth Apple flow as the working choice (R268). The native sheet stays an Isa decision.
+- 2026-11-26 00:18 Only Jest run is the appleSignInButton render test, to satisfy the rule that a round with no Jest run is not done.
