@@ -11579,3 +11579,6 @@
 - 2026-11-26 05:52 Chose the clerkMessage fallback as the next Row 2b item, per the Next list. The subscription.notConfiguredDev copy stays parked.
 - 2026-11-26 05:52 Jev's run recommendation (75%) matches the plan, so no second look was needed.
 - 2026-11-26 05:52 Recorded the clean checkpoint counts after dead end 9 in the notes.
+- 2026-11-26 05:53 Chose the checkpoint first because the notes list it as Next 1 and the last change touched shared onboarding code. Jev also favours a run, and a checkpoint is the smallest safe run.
+- 2026-11-26 05:53 Kept dead end 8 out of the rewrite: it is already recorded in the Row 2b notes and DESIGN_REFERENCES.md, so the notes only say it is built and awaiting checkpoint.
+- 2026-11-26 05:53 Trimmed the notes to fit the 600 word limit. Decisions, approvals and owner items are kept in full meaning; repeated gotchas and minor parked lines are merged.
