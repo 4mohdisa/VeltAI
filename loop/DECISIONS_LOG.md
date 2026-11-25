@@ -11502,3 +11502,7 @@
 - 2026-11-26 05:27 Left the stale DESIGN_REFERENCES.md audit for the next round, since it is documentation and does not block Row 2b.
 - 2026-11-26 05:27 Allowed moving the screenTitle helper to a shared helper file, so the rule against duplicated logic holds.
 - 2026-11-26 05:27 Did not run the full suite, because this is not a checkpoint round.
+- 2026-11-26 05:28 Picked Resend code over the audit refresh: it is product behaviour on a live flow, and the audit is documentation that can follow in the next round.
+- 2026-11-26 05:28 Recorded the repeated blocker (Row 6b step f, stale strings) under Blocked on Isa and did not retry it, per the loop note.
+- 2026-11-26 05:28 Treated the Welcome ?mode=signin title check as done: the latest report shows a test pinning the title to en.signup.titleSignIn, so it is no longer flagged.
+- 2026-11-26 05:28 Kept the shared screenTitle helper in src/__tests__/render/helpers.tsx, since src/__tests__/helpers/ may not be edited, and recorded that in notes.

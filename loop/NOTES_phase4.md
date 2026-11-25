@@ -12,20 +12,20 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - PARTIAL: 2b, 3, 6b.
 - Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
 - Row 2b dead end 1 (Sign in link on Welcome): built; checked by welcome.render.test.tsx (6 of 6).
-- Row 2b dead end 2 (auth title by mode): checked by signupSignInMode.render.test.tsx for the toggle path. Welcome ?mode=signin title path: flagged, verifying now.
+- Row 2b dead end 2 (auth title by mode): built; checked by welcome.render.test.tsx (signin title = en.signup.titleSignIn) and signupSignInMode.render.test.tsx. Shared screenTitle helper lives in src/__tests__/render/helpers.tsx.
 
 ## Next
-1. Row 2b: verify the Welcome sign in link title (?mode=signin). In progress.
+1. Row 2b dead end 3: Resend code on the email code step. In progress (signupResend.render.test.tsx exists; check it first).
 2. Refresh the stale audit in DESIGN_REFERENCES.md (lists dead ends 1 and 2 as open; says no maintain option, no training days, no i18n. All now exist).
-3. Row 2b dead end 3: confirm Resend code on the email code step (signupResend.render.test.tsx may cover it).
-4. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
-5. Row 6b: remaining work that does not depend on step (f).
-6. Row 3 after Isa signs off the Apple steps (owner).
-7. Maestro flows (2b, 23) once Maestro is confirmed.
+3. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
+4. Row 6b: remaining work that does not depend on step (f).
+5. Row 3 after Isa signs off the Apple steps (owner).
+6. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
+- Briefs name files that do not exist (welcome.tsx, src/locales). Check paths with grep before use.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check or leaves a gap is flagged; next round verifies it first.
@@ -41,7 +41,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit in aiBrain.ts returns null on daily limit; consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; brief and insights keep fallback text at limit; rate_limit_counters not reused; kept src/app/ai-consent.tsx; background rebuilds count against allowance; consent gate in backend/internal/consent.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess). Step (f) on Isa. Duplicate-note merge dropped (would remove facts).
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess). Duplicate-note merge dropped (would remove facts).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
@@ -56,9 +56,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
 - Jev low confidence on a round where stop was considered: stop rejected, rows remain open.
+- Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx (src/__tests__/helpers/ is not editable beyond useApiHarness.ts, which is forbidden).
 
 ## Blocked on Isa (park, do not retry)
-- Row 6b step (f): stale strings. Names none; deferred under English only.
+- Row 6b step (f): stale strings. Names none; deferred under English only. Repeated twice in a row; not retried.
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.

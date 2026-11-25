@@ -138,3 +138,16 @@ test('a failed resend shows the error message', async () => {
   await settle();
   expect(allText(tree)).toContain(en.signup.resendFailed);
 });
+
+test('after a failed resend, Resend code stays enabled and a retry clears the error', async () => {
+  const tree = await reachCodeStage();
+  mockPrepareEmail.mockRejectedValueOnce(new Error('network'));
+  pressResend(tree);
+  await settle();
+  expect(buttonWithTitle(tree, en.signup.resendCode)!.props.disabled).toBe(false);
+
+  pressResend(tree);
+  await settle();
+  expect(mockPrepareEmail).toHaveBeenCalledTimes(2);
+  expect(allText(tree)).not.toContain(en.signup.resendFailed);
+});
