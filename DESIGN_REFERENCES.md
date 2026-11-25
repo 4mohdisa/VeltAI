@@ -31,42 +31,47 @@ Searches run:
 
 ## Audit of the current screens
 
-Flow order (src/app/onboarding): Welcome (index), goal (1), activity (2), cuisine (3), dietary (4), preview (5), signup (6), measurements (7), body-type (8), targets (9), paywall (10), done. The launch gate is src/app/index.tsx and resume is src/lib/onboarding/resume.ts. After sign-in, the next screen is chosen in src/lib/onboarding/postAuth.ts.
+Refreshed 26 Nov 2026 to match the code on loop/phase4.
 
-None of these screens use i18n. Every string in the onboarding stack is hard-coded English. Row 2b will need en, es and fr keys for every string it touches.
+Flow order (src/app/onboarding, step numbers as passed to OnbScaffold): Welcome (index), goal (1), activity (2), training-days (3), cuisine (4), dietary (5), preview (6), signup (7), measurements (8), body-type (9), targets (10), paywall (11), done. The launch gate is src/app/index.tsx and resume is src/lib/onboarding/resume.ts. After sign-in, the next screen is chosen in src/lib/onboarding/postAuth.ts.
+
+Every onboarding screen reads its text through i18n (useTranslation) from src/lib/i18n/locales. en.json, es.json and fr.json exist, but English is the only language shipped for now. New Phase 4 strings go into en.json only and onto ENGLISH_ONLY in src/__tests__/localeParity.test.ts. The es and fr text is deferred.
 
 ### Screens and states
 
 | Screen | File | States |
 |---|---|---|
 | Launch gate | src/app/index.tsx | Spinner while deciding; signed out → resume at last step or Welcome; signed in and completed → tabs; signed in, not completed or server unreachable → resume |
-| Welcome | onboarding/index.tsx | One state: wordmark, headline, subline, "Get Started". No back, no progress |
+| Welcome | onboarding/index.tsx | One state: wordmark, headline, subline, "Get Started", and a "Sign in" link that opens signup in sign-in mode. No back, no progress |
 | Goal | onboarding/goal.tsx | Unselected; selected (auto-advances after 300 ms, immediately under Reduce Motion) |
 | Activity | onboarding/activity.tsx | Same as Goal |
+| Training days | onboarding/training-days.tsx | Default 3 to 4 days; Continue always enabled |
 | Cuisine | onboarding/cuisine.tsx | None selected (Continue disabled); one or more selected |
 | Dietary | onboarding/dietary.tsx | Any selection, "None" exclusive; Continue always enabled |
 | Preview | onboarding/preview.tsx | Insight cards built from cuisines and halal; trial footnote; "Create my account" |
-| Signup | onboarding/signup.tsx | Clerk: buttons, email entry (inline error), code entry (inline error), busy per provider, error toasts, sign-up or sign-in mode. No Clerk key: dev buttons that skip auth |
+| Signup | onboarding/signup.tsx | Clerk: buttons, email entry (inline error), code entry (inline error) with Resend code (loading, inline error, retry), busy per provider, error toasts, sign-up or sign-in mode (title follows the mode), already signed in continues the flow. No Clerk key: dev buttons that skip auth |
 | Measurements | onboarding/measurements.tsx | Empty; typing (errors only on filled fields); submitted (errors on empty required fields); unit toggles convert values; target weight only for lose or muscle |
 | Body type | onboarding/body-type.tsx | Unselected; selected (auto-advance) |
 | Targets | onboarding/targets.tsx | Derived kcal and macros; adjust sheet open; health disclaimer |
-| Paywall | onboarding/paywall.tsx | Billing on: hosted paywall, then purchased, restored, cancelled, error or unavailable toast; billing off: Continue with dev note; restoring; submit error toast (server message or connection message) |
+| Paywall | onboarding/paywall.tsx | Billing on: hosted paywall, then purchased, restored, cancelled, error or unavailable toast; subscription check (not confirmed message, or a 401 ends the session); billing off: Continue with dev note; restoring; submit: 401 ends the session and opens sign-in, 402 refusal copy, any other failure the translated failure copy |
 | Done | onboarding/done.tsx | Success check, auto-replaces to tabs after 750 ms with a toast |
 
 ### Dead ends
 
-1. No sign-in from Welcome. A returning user (new phone, reinstall) must answer goal, activity, cuisine, dietary and preview before the signup screen shows "Already have an account? Sign in". Those answers are thrown away when the server says they already finished.
-2. In sign-in mode the signup screen title still reads "Create your account".
-3. The code stage has no "Resend code". If the email never arrives, the only way out is "Use a different email" and typing the same address again.
-4. Resume lands on the saved step with an empty back stack (index.tsx redirects straight to it). The scaffold's back button calls router.back(), which then has nowhere to go. Needs a device check to confirm.
-5. After auth succeeds on signup and the user reaches measurements, Back returns to the signup buttons with a live session. Pressing a provider again is likely to fail with a Clerk "already signed in" error. Needs a device check.
-6. A session that expires or is revoked after signup but before the paywall resumes the user past signup while signed out. The final POST then fails with a 401 and a "check your connection" toast, and the flow never sends them back to sign in.
-7. The paywall "unavailable" toast is written for a developer ("check the RevenueCat offering and paywall are configured"), not for a user.
-8. Target weight on measurements has no validation. An empty or extreme value is accepted silently.
+| # | Dead end | Status | Where | Checked by a test |
+|---|---|---|---|---|
+| 1 | No sign-in from Welcome: a returning user had to answer every question before reaching sign-in | Built | onboarding/index.tsx: "Sign in" link to /onboarding/signup?mode=signin | src/__tests__/render/welcome.render.test.tsx |
+| 2 | In sign-in mode the signup title still read "Create your account" | Built | onboarding/signup.tsx: title from signup.titleSignIn or signup.titleSignUp | src/__tests__/render/signupSignInMode.render.test.tsx, src/__tests__/render/welcome.render.test.tsx |
+| 3 | The code stage had no "Resend code" | Built | onboarding/signup.tsx: Resend code with loading state, inline error and retry. No cooldown (open for Isa) | src/__tests__/render/signupResend.render.test.tsx |
+| 4 | A resumed step has no back history, so back did nothing | Built | components/onboarding/OnbScaffold.tsx: with no history, back replaces to the start of onboarding (Welcome). Going to the previous step instead needs a shared step-order list (open for Isa) | src/__tests__/render/onboardingScaffold.render.test.tsx |
+| 5 | Back from measurements returned to the signup buttons with a live session; a provider pressed again could fail | Built | onboarding/measurements.tsx: back goes to preview, skipping signup. onboarding/signup.tsx: Clerk's session_exists continues the flow instead of an error | src/__tests__/render/onboardingSignedInBack.render.test.tsx |
+| 6 | A session that ends between signup and the paywall gave a "check your connection" toast and never sent the user to sign in | Built | onboarding/paywall.tsx: a 401 on the subscription check or on the final save ends the session, keeps the answers and opens sign-in; a network error keeps the connection message and Continue retries | src/__tests__/render/paywallSessionExpired.render.test.tsx, src/__tests__/render/paywallOnboardingPost.render.test.tsx |
+| 7 | The paywall "unavailable" toast was written for a developer, not a user | Open | onboarding/paywall.tsx, onboarding.paywall.plansUnavailable | None |
+| 8 | Target weight on measurements has no validation; an empty or extreme value is accepted silently | Open | onboarding/measurements.tsx: age, sex, height and weight are validated, target weight is not | None |
 
 ### Static explainer slides
 
-- Welcome: static wordmark, headline and subline, one button. No sign-in.
+- Welcome: static wordmark, headline and subline, one button and a Sign in link.
 - Preview: static insight cards. Only the cuisine and halal lines reflect answers; the two "always" lines are fixed copy.
 - Paywall step: a static feature checklist and a pricing footnote shown before the hosted RevenueCat paywall, so the user sees two paywall-like screens in a row.
 - Done: a 750 ms success beat that cannot be interacted with.
@@ -75,11 +80,11 @@ None of these screens use i18n. Every string in the onboarding stack is hard-cod
 
 | Question | Today | Notes |
 |---|---|---|
-| Goal | Yes, single choice: lose weight, build muscle, eat healthier, track my nutrition | No gain-weight or maintain option |
+| Goal | Yes, single choice: lose weight, build muscle, eat healthier, track my nutrition | Onboarding has no separate maintain option. After onboarding, Profile > Goals (src/app/profile/goals.tsx) offers Lose, Maintain (track), Gain (muscle) and Eat healthier, and recomputes the targets |
 | Diet | Yes: cuisines (multi, at least one) and dietary requirements (halal, vegetarian, vegan, gluten-free, dairy-free, none) | |
 | Units | Partly: cm or ft/in and kg or lb toggles inside measurements | Display only; stored as cm and kg. No app-wide units question |
 | Activity | Yes, single choice of 4 levels | Labels are short; no concrete days or steps |
-| Training days | No | Nothing in the store, types or API asks for training days per week |
+| Training days | Yes, onboarding/training-days.tsx after activity, default 3 to 4 days | Stored only in the onboarding store, not sent to the plan; also editable on Profile > Goals |
 | Body data | Age, sex, height, weight required; target weight for lose or muscle; body type (5 options) | Body type options use emoji including a burger for "Overweight", which reads as a judgement |
 
 ## Rerun, 26 Nov 2026 (row 2b step 1)

@@ -11526,3 +11526,7 @@
 - 2026-11-26 05:35 Jev ranked the same action (run). No change to the choice.
 - 2026-11-26 05:35 Kept the change to paywall.tsx and one test file to respect one surface per round while risk is high.
 - 2026-11-26 05:35 Trimmed the notes to under 600 words by merging repeats and removing finished work. Approved decisions are kept as one line each.
+- 2026-11-26 05:36 Chose the docs only audit refresh: it is the smallest task, it was the latest report's recommendation, and Jev rates the risk of continuing without Isa as high.
+- 2026-11-26 05:36 The loop note says a blocker repeated twice, but names no task. The latest report's BLOCKED item (restore purchases runs the subscription check, so a 401 ends the session) is recorded under Blocked and not retried.
+- 2026-11-26 05:36 Dead ends 1 to 6 are marked built, with the 401 path checked by paywallSessionExpired.render.test.tsx.
+- 2026-11-26 05:36 Dead ends 7 and 8 stay open for later rounds.
