@@ -10660,3 +10660,13 @@
 - 2026-11-25 23:40 Kept the stacked-notice fix and the records check for later: the time box for Row 13 is about 15 rounds and R249 closes its open code items.
 - 2026-11-25 23:40 Added the R247 correction in PHASE3_ROWS.md as an append only note, as the last report asked.
 - 2026-11-25 23:40 es and fr render tests for the error states stay parked, because Isa chose English only at launch.
+- 2026-11-25 23:41 Chose the verify round first because the last automatic check flagged a red or unrun gate, and nothing was run in the last report.
+- 2026-11-25 23:41 Jev ranked ask at 88 percent. Ask is not allowed under the no-question rule, so the round runs as a verify step instead. The concrete reason Jev cannot see: the R249 blocker is already recorded in Blocked on Isa, so the round needs no answer from Isa.
+- 2026-11-25 23:41 R249 alias removal stays parked. It needs Isa's approval to edit src/__tests__/foodDays.test.ts, which pins alias fields. Approval request appended to OWNER_CHECKS_phase4.md.
+- 2026-11-25 23:41 English only: Row 13 translation items (Save food, scan breakdown text, Gym month line) are handled by English wording only; es and fr are not touched.
+- 2026-11-25 23:41 Row 13 stays PARTIAL until the verify round is green and Isa answers the alias request. Time box: this round counts as round 1 of the Row 13 close-out.
+- 2026-11-25 23:42 Chose R250 verify over R249: R249 needs Isa's approval to edit foodDays.test.ts, which is recorded in OWNER_CHECKS_phase4.md and in Blocked, so it stays parked.
+- 2026-11-25 23:42 Jev put ask at 80 percent. Kept run: ask is not an allowed action, and the only open question (R249) does not block verify, which needs no approval.
+- 2026-11-25 23:42 Stop was not justified: nothing dangerous, no hosted service involved, and gates are not red (last green checkpoint R242).
+- 2026-11-25 23:42 Rejected prompt fixed: this prompt covers one task (verify) with no screen or component edits, and lists one file per Jest command.
+- 2026-11-25 23:42 Verify round fixes only real bugs in R240 to R248 production code, with no test edits and no alias removal.
