@@ -10697,3 +10697,10 @@
 - 2026-11-25 23:53 Jev signal read as advisory: risk 0.8 of 2 at confidence 0.34 is low confidence, so the chosen task stays small and reversible.
 - 2026-11-25 23:53 The records write (PHASE3_ROWS.md) is allowed this round because it is a one-line note, not a code change.
 - 2026-11-25 23:53 English only at launch: es and fr files stay untouched; parity keeps the R180 rule.
+- 2026-11-25 23:54 R256 picks Row 14b over the R249 alias removal, because R249 was blocked on Isa's approval twice in a row and is recorded under Blocked on Isa, not retried.
+- 2026-11-25 23:54 R256 keeps the Row 14b prompt to reuse existing en keys and avoid touching es or fr, so the English-only rule and parity both hold.
+- 2026-11-25 23:54 Jev ranked run at 94% confidence; agreed, since Row 14b is the smallest unblocked surface and the report recommended it.
+- 2026-11-25 23:54 R257: the rejected R256 prompt asked for two components (muscle cards and exercise progress). Rewritten to one component: muscle cards only. Exercise progress moves to R258.
+- 2026-11-25 23:54 R257: the next surface is Row 14b muscle cards. It does not depend on the blocked R249 approval, so it is safe to run.
+- 2026-11-25 23:54 R257: Jev ranks the same top task (run 98%). Kept my pick, which matches the candidate order in the notes.
+- 2026-11-25 23:54 R257: English only at launch. The prompt forbids es and fr edits.

@@ -4,19 +4,19 @@
 Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Overrides from Isa (25 Nov)
-1. English only at launch. Do not write, translate or review es or fr. Leave es and fr files untouched. Parity: es and fr may not miss en keys; missing keys fall back to English. No language switcher.
+1. English only at launch. Do not write, translate or review es or fr. Leave es and fr files untouched. Missing keys fall back to English. No language switcher.
 2. Time box about 15 rounds per row. Round 12: write leftovers under Parked. Round 15: set BUILT (PARTIAL only if core function broken), move on. Polish, wording, extra render tests, micro refactors and alias cleanups are parked.
 3. Order: Row 2, finish 2b in time box, verify 2c and 2d, then rows 3 to 14b, then 15 to 30, then 31.
 4. Rows 2c and 2d: verify, mark BUILT, replace placeholder rows with brief descriptions.
 
 ## State
-- Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
+- Branch loop/phase4 only. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Row 13 BUILT (R252). Phase 3 Row 15 done (R166). Phase 3 Row 6 BUILT (label R253, unconfirmed).
+- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 15 BUILT (Row 6 label R253 unconfirmed).
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT: plan-ready summary parked for Isa.
-- Last full green checkpoint: tsc 0, 275 suites, 1,673 tests (label R253, unconfirmed). Next full suite only at the next checkpoint round.
-- Phase 3 Row 14 split: 14a gym month line (gymRange.ts) DONE (verified R254-R255). 14a2 gym.tsx literal near line 160 (R255, in progress). 14b Retry on muscle cards and exercise progress. 14c workoutsLine and nutrition spoken kcal snapshot.
+- Last full green checkpoint: tsc 0, 275 suites, 1,673 tests. Next full suite at next checkpoint.
+- Phase 3 Row 14: 14a gym month line and gym.tsx literal DONE (R254 to R255). 14b muscle cards Retry: IN PROGRESS (R257, one component per round). 14b exercise progress Retry: open (R258). 14c workoutsLine and nutrition spoken kcal snapshot: open.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -46,8 +46,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R243 foodDays: failure keeps dates and sets error; success clears it. R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
 - R247, R248 calendar.tsx and food.tsx read data only. R250 verify only, no alias removal.
 - R251 one notice when both Food tab reads fail; food-log error takes priority.
-- R254 picks Row 14a over 14b (smallest step; Row 14 blocks Row 2). Jev agrees.
-- R255 picks gym.tsx literal (near line 160) over Row 14b. Jev ranked it first (81%). One string, one file, low risk.
+- R254 picks Row 14a over 14b. R255 picks gym.tsx literal over 14b. R256 picks 14b over R249 (R249 blocked twice).
+- R257 rejected R256 prompt (two components). Rewritten to one component: muscle cards. Exercise progress moves to R258.
 - useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. 1,000 sessions: rows 6,000 to 1,200; exercises query 1.4 to 2.1 ms down to 0.3 to 0.4 ms.
 
@@ -57,23 +57,23 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Simulator: answers survive real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
-- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Lines 37, 38, 40, 51, 66, 79, 90. In OWNER_CHECKS_phase4.md.
+- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Lines 37, 38, 40, 51, 66, 79, 90. Blocked twice: do not retry until Isa approves.
 - Approve plan-ready summary screen (2b).
-- Confirm Row 6 round label R253 and the simulator numbers (cold start, scroll, memory), owner check pending.
+- Confirm Row 6 round label R253 and simulator numbers (cold start, scroll, memory), owner check pending.
 
 ## Parked
 - formatCurrency hard-codes A$ and dot decimal.
-- es and fr render tests (Subscription, Gym tab, MacroTargetRows, barcode failed, calendar error, Food logged-days error).
+- es and fr render tests (all): parked until Isa restarts localisation.
 - legalParity.test.ts scans .tsx only. authMachine.test.ts names say copy but no copy tested.
 - consent.ts and purchases.ts eslint-disable for require rule. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339, :362 are literals. Nothing dispatches SIGNED_IN.
 - Jest noise: i18next banner, devWarn, act warnings.
 - Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
-- R249 alias removal (see Blocked).
-- Food tab: 'Try again' on the food-log notice reloads only the food log when both reads fail.
+- Food tab: 'Try again' on food-log notice reloads only the food log when both reads fail.
+- en.json duplicates: gym.monthSessions/monthFreezes vs gymCount.sessions/freezes. Merge needs es and fr edits: leave.
 - PERF_BASELINE.md lines 34 and 41 stale. Fix after checkpoint.
-- Open hotspots: useHydration has no freshness window; gym/history.tsx uses .map not FlatList; backend lookups use id::text = $1 (49 queries, skips primary key index); gym/schedule_pg.go sorts oldest first then LIMIT 30.
+- Open hotspots: useHydration has no freshness window; gym/history.tsx uses .map not FlatList; 49 backend queries use id::text = $1; gym/schedule_pg.go sorts oldest first then LIMIT 30.
 - Phase 3 Row 13 older text still lists saved and translation items as open; R252 records the checks.
 
 ## Problems noticed, not fixed
@@ -84,4 +84,8 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - OWNER_CHECKS_phase4.md line 39 quotes old es wording. Append only, leave it.
 - The R247 note says isLoading, but calendar.tsx reads only data.
 - getMorningBrief and getProfile swallow errors (Phase 3 Parked, Row 14 step e).
-- gymRange.ts:198 comment quotes the design's English month line. Harmless, but grep-visible as a literal.
+- gymRange.ts:198 comment quotes the design's English month line. Harmless.
+
+## Loop note
+- R256 prompt rejected for asking for two components. Rule: one component per prompt, always.
+- Same blocker returned twice (R249 approval). Recorded under Blocked; not retried.

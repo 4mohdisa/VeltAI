@@ -151,9 +151,14 @@ export function useExercises(filters?: ExerciseFilters): {
   return { exercises: data, loading, isError };
 }
 
-export function useGymPatterns(): { patterns: GymPatterns | null; loading: boolean; isError: boolean } {
-  const { data, loading, isError } = useApi<GymPatterns | null>(() => api.gym.getGymPatterns(), null);
-  return { patterns: data, loading, isError };
+export function useGymPatterns(): {
+  patterns: GymPatterns | null;
+  loading: boolean;
+  isError: boolean;
+  refetch: () => void;
+} {
+  const { data, loading, isError, refetch } = useApi<GymPatterns | null>(() => api.gym.getGymPatterns(), null);
+  return { patterns: data, loading, isError, refetch };
 }
 
 export function useExerciseProgress(name: string, limit?: number): {

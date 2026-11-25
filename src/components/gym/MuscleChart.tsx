@@ -110,7 +110,7 @@ export function MuscleVolumeRow({
 
 export function MuscleChart(): JSX.Element {
   const { t } = useTranslation();
-  const { patterns: rawPatterns, loading, isError } = useGymPatterns();
+  const { patterns: rawPatterns, loading, isError, refetch } = useGymPatterns();
   const patterns = isGymPatternsShape(rawPatterns) ? rawPatterns : null;
 
   if (loading) {
@@ -128,7 +128,7 @@ export function MuscleChart(): JSX.Element {
   const map = patterns?.muscle_volume_map;
   const hasData = map != null && Object.keys(map).length > 0;
   // A failed read is not "no workouts": say so instead of the first-use prompt.
-  if (isError && !hasData) return <LoadFailedNotice message={t('gym.loadFailed')} />;
+  if (isError && !hasData) return <LoadFailedNotice message={t('gym.loadFailed')} onRetry={refetch} />;
   const max = hasData ? Math.max(0, ...Object.values(map)) : 0;
   // Strongest focus first, as the design orders its muscle list.
   const ordered = hasData ? [...MUSCLE_GROUPS].sort((a, b) => (map[b] ?? 0) - (map[a] ?? 0)) : MUSCLE_GROUPS;
