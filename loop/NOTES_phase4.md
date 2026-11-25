@@ -10,14 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b dead ends 1 to 6 built and checked by tests. A 401 on the subscription check now ends the session (paywallSessionExpired.render.test.tsx).
-- Row 2b open: dead end 7 (paywall 'unavailable' toast reads like a dev note), dead end 8 (no check on target weight).
-- Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; go test -race ./... ok.
+- Row 2b: dead ends 1 to 6 built and checked by tests. Open: 7 (paywall 'unavailable' wording, may already be solved), 8 (no target weight check).
+- Last full checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; go test -race ok.
+- Last round was docs only and its checks did not run. Verification is this round's task.
 
 ## Next
-1. Row 2b: refresh stale audit in DESIGN_REFERENCES.md (docs only, in progress).
-2. Row 2b dead end 7: paywall 'unavailable' toast wording.
-3. Row 2b dead end 8: target weight check.
+1. Verify the docs round: tsc plus the 7 audit render tests, one per command.
+2. Row 2b dead end 8: validate target weight on measurements (same range and inline error as weight), with a render test.
+3. Row 2b dead end 7: confirm the toast key; close if it is the plansUnavailable text.
 4. Row 6b: remaining work not tied to step (f).
 5. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
 6. Row 3 after Isa signs off the Apple steps (owner).
@@ -25,7 +25,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
-- Every prompt states the branch rule first and names files fully. Grep paths first; briefs may name missing files.
+- Prompts state the branch rule first and name files fully. Grep paths first.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
 - Report wording: 'built' or 'checked by a test'. Never 'verified'. A skipped check is flagged and verified first next round.
 - A blocker that repeats twice goes to Blocked and is not retried.
@@ -38,7 +38,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first, in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
+- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
 - Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 2b dead end 6: 401 on subscriptionConfirmed ends the session, same as the save.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
@@ -57,15 +57,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
-- Docs only round chosen as the smallest task while Jev risk is high.
+- Docs only round chosen as the smallest task while Jev risk is high. Jev 17% clean completion: smallest task chosen.
 
 ## Blocked on Isa (park, do not retry)
 - Row 6b step (f) stale strings and es/fr text: deferred under English only.
-- Resumed onboarding Back goes to Welcome. Needs one shared step list.
+- Resumed onboarding Back goes to Welcome, or to previous step: needs one shared step list.
 - A 402 while the app is open is not routed to the paywall.
 - legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable; label scan exit; scan.ts vs photo capture screen.
-- Row 2b: back on measurements goes to preview or not; Clerk SSO session_exists on device.
+- Row 2b: back after sign-in goes to preview or not; Clerk SSO session_exists on device; Resend cooldown.
 - Restore purchases runs the subscription check, so a 401 there ends the session. Confirm.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.

@@ -11530,3 +11530,6 @@
 - 2026-11-26 05:36 The loop note says a blocker repeated twice, but names no task. The latest report's BLOCKED item (restore purchases runs the subscription check, so a 401 ends the session) is recorded under Blocked and not retried.
 - 2026-11-26 05:36 Dead ends 1 to 6 are marked built, with the 401 path checked by paywallSessionExpired.render.test.tsx.
 - 2026-11-26 05:36 Dead ends 7 and 8 stay open for later rounds.
+- 2026-11-26 05:38 Chose verification first: the loop flagged the last round for unrun checks, and the rules say a skipped check is verified first next round.
+- 2026-11-26 05:38 Chose the smallest task because Jev rates clean completion of the last task at 17% and the risk of continuing is high.
+- 2026-11-26 05:38 Folded the dead end 7 key check into this round as a read only grep, with no edit until it is reported.
