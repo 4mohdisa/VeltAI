@@ -10989,3 +10989,8 @@
 - 2026-11-26 01:39 Jev suggested run at 83%. Kept run, which also matches the brief. Jev's risk score of 0.9 is noted, but this round is read only, so the risk is low.
 - 2026-11-26 01:39 Did not retry appState.tsx:119. It is on the Blocked list and was asked twice.
 - 2026-11-26 01:39 Parked the two items spotted in measurements.tsx (changeHeightUnit still calls heightToCm; cm rounding mismatch) for a later row, because the checkpoint must change no files.
+- 2026-11-26 01:40 Picked candidate 1 (ParameterForm disable removal): it is the next item in the notes, it is one module, and it is small. Jev risk is high, so a smaller task is preferred.
+- 2026-11-26 01:40 Jev suggested ask; kept run because the brief forbids ask. Appstate:119 stays blocked and is not retried.
+- 2026-11-26 01:40 Checkpoint numbers recorded: tsc 0 errors, Jest 283 suites and 1,706 tests pass. Go gates and lint were not run that round, so they are queued for the next checkpoint.
+- 2026-11-26 01:40 Notes compressed to fit the 600 word limit: finished work and repeated blocker lines merged, no approved decisions removed.
+- 2026-11-26 01:40 Report wording limited to built or checked by a test, per the notes rule.

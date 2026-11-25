@@ -10,11 +10,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT.
-- Measurements leftovers done (heightError, weightError, ageError reuse render values). Tests: measurements 13 pass, onboardingMeasurements 3 pass, lint clean.
-- Last full checkpoint: 282 suites, 1,704 tests, tsc 0, lint clean (before measurements edits).
+- Last checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass. Go gates and lint not run at that checkpoint.
 - TestPG: 26 pass on lume_test_local. Race green.
 - Phase 3 Rows 6, 13, 14 BUILT.
-- exhaustive-deps disables left: ParameterForm:141, BottomSheet:88, TodayCard:237, ScanReviewCard:118, energy.ts:37, appState.tsx:119 (blocked).
+- exhaustive-deps disables left: ParameterForm:141 (chosen this round), BottomSheet:88, TodayCard:237, ScanReviewCard:118, energy.ts:37, appState.tsx:119 (blocked).
 
 ## Rules
 - One module per prompt, max 5 steps, grep first. Every prompt states branch rule, forbids other git commands, ends with report format.
@@ -46,7 +45,6 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - exhaustive-deps: compute plain values in render, depend on them, no disable. Reanimated SharedValue write: keep disable. Real missing dependency: fix unless behaviour changes (then park).
 - Stale plan item (disable not present) is dropped, not added to Blocked.
 - Jev asked for ask at 90%, 74%, 52%; kept run because brief forbids ask.
-- Measurements leftovers chosen over BottomSheet test: same file, smallest step.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
 
 ## Blocked on Isa (do not retry)
@@ -61,13 +59,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
-- appState.tsx:119 exhaustive-deps: a repeated identical batch would run again. Behaviour change; disable kept. Asked twice; do not retry.
+- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept. Asked twice; do not retry.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
-- measurements.tsx changeHeightUnit still calls heightToCm(); cm mode heightError has no rounding while draftHeightCm rounds. Reuse or align later.
+- measurements.tsx changeHeightUnit calls heightToCm(); cm heightError has no rounding while draftHeightCm rounds. Align later.
 - Lifecycle render tests after BottomSheet.
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
@@ -86,11 +84,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
 
 ## Next
-1. Checkpoint result this round: record tsc and full Jest numbers. Fix failures next round if any.
-2. ParameterForm.tsx:141 exhaustive-deps (no disable, compute in render).
+1. ParameterForm.tsx:141 exhaustive-deps (this round). Report result, then tsc and lint.
+2. appState.tsx:119 stays blocked until Isa answers.
 3. BottomSheet open and close lifecycle render test.
 4. Row 3 remainder after Isa signs off.
 5. Gym key rename only after Isa approves.
+6. Next checkpoint: run Go gates and lint, record numbers.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.
