@@ -9,19 +9,20 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f blocked on Isa).
-- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests. Route audit 93 of 93.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, verify round pending), 6b (steps a to e built; f blocked on Isa).
+- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change).
 - Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only, ENGLISH_ONLY).
 
 ## Next (one surface per round)
-1. IN PROGRESS: Row 5b withdraw switch in Settings, then daily limit copy.
+1. IN PROGRESS: verify round for the Settings AI consent switch and setup.ts (tsc, all render files, lint). Then checkpoint full suite.
 2. Move not-enough-data message in aiBrain.ts ('Keep logging for a few days') into en.json.
-3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-4. Row 3 remainder after Isa signs off.
+3. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+5. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
-- Every prompt states the branch rule first.
+- Every prompt states the branch rule first and names files fully (Claude Code knows only the handover).
 - One task per prompt, one screen or component, max 5 steps. Find files with find (grep -rl matches contents).
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
@@ -50,14 +51,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
+- Round (verify): kept verify pick over Jev's move-not-enough-data pick, because the last report edited setup.ts (used by every render test) and skipped the full run.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision). Not retried.
 - Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (last two still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
+- Legal copy src/app/legal/privacy.tsx says 'Turn off AI processing'; the path is now Settings > Privacy > AI processing > Allow AI processing.
 - Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm. Replace vs navigate for insights.tsx.
-- Remove four unused alert keys (aiConsent.title, body, notNow, continue) from en, es, fr together.
-- es and fr text for aiQuery.consentNeeded.
+- Remove four unused alert keys (aiConsent.title, body, notNow, continue) and settings.privacyDetails.aiTurnOff from en, es, fr together.
+- es and fr text for aiQuery.consentNeeded, settings.privacyDetails.aiAllow and aiConsentedOn.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
@@ -65,11 +68,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Parked
 - Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent.
-- profile/privacy.tsx hardcoded 'Your data' title.
-- ENGLISH_ONLY list has two near-identical comments; merge.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
-- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
+- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
+- ENGLISH_ONLY list has two near-identical comments; merge.
 - Root config and backend JS not linted. verify:go lacks -count=1. Audit script rewrites ROUTE_COVERAGE.md.
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. auth.ExportTableNames and account.UserTables overlap.
@@ -81,3 +83,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long.
 - Row 6b: three near-duplicate test-result lines; merge.
+- Settings switch: src/app/profile/privacy.tsx is not yet covered by a full suite run; see Next 1.

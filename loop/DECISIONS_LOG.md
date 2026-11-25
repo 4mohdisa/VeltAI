@@ -11286,3 +11286,8 @@
 - 2026-11-26 03:53 Chose the withdraw switch over the one-line not-enough-data string move: row 5 requires the switch and it is the next listed item; the string move follows next round.
 - 2026-11-26 03:53 Jev pick not overridden: Jev ranked the same top task. Last report was complete and carried no skipped-check flag, so no verify-first round.
 - 2026-11-26 03:53 Full suite not run: the last round changed no test count, and this is not a checkpoint round.
+- 2026-11-26 03:57 Kept the verification pick over Jev's 89% pick (move not-enough-data message). Reason Jev cannot see: the last report edited setup.ts, which every render test uses, skipped the full run, and the notes rule says a report that skips a check is verified first in the next round.
+- 2026-11-26 03:57 Limited the verify round to tsc, render files and lint, not the full suite, because this is not a checkpoint round. The full suite waits for the next checkpoint.
+- 2026-11-26 03:57 Restricted any mock fix to setup.ts only, so the verify round cannot drift into feature work.
+- 2026-11-26 03:57 Kept the Settings switch as built (by test) but not EXACT. No simulator check claimed.
+- 2026-11-26 03:57 Kept legal copy change (Turn off AI processing path in src/app/legal/privacy.tsx) in Blocked on Isa, unchanged from the notes.
