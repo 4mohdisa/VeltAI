@@ -11,13 +11,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Branch loop/phase4 only. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Checkpoint: tsc 0; Jest 283 suites, 1,706 tests, 4 snapshots pass. TestPG 26 pass. Race green.
+- Last full checkpoint: tsc 0; Jest 283 suites, 1,706 tests, 4 snapshots pass. TestPG 26 pass. Race green.
+- Checkpoint round this session: read only, rerun tsc and full app Jest (see report).
 - exhaustive-deps: only appState.tsx:119 left (parked). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b (PARTIAL)
-- Done: step sweep, training days in onboarding store, goal and activity editable in goals.tsx, Eat healthier kept, goal mapping via goalTypeOf (bodyFromOnboarding.test.ts). Verification round done.
-- Next: training days editable in src/app/profile.
-- Then: diet and cuisine (need backend endpoint; POST /api/onboarding rewrites whole row and re-seeds saved foods).
+- Done: step sweep, training days in onboarding store and editable in src/app/profile/goals.tsx (device only), goal and activity editable, Eat healthier kept, goal mapping via goalTypeOf.
+- Next: diet and cuisine in src/app/profile. Needs a backend endpoint: POST /api/onboarding rewrites the whole row and re-seeds saved foods.
 - Plan-ready summary: parked until Isa approves design.
 - Maestro: shared with row 23, not run.
 
@@ -47,8 +47,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; other removed.
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
-- Checkpoint round: read only, full tsc and full app Jest.
-- Goal and activity editing split from diet, cuisine and training days. Goal round scope audit: unrelated edits reverted.
+- Checkpoint round: read only, full tsc and full app Jest, no file changes.
+- Goal and activity editing split from diet, cuisine and training days. Unrelated edits reverted.
 - Rejected prompt (no branch rule) rewritten; new prompt names loop/phase4 and bans branch switching.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
@@ -65,8 +65,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Rename gym.monthSessions and gym.monthFreezes.
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
 - Approve goal change rule (replaces hand-set calorie target).
+- Training days: store on device only (no backend field) or add a field.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
-- Eat healthier label may shrink on narrow phones or large text: device look.
+- Eat healthier and training days labels may shrink on narrow phones or large text: device look.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
@@ -81,9 +82,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Row 2b: training days editable in src/app/profile (this round).
-2. Row 2b: diet and cuisine, with backend endpoint.
+1. Checkpoint: full tsc and full app Jest (this round, read only).
+2. Row 2b: diet and cuisine editable in src/app/profile, with backend endpoint.
 3. Row 2b: plan-ready summary (parked until Isa approves design).
 4. Row 3 remainder after Isa signs off.
 5. Gym key rename only after Isa approves.
-6. Next checkpoint: Go gates and lint; numbers in BASELINE_phase4.md.
+6. Next Go gates and lint checkpoint; numbers in BASELINE_phase4.md.

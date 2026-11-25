@@ -11051,3 +11051,8 @@
 - 2026-11-26 02:13 Training days are not sent to the plan, because that would overwrite the activity level (existing decision).
 - 2026-11-26 02:13 Jev ranks run at 58%, which agrees with the candidate list. Kept run; the module is small, so the risk is low.
 - 2026-11-26 02:13 Notes compressed to fit the 600 word limit. Decisions, blocked items and parked items kept, with repeats merged and finished work removed.
+- 2026-11-26 02:15 Chose the checkpoint because the loop flagged the last report as only partly done; a read only full run confirms no regression before the diet and cuisine work.
+- 2026-11-26 02:15 Row 2b stays PARTIAL. Training days are editable on the Goals screen (device store only), but diet and cuisine are still open.
+- 2026-11-26 02:15 Training days have no backend field, so they stay on device only. Isa decides whether to add a field; logged in Blocked.
+- 2026-11-26 02:15 Dropped the es and fr translation blocker for goals.plan keys, since Isa set English only.
+- 2026-11-26 02:15 No file changes this round, per the loop note and the checkpoint rule.
