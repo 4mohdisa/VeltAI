@@ -11407,3 +11407,6 @@
 - 2026-11-26 04:55 Treated the scan.ts scope question as closed, as the Decisions section says. The report's BLOCKED item on it is not re-asked.
 - 2026-11-26 04:55 Kept the limit message in English only, per the English-only override.
 - 2026-11-26 04:55 Did not run the full suite: this is not a checkpoint round.
+- 2026-11-26 04:57 Chose the checkpoint over Jev's pick (Row 5 step 2c). Reason: the loop note makes this round a checkpoint, and the full suite has not run since the label-scan change. The AI query step moves to the next round.
+- 2026-11-26 04:57 The full Jest run also covers the four barcode and label files listed in Parked, so they are checked at this checkpoint.
+- 2026-11-26 04:57 Jev's risk is high on recent rounds, so this round changes no files and runs no new feature work.

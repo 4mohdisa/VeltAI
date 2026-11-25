@@ -11,17 +11,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
 - Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
-- Row 5 step 2a: checked by a test. Only ai_daily_limit_reached is non-retryable.
-- Row 5 step 2b photo scan: done in src/lib/data/scan.ts (scanRefused). scanSeam.test.ts 33/33, barcodeScan.render 4/4, labelScan.render 3/3, photoScan.render 9/9 checked by tests.
-- Last full checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
+- Row 5 step 2a: done. Only ai_daily_limit_reached is non-retryable.
+- Row 5 step 2b: photo scan done (scanRefused in scan.ts). Label scan done (empty review after the limit toast).
+- Last checkpoint (before label scan change): tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go -race ok, 29 TestPG pass on lume_test_local.
+- Round in progress: checkpoint (full tsc and full Jest) after the label scan change.
 
 ## Next
-1. Row 5 step 2b: label scan screen (src/app/food/label-scan.tsx) shows the limit message (in progress).
-2. Row 5 step 2c: AI query screen shows the limit message.
-3. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
-4. Row 3 after Isa signs off the Apple steps.
-5. Maestro flows (2b, 23) once Maestro is confirmed.
-6. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
+1. Row 5 step 2c: AI query screen shows the limit message.
+2. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
+3. Row 3 after Isa signs off the Apple steps.
+4. Maestro flows (2b, 23) once Maestro is confirmed.
+5. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -39,7 +39,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5 photo scan limit handled in scan.ts (scanRefused), not the screen: the error is caught there. Accepted; the scope question is closed and not re-asked.
+- Row 5 photo and label scan limits handled where errors are caught (scan.ts, label-scan.tsx), not in the capture screens. Accepted; not re-asked.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -59,12 +59,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round; flush stays inline.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
+- Checkpoint this round chosen over Jev's Row 5 step 2c pick: the loop note requires a checkpoint and the full suite has not run since the label scan change.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan back to paywall-style exit or empty review.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -77,7 +78,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Server limit message is English only (by the English-only rule).
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
 - Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
-- act() warnings left: accountLocale 6, integrationsLocale 6, photoScan 4, confidenceBadge.noBreakdown 3, brainProfileCard.numbers 2, scanCards.strings 2.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
@@ -88,5 +88,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
 - Row 6b: merge three near-duplicate test-result lines.
-- Four files match the barcode or label scan search but were not run: fibrePipeline.test.ts, foodDetail.test.ts, phase14Regression.test.ts, render/foodAddMenu.render.test.tsx. Also render/scanScreens.strings.render.test.tsx. Run at the next checkpoint.
 - gesture-handler and react-test-renderer warnings: see Blocked.
