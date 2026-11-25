@@ -10,12 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f blocked on Isa).
-- Row 5 report reconciled: tsc 0 errors, Jest 292 of 292 suites, 1,778 of 1,778 tests (includes 403 test). Route audit 93 of 93.
-- Consent moves done and checked by tests: Ask Lume, insights, photo capture, label scan, 403 retry.
+- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests. Route audit 93 of 93.
+- Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only, ENGLISH_ONLY).
 
 ## Next (one surface per round)
-1. IN PROGRESS: move the two 403 messages in aiBrain.ts into en.json keys (add to ENGLISH_ONLY if needed), after reconciling stale counts in repo docs.
-2. Row 5b: withdraw switch in Settings, then daily limit copy.
+1. IN PROGRESS: Row 5b withdraw switch in Settings, then daily limit copy.
+2. Move not-enough-data message in aiBrain.ts ('Keep logging for a few days') into en.json.
 3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 4. Row 3 remainder after Isa signs off.
 
@@ -42,7 +42,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - Row 5: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at. Consent read error stays 500. Consent version 1 (approval pending).
-- Row 5b provider copy: Google Gemini named by default (LLM_PROVIDER=gemini); Anthropic only if backup on. Isa to confirm.
+- Row 5b provider copy: Google Gemini named by default; Anthropic only if backup on. Isa to confirm.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
@@ -50,22 +50,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
-- Round (this one): Jev pick 403 move chosen, with the reconcile step added to close the flag.
 
 ## Blocked on Isa (park, do not retry)
-- A 402 while the app is open is not routed to the paywall (needs routing decision). Recommended twice; not retried.
-- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (plansUnavailable and storeError still describe a free tier).
+- A 402 while the app is open is not routed to the paywall (needs routing decision). Not retried.
+- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (last two still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm if it should. Confirm replace over navigate for insights.tsx.
+- Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm. Replace vs navigate for insights.tsx.
 - Remove four unused alert keys (aiConsent.title, body, notNow, continue) from en, es, fr together.
+- es and fr text for aiQuery.consentNeeded.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
-- Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent. Users must repeat the action.
+- Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent.
 - profile/privacy.tsx hardcoded 'Your data' title.
+- ENGLISH_ONLY list has two near-identical comments; merge.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
@@ -75,7 +76,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans.
-- A returning user without a subscription goes back to onboarding. A plan that ends while the app is open meets 402s in tabs with no paywall.
+- Returning user without subscription goes back to onboarding. Plan ending while app open meets 402s in tabs with no paywall.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long.
+- Row 6b: three near-duplicate test-result lines; merge.

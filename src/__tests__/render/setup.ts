@@ -12,6 +12,8 @@ jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
   useLocalSearchParams: () => ({}),
   usePathname: () => '/onboarding/measurements',
+  // Runs on mount, the way a screen is focused when it first appears.
+  useFocusEffect: (cb: () => void) => jest.requireActual<typeof import('react')>('react').useEffect(cb, [cb]),
   Href: {},
 }));
 

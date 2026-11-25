@@ -11283,3 +11283,6 @@
 - 2026-11-26 03:51 Handled the loop flag by adding step 1 (reconcile stale test counts in repo docs) to this prompt, so the flagged report is closed before the new task starts.
 - 2026-11-26 03:51 Kept English-only rule: new keys go in en.json and onto ENGLISH_ONLY where es and fr lack them, per Isa's override.
 - 2026-11-26 03:51 Row 5b withdraw switch and daily limit copy stay queued as next items, one surface per round.
+- 2026-11-26 03:53 Chose the withdraw switch over the one-line not-enough-data string move: row 5 requires the switch and it is the next listed item; the string move follows next round.
+- 2026-11-26 03:53 Jev pick not overridden: Jev ranked the same top task. Last report was complete and carried no skipped-check flag, so no verify-first round.
+- 2026-11-26 03:53 Full suite not run: the last round changed no test count, and this is not a checkpoint round.

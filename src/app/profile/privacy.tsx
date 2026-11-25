@@ -1,9 +1,9 @@
 // E9 · Privacy
 // Privacy policy + terms (the in-app documents — no account or network
 // needed); product analytics opt-out; data export via the share sheet.
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Share } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { router, useFocusEffect, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -11,7 +11,18 @@ import { SettingsList } from '@/components/display/SettingsList';
 import { showToast } from '@/components/display/toastStore';
 import { api } from '@/lib/api';
 import { hasAiConsent, revokeAiConsent } from '@/lib/ai/consent';
+import { formatLongDate } from '@/lib/formatting';
+import { navigate } from '@/lib/nav';
 import { useSettingsStore } from '@/lib/settings/store';
+
+/** When the server recorded AI consent, or null if it has none or can't be read. */
+async function readConsentedAt(): Promise<string | null> {
+  try {
+    return (await api.ai.getConsent()).consented_at;
+  } catch {
+    return null;
+  }
+}
 
 export default function PrivacyScreen() {
   const { t } = useTranslation();
@@ -19,14 +30,19 @@ export default function PrivacyScreen() {
   const setAnalyticsEnabled = useSettingsStore((s) => s.setAnalyticsEnabled);
   const [exporting, setExporting] = useState(false);
   const [aiConsent, setAiConsent] = useState<boolean | null>(null);
+  const [consentedAt, setConsentedAt] = useState<string | null>(null);
   const [revoking, setRevoking] = useState(false);
 
-  useEffect(() => {
-    // A failed read keeps the withdraw control reachable rather than hiding it.
-    hasAiConsent()
-      .then(setAiConsent)
-      .catch(() => setAiConsent(true));
-  }, []);
+  // Read again on focus, so the switch is current after the consent screen.
+  useFocusEffect(
+    useCallback(() => {
+      // A failed read keeps the withdraw control reachable rather than hiding it.
+      hasAiConsent()
+        .then(setAiConsent)
+        .catch(() => setAiConsent(true));
+      void readConsentedAt().then(setConsentedAt);
+    }, []),
+  );
 
   // 5.1.2(i): the disclosure copy has always pointed here for withdrawal —
   // pre-audit no such control existed anywhere in the app (audit 2026-08-06).
@@ -36,6 +52,7 @@ export default function PrivacyScreen() {
     try {
       await revokeAiConsent();
       setAiConsent(false);
+      setConsentedAt(null);
       showToast({ message: t('settings.privacyDetails.aiTurnedOff'), tone: 'success' });
     } catch {
       showToast({ message: t('settings.privacyDetails.aiTurnOffFailed'), tone: 'error' });
@@ -83,19 +100,25 @@ export default function PrivacyScreen() {
           },
         ]}
       />
-      {aiConsent === true ? (
-        <SettingsList
-          title={t('settings.privacyDetails.aiTitle')}
-          footer={t('settings.privacyDetails.aiFooter')}
-          rows={[
-            {
-              icon: 'sparkles-outline',
-              label: revoking ? t('settings.privacyDetails.aiTurningOff') : t('settings.privacyDetails.aiTurnOff'),
-              onPress: () => void withdrawAiConsent(),
-            },
-          ]}
-        />
-      ) : null}
+      <SettingsList
+        title={t('settings.privacyDetails.aiTitle')}
+        footer={t('settings.privacyDetails.aiFooter')}
+        rows={[
+          {
+            icon: 'sparkles-outline',
+            label: t('settings.privacyDetails.aiAllow'),
+            kind: 'toggle',
+            switchValue: aiConsent === true,
+            value: revoking
+              ? t('settings.privacyDetails.aiTurningOff')
+              : aiConsent && consentedAt
+                ? t('settings.privacyDetails.aiConsentedOn', { date: formatLongDate(new Date(consentedAt)) })
+                : undefined,
+            // On opens the consent screen; off withdraws on the server first.
+            onToggle: (on) => (on ? navigate('/ai-consent') : void withdrawAiConsent()),
+          },
+        ]}
+      />
       <SettingsList
         title="Your data"
         footer={t('settings.dataFooter')}

@@ -94,7 +94,9 @@
       "aiTurningOff": "Turning off…",
       "aiTurnedOff": "AI processing turned off. Scans and insights are disabled until you turn it back on.",
       "aiTurnOffFailed": "Couldn't reach the server to withdraw consent — try again.",
-      "exportSubject": "Lume data export"
+      "exportSubject": "Lume data export",
+      "aiAllow": "Allow AI processing",
+      "aiConsentedOn": "Given {{date}}"
     },
     "aboutDetails": {
       "tagline": "Make going to the gym the easy choice.",
