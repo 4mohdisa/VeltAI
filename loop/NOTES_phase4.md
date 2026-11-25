@@ -18,7 +18,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Row 4 delete account BUILT. subscriptionLinks.ts isManageSubscriptionAvailable() is the only Platform.OS check (done).
-- monthSessions round: no files changed. Gym rename parked (see Blocked).
+- consent.ts round: no eslint-disable existed; task closed.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -54,7 +54,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Checkpoint rounds change no files; red gates are fixed in the next round.
 - Jev 'ask' overruled when the brief forbids ask.
 - Rejected prompts (more than one module) are rewritten to one module.
-- Jev pick (remove eslint-disable first) taken: no key change, no es/fr text.
+- consent.ts had no eslint-disable (25 Nov report); consent task closed, gym.tsx picked.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -89,15 +89,17 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - The delete screen test has a redundant openURL.mockRestore().
 
 ## Next
-1. Remove eslint-disable in consent.ts (this round, one module, with lint, type check and that file's Jest tests).
-2. Remove eslint-disable in purchases.ts (next round).
-3. Phase 3 Row 14 remainder, so Row 2 can close.
-4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
-5. Gym key rename only after Isa approves.
+1. Remove eslint-disable in src/app/(tabs)/gym.tsx (this round).
+2. Remove eslint-disable in src/lib/billing/purchases.ts.
+3. Move the inline Platform.OS checks into one export in subscriptionLinks.ts.
+4. Phase 3 Row 14 remainder, so Row 2 can close.
+5. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
+6. Gym key rename only after Isa approves.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
+- A loop flag that a type check or test was not run: the next round runs tsc and the related Jest files before anything else.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
 - One module per prompt. Mention of Jev is never put in a Claude Code prompt.
-- Last round (monthSessions) was rejected as a function task and changed nothing. Its only open item is the gym rename, which is parked.
+- Last round (consent.ts) changed nothing: the file had no eslint-disable.

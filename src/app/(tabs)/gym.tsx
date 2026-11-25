@@ -86,15 +86,12 @@ export default function GymLogScreen() {
   );
   // Same silent re-read as TodayCard.tsx's own useToday() instance (step B) —
   // this screen keeps a separate copy for the CTA visibility check below, so
-  // it needs its own focus revalidate. revalidate is excluded from deps:
-  // useToday() hands back a new function identity every render, so depending
-  // on it here would re-fire on every re-render this effect itself causes,
-  // not just on focus.
+  // it needs its own focus revalidate. revalidate keeps one identity across
+  // renders, so listing it re-fires this only on focus.
   useFocusEffect(
     useCallback(() => {
       revalidate();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
+    }, [revalidate]),
   );
   const onRefresh = useCallback(() => {
     setRefreshing(true);
