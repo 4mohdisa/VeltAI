@@ -7,8 +7,9 @@
 // errs, the screen falls back to RevenueCat's own read without crashing and
 // without showing a fabricated state. Manage subscription shows a busy button
 // while the Apple page opens and reports a failure instead of swallowing it;
-// Restore Purchases is busy while the store restore runs.
-import { Linking } from 'react-native';
+// Restore Purchases is busy while the store restore runs. Manage subscription
+// is an Apple page, so it shows on iOS only.
+import { Linking, Platform } from 'react-native';
 import { showToast } from '@/components/display/toastStore';
 import { APPLE_SUBSCRIPTIONS_URL } from '@/lib/billing/subscriptionLinks';
 import { __setPurchasesModule, setDevEntitled, type CustomerInfo, type PurchasesModule } from '@/lib/billing/purchases';
@@ -122,6 +123,16 @@ describe('Manage subscription', () => {
     await press(tree);
     expect(showToast).toHaveBeenCalledWith({ message: en.profile.manageSubscriptionFailed, tone: 'error' });
     expect(buttonWithTitle(tree, 'Manage subscription')!.props.loading).toBe(false);
+  });
+
+  test.each([
+    ['ios', true],
+    ['android', false],
+  ] as const)('on %s an entitled user sees Manage subscription: %s', async (os, shown) => {
+    jest.replaceProperty(Platform, 'OS', os);
+    const tree = await renderEntitled();
+    expect(buttonWithTitle(tree, 'Manage subscription') !== undefined).toBe(shown);
+    expect(buttonWithTitle(tree, 'Restore Purchases')).toBeDefined();
   });
 
   test('a successful open shows no error', async () => {

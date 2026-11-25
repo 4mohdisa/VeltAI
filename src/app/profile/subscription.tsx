@@ -4,7 +4,7 @@
 // dev build → an honest "not configured" note. No fabricated dates or prices —
 // pricing lives on the RevenueCat paywall and in App Store subscription
 // management, both reachable from here.
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -108,12 +108,14 @@ export default function SubscriptionScreen() {
       footer={
         <View style={{ gap: space.sm }}>
           {effectiveEntitled ? (
-            <Button
-              title={t('subscription.manage')}
-              variant="secondary"
-              loading={managing}
-              onPress={() => void manage()}
-            />
+            Platform.OS === 'ios' ? (
+              <Button
+                title={t('subscription.manage')}
+                variant="secondary"
+                loading={managing}
+                onPress={() => void manage()}
+              />
+            ) : null
           ) : (
             <Button title={t('subscription.seePlans')} onPress={() => void seePlans()} />
           )}

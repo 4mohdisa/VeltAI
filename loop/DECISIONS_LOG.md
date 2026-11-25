@@ -10855,3 +10855,6 @@
 - 2026-11-26 00:58 Kept Row 4 as BUILT, as the notes record it, and used the handover's open items (regression and migration tests) as checkpoint steps, not as Row 4 work.
 - 2026-11-26 00:58 Asked for no file changes this round, per the checkpoint rule. Any red gate is fixed in the next round.
 - 2026-11-26 00:58 Used the lume_test_local database for the Go migration tests through a one-command variable, as the notes require.
+- 2026-11-26 00:59 Chose candidate 1 over the Food tab Retry because it is one screen, is a known open item from the last report, and Jev rates the last task as likely clean (71%).
+- 2026-11-26 00:59 Kept the Row 4 follow ups from the last report in Parked rather than fixing them now, one screen per prompt.
+- 2026-11-26 00:59 Left the parity line in OWNER_CHECKS_phase4.md for Isa to close himself, as the 25 Nov override says.

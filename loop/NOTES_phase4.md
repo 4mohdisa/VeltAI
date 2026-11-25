@@ -14,9 +14,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 BUILT. Delete order is identity first, then rows. Clerk 404 counts as deleted (tested). Export list and deletion list stay separate, drift test keeps them in step.
-- Delete and subscription screens open Apple subscriptions through lib/billing/subscriptionLinks.ts (iOS only). One copy of the URL.
-- Last checkpoint in the notes: tsc 0 errors, 281 suites, 1,694 tests. Round N is a checkpoint (no file changes).
+- Row 4 BUILT. Checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok, 3 TestPG checked.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 
 ## Rules
@@ -66,7 +64,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Parity line in OWNER_CHECKS_phase4.md is answered by the 25 Nov override; Isa to close it himself (append only).
 
 ## Parked
-- Manage subscription button on subscription screen shows on Android (delete screen hides it).
+- Manage subscription button on Android: fix in progress (Next 1).
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
@@ -77,7 +75,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Redundant openURL.mockRestore() in delete screen test; left alone.
 - seedChildRows uses the first exercise_library row. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
 - Deletion Postgres test seeds only 5 of the 29 user tables (verify in Row 4 follow up).
-- Delete screen 502 shows server text (check in Row 4 follow up).
+- Delete screen text is in code, not i18n keys; 502 shows server text (check in Row 4 follow up).
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
@@ -87,11 +85,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 
 ## Next
-1. Checkpoint this round: tsc, full Jest, tests/regression and tests/migrations, internal/account and internal/auth.
-2. Fix any red gate from the checkpoint first.
-3. Food tab Try again reloads both reads.
-4. Duplicate gym keys cleanup.
-5. Phase 3 Row 14 remainder, so Row 2 can close.
+1. Hide Manage subscription button on Android (this round).
+2. Food tab Try again reloads both reads.
+3. Duplicate gym keys cleanup.
+4. Phase 3 Row 14 remainder, so Row 2 can close.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
