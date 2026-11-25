@@ -11079,3 +11079,8 @@
 - 2026-11-26 02:29 Maestro onboarding flow deferred to a later round; it needs Maestro installed and is shared with row 23.
 - 2026-11-26 02:29 Row 5 split: 5a backend store and gate now, 5b app consent screen, Settings switch and daily limits later.
 - 2026-11-26 02:29 New ai_consents table must join the account deletion coverage list in the same round, so row 4's coverage test keeps passing.
+- 2026-11-26 02:32 Chose the gate check first because the loop flagged the last report as having no type check or test run; Jev rates a clean finish at only 14%, so a smaller verified step comes before 5b.
+- 2026-11-26 02:32 Row 5a stays built on the existing profiles.ai_consent_at column and /api/ai/consent routes; no second consent table or routes, to avoid two records that can disagree.
+- 2026-11-26 02:32 Consent versioning is parked in OWNER_CHECKS_phase4.md for Isa; the 5b screen is built without a version field until he decides.
+- 2026-11-26 02:32 Row 5 stays PARTIAL until 5b is done.
+- 2026-11-26 02:32 Ran only the changed packages and one type check, not the full suites, because this is not a checkpoint round.
