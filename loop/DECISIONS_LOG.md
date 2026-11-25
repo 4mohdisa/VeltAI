@@ -10981,3 +10981,7 @@
 - 2026-11-26 01:37 Jev asked for ask (52%); kept run because the brief forbids ask. Jev's advice is noted, not followed.
 - 2026-11-26 01:37 Kept the gate check result from the last round: tsc 0 errors, changed test files and lint passed; no further gate run needed this round.
 - 2026-11-26 01:37 Parked the BottomSheet lifecycle test and the Row 14 note trim as the next candidates rather than doing them now.
+- 2026-11-26 01:38 Chose the measurements leftovers over the BottomSheet test: same file just changed, smallest step, the previous report named it.
+- 2026-11-26 01:38 Kept appState.tsx:119 blocked: Isa has not answered and the brief forbids asking again.
+- 2026-11-26 01:38 Kept the Jev advice to run: it is advice only and the brief forbids ask.
+- 2026-11-26 01:38 Notes trimmed to fit under 600 words. Every Approved, Blocked and Parked item is kept in shortened form, nothing dropped.

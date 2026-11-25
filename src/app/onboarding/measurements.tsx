@@ -167,13 +167,12 @@ export default function MeasurementsScreen() {
   // a client stricter than the server silently refuses input the API accepts,
   // and a client looser than the server produces the 400 it is meant to
   // prevent.
-  const ageNum = parseInt(ageText, 10);
   const ageError =
     ageText.trim() === ''
       ? submitted
         ? t('onboarding.measurements.ageRequired')
         : undefined
-      : !Number.isFinite(ageNum) || ageNum < 13 || ageNum > 120
+      : !Number.isFinite(typedAge) || typedAge < 13 || typedAge > 120
         ? t('onboarding.measurements.ageRange', { min: 13, max: 120 })
         : undefined;
 
@@ -193,14 +192,14 @@ export default function MeasurementsScreen() {
         : t('onboarding.measurements.heightRangeCm', { min: 100, max: 250 });
     }
     if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
-    const cm = heightToCm();
-    return cm != null && cm >= 100 && cm <= 250 ? undefined : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
+    return draftHeightCm != null && draftHeightCm >= 100 && draftHeightCm <= 250
+      ? undefined
+      : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
   })();
 
   const weightError = (() => {
     if (weightEmpty) return submitted ? t('onboarding.measurements.weightRequired') : undefined;
-    const kg = toKg(weightText);
-    return kg != null && kg >= 30 && kg <= 300
+    return draftWeightKg != null && draftWeightKg >= 30 && draftWeightKg <= 300
       ? undefined
       : weightUnit === 'kg'
         ? t('onboarding.measurements.weightRangeKg', { min: 30, max: 300 })
