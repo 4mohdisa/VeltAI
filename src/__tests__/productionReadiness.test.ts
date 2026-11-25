@@ -153,6 +153,25 @@ test('a permanent 4xx is still NOT queued (replaying it would fail forever)', as
   expect(isTransient(new ApiError(503, 'down'))).toBe(true);
 });
 
+test('a daily-limit 429 is thrown after one attempt, never retried or queued, with its code and message kept', async () => {
+  const message = "You've used today's AI allowance. It resets at midnight UTC.";
+  const f = setFetch(
+    jest.fn(async () => ({
+      ok: false,
+      status: 429,
+      json: async () => ({ data: null, error: { message, code: 'ai_daily_limit_reached' } }),
+    })),
+  );
+  // A GET is the method that retries, so it is the one that proves 429 does not.
+  const err = await api.ai.brain().catch((e: unknown) => e);
+  expect(f).toHaveBeenCalledTimes(1);
+  expect(err).toBeInstanceOf(ApiError);
+  expect(err).toMatchObject({ status: 429, code: 'ai_daily_limit_reached', message });
+  expect(isTransient(err)).toBe(false);
+  // A per-minute rate-limit 429 is still worth a later replay, so queued writes survive it.
+  expect(isTransient(new ApiError(429, 'too many requests'))).toBe(true);
+});
+
 test('a slow response does not lose the optimistic local write', async () => {
   let release: ((v: unknown) => void) | undefined;
   setFetch(jest.fn(() => new Promise((r) => { release = r; })));

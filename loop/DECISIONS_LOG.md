@@ -11384,3 +11384,12 @@
 - 2026-11-26 04:38 Default daily AI limit set to 20 with an env override, because no value was given. Recorded in the prompt so Isa can change it.
 - 2026-11-26 04:38 Limit counts only successful upstream calls, so failed calls do not use up a user's daily allowance.
 - 2026-11-26 04:38 Consent version 1 and the 500 read error stay as decided earlier. Both remain on the Blocked list for Isa to approve later, and are not retried.
+- 2026-11-26 04:48 Kept Row 5 step 2 as the pick (Jev 95%). Reason: the 429 retry gap in src/lib/api.ts is a real bug in the newest change, and the previous report skipped the type check and Jest. Fixing it now is the smallest safe step.
+- 2026-11-26 04:48 Brief and insights keep their fallback text at the daily limit. Reason: an existing test pins it and those screens load on their own. This was an open question for Isa. Recorded as a manager decision; Isa can change it after launch.
+- 2026-11-26 04:48 The previous report's type check and Jest gap is now a required step in this prompt (tsc 0 errors, changed Jest files, lint with max warnings 0).
+- 2026-11-26 04:48 The Jev risk note is respected: one surface per round, and the full suite is not run.
+- 2026-11-26 04:48 Rejected prompt fixed: step 2 split so each round names one surface only (api client first, then scan screens, then AI query screen).
+- 2026-11-26 04:48 Chose the API client first because it stops a real bug (retrying a used up allowance) and touches one file.
+- 2026-11-26 04:48 Jev risk is high on recent rounds, so this round is one file plus one test file, with no full Jest suite.
+- 2026-11-26 04:48 Brief and insights keep fallback text at the limit (existing decision); still listed as blocked for Isa to revisit.
+- 2026-11-26 04:48 Kept the Jev 97% run signal: running the smallest safe task, not asking.

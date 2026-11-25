@@ -10,17 +10,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
-- Last checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; 0 act() warnings. Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
+- Row 5 server side: DONE and tested. Daily AI limit in aiquota (UTC day, default 20, LUME_AI_DAILY_LIMIT, 0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
+- Row 5 app side: step 2a (API client does not retry 429) in progress this round.
+- Last full checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
 
 ## Next
-1. Row 5 remainder, in order: server daily AI limit (in progress), then consent gate check, then app consent screen and Settings switch.
-2. Row 3 after Isa signs off the Apple steps.
-3. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Row 5 step 2a: src/lib/api.ts stops retrying 429 (this round).
+2. Row 5 step 2b: scan screens show the server limit message (one screen per round).
+3. Row 5 step 2c: AI query screen shows the server limit message.
+4. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
+5. Row 3 after Isa signs off the Apple steps.
+6. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- One task per prompt, one surface, max 5 steps.
+- One task per prompt, one surface per prompt. A prompt that names two screens or components is rejected.
+- Max 5 steps per prompt.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked and is not retried.
@@ -39,7 +45,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1 (approval pending). Copy names Google Gemini; Anthropic only if backup on. Daily AI limit default 20, env LUME_AI_DAILY_LIMIT, counts successful calls only.
+- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1 (approval pending). Copy names Google Gemini; Anthropic only if backup on. Daily AI limit default 20, env LUME_AI_DAILY_LIMIT, counts successful calls only, 429 code ai_daily_limit_reached. Background insight rebuilds still count.
+- Brief and insights keep fallback text at the limit (manager decision; existing test pins it; Isa may revisit).
 - aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest can't parse expo-router).
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
@@ -48,15 +55,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Asking is not allowed: run the smallest task.
-- i18next showSupportNotice false.
-- One file per round for act() fixes; flush stays inline in each test file.
+- i18next showSupportNotice false. One file per round for act() fixes; flush stays inline.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
+- Step 2 of Row 5 split into 2a, 2b, 2c after a prompt naming several screens was rejected.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error (defaults above in use); consent analytics wording; provider copy; replace vs navigate.
+- Row 5: consent version and 500 vs 403 read error (defaults in use); consent analytics wording; provider copy; replace vs navigate.
+- Row 5: brief and insights at the AI limit (429 or keep fallback text).
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -76,4 +84,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
+- Row 5: parallel requests can slip a few extra AI calls past the limit (per-minute AI rate limit keeps it small). Old daily counts are never deleted (one small row per user per day).
 - Row 6b: merge three near-duplicate test-result lines.

@@ -95,25 +95,35 @@ export class ApiError extends Error {
   /** Why the gate refused, from the stored subscription state ('trial_ended' |
    *  'expired' | 'billing_failed' | 'cancelled_ended' | 'refunded' | 'not_subscribed'). */
   reason?: string;
-  constructor(status: number, message: string, gate?: { upgradeRequired?: boolean; feature?: string; reason?: string }) {
+  /** Machine-readable refusal from a structured error ('ai_daily_limit_reached'
+   *  on a 429 once today's AI allowance is used up). */
+  code?: string;
+  constructor(
+    status: number,
+    message: string,
+    gate?: { upgradeRequired?: boolean; feature?: string; reason?: string; code?: string },
+  ) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.upgradeRequired = gate?.upgradeRequired ?? false;
     this.feature = gate?.feature;
     this.reason = gate?.reason;
+    this.code = gate?.code;
   }
 }
 
-/** The backend's error field is normally a string; the entitlement gate sends a
- *  structured object so the client can branch. Normalise both shapes. */
+/** The backend's error field is normally a string; the entitlement gate and the
+ *  daily AI limit send a structured object so the client can branch. Normalise
+ *  both shapes. */
 function parseApiError(status: number, error: unknown): ApiError {
   if (error != null && typeof error === 'object') {
-    const e = error as { message?: unknown; upgrade_required?: unknown; feature?: unknown; reason?: unknown };
+    const e = error as { message?: unknown; upgrade_required?: unknown; feature?: unknown; reason?: unknown; code?: unknown };
     return new ApiError(status, typeof e.message === 'string' ? e.message : `HTTP ${status}`, {
       upgradeRequired: e.upgrade_required === true,
       feature: typeof e.feature === 'string' ? e.feature : undefined,
       reason: typeof e.reason === 'string' ? e.reason : undefined,
+      code: typeof e.code === 'string' ? e.code : undefined,
     });
   }
   return new ApiError(status, typeof error === 'string' ? error : `HTTP ${status}`);
@@ -285,9 +295,12 @@ export function replayQueuedPost<T>(path: string, body: unknown, idempotencyKey:
 /** Worth queuing for a later replay: a network failure, or a status that says
  *  "try again" rather than "this request is wrong" — 5xx (server/proxy down,
  *  deploy in progress), 429 (rate limited), 408 (request timeout). A 4xx is
- *  permanent: replaying it would fail identically forever. */
+ *  permanent: replaying it would fail identically forever. So is a 429 for a
+ *  used-up daily AI allowance: it stays used up until midnight UTC. A plain
+ *  rate-limit 429 stays transient, so a reconnect burst never drops queued writes. */
 export function isTransient(e: unknown): boolean {
   if (!(e instanceof ApiError)) return true;
+  if (e.code === 'ai_daily_limit_reached') return false;
   return e.status >= 500 || e.status === 429 || e.status === 408;
 }
 
