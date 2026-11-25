@@ -14,7 +14,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL. Step 1 done (account/tables.go, tables_test.go: 29 entries, both directions tested, re-verified). Step 2 done: DELETE /api/profile and the Clerk user.deleted webhook both go through pgProfileStore.Delete, one statement removing oauth_states and profiles. Tests: profile_delete_test.go (unit plus Postgres on lume_test_local). Step 2 is not yet written in PHASE4_ROWS.md notes; the Settings check round does that.
+- Row 4 PARTIAL. Step 1 done (account/tables.go, tables_test.go: 29 entries). Step 2 done: DELETE /api/profile and the Clerk user.deleted webhook both go through pgProfileStore.Delete (removes oauth_states and profiles). Settings delete screen built and covered by src/__tests__/render/settingsDeleteAccount.render.test.tsx (4 tests). Row 4 notes wording being corrected in the current round.
 - Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label open (blocked).
 - Row 6 label 'R253' still unconfirmed.
 - Last full checkpoint (26 Nov 2026): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
@@ -22,6 +22,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
 - Every prompt states the branch rule and forbids other git commands.
+- Report wording: 'built' or 'checked by a test'. Never 'verified' (Isa verifies).
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
@@ -50,7 +51,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Nutrition spoken label stays English, literal, no key.
 - Row 4 step 1 chosen over signup platform pin: Jev 87%.
 - Row 4 step 2: oauth_states cleared in the profile store delete (one statement), not a migration (smallest change, no schema change).
-- Settings delete check chosen over signupDevFallback pin: next in Next, one screen. Jev 99% run.
+- Settings delete check chosen over signupDevFallback pin: Jev 99% run.
+- Round: signupDevFallback platform pin chosen next (Jev 99% run). Row 4 wording corrected to 'built'.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -67,8 +69,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
+- Settings delete screen text is hard-coded English (accepted under English-only). 502 toast shows raw server message.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
-- signupDevFallback.render.test.tsx does not set the platform. Pin it next (candidate).
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Food tab Try again reloads food log only when both reads fail.
@@ -84,12 +86,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Lists to keep in step: auth.ExportTableNames and account.UserTables overlap.
 
 ## Next
-1. Row 4 Settings delete screen check (confirm first, DELETE /api/profile, sign out, 502 keeps user signed in). Render test settingsDeleteAccount.render.test.tsx.
-2. Pin platform in signupDevFallback.render.test.tsx.
-3. Row 4 step 3: seed all UserTables in the Postgres delete test; add oauth_states to export.
-4. Next full checkpoint after the next batch of changes. Confirm the round number from these notes before recording it.
+1. Pin platform in signupDevFallback.render.test.tsx (in progress this round).
+2. Row 4 step 3: seed all UserTables in the Postgres delete test; add oauth_states to export.
+3. Full checkpoint after the next batch of changes. Confirm the round number from these notes before recording it.
 
 ## Loop note
 - Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried.
 - Latest handover round references (R265 checkpoint) are not in these notes: do not use them until confirmed.
 - Jev signals used as advice only. Smaller tasks chosen when the last task was partial.
+- Automatic check flagged 'verified' wording in a report. Fixed in Row 4 notes and Rules.

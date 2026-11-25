@@ -4,6 +4,8 @@
 // branch had no coverage. This EXECUTES the real screen; it is not a
 // source-text grep. @clerk/clerk-expo is mocked only because signup.tsx
 // imports it unconditionally — its hooks are never called on this branch.
+import { Platform } from 'react-native';
+
 import SignupScreen from '@/app/onboarding/signup';
 import { allText, buttonWithTitle, renderScreen } from './helpers';
 
@@ -16,6 +18,15 @@ jest.mock('@clerk/clerk-expo', () => ({
   useSignUp: () => ({ signUp: undefined, setActive: jest.fn(), isLoaded: true }),
   useSignIn: () => ({ signIn: undefined, setActive: jest.fn(), isLoaded: true }),
 }));
+
+// The Apple button shows on iOS only, so pin the platform for this file.
+beforeEach(() => {
+  jest.replaceProperty(Platform, 'OS', 'ios');
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
 test('renders the dev-mode fallback, not the Clerk sign-in flow', () => {
   const tree = renderScreen(<SignupScreen />);

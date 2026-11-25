@@ -10781,3 +10781,7 @@
 - 2026-11-26 00:26 Ran only one Jest file and the type check this round, since the full checkpoint comes later.
 - 2026-11-26 00:26 Jev run 99% accepted as the advice to continue; no reason to override.
 - 2026-11-26 00:26 Left the Row 4 step 3 items (seed coverage, oauth_states in export) for later rounds rather than mixing them into a screen round.
+- 2026-11-26 00:27 Chose candidate 1 first: it fixes the flagged 'verified' wording in the Row 4 notes and is the next item in the notes. Jev ranks run at 99%.
+- 2026-11-26 00:27 Report wording rule: use 'built' or 'checked by a test', never 'verified', because Isa verifies. Added to Rules.
+- 2026-11-26 00:27 Settings delete screen hard-coded English and raw server message on 502 are accepted under the English-only override. Parked, not fixed.
+- 2026-11-26 00:27 Jev risk 0.9 noted. The task is one test file, so the run stays small and is not paused.
