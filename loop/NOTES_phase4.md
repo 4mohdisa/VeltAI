@@ -10,12 +10,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b: dead ends 1 to 6 built and checked by tests. Dead end 7 looks fixed (onboarding.paywall.plansUnavailable), pending Isa sign off. Open: 8 (no target weight check).
-- Last checkpoint (tsc plus full Jest, no file changes): tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests, 4 snapshots; 67 console.error, 165 console.warn. No reds.
-- This round: Row 2b dead end 8.
+- Row 2b: dead ends 1 to 6 and 8 built in code, each with a test. Dead end 7 looks fixed (onboarding.paywall.plansUnavailable), pending Isa sign off. Docs for dead end 8 not yet recorded (PHASE4_ROWS.md notes, DESIGN_REFERENCES.md table).
+- Last checkpoint before dead end 8: tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests, 4 snapshots; 67 console.error, 165 console.warn.
+- Dead end 8 targeted tests: 6 of 6 pass, plus 10 related files pass. Full suite and tsc not yet run after it (flagged).
+- This round: checkpoint (tsc and full Jest, read only except reds caused by last change).
 
 ## Next
-1. Row 2b dead end 8: target weight validation on measurements, same range and inline error as weight, with a render test.
+1. Checkpoint result recorded. If green: record dead end 8 in PHASE4_ROWS.md Row 2b notes and DESIGN_REFERENCES.md dead end table (name the test file).
 2. Subscription toast subscription.plansUnavailable (src/app/profile/subscription.tsx:92): reword to user text, en only.
 3. Row 6b: remaining work not tied to step (f).
 4. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
@@ -40,6 +41,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
 - Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 2b dead end 6: 401 on subscriptionConfirmed ends the session, same as the save.
+- Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check and inline error as weight, via one helper bodyWeightError. Continue never disabled. Server still optional (up to 1000).
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -57,11 +59,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
 - Docs only round chosen as the smallest task while Jev risk is high.
-- Checkpoint round chosen over dead end 8 earlier (Jev 93%); checkpoint now green, so dead end 8 is next.
-- Dead end 8 chosen (Jev run 99%). Reuse the existing weight validator; no second validator.
+- Flagged unrun check (dead end 8): checkpoint chosen first, docs next round.
 
 ## Blocked on Isa (park, do not retry)
 - Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it. Repeated twice; not retried.
+- Row 2b target weight: should it stay required for lose and muscle goals? If not, only the empty-field part comes out.
 - Row 6b step (f) stale strings and es/fr text: deferred under English only.
 - Resumed onboarding Back goes to Welcome, or to previous step: needs one shared step list.
 - A 402 while the app is open is not routed to the paywall.
@@ -90,3 +92,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
 - Gotcha: zsh does not word-split $VAR; use an array for Go package lists.
 - Gotcha: each hook test through the harness prints one react-test-renderer deprecation console.error.
+- Gotcha: lint and test exit codes are hidden by pipes; redirect output to a file and echo $?.
+- Gotcha: PHASE4_ROWS.md rows keep 7 columns; append notes with <br> before the closing ' |'.

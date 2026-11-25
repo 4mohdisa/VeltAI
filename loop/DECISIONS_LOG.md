@@ -11542,3 +11542,8 @@
 - 2026-11-26 05:40 Subscription toast rewording and Row 6b remaining work kept in Next, one surface per round.
 - 2026-11-26 05:40 Reused the existing weight validator and inline error, so no second validator is added.
 - 2026-11-26 05:40 Notes condensed to stay under 600 words. No decisions removed.
+- 2026-11-26 05:43 Chose the checkpoint first because the last report's full suite and tsc were not run, and the loop flagged it; the rule says a skipped check is verified first.
+- 2026-11-26 05:43 Docs update for dead end 8 moved to next round so this round stays read only except for reds caused by the last change.
+- 2026-11-26 05:43 Target weight required-when-shown stays as built, per the brief; Isa's call is parked, not asked.
+- 2026-11-26 05:43 Jev advice (run 70%) agrees with running the smallest safe task; no stop, since no danger and no hosted target.
+- 2026-11-26 05:43 Prompt names files fully and keeps one surface per round.
