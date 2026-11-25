@@ -16,8 +16,8 @@ Items needing Isa's decision stay on Blocked on Isa.
 - BUILT: 1, 12, 12b, 29.
 - Row 2 PARTIAL (2.2, 2.5 BUILT). Stays PARTIAL until Phase 3 Rows 6, 13, 14 BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en). Plan-ready summary approved, build in 2b time box.
-- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245), calendar.tsx reads data (R247).
-- Next: R248 food.tsx reads data (in progress). R249 remove days and loading aliases in foodDays.ts and both calendar test mocks.
+- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245), calendar.tsx reads data (R247), food.tsx reads data (R248).
+- Next: R249 remove days and loading aliases in foodDays.ts and three test mocks (in progress).
 - Last full green checkpoint R242 (tsc 0, 272 suites, 1,661 tests).
 
 ## Rules
@@ -49,8 +49,11 @@ Items needing Isa's decision stay on Blocked on Isa.
 - R242 lookupBarcodeAsync stays until Isa approves removing its test.
 - R243 foodDays error: failure keeps dates and sets error; success clears it.
 - R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
-- R247 calendar.tsx reads data only (not isLoading). PHASE3 R247 note says isLoading: correct in a later records round.
+- R247 calendar.tsx reads data only (not isLoading). R248 food.tsx reads data only.
+- R249 removes days and loading aliases from foodDays.ts and test mocks. PHASE3 R247 note corrected by an appended line.
 - Retry label stays 'Try again' (shared LoadFailedNotice).
+- Dev builds fall back to the mock database so the demo works.
+- useLoggedDays keeps its own state; moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script, park the rest.
@@ -72,7 +75,6 @@ Items needing Isa's decision stay on Blocked on Isa.
 - Jest noise: i18next banner, devWarn, act warnings.
 - Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
-- Alias cleanups in Row 13 (R249) are parked if time box runs out.
 
 ## Problems noticed, not fixed
 - Two Food tab notices stack if food-log and logged-days reads both fail.

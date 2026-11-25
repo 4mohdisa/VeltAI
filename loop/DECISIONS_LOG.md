@@ -10656,3 +10656,7 @@
 - 2026-11-25 23:38 R248 chosen: it is the next step in the approved Row 13 sequence, and Claude Code recommended it. Jev run 100% agrees.
 - 2026-11-25 23:38 R247 note mismatch (calendar reads data only, not isLoading) is left for a later records round, so no rewrite of the old line now.
 - 2026-11-25 23:38 es and fr render tests stay parked (English only override).
+- 2026-11-25 23:40 Chose R249 because it is the next step in the approved Row 13 plan and is small, so one round can finish it with a full set of checks.
+- 2026-11-25 23:40 Kept the stacked-notice fix and the records check for later: the time box for Row 13 is about 15 rounds and R249 closes its open code items.
+- 2026-11-25 23:40 Added the R247 correction in PHASE3_ROWS.md as an append only note, as the last report asked.
+- 2026-11-25 23:40 es and fr render tests for the error states stay parked, because Isa chose English only at launch.
