@@ -2,9 +2,10 @@
 // any call (and warns that a subscription is not cancelled), Cancel makes no
 // call, confirming calls DELETE /api/profile once, success hands off to the
 // ACCOUNT_DELETED sign-out purge, and a 502 shows a plain error and keeps the
-// user signed in. The final step's prompt shows DELETE in bold. The API client
+// user signed in. The subscription note links to Apple's subscription settings,
+// and the final step's prompt shows DELETE in bold. The API client
 // is mocked, not the screen.
-import { StyleSheet } from 'react-native';
+import { Linking, StyleSheet } from 'react-native';
 import type { ReactTestInstance } from 'react-test-renderer';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
@@ -98,6 +99,17 @@ test('confirmation comes first, and the subscription warning before the final st
   expect(allText(tree)).toContain('does not cancel an active subscription');
   expect(allText(tree)).toContain('Subscriptions');
   expect(mockDelete).not.toHaveBeenCalled();
+});
+
+test('the subscription note links to Apple subscription settings', () => {
+  const openURL = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+  const tree = render();
+  press(tree, 'Continue');
+  expect(allText(tree)).toContain('Deleting your account does not cancel an active subscription.');
+  press(tree, 'Manage subscription');
+  expect(openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
+  expect(mockDelete).not.toHaveBeenCalled();
+  openURL.mockRestore();
 });
 
 test('Cancel leaves without calling the API', () => {

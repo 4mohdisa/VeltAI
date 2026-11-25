@@ -4,7 +4,7 @@
 // dispatch ACCOUNT_DELETED (machine purges every store/queue, ends the Clerk
 // session, RevenueCat identity resets via the bridge, routes to onboarding).
 import { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { Trans, useTranslation } from 'react-i18next';
 import Svg, { Circle, Path } from 'react-native-svg';
@@ -20,6 +20,9 @@ import { showToast } from '@/components/display/toastStore';
 
 /** The design's side padding on this screen. No token covers it. */
 const SIDE_PADDING = 24;
+
+// ponytail: same URL as profile/subscription.tsx; move both into lib/billing when a third screen needs it.
+const MANAGE_SUBSCRIPTIONS_URL = 'https://apps.apple.com/account/subscriptions';
 
 const DELETED_DATA = ['identity', 'profile', 'gym', 'food', 'ai', 'integrations'] as const;
 
@@ -60,6 +63,11 @@ export default function DeleteAccountScreen() {
       setDeleting(false);
     }
   };
+
+  const openSubscriptions = () =>
+    Linking.openURL(MANAGE_SUBSCRIPTIONS_URL).catch(() =>
+      showToast({ message: t('profile.manageSubscriptionFailed'), tone: 'error' }),
+    );
 
   const cancel = () => {
     leavingRef.current = true;
@@ -133,6 +141,7 @@ export default function DeleteAccountScreen() {
           <Text variant="footnote" color={color.secondaryLabel}>
             {t('settings.deleteAccountDetails.subscriptionNote')}
           </Text>
+          <Button title={t('subscription.manage')} variant="tertiary" onPress={() => void openSubscriptions()} />
         </View>
       ) : null}
 

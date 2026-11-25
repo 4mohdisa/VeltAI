@@ -1,7 +1,8 @@
 // DELETE /api/profile must remove every row the caller owns, including
 // oauth_states, which has no foreign key to profiles and so is not reached by
 // the cascade. The unit test records the store's SQL; the TestPG test checks
-// every table in account.UserTables against a real Postgres.
+// every table in account.UserTables against a real Postgres. The Clerk deleter
+// test answers its Backend API call with a stub transport, never the network.
 package auth_test
 
 import (
@@ -42,6 +43,47 @@ func deleteProfile(q db.Querier, user string) *httptest.ResponseRecorder {
 	rec := httptest.NewRecorder()
 	auth.Middleware(tokenIsUser{})(mux).ServeHTTP(rec, r)
 	return rec
+}
+
+// roundTrip answers every request with status and records it.
+type roundTrip struct {
+	status int
+	got    *http.Request
+}
+
+func (rt *roundTrip) RoundTrip(r *http.Request) (*http.Response, error) {
+	rt.got = r
+	return &http.Response{StatusCode: rt.status, Body: http.NoBody, Request: r}, nil
+}
+
+func TestClerkUserDeleterTreatsNotFoundAsDeleted(t *testing.T) {
+	for _, tc := range []struct {
+		status  int
+		wantErr bool
+	}{
+		{http.StatusOK, false},
+		{http.StatusNotFound, false},
+		{http.StatusInternalServerError, true},
+		{http.StatusUnauthorized, true},
+	} {
+		t.Run(http.StatusText(tc.status), func(t *testing.T) {
+			rt := &roundTrip{status: tc.status}
+			saved := http.DefaultTransport
+			http.DefaultTransport = rt
+			t.Cleanup(func() { http.DefaultTransport = saved })
+
+			err := auth.NewClerkUserDeleter("sk_test_x")(context.Background(), "user_a")
+			if (err != nil) != tc.wantErr {
+				t.Fatalf("Clerk %d: err = %v, want error %v", tc.status, err, tc.wantErr)
+			}
+			if rt.got.Method != http.MethodDelete || rt.got.URL.String() != "https://api.clerk.com/v1/users/user_a" {
+				t.Errorf("request = %s %s, want DELETE https://api.clerk.com/v1/users/user_a", rt.got.Method, rt.got.URL)
+			}
+			if rt.got.Header.Get("Authorization") != "Bearer sk_test_x" {
+				t.Errorf("Authorization header = %q", rt.got.Header.Get("Authorization"))
+			}
+		})
+	}
 }
 
 func TestDeleteProfileClearsCallerOAuthStates(t *testing.T) {

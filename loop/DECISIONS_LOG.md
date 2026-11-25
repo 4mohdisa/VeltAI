@@ -10836,3 +10836,7 @@
 - 2026-11-26 00:51 Did not touch the OWNER_CHECKS parity line because the file is append only; the 25 Nov override answers it and Isa can close it in his own review.
 - 2026-11-26 00:51 Jev said run 77%, so followed it. Did not ask Isa, per the no-questions rule.
 - 2026-11-26 00:51 Checkpoint round was green (tsc 0, 281 suites, 1,694 tests, Go regression and migrations 14 passed), so no fix round is needed.
+- 2026-11-26 00:52 Chose the Row 4 close-out because it is a small check and it closes a partial row, which the loop rule puts first. Jev gives a 32% chance that the last task finished cleanly, so a smaller task is the safer pick.
+- 2026-11-26 00:52 Treated the handover claim that only 5 of 29 tables are seeded as stale. The latest report compared the lists by script and found 29 of 29, so it is recorded as resolved.
+- 2026-11-26 00:52 The OWNER_CHECKS parity line is answered by the 25 Nov override, so it is not raised again; Isa closes it himself.
+- 2026-11-26 00:52 Row 4 owner check for a live Clerk deletion is left to the Row 23 simulator flow, not to a separate owner step.
