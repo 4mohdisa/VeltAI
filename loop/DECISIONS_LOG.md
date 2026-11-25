@@ -10811,3 +10811,6 @@
 - 2026-11-26 00:40 Checkpoint round is limited to tsc and full app Jest, as the loop note asks. Go race and the migration tests come next round.
 - 2026-11-26 00:40 Round number not confirmed from the loop; recorded as 'checkpoint round, number unconfirmed' until the loop states it.
 - 2026-11-26 00:40 Row 4 step 3a is now recorded in the notes (it was done but not written down).
+- 2026-11-26 00:41 Chose the run over Jev's ask (45%): the brief forbids ask, and the parity question is already parked in OWNER_CHECKS_phase4.md.
+- 2026-11-26 00:41 Ran the pending regression and migration checks first, because the export list changed in step 3a and those suites have not run since.
+- 2026-11-26 00:41 Kept the change to verification plus one notes line, so a red result is isolated before any new row work starts.
