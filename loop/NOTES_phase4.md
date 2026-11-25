@@ -9,15 +9,14 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built, 402 launch gate line recorded; open: f stale English wording).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; 402 after sign-in opens paywall with reason, built and checked by a test; row 6b line for it not yet written; open: f stale English wording).
 - Last full run: tsc 0 errors; Jest 289 suites, 1,759 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
-- Checkpoint round done (read only, clean). Loop flag cleared.
 - App tests mock the API, so the 402 gate is untested end to end in the app.
 
 ## Next
-1. signup.tsx continueAfterAuth: 402 after sign-in opens paywall with reason. (IN PROGRESS)
-2. Completed flag skips onboarding, so 402s hit in tabs. Route-level check.
+1. index.tsx: completed flag plus 402 opens paywall with reason. (IN PROGRESS)
+2. Shared paywallHref(reason) helper in src/lib/nav.ts, used by index.tsx and signup.tsx.
 3. Row 6b (f): English free-tier wording in plansUnavailable, storeError.
 4. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
 5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
@@ -51,12 +50,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Checkpoint round: read only.
 - Rejected prompts: too many screens (rewrite to one file); missing branch rule (rewrite with branch check).
 - Incomplete report with loop flag: verify first. Without flag: Jev pick.
+- Round 1 of this batch: completed-flag route chosen over shared helper (user-facing gap first).
 
 ## Blocked on Isa (park, do not retry)
 - Row 5a 500 vs 403 read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating; consent version.
-- Returning user with answers missing from phone: OWNER_CHECKS_phase4.md.
+- Returning user with answers missing from phone: can buy but cannot finish; OWNER_CHECKS_phase4.md.
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier (legal copy).
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
 - es and fr text (deferred; English only per Isa).
@@ -75,6 +75,6 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans; TestLabel_WritesSessionRowForQuota keeps its old name.
-- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (see Next 2).
-- A user with the completion flag skips the paywall (see Next 2).
+- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402.
 - es and fr still describe a free tier (plansUnavailable, storeError); notConfirmed has no translation (English only for now).
+- The paywall link expression is repeated in index.tsx and signup.tsx (see Next 2).

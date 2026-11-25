@@ -4,13 +4,15 @@
 //      persisted onboarding flags, so a revoked session — or keychain flags
 //      surviving a reinstall — dropped a signed-out user straight into the
 //      tabs with every request 401ing (audit 2026-08-06).
-//   1. If the persisted onboarding store (or the legacy secure-store flag) says
-//      completed → main app.
-//   2. Otherwise ask the backend (GET /api/onboarding). completed=true → mark
-//      the store and proceed; completed=false or a network error → onboarding;
-//      a 401 → the session is not valid: SESSION_ENDED ends the rejected
-//      Clerk session and opens sign-in, keeping the onboarding answers; a 402
-//      → no plan grants access: the paywall, told the refusal reason.
+//   1. Ask the backend (GET /api/onboarding, behind the entitlement gate). A
+//      401 → the session is not valid: SESSION_ENDED ends the rejected Clerk
+//      session and opens sign-in, keeping the onboarding answers. A 402 → no
+//      plan grants access: the paywall, told the refusal reason, even when
+//      this device already finished onboarding.
+//   2. Otherwise the persisted onboarding store (or the legacy secure-store
+//      flag) saying completed, or the server saying completed=true, → main
+//      app. completed=false or a network error with no local flag →
+//      onboarding.
 // The onboarding flow lives at /onboarding (a stack above the tabs); once
 // completed it never shows again.
 import { useEffect, useState } from 'react';
@@ -71,15 +73,12 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
         return;
       }
 
-      if (useOnboardingStore.getState().completed || (await getHasCompletedOnboarding())) {
-        if (active) setDestination('/(tabs)');
-        return;
-      }
+      const locallyCompleted = store.completed || (await getHasCompletedOnboarding());
 
       try {
         const onboarding = await api.onboarding.get();
-        if (onboarding.completed) {
-          store.markCompleted();
+        if (onboarding.completed || locallyCompleted) {
+          if (!locallyCompleted) store.markCompleted();
           if (active) setDestination('/(tabs)');
           return;
         }
@@ -97,7 +96,11 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
           if (active) setDestination(reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall');
           return;
         }
-        // Backend unreachable → treat as not onboarded.
+        // Backend unreachable → trust the local flag, else treat as not onboarded.
+        if (locallyCompleted) {
+          if (active) setDestination('/(tabs)');
+          return;
+        }
       }
       if (active) setDestination(resumeTarget(useOnboardingStore.getState().last_step));
     };

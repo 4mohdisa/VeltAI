@@ -11182,3 +11182,7 @@
 - 2026-11-26 03:16 Chose the signup 402 fix: it is small, one file, and the approved launch gate rule already defines the behaviour. Jev also ranks run first.
 - 2026-11-26 03:16 Checkpoint cleared: tsc 0 errors, Jest 289 suites and 1,759 tests pass, read only, no files changed.
 - 2026-11-26 03:16 Report says 'built' or 'checked by a test' only; the reported double Jest run is noted and no re-run is needed.
+- 2026-11-26 03:17 Chose the completed-flag route fix over the shared helper: it is a real user-facing gap (paying-gate users never see the paywall), while the helper is only a repeated line.
+- 2026-11-26 03:17 Kept the change to one file (src/app/index.tsx) plus its test, so the one-file rule holds; the shared helper moves to the next round.
+- 2026-11-26 03:17 Asked Claude Code to record the sign-in 402 change in row 6b, because the last report said that row has no line for it yet.
+- 2026-11-26 03:17 Kept the English-only override: no es or fr text in this round.

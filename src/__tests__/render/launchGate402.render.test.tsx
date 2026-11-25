@@ -117,3 +117,31 @@ test('the paywall opened without a reason shows no refusal message', async () =>
   await settle();
   expect(showToast).not.toHaveBeenCalled();
 });
+
+// --- Returning user with the completion flag on this device -----------------
+// The flag no longer skips the gate: GET /api/onboarding still runs, so a
+// refused plan opens the paywall instead of tabs full of 402s.
+
+test('completed on this device plus a 402 with a reason opens the paywall', async () => {
+  useOnboardingStore.getState().markCompleted();
+  mockGet.mockRejectedValueOnce(Object.assign(new Error('subscription required'), { status: 402, reason: 'trial_ended' }));
+
+  expect(await destination()).toBe('/onboarding/paywall?reason=trial_ended');
+  expect(mockSignOut).not.toHaveBeenCalled();
+});
+
+test('completed on this device plus an active plan goes to the tabs', async () => {
+  useOnboardingStore.getState().markCompleted();
+  mockGet.mockResolvedValueOnce({ completed: true });
+
+  expect(await destination()).toBe('/(tabs)');
+});
+
+test('completed on this device plus a network error still goes to the tabs', async () => {
+  useOnboardingStore.getState().markCompleted();
+  mockGet.mockRejectedValueOnce(new TypeError('Network request failed'));
+
+  expect(await destination()).toBe('/(tabs)');
+  expect(showToast).not.toHaveBeenCalled();
+  expect(mockSignOut).not.toHaveBeenCalled();
+});
