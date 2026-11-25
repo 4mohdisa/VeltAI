@@ -11422,3 +11422,12 @@
 - 2026-11-26 05:01 Told Claude Code to check existing state first, because the handover warns that some tasks repeat finished work.
 - 2026-11-26 05:01 Jev gave run 33%, ask 37%, stop 30%. Ask is not allowed under the no-questions rule, and stop is not warranted (no gate red, no danger), so run is the choice.
 - 2026-11-26 05:01 Row 5 status stays PARTIAL until the consent version and the consent screen are done. The consent version waits for Isa and is listed as blocked, not as a reason to stop the row.
+- 2026-11-26 05:03 Chose run over ask: the rule says never ask, and Jev rates ask 39% against run 31% at confidence 0.09.
+- 2026-11-26 05:03 The loop flag is accepted: Row 5 is partial because the app consent screen does not exist yet. This round builds that screen and its gate.
+- 2026-11-26 05:03 The report's question about moving Row 5 out of PARTIAL is not raised with Isa. Row 5 stays PARTIAL until the screen and the Settings switch are built.
+- 2026-11-26 05:03 Settings withdraw switch moves to the next round (one surface per round).
+- 2026-11-26 05:03 Consent version 1 is used, as already decided. The version question stays in Blocked and does not block the screen.
+- 2026-11-26 05:04 The last prompt was rejected for covering more than one surface, so this prompt covers only the consent screen. The gate wiring and the Settings switch move to later rounds.
+- 2026-11-26 05:04 Consent screen first, then the Settings switch, because the screen is the surface the user meets first (Jev run 62%, so the loop runs).
+- 2026-11-26 05:04 Consent screen goes through the existing backend consent route. If that route is missing, the round stops with BLOCKED rather than changing the backend.
+- 2026-11-26 05:04 Trimmed the notes to keep them under 600 words. Finished items are merged, and the rules and open owner items are kept.

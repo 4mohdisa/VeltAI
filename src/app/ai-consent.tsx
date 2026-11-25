@@ -1,6 +1,7 @@
 // AI consent (guideline 5.1.2(i)): what is sent to which AI provider and why,
-// before the first scan or insight. Accept records the server consent first
-// and then the device flag (acceptAiConsent); Decline records nothing.
+// before the first scan or insight. Allow records the server consent first and
+// then the device flag (acceptAiConsent), then goes back; Not now records
+// nothing. The two choices carry equal weight, as consent must be freely given.
 import { useState } from 'react';
 import { View } from 'react-native';
 import { router } from 'expo-router';
@@ -8,13 +9,14 @@ import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Button } from '@/components/forms/Button';
+import { ErrorState } from '@/components/display/ErrorState';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { acceptAiConsent } from '@/lib/ai/consent';
 
 const SECTIONS = ['what', 'who', 'why'] as const;
 
-type Status = 'idle' | 'saving' | 'error' | 'done';
+type Status = 'idle' | 'saving' | 'error';
 
 export default function AiConsentScreen() {
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ export default function AiConsentScreen() {
     setStatus('saving');
     try {
       await acceptAiConsent();
-      setStatus('done');
+      router.back();
     } catch {
       setStatus('error');
     }
@@ -40,19 +42,21 @@ export default function AiConsentScreen() {
       showBack
       contentStyle={{ gap: space.lg }}
       footer={
-        status === 'done' ? (
-          <Button title={t('common.done')} onPress={() => router.back()} />
-        ) : (
-          <View style={{ gap: space.md / 2 }}>
-            <Button
-              title={status === 'error' ? t('common.tryAgain') : t('aiConsent.screen.accept')}
-              loading={saving}
-              disabled={saving}
-              onPress={() => void accept()}
-            />
-            <Button title={t('aiConsent.screen.decline')} variant="tertiary" disabled={saving} onPress={() => router.back()} />
-          </View>
-        )
+        <View style={{ gap: space.md / 2 }}>
+          <Button
+            title={t('aiConsent.screen.accept')}
+            variant="secondary"
+            loading={saving}
+            disabled={saving}
+            onPress={() => void accept()}
+          />
+          <Button
+            title={t('aiConsent.screen.decline')}
+            variant="secondary"
+            disabled={saving}
+            onPress={() => router.back()}
+          />
+        </View>
       }
     >
       {SECTIONS.map((section) => (
@@ -69,14 +73,11 @@ export default function AiConsentScreen() {
         {t('aiConsent.screen.withdraw')}
       </Text>
       {status === 'error' ? (
-        <Text variant="body" color={color.label} accessibilityRole="alert">
-          {t('aiConsent.screen.error')}
-        </Text>
-      ) : null}
-      {status === 'done' ? (
-        <Text variant="body" color={color.label} accessibilityRole="alert">
-          {t('aiConsent.screen.done')}
-        </Text>
+        <ErrorState
+          message={t('aiConsent.screen.error')}
+          retryLabel={t('common.tryAgain')}
+          onRetry={() => void accept()}
+        />
       ) : null}
     </Screen>
   );

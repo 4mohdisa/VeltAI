@@ -1,7 +1,8 @@
 // PHASE4_ROWS.md row 5b: the AI consent screen (src/app/ai-consent.tsx).
-// Accept records the server consent through api.ai.setConsent and then the
-// device flag; Decline records nothing and goes back. The api and the secure
-// store are mocked; no network.
+// Allow records the server consent through api.ai.setConsent, then the device
+// flag, then goes back; Not now records nothing and goes back; a failed save
+// shows ErrorState with Try again. The api and the secure store are mocked; no
+// network.
 import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
@@ -39,6 +40,7 @@ beforeEach(() => {
   __resetAiConsentCache();
   setConsent.mockReset();
   (setItem as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
 });
 
 type Tree = ReturnType<typeof renderScreen>;
@@ -55,7 +57,13 @@ test('shows what is sent, to whom, why and how to withdraw', () => {
   for (const line of [copy.what, copy.who, copy.why, copy.withdraw]) expect(text).toContain(line);
 });
 
-test('while saving, Accept shows loading and both buttons are disabled', async () => {
+test('Allow and Not now carry equal weight', () => {
+  const tree = render();
+  expect(buttonWithTitle(tree, copy.accept)?.props.variant).toBe('secondary');
+  expect(buttonWithTitle(tree, copy.decline)?.props.variant).toBe('secondary');
+});
+
+test('while saving, Allow shows loading and both buttons are disabled', async () => {
   setConsent.mockReturnValue(new Promise(() => {}));
   const tree = render();
   await press(tree, copy.accept);
@@ -64,33 +72,31 @@ test('while saving, Accept shows loading and both buttons are disabled', async (
   expect(buttonWithTitle(tree, copy.decline)?.props.disabled).toBe(true);
 });
 
-test('accept records the server consent, then the device flag, and shows done', async () => {
+test('Allow records the server consent, then the device flag, and goes back', async () => {
   setConsent.mockResolvedValue({ consented: true });
   const tree = render();
   await press(tree, copy.accept);
   expect(setConsent).toHaveBeenCalledTimes(1);
   expect(setItem).toHaveBeenCalledWith(AI_CONSENT_KEY, '1');
-  expect(allText(tree)).toContain(copy.done);
-
-  await press(tree, en.common.done);
   expect(router.back).toHaveBeenCalledTimes(1);
 });
 
-test('a failed save shows the error, keeps the device flag unset, and Try again retries', async () => {
+test('a failed save shows ErrorState, keeps the device flag unset, and Try again saves and goes back', async () => {
   setConsent.mockRejectedValueOnce(new Error('offline'));
   const tree = render();
   await press(tree, copy.accept);
   expect(allText(tree)).toContain(copy.error);
   expect(setItem).not.toHaveBeenCalled();
+  expect(router.back).not.toHaveBeenCalled();
 
   setConsent.mockResolvedValueOnce({ consented: true });
   await press(tree, en.common.tryAgain);
   expect(setConsent).toHaveBeenCalledTimes(2);
   expect(setItem).toHaveBeenCalledWith(AI_CONSENT_KEY, '1');
-  expect(allText(tree)).toContain(copy.done);
+  expect(router.back).toHaveBeenCalledTimes(1);
 });
 
-test('decline stores nothing and goes back', async () => {
+test('Not now stores nothing and goes back', async () => {
   const tree = render();
   await press(tree, copy.decline);
   expect(setConsent).not.toHaveBeenCalled();

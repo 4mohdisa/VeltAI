@@ -10,24 +10,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: daily AI limit done. Default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
-- Row 5 step 2a: done. Only ai_daily_limit_reached is non-retryable.
-- Row 5 step 2b: photo scan (scanRefused in scan.ts), label scan (empty review after limit toast), Ask Lume (info toast in aiBrain.ts useAIQuery) all done.
-- Last checkpoint: tsc 0 errors; Jest 294/294 suites, 1,790/1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
-- Console counts (same method as last report): 66 console.error, 163 console.warn. Handover said 80 warns; the gap is a counting method difference, not a regression, until a test fails.
+- Row 5 server: built. Consent gate on all AI and scan routes (403 ai_consent_required; 500 on read error). Background sweep skips no-consent users. Daily AI limit: default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off), 429 ai_daily_limit_reached. 188 tests pass.
+- Row 5 app: scan limit handling done (scan.ts, label-scan.tsx); Ask Lume done (aiBrain.ts). Consent screen: IN PROGRESS this round (src/app/consent/ai.tsx). Settings switch NOT built.
+- Last checkpoint: tsc 0 errors; Jest 294/294 suites, 1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
 
 ## Next
-1. Row 5: backend consent gate check on all AI routes (this round; check existing state first).
-2. Row 5: consent screen and Settings withdraw switch (one surface per round).
-3. Row 3 after Isa signs off the Apple steps.
-4. Maestro flows (2b, 23) once Maestro is confirmed.
-5. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
-6. Next checkpoint: full tsc and Jest plus console re-count.
+1. Row 5: consent screen (this round). Check it was built and tested.
+2. Row 5: Settings withdraw switch.
+3. Row 5: wire the gate in the app (a 403 opens the consent screen).
+4. Row 3 after Isa signs off the Apple steps.
+5. Maestro flows (2b, 23) once Maestro is confirmed.
+6. productionReadiness.test.ts 429 expect line (small).
+7. Next checkpoint: full tsc, Jest, console recount.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- One task and one surface per prompt. Max 5 steps.
+- One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten to one surface.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked and is not retried.
@@ -40,18 +39,20 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5 scan limits handled where errors are caught (scan.ts, label-scan.tsx), not in capture screens. Accepted.
+- Row 5 scan limits handled where errors are caught (scan.ts, label-scan.tsx). Accepted.
 - Row 5 Ask Lume limit handled in the hook (aiBrain.ts). Accepted.
+- Row 5 consent gate on the server first; consent screen after (Jev run 33%).
+- Row 5 consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count against the allowance.
+- Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable.
+- Brief and insights keep fallback text at the limit (existing test pins it).
+- rate_limit_counters not reused (its sweep deletes rows older than 2 minutes).
+- aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest cannot parse expo-router).
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
 - REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count.
-- Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable.
-- Brief and insights keep fallback text at the limit (existing test pins it).
-- aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest cannot parse expo-router).
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
@@ -61,13 +62,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
-- Row 5 consent gate chosen over consent screen (Jev run 33%; server gate first).
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (deferred by override).
-- src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of the photo capture screen.
+- legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -82,6 +82,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
+- requireAIConsent (ai.go) and requireScanConsent (scan.go) are near-duplicates: one shared helper later.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
 - Root config and backend JS not linted. verify:go lacks -count=1 and tests/migrations.
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.

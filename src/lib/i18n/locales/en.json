@@ -1171,10 +1171,9 @@
       "whyTitle": "Why",
       "why": "So Lume can estimate what is in your photo and write your insights and answers. The provider processes it only to provide those features.",
       "withdraw": "You can withdraw consent at any time in Settings → Privacy.",
-      "accept": "Accept",
-      "decline": "Decline",
-      "error": "Your choice wasn't saved. Check your connection and try again.",
-      "done": "Thanks. AI features are on."
+      "accept": "Allow",
+      "decline": "Not now",
+      "error": "Your choice wasn't saved. Check your connection and try again."
     }
   },
   "summary": {

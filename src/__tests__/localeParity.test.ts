@@ -40,7 +40,6 @@ const ENGLISH_ONLY = new Set([
   'aiConsent.screen.accept',
   'aiConsent.screen.decline',
   'aiConsent.screen.error',
-  'aiConsent.screen.done',
   'onboarding.paywall.refusal.trial_ended',
   'onboarding.paywall.refusal.expired',
   'onboarding.paywall.refusal.billing_failed',
