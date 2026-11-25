@@ -11,13 +11,13 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
-- Last full checkpoint was before the helper, gym key and Food tab label changes. Round 1 of this block is a checkpoint.
+- Last full checkpoint (282 suites, 1,704 tests, tsc 0 errors, Go 35 packages ok) is green.
+- Open gap: 26 TestPG_ Go tests skipped because LUME_TEST_DATABASE_URL was unset. Re-run this round (see Next).
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Row 4 delete account BUILT. Helper isManageSubscriptionAvailable() in subscriptionLinks.ts.
-- Food tab empty-list Retry uses common.tryAgain (checked by a test).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -27,7 +27,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
 - App rounds: Jest and type check. Backend: Go tests for changed packages, plus tests/regression and tests/migrations when ExportTableNames changes.
-- TestPG: localhost:5432, lume_test_local, LUME_TEST_DATABASE_URL for one command only. Never print the URL.
+- TestPG: localhost:5432, lume_test_local, Mac's own Postgres login (whoami, no password). LUME_TEST_DATABASE_URL for one command only. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts (until approved).
 - Status words DIFFERENT, PARTIAL, BUILT, EXACT only in the status column.
@@ -51,11 +51,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jev 'ask' overruled when the brief forbids ask.
 - Checkpoint rounds change no files; red gates are fixed in the next round.
 - Subscription screen follows the delete screen: same helper, one copy of the URL. Done.
-- Round choice: prompt rejected for two screens, rewritten to one. Platform helper done.
-- Round 2026 (duplicate gym keys): one key per meaning kept; the other removed from en.json, and from es/fr as a key deletion only (no translation) so parity holds.
+- Round 2026 (duplicate gym keys): one key per meaning kept; other removed from en.json, and from es/fr as a key deletion only.
 - 25 Nov: redundant mockRestore cleanup done and checked by a test.
-- 25 Nov: Food retry label unify done and checked by a test (food.loggedDays.render 6 of 6, foodTab.emptyStates 8 of 8, localeParity 3 of 3).
-- Round chosen: checkpoint over Platform.OS cleanup (stale gates). Jev run 91%.
+- 25 Nov: Food retry label unify done and checked by a test.
+- Round chosen (last): checkpoint over Platform.OS cleanup. Jev run 91%.
+- Round chosen (now): TestPG re-run (no files) over Platform.OS cleanup. Jev 'ask' 16% ignored (brief forbids ask).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -67,7 +67,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
 - Row 3: confirm Apple hidden on Android. Choose native sheet or keep browser flow. Owner steps 1 to 7.
-- Parity line in OWNER_CHECKS_phase4.md: Isa to close it himself (append only).
+- Parity line in OWNER_CHECKS_phase4.md still reads open: Isa to close it himself (append only).
 - App wide ErrorState default 'Retry' vs 'Try again': touches 13 screens and 7 tests. Needs Isa's call.
 
 ## Parked
@@ -86,9 +86,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 - The delete screen test has a redundant openURL.mockRestore() (cleaned up 25 Nov).
+- Food tab Retry reloads only the food log.
 
 ## Next
-1. Full checkpoint this round: tsc, full Jest, Go gates. Fix any red gate next round.
+1. Re-run the 26 TestPG_ tests against lume_test_local (one command, no file changes). Fix any failure next round.
 2. Move inline Platform.OS checks into one export in subscriptionLinks.ts.
 3. Phase 3 Row 14 remainder, so Row 2 can close.
 4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.

@@ -10892,3 +10892,8 @@
 - 2026-11-26 01:10 Chose the checkpoint over the Platform.OS cleanup: the last full gates predate the helper, gym key and Food tab label changes, so a red gate would hide. Jev ranked run highest (91%), so no second look needed.
 - 2026-11-26 01:10 Checkpoint round changes no files, per the loop rule. Any red gate is fixed in the next round.
 - 2026-11-26 01:10 Food tab Retry label: done last round and checked by a test (food.loggedDays.render 6 of 6, foodTab.emptyStates 8 of 8). Moved out of Parked.
+- 2026-11-26 01:12 Chose the TestPG re-run: it is the stated NEXT from the last report, it changes no files and it closes the skipped-tests gap that the Row 4 delete test depends on.
+- 2026-11-26 01:12 Jev 'ask' (16%) ignored: the brief forbids ask. Jev run (79%) agrees with the choice.
+- 2026-11-26 01:12 Jev risk 0.9 read as a reason for a smaller task, so this round changes no files and fixes nothing new.
+- 2026-11-26 01:12 OWNER_CHECKS_phase4.md is append only, so the parity line stays. Isa closes it himself. Logged as an open item, not a loop task.
+- 2026-11-26 01:12 The gym.monthSessions naming and the seedChildRows dependency stay in Parked until Row 30 docs.
