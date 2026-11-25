@@ -7,7 +7,8 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api, ApiError, type Onboarding, type SubscriptionStatus } from '@/lib/api';
+import { api, ApiError, type Goals, type Onboarding, type SubscriptionStatus } from '@/lib/api';
+import { goalTypeOf } from '@/lib/goals/derive';
 import {
   entitlementFromApi,
   goalsFromApi,
@@ -453,6 +454,7 @@ export async function hydrateGoals(): Promise<void> {
     throw e;
   });
   useSettingsStore.getState().setServerGoals(g ? goalsFromApi(g) : null);
+  useUserStore.getState().setProfile(planFromGoals(g));
 }
 
 export function useGoals(): Async<MacroGoals> {
@@ -495,11 +497,16 @@ export async function hydrateProfile(): Promise<void> {
   // targets from, and nothing wrote them into this store before, so every user
   // in a release build got the 1,200 kcal floor and 0 g protein.
   const [p, onb] = await Promise.all([api.profile.get(), api.onboarding.get().catch(() => null)]);
+  // Goal and activity edits from Profile live on the goals row. Once
+  // hydrateGoals has landed it, the onboarding answers must not overwrite them.
+  const fromOnboarding = bodyFromOnboarding(onb);
+  const { goal: _goal, activityLevel: _activityLevel, ...metrics } = fromOnboarding;
+  const goalsLanded = useSettingsStore.getState().serverGoals !== null;
   useUserStore.getState().setProfile({
     name: p.display_name ?? '',
     email: p.email ?? '',
     avatarUri: p.avatar_url ?? undefined,
-    ...bodyFromOnboarding(onb),
+    ...(goalsLanded ? metrics : fromOnboarding),
   });
 }
 
@@ -521,6 +528,19 @@ export function bodyFromOnboarding(onb: Onboarding | null): Partial<UserProfile>
 }
 
 const ACTIVITY_LEVELS = new Set(['sedentary', 'light', 'moderate', 'very_active']);
+
+/** The goal and activity level on the goals row. Profile edits are saved there
+ *  (savePlan), so hydrateGoals applies them over the onboarding answers. */
+export function planFromGoals(g: Goals | null): Partial<UserProfile> {
+  if (!g) return {};
+  const out: Partial<UserProfile> = {};
+  const goal = goalTypeOf(g.weight_goal);
+  if (goal) out.goal = goal;
+  if (g.activity_level && ACTIVITY_LEVELS.has(g.activity_level)) {
+    out.activityLevel = g.activity_level as UserProfile['activityLevel'];
+  }
+  return out;
+}
 
 export function useUserProfile(): UserProfile {
   const profile = useUserStore((s) => s.profile);

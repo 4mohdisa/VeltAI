@@ -22,12 +22,17 @@ import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { color, layout, radius, space, surface, textStyle } from '@/lib/design/tokens';
 import { useLargeText } from '@/lib/design/dynamicType';
 import { useSettingsStore, useUnitPreferences } from '@/lib/settings/store';
-import { useGoals } from '@/lib/data';
+import { savePlan, useGoals, useUserProfile } from '@/lib/data';
+import { goalForDerivation, type PlanGoal } from '@/lib/goals/derive';
+import type { ActivityLevel } from '@/lib/types';
 import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 
 // Atwater factors (kcal per gram).
 const KCAL_PER_G = { protein: 4, carbs: 4, fat: 9 } as const;
 type MacroKey = keyof typeof KCAL_PER_G;
+
+const PLAN_GOALS = ['lose', 'track', 'muscle'] as const satisfies readonly PlanGoal[];
+const ACTIVITY_LEVELS = ['sedentary', 'light', 'moderate', 'very_active'] as const satisfies readonly ActivityLevel[];
 
 /** The design's calorie figure is a borderless 126pt field; no token is a width. */
 const FIGURE_WIDTH = 126;
@@ -53,6 +58,22 @@ export default function GoalsScreen() {
   // The read only feeds the AI recommendation; custom targets are the user's own and stay editable.
   const aiLoading = !isCustom && isLoading;
   const goals = isCustom ? customGoals : aiRecommendation;
+
+  // Goal and activity feed the recommended targets; savePlan recomputes and saves them.
+  const profile = useUserProfile();
+  const [savingPlan, setSavingPlan] = useState(false);
+  const changePlan = async (patch: Parameters<typeof savePlan>[0]) => {
+    setSavingPlan(true);
+    try {
+      await savePlan(patch);
+      showToast({ message: t('goals.plan.saved'), tone: 'success' });
+    } catch {
+      showToast({ message: t('goals.plan.saveFailed'), tone: 'error' });
+    } finally {
+      setSavingPlan(false);
+    }
+  };
+  const planDisabled = isLoading || savingPlan;
 
   // Macro kcal sum (for the % view and the reconciliation hint).
   const macroKcal = useMemo(
@@ -98,6 +119,22 @@ export default function GoalsScreen() {
 
   return (
     <Screen variant="floating" eyebrow={t('goals.eyebrow')} title={t('goals.title')} showBack contentStyle={{ gap: space.xl }}>
+      <SegmentedField
+        variant="inset"
+        label={t('goals.plan.goal')}
+        value={goalForDerivation(profile.goal)}
+        onChange={(v) => changePlan({ goal: v })}
+        disabled={planDisabled}
+        options={PLAN_GOALS.map((value) => ({ label: t(`goals.plan.goalOptions.${value}`), value }))}
+      />
+      <SegmentedField
+        variant="inset"
+        label={t('goals.plan.activity')}
+        value={profile.activityLevel}
+        onChange={(v) => changePlan({ activityLevel: v })}
+        disabled={planDisabled}
+        options={ACTIVITY_LEVELS.map((value) => ({ label: t(`goals.plan.activityOptions.${value}`), value }))}
+      />
       <SegmentedField
         variant="inset"
         label={t('goals.mode')}

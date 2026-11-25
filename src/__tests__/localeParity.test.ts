@@ -45,6 +45,17 @@ const ENGLISH_ONLY = new Set([
   'onboarding.trainingDays.options.days_1_2',
   'onboarding.trainingDays.options.days_3_4',
   'onboarding.trainingDays.options.days_5_plus',
+  'goals.plan.goal',
+  'goals.plan.activity',
+  'goals.plan.goalOptions.lose',
+  'goals.plan.goalOptions.track',
+  'goals.plan.goalOptions.muscle',
+  'goals.plan.activityOptions.sedentary',
+  'goals.plan.activityOptions.light',
+  'goals.plan.activityOptions.moderate',
+  'goals.plan.activityOptions.very_active',
+  'goals.plan.saved',
+  'goals.plan.saveFailed',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

@@ -16,10 +16,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - exhaustive-deps: only appState.tsx:119 remains (parked). Kept disables: SliderField:68, BottomSheet:95, 103, 134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b open items (PARTIAL)
-- Step sweep: last report said 28 onboarding-importing files plus 8 others all pass. Loop flagged it as partly done; re-check round running (grep list plus one run per file).
+- Step sweep: CLOSED. Re-run: 56 of 56 test files, 418 of 418 tests pass; all files named earlier are in the list.
 - Training days question: done in code (onboarding store only, not sent to plan).
-- Goal, activity, diet, cuisine, training days not editable in src/app/profile yet.
-- Plan-ready summary screen: approved, not built.
+- Goal, activity, diet, cuisine, training days not editable in src/app/profile yet. Order: goal and activity (now), then diet, cuisine, training days.
+- Plan-ready summary screen: approved in principle, design not signed off, parked.
 - Maestro flow: shared with row 23, not run.
 - Do not mark 2b BUILT until all items close.
 
@@ -54,7 +54,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Stale plan items (disable not present) are dropped, not added to Blocked.
 - Jev advice only; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
-- Sweep flag: re-check round re-runs the grep and each file; closed only when the list matches.
+- Sweep flag closed on the re-run above.
+- Goal and activity editing split from diet, cuisine and training days to keep each round small.
 
 ## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
@@ -75,7 +76,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
-- No test pins onboarding step numbers or step count. Add one if cheap.
+- No test pins onboarding step numbers or step count (e.g. 'Step 7 of 11'). Add one if cheap.
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
@@ -88,9 +89,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
 
 ## Next
-1. Row 2b: re-check sweep (this round), record file list and counts.
-2. Row 2b: goal, activity, diet, cuisine and training days editable in src/app/profile.
-3. Row 2b: plan-ready summary screen (waits for Isa's approval of the design; keep parked until then).
+1. Row 2b: goal and activity level editable in src/app/profile (this round).
+2. Row 2b: diet, cuisine, training days editable in src/app/profile.
+3. Row 2b: plan-ready summary screen (parked until Isa approves the design).
 4. Row 3 remainder after Isa signs off.
 5. Gym key rename only after Isa approves.
 6. Next checkpoint: run Go gates and lint, record numbers in BASELINE_phase4.md.

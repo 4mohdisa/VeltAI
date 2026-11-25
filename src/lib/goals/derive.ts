@@ -9,7 +9,7 @@
 // target and the dashboard show another for the same person. Do not
 // reintroduce a second derivation in this file.
 import type { MacroGoals } from '@/lib/settings/store';
-import type { UserProfile } from '@/lib/data/userStore';
+import type { GoalType, UserProfile } from '@/lib/data/userStore';
 import { deriveTargets } from '@/lib/onboarding/deriveTargets';
 import type { Goal } from '@/lib/types';
 
@@ -34,10 +34,21 @@ export function deriveGoals(profile: UserProfile): MacroGoals {
   });
 }
 
+/** The three goals the formula acts on: lose, maintain ('track') and gain ('muscle'). */
+export type PlanGoal = Extract<Goal, 'lose' | 'track' | 'muscle'>;
+
 /** UserProfile.goal carries app-level goals ('consistency', 'sleep', …) that the
  *  shared formula does not know; everything that is not lose/muscle maintains. */
-function goalForDerivation(goal: UserProfile['goal']): Goal {
+export function goalForDerivation(goal: UserProfile['goal']): PlanGoal {
   if (goal === 'lose') return 'lose';
   if (goal === 'muscle') return 'muscle';
   return 'track';
+}
+
+/** A stored goal (onboarding or goals row) as UserProfile.goal. The maintain
+ *  goals become 'consistency', which goalForDerivation maps back to 'track'. */
+export function goalTypeOf(goal: string | null): GoalType | undefined {
+  if (goal === 'lose' || goal === 'muscle') return goal;
+  if (goal === 'track' || goal === 'eat_healthier') return 'consistency';
+  return undefined;
 }

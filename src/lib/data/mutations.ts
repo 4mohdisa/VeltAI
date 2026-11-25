@@ -5,9 +5,14 @@
 import { api, type GymExerciseInput } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { runOrQueue, runOrQueueSequence } from '@/lib/offline/queue';
-import { isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
+import { goalsFromApi, isServerId, logInputFromItem, logPatchFromItem, savedInputFromApp, todayISO } from './mappers';
 import { useFoodStore, type NewFoodItem } from './foodStore';
 import { useGymStore } from './gymStore';
+import { useUserStore } from './userStore';
+import { bodyFromOnboarding } from './hooks';
+import { deriveGoals, goalForDerivation, goalTypeOf, type PlanGoal } from '@/lib/goals/derive';
+import { useSettingsStore } from '@/lib/settings/store';
+import type { ActivityLevel } from '@/lib/types';
 import type { EntryMethod, MealSlot, SavedFood } from '@/lib/mock/data';
 import { devWarn } from '@/lib/env';
 
@@ -228,3 +233,29 @@ export const applyFreeze = (offsetDays = 0) => {
   sync(api.gym.freeze());
 };
 
+
+/**
+ * Change the goal or activity level from Profile. Not optimistic: the targets
+ * are recomputed with deriveGoals from the server's body metrics, saved with
+ * PUT /api/goals, and the stores change only once that succeeds, so a failure
+ * leaves the old plan in place and the caller shows the error.
+ */
+export async function savePlan(patch: { goal?: PlanGoal; activityLevel?: ActivityLevel }): Promise<void> {
+  const onb = await api.onboarding.get();
+  const profile = { ...useUserStore.getState().profile, ...bodyFromOnboarding(onb) };
+  if (patch.goal) profile.goal = goalTypeOf(patch.goal) ?? profile.goal;
+  if (patch.activityLevel) profile.activityLevel = patch.activityLevel;
+  const targets = deriveGoals(profile);
+  const saved = await api.goals.put({
+    calorie_target: targets.calories,
+    protein_target: targets.protein,
+    carb_target: targets.carbs,
+    fat_target: targets.fat,
+    fibre_target: targets.fibre,
+    weight_goal: goalForDerivation(profile.goal),
+    activity_level: profile.activityLevel,
+    source: 'onboarding',
+  });
+  useUserStore.getState().setProfile({ goal: profile.goal, activityLevel: profile.activityLevel });
+  useSettingsStore.getState().setServerGoals(goalsFromApi(saved));
+}

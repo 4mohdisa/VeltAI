@@ -228,7 +228,24 @@
     "eyebrow": "Daily targets",
     "gramsField": "{{label}} (g)",
     "percentField": "{{label}} (%)",
-    "loadFailed": "Couldn't load your recommended targets."
+    "loadFailed": "Couldn't load your recommended targets.",
+    "plan": {
+      "goal": "Goal",
+      "activity": "Activity level",
+      "goalOptions": {
+        "lose": "Lose",
+        "track": "Maintain",
+        "muscle": "Gain"
+      },
+      "activityOptions": {
+        "sedentary": "Sitting",
+        "light": "Light",
+        "moderate": "Moderate",
+        "very_active": "Very active"
+      },
+      "saved": "Plan updated. Your targets have been recalculated.",
+      "saveFailed": "Couldn't save your change. Try again."
+    }
   },
   "addMenu": {
     "title": "Add meal",
