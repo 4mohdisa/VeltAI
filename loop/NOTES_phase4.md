@@ -14,9 +14,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL. Steps 1, 2, 3a, 3b, 3c done. 34 tables seeded and checked (29 UserTables + 5 child tables), zero leftover rows, all child FKs cascade (no migration needed).
+- Row 4 PARTIAL. Steps 1, 2, 3a, 3b, 3c done (3a now recorded). 34 tables seeded and checked (29 UserTables + 5 child tables), zero leftover rows, all child FKs cascade (no migration needed).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label blocked.
 - Row 6 label 'R253' still unconfirmed.
+- Delete-account screen: 502 and all failures show the plain fallback message. en.json move waits on Isa's parity decision.
 - Last full checkpoint: tsc 0 errors, 280 suites, 1,689 tests. Handover count unsettled: settle at next checkpoint.
 
 ## Rules
@@ -49,6 +50,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 4: step 1 over signup pin (Jev 87%). Step 2: oauth_states cleared in profile store delete, no migration. Settings delete check over signupDevFallback pin. Step 3a: oauth_states in auth.ExportTableNames (Jev 91%); export and deletion lists kept separate, drift test keeps them in step. Step 3b: seeded all 29 tables. Step 3c: child tables seeded, counted by parent ids before delete (Jev 81%, picked over delete-screen text).
 - 'verified' wording check passes in code (0 uses); PHASE4_ROWS.md 2.2 and 2b notes still use it, fix in Row 30.
 - Delete-screen text to en.json only (English-only override). If localeParity fails on new English keys, revert the key move and park it.
+- Delete screen: failed delete shows the existing plain fallback text for every failure, never server text (no new key, parity safe). Accepted for now.
+- Checkpoint round chosen over Jev 'ask' (67%): brief forbids ask; this round changes no files.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -60,7 +63,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
 - Row 3: confirm Apple hidden on Android. Choose native sheet or keep browser flow. Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Parity rule: should English-only keys be exempt from localeParity.test.ts? Blocks nutrition.tsx:231. Do not retry until Isa decides.
+- Parity rule: should English-only keys be exempt from localeParity.test.ts? Blocks nutrition.tsx:231 and the delete-screen en.json move. Do not retry until Isa decides.
 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
@@ -81,11 +84,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Deletion Postgres test seeds 34 of the user tables; any new table must be added to UserTables and to the test.
 
 ## Next
-1. Delete-account text to en.json, plain message on 502 (Row 4 follow-up). Type check and parity test run this round.
-2. Then: rerun tests/regression and tests/migrations after the export list change if not yet run in a checkpoint.
-3. Full checkpoint after the next batch (tsc, app Jest, Go race). Confirm the round number before recording it.
+1. Checkpoint this round: tsc and full app Jest, no file changes. Record the result and confirm the round number.
+2. Run tests/regression and tests/migrations (pending since the export list change), plus Go race for changed packages.
+3. When Isa decides the parity rule: move the delete-screen text to en.json.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
-- Last round was flagged for no type check or test run. Fixed by running tsc in the next round.
+- Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
 - Report wording checked each round: no 'verified' in new text.

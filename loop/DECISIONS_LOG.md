@@ -10807,3 +10807,7 @@
 - 2026-11-26 00:37 Jev ranks run at 99 percent but gives last-task-clean only 11 percent and risk 0.8. Kept a small, single-file task per the advice rule.
 - 2026-11-26 00:37 Added a rule that if localeParity fails on new English keys, the key move is reverted and parked, so the loop does not break the parity test while English-only keys remain unresolved.
 - 2026-11-26 00:37 Did not repeat the 3c seed-order dependency (exercise_library seed) in this prompt; it stays in Parked.
+- 2026-11-26 00:40 Chose run over Jev's ask signal (67%): the brief forbids ask, and this checkpoint changes no files, so the risk is low.
+- 2026-11-26 00:40 Checkpoint round is limited to tsc and full app Jest, as the loop note asks. Go race and the migration tests come next round.
+- 2026-11-26 00:40 Round number not confirmed from the loop; recorded as 'checkpoint round, number unconfirmed' until the loop states it.
+- 2026-11-26 00:40 Row 4 step 3a is now recorded in the notes (it was done but not written down).
