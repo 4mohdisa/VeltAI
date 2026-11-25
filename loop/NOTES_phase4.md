@@ -10,11 +10,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. 9 of 38 BUILT or EXACT, 0 EXACT.
-- Checkpoint (282 suites, 1,704 tests, tsc 0, lint clean) passed. Measurements render test (13) added after, passing.
+- Last checkpoint (282 suites, 1,704 tests, tsc 0, lint clean) passed. Measurements render test (13) added after, passing.
 - TestPG: 26 pass on lume_test_local. Race green.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT. Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: browser oauth_apple flow; AppleSignInButton on signup and DevSignup.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
+- energy.ts exhaustive-deps disable removed (useApi takes module-level fetchers, deps complete). Tests pass.
 
 ## Rules
 - One module per prompt, max 5 steps, grep first. Every prompt states the branch rule and forbids other git commands.
@@ -47,7 +48,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps fix: compute plain values in render, depend on them, no disable. ParameterForm tells parent via a params effect after commit (tested).
 - Before removing a disable in BottomSheet or similar: Reanimated SharedValue write = keep; real missing dependency = fix, unless it changes behaviour (then park).
-- Done: TodayCard:237 (revalidate stable), ScanReviewCard:118 (namesKey).
+- Done: TodayCard:237 (revalidate stable), ScanReviewCard:118 (namesKey), energy.ts:37 (module-level fetchers).
 - A stale plan item (disable not present) is dropped, not added to Blocked.
 - Jev asked for ask at 90%; kept run because the brief forbids ask. The one Isa question is parked in OWNER_CHECKS_phase4.md.
 
@@ -63,15 +64,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes (es and fr key moves).
-- appState.tsx:119 exhaustive-deps: listing snap.effects would make a repeated identical batch run again (e.g. two FOREGROUND_AFTER_IDLE in a row re-runs validate). Behaviour change, so disable kept. Question and recommendation (make the fix, add a render test) in OWNER_CHECKS_phase4.md.
+- appState.tsx:119 exhaustive-deps: listing snap.effects would make a repeated identical batch run again. Behaviour change, so disable kept. Question in OWNER_CHECKS_phase4.md.
 
 ## Parked
+- Two private useApi copies (energy.ts, gymSchedule.ts) with different shapes. Merge only if it changes no behaviour.
+- No test that useEnergyBalance refetches only when the day changes.
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
-- measurements.tsx Continue recomputes heightToCm() and toKg(). ParameterForm paramsKey is redundant.
-- Disables left: energy.ts:37 (next round), BottomSheet.tsx:88 (check first), ParameterForm.tsx:141 (grep; drop if none), appState.tsx:119 (owner question).
+- measurements.tsx Continue recomputes heightToCm() and toKg().
+- Disables left: BottomSheet.tsx:88 (check first), ParameterForm.tsx:141 (in progress), appState.tsx:119 (owner question).
 - Keep: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
 - Missing tests: BottomSheet open and close lifecycle; ScanReviewCard weight-only change does not refetch; gym re-run timing.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
@@ -82,11 +85,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Older backend without total_days gives undefined tile.
 - KNOWN_ISSUES.md Phase 3 wording; PERF_BASELINE.md lines 34, 41; PHASE4_ROWS.md 2.2 and 2b banned check word (Row 30).
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap (drift test exists).
+- consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
 - zsh: use arrays or ${=var}.
 
 ## Next
-1. energy.ts:37 disable (this round). Park if the fix changes behaviour.
-2. BottomSheet.tsx:88 and ParameterForm.tsx:141 (grep first).
+1. ParameterForm.tsx:141 disable (this round). Park if the fix changes behaviour.
+2. BottomSheet.tsx:88 (grep first, check Reanimated writes).
 3. Lifecycle and weight-only tests.
 4. Phase 3 Row 14 remainder, so Row 2 can close.
 5. Row 3 remainder after Isa signs off.

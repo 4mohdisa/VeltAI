@@ -90,7 +90,6 @@ export function ParameterForm({
   }, [onParamsChange]);
 
   const params = useMemo(() => toParams(schema, raw), [schema, raw]);
-  const paramsKey = useMemo(() => JSON.stringify(params), [params]);
 
   const setField = useCallback(
     (key: string, value: RawValue | undefined) => {
@@ -162,7 +161,7 @@ export function ParameterForm({
       alive = false;
       clearTimeout(id);
     };
-  }, [exerciseId, paramsKey, params]);
+  }, [exerciseId, params]);
 
   return (
     <View style={{ gap: space.md }}>

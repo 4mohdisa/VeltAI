@@ -10954,3 +10954,7 @@
 - 2026-11-26 01:30 Jev asked for ask (90%). Kept run. The brief forbids ask. The only Isa-dependent item is parked in the owner file, so the loop can carry on. The next item is a small lint change checked by tsc and lint, so the risk is low.
 - 2026-11-26 01:30 Chose candidate 1 (energy.ts:37) because it follows the agreed order: appState first (parked), then energy.ts, then BottomSheet and ParameterForm after a grep.
 - 2026-11-26 01:30 Kept the rule that a disable is removed only when the fix changes no behaviour. Any fix that changes what the app does is parked, not made.
+- 2026-11-26 01:31 Chose ParameterForm.tsx:141 because the notes and last report both name it as next; it is one module with a clear grep-first step.
+- 2026-11-26 01:31 Kept the prompt to one module with a park path if the fix changes behaviour, per the disable rule in the notes.
+- 2026-11-26 01:31 Logged the energy.ts spotted items (duplicate private useApi in energy.ts and gymSchedule.ts; no refetch-on-day-change test) under Parked, not as new work, to keep this round small.
+- 2026-11-26 01:31 Did not use action ask: the appState.tsx:119 question is already parked in OWNER_CHECKS_phase4.md and the brief forbids asking.
