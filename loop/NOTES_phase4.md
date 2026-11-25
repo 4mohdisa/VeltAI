@@ -9,14 +9,14 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to d built; c checked by paywallOnboardingPost.render.test.tsx; open: e refresh after purchase, f stale strings).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; open: f stale strings, English only part).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
-- App tests mock the API, so the 402 gate is untested in the app. First real check: sandbox run after 6b.
+- App tests mock the API, so the 402 gate is untested in the app. First real check: sandbox run.
 
 ## Next
-1. Row 6b (e): refresh subscription state after purchase (paywall.tsx).
-2. Returning user with no subscription: 402 from GET /api/onboarding sends them to onboarding with no reason message.
+1. Returning user with no subscription: 402 from GET /api/onboarding sends them to onboarding with no reason message (in progress).
+2. Row 6b (f): English stale free-tier wording in paywall strings (plansUnavailable, storeError). English only.
 3. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
 4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 5. Plan-ready summary: parked until Isa approves.
@@ -36,7 +36,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Training days stay on device; savePlan sends only body metrics.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; retry GET /api/subscription 4 times, 1.5 s apart, injectable timing.
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; retry GET /api/subscription 4 times, 1.5 s apart, injectable timing. Confirmed purchase writes status to the settings store (serverEntitlement).
 - Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Rejected prompt (too many screens): rewritten to one file.
 - Webhook secret from env only; unset means refuse events.
@@ -77,3 +77,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans; TestLabel_WritesSessionRowForQuota keeps its old name.
+- es and fr for onboarding.paywall.refusal.* and notConfirmed missing; plansUnavailable and storeError still describe a free tier in es and fr.

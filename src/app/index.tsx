@@ -9,7 +9,8 @@
 //   2. Otherwise ask the backend (GET /api/onboarding). completed=true → mark
 //      the store and proceed; completed=false or a network error → onboarding;
 //      a 401 → the session is not valid: SESSION_ENDED ends the rejected
-//      Clerk session and opens sign-in, keeping the onboarding answers.
+//      Clerk session and opens sign-in, keeping the onboarding answers; a 402
+//      → no plan grants access: the paywall, told the refusal reason.
 // The onboarding flow lives at /onboarding (a stack above the tabs); once
 // completed it never shows again.
 import { useEffect, useState } from 'react';
@@ -18,7 +19,7 @@ import { Redirect, type Href } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
 
 import { color } from '@/lib/design/tokens';
-import { api } from '@/lib/api';
+import { api, type ApiError } from '@/lib/api';
 import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity } from '@/lib/auth/machine';
 import { isClerkEnabled } from '@/lib/auth/clerkEnv';
@@ -87,6 +88,13 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
         // machine clears it, routes to sign-in and shows the expired message.
         if (classifyConnectivity(e) === 'sessionExpired') {
           if (active) dispatch({ type: 'SESSION_ENDED' });
+          return;
+        }
+        // The entitlement gate refused: show the paywall with the reason, not
+        // the start of onboarding with no word of why.
+        const { status, reason } = e as Partial<ApiError>;
+        if (status === 402) {
+          if (active) setDestination(reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall');
           return;
         }
         // Backend unreachable → treat as not onboarded.

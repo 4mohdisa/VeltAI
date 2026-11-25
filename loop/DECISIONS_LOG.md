@@ -11160,3 +11160,7 @@
 - 2026-11-26 03:08 Chose candidate 1 (Jev pick, 97% run): row 6b (e) is the next open step; the last report was complete with checks, so no verify round was needed.
 - 2026-11-26 03:08 Kept the prompt to one file and one test case, five steps, to stay inside the one-task rule.
 - 2026-11-26 03:08 Stated English only in the prompt, per Isa's override, so no es or fr text is added to the paywall.
+- 2026-11-26 03:10 Row 6b step (e) reported built and checked by a test, so it is closed.
+- 2026-11-26 03:10 Chose the returning user 402 fix over step (f): step (f) needs es and fr text, which Isa deferred (English only override).
+- 2026-11-26 03:10 Jev signals suggested ask at 57 percent. Ask is not allowed under the no-questions rule, so the loop runs the smallest concrete task instead.
+- 2026-11-26 03:10 Kept to one file and one behaviour per prompt, per the one-task rule in the notes.

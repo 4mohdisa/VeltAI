@@ -13,7 +13,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { router, type Href } from 'expo-router';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button } from '@/components/forms';
@@ -73,10 +73,16 @@ export default function PaywallScreen() {
 
   const [submitting, setSubmitting] = useState(false);
   const [restoring, setRestoring] = useState(false);
+  // Set by the launch gate when GET /api/onboarding is refused with a 402.
+  const { reason } = useLocalSearchParams<{ reason?: string }>();
 
   useEffect(() => {
     track('paywall_viewed');
   }, []);
+
+  useEffect(() => {
+    if (reason) showToast({ message: t(refusalKey(reason)), tone: 'error' });
+  }, [reason, t]);
 
   const features: string[] = [
     t('onboarding.paywall.features.unlimitedLogging'),
