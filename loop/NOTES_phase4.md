@@ -11,11 +11,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
-- Row 2b dead end 1 (Sign in link on Welcome): built, checked by welcome.render.test.tsx (6 of 6).
-- Row 2b dead end 2 (auth title by mode): reported built but not test-checked. Checking now.
+- Row 2b dead end 1 (Sign in link on Welcome): built; checked by welcome.render.test.tsx (6 of 6).
+- Row 2b dead end 2 (auth title by mode): checked by signupSignInMode.render.test.tsx for the toggle path. Welcome ?mode=signin title path: flagged, verifying now.
 
 ## Next
-1. Row 2b dead end 2: confirm title by mode with a test. In progress.
+1. Row 2b: verify the Welcome sign in link title (?mode=signin). In progress.
 2. Refresh the stale audit in DESIGN_REFERENCES.md (lists dead ends 1 and 2 as open; says no maintain option, no training days, no i18n. All now exist).
 3. Row 2b dead end 3: confirm Resend code on the email code step (signupResend.render.test.tsx may cover it).
 4. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
@@ -28,7 +28,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Every prompt states the branch rule first and names files fully.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
 - Report wording: built, or checked by a test. Never 'verified'.
-- A report that skips a check is flagged; next round verifies it first.
+- A report that skips a check or leaves a gap is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked and is not retried.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.

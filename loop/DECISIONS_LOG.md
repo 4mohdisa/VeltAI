@@ -11497,3 +11497,8 @@
 - 2026-11-26 05:26 Kept to one surface (signup.tsx) and one row per the one-task rule.
 - 2026-11-26 05:26 Did not start the DESIGN_REFERENCES.md audit refresh yet; it is the next round so the audit is written from verified facts.
 - 2026-11-26 05:26 Jev signals: run at 97% confidence, ask and stop rejected, so the loop continues with a small task.
+- 2026-11-26 05:27 Chose the flagged gap first because the loop rule says a flagged report is verified before the next task.
+- 2026-11-26 05:27 Kept the task to one test and one surface (Welcome to signup) to lower risk, following the Jev risk signal of 0.9.
+- 2026-11-26 05:27 Left the stale DESIGN_REFERENCES.md audit for the next round, since it is documentation and does not block Row 2b.
+- 2026-11-26 05:27 Allowed moving the screenTitle helper to a shared helper file, so the rule against duplicated logic holds.
+- 2026-11-26 05:27 Did not run the full suite, because this is not a checkpoint round.

@@ -5,7 +5,7 @@
 // screen; it is not a source-text grep. No real network, no real Clerk calls.
 import SignupScreen from '@/app/onboarding/signup';
 import { router } from 'expo-router';
-import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
+import { act, allText, buttonWithTitle, findAll, renderScreen, screenTitle } from './helpers';
 
 jest.mock('@/lib/auth/clerkEnv', () => ({
   isClerkEnabled: () => true,
@@ -51,10 +51,6 @@ function pressModeToggle(tree: ReturnType<typeof renderScreen>) {
     })[0];
     (toggle.props.onPress as () => void)();
   });
-}
-
-function screenTitle(tree: ReturnType<typeof renderScreen>) {
-  return findAll(tree, (p) => p.variant === 'title1')[0].props.children;
 }
 
 beforeEach(() => {

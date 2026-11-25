@@ -60,6 +60,11 @@ export function buttonWithTitle(tree: ReactTestRenderer, title: string): ReactTe
   return findAll(tree, (p) => p.title === title)[0];
 }
 
+/** The screen title: the first title1 text, as OnbScaffold renders it. */
+export function screenTitle(tree: ReactTestRenderer): unknown {
+  return findAll(tree, (p) => p.variant === 'title1')[0].props.children;
+}
+
 /** All visible text in the tree, flattened — for asserting messages appear. */
 export function allText(tree: ReactTestRenderer): string {
   return JSON.stringify(tree.toJSON());

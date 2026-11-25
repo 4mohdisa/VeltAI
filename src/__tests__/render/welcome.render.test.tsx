@@ -10,7 +10,7 @@ import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
-import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
+import { act, allText, buttonWithTitle, findAll, renderScreen, screenTitle } from './helpers';
 
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
@@ -77,10 +77,12 @@ test('tapping Sign in opens the signup screen in sign-in mode', () => {
 
 test('signup opens in sign-in mode for ?mode=signin', () => {
   jest.mocked(useLocalSearchParams).mockReturnValueOnce({ mode: 'signin' });
-  const text = allText(renderScreen(<SignupScreen />));
+  const tree = renderScreen(<SignupScreen />);
+  const text = allText(tree);
 
   expect(text).toContain('New to Lume? Create an account');
   expect(text).not.toContain('Already have an account? Sign in');
+  expect(screenTitle(tree)).toBe(en.signup.titleSignIn);
 });
 
 test('Get Started still routes to the goal step', () => {
