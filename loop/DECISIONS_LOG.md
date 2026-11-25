@@ -10674,3 +10674,7 @@
 - 2026-11-25 23:44 Plan: R252 is a records round for Row 13 (correct R247 note, calendar mock text and the saved and translation items against the code). Then set Phase 3 Row 13 to BUILT if no core function is broken, with R249 and the es/fr render tests moved under Parked.
 - 2026-11-25 23:44 Jev ranked run at 99 percent. Kept run. No Jev mention in the prompt.
 - 2026-11-25 23:44 Simulator flow not required for R251 because it is a notice-count fix covered by a render test; Row 13 simulator flow goes into Row 23.
+- 2026-11-25 23:46 R252 chosen: the plan in the notes is to close Row 13 records first. It is small, low risk, and unblocks Row 2 (Jev 71% run; no ask needed).
+- 2026-11-25 23:46 Row 13 is set BUILT only if checks pass, with parked es and fr tests and the R249 alias removal recorded as parked, not open work (English only override).
+- 2026-11-25 23:46 Did not touch foodDays.test.ts or the aliases: still blocked on Isa approval (R249).
+- 2026-11-25 23:46 Jev's risk score (0.8) noted; a records-only round does not continue the risky path, so no change to the plan.

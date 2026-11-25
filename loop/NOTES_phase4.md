@@ -12,12 +12,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Row 2 PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
+- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Row 2 PARTIAL until Phase 3 Rows 6 and 14 are BUILT (Row 13 being closed in R252).
 - Row 2b DIFFERENT: step 1d strings done (en). Plan-ready summary parked for Isa.
-- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245), calendar.tsx and food.tsx read data (R247, R248). R250 verify passed.
-- Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests).
-- This round: R251 one Food tab notice when both reads fail (food.tsx ~488, ~493).
-- Plan: R252 records round for Row 13 (fix stale R247 note, calendar mock text, saved and translation items). Then set Phase 3 Row 13 BUILT unless a core function is broken.
+- Row 13 (Phase 3): R240 to R251 done (barcode failed state, foodDays error, calendar error, Food tab notice, single notice when both reads fail). Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests).
+- R252 (this round): records round. Fix stale R247 note and calendar mock text, add R251 line, check saved and translation items, then set Phase 3 Row 13 BUILT if checks pass.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -45,7 +43,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R233, R234 Terms disclaimer in legal.terms. R236 en-AU kept as formatNumber output.
 - R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds still fall back to mock database.
 - R243 foodDays: failure keeps dates and sets error; success clears it. R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
-- R247 calendar.tsx reads data only. R248 food.tsx reads data only.
+- R247 calendar.tsx reads data only (corrected R252). R248 food.tsx reads data only.
 - R250 verify only, no alias removal.
 - R251 one notice when both Food tab reads fail; food-log error takes priority.
 - useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
@@ -76,5 +74,4 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose. Users do not see which field the server rejected on 4xx.
 - OWNER_CHECKS_phase4.md line 39 quotes old es wording. Append only, leave it.
-- R247 note says isLoading but calendar.tsx reads only data. Correct in R252.
-- Row 13 'Left to do' item 2 says the calendar mock returns only days. Correct in R252.
+- Row 13 'Left to do' item 2 (calendar mock) being corrected in R252.
