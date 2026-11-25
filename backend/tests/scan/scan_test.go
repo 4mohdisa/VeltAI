@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/scan"
 )
@@ -297,7 +298,7 @@ func (f *fakeStore) UpdateScanRating(_ context.Context, id, rating string) error
 func serve(t *testing.T, ocr scan.OCR, store scan.Store, method, path, body string) *httptest.ResponseRecorder {
 	t.Helper()
 	mux := http.NewServeMux()
-	scan.Register(mux, ocr, store)
+	scan.Register(mux, ocr, store, aiquota.New(0, nil))
 	req := httptest.NewRequest(method, path, strings.NewReader(body))
 	req = req.WithContext(auth.WithUserID(req.Context(), "user_1"))
 	rec := httptest.NewRecorder()

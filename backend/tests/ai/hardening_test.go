@@ -13,7 +13,7 @@ import (
 // behaviour is testable on ONE service instance (newMux pins the clock).
 func newService(st *fakeStore, llm ai.LLM, now *time.Time) *http.ServeMux {
 	st.now = func() time.Time { return *now }
-	svc := ai.NewService(st, llm)
+	svc := ai.NewService(st, llm, testQuota(func() time.Time { return *now }))
 	svc.Now = func() time.Time { return *now }
 	mux := http.NewServeMux()
 	svc.Routes(mux)

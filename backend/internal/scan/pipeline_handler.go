@@ -11,6 +11,7 @@ import (
 	"sync"
 	"time"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
 	"lume/backend/internal/db"
@@ -205,7 +206,7 @@ func (s *PGStore) RecordScanImages(ctx context.Context, sessionID string, images
 // scan_session. Deliberately best-effort: any failure leaves the row as-is
 // rather than crashing a detached goroutine. ctx should be detached from the
 // request (context.Background with a timeout).
-func runScanPipeline(ctx context.Context, images []pipeline.AngleImage, userID, logID, sessionID string, ident pipeline.FoodIdentifier, q db.Querier, store PipelineStore, start time.Time) {
+func runScanPipeline(ctx context.Context, images []pipeline.AngleImage, userID, logID, sessionID string, ident pipeline.FoodIdentifier, q db.Querier, store PipelineStore, quota *aiquota.Quota, start time.Time) {
 	// This runs in a detached goroutine over untrusted image bytes; an
 	// unrecovered panic here would take down the whole server process, so
 	// contain it — but LOUDLY, and flip the row to 'failed' so the client's
@@ -258,6 +259,8 @@ func runScanPipeline(ctx context.Context, images []pipeline.AngleImage, userID, 
 	status := "ready"
 	if len(outcome.Estimates) == 0 {
 		status = "failed"
+	} else {
+		quota.Record(ctx, userID)
 	}
 	if err := store.FinishScanLog(ctx, logID, status, name, qty, cal, protein, carbs, fat, fibre, blob); err != nil {
 		// Still best-effort (never crash the goroutine), but never silent: a
@@ -382,7 +385,7 @@ func (t *inFlightScans) waitOrDeadline(ctx context.Context) []string {
 // invisible to it. Call drain with a bounded context during shutdown; it
 // waits for in-flight scans and marks any still running at the deadline
 // 'failed' instead of leaving them stranded at 'analyzing'.
-func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineStore, q db.Querier) (drain func(ctx context.Context)) {
+func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineStore, q db.Querier, quota *aiquota.Quota) (drain func(ctx context.Context)) {
 	// Backpressure: the pipeline runs detached from the request, so without a
 	// cap every request spawns an unbounded goroutine doing megabytes of image
 	// work. Slots are acquired BEFORE any row is written (no orphan 'analyzing'
@@ -471,6 +474,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 			images = append(images, pipeline.AngleImage{Bytes: bytes, MimeType: raw.mime, Angle: raw.angle})
 		}
 
+		if !quota.Allow(w, r) {
+			return
+		}
+
 		// Acquire a pipeline slot BEFORE writing any row (so a rejection leaves
 		// no orphan 'analyzing' row) and never queue: a full pool answers 503.
 		select {
@@ -515,7 +522,7 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 			defer inFlight.finish(logID)
 			bg, cancel := context.WithTimeout(context.Background(), runTimeout)
 			defer cancel()
-			runScanPipeline(bg, images, userID, logID, sessionID, gem, q, store, start)
+			runScanPipeline(bg, images, userID, logID, sessionID, gem, q, store, quota, start)
 		}()
 		httpx.JSON(w, http.StatusAccepted, map[string]string{
 			"log_id":          logID,
@@ -553,6 +560,9 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 			httpx.Error(w, http.StatusRequestEntityTooLarge, "image too large")
 			return
 		}
+		if !quota.Allow(w, r) {
+			return
+		}
 		// Record the session BEFORE the paid call, so a failing Gemini request
 		// still consumes quota. Cost control has to count attempts: otherwise a
 		// caller who can make the call fail retries for free, forever.
@@ -565,6 +575,7 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 			httpx.Error(w, http.StatusBadGateway, "label scan failed")
 			return
 		}
+		quota.Record(r.Context(), auth.UserID(r.Context()))
 		// Labels carry real printed numbers, so confidence has a floor of 80.
 		if label.Confidence < 80 {
 			label.Confidence = 80

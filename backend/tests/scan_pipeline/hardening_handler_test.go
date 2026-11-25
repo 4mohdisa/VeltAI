@@ -12,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/db"
 	"lume/backend/internal/scan"
@@ -65,7 +66,7 @@ func TestPipeline_RejectsDecompressionBomb(t *testing.T) {
 	defer srv.Close()
 	store := newFakePipelineStore()
 	mux := http.NewServeMux()
-	scan.RegisterPipeline(mux, gem, store, db.Querier(nil))
+	scan.RegisterPipeline(mux, gem, store, db.Querier(nil), aiquota.New(0, nil))
 
 	rec := post(t, mux, scanBody(t, bombPNG(t, 40000, 40000)))
 	if rec.Code != http.StatusRequestEntityTooLarge {
@@ -96,7 +97,7 @@ func TestPipeline_ConcurrencyCapReturns503(t *testing.T) {
 
 	store := newFakePipelineStore()
 	mux := http.NewServeMux()
-	scan.RegisterPipeline(mux, gem, store, db.Querier(nil))
+	scan.RegisterPipeline(mux, gem, store, db.Querier(nil), aiquota.New(0, nil))
 	body := scanBody(t, solidPNG(t, color.RGBA{255, 255, 255, 255}))
 
 	if rec := post(t, mux, body); rec.Code != http.StatusAccepted {

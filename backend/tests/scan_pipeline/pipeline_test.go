@@ -23,6 +23,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/db"
 	"lume/backend/internal/scan"
@@ -215,7 +216,7 @@ var _ scan.PipelineStore = (*fakePipelineStore)(nil)
 func servePipeline(t *testing.T, gem *pipeline.Gemini, store scan.PipelineStore, q db.Querier, method, path, body string) *httptest.ResponseRecorder {
 	t.Helper()
 	mux := http.NewServeMux()
-	scan.RegisterPipeline(mux, gem, store, q)
+	scan.RegisterPipeline(mux, gem, store, q, aiquota.New(0, nil))
 	req := httptest.NewRequest(method, path, strings.NewReader(body))
 	req = req.WithContext(auth.WithUserID(req.Context(), "user_1"))
 	rec := httptest.NewRecorder()

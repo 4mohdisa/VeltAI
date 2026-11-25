@@ -13,6 +13,7 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
 	"lume/backend/internal/cuisine"
@@ -58,49 +59,37 @@ type Store interface {
 type Service struct {
 	Store Store
 	LLM   LLM
+	Quota *aiquota.Quota
 	Now   func() time.Time // injectable clock for tests
 
 	briefs briefCache
 	usage  usageCache
 }
 
-// ErrDailyLimit means the user has used today's paid AI calls
-// (LUME_AI_DAILY_LIMIT). Brief and insights fall back to deterministic text;
-// the query answers 429.
-var ErrDailyLimit = errors.New("ai daily limit reached")
-
 type cachedAnswer struct {
 	text string
 	at   time.Time
 }
 
-type dailyCount struct {
-	day string
-	n   int
-}
-
 // usageCache stops the same user paying twice for the same input inside
-// LUME_AI_CACHE_SECONDS, and caps billed calls per user per calendar day.
-// Zero value is ready to use.
-// ponytail: in-process and per-instance like briefCache, and the limit check
-// is not atomic with the call, so parallel requests can overshoot by a few.
-// Move both to Postgres if the API runs multi-instance.
+// LUME_AI_CACHE_SECONDS. Zero value is ready to use.
+// ponytail: in-process and per-instance like briefCache. Move it to Postgres
+// if the API runs multi-instance.
 type usageCache struct {
 	mu      sync.Mutex
 	answers map[string]cachedAnswer
-	calls   map[string]dailyCount
 }
 
 // complete is the one door to the paid LLM: cache hit first, then the daily
-// limit, then the call. Only a successful (billed) call is cached and counted,
-// so a provider outage neither sticks nor eats the allowance.
+// limit (aiquota.ErrLimit), then the call. Only a successful (billed) call is
+// cached and counted, so a provider outage neither sticks nor eats the
+// allowance. Brief and insights fall back to deterministic text at the limit;
+// the query answers 429.
 func (s *Service) complete(ctx context.Context, uid, system, prompt string) (string, error) {
 	sum := sha256.Sum256([]byte(system + "\x00" + prompt))
 	key := uid + "|" + hex.EncodeToString(sum[:])
 	now := s.Now()
 	ttl := time.Duration(config.EnvInt("LUME_AI_CACHE_SECONDS", 900)) * time.Second
-	day := now.In(config.TimezoneOf(ctx)).Format("2006-01-02")
-	limit := config.EnvInt("LUME_AI_DAILY_LIMIT", 40)
 
 	c := &s.usage
 	c.mu.Lock()
@@ -108,22 +97,21 @@ func (s *Service) complete(ctx context.Context, uid, system, prompt string) (str
 		c.mu.Unlock()
 		return a.text, nil
 	}
-	if d := c.calls[uid]; limit > 0 && d.day == day && d.n >= limit {
-		c.mu.Unlock()
-		return "", ErrDailyLimit
-	}
 	c.mu.Unlock()
 
+	if err := s.Quota.Check(ctx, uid); err != nil {
+		return "", err
+	}
 	text, err := s.LLM.Complete(ctx, system, prompt)
 	if err != nil {
 		return "", err
 	}
+	s.Quota.Record(ctx, uid)
 
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.answers == nil {
 		c.answers = map[string]cachedAnswer{}
-		c.calls = map[string]dailyCount{}
 	}
 	// ponytail: O(n) expiry sweep on every store; fine at this call volume.
 	for k, a := range c.answers {
@@ -134,12 +122,6 @@ func (s *Service) complete(ctx context.Context, uid, system, prompt string) (str
 	if ttl > 0 {
 		c.answers[key] = cachedAnswer{text: text, at: now}
 	}
-	d := c.calls[uid]
-	if d.day != day {
-		d = dailyCount{day: day}
-	}
-	d.n++
-	c.calls[uid] = d
 	return text, nil
 }
 
@@ -175,8 +157,8 @@ func (c *briefCache) put(uid, day, brief string) {
 	c.entries[uid] = briefEntry{day: day, brief: brief}
 }
 
-func NewService(store Store, llm LLM) *Service {
-	return &Service{Store: store, LLM: llm, Now: time.Now}
+func NewService(store Store, llm LLM, quota *aiquota.Quota) *Service {
+	return &Service{Store: store, LLM: llm, Quota: quota, Now: time.Now}
 }
 
 func (s *Service) Routes(mux *http.ServeMux) {
@@ -492,8 +474,8 @@ func (s *Service) query(w http.ResponseWriter, r *http.Request) {
 	})
 	prompt := dataBlock("user_data", "Data summary:\n"+string(summary)) + "\n\n" + dataBlock("user_question", q)
 	answer, err := s.complete(ctx, uid, querySystem, prompt)
-	if errors.Is(err, ErrDailyLimit) {
-		httpx.Error(w, http.StatusTooManyRequests, "ai_daily_limit")
+	if errors.Is(err, aiquota.ErrLimit) {
+		aiquota.Refuse(w)
 		return
 	}
 	if err != nil {

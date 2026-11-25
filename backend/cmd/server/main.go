@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"lume/backend/internal/ai"
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/analytics"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/buildinfo"
@@ -142,12 +143,15 @@ func main() {
 	goals.Register(api, goals.NewPGStore(pool))
 	geminiKey := config.Env("GEMINI_API_KEY", "")
 	scanStore := scan.NewPGStore(pool)
-	scan.Register(api, scan.NewGemini(geminiKey), scanStore)
+	// config.Validate above refused an invalid LUME_AI_DAILY_LIMIT.
+	aiLimit, _ := config.AIDailyLimit()
+	quota := aiquota.New(aiLimit, aiquota.NewPGStore(pool))
+	scan.Register(api, scan.NewGemini(geminiKey), scanStore, quota)
 	// Async multi-pass pipeline (POST /api/scan/pipeline) + nutrition-label scan
 	// (POST /api/scan/label). Additive — the routes above are unchanged.
 	// drainScans is called during shutdown, below — it waits for whatever
 	// background scans are still running and marks any stragglers 'failed'.
-	drainScans := scan.RegisterPipeline(api, pipeline.NewGemini(geminiKey), scanStore, pool)
+	drainScans := scan.RegisterPipeline(api, pipeline.NewGemini(geminiKey), scanStore, pool, quota)
 	subscription.Register(api, subs)
 	recipes.Register(api, recipes.NewPGStore(pool))
 	analytics.Register(api, analytics.NewPGStore(pool))
@@ -162,7 +166,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("ai: %v", err)
 	}
-	aiSvc := ai.NewService(ai.NewPGStore(pool), llm)
+	aiSvc := ai.NewService(ai.NewPGStore(pool), llm, quota)
 	aiSvc.Routes(api)
 	go runRebuildSweeps(aiSvc)
 

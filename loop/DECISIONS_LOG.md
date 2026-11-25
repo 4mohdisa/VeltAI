@@ -11379,3 +11379,8 @@
 - 2026-11-26 04:37 Chose the checkpoint round because the notes say a checkpoint is due after the act() cleanup and the report recommends it. It is read only, low risk, and Jev's risk is high on recent rounds.
 - 2026-11-26 04:37 Kept the notes under 600 words by condensing repeated items. No status changed, and no item was dropped from Blocked or Parked.
 - 2026-11-26 04:37 Named the full repo path in the prompt through the file path, not a shortened name, to avoid a wrong-file edit after handover.
+- 2026-11-26 04:38 Chose the server daily AI limit first: smallest remaining Row 5 step, backend only, no app surface, and it needs no Isa answer.
+- 2026-11-26 04:38 Jev risk is high on recent rounds, so this round is one surface with no full suite, following the checkpoint rule.
+- 2026-11-26 04:38 Default daily AI limit set to 20 with an env override, because no value was given. Recorded in the prompt so Isa can change it.
+- 2026-11-26 04:38 Limit counts only successful upstream calls, so failed calls do not use up a user's daily allowance.
+- 2026-11-26 04:38 Consent version 1 and the 500 read error stay as decided earlier. Both remain on the Blocked list for Isa to approve later, and are not retried.

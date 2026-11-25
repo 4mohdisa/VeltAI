@@ -17,7 +17,9 @@ import (
 	"unicode/utf8"
 
 	"lume/backend/internal/ai"
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
+	"lume/backend/internal/config"
 )
 
 type storedIns struct {
@@ -209,10 +211,22 @@ func newMux(st ai.Store, llm ai.LLM, now time.Time) *http.ServeMux {
 	if f, ok := st.(*fakeStore); ok {
 		f.now = func() time.Time { return now }
 	}
-	svc := ai.NewService(st, llm)
+	svc := ai.NewService(st, llm, testQuota(func() time.Time { return now }))
 	svc.Now = func() time.Time { return now }
 	svc.Routes(mux)
 	return mux
+}
+
+// testQuota is an in-memory daily AI quota on the test clock, sized by
+// LUME_AI_DAILY_LIMIT exactly as the server sizes it.
+func testQuota(now func() time.Time) *aiquota.Quota {
+	limit, err := config.AIDailyLimit()
+	if err != nil {
+		panic(err)
+	}
+	q := aiquota.New(limit, nil)
+	q.Now = now
+	return q
 }
 
 func do(t *testing.T, mux *http.ServeMux, method, path string, body any, user string) *httptest.ResponseRecorder {
@@ -590,7 +604,7 @@ func TestRunRebuildSweep(t *testing.T) {
 	}
 	st.failFoodLogsFor = "user_failing"
 
-	svc := ai.NewService(st, &fakeLLM{err: ai.ErrUnavailable})
+	svc := ai.NewService(st, &fakeLLM{err: ai.ErrUnavailable}, testQuota(func() time.Time { return fixedNow }))
 	svc.Now = func() time.Time { return fixedNow }
 
 	err := svc.RunRebuildSweep(context.Background())

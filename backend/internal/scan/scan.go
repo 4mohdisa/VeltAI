@@ -13,6 +13,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/db"
 	"lume/backend/internal/httpx"
@@ -627,8 +628,8 @@ func (s *PGStore) AIConsentAt(ctx context.Context, userID string) (*time.Time, e
 	return at, err
 }
 
-// Register mounts the scan routes.
-func Register(mux *http.ServeMux, ocr OCR, store Store) {
+// Register mounts the scan routes. quota caps the paid Gemini calls.
+func Register(mux *http.ServeMux, ocr OCR, store Store, quota *aiquota.Quota) {
 	mux.HandleFunc("POST /api/scan", func(w http.ResponseWriter, r *http.Request) {
 		// 5.1.2(i): the photo goes to Google Gemini — recorded consent first.
 		if !requireScanConsent(w, r, store) {
@@ -648,6 +649,9 @@ func Register(mux *http.ServeMux, ocr OCR, store Store) {
 		}
 		if req.MimeType == "" {
 			req.MimeType = "image/jpeg"
+		}
+		if !quota.Allow(w, r) {
+			return
 		}
 		start := time.Now()
 		result, err := ocr.Extract(r.Context(), req.ImageBase64, req.MimeType)
@@ -671,6 +675,7 @@ func Register(mux *http.ServeMux, ocr OCR, store Store) {
 			httpx.Error(w, http.StatusBadGateway, "scan failed")
 			return
 		}
+		quota.Record(r.Context(), auth.UserID(r.Context()))
 
 		confPct := confidencePercent(result.Confidence)
 		sessionID, err := store.CreateSession(r.Context(), Session{

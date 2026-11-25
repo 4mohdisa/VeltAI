@@ -42,4 +42,5 @@ var UserTables = []UserTable{
 	{"oauth_states", "user_id"},
 	{"debug_reports", "user_id"},
 	{"feedback", "user_id"},
+	{"ai_daily_usage", "user_id"},
 }

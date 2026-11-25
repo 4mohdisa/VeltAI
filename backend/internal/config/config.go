@@ -5,6 +5,7 @@ package config
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -111,12 +112,34 @@ func Validate() (fatal []string, warn []string) {
 	default:
 		fatal = append(fatal, "LLM_PROVIDER must be gemini or claude (got "+p+")")
 	}
+	if _, err := AIDailyLimit(); err != nil {
+		fatal = append(fatal, err.Error())
+	}
 	for _, k := range keys {
 		if os.Getenv(k) == "" {
 			warn = append(warn, k+" is not set — the features that depend on it will return 503")
 		}
 	}
 	return fatal, warn
+}
+
+// DefaultAIDailyLimit is the paid AI calls per user per UTC day when
+// LUME_AI_DAILY_LIMIT is unset.
+const DefaultAIDailyLimit = 20
+
+// AIDailyLimit reads LUME_AI_DAILY_LIMIT: unset is DefaultAIDailyLimit, 0
+// turns the cap off, and anything that is not a whole number of 0 or more is
+// an error, which Validate turns into a refusal to start.
+func AIDailyLimit() (int, error) {
+	v := strings.TrimSpace(lookup("LUME_AI_DAILY_LIMIT"))
+	if v == "" {
+		return DefaultAIDailyLimit, nil
+	}
+	n, err := strconv.Atoi(v)
+	if err != nil || n < 0 {
+		return 0, fmt.Errorf("LUME_AI_DAILY_LIMIT must be a whole number, 0 or more (got %q)", v)
+	}
+	return n, nil
 }
 
 // LLMProvider is the text AI provider for insights, the morning brief and the

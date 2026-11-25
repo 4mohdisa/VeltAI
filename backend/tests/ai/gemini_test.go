@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"lume/backend/internal/ai"
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
 )
@@ -248,8 +249,8 @@ func TestDailyLimitCapsPaidCallsPerUser(t *testing.T) {
 		t.Fatal("first two calls should pass")
 	}
 	w := do(t, mux, "POST", "/api/ai/query", map[string]string{"question": "q3"}, "user_1")
-	if w.Code != http.StatusTooManyRequests || !strings.Contains(w.Body.String(), "ai_daily_limit") {
-		t.Fatalf("third call = %d %s, want 429 ai_daily_limit", w.Code, w.Body.String())
+	if w.Code != http.StatusTooManyRequests || !strings.Contains(w.Body.String(), aiquota.Code) {
+		t.Fatalf("third call = %d %s, want 429 %s", w.Code, w.Body.String(), aiquota.Code)
 	}
 	if ask("user_1", "q1") != 200 {
 		t.Error("a cached answer costs nothing, so it is served even at the limit")

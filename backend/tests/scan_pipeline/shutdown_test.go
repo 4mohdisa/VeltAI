@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"lume/backend/internal/aiquota"
 	"lume/backend/internal/db"
 	"lume/backend/internal/scan"
 	"lume/backend/internal/scan/pipeline"
@@ -37,7 +38,7 @@ func TestDrain_MarksStillRunningScanFailedAtDeadline(t *testing.T) {
 
 	store := newFakePipelineStore()
 	mux := http.NewServeMux()
-	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil))
+	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil), aiquota.New(0, nil))
 	if drain == nil {
 		t.Fatal("RegisterPipeline returned a nil drain func")
 	}
@@ -80,7 +81,7 @@ func TestDrain_ReturnsImmediatelyWhenNothingInFlight(t *testing.T) {
 	mux := http.NewServeMux()
 	gem, gsrv := geminiServer(t, `[]`)
 	defer gsrv.Close()
-	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil))
+	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil), aiquota.New(0, nil))
 
 	start := time.Now()
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -105,7 +106,7 @@ func TestDrain_DoesNotRefailAScanThatAlreadyFinished(t *testing.T) {
 	mux := http.NewServeMux()
 	gem, gsrv := geminiServer(t, `[]`)
 	defer gsrv.Close()
-	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil))
+	drain := scan.RegisterPipeline(mux, gem, store, db.Querier(nil), aiquota.New(0, nil))
 
 	body := scanBody(t, solidPNG(t, color.RGBA{1, 1, 1, 255}))
 	if rec := post(t, mux, body); rec.Code != http.StatusAccepted {
