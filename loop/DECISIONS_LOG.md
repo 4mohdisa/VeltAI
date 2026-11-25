@@ -10831,3 +10831,8 @@
 - 2026-11-26 00:50 Checkpoint runs the backend regression and migration tests too, because ExportTableNames changed and those tests read it; they were not run after that change.
 - 2026-11-26 00:50 Checkpoint changes no files, per the loop rule; any red gate is reported and fixed in the next round.
 - 2026-11-26 00:50 Row 4 stays PARTIAL. Open steps: 29-table deletion Postgres test, Clerk deletion path, subscription note.
+- 2026-11-26 00:51 Chose candidate 1 because the latest report left it open and the Row 4 notes and handover disagree on whether all 29 tables are seeded; the prompt checks before editing.
+- 2026-11-26 00:51 Kept the Clerk path and subscription note for the next round so each round changes one thing.
+- 2026-11-26 00:51 Did not touch the OWNER_CHECKS parity line because the file is append only; the 25 Nov override answers it and Isa can close it in his own review.
+- 2026-11-26 00:51 Jev said run 77%, so followed it. Did not ask Isa, per the no-questions rule.
+- 2026-11-26 00:51 Checkpoint round was green (tsc 0, 281 suites, 1,694 tests, Go regression and migrations 14 passed), so no fix round is needed.

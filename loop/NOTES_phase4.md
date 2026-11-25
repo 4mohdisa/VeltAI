@@ -14,9 +14,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL: steps 1, 2, 3a, 3b, 3c, 4 done. Trans confirm render test done. Open: checkpoint of tsc, Jest and Go after 13 test files changed (this round), then Clerk deletion path, subscription note, 29-table deletion Postgres test.
+- Row 4 PARTIAL: steps 1, 2, 3a, 3b, 3c, 4 recorded as done. Checkpoint green: tsc 0 errors, 281 suites, 1,694 tests; Go internal/account and internal/auth ok; tests/regression and tests/migrations ok (14 passed).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
-- Last checkpoint: tsc 0 errors, 280 suites, 1,689 tests.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -44,11 +43,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Retry assertions changed in gymExerciseProgress.emptyStates and gymMuscles.render. Accepted, sign-off requested.
 - Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
 - Nutrition spoken label stays English, literal, no key.
-- Row 4: step 1 over signup pin. Step 2: oauth_states cleared in profile store delete, no migration. Step 3a: oauth_states in auth.ExportTableNames; export and deletion lists kept separate, drift test keeps them in step. Step 3b: all 29 tables seeded. Step 3c: child tables counted by parent ids before delete.
+- Row 4: step 1 over signup pin. Step 2: oauth_states cleared in profile store delete, no migration. Step 3a: oauth_states in auth.ExportTableNames; export and deletion lists kept separate, drift test keeps them in step. Step 3b: all 29 tables seeded (re-check in next round, notes and handover disagreed). Step 3c: child tables counted by parent ids before delete.
 - Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through one named list (ENGLISH_ONLY) with a reason. Missing es and fr keys fall back to English.
 - Delete screen text in en.json (settings.deleteAccountDetails). Failed delete shows plain fallback text for every failure, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
-- Checkpoint round (Row 4 flag): no file changes; gates reported, fixes in next round.
+- Checkpoint round rule: no file changes; gates reported, fixes in next round.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -60,6 +59,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
 - Row 3: confirm Apple hidden on Android. Choose native sheet or keep browser flow. Owner steps 1 to 7.
+- Parity line in OWNER_CHECKS_phase4.md is answered by the 25 Nov override; Isa to close it himself (append only).
 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
@@ -69,6 +69,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Food tab Try again reloads food log only when both reads fail.
 - Duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave until cleanup round.
+- seedChildRows uses the first exercise_library row, so it depends on the library seed migration. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
@@ -76,17 +77,13 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use 'verified' (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
-- seedChildRows uses the first exercise_library row, so it depends on the library seed migration. Local DATABASE_URL user 'lume' does not exist locally.
-- Deletion Postgres test seeds 5 of 29 user tables (close in Row 4).
-- OWNER_CHECKS_phase4.md parity line from an earlier round is answered by the override; left in place (append only).
-- Delete screen text is in code rather than i18n keys in one place; check in Row 4 close-out.
+- Delete screen text partly in code rather than i18n; a 502 shows server raw message. Check in Row 4 close-out.
 
 ## Next
-1. Checkpoint round: tsc, full Jest --ci, Go and regression/migration tests after Row 4 changes. Fix any red gate in the next round.
-2. Row 4: seed all 29 user tables in the deletion Postgres test.
-3. Row 4: check Clerk deletion path and subscription note. Close Row 4.
-4. Then Food tab Try again (both reads), then duplicate gym keys.
-5. Settle the handover count at the next checkpoint.
+1. Row 4: confirm the deletion Postgres test seeds all 29 user tables (add any missing).
+2. Row 4: check Clerk deletion path and subscription note. Close Row 4 if clean.
+3. Then Food tab Try again (both reads), then duplicate gym keys.
+4. Settle the handover count at the next checkpoint.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
