@@ -27,6 +27,7 @@ const ENGLISH_ONLY = new Set([
   'aiQuery.notEnoughData',
   'settings.privacyDetails.aiAllow',
   'settings.privacyDetails.aiConsentedOn',
+  'settings.privacyDetails.dataTitle',
   'aiConsent.screen.eyebrow',
   'aiConsent.screen.title',
   'aiConsent.screen.whatTitle',

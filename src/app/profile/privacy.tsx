@@ -120,7 +120,7 @@ export default function PrivacyScreen() {
         ]}
       />
       <SettingsList
-        title="Your data"
+        title={t('settings.privacyDetails.dataTitle')}
         footer={t('settings.dataFooter')}
         rows={[
           {

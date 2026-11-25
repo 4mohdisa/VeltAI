@@ -10,12 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed; 5b Settings switch built), 6b (steps a to e built; f blocked on Isa).
-- Last app checkpoint: tsc 0 errors, Jest 293 suites, 1,784 tests, 4 snapshots pass, lint 0 warnings (setup.ts, privacy.tsx, ai-consent.tsx, consent.ts, aiBrain.ts).
-- Not yet run since rows 5a and 6b: backend go vet, go test -race, TestPG. Verifying now.
+- Last app checkpoint: tsc 0 errors, Jest 293 suites, 1,784 tests, 4 snapshots pass, lint 0 warnings.
+- Backend checkpoint green: go vet clean, go test -race green, 29 TestPG passed, 0 skipped (row 5a and 6b).
 
 ## Next (one surface per round)
-1. IN PROGRESS: verify backend Go tests and TestPG for rows 5a and 6b (go vet, go test -race, TestPG on lume_test_local).
-2. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+1. DONE: backend verify for rows 5a and 6b.
+2. IN PROGRESS: replace hardcoded 'Your data' title in src/app/profile/privacy.tsx with an en.json key.
 3. Remove unused alert keys (aiConsent.title, body, notNow, continue, settings.privacyDetails.aiTurnOff) from en, es, fr together.
 4. Review the 255 console blocks in Jest output; fix real warnings.
 5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
@@ -53,7 +53,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Loop rejects multi-screen prompts and prompts without the branch rule first.
-- Flagged report (last report partly done, backend checks skipped): verify first.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
@@ -73,7 +72,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
 - ENGLISH_ONLY list has two near-identical comments; merge.
-- Root config and backend JS not linted. verify:go lacks -count=1. Audit script rewrites ROUTE_COVERAGE.md.
+- Root config and backend JS not linted. verify:go lacks -count=1 and tests/migrations. Audit script rewrites ROUTE_COVERAGE.md.
+- internal/entitlement and internal/subscription have no unit test files (covered by tests/entitlement and tests/subscription).
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. auth.ExportTableNames and account.UserTables overlap.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
@@ -84,4 +84,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long. Row 6b: three near-duplicate test-result lines; merge.
 - Jest output has 255 console blocks (108 error, 80 warn) that hide real warnings.
-- Ask Lume reads 'Your data' title in privacy.tsx hardcoded English.
+- Ask Lume 'Your data' title in privacy.tsx is hardcoded English (in progress, step 2).
+- Not-enough-data message in aiBrain.ts is hardcoded English.

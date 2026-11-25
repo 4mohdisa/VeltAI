@@ -11310,3 +11310,7 @@
 - 2026-11-26 04:12 Limited the fix scope to row 5a and 6b code so the verify round cannot widen into unrelated refactors.
 - 2026-11-26 04:12 Used the TestPG URL for one command only, per the notes rule, so the password-free local URL is never printed or stored.
 - 2026-11-26 04:12 Did not stop or ask: the Jev signal shows high confidence in run, and the risk reading is low.
+- 2026-11-26 04:13 Step 1 (backend verify for rows 5a and 6b) closed: the latest report shows go vet clean, go test -race green across packages, and 29 TestPG tests passed with 0 skipped on lume_test_local. Checked by a test, not a simulator check.
+- 2026-11-26 04:13 Chose step 2 from the notes order over the removal of unused keys, because the notes set the order and the 'Your data' string is a visible English leak in a screen the user reaches.
+- 2026-11-26 04:13 New key is English only in en.json, per Isa's override. es and fr fall back to English and the key goes on ENGLISH_ONLY if the parity test needs it.
+- 2026-11-26 04:13 Partly reported flag check: the last report was complete on its checks, so no verify-first round is needed.
