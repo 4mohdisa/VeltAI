@@ -9,17 +9,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5, 6b.
-- Baseline conflict: notes said 295 suites and 1,794 tests; handover said 293 and 1,784. The next checkpoint sets the baseline.
-- Last round: loop flagged type check or tests as failed or not run. This round is a read only checkpoint (tsc plus full Jest).
+- PARTIAL: 2b, 3, 6b.
+- Last checkpoint (read only): tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
+- Known: react-test-renderer deprecation adds one console.error per hook test via the shared harness (cannot edit the harness).
 
 ## Next
-1. Checkpoint: tsc and full Jest, no edits. Fix reds only in the following round, one at a time.
-2. Row 6b: remaining steps after (f) is parked.
-3. Row 5: AI query screen consent step 2b.
-4. Row 2b: check Mobbin MCP (claude mcp list); write DESIGN_REFERENCES.md if available.
-5. Row 3 after Isa signs off the Apple steps (owner).
-6. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Row 2b step 1: check Mobbin MCP (claude mcp list). If available, write DESIGN_REFERENCES.md. If not, owner line in OWNER_CHECKS_phase4.md.
+2. Row 2b redesign of sign up, sign in and onboarding, one surface per round, once references exist.
+3. Row 6b: remaining work that does not depend on step (f).
+4. Row 3 after Isa signs off the Apple steps (owner).
+5. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -55,6 +54,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
 - Jev low confidence on a round where stop was considered: stop rejected, rows remain open.
+- Round (Row 2b step 1): run chosen over Jev's ask (56%) and stop (30%). Ask is barred; stop condition not met.
 
 ## Blocked on Isa (park, do not retry)
 - Row 6b step (f): stale strings. Names none; deferred under English only. Isa: name strings or confirm deferred.
@@ -62,7 +62,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: consent version; 500 vs 403 read error; consent analytics wording; 'Who receives it' copy; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- react-test-renderer deprecation (66 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
+- react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup.
@@ -70,7 +70,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only. Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- Console noise: about 66 deliberate [data], [onboarding], [meals] warns; needs scoped spies.
+- Console noise: about 67 deliberate [data], [onboarding], [meals] warns; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.

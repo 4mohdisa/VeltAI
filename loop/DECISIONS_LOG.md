@@ -11474,3 +11474,8 @@
 - 2026-11-26 05:20 Stop rejected: no stop condition is met (no hosted service, no danger, rows still open). Jev's confidence is low (0.24), so the smallest task was chosen.
 - 2026-11-26 05:20 Row 6b step (f) moved to Blocked on Isa. It names no strings, and the logs say es and fr text was deferred under English only. Not retried.
 - 2026-11-26 05:20 Checkpoint is read only this round. Reds are reported, not fixed, so the failures can be seen before any edit.
+- 2026-11-26 05:21 Chose the Mobbin check: it is the smallest open step in the Next list and needs no Isa input.
+- 2026-11-26 05:21 Jev suggested ask (56%). Rejected: the brief forbids asking. Carrying on with the smallest task.
+- 2026-11-26 05:21 Jev suggested stop (30%). Rejected: rows 2b to 31 remain open, so the stop condition is not met.
+- 2026-11-26 05:21 Row 6b step (f) stays in Blocked on Isa. It is not retried, because the blocker has repeated.
+- 2026-11-26 05:21 No source files touched this round. Only a read and documentation step, so the risk is low.

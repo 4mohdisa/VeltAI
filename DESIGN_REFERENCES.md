@@ -81,3 +81,36 @@ None of these screens use i18n. Every string in the onboarding stack is hard-cod
 | Activity | Yes, single choice of 4 levels | Labels are short; no concrete days or steps |
 | Training days | No | Nothing in the store, types or API asks for training days per week |
 | Body data | Age, sex, height, weight required; target weight for lose or muscle; body type (5 options) | Body type options use emoji including a burger for "Overweight", which reads as a judgement |
+
+## Rerun, 26 Nov 2026 (row 2b step 1)
+
+The Mobbin MCP (plugin:mobbin) was connected and search_flows, search_screens and search_sections were callable from Claude Code. Four search_flows searches on iOS were run. Patterns already in the table above are not repeated. As before: patterns only, with no screenshots, logos, brand art or copied wording.
+
+### search_flows "nutrition tracking app sign up"
+
+| App | Pattern | Why it works for a first-run user | What Lume will apply |
+|---|---|---|---|
+| [Ladder](https://mobbin.com/flows/1dcc2dac-5324-4841-87f2-5bdb4b38d9ff) | A full-screen section title card ("Section 1, your goals") between groups of questions | Breaks a long questionnaire into named chunks so it feels shorter | Use it together with the "About you" and "Your plan" labels proposed above. Use a header label, not an extra screen, so the step count does not grow |
+| [Ladder](https://mobbin.com/flows/1dcc2dac-5324-4841-87f2-5bdb4b38d9ff) | Each personal question (date of birth) has a one-line reason plus "never shared, always private" | A privacy promise placed where the data is asked lowers drop-off | Measurements: add a short privacy line next to the age and body fields, in Lume's own wording |
+
+### search_flows "fitness app log in"
+
+| App | Pattern | Why it works for a first-run user | What Lume will apply |
+|---|---|---|---|
+| [Hevy](https://mobbin.com/flows/df17cccd-1cf1-498f-9ba7-1a8e12b08b0a) | The sign-in screen has the email and password fields first, "Forgot password?" right above the main button, then "or" and the platform buttons | Returning users who used email find their path straight away, and recovery sits next to the action | Lume uses email codes, not passwords. Put "Resend code" (dead end 3 above) in the same place, just above the main button |
+| [Peloton Strength+](https://mobbin.com/flows/1ad90a89-3df2-4e85-a210-7b81c4a3c26c) | The sign-in screen has a "Created your account with Apple? Learn more" hint | Prevents a user from typing an email when they actually signed up with Apple | When the email sign-in fails with "no account", show a hint to try the platform button they may have used |
+
+### search_flows "calorie counter app onboarding"
+
+| App | Pattern | Why it works for a first-run user | What Lume will apply |
+|---|---|---|---|
+| [MacroFactor](https://mobbin.com/flows/0ff63cb6-0dce-488f-828a-5557cf884452) | A computed number is explained in a short chat-like bubble, with "Got it", "How did you calculate that?" and Skip | Explains the number without a wall of text, and the user chooses how deep to go | Already covered by the Targets item above. No new change |
+| [Yazio](https://mobbin.com/flows/003557b1-194e-477c-b307-5e051fa87371) | An intro card ("tell us a bit about you so we can tailor your plan") comes before the first question | Says why the questions are coming and what the user gets back | Welcome subline: say that the next questions build the plan. Change text only, keep the layout |
+
+### search_flows "health app onboarding"
+
+| App | Pattern | Why it works for a first-run user | What Lume will apply |
+|---|---|---|---|
+| [Google Health (Fitbit)](https://mobbin.com/flows/a15b0ddb-c03a-4e0f-b177-ac29e147777e) | The optional data consent has two equal-weight buttons ("No thanks" and "Agree") and says that the choice can be changed later in settings | The choice is real and nobody is nudged | Lume's AI consent screen already does this (Row 5). Keep it |
+| [Google Health (Fitbit)](https://mobbin.com/flows/a15b0ddb-c03a-4e0f-b177-ac29e147777e) | The first home screen shows a dismissible "Let's get you set up" checklist with a count (0 of 3) | Moves optional setup out of onboarding without losing it | The optional steps Lume might add later (Health connection, reminders) go in a home checklist, not in onboarding. Parked: HealthKit and push are Phase 4 rows of their own |
+| [Withings Health Mate](https://mobbin.com/flows/1b9c5c94-d6d6-4a61-b01b-4160881390ee) | Each policy (health data, terms) has its own short card and checkbox before Next | Every agreement is readable and explicit | Lume shows a legal line under the signup buttons. Keep that. A per-policy checkbox is not needed |
