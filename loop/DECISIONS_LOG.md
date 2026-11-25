@@ -11456,3 +11456,8 @@
 - 2026-11-26 05:15 Chose the 429 test fix before marking Row 5 BUILT: one surface per round while risk is high. Row 5 BUILT with owner check pending moves to next round.
 - 2026-11-26 05:15 Chose the smallest task because Jev confidence is low (0.07) and it favours ask or stop. Asking is not allowed, and stopping is not justified (rows remain). Kept run.
 - 2026-11-26 05:15 Row 5 open questions (consent version, 'Who receives it' wording, brief and insights at limit, plain 429 queueable, label scan exit) are parked in OWNER_CHECKS_phase4.md, not asked. Existing decisions stand.
+- 2026-11-26 05:17 Chose Row 5 close-out: it is the smallest task and it finishes a row. Jev confidence is low (0.20), so I took the smaller task.
+- 2026-11-26 05:17 Rejected stop: rows 3 to 31 are still open, so the loop has not met its exit rule.
+- 2026-11-26 05:17 Notes step 1 (429 test) is done: the latest report found the test already matches the server response and changed nothing.
+- 2026-11-26 05:17 Handover said 'step 2b AI query screen' but notes say the Ask Lume limit is already done in aiBrain.ts. Kept the notes version, and the prompt checks the current code first.
+- 2026-11-26 05:17 Row 5 consent wording, consent version and the 500 vs 403 read error are parked in OWNER_CHECKS_phase4.md, not asked, per the no-questions rule. The row is marked BUILT with 'owner check pending'.

@@ -1,8 +1,10 @@
 // useMorningBrief and useBrainProfile (src/lib/data/aiBrain.ts) report a failed
 // read through isError instead of an unhandled rejection, and drop any result
 // that settles after unmount. useAIQuery answers not_enough_data with the
-// aiQuery.notEnoughData text. Mounts the real hooks through the shared harness
+// aiQuery.notEnoughData text, and a daily-limit 429 with null after one call
+// and an info toast carrying the server message. Mounts the real hooks through the shared harness
 // and mocks @/lib/api and the consent check at the module boundary.
+import { useToastStore } from '@/components/display/toastStore';
 import { ApiError } from '@/lib/api';
 import { useAIQuery, useBrainProfile, useMorningBrief } from '@/lib/data/aiBrain';
 import en from '@/lib/i18n/locales/en.json';
@@ -137,5 +139,15 @@ describe('useAIQuery', () => {
     const query = await readHook(useAIQuery);
     expect(await query?.ask('How is my protein?')).toBe(en.aiQuery.notEnoughData);
     expect(mockQuery).toHaveBeenCalledWith('How is my protein?', 'ai-query');
+  });
+
+  test('a daily-limit 429 gives null after one call and toasts the server message', async () => {
+    const message = "You've used today's AI allowance. It resets at midnight UTC.";
+    useToastStore.setState({ current: null });
+    mockQuery.mockRejectedValueOnce(new ApiError(429, message, { code: 'ai_daily_limit_reached' }));
+    const query = await readHook(useAIQuery);
+    expect(await query?.ask('How is my protein?')).toBeNull();
+    expect(mockQuery).toHaveBeenCalledTimes(1);
+    expect(useToastStore.getState().current).toMatchObject({ message, tone: 'info' });
   });
 });
