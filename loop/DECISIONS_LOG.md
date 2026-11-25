@@ -11301,3 +11301,7 @@
 - 2026-11-26 04:09 Kept the change to one test file with a fallback fix allowed only if the test finds a bug, to stay within one surface per round.
 - 2026-11-26 04:09 Read the expected text from en.json in the test so a copy change does not break the test.
 - 2026-11-26 04:09 Added the console block review as a Parked item rather than a new task, because the checkpoint showed no failing tests from them.
+- 2026-11-26 04:11 Chose the verification run first because the loop flagged the last report as partly done and the notes require a checkpoint after the setup.ts change.
+- 2026-11-26 04:11 Jev ranks run at 84%; the choice agrees, so no override.
+- 2026-11-26 04:11 Kept the verify round read-only except for reds caused by the last change, per the checkpoint rule in the notes.
+- 2026-11-26 04:11 Marked the aiBrain not-enough-data test as checked by a test; no status change for row 5.
