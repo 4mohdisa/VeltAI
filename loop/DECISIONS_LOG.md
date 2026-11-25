@@ -11493,3 +11493,7 @@
 - 2026-11-26 05:25 DESIGN_REFERENCES audit refresh deferred one round. It is doc only, but the one surface rule applies and it does not block the Welcome fix.
 - 2026-11-26 05:25 Welcome link uses the existing auth route and its mode param, with no new screen, so the change stays small.
 - 2026-11-26 05:25 Row 2b stays PARTIAL. Dead ends 1 and 2 are fixed one at a time.
+- 2026-11-26 05:26 Chose dead end 2 verification first because the loop flagged the last report as partly done: the title behaviour was asserted in the report but not checked by a test.
+- 2026-11-26 05:26 Kept to one surface (signup.tsx) and one row per the one-task rule.
+- 2026-11-26 05:26 Did not start the DESIGN_REFERENCES.md audit refresh yet; it is the next round so the audit is written from verified facts.
+- 2026-11-26 05:26 Jev signals: run at 97% confidence, ask and stop rejected, so the loop continues with a small task.

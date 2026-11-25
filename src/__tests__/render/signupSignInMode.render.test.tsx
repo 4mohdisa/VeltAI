@@ -53,6 +53,10 @@ function pressModeToggle(tree: ReturnType<typeof renderScreen>) {
   });
 }
 
+function screenTitle(tree: ReturnType<typeof renderScreen>) {
+  return findAll(tree, (p) => p.variant === 'title1')[0].props.children;
+}
+
 beforeEach(() => {
   mockSignInCreate.mockClear();
   mockPrepareFirstFactor.mockClear();
@@ -63,9 +67,12 @@ beforeEach(() => {
 
 test('pressing "Already have an account? Sign in" switches to sign-in mode', () => {
   const tree = renderScreen(<SignupScreen />);
+  expect(screenTitle(tree)).toBe('Create your account');
+
   pressModeToggle(tree);
 
   expect(allText(tree)).toContain('New to Lume? Create an account');
+  expect(screenTitle(tree)).toBe('Sign in');
 });
 
 test('sending a code in sign-in mode calls signIn.create then prepareFirstFactor', async () => {
