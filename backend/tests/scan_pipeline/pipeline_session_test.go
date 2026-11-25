@@ -131,6 +131,20 @@ func TestPipeline_WithoutRecordedConsentIs403(t *testing.T) {
 	}
 }
 
+func TestLabel_WithoutRecordedConsentIs403(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {
+		t.Error("label photo reached Gemini without recorded consent")
+	}))
+	defer srv.Close()
+	g := pipeline.NewGemini("test")
+	g.Base = srv.URL
+	rec := servePipeline(t, g, consentPipelineStore{newFakePipelineStore()}, nil,
+		"POST", "/api/scan/label", `{"image_base64":"aGVsbG8="}`)
+	if rec.Code != http.StatusForbidden {
+		t.Fatalf("status = %d, want 403; body %s", rec.Code, rec.Body)
+	}
+}
+
 // A Gemini failure must surface as status='failed', never as a successful
 // 'ready' row. Pre-audit (2026-08-06) the pipeline wrote 'ready' even with
 // zero estimates, so the client rendered a fabricated "Unknown food" review

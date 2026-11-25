@@ -11074,3 +11074,8 @@
 - 2026-11-26 02:28 Did not stop: many rows remain BUILT or DIFFERENT, and nothing dangerous is in view.
 - 2026-11-26 02:28 Left ROUTE_COVERAGE.md alone; Isa decides whether to commit it or the loop deletes it.
 - 2026-11-26 02:28 Kept the audit script exit behaviour as it is; making verify fail on broken routes needs Isa's go-ahead, so it stays parked.
+- 2026-11-26 02:29 Chose Row 5a over the Maestro flow because the notes' Next list puts AI consent first and the Go gates are now green.
+- 2026-11-26 02:29 Go checkpoint accepted: 49 packages, 770 tests, race clean, lint 0. TestPG count is 28 (26 TestPG_ plus 2 TestPGStore), not 20; the old figure was stale.
+- 2026-11-26 02:29 Maestro onboarding flow deferred to a later round; it needs Maestro installed and is shared with row 23.
+- 2026-11-26 02:29 Row 5 split: 5a backend store and gate now, 5b app consent screen, Settings switch and daily limits later.
+- 2026-11-26 02:29 New ai_consents table must join the account deletion coverage list in the same round, so row 4's coverage test keeps passing.

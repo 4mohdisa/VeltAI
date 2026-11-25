@@ -91,3 +91,4 @@ Steps only Isa can do. Each says what, where and why.
 
 - Row 4, delete account screen: its text cannot move into en.json while English-only rounds forbid es and fr edits, because localeParity.test.ts fails on any en key that es and fr lack. Choose: allow es and fr keys for it, or let the parity test accept en-only keys.
 - [ ] Row 2b plan-ready summary screen: decide whether to add a summary of the answers between targets and paywall (src/app/onboarding). The row stays PARTIAL until you choose.
+- [ ] Row 5a consent version: consent is stored as a timestamp only (profiles.ai_consent_at). Decide whether to add a consent version so a changed disclosure asks everyone again. If yes, choose what happens to users who consented before versions existed: keep their consent or ask again.
