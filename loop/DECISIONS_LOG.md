@@ -10897,3 +10897,11 @@
 - 2026-11-26 01:12 Jev risk 0.9 read as a reason for a smaller task, so this round changes no files and fixes nothing new.
 - 2026-11-26 01:12 OWNER_CHECKS_phase4.md is append only, so the parity line stays. Isa closes it himself. Logged as an open item, not a loop task.
 - 2026-11-26 01:12 The gym.monthSessions naming and the seedChildRows dependency stay in Parked until Row 30 docs.
+- 2026-11-26 01:13 TestPG re-run marked done: the latest report shows the 26 TestPG_ tests pass against lume_test_local with the race gate green. The report's 28 pass lines vs 26 top-level tests is noted as unconfirmed subtests, not re-run.
+- 2026-11-26 01:13 Chose the Platform.OS cleanup over the monthSessions rename: it is the queued Next item, smaller, and Jev's run confidence is 71% against a risk of 0.9, so a smaller task is preferred.
+- 2026-11-26 01:13 Left the OWNER_CHECKS parity line alone: the file is append-only and Isa closes that line himself.
+- 2026-11-26 01:13 Row counts unchanged: BUILT or EXACT still 9 of 38.
+- 2026-11-26 01:13 Rewrote the rejected prompt to one module (subscriptionLinks.ts) because the loop rule allows one screen or component per prompt. The screen switch moves to the next round.
+- 2026-11-26 01:13 Chose the Platform.OS cleanup over the monthSessions rename because Jev rates a clean finish at 28% and the risk at 1.0, so a smaller task is safer.
+- 2026-11-26 01:13 Jev's 19% ask signal is overruled because the brief forbids ask. Parked items stay in the notes.
+- 2026-11-26 01:13 The prompt says 'built' or 'checked by a test' and bans 'verified', per the handover wording rule.

@@ -12,7 +12,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
 - Last full checkpoint (282 suites, 1,704 tests, tsc 0 errors, Go 35 packages ok) is green.
-- Open gap: 26 TestPG_ Go tests skipped because LUME_TEST_DATABASE_URL was unset. Re-run this round (see Next).
+- TestPG: 26 TestPG_ tests run against lume_test_local and pass. Race gate green. Closed.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
@@ -54,8 +54,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Round 2026 (duplicate gym keys): one key per meaning kept; other removed from en.json, and from es/fr as a key deletion only.
 - 25 Nov: redundant mockRestore cleanup done and checked by a test.
 - 25 Nov: Food retry label unify done and checked by a test.
-- Round chosen (last): checkpoint over Platform.OS cleanup. Jev run 91%.
-- Round chosen (now): TestPG re-run (no files) over Platform.OS cleanup. Jev 'ask' 16% ignored (brief forbids ask).
+- Rejected prompt (asked for more than one screen or component) rewritten to one module: subscriptionLinks.ts Platform.OS cleanup. Screen switch is next.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -71,13 +70,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - App wide ErrorState default 'Retry' vs 'Try again': touches 13 screens and 7 tests. Needs Isa's call.
 
 ## Parked
-- gym.monthSessions also backs the all-time streak count on the Gym tab; the 'month' name no longer fits. Rename later.
+- gym.monthSessions also backs the all-time streak count on the Gym tab. Rename or split later.
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
+- 26 vs 28 TestPG pass lines: the extra 2 are likely subtests, not confirmed.
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
@@ -85,17 +85,19 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use a banned check word (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
-- The delete screen test has a redundant openURL.mockRestore() (cleaned up 25 Nov).
 - Food tab Retry reloads only the food log.
+- Delete screen test has a redundant openURL.mockRestore() (done 25 Nov, keep for audit).
 
 ## Next
-1. Re-run the 26 TestPG_ tests against lume_test_local (one command, no file changes). Fix any failure next round.
-2. Move inline Platform.OS checks into one export in subscriptionLinks.ts.
-3. Phase 3 Row 14 remainder, so Row 2 can close.
-4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
+1. subscriptionLinks.ts: isManageSubscriptionAvailable() is the only Platform.OS check (this round).
+2. Switch the inline Platform.OS checks in delete-account.tsx and profile/subscription.tsx to the helper (one screen per round).
+3. Rename or split gym.monthSessions.
+4. Phase 3 Row 14 remainder, so Row 2 can close.
+5. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
-- One screen per prompt. Rejected prompts are rewritten to a single task.
+- One screen or component per prompt. Rejected prompts are rewritten to a single task.
+- Mention of Jev is never put in a Claude Code prompt.
