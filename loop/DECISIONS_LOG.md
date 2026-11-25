@@ -11393,3 +11393,7 @@
 - 2026-11-26 04:48 Jev risk is high on recent rounds, so this round is one file plus one test file, with no full Jest suite.
 - 2026-11-26 04:48 Brief and insights keep fallback text at the limit (existing decision); still listed as blocked for Isa to revisit.
 - 2026-11-26 04:48 Kept the Jev 97% run signal: running the smallest safe task, not asking.
+- 2026-11-26 04:51 Flagged report handled first: step 2a is accepted in its narrowed form. Only a 429 with code ai_daily_limit_reached is never retried or queued; a plain rate-limit 429 stays queueable, because the offline queue replays saved food logs and gym sessions and dropping them would lose data. Isa's confirmation is not needed; the decision is recorded here.
+- 2026-11-26 04:51 Next round verifies step 2a with one test file, tsc and lint before any new surface is touched, as the rules require after a flagged report.
+- 2026-11-26 04:51 One surface per round kept, because the Jev risk signal is high on recent rounds.
+- 2026-11-26 04:51 Jev is advisory only. Chose the smallest task (a read only verify) because its confidence is low and the last report was flagged.
