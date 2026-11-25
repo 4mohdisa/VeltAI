@@ -11164,3 +11164,6 @@
 - 2026-11-26 03:10 Chose the returning user 402 fix over step (f): step (f) needs es and fr text, which Isa deferred (English only override).
 - 2026-11-26 03:10 Jev signals suggested ask at 57 percent. Ask is not allowed under the no-questions rule, so the loop runs the smallest concrete task instead.
 - 2026-11-26 03:10 Kept to one file and one behaviour per prompt, per the one-task rule in the notes.
+- 2026-11-26 03:12 Chose verification first because the loop flagged the last report as partly done, and the rule is to verify an incomplete report before moving on.
+- 2026-11-26 03:12 Jev suggested ask; ask is not allowed, so the choice is run. The returning user purchase question is parked in OWNER_CHECKS_phase4.md as a product decision, not blocked on a reply.
+- 2026-11-26 03:12 Parked the returning user purchase dead end: the choice between skipping the save and changing the backend contract is a product decision. Default kept: the save runs only with answers on the phone; the purchase dead end stays open until Isa decides.

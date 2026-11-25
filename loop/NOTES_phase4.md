@@ -9,18 +9,20 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; open: f stale strings, English only part).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; 402 launch gate built, verification in progress; open: f stale strings, English only part).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so the 402 gate is untested in the app. First real check: sandbox run.
 
 ## Next
-1. Returning user with no subscription: 402 from GET /api/onboarding sends them to onboarding with no reason message (in progress).
-2. Row 6b (f): English stale free-tier wording in paywall strings (plansUnavailable, storeError). English only.
-3. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-5. Plan-ready summary: parked until Isa approves.
-6. Row 3 remainder after Isa signs off.
+1. Verify the 402 launch gate change (render test, 401 test, paywall suites, lint), record the row 6b line.
+2. signup.tsx continueAfterAuth: a 402 after sign-in is treated as unreachable. Add the same 402 branch.
+3. Completed flag on phone skips onboarding and meets 402s in tabs. Needs a route-level check.
+4. Row 6b (f): English stale free-tier wording in paywall strings (plansUnavailable, storeError). English only.
+5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
+6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+7. Plan-ready summary: parked until Isa approves.
+8. Row 3 remainder after Isa signs off.
 
 ## Rules
 - One task per prompt: one file or component, max 5 steps. Grep with find first (grep -rl matches contents, not names).
@@ -37,6 +39,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Training days stay on device; savePlan sends only body metrics.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; retry GET /api/subscription 4 times, 1.5 s apart, injectable timing. Confirmed purchase writes status to the settings store (serverEntitlement).
+- Launch gate 402: opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding.
+- Returning user purchase with answers missing from phone: parked in OWNER_CHECKS_phase4.md (skip save vs backend contract change). Not blocked on a reply.
 - Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Rejected prompt (too many screens): rewritten to one file.
 - Webhook secret from env only; unset means refuse events.
