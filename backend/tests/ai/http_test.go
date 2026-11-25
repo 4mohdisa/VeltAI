@@ -697,6 +697,58 @@ func (e *erroringConsentStore) AIConsentAt(context.Context, string) (*time.Time,
 	return nil, errors.New("connection reset")
 }
 
+// The query and morning brief routes share the consent gate with brain
+// rebuild: a read error is a 500, no consent is a 403, and only recorded
+// consent lets the LLM run.
+func TestQueryAndBriefConsentGate(t *testing.T) {
+	routes := []struct {
+		name, method, path string
+		body               any
+	}{
+		{"ask lume", http.MethodPost, "/api/ai/query", map[string]string{"question": "How is my protein?"}},
+		{"morning brief", http.MethodGet, "/api/ai/morning-brief", nil},
+	}
+	noConsent := func() ai.Store {
+		st := fullStore()
+		st.noConsent = map[string]bool{"u1": true}
+		return st
+	}
+	consents := []struct {
+		name      string
+		store     func() ai.Store
+		wantCode  int
+		wantError string
+	}{
+		{"consent read fails", func() ai.Store { return &erroringConsentStore{fullStore()} }, http.StatusInternalServerError, "failed to check AI consent"},
+		{"no consent recorded", noConsent, http.StatusForbidden, "ai_consent_required"},
+		{"consent granted", func() ai.Store { return fullStore() }, http.StatusOK, ""},
+	}
+	for _, rt := range routes {
+		for _, c := range consents {
+			t.Run(rt.name+"/"+c.name, func(t *testing.T) {
+				llm := &fakeLLM{resp: "You averaged 1133 kcal a day."}
+				w := do(t, newMux(c.store(), llm, fixedNow), rt.method, rt.path, rt.body, "u1")
+				if w.Code != c.wantCode {
+					t.Fatalf("status = %d, want %d; body %s", w.Code, c.wantCode, w.Body)
+				}
+				if c.wantError == "" {
+					if llm.calls == 0 {
+						t.Fatal("handler did not reach the LLM with consent recorded")
+					}
+					return
+				}
+				if llm.calls != 0 {
+					t.Fatalf("user data reached the LLM: %d call(s)", llm.calls)
+				}
+				want := `{"data":null,"error":"` + c.wantError + `"}`
+				if got := strings.TrimSpace(w.Body.String()); got != want {
+					t.Fatalf("body = %s, want %s", got, want)
+				}
+			})
+		}
+	}
+}
+
 func TestAIRoutesRunOnceConsentIsRecorded(t *testing.T) {
 	st := fullStore()
 	if err := st.RevokeAIConsent(context.Background(), "u1"); err != nil {

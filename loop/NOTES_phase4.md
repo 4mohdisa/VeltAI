@@ -8,22 +8,22 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3, 5 (5a built; 5b open).
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. PARTIAL: 2b, 3, 5 (5a backend built, test gap on query and morning brief being closed; 5b open).
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Go checkpoint: 49 packages, 770 tests pass, race clean, go vet clean. Lint 0 findings.
+- Go checkpoint: 49 packages, 770 tests pass, race clean. Lint 0 findings.
 - Frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; 4 snapshots pass.
 - 7 TestPG tests in tests/scan ran against lume_test_local and passed.
-- requireScanConsent fails closed (scan.go): nil store or no consent gives 403 ai_consent_required. Read error gives 500 (kept on purpose; Isa to confirm).
+- Consent: requireScanConsent and requireAIConsent fail closed. Nil store or no consent gives 403 ai_consent_required. Read error gives 500.
 - Route audit: 93 of 93 consumed. Two anomaly routes broken by design. ROUTE_COVERAGE.md regenerated; Isa decides commit or delete.
 - 2b open: plan-ready summary (needs Isa go-ahead); Maestro flow shared with row 23, not run.
 - exhaustive-deps: only appState.tsx:119 left (needs Isa).
 
 ## Next
-1. Round cleanup: remove redundant var _ ConsentStore if proven; confirm 500 read error and AI routes match; OWNER_CHECKS entry. Row 5 stays PARTIAL.
+1. Close row 5a test gap: table tests for POST /api/ai/query and GET /api/ai/morning-brief on consent read error (500, provider not called), no consent (403), consent granted.
 2. Row 5b app consent screen, Settings switch, daily AI limits (getConsent, setConsent, revokeConsent in src/lib/api.ts).
 3. Row 6 entitlements webhook with fixtures.
 4. Maestro onboarding flow for 2b and 23 once Maestro is confirmed installed.
-5. Row 2b plan-ready summary: parked until Isa approves. Row 2b stays PARTIAL.
+5. Row 2b plan-ready summary: parked until Isa approves.
 6. Row 3 remainder after Isa signs off. Gym key rename only after Isa approves.
 
 ## Rules
@@ -48,14 +48,15 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Row 3: browser oauth_apple flow. Apple hidden on Android.
 - Row 4: oauth_states cleared in profile store delete. Clerk first, then rows; Clerk failure 502 keeps rows. Clerk 404 counts as deleted.
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; other removed.
-- One module per prompt. Exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
+- Exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
 - Checkpoint round: read only, full tsc and full app Jest, no file changes (Go checkpoint may write BASELINE_phase4.md).
 - Goal and activity editing split from diet, cuisine and training days.
 - Training days stay on device; no backend field.
 - Row 5 split: 5a backend store and route gate; 5b app consent screen, Settings switch, daily limits.
-- 5a: consent on profiles.ai_consent_at; routes GET/POST/DELETE /api/ai/consent exist; all six AI routes gated. No new table or routes.
-- Consent read error stays 500 (not 403) so a DB hiccup does not re-show consent to agreed users. Still refused. Isa may switch (OWNER_CHECKS).
+- 5a: consent on profiles.ai_consent_at; GET/POST/DELETE /api/ai/consent; all six AI routes gated. No new table.
+- Consent read error stays 500 so a DB hiccup does not re-show consent to agreed users. Still refused.
 - Consent version: parked in OWNER_CHECKS for Isa. Built without version until he decides.
+- Round N: loop flag said last task partly done. Gap closed as the next task before 5b.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -70,10 +71,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
-- Approve goal change rule. Training days: device only or add a backend field.
+- Goal change rule approval. Training days: device only or add a backend field.
 - Go-ahead for plan-ready summary screen.
 - Whether route audit runs in npm run verify. Whether to commit ROUTE_COVERAGE.md.
-- Consent version and whether pre-version consents are asked again. 500 vs 403 for consent read errors.
+- Consent version; 500 vs 403 for consent read errors.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).

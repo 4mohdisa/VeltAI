@@ -11096,3 +11096,7 @@
 - 2026-11-26 02:37 Kept consent read errors at 500, not 403 ai_consent_required. A 403 would make a user who already agreed see the consent screen again on a database error. The request is still refused, so the fail closed rule holds. Isa may still choose 403 (logged in OWNER_CHECKS_phase4.md).
 - 2026-11-26 02:37 Run over 5b because the open fail closed hole is a consent issue and Jev ranks the cleanup first; risk score is high, so keep the step small.
 - 2026-11-26 02:37 Jev signals used only as a second opinion. Chose run (72%) over ask. Asking is not allowed under the no-questions rule.
+- 2026-11-26 02:38 Loop flag says last task looked partly done. The gap is the missing query and morning brief consent read error tests from the report's NEXT, so this round closes it before row 5b.
+- 2026-11-26 02:38 Chose the small test task over row 5b (Jev: 44% clean finish on last task, so a smaller task is safer).
+- 2026-11-26 02:38 Keep the var _ ConsentStore line: it is the only compile check in cmd/server. Switching to var _ Store is optional and not done.
+- 2026-11-26 02:38 Row 5 stays PARTIAL until 5b is built.
