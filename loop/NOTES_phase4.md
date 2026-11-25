@@ -10,8 +10,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT.
-- Last full checkpoint: 282 suites, 1,704 tests, tsc 0, lint clean. Measurements test (13) and subscriptionLinks render test were added after it and need a Jest run.
-- Last round changed no code; automatic flag said tests not run. Gate check is this round.
+- Last full checkpoint: 282 suites, 1,704 tests, tsc 0, lint clean.
+- Last round: tsc 0, changed render tests pass (subscriptionLinks 2, measurements 13, onboardingMeasurements 3, settingsDeleteAccount 9, foodTab.emptyStates 8, gymStreakSkeleton 2, gymStreakStripFootnote 2). Lint clean.
 - TestPG: 26 pass on lume_test_local. Race green.
 - Phase 3 Rows 6, 13, 14 BUILT. Row 14 simulator flow is in Row 23.
 - Remaining exhaustive-deps disables: ParameterForm:141, BottomSheet:88, TodayCard:237, ScanReviewCard:118, energy.ts:37, appState.tsx:119 (owner question). Re-grep before touching.
@@ -48,7 +48,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - exhaustive-deps: compute plain values in render, depend on them, no disable. ParameterForm tells parent via a params effect after commit (tested).
 - Reanimated SharedValue write: keep disable. Real missing dependency: fix unless behaviour changes (then park).
 - A stale plan item (disable not present) is dropped, not added to Blocked.
-- Jev asked for ask at 90% and 74%; kept run because the brief forbids ask.
+- Jev asked for ask at 90%, 74% and 52%; kept run because the brief forbids ask.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -62,7 +62,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes (es and fr key moves).
-- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept.
+- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept. Asked two rounds running; do not retry.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
@@ -72,9 +72,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
-- measurements.tsx Continue recomputes heightToCm() and toKg().
 - Disables kept: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
-- Missing tests: BottomSheet open and close lifecycle; ScanReviewCard weight-only change does not refetch; gym re-run timing.
+- Missing tests: BottomSheet open and close lifecycle (next candidate); ScanReviewCard weight-only change does not refetch; gym re-run timing.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - seedChildRows depends on exercise_library seed; local user 'lume' absent.
 - 26 vs 28 TestPG pass lines: likely subtests, unconfirmed.
@@ -84,16 +83,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - KNOWN_ISSUES.md Phase 3 wording; PERF_BASELINE.md lines 34, 41; PHASE4_ROWS.md 2.2 and 2b banned check word (Row 30).
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap (drift test exists).
 - consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
-- Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
+- Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later (candidate).
 
 ## Next
-1. Gate check (this round): tsc, Jest for changed files, lint.
-2. Lifecycle and weight-only render tests.
-3. Measurements Continue recompute.
+1. Measurements Continue recompute (this round).
+2. BottomSheet open and close lifecycle render test.
+3. Lifecycle and weight-only render tests.
 4. Row 3 remainder after Isa signs off.
 5. Gym key rename only after Isa approves.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.
+- Same blocker twice in a row: park it under Blocked and pick a surface that does not depend on it.
 - Name files fully in every prompt after a handover.
 - Prompts name one module, state the branch rule, and end with the report format.

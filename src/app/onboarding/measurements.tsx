@@ -226,15 +226,14 @@ export default function MeasurementsScreen() {
       setSubmitted(true);
       return;
     }
-    const ageNum = parseInt(ageText, 10);
     setMeasurements({
-      age: Number.isFinite(ageNum) ? ageNum : null,
+      age: draftAge,
       // Narrowed to a real Sex by the `blocked` guard above — the flow can no
       // longer reach here with an unanswered sex.
       sex: sexValue,
-      height_cm: heightToCm(),
-      weight_kg: toKg(weightText),
-      target_weight_kg: showTarget ? toKg(targetText) : null,
+      height_cm: draftHeightCm,
+      weight_kg: draftWeightKg,
+      target_weight_kg: draftTargetKg,
     });
     navigate('/onboarding/body-type');
   };

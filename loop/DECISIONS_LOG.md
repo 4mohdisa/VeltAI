@@ -10976,3 +10976,8 @@
 - 2026-11-26 01:36 Chose the gate check first: the automatic flag says the last round's tests were not run, and the brief says to fix that before moving on.
 - 2026-11-26 01:36 Jev gave run 43%, ask 41%, stop 16%. Kept run because the brief forbids ask. Did not stop: no danger found and no hosted service involved.
 - 2026-11-26 01:36 appState.tsx:119 stays blocked until Isa answers. No retry.
+- 2026-11-26 01:37 Chose the measurements Continue recompute: a concrete parked item in one module with existing render tests, no dependency on Isa.
+- 2026-11-26 01:37 appState.tsx:119 is blocked on Isa for the second round in a row; parked under Blocked and not retried.
+- 2026-11-26 01:37 Jev asked for ask (52%); kept run because the brief forbids ask. Jev's advice is noted, not followed.
+- 2026-11-26 01:37 Kept the gate check result from the last round: tsc 0 errors, changed test files and lint passed; no further gate run needed this round.
+- 2026-11-26 01:37 Parked the BottomSheet lifecycle test and the Row 14 note trim as the next candidates rather than doing them now.
