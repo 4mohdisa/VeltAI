@@ -523,7 +523,8 @@ export function bodyFromOnboarding(onb: Onboarding | null): Partial<UserProfile>
   if (onb.activity_level && ACTIVITY_LEVELS.has(onb.activity_level)) {
     out.activityLevel = onb.activity_level as UserProfile['activityLevel'];
   }
-  if (onb.goal === 'lose' || onb.goal === 'muscle') out.goal = onb.goal;
+  const goal = goalTypeOf(onb.goal);
+  if (goal) out.goal = goal;
   return out;
 }
 

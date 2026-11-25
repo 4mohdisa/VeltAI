@@ -11037,3 +11037,7 @@
 - 2026-11-26 02:09 Jev suggested ask at 21 percent; kept run because the brief forbids ask. Jev is advice only.
 - 2026-11-26 02:09 Isa's English only override makes the es and fr text blocker moot; no es or fr work is queued.
 - 2026-11-26 02:09 Unrelated edits in the goal round's outside test files will be reverted, not kept, to keep the round small and reviewable.
+- 2026-11-26 02:10 Chose the flagged partial work first: the goal round report named this one-line fix as outstanding, so the loop's partial flag is cleared before new scope.
+- 2026-11-26 02:10 Used goalTypeOf so there is one goal mapping, not two. Output for lose and muscle stays the same, so no behaviour change for existing users.
+- 2026-11-26 02:10 Kept English only per Isa's override. The es and fr text for goals.plan keys is no longer needed and is not requested.
+- 2026-11-26 02:10 Did not touch the parked mutations.ts and hooks.ts import cycle, to keep the change small.

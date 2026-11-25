@@ -14,9 +14,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Last checkpoint: tsc 0; Jest 283 suites, 1,706 tests, 4 snapshots pass. TestPG 26 pass. Race green.
 - exhaustive-deps: only appState.tsx:119 left (parked). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
-## Row 2b open (PARTIAL; not BUILT until all close)
-- Done: step sweep (56 of 56 files), training days in onboarding store, goal and activity editable in goals.tsx, Eat healthier kept.
-- Open: diet, cuisine, training days editable in src/app/profile (diet and cuisine need backend endpoint; POST /api/onboarding rewrites whole row).
+## Row 2b (PARTIAL)
+- Done: step sweep, training days in onboarding store, goal and activity editable in goals.tsx, Eat healthier kept, goal round scope audit (clean).
+- Open now: bodyFromOnboarding goal mapping to goalTypeOf (hooks.ts, one line, test).
+- Open next: diet, cuisine, training days editable in src/app/profile (diet and cuisine need backend endpoint; POST /api/onboarding rewrites whole row).
 - Plan-ready summary: parked until Isa approves design.
 - Maestro: shared with row 23, not run.
 
@@ -32,24 +33,19 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Training days not sent to plan (would overwrite activity level).
 - Goal change replaces hand-set calorie target with recomputed one (Isa may change). Onboarding keeps original answers.
-- Goal row fourth option Eat healthier: eat_healthier maps to eat-better in derive.ts; derivation same as maintain.
-- savePlan sends only body metrics from onboarding, so an activity-only save keeps the stored goal.
+- eat_healthier maps to eat-better in derive.ts; derivation same as maintain.
+- savePlan sends only body metrics from onboarding; activity-only save keeps stored goal.
 - formatDuration rounds total minutes first. ConfidenceBadge uses scanCards.noBreakdown. useGoals returns data, isLoading, error, refetch.
 - Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json; camera-only prompt.
-- 2b 1d does not wait for Isa. Onboarding keys nested under options.<value>. en-AU kept as formatNumber output.
 - Barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
 - foodDays keeps dates, sets error on failure, clears on success. Food-log error wins when both fail.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays (13 screens).
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169; backend LIMIT kept.
 - Row 3: browser oauth_apple flow. Apple hidden on Android.
-- Nutrition spoken label stays English, literal, no key.
 - Row 4: oauth_states cleared in profile store delete. Clerk first, then rows; Clerk failure 502 keeps rows. Clerk 404 counts as deleted.
-- Parity: English-only keys exempt via ENGLISH_ONLY with reason. Failed delete shows plain fallback, never server text.
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; other removed.
 - Prompts covering more than one module are rewritten to one module.
-- exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable. Real missing dep: fix unless behaviour changes (then park).
-- Stale plan items (disable not present) dropped.
-- Jev advice only; run kept because brief forbids ask.
+- exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
 - Checkpoint round: read only, full tsc and full app Jest.
 - Goal and activity editing split from diet, cuisine and training days.
 - Goal round scope audit: edits outside goal module must be needed by the goal change; unrelated edits reverted.
@@ -86,7 +82,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Goal round scope audit (in progress).
+1. Row 2b: bodyFromOnboarding goal mapping to goalTypeOf (in progress).
 2. Row 2b: diet, cuisine, training days editable in src/app/profile.
 3. Row 2b: plan-ready summary (parked until Isa approves design).
 4. Row 3 remainder after Isa signs off.
