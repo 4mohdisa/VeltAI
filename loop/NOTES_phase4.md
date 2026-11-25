@@ -18,6 +18,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Row 4 delete account BUILT. subscriptionLinks.ts isManageSubscriptionAvailable() is the only Platform.OS check (done).
+- monthSessions round: no files changed. Gym rename parked (see Blocked).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -53,6 +54,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Checkpoint rounds change no files; red gates are fixed in the next round.
 - Jev 'ask' overruled when the brief forbids ask.
 - Rejected prompts (more than one module) are rewritten to one module.
+- Jev pick (remove eslint-disable first) taken: no key change, no es/fr text.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -66,13 +68,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 3: confirm Apple hidden on Android. Choose native sheet or keep browser flow. Owner steps 1 to 7.
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it himself (append only).
 - App wide ErrorState default 'Retry' vs 'Try again': 13 screens, 7 tests. Needs Isa's call.
+- Rename gym.monthSessions and gym.monthFreezes to neutral keys (gym.sessionCount, gym.freezeCount) in en, es, fr: callers gymRange.ts:201, GymCalendar.tsx:71, gym.tsx:169. Needs es/fr key moves approved. Do not retry.
 
 ## Parked
 - Food tab Retry reloads only the food log.
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
-- eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
+- exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
 - 26 vs 28 TestPG pass lines: extra 2 likely subtests, not confirmed.
@@ -83,15 +86,18 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use a banned check word (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
+- The delete screen test has a redundant openURL.mockRestore().
 
 ## Next
-1. Split gym.monthSessions into month and all-time count (this round).
-2. Phase 3 Row 14 remainder, so Row 2 can close.
-3. Remove eslint-disable in consent.ts and purchases.ts.
+1. Remove eslint-disable in consent.ts (this round, one module, with lint, type check and that file's Jest tests).
+2. Remove eslint-disable in purchases.ts (next round).
+3. Phase 3 Row 14 remainder, so Row 2 can close.
 4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
+5. Gym key rename only after Isa approves.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
 - One module per prompt. Mention of Jev is never put in a Claude Code prompt.
+- Last round (monthSessions) was rejected as a function task and changed nothing. Its only open item is the gym rename, which is parked.

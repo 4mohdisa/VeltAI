@@ -10910,3 +10910,12 @@
 - 2026-11-26 01:14 Parity line in OWNER_CHECKS_phase4.md stays open because the file is append only and Isa closes it himself.
 - 2026-11-26 01:14 The app-wide ErrorState Retry label stays as is until Isa decides (needs his call, 13 screens).
 - 2026-11-26 01:14 Jev 'ask' advice overruled: the brief forbids asking. Parked the owner items instead.
+- 2026-11-26 01:15 Jev ranked remove eslint-disable first at 81%. Kept Jev's pick: it is the next item in the notes, touches no key and no es/fr text, and fixes the open lint debt. Jev's 'ask' (68%) is overruled because the brief forbids ask.
+- 2026-11-26 01:15 The last report changed no files, so its unrun checks are covered in this prompt: step 4 runs the type check and step 5 runs the affected Jest files.
+- 2026-11-26 01:15 The gym.monthSessions rename is not done this round. It needs es and fr key moves, which Isa's override bans without his go-ahead. It stays in Blocked on Isa.
+- 2026-11-26 01:15 The inline Platform.OS candidate is not chosen because the notes say it is already done. Claude Code will check it in a later round.
+- 2026-11-26 01:16 Rejected prompt was rewritten to one module (consent.ts) because the loop note says more than one module is rejected.
+- 2026-11-26 01:16 Jev 'ask' overruled: the brief forbids ask. Isa's call on the gym key rename is parked, not retried (Blocked on Isa, do not retry).
+- 2026-11-26 01:16 Gym key rename (gym.monthSessions and gym.monthFreezes) stays parked: it needs es and fr key moves, which the English-only override bans.
+- 2026-11-26 01:16 Chose the smaller lint task (consent.ts) because Jev gives a low chance (2%) that the last task finished cleanly.
+- 2026-11-26 01:16 The ErrorState 'Retry' vs 'Try again' question and the parity line in OWNER_CHECKS_phase4.md stay with Isa. Nothing changes this round.
