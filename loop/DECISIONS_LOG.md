@@ -10644,3 +10644,12 @@
 - 2026-11-25 09:52 Retry button label stays 'Try again' (common.tryAgain) across the app, because LoadFailedNotice is shared and changing it changes every screen. The brief's 'Retry' wording is not used. Reason: consistency and one shared component.
 - 2026-11-25 09:52 Jev's 'run' signal (76%) agrees with this choice. No reason to override.
 - 2026-11-25 09:52 Items found in the report that are not Row 13 work (the stacked notices, the aliases, the missing es and fr render tests) are listed for later rounds, not fixed now.
+- 2026-11-25 09:54 R246: the last report ran no Jest tests, so this round's prompt requires tsc, lint and every changed Jest file to run before the task counts as done.
+- 2026-11-25 09:54 R246: chose candidate 1, the same as Jev. It is the report's recommended next step, and the stale calendar mock returns only days, so its tests cannot catch a broken error state.
+- 2026-11-25 09:54 R246: Row 13 status stays PARTIAL. Only the alias removal is done this round; the other open items remain.
+- 2026-11-25 09:54 R246: the report's question about older Row 13 saved and translation items is for the next records round, after the aliases are gone.
+- 2026-11-25 23:36 R246 prompt rejected by the loop for asking about more than one screen. Rewritten to one screen (calendar.tsx) and split the alias removal into three rounds (R247 calendar, R248 food, R249 aliases in foodDays.ts).
+- 2026-11-25 23:36 Jev ranks R247 at 98% run. Took the smaller step, as Jev's risk score is high. Its task is the same as Jev's suggested next action.
+- 2026-11-25 23:36 The alias removal is split across rounds so no prompt touches two screens. This is a cleanup, so it stays inside the Row 13 time box and is not its own polish round.
+- 2026-11-25 23:36 Kept the Row 13 retry label as 'Try again' (shared LoadFailedNotice). Unchanged from R240 to R245.
+- 2026-11-25 23:36 Row 2b plan-ready summary screen: approved by Isa on 25 Nov (see Decisions). It is built inside the 2b time box, not parked. Handover said it waited for a go-ahead, but the approval is recorded, so the NOTES file wins.

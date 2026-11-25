@@ -27,7 +27,7 @@ export default function FoodCalendarScreen() {
   const { t } = useTranslation();
   const selectedDate = useFoodStore((s) => s.selectedDate);
   const setSelectedDate = useFoodStore((s) => s.setSelectedDate);
-  const { days: loggedDays, error, refetch } = useLoggedDays();
+  const { data: loggedDays, error, refetch } = useLoggedDays();
   // Which month the grid is showing — starts on the selected day's month.
   const [month, setMonth] = useState(selectedDate);
   const today = isoDate(new Date());

@@ -27,8 +27,11 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
 
 jest.mock('@/lib/data/foodDays', () => {
   const actual = jest.requireActual('@/lib/data/foodDays');
-  const today = actual.isoDate(new Date());
-  return { ...actual, useLoggedDays: () => ({ days: new Set([today]) }) };
+  const days = new Set([actual.isoDate(new Date())]);
+  return {
+    ...actual,
+    useLoggedDays: () => ({ data: days, days, isLoading: false, loading: false, error: null, refetch: () => undefined }),
+  };
 });
 
 const METRICS: Metrics = {
