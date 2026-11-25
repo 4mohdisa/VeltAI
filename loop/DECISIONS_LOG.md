@@ -11403,3 +11403,7 @@
 - 2026-11-26 04:54 Accepted the photo scan limit change in src/lib/data/scan.ts instead of the screen file: the error is caught there and the screen never sees it. This closes the scope question, so it is not asked of Isa.
 - 2026-11-26 04:54 Verify-first rule applied: the last report skipped the neighbouring scan tests, so this round checks them before any new surface.
 - 2026-11-26 04:54 Chose the smallest task with high risk on recent rounds, per Jev's signal and the one-surface rule.
+- 2026-11-26 04:55 Chose candidate 1 because it is the next step in the notes and touches one surface, which suits the high Jev risk on recent rounds.
+- 2026-11-26 04:55 Treated the scan.ts scope question as closed, as the Decisions section says. The report's BLOCKED item on it is not re-asked.
+- 2026-11-26 04:55 Kept the limit message in English only, per the English-only override.
+- 2026-11-26 04:55 Did not run the full suite: this is not a checkpoint round.

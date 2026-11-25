@@ -28,7 +28,7 @@ import { showToast } from '@/components/display/toastStore';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 import { STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { slotForNow } from '@/lib/data';
-import { api, isTransient, type ScanLabelResult } from '@/lib/api';
+import { api, ApiError, isTransient, type ScanLabelResult } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { handleUpgradeRequired, isUpgradeRequired } from '@/lib/billing/upgradePrompt';
@@ -125,9 +125,17 @@ export default function LabelScanScreen() {
         router.back();
         return;
       }
-      // 503 (no GEMINI key) / offline / network → zeroed review to hand-enter.
-      showToast({ message: t('labelScan.readFailed'), tone: 'warn' });
-      track('scan_failed', { entry: 'label', reason: 'read_failed' });
+      // Today's AI allowance is used up: say so with the server's message (as
+      // the photo scan does), then still open the zeroed review, since typing
+      // a label in by hand needs no AI.
+      if (e instanceof ApiError && e.code === 'ai_daily_limit_reached') {
+        showToast({ message: e.message, tone: 'info' });
+        track('scan_failed', { entry: 'label', reason: 'quota_exceeded' });
+      } else {
+        // 503 (no GEMINI key) / offline / network → zeroed review to hand-enter.
+        showToast({ message: t('labelScan.readFailed'), tone: 'warn' });
+        track('scan_failed', { entry: 'label', reason: 'read_failed' });
+      }
       setBand('Low');
     }
     setPhase('review');

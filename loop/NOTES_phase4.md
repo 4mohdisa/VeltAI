@@ -11,18 +11,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
 - Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
-- Row 5 step 2a: checked by a test and read. Only ai_daily_limit_reached is non-retryable. Plain 429 stays queueable.
-- Row 5 step 2b photo scan: done in src/lib/data/scan.ts (scanRefused), checked by photoScan.render.test.tsx (9 of 9).
+- Row 5 step 2a: checked by a test. Only ai_daily_limit_reached is non-retryable.
+- Row 5 step 2b photo scan: done in src/lib/data/scan.ts (scanRefused). scanSeam.test.ts 33/33, barcodeScan.render 4/4, labelScan.render 3/3, photoScan.render 9/9 checked by tests.
 - Last full checkpoint: tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
 
 ## Next
-1. Row 5 step 2b: verify scanRefused against scanSeam.test.ts and the barcode and label render tests (one per command). Last round skipped this.
-2. Row 5 step 2b: label scan screen (src/app/food/label-scan.tsx) shows the limit message.
-3. Row 5 step 2c: AI query screen shows the limit message.
-4. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
-5. Row 3 after Isa signs off the Apple steps.
-6. Maestro flows (2b, 23) once Maestro is confirmed.
-7. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
+1. Row 5 step 2b: label scan screen (src/app/food/label-scan.tsx) shows the limit message (in progress).
+2. Row 5 step 2c: AI query screen shows the limit message.
+3. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
+4. Row 3 after Isa signs off the Apple steps.
+5. Maestro flows (2b, 23) once Maestro is confirmed.
+6. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -40,7 +39,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5 photo scan limit handled in scan.ts (scanRefused), not the screen: the error is caught there. Accepted; the scope question is closed.
+- Row 5 photo scan limit handled in scan.ts (scanRefused), not the screen: the error is caught there. Accepted; the scope question is closed and not re-asked.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -89,4 +88,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
 - Row 6b: merge three near-duplicate test-result lines.
+- Four files match the barcode or label scan search but were not run: fibrePipeline.test.ts, foodDetail.test.ts, phase14Regression.test.ts, render/foodAddMenu.render.test.tsx. Also render/scanScreens.strings.render.test.tsx. Run at the next checkpoint.
 - gesture-handler and react-test-renderer warnings: see Blocked.

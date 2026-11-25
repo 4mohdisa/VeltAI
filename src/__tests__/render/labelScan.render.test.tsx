@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 
 import LabelScanScreen from '@/app/food/label-scan';
 import { hasAiConsent } from '@/lib/ai/consent';
+import { ApiError } from '@/lib/api';
 import { useToastStore } from '@/components/display/toastStore';
 import { act, allText, findAll, renderScreen } from './helpers';
 
@@ -126,6 +127,25 @@ test('a failed label scan shows the zeroed review with a low-confidence badge an
     message: 'Couldn’t read the label — enter values manually',
     tone: 'warn',
   });
+});
+
+test('a used-up daily AI allowance shows the server message instead of the read-failed toast, then the zeroed review', async () => {
+  const message = "You've used today's AI allowance. It resets at midnight UTC.";
+  mockTakePicture.mockResolvedValue({ base64: 'b64-limit' });
+  mockScanLabel.mockRejectedValue(new ApiError(429, message, { code: 'ai_daily_limit_reached' }));
+
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <LabelScanScreen />
+    </SafeAreaProvider>,
+  );
+  pressCapture(tree);
+  await settle();
+  await settle();
+
+  expect(useToastStore.getState().current).toMatchObject({ message, tone: 'info' });
+  expect(allText(tree)).toContain('Nutrition Label Scanned');
+  expect(findAll(tree, (p) => p.accessibilityLabel === 'Calories per serving')[0].props.value).toBe('0');
 });
 
 test('without consent, pressing capture opens /ai-consent, takes no photo and sends no scan', async () => {
