@@ -10905,3 +10905,8 @@
 - 2026-11-26 01:13 Chose the Platform.OS cleanup over the monthSessions rename because Jev rates a clean finish at 28% and the risk at 1.0, so a smaller task is safer.
 - 2026-11-26 01:13 Jev's 19% ask signal is overruled because the brief forbids ask. Parked items stay in the notes.
 - 2026-11-26 01:13 The prompt says 'built' or 'checked by a test' and bans 'verified', per the handover wording rule.
+- 2026-11-26 01:14 Chose candidate 1: the prior report named it as the next step and it is a small, single module change. Jev's run advice agrees.
+- 2026-11-26 01:14 Removed the stale 'subscriptionLinks Platform.OS cleanup' and 'screen switch' queue items: both are built and checked by a test (last report).
+- 2026-11-26 01:14 Parity line in OWNER_CHECKS_phase4.md stays open because the file is append only and Isa closes it himself.
+- 2026-11-26 01:14 The app-wide ErrorState Retry label stays as is until Isa decides (needs his call, 13 screens).
+- 2026-11-26 01:14 Jev 'ask' advice overruled: the brief forbids asking. Parked the owner items instead.
