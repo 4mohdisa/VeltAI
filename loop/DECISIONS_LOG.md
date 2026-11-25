@@ -10737,3 +10737,7 @@
 - 2026-11-26 00:10 R267 Row 3 goes before housekeeping, as the notes order says. Housekeeping stays queued before Row 4.
 - 2026-11-26 00:10 R267 Apple label: reuse an existing key if one exists, otherwise the English literal per R263. Avoids the parity failure from an English-only key.
 - 2026-11-26 00:10 R267 Clerk Apple hook: native hook if the installed package has one, otherwise oauth_apple. Decided by what is in node_modules, not by guessing.
+- 2026-11-26 00:13 R267 onward: Apple sign in uses the browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and a rebuild, and ios/ is off limits. Isa can switch later.
+- 2026-11-26 00:13 AppleSignInButton returns null on Android (matches the component's iOS check). Apple is iOS only in the sign up screen for now. The browser flow would work on Android, so this is revisited with the owner checks.
+- 2026-11-26 00:13 Equal prominence (Apple black primary vs Google secondary) is not changed in step 2. Wire first, then equalise in a separate step so each change is small and testable.
+- 2026-11-26 00:13 Step 2 is one component only (signup.tsx). The sign in screen is a later step.

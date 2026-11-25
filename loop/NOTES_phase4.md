@@ -11,10 +11,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
 - BUILT: 1, 2, 2c, 2d, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 14, 15 BUILT.
-- 2c and 2d mapped from OWNER_CHECKS headings (R266). Placeholder cells still say 'files from that commit'.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Checkpoint R265: tsc 0 errors, jest --ci 278 suites and 1,682 tests pass. Supersedes R242.
-- Progress line PHASE4_ROWS.md:44 is stale ('1 of 36').
+- Row 3 step 1 BUILT: AppleSignInButton + render test (5 tests). Step 2 is next (wire into signup.tsx).
+- Last full checkpoint R265: tsc 0 errors, jest --ci 278 suites, 1,682 tests pass.
+- Progress line PHASE4_ROWS.md is stale ('1 of 36'). Fix in housekeeping.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -45,7 +45,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 - R261 14c before early checkpoint. R262 14c workoutsLine needed no change.
 - R263, R265 Nutrition spoken label stays English, literal, no key.
 - R266 2c and 2d mapped from OWNER_CHECKS headings. Accepted.
-- R267 Rejected prompt (multi-component) replaced. Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal (R263). Clerk hook chosen from node_modules.
+- R267 Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal. Clerk hook chosen from node_modules.
+- R268 Apple sign in uses browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits.
+- R268 AppleSignInButton hidden on Android. Revisit with owner checks.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -77,7 +79,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 - 2c and 2d 'files likely touched' and 'test' cells: replace 'files from that commit' and 'tests for that work'.
 - PERF_BASELINE.md lines 34 and 41: gym read now limited to 200.
 
+## Row 3 plan (Apple sign in)
+- Step 2: wire AppleSignInButton into signup.tsx in place of the Apple Button (in progress).
+- Step 2b: equal prominence with Google (variant and order), one component per prompt.
+- Step 2c: same on the sign in screen.
+- Step 3: Apple owner steps appended to OWNER_CHECKS_phase4.md (Services ID, key, Clerk Apple settings, redirect URL).
+- Then housekeeping, then Row 4 (account deletion).
+
 ## Loop note
 - R267: previous prompt rejected for multiple components. Rewritten as one component.
 - Jev R267: run 89%, confidence 0.83. Risk 1.1. Chose run, smaller task.
-- Next: Row 3 step 2 (wire AppleSignInButton into the sign in screen, equal prominence), step 3 (Apple Clerk owner steps in OWNER_CHECKS), then housekeeping, then Row 4 (account deletion).
+- R268: Jev run 89%. Chose run for smallest next step (candidate 1).

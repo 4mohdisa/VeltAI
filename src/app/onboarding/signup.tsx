@@ -18,6 +18,7 @@ import { router, useLocalSearchParams, type Href } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useSSO, useSignIn, useSignUp } from '@clerk/clerk-expo';
 
+import { AppleSignInButton } from '@/components/onboarding/AppleSignInButton';
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, TextField } from '@/components/forms';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -297,10 +298,7 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
     <View style={{ gap: space.md }}>
       {stage === 'buttons' ? (
         <>
-          <Button
-            title={t('signup.continueApple')}
-            icon="logo-apple"
-            variant="primary"
+          <AppleSignInButton
             loading={busy === 'apple'}
             disabled={anyBusy && busy !== 'apple'}
             onPress={() => void sso('apple')}
