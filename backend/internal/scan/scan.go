@@ -15,6 +15,7 @@ import (
 
 	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
+	"lume/backend/internal/consent"
 	"lume/backend/internal/db"
 	"lume/backend/internal/httpx"
 )
@@ -25,35 +26,15 @@ var ErrNotFound = errors.New("not found")
 // ConsentStore reads the user's recorded third-party-AI consent
 // (profiles.ai_consent_at). Store and PipelineStore both embed it, so every
 // route that sends user data to Gemini requires recorded consent and fails
-// CLOSED: no record, a read error or a missing store all refuse the request.
+// CLOSED through consent.Require: no record, a read error or a missing store
+// all refuse the request.
 //
 // Added in the 2026-08-06 audit: App Store 5.1.2(i) ("including with
 // third-party AI", Nov 2025 revision) requires consent before the send, and
 // the only gate was a client-side alert — nothing stopped a direct API call.
-type ConsentStore interface {
-	AIConsentAt(ctx context.Context, userID string) (*time.Time, error)
-}
+type ConsentStore = consent.Reader
 
 var _ ConsentStore = (*PGStore)(nil)
-
-// requireScanConsent never skips the check. Returns false once it has written
-// the response.
-func requireScanConsent(w http.ResponseWriter, r *http.Request, cs ConsentStore) bool {
-	if cs == nil {
-		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
-		return false
-	}
-	at, err := cs.AIConsentAt(r.Context(), auth.UserID(r.Context()))
-	if err != nil {
-		httpx.Error(w, http.StatusInternalServerError, "failed to check AI consent")
-		return false
-	}
-	if at == nil {
-		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
-		return false
-	}
-	return true
-}
 
 // ConfirmedLog is a scan result the user confirmed for saving.
 // Optional fields are pointers so omitted values insert NULL, matching the
@@ -632,7 +613,7 @@ func (s *PGStore) AIConsentAt(ctx context.Context, userID string) (*time.Time, e
 func Register(mux *http.ServeMux, ocr OCR, store Store, quota *aiquota.Quota) {
 	mux.HandleFunc("POST /api/scan", func(w http.ResponseWriter, r *http.Request) {
 		// 5.1.2(i): the photo goes to Google Gemini — recorded consent first.
-		if !requireScanConsent(w, r, store) {
+		if !consent.Require(w, r, store) {
 			return
 		}
 		var req struct {

@@ -11447,3 +11447,8 @@
 - 2026-11-26 05:12 Chose the checkpoint first because the last report asked for it and the shared hook return type changed.
 - 2026-11-26 05:12 Kept the Ask Lume step closed: the limit toast and input restore are built and checked by a render test.
 - 2026-11-26 05:12 Refactor of the consent helpers waits one round so the checkpoint result is clean.
+- 2026-11-26 05:14 Chose the consent helper merge: it is the next open item in the notes and is a small backend change with a clear test.
+- 2026-11-26 05:14 Jev asked for a question, but asking is not allowed, so the smallest task runs.
+- 2026-11-26 05:14 The helper goes in an existing package that reads consent if one exists, otherwise in backend/internal/consent, to avoid a new layer.
+- 2026-11-26 05:14 Row 5 has no code gap left after the merge. Next round, set it to BUILT with 'owner check pending' because the consent wording and version questions are parked.
+- 2026-11-26 05:14 Round is not a checkpoint: only changed Go packages are tested, to save time.

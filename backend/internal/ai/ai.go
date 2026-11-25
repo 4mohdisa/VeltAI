@@ -16,6 +16,7 @@ import (
 	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
+	"lume/backend/internal/consent"
 	"lume/backend/internal/cuisine"
 	"lume/backend/internal/httpx"
 )
@@ -204,26 +205,6 @@ func (s *Service) fetch(ctx context.Context, uid string) (sourceData, error) {
 	return d, nil
 }
 
-// requireAIConsent fails CLOSED: no consent row, or an error reading it, means
-// no third-party send. Returns false once it has written the response.
-//
-// This gate did not exist. The consent prompt lived only on the device, so a
-// user who declined — or who never saw the prompt at all — still had their food
-// logs, gym sessions, goals, streak and body weights marshalled and POSTed to
-// api.anthropic.com by the 6-hour background sweep and by this HTTP path.
-func (s *Service) requireAIConsent(w http.ResponseWriter, r *http.Request) bool {
-	at, err := s.Store.AIConsentAt(r.Context(), auth.UserID(r.Context()))
-	if err != nil {
-		httpx.Error(w, http.StatusInternalServerError, "failed to check AI consent")
-		return false
-	}
-	if at == nil {
-		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
-		return false
-	}
-	return true
-}
-
 func (s *Service) getConsent(w http.ResponseWriter, r *http.Request) {
 	at, err := s.Store.AIConsentAt(r.Context(), auth.UserID(r.Context()))
 	if err != nil {
@@ -263,7 +244,7 @@ func (s *Service) getBrain(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) rebuild(w http.ResponseWriter, r *http.Request) {
-	if !s.requireAIConsent(w, r) {
+	if !consent.Require(w, r, s.Store) {
 		return
 	}
 	ctx := r.Context()
@@ -390,7 +371,7 @@ func (s *Service) dismiss(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
-	if !s.requireAIConsent(w, r) {
+	if !consent.Require(w, r, s.Store) {
 		return
 	}
 	ctx := r.Context()
@@ -432,7 +413,7 @@ func (s *Service) morningBrief(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) query(w http.ResponseWriter, r *http.Request) {
-	if !s.requireAIConsent(w, r) {
+	if !consent.Require(w, r, s.Store) {
 		return
 	}
 	ctx := r.Context()

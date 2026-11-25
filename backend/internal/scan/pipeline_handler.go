@@ -14,6 +14,7 @@ import (
 	"lume/backend/internal/aiquota"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
+	"lume/backend/internal/consent"
 	"lume/backend/internal/db"
 	"lume/backend/internal/httpx"
 	"lume/backend/internal/scan/pipeline"
@@ -402,7 +403,7 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 
 	mux.HandleFunc("POST /api/scan/pipeline", func(w http.ResponseWriter, r *http.Request) {
 		// 5.1.2(i): photos go to Google Gemini — recorded consent first.
-		if !requireScanConsent(w, r, store) {
+		if !consent.Require(w, r, store) {
 			return
 		}
 		// Accepts EITHER the original single-image body (backward compatible)
@@ -533,7 +534,7 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 
 	mux.HandleFunc("POST /api/scan/label", func(w http.ResponseWriter, r *http.Request) {
 		// 5.1.2(i): the label photo goes to Google Gemini — consent first.
-		if !requireScanConsent(w, r, store) {
+		if !consent.Require(w, r, store) {
 			return
 		}
 		var req struct {

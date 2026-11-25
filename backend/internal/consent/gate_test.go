@@ -1,4 +1,4 @@
-package scan
+package consent
 
 import (
 	"context"
@@ -21,11 +21,11 @@ func (s stubConsent) AIConsentAt(context.Context, string) (*time.Time, error) {
 	return s.at, s.err
 }
 
-func TestRequireScanConsent(t *testing.T) {
+func TestRequire(t *testing.T) {
 	now := time.Now()
 	cases := []struct {
 		name      string
-		store     ConsentStore
+		store     Reader
 		wantOK    bool
 		wantCode  int
 		wantError string
@@ -41,8 +41,8 @@ func TestRequireScanConsent(t *testing.T) {
 			r = r.WithContext(auth.WithUserID(r.Context(), "u1"))
 			w := httptest.NewRecorder()
 
-			if got := requireScanConsent(w, r, tc.store); got != tc.wantOK {
-				t.Fatalf("requireScanConsent = %v, want %v", got, tc.wantOK)
+			if got := Require(w, r, tc.store); got != tc.wantOK {
+				t.Fatalf("Require = %v, want %v", got, tc.wantOK)
 			}
 			if w.Code != tc.wantCode {
 				t.Fatalf("status = %d, want %d", w.Code, tc.wantCode)

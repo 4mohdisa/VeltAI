@@ -10,17 +10,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: done. Consent gate on AI and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
-- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume limit done: toast, ask() returns null, input keeps the question. Settings withdraw switch done.
-- Last checkpoint (earlier): tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race ok; 29 TestPG pass.
-- Ask() return change not yet covered by a full run: checkpoint in progress.
+- Row 5 server: consent gate on AI and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
+- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume limit done (aiBrain.ts returns null, toast). Settings withdraw switch done.
+- Checkpoint green after ask() return change: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race 36 packages ok. Postgres tests were skipped in that run. TestPG_WithdrawConsentRoute passed earlier on lume_test_local.
 
 ## Next
-1. Full-suite checkpoint after ask() return change (this round).
-2. Merge requireAIConsent (ai.go) and requireScanConsent (scan.go) into one helper.
-3. Row 3 after Isa signs off the Apple steps.
-4. Maestro flows (2b, 23) once Maestro is confirmed.
-5. productionReadiness.test.ts 429 expect line.
+1. Merge requireAIConsent (ai.go) and requireScanConsent (scan.go) into one helper (in progress).
+2. Set Row 5 to BUILT with 'owner check pending' (consent wording and version questions parked).
+3. productionReadiness.test.ts 429 expect line.
+4. Row 3 after Isa signs off the Apple steps.
+5. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -31,7 +30,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A blocker that repeats twice goes to Blocked and is not retried.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
-- TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
+- TestPG: localhost:5432, lume_test_local, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
 - Lint ignores JSON: check locale files with JSON.parse.
@@ -53,6 +52,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
+- Consent gate merge: one helper, placed in an existing consent-aware package or backend/internal/consent.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -70,7 +70,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Console noise: about 66 deliberate [data], [onboarding], [meals] warns; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
-- requireAIConsent and requireScanConsent: one shared helper (queued as Next 2).
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
 - Root config and backend JS not linted. verify:go lacks -count=1 and tests/migrations.
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
