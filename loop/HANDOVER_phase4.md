@@ -7,32 +7,46 @@ Setup
 - English only. Never write "verified".
 
 Rows
-- No status changed this session. Built: 1, 2, 2.2, 2c, 2d, 4, 12, 12b and 29. Row 3 is partial.
-- The row 2 notes cell is now one line. It points the Row 14 simulator flow to row 23 (Maestro, DIFFERENT, not run).
-- Phase 3 rows 6, 13, 14 and 15 are all BUILT.
+- Built: 1, 2, 2.2, 2c, 2d, 4, 12, 12b and 29.
+- Row 2b moved from DIFFERENT to PARTIAL. Still open: the plan-ready summary (needs Isa's go-ahead) and the Maestro flow, shared with row 23 and not run.
+- Last checkpoint: tsc 0 errors; Jest 286 suites and 1,727 tests pass; 4 snapshots pass. Go tests all pass.
 
-Built this session (exhaustive-deps cleanup, no behaviour change)
-- src/components/gym/ParameterForm.tsx: a single [params] effect sends the params to the parent. The setState updaters no longer have side effects, and the redundant paramsKey is gone. New test: src/__tests__/render/parameterForm.params.render.test.tsx.
-- src/components/navigation/BottomSheet.tsx: the dependency list now includes mounted and the shared values.
-- src/components/gym/TodayCard.tsx: the focus callback depends on revalidate, which is stable (useApi wraps it in useCallback with an empty dependency list, gymSchedule.ts:93).
-- src/components/food/scan/ScanReviewCard.tsx: namesKey is JSON of the names, and the effect parses the names from the key.
-- src/lib/data/energy.ts: the fetchers are now module-level (fetchBalance, fetchWeek), and useApi takes (fetcher, key).
-- src/app/onboarding/measurements.tsx: the Continue handler and the age, height and weight error checks reuse typedAge, draftAge, draftHeightCm, draftWeightKg and draftTargetKg.
-- Last full checkpoint: tsc 0 errors; Jest 283 suites and 1,706 tests pass; 4 snapshots pass.
+Built this session (Row 2b)
+- Training days is onboarding step 3. Steps renumbered; src/components/onboarding/OnbScaffold.tsx counts 11.
+- Options: src/components/onboarding/trainingDays.ts. Stored only in src/lib/stores/onboarding.ts.
+- Goal (Lose, Maintain, Eat healthier, Gain), activity and training days rows are on src/app/profile/goals.tsx.
+- savePlan (src/lib/data/mutations.ts) recomputes targets with deriveGoals, then PUT /api/goals. It takes only body metrics from onboarding.
+- Goal mapping lives only in src/lib/goals/derive.ts (goalForDerivation, goalTypeOf).
+- hydrateGoals applies planFromGoals (src/lib/data/hooks.ts).
+- Diet and cuisine are edited on src/app/profile/preferences.tsx.
+- New GET and PATCH /api/onboarding/preferences (backend/internal/goals/goals.go, pg.go). They write only user_cuisine_preferences.
+- scripts/audit-routes.mjs now reads src/lib/api.ts. Result: 93 of 93 routes consumed; the two "broken" anomaly routes are known and intentional.
 
 In progress
 - Nothing open.
 
 Decisions
-- src/lib/auth/appState.tsx:119 was left as is. Changing the dependency from effectsKey to snap.effects would make repeated identical batches run (for example, two idle returns each giving ['revalidateSession']), which is a behaviour change. The recommendation is yes, with one render test. This needs Isa's answer; there is no line for it in OWNER_CHECKS_phase4.md yet.
-- Disables to keep: the immutability ones in SliderField.tsx:68 and BottomSheet.tsx:95, 103 and 134, plus gymSchedule.ts:78 and debug/impl/index.tsx:99.
+- Training days stay on the device: there is no backend field.
+- Goal and activity edits live on the goals row. The onboarding row keeps the original answers.
+- A goal change replaces a calorie target the user set by hand. Isa has not approved this.
+- New strings are English only and listed in ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- The API client retries 5xx, so failure tests use 400s.
 
 Gotchas, not fixed
-- The loop keeps sending tasks for disables that are already removed (4 times). The task list should say only appState.tsx:119 remains.
-- The ParameterForm preview re-runs when params come out the same. This was true before the session too.
-- measurements.tsx:118, in changeHeightUnit, still calls heightToCm().
-- No test covers the BottomSheet lifecycle, or that a weight-only change in ScanReviewCard does not refetch.
-- energy.ts and gymSchedule.ts each have their own private useApi.
-- The Row 14 note in PHASE3_ROWS.md is over 17,000 characters.
-- Open for Isa from before: the gym.monthSessions and gym.monthFreezes rename, the app-wide "Try again" label, the Apple owner steps, R249, and the two Retry tests that haven't been signed off.
-- Jest output is noisy with "API unreachable" warnings, which are not failures.
+- The mutations.ts and hooks.ts import cycle (parked).
+- Food search ranking caches cuisine preferences for 5 minutes.
+- Adding a cuisine does not add saved foods for it.
+- SettingsList has no disabled style.
+- The four-option segment labels may be shrunk on small screens; this needs a device check.
+- paywall.tsx:81 casts with "as unknown as Onboarding".
+- No test checks the step number shown on screen.
+- Running the audit script creates ROUTE_COVERAGE.md at the repo root.
+- appState.tsx:119 still waits for Isa.
+
+Open for Isa
+- es and fr text for the goals.plan, preferences.food and onboarding.trainingDays keys.
+- Whether to add a backend field for training days.
+- Whether a goal change may replace a hand-set calorie target.
+- The go-ahead for the plan-ready summary screen.
+- Whether to commit ROUTE_COVERAGE.md.
+- Whether the route audit should run in npm run verify.
