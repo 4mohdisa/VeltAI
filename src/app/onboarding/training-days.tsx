@@ -11,9 +11,7 @@ import { navigate } from '@/lib/nav';
 import { space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { TrainingDays } from '@/lib/types';
-
-// Labels live in onboarding.trainingDays.options, keyed by these values.
-const DAYS = ['days_0', 'days_1_2', 'days_3_4', 'days_5_plus'] as const satisfies readonly TrainingDays[];
+import { TRAINING_DAYS } from '@/components/onboarding/trainingDays';
 
 export default function TrainingDaysScreen() {
   const { t } = useTranslation();
@@ -32,7 +30,7 @@ export default function TrainingDaysScreen() {
       footer={<Button title={t('onboarding.measurements.continue')} onPress={() => navigate('/onboarding/cuisine')} />}
     >
       <View style={{ gap: space.md }}>
-        {DAYS.map((value, i) => (
+        {TRAINING_DAYS.map((value, i) => (
           <OptionCard
             key={value}
             label={t(`onboarding.trainingDays.options.${value}`)}

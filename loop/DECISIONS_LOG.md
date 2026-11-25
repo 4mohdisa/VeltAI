@@ -11041,3 +11041,13 @@
 - 2026-11-26 02:10 Used goalTypeOf so there is one goal mapping, not two. Output for lose and muscle stays the same, so no behaviour change for existing users.
 - 2026-11-26 02:10 Kept English only per Isa's override. The es and fr text for goals.plan keys is no longer needed and is not requested.
 - 2026-11-26 02:10 Did not touch the parked mutations.ts and hooks.ts import cycle, to keep the change small.
+- 2026-11-26 02:12 Loop flag handled first: the last report looked only partly done, so this round verifies the goal mapping across its callers and tests before any new Row 2b work. Reason: a flagged task must close before the loop moves on.
+- 2026-11-26 02:12 Jev run (78%) agrees with a small, verifiable step. Kept the choice because the flag needs a concrete check Jev cannot see.
+- 2026-11-26 02:12 The report's request for es and fr text for goals.plan keys is dropped. Reason: Isa's override says English only, with English fallback.
+- 2026-11-26 02:12 Row 2b stays PARTIAL. Diet, cuisine and training day editing is next, after this verification.
+- 2026-11-26 02:12 Row 3 stays PARTIAL and waits for Isa's sign-off, so it is not picked.
+- 2026-11-26 02:13 Previous prompt was rejected for not naming the loop/phase4 branch rule; the new prompt names the branch, forbids switching, and limits git to git branch --show-current.
+- 2026-11-26 02:13 Chose training days first: it is app only (store already holds it) and needs no backend change. Diet and cuisine need a backend endpoint, so they are a separate module.
+- 2026-11-26 02:13 Training days are not sent to the plan, because that would overwrite the activity level (existing decision).
+- 2026-11-26 02:13 Jev ranks run at 58%, which agrees with the candidate list. Kept run; the module is small, so the risk is low.
+- 2026-11-26 02:13 Notes compressed to fit the 600 word limit. Decisions, blocked items and parked items kept, with repeats merged and finished work removed.

@@ -238,6 +238,8 @@
         "muscle": "Gain"
       },
       "goalEatHealthier": "Eat healthier",
+      "trainingDays": "Training days a week",
+      "trainingDaysSaved": "Training days saved.",
       "activityOptions": {
         "sedentary": "Sitting",
         "light": "Light",

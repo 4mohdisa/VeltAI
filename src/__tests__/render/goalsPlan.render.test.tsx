@@ -9,6 +9,7 @@ import { useUserStore } from '@/lib/data/userStore';
 import { deriveGoals } from '@/lib/goals/derive';
 import en from '@/lib/i18n/locales/en.json';
 import { useSettingsStore } from '@/lib/settings/store';
+import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { act, findAll, renderScreen } from './helpers';
 
 jest.mock('@/components/display/LoadingSkeleton', () => ({
@@ -76,6 +77,7 @@ beforeEach(() => {
   useSettingsStore.getState().reset();
   useUserStore.getState().resetProfile();
   useToastStore.getState().dismiss();
+  useOnboardingStore.getState().reset();
 });
 
 test('loading: the goal and activity rows are disabled until the goals read lands', () => {
@@ -181,5 +183,43 @@ describe('a stored eat healthier goal', () => {
 
     expect(putBodies[0]).toMatchObject({ weight_goal: 'track', activity_level: 'moderate' });
     expect(option(tree, en.goals.plan.goalOptions.track).props.accessibilityState).toEqual({ selected: true });
+  });
+});
+
+describe('training days', () => {
+  const days = en.onboarding.trainingDays.options;
+
+  test('shows the stored value', async () => {
+    useOnboardingStore.getState().setTrainingDays('days_1_2');
+    (globalThis as unknown as { fetch: unknown }).fetch = mockFetch(200);
+    const tree = render();
+    await settle();
+
+    expect(option(tree, days.days_1_2).props.accessibilityState).toEqual({ selected: true });
+    expect(option(tree, days.days_3_4).props.accessibilityState).toEqual({ selected: false });
+  });
+
+  test('a change is saved locally and leaves the plan, activity level and targets alone', async () => {
+    (globalThis as unknown as { fetch: unknown }).fetch = mockFetch(200);
+    const tree = render();
+    await settle();
+    await settle();
+    const before = {
+      goal: useUserStore.getState().profile.goal,
+      activityLevel: useUserStore.getState().profile.activityLevel,
+      serverGoals: useSettingsStore.getState().serverGoals,
+    };
+
+    await press(tree, days.days_5_plus);
+
+    expect(useOnboardingStore.getState().training_days).toBe('days_5_plus');
+    expect(option(tree, days.days_5_plus).props.accessibilityState).toEqual({ selected: true });
+    expect(useToastStore.getState().current?.message).toBe(en.goals.plan.trainingDaysSaved);
+    expect(putBodies).toHaveLength(0);
+    expect({
+      goal: useUserStore.getState().profile.goal,
+      activityLevel: useUserStore.getState().profile.activityLevel,
+      serverGoals: useSettingsStore.getState().serverGoals,
+    }).toEqual(before);
   });
 });

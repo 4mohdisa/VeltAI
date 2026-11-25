@@ -24,6 +24,8 @@ import { useLargeText } from '@/lib/design/dynamicType';
 import { useSettingsStore, useUnitPreferences } from '@/lib/settings/store';
 import { savePlan, useGoals, useUserProfile } from '@/lib/data';
 import { goalForDerivation, type PlanGoal } from '@/lib/goals/derive';
+import { useOnboardingStore } from '@/lib/stores/onboarding';
+import { TRAINING_DAYS } from '@/components/onboarding/trainingDays';
 import type { ActivityLevel } from '@/lib/types';
 import { displayToKcal, formatEnergy, kcalToDisplay } from '@/lib/units';
 
@@ -79,6 +81,11 @@ export default function GoalsScreen() {
     }
   };
   const planDisabled = isLoading || savingPlan;
+
+  // Training days have no backend field and no plan input: they stay in the
+  // onboarding store, so a change never touches the activity level or targets.
+  const trainingDays = useOnboardingStore((s) => s.training_days);
+  const setTrainingDays = useOnboardingStore((s) => s.setTrainingDays);
 
   // Macro kcal sum (for the % view and the reconciliation hint).
   const macroKcal = useMemo(
@@ -139,6 +146,16 @@ export default function GoalsScreen() {
         onChange={(v) => changePlan({ activityLevel: v })}
         disabled={planDisabled}
         options={ACTIVITY_LEVELS.map((value) => ({ label: t(`goals.plan.activityOptions.${value}`), value }))}
+      />
+      <SegmentedField
+        variant="inset"
+        label={t('goals.plan.trainingDays')}
+        value={trainingDays}
+        onChange={(v) => {
+          setTrainingDays(v);
+          showToast({ message: t('goals.plan.trainingDaysSaved'), tone: 'success' });
+        }}
+        options={TRAINING_DAYS.map((value) => ({ label: t(`onboarding.trainingDays.options.${value}`), value }))}
       />
       <SegmentedField
         variant="inset"
