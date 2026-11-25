@@ -10790,3 +10790,7 @@
 - 2026-11-26 00:29 Recorded the Row 4 pin as done: signupDevFallback platform is pinned to iOS and its test passed, per the latest report.
 - 2026-11-26 00:29 Left the round number out of the notes: the handover's R265 is not in the notes, so it stays unconfirmed until the next checkpoint.
 - 2026-11-26 00:29 Noted that the last full-run figures conflict (notes say 280 suites and 1,689 tests, the handover says 275 and 1,673). The notes figures are kept and the next full checkpoint will settle it.
+- 2026-11-26 00:31 Chose the regression and migrations run first: the last report did not run them, and the loop check flagged it. Jev run 97%, but last task clean only 47%, so a small task.
+- 2026-11-26 00:31 Row 4 step 3a counted as done in code, recorded in PHASE4_ROWS.md this round after the tests pass.
+- 2026-11-26 00:31 Step 3b (seed all 29 tables), the 'verified' wording fix and the delete screen i18n move wait for later rounds to keep each round small.
+- 2026-11-26 00:31 LUME_TEST_DATABASE_URL set per command from the local environment, never printed. Parity rule still blocked on Isa, not retried.
