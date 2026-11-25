@@ -12,18 +12,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - PARTIAL: 2b, 3, 5, 6b.
 - Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
 - Row 5 step 2a: done. Only ai_daily_limit_reached is non-retryable.
-- Row 5 step 2b: photo scan done (scanRefused in scan.ts). Label scan done (empty review after the limit toast).
-- AI query screen: in progress this round.
-- Last checkpoint: tsc 0 errors; jest 293/293 suites, 1,788/1,788 tests; Go -race ok, 29 TestPG pass on lume_test_local.
-- Console counts: 66 console.error, 163 console.warn (last report, --verbose grep). Handover said 80 warns. Unresolved: re-count with the same method at the next checkpoint before calling it a regression.
+- Row 5 step 2b: photo scan done (scanRefused in scan.ts). Label scan done (empty review after the limit toast). Ask Lume done (info toast in aiBrain.ts useAIQuery, render test aiQueryDailyLimit.render.test.tsx).
+- Last checkpoint (pending this round): tsc and full Jest re-run after the Ask Lume change. Last full numbers: jest 293/293 suites, 1,788/1,788 tests; Go -race ok, 29 TestPG pass on lume_test_local.
+- Console counts: 66 console.error, 163 console.warn (last report). Handover said 80 warns. Re-count with the same method this round; do not call it a regression until a test fails or the cause is found.
 
 ## Next
-1. Row 5 step 2b (AI query screen): limit message on ai_daily_limit_reached. In progress.
-2. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
-3. Row 3 after Isa signs off the Apple steps.
-4. Maestro flows (2b, 23) once Maestro is confirmed.
-5. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
-6. Next checkpoint: full tsc and Jest, plus the console.warn re-count.
+1. Row 5: consent gate check on AI routes, then consent screen and Settings switch (one surface per round).
+2. Row 3 after Isa signs off the Apple steps.
+3. Maestro flows (2b, 23) once Maestro is confirmed.
+4. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
+5. Next checkpoint after that: full tsc and Jest plus the console re-count.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -42,6 +40,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Row 5 photo and label scan limits handled where errors are caught (scan.ts, label-scan.tsx), not in the capture screens. Accepted; not re-asked.
+- Row 5 Ask Lume limit handled in the hook where the error is caught (aiBrain.ts), since the screen never sees the error. Accepted.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -61,7 +60,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round; flush stays inline.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
-- Rows: Row 5 AI query limit task chosen over the consent gate check (Jev 81% run; handover names it NEXT).
+- Rows: Ask Lume limit task chosen earlier over the consent gate check. This round: checkpoint chosen over consent gate (Jev 93% run; node tests importing aiBrain.ts unrun since last change).
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.

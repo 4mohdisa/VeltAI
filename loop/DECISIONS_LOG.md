@@ -11414,3 +11414,7 @@
 - 2026-11-26 04:58 Kept the console.warn recount out of this round: one surface per round, and a full suite run is for checkpoints only. Parked for the next checkpoint.
 - 2026-11-26 04:58 Did not re-ask the four open questions from the last report: they are already in Blocked on Isa and are not retried.
 - 2026-11-26 04:58 Used the Notes numbering (2b is the AI query screen; 2c is removed). The report and handover label it 2b, so the notes now carry one name.
+- 2026-11-26 05:00 Chose the checkpoint over the consent gate check: the last change touched aiBrain.ts, which node tests import, and those have not run since. Jev 93% run also points to a small, clean step.
+- 2026-11-26 05:00 Kept the checkpoint read only apart from fixing reds caused by the last change, per the notes rule.
+- 2026-11-26 05:00 Console counts are re-measured with the same method as before. A difference is not called a regression until a test fails or the cause is found.
+- 2026-11-26 05:00 Row 5 step 2b for Ask Lume is recorded as done in PHASE4_ROWS.md this round, as the report asked.
