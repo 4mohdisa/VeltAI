@@ -11,18 +11,18 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
-- Last checkpoint (full Jest 282/1,704, tsc 0, lint clean) passed with no file changes.
+- Last checkpoint (Jest 282/1,704, tsc 0, lint clean) passed. Measurements render test (13) added after it, passing.
 - TestPG: 26 TestPG_ tests pass on lume_test_local. Race gate green.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
-- Row 4 delete account BUILT. subscriptionLinks.ts isManageSubscriptionAvailable() is the only Platform.OS check.
+- Row 4 BUILT. subscriptionLinks.ts isManageSubscriptionAvailable() is the only Platform.OS check.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
 - Every prompt states the branch rule and forbids other git commands.
-- Report wording: 'built' or 'checked by a test' only.
+- Report wording: 'built' or 'checked by a test' only. Never write 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
@@ -52,7 +52,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Checkpoint rounds change no files; red gates are fixed in the next round.
 - Jev 'ask' overruled when the brief forbids ask.
 - Rejected prompts (more than one module) are rewritten to one module.
-- purchases.ts 'remove eslint-disable' item dropped: no disable exists (checked twice).
+- purchases.ts and consent.ts have no eslint-disable: dropped.
+- exhaustive-deps fix pattern (measurements.tsx, done): compute plain values in render, depend on them, no disable.
+- Before removing any disable in BottomSheet.tsx, check whether it is a Reanimated SharedValue write (keep) or a real exhaustive-deps miss (fix).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -69,12 +71,13 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Rename gym.monthSessions and gym.monthFreezes to gym.sessionCount and gym.freezeCount in en, es, fr. Needs es/fr key moves approved. Do not retry.
 
 ## Parked
-- Food tab Retry reloads only the food log.
+- Food tab Retry reloads only the food log. (Done in handover: reloadBoth; verify in Row 30.)
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
-- exhaustive-deps disables left: appState.tsx:119, gymSchedule.ts:78, energy.ts:37, BottomSheet.tsx:88, TodayCard.tsx:237, ParameterForm.tsx:141, ScanReviewCard.tsx:118.
-- Deliberate disables to keep: SliderField.tsx and BottomSheet.tsx (Reanimated SharedValue writes, reasons written next to them), src/debug/impl/index.tsx:99 (optional require in a test build tool). Three test files also have disables.
+- measurements.tsx Continue handler still calls heightToCm() and toKg(); could reuse draft values.
+- exhaustive-deps disables left: BottomSheet.tsx:88, TodayCard.tsx:237, ScanReviewCard.tsx:118, appState.tsx:119, energy.ts:37, ParameterForm.tsx:141 (next).
+- Deliberate disables to keep: SliderField.tsx and BottomSheet.tsx Reanimated writes (reasons written next to them), gymSchedule.ts:78, src/debug/impl/index.tsx:99. Three test files also have disables.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
 - 26 vs 28 TestPG pass lines: extra 2 likely subtests, not confirmed.
@@ -85,12 +88,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use a banned check word (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
-- The delete screen test has a redundant openURL.mockRestore().
 - Gym screens: no test covers the re-run timing after the gym.tsx dependency change.
 
 ## Next
-1. Remove exhaustive-deps disable in src/app/onboarding/measurements.tsx (in progress).
-2. Remove exhaustive-deps disables in BottomSheet.tsx:88 and TodayCard.tsx:237, one per round.
+1. ParameterForm.tsx:141 disable removal (in progress).
+2. BottomSheet.tsx:88 (check Reanimated first), then TodayCard.tsx:237. One per round.
 3. Phase 3 Row 14 remainder, so Row 2 can close.
 4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
 5. Gym key rename only after Isa approves.
@@ -102,4 +104,4 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
 - One module per prompt. Mention of Jev is never put in a Claude Code prompt.
 - A stale plan item (a disable that does not exist) is dropped in Decisions, not added to Blocked on Isa.
-- Last round (gym.tsx) removed a disable and changed one dependency array; no test covers the re-run timing.
+- Handover happened after the gym.tsx round. Name files fully in every prompt after a handover.

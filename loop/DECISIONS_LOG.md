@@ -10929,3 +10929,8 @@
 - 2026-11-26 01:20 Picked measurements.tsx (candidate 1) as the next real lint target from the report.
 - 2026-11-26 01:20 Kept the parity line in OWNER_CHECKS_phase4.md untouched: the file is append-only and Isa closes that line himself.
 - 2026-11-26 01:20 This round changes files, so it is not a checkpoint round. Full suites are not needed.
+- 2026-11-26 01:22 Picked ParameterForm.tsx:141 because the last report and the handover both name it as next, and the Jev run signal is high (93%).
+- 2026-11-26 01:22 Kept the English-only override and the one-module-per-prompt rule in the prompt.
+- 2026-11-26 01:22 Told Claude Code to stop and report if the disable covers a Reanimated SharedValue write, because the Parked list keeps those disables on purpose.
+- 2026-11-26 01:22 Did not ask Isa about the parity line in OWNER_CHECKS_phase4.md: the file is append-only and Isa closes that line himself.
+- 2026-11-26 01:22 Did not re-open the ErrorState label or gym key rename questions: both remain in Blocked on Isa.

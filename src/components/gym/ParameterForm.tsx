@@ -99,11 +99,10 @@ export function ParameterForm({
         const next = { ...prev };
         if (value === undefined || value === '') delete next[key];
         else next[key] = value;
-        changeRef.current(toParams(schema, next));
         return next;
       });
     },
-    [schema],
+    [],
   );
 
   // Pull the user's last logged values once, and fill any field they haven't
@@ -122,7 +121,6 @@ export function ParameterForm({
             if (touched.current.has(f.key) || planned?.[f.key] != null) continue;
             next[f.key] = isNumeric(f.type) ? String(ll) : (ll as RawValue);
           }
-          changeRef.current(toParams(schema, next));
           return next;
         });
       })
@@ -134,12 +132,11 @@ export function ParameterForm({
     };
   }, [exerciseId, schema, planned]);
 
-  // Notify the parent of the initial params (so a save with zero edits still works).
+  // Push the current params to the parent on mount (so a save with zero edits
+  // still works) and after every edit or last-logged pre-fill.
   useEffect(() => {
-    changeRef.current(toParams(schema, raw));
-    // Run once on mount; subsequent changes are pushed by setField/lastLogged.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    changeRef.current(params);
+  }, [params]);
 
   // Debounced live preview. Loading/fetch happen inside the timer callback, so no
   // synchronous setState in the effect body.
