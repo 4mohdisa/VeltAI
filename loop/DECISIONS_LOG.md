@@ -10767,3 +10767,8 @@
 - 2026-11-26 00:20 Row 4 step 1 waits one round. The checkpoint can reveal regressions from the DevSignup change, so it goes first.
 - 2026-11-26 00:20 signupDevFallback platform pin is parked for the next round. It passes now, so it is not blocking the checkpoint.
 - 2026-11-26 00:20 Did not give the checkpoint a round number: the notes do not record a number for it, and the rule is never to guess one.
+- 2026-11-26 00:22 Full checkpoint passed (280 suites, 1,689 tests, tsc 0 errors), so the checkpoint is closed and the notes line is correct.
+- 2026-11-26 00:22 Chose Row 4 step 1 over pinning the signup platform: Jev 87% run, and the handover and last report both name Row 4 as next.
+- 2026-11-26 00:22 Kept the English-only parity question as Blocked. Not retried this round.
+- 2026-11-26 00:22 Did not guess a round number. The handover mentions R265 but the notes do not record it.
+- 2026-11-26 00:22 Row 4 step 1 scoped to a parse-based table test with no database, so the gate stays fast.

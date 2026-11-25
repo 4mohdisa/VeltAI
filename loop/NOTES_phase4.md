@@ -13,9 +13,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - BUILT (PHASE4_ROWS.md): 1, 2.2, 2c, 2d, 12, 12b, 29. Progress: 8 of 38 BUILT, 0 EXACT.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 PARTIAL: AppleSignInButton, signup.tsx uses it, DevSignup Apple button uses it too (hidden on Android), browser OAuth (oauth_apple). Seven owner steps in OWNER_CHECKS_phase4.md.
-- Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14b Retry done, 14c done, nutrition spoken label open (blocked, see below).
-- Last full checkpoint (26 Nov 2026, after the DevSignup Apple change): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
+- Row 3 PARTIAL: AppleSignInButton used on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
+- Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label open (blocked).
+- Row 6 label 'R253' still unconfirmed.
+- Last full checkpoint (26 Nov 2026, after DevSignup Apple change): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -31,26 +32,22 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Status words DIFFERENT, PARTIAL, BUILT, EXACT only in the status column.
 
 ## Decisions (never delete)
-- Isa approved: plan-ready summary; training days and gain or maintain goal in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000 (1,234 g, Isa to confirm).
+- Isa approved: plan-ready summary; training days and gain or maintain goal in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000.
 - formatDuration rounds total minutes first. ConfidenceBadge uses scanCards.noBreakdown. Parity test at src/__tests__/localeParity.test.ts. useGoals returns data, isLoading, error, refetch.
-- Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json, camera-only prompt. Parity runs in full Jest. Row 29 BUILT. Migration apply test runs once in verify:migrations.
+- Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json, camera-only prompt. Parity runs in full Jest. Migration apply test runs once in verify:migrations.
 - 2b 1d does not wait for Isa. 401 routes dispatch SESSION_ENDED. renderScreen wrapped in AppStateProvider (approved).
-- Onboarding keys nested, options under options.<value>. validateOnboardingPayload uses i18n. Paywall 4xx toast uses onboarding.paywall.submitFailed except 401.
-- CUISINE_LABEL and connectivityMessage removed. Terms disclaimer in legal.terms. en-AU kept as formatNumber output.
+- Onboarding keys nested, options under options.<value>. validateOnboardingPayload uses i18n.
+- CUISINE_LABEL and connectivityMessage removed. en-AU kept as formatNumber output.
 - Barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
-- foodDays keeps dates, sets error on failure, clears on success. One notice when both Food reads fail; food-log error wins.
-- 14a over 14b. gym.tsx literal over 14b. 14b over R249 mapping. One component per prompt.
-- useLoggedDays keeps own state. Retry label stays 'Try again' (common.tryAgain).
-- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept. Label 'R253' unconfirmed.
+- foodDays keeps dates, sets error on failure, clears on success. Food-log error wins when both reads fail.
+- 14a over 14b. 14b over R249 mapping. One component per prompt.
+- Retry label stays 'Try again' (common.tryAgain).
+- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept.
 - Retry assertions changed in gymExerciseProgress.emptyStates and gymMuscles.render. Accepted, sign-off requested.
-- 14c before early checkpoint. workoutsLine needed no change.
+- Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android, revisit with owner checks.
+- DevSignup Apple button uses AppleSignInButton. Accepted.
 - Nutrition spoken label stays English, literal, no key.
-- 2c and 2d mapped from OWNER_CHECKS headings. Accepted.
-- Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal.
-- Apple sign in uses browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Button hidden on Android, revisit with owner checks.
-- DevSignup Apple button now uses AppleSignInButton (same next handler). Accepted.
-- Removed the Row 2.5 reference: no such row exists.
-- Checkpoint chosen over Row 4 step 1 this round: the handover and last report name it as due, and it may catch regressions from the DevSignup change. Jev run 77%.
+- Row 4 step 1 chosen over signup platform pin: Jev 87%, handover names Row 4 next.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -61,34 +58,29 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve editing foodDays.test.ts and removing days and loading aliases (R249).
 - Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
-- Row 3: confirm Apple hidden on Android (signup and DevSignup). Choose native Apple sheet or keep browser flow.
-- Row 3 owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Parity rule: should English-only keys be exempt from localeParity.test.ts? Nutrition spoken meal label (nutrition.tsx:231) is blocked by this. Do not retry until Isa decides.
+- Row 3: confirm Apple hidden on Android. Choose native Apple sheet or keep browser flow. Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
+- Parity rule: should English-only keys be exempt from localeParity.test.ts? Blocks the nutrition spoken label (nutrition.tsx:231). Do not retry until Isa decides.
 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
-- workoutsWeek.untimed_one and _other identical English. Harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
-- signupDevFallback.render.test.tsx does not set the platform; passes only because setup reports iOS. Pin it next.
+- signupDevFallback.render.test.tsx does not set the platform; passes because setup reports iOS. Pin it next.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
-- Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only when both reads fail.
-- en.json duplicate keys gym.monthSessions and gym.monthFreezes vs gymCount.sessions and gymCount.freezes: leave.
-- Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView (not FlatList); gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
+- Food tab Try again reloads food log only when both reads fail.
+- en.json duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave.
+- Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - PERF_BASELINE.md lines 34 and 41 describe gym read as unbounded: out of date, fix in Row 19.
 
 ## Next
-1. Full Jest checkpoint (this round).
-2. Row 4 step 1: backend table coverage test for account deletion.
-3. Pin platform in signupDevFallback.render.test.tsx.
-
-## Housekeeping queue
-- Update the checkpoint line after the full run.
+1. Row 4 step 1: backend table coverage test for account deletion.
+2. Pin platform in signupDevFallback.render.test.tsx.
+3. Next full checkpoint: after the next batch of changes (Isa's handover names R265; the round number is not in these notes, so confirm before recording it).
 
 ## Loop note
-- Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried. Pick surfaces that do not depend on it.
+- Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried.
 - Jev signals used as advice only. Smaller tasks chosen when the last task was partial.
