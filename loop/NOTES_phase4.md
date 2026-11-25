@@ -5,17 +5,19 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 
 ## Overrides from Isa (25 Nov)
 1. English only at launch. Do not write, translate or review es or fr. Leave es and fr files untouched. Parity: es and fr may not miss en keys; missing keys fall back to English. No language switcher.
-2. Time box about 15 rounds per row. Round 12: write leftovers under Parked. Round 15: set BUILT (PARTIAL only if core function broken), move on. Polish, wording reviews, extra minor render tests, micro refactors and alias cleanups are parked.
-3. Order: close Row 2, finish 2b in time box, verify 2c and 2d, then rows 3 to 14b, then 15 to 30, then 31.
+2. Time box about 15 rounds per row. Round 12: write leftovers under Parked. Round 15: set BUILT (PARTIAL only if core function broken), move on. Polish, wording, extra render tests, micro refactors and alias cleanups are parked.
+3. Order: Row 2, finish 2b in time box, verify 2c and 2d, then rows 3 to 14b, then 15 to 30, then 31.
 4. Rows 2c and 2d: verify, mark BUILT, replace placeholder rows with brief descriptions.
 
 ## State
 - Branch loop/phase4 only. Never switch, push, merge, rebase or touch main. Loop script commits.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
-- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Row 2 PARTIAL until Phase 3 Rows 6 and 14 are BUILT (Row 13 being closed in R252).
-- Row 2b DIFFERENT: step 1d strings done (en). Plan-ready summary parked for Isa.
-- Row 13 (Phase 3): R240 to R251 done (barcode failed state, foodDays error, calendar error, Food tab notice, single notice when both reads fail). Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests).
-- R252 (this round): records round. Fix stale R247 note and calendar mock text, add R251 line, check saved and translation items, then set Phase 3 Row 13 BUILT if checks pass.
+- BUILT: 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Row 13 BUILT (R252), Phase 3 Row 15 done (R166).
+- Row 2 PARTIAL until Phase 3 Rows 6 and 14 are BUILT.
+- Row 2b DIFFERENT: plan-ready summary parked for Isa.
+- Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests).
+- Current: Phase 3 Row 6 (hydrateGym limit, Gym session read bound, before and after numbers).
+- Then: Phase 3 Row 14 (Gym month line in English keys, Retry on muscle cards and exercise progress, workoutsLine, nutrition spoken kcal snapshot).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -43,8 +45,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R233, R234 Terms disclaimer in legal.terms. R236 en-AU kept as formatNumber output.
 - R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds still fall back to mock database.
 - R243 foodDays: failure keeps dates and sets error; success clears it. R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
-- R247 calendar.tsx reads data only (corrected R252). R248 food.tsx reads data only.
-- R250 verify only, no alias removal.
+- R247, R248 calendar.tsx and food.tsx read data only. R250 verify only, no alias removal.
 - R251 one notice when both Food tab reads fail; food-log error takes priority.
 - useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
 
@@ -67,6 +68,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' titles are English literals.
 - R249 alias removal (see Blocked).
+- Food tab: 'Try again' on the food-log notice reloads only the food log when both reads fail.
 
 ## Problems noticed, not fixed
 - English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) in fr gives '0 jour' (fr parked).
@@ -74,4 +76,4 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose. Users do not see which field the server rejected on 4xx.
 - OWNER_CHECKS_phase4.md line 39 quotes old es wording. Append only, leave it.
-- Row 13 'Left to do' item 2 (calendar mock) being corrected in R252.
+- Phase 3 Row 13 older text still lists saved and translation items as open; R252 records the checks.

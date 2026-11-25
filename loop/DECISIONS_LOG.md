@@ -10678,3 +10678,8 @@
 - 2026-11-25 23:46 Row 13 is set BUILT only if checks pass, with parked es and fr tests and the R249 alias removal recorded as parked, not open work (English only override).
 - 2026-11-25 23:46 Did not touch foodDays.test.ts or the aliases: still blocked on Isa approval (R249).
 - 2026-11-25 23:46 Jev's risk score (0.8) noted; a records-only round does not continue the risky path, so no change to the plan.
+- 2026-11-25 23:47 Chose Phase 3 Row 6 first: it is the blocker for Row 2, it is small, and it has a measurable before and after.
+- 2026-11-25 23:47 Jev ranked run highest (83%) and the next task is clean, so I kept the run action.
+- 2026-11-25 23:47 Phase 3 Row 13 stays BUILT: R252 checks passed, the R247 note and calendar mock text were corrected, and no core function is broken.
+- 2026-11-25 23:47 Phase 3 Row 15 (useGoals) stays done from R166; no new work needed.
+- 2026-11-25 23:47 Row 14 stays English only: no es or fr translation, per Isa's override.
