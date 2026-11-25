@@ -6,6 +6,7 @@
 // resolve to empty/no-op).
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { showToast } from '@/components/display/toastStore';
 import { api, ApiError } from '@/lib/api';
 import { hasAiConsent } from '@/lib/ai/consent';
 import i18n from '@/lib/i18n';
@@ -171,6 +172,12 @@ export function useAIQuery(): {
         const { navigate } = require('@/lib/nav') as typeof import('@/lib/nav');
         navigate('/ai-consent');
         return i18n.t('aiQuery.consentNeeded');
+      }
+      // 429 ai_daily_limit_reached = today's AI allowance is used up. The
+      // server's message says when it resets; show it as scan.ts does, and
+      // keep the unavailable state under it.
+      if (e instanceof ApiError && e.code === 'ai_daily_limit_reached') {
+        showToast({ message: e.message, tone: 'info' });
       }
       // 503 carries the server's own explanation ("could not verify your
       // subscription — try again shortly"). Surfacing the generic unavailable

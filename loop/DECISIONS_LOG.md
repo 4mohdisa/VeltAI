@@ -11410,3 +11410,7 @@
 - 2026-11-26 04:57 Chose the checkpoint over Jev's pick (Row 5 step 2c). Reason: the loop note makes this round a checkpoint, and the full suite has not run since the label-scan change. The AI query step moves to the next round.
 - 2026-11-26 04:57 The full Jest run also covers the four barcode and label files listed in Parked, so they are checked at this checkpoint.
 - 2026-11-26 04:57 Jev's risk is high on recent rounds, so this round changes no files and runs no new feature work.
+- 2026-11-26 04:58 Chose the AI query limit message: it is the open step in the handover and the previous report named it as NEXT. Matches the Jev 81% run signal.
+- 2026-11-26 04:58 Kept the console.warn recount out of this round: one surface per round, and a full suite run is for checkpoints only. Parked for the next checkpoint.
+- 2026-11-26 04:58 Did not re-ask the four open questions from the last report: they are already in Blocked on Isa and are not retried.
+- 2026-11-26 04:58 Used the Notes numbering (2b is the AI query screen; 2c is removed). The report and handover label it 2b, so the notes now carry one name.

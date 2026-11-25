@@ -13,15 +13,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
 - Row 5 step 2a: done. Only ai_daily_limit_reached is non-retryable.
 - Row 5 step 2b: photo scan done (scanRefused in scan.ts). Label scan done (empty review after the limit toast).
-- Last checkpoint (before label scan change): tsc 0 errors; jest 293/293 suites, 1,784/1,784 tests; Go -race ok, 29 TestPG pass on lume_test_local.
-- Round in progress: checkpoint (full tsc and full Jest) after the label scan change.
+- AI query screen: in progress this round.
+- Last checkpoint: tsc 0 errors; jest 293/293 suites, 1,788/1,788 tests; Go -race ok, 29 TestPG pass on lume_test_local.
+- Console counts: 66 console.error, 163 console.warn (last report, --verbose grep). Handover said 80 warns. Unresolved: re-count with the same method at the next checkpoint before calling it a regression.
 
 ## Next
-1. Row 5 step 2c: AI query screen shows the limit message.
+1. Row 5 step 2b (AI query screen): limit message on ai_daily_limit_reached. In progress.
 2. Row 5: consent gate check, then consent screen and Settings switch (one surface per round).
 3. Row 3 after Isa signs off the Apple steps.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 5. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
+6. Next checkpoint: full tsc and Jest, plus the console.warn re-count.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -59,13 +61,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round; flush stays inline.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
-- Checkpoint this round chosen over Jev's Row 5 step 2c pick: the loop note requires a checkpoint and the full suite has not run since the label scan change.
+- Rows: Row 5 AI query limit task chosen over the consent gate check (Jev 81% run; handover names it NEXT).
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan back to paywall-style exit or empty review.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan back to paywall-style exit or empty review; scan.ts instead of the photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
