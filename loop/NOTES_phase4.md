@@ -10,14 +10,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b: dead ends 1 to 6 built and checked by tests. Open: 7 (paywall 'unavailable' wording, may already be solved), 8 (no target weight check).
-- Last full checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; go test -race ok.
-- Last round was docs only and its checks did not run. Verification is this round's task.
+- Row 2b: dead ends 1 to 6 built and checked by tests. Dead end 7 looks fixed (onboarding.paywall.plansUnavailable is user wording), pending Isa sign off. Open: 8 (no target weight check).
+- Last full checkpoint (before the docs round): tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; go test -race ok.
+- Docs round: tsc plus 7 audit render tests passed, one file per command. Full suite not run.
+- This round: checkpoint (tsc plus full Jest, no file changes). Result pending in the report.
 
 ## Next
-1. Verify the docs round: tsc plus the 7 audit render tests, one per command.
+1. Read the checkpoint result. Fix only reds caused by the docs change.
 2. Row 2b dead end 8: validate target weight on measurements (same range and inline error as weight), with a render test.
-3. Row 2b dead end 7: confirm the toast key; close if it is the plansUnavailable text.
+3. Subscription toast subscription.plansUnavailable (src/app/profile/subscription.tsx:92) is technical wording: reword to user text, en only.
 4. Row 6b: remaining work not tied to step (f).
 5. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
 6. Row 3 after Isa signs off the Apple steps (owner).
@@ -57,9 +58,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
-- Docs only round chosen as the smallest task while Jev risk is high. Jev 17% clean completion: smallest task chosen.
+- Docs only round chosen as the smallest task while Jev risk is high.
+- Checkpoint round chosen over dead end 8 (Jev 93%). The loop note requires a checkpoint and the last full suite never ran. Dead end 8 is next round.
 
 ## Blocked on Isa (park, do not retry)
+- Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it. Repeated twice; not retried.
 - Row 6b step (f) stale strings and es/fr text: deferred under English only.
 - Resumed onboarding Back goes to Welcome, or to previous step: needs one shared step list.
 - A 402 while the app is open is not routed to the paywall.

@@ -11533,3 +11533,7 @@
 - 2026-11-26 05:38 Chose verification first: the loop flagged the last round for unrun checks, and the rules say a skipped check is verified first next round.
 - 2026-11-26 05:38 Chose the smallest task because Jev rates clean completion of the last task at 17% and the risk of continuing is high.
 - 2026-11-26 05:38 Folded the dead end 7 key check into this round as a read only grep, with no edit until it is reported.
+- 2026-11-26 05:39 Checkpoint round chosen over dead end 8 (Jev 93%). Reason: the loop note makes this round a checkpoint, the last round's full suite never ran, and the notes say verification is this round's task. Dead end 8 is next round.
+- 2026-11-26 05:39 Recorded under Blocked on Isa: Row 2b dead end 7 sign off (Isa to confirm onboarding.paywall.plansUnavailable closes it). The same blocker came back twice. Not retried.
+- 2026-11-26 05:39 Prompt limits this round to type check and full Jest. No lint, Go or simulator runs, so the round stays small and read only.
+- 2026-11-26 05:39 Jev risk 1.2 with clean completion 79%: kept the smallest possible task (no file changes).
