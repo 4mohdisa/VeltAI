@@ -9,24 +9,25 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f deferred, English only).
-- Last full run: tsc 0; Jest 289 suites, 1,759 tests (before paywallHref and completed-flag changes). Full run due at next checkpoint.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open: ai-consent.tsx built, not yet wired in), 6b (steps a to e built; f deferred).
+- Last full run: tsc 0; Jest 289 suites, 1,759 tests (before paywallHref and completed-flag changes).
+- Round in progress: verify consent.ts change (flagged as unchecked). Existing consent, Privacy and sign-out tests not yet run.
 - Route audit: 93 of 93 consumed.
 
 ## Next
-1. Row 5b, one screen per round: AI consent screen, then Settings switch, then daily limit copy.
-2. Full Jest run at next checkpoint (read only).
-3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-4. Plan-ready summary: parked until Isa approves.
-5. Row 3 remainder after Isa signs off.
+1. Verify the consent.ts change with existing consent tests, tsc and lint.
+2. Wire ai-consent.tsx in place of the ensureAiConsent alert at ai-query.tsx, insights.tsx, food/photo-capture.tsx, food/label-scan.tsx.
+3. Row 5b: withdraw switch in Settings, then daily limit copy.
+4. Full Jest run at next checkpoint (read only).
+5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+6. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch: work only on loop/phase4. Only git command: git branch --show-current. Never push, merge or switch.
-- One task per prompt: one screen or component, max 5 steps. Find files with find (grep -rl matches contents).
+- One task per prompt, max 5 steps. Find files with find (grep -rl matches contents).
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
-- A prompt rejected by the loop is rewritten at once with every point fixed.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
@@ -43,9 +44,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - Row 5: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at. Consent read error stays 500. Consent version 1 (approval pending).
+- Row 5b provider copy: Google Gemini named by default (LLM_PROVIDER=gemini); Anthropic only if backup on. Brief's 'Anthropic for insights' not used. Isa to confirm.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
-- Row 6 (Phase 3): hydrateGym limit 200; backend LIMIT kept.
+- Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only.
@@ -55,23 +57,24 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
 - Row 6b step f: es and fr text for refusal keys and notConfirmed.
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5a: 500 vs 403 read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
+- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm.
+- E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
-- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating; consent version.
+- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
-- Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
+- Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast. profile/privacy.tsx hardcoded 'Your data' title.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
 - Root config and backend JS not linted. verify:go lacks -count=1. Audit script rewrites ROUTE_COVERAGE.md.
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. auth.ExportTableNames and account.UserTables overlap.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
-- Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
-- STATUS.md:32 and scanSeam.test.ts:450 describe free scans. es and fr still describe a free tier (plansUnavailable, storeError); no es or fr text for onboarding.paywall.refusal.* or notConfirmed.
+- STATUS.md:32 and scanSeam.test.ts:450 describe free scans. es and fr still describe a free tier. No es or fr text for onboarding.paywall.refusal.* or notConfirmed.
 - A returning user without a subscription goes back to onboarding. A plan that ends while the app is open meets 402s in tabs with no paywall.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
+- Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Dev and PHASE3_ROWS.md row 14 note too long.

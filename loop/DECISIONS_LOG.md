@@ -11232,3 +11232,7 @@
 - 2026-11-26 03:28 Terms copy at legal/terms.tsx:71 stays parked: it is Blocked on Isa and was already repeated twice.
 - 2026-11-26 03:28 Consent version 1 used by default (approval pending, recorded as a decision).
 - 2026-11-26 03:28 Checkpoint for the full Jest run is still due; this round runs only the new test file.
+- 2026-11-26 03:32 Chose the verify task first because the loop flagged the last report as partly unchecked. The brief says to verify first.
+- 2026-11-26 03:32 Consent copy names Google Gemini (the backend default, LLM_PROVIDER=gemini) for photo scan and insights, and Anthropic only if the backup provider is on. The brief's 'Anthropic for insights' would describe the data flow wrongly. Isa to confirm.
+- 2026-11-26 03:32 Accept on the consent screen does not mention analytics. Analytics stays off unless the alert path turns it on. Isa to confirm the screen should cover analytics too.
+- 2026-11-26 03:32 Consent version 1 waits for Isa. setConsent takes no version and the backend stores only a timestamp.
