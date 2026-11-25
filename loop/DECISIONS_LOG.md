@@ -11100,3 +11100,7 @@
 - 2026-11-26 02:38 Chose the small test task over row 5b (Jev: 44% clean finish on last task, so a smaller task is safer).
 - 2026-11-26 02:38 Keep the var _ ConsentStore line: it is the only compile check in cmd/server. Switching to var _ Store is optional and not done.
 - 2026-11-26 02:38 Row 5 stays PARTIAL until 5b is built.
+- 2026-11-26 02:40 Chose the verify-only 5a step before 5b because the loop flag said the last task was partly done and Jev gives a 64% chance of a clean finish; a smaller task is lower risk.
+- 2026-11-26 02:40 AI consent tests live in backend/tests/ai, not internal/ai as the brief said; the prompt points there.
+- 2026-11-26 02:40 The prompt forbids live AI calls and AI_TEST_LOG writes; mocks only.
+- 2026-11-26 02:40 Consent version and 500 vs 403 stay parked for Isa; no change this round.
