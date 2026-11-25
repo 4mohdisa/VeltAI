@@ -10882,3 +10882,6 @@
 - 2026-11-26 01:07 Allowed deleting the removed key from es.json and fr.json only as a key removal, not a translation, to keep the parity test green under the English-only override. Recorded for review.
 - 2026-11-26 01:07 Kept the Food tab retry label and the delete screen mockRestore cleanup for later rounds to keep this round to one concern.
 - 2026-11-26 01:07 Did not re-raise the parity line in OWNER_CHECKS_phase4.md: Isa's override says he closes it himself and the file is append-only.
+- 2026-11-26 01:08 Picked candidate 1: smallest task, named as NEXT in the last report, one file, cleanup only. Jev agrees (run 98%).
+- 2026-11-26 01:08 Food tab retry label unify and the Platform.OS helper move to the next rounds, in that order.
+- 2026-11-26 01:08 gym.monthSessions now also backs the all-time streak count. Parked for a naming fix; not changed this round because renaming keys touches many files.

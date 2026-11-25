@@ -114,7 +114,6 @@ test('the subscription note links to Apple subscription settings', () => {
   press(tree, 'Manage subscription');
   expect(openURL).toHaveBeenCalledWith('https://apps.apple.com/account/subscriptions');
   expect(mockDelete).not.toHaveBeenCalled();
-  openURL.mockRestore();
 });
 
 test.each([
