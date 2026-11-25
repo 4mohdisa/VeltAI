@@ -11431,3 +11431,7 @@
 - 2026-11-26 05:04 Consent screen first, then the Settings switch, because the screen is the surface the user meets first (Jev run 62%, so the loop runs).
 - 2026-11-26 05:04 Consent screen goes through the existing backend consent route. If that route is missing, the round stops with BLOCKED rather than changing the backend.
 - 2026-11-26 05:04 Trimmed the notes to keep them under 600 words. Finished items are merged, and the rules and open owner items are kept.
+- 2026-11-26 05:07 Chose the checkpoint: the consent labels and screen flow changed last round, and the loop asks for a full run after that kind of change. Jev ranks the Settings switch first, but the checkpoint is the smaller and safer step, and the risk is high on recent rounds.
+- 2026-11-26 05:07 Kept the existing src/app/ai-consent.tsx and src/lib/ai/consent.ts. No duplicate consent screen at src/app/consent/ai.tsx, as the report says.
+- 2026-11-26 05:07 Did not change the 'Who receives it' wording. It is disclosure copy, so it is parked in OWNER_CHECKS_phase4.md for Isa.
+- 2026-11-26 05:07 Counted the 403 retry as wired: aiBrain and the scan paths already open /ai-consent, so the step 'wire the gate in the app' is done.

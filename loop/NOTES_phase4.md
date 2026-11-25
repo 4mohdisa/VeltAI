@@ -10,18 +10,18 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: built. Consent gate on all AI and scan routes (403 ai_consent_required; 500 on read error). Background sweep skips no-consent users. Daily AI limit: default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off), 429 ai_daily_limit_reached. 188 tests pass.
-- Row 5 app: scan limit handling done (scan.ts, label-scan.tsx); Ask Lume done (aiBrain.ts). Consent screen: IN PROGRESS this round (src/app/consent/ai.tsx). Settings switch NOT built.
-- Last checkpoint: tsc 0 errors; Jest 294/294 suites, 1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
+- Row 5 server: built. Consent gate on all AI and scan routes (403 ai_consent_required; 500 on read error). Background sweep skips no-consent users. Daily AI limit: default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off), 429 ai_daily_limit_reached.
+- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume done (aiBrain.ts, 403 opens /ai-consent). Consent screen is src/app/ai-consent.tsx (existing; copy and equal buttons done, Allow and Not now). Helper src/lib/ai/consent.ts, tests aiConsent.test.ts and aiConsentScreen.render.test.tsx. Settings switch NOT built.
+- Last checkpoint (before consent change): tsc 0 errors; Jest 294/294 suites, 1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
+- This round: checkpoint after consent copy change (tsc, full Jest).
 
 ## Next
-1. Row 5: consent screen (this round). Check it was built and tested.
+1. Checkpoint result from this round: read the counts, fix only reds from the consent change.
 2. Row 5: Settings withdraw switch.
-3. Row 5: wire the gate in the app (a 403 opens the consent screen).
-4. Row 3 after Isa signs off the Apple steps.
-5. Maestro flows (2b, 23) once Maestro is confirmed.
-6. productionReadiness.test.ts 429 expect line (small).
-7. Next checkpoint: full tsc, Jest, console recount.
+3. Row 3 after Isa signs off the Apple steps.
+4. Maestro flows (2b, 23) once Maestro is confirmed.
+5. productionReadiness.test.ts 429 expect line (small).
+6. Backend: merge requireAIConsent (ai.go) and requireScanConsent (scan.go).
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -43,6 +43,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5 Ask Lume limit handled in the hook (aiBrain.ts). Accepted.
 - Row 5 consent gate on the server first; consent screen after (Jev run 33%).
 - Row 5 consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count against the allowance.
+- Row 5: kept existing src/app/ai-consent.tsx; no duplicate consent screen.
+- Row 5: Allow and Not now have equal weight; Allow goes back after saving.
 - Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable.
 - Brief and insights keep fallback text at the limit (existing test pins it).
 - rate_limit_counters not reused (its sweep deletes rows older than 2 minutes).
@@ -67,7 +69,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (deferred by override).
 - legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of photo capture screen.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy ('Who receives it' names insight summary, brief says questions too); replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -79,7 +81,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
+- Console noise: about 66 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - requireAIConsent (ai.go) and requireScanConsent (scan.go) are near-duplicates: one shared helper later.
