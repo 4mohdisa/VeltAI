@@ -44,6 +44,9 @@ var exportSections = []exportSection{
 	{"workout_schedule", ownedRows("workout_schedule")},
 	{"user_gym_patterns", ownedRows("user_gym_patterns")},
 	{"integration_connections", `select coalesce(jsonb_agg(to_jsonb(t) - 'access_token' - 'refresh_token'), '[]'::jsonb) from integration_connections t where user_id = $1`},
+	// Pending Strava / WHOOP connects. The state value is the CSRF secret of a
+	// live OAuth flow, so it is dropped like the tokens above.
+	{"oauth_states", `select coalesce(jsonb_agg(to_jsonb(t) - 'state'), '[]'::jsonb) from oauth_states t where user_id = $1`},
 	{"scan_sessions", ownedRows("scan_sessions")},
 	{"scan_images", childRows("scan_images", "scan_session_id", "scan_sessions")},
 	{"scan_corrections", ownedRows("scan_corrections")},

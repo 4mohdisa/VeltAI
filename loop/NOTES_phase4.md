@@ -13,11 +13,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - BUILT (PHASE4_ROWS.md): 1, 2.2, 2c, 2d, 12, 12b, 29. Progress: 8 of 38 BUILT, 0 EXACT.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL. Step 1 done (account/tables.go, tables_test.go: 29 entries). Step 2 done: DELETE /api/profile and the Clerk user.deleted webhook both go through pgProfileStore.Delete (removes oauth_states and profiles). Settings delete screen built and covered by src/__tests__/render/settingsDeleteAccount.render.test.tsx (4 tests). Row 4 notes wording being corrected in the current round.
+- Row 3 PARTIAL: AppleSignInButton on signup and DevSignup, browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
+- Row 4 PARTIAL. Step 1 done (account/tables.go, 29 entries). Step 2 done: profile delete removes oauth_states and profiles. Settings delete screen covered by settingsDeleteAccount.render.test.tsx. signupDevFallback platform pinned to iOS.
 - Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label open (blocked).
 - Row 6 label 'R253' still unconfirmed.
-- Last full checkpoint (26 Nov 2026): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
+- Last full checkpoint in notes: tsc 0 errors, 280 suites, 1,689 tests pass. Handover says 275 suites and 1,673 tests before R257 to R260. Settle at next checkpoint.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -52,7 +52,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 4 step 1 chosen over signup platform pin: Jev 87%.
 - Row 4 step 2: oauth_states cleared in the profile store delete (one statement), not a migration (smallest change, no schema change).
 - Settings delete check chosen over signupDevFallback pin: Jev 99% run.
-- Round: signupDevFallback platform pin chosen next (Jev 99% run). Row 4 wording corrected to 'built'.
+- signupDevFallback platform pin done (iOS). Row 4 wording corrected to 'built'.
+- Row 4 export: oauth_states to be added to auth.ExportTableNames (step 3a), chosen over seeding (Jev 91% run).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -69,7 +70,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## Parked
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
-- Settings delete screen text is hard-coded English (accepted under English-only). 502 toast shows raw server message.
+- Settings delete screen text is hard-coded English (accepted under English-only). On 502 the delete screen shows the raw server message.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
@@ -80,15 +81,16 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - PERF_BASELINE.md lines 34 and 41 describe gym read as unbounded: out of date, fix in Row 19.
-- Row 4 seed coverage: Postgres delete test seeds 5 of 29 tables; the other 24 only check zero rows. Seed each table (Row 4 step 3).
-- Row 4 export: oauth_states not in auth.ExportTableNames. Decide and add (Row 4 step 3).
+- Row 4 seed coverage: Postgres delete test seeds 5 of 29 tables; the other 24 only check zero rows. Seed each table (Row 4 step 3b).
 - rate_limit_counters may hold user ids in text keys (swept in minutes, not listed).
 - Lists to keep in step: auth.ExportTableNames and account.UserTables overlap.
+- PHASE4_ROWS.md rows 2.2 and 2b notes use the word 'verified'. Fix wording (candidate task).
 
 ## Next
-1. Pin platform in signupDevFallback.render.test.tsx (in progress this round).
-2. Row 4 step 3: seed all UserTables in the Postgres delete test; add oauth_states to export.
-3. Full checkpoint after the next batch of changes. Confirm the round number from these notes before recording it.
+1. Row 4 step 3a: add oauth_states to auth.ExportTableNames with a test that keeps the export and account.UserTables in step.
+2. Row 4 step 3b: seed all UserTables in the Postgres delete test.
+3. Fix 'verified' wording in PHASE4_ROWS.md rows 2.2 and 2b.
+4. Full checkpoint after the next batch of changes. Confirm the round number from these notes before recording it.
 
 ## Loop note
 - Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried.

@@ -10785,3 +10785,8 @@
 - 2026-11-26 00:27 Report wording rule: use 'built' or 'checked by a test', never 'verified', because Isa verifies. Added to Rules.
 - 2026-11-26 00:27 Settings delete screen hard-coded English and raw server message on 502 are accepted under the English-only override. Parked, not fixed.
 - 2026-11-26 00:27 Jev risk 0.9 noted. The task is one test file, so the run stays small and is not paused.
+- 2026-11-26 00:29 Chose step 3a (oauth_states in export) over seeding all tables: it is the smallest next step the notes and last report both name, and Jev rated the run 91%.
+- 2026-11-26 00:29 Kept the nutrition spoken label parked: the parity rule is still undecided and Isa has been asked to decide it. No English-only key added this round.
+- 2026-11-26 00:29 Recorded the Row 4 pin as done: signupDevFallback platform is pinned to iOS and its test passed, per the latest report.
+- 2026-11-26 00:29 Left the round number out of the notes: the handover's R265 is not in the notes, so it stays unconfirmed until the next checkpoint.
+- 2026-11-26 00:29 Noted that the last full-run figures conflict (notes say 280 suites and 1,689 tests, the handover says 275 and 1,673). The notes figures are kept and the next full checkpoint will settle it.

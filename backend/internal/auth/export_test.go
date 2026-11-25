@@ -19,6 +19,7 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"lume/backend/internal/account"
 	"lume/backend/internal/auth"
 	"lume/backend/internal/db"
 	"lume/backend/internal/ratelimit"
@@ -64,6 +65,20 @@ func getExport(h http.Handler, user string) *httptest.ResponseRecorder {
 	rec := httptest.NewRecorder()
 	h.ServeHTTP(rec, r)
 	return rec
+}
+
+// TestExportCoversEveryAccountUserTable keeps the export in step with account
+// deletion: every table deletion clears must also be exported.
+func TestExportCoversEveryAccountUserTable(t *testing.T) {
+	exported := map[string]bool{}
+	for _, name := range auth.ExportTableNames() {
+		exported[name] = true
+	}
+	for _, ut := range account.UserTables {
+		if !exported[ut.Table] {
+			t.Errorf("%s is in account.UserTables but missing from the export", ut.Table)
+		}
+	}
 }
 
 func TestExportWithoutTokenIs401(t *testing.T) {
@@ -128,6 +143,7 @@ func TestPG_ExportHasOnlyCallerRowsAndNoTokens(t *testing.T) {
 	b := fmt.Sprintf("export_b_%d", os.Getpid())
 	seedUser(t, pool, a)
 	seedUser(t, pool, b)
+	seedOAuthState(t, pool, a)
 
 	rec := getExport(exportServer(pool, 10), a)
 	if rec.Code != http.StatusOK {
@@ -140,7 +156,7 @@ func TestPG_ExportHasOnlyCallerRowsAndNoTokens(t *testing.T) {
 	if strings.Contains(body, b) {
 		t.Errorf("user A's export contains user B data")
 	}
-	for _, secret := range []string{"access_token", "refresh_token", "_access_secret", "_refresh_secret"} {
+	for _, secret := range []string{"access_token", "refresh_token", "_access_secret", "_refresh_secret", a + "_state"} {
 		if strings.Contains(body, secret) {
 			t.Errorf("export contains token material %q", secret)
 		}
