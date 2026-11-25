@@ -11326,3 +11326,8 @@
 - 2026-11-26 04:20 Jev advised ask (54%). Ask is not allowed under the no-questions rule, so the loop runs the smallest task instead.
 - 2026-11-26 04:20 Did not pick the privacy.tsx copy change: it still needs Isa's approval, which is on the Blocked list.
 - 2026-11-26 04:20 Condensed the notes to stay under 600 words. No status or blocker was dropped.
+- 2026-11-26 04:21 Chose the Jest console review (notes item 2) because it is the smallest runnable task; Jev's advice to ask is not followed since asking is not allowed.
+- 2026-11-26 04:21 Closed notes step 1 (not-enough-data message): checked by aiBrain.briefProfile.test.ts, 8 of 8 pass.
+- 2026-11-26 04:21 The last report skipped the full suite after the setup.ts change; this round's full Jest run in step 1 verifies it first.
+- 2026-11-26 04:21 The api.ts path in the old task is src/lib/api.ts; the row list path mismatch is noted, not fixed.
+- 2026-11-26 04:21 Kept the Maestro onboarding flow as candidate two; it waits for the Maestro check.

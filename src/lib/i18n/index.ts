@@ -43,6 +43,7 @@ if (!i18next.isInitialized) {
     defaultNS: 'translation',
     interpolation: { escapeValue: false }, // RN has no XSS surface
     returnNull: false,
+    showSupportNotice: false,
   });
 }
 
