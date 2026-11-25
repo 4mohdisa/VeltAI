@@ -11360,3 +11360,7 @@
 - 2026-11-26 04:32 Chose the integrationsLocale flush: it is the next file in the agreed order, one surface, smallest task, matches Jev's run recommendation.
 - 2026-11-26 04:32 Kept deliberate [data] warns visible rather than adding scoped spies, per the standing decision on console noise.
 - 2026-11-26 04:32 Did not run the full suite: last checkpoint passed and this round is not a checkpoint.
+- 2026-11-26 04:33 Chose the photoScan act() flush: it is next in the notes queue and is a one-file, low-risk step that Jev also rates as safe (run 99%).
+- 2026-11-26 04:33 Capped the act() cleanup queue: after photoScan, confidenceBadge, brainProfileCard and scanCards, return to row order (Row 5 remainder, then Row 3 once Isa signs off).
+- 2026-11-26 04:33 Compressed the notes to fit the 600 word limit. No decision was removed; each one is kept in short form.
+- 2026-11-26 04:33 Kept the Jev signal as advisory. No reason to override it this round.

@@ -247,8 +247,8 @@ test('pressing "Save all items" on a ready scanned item calls api.scan.confirm w
   mockConfirm.mockResolvedValue({ id: 'server-9' });
   const tree = await renderFoodLog();
 
-  const id = logMeal('Breakfast', { name: 'Grilled Chicken', quantityG: 150, calories: 250, protein: 40, carbs: 5, fat: 8 }, 'photo', true);
   act(() => {
+    const id = logMeal('Breakfast', { name: 'Grilled Chicken', quantityG: 150, calories: 250, protein: 40, carbs: 5, fat: 8 }, 'photo', true);
     useFoodStore.getState().updateScannedItem(id, { status: 'ready', scanSessionId: 'sess-9', estimatedWeightG: 150 });
   });
   await settle();
@@ -278,8 +278,8 @@ test('rating the scan after saving calls api.scan.feedback with that scan sessio
   mockFeedback.mockResolvedValue({ updated: true });
   const tree = await renderFoodLog();
 
-  const id = logMeal('Breakfast', { name: 'Grilled Chicken', quantityG: 150, calories: 250, protein: 40, carbs: 5, fat: 8 }, 'photo', true);
   act(() => {
+    const id = logMeal('Breakfast', { name: 'Grilled Chicken', quantityG: 150, calories: 250, protein: 40, carbs: 5, fat: 8 }, 'photo', true);
     useFoodStore.getState().updateScannedItem(id, { status: 'ready', scanSessionId: 'sess-9', estimatedWeightG: 150 });
   });
   await settle();
