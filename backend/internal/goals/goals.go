@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"lume/backend/internal/auth"
+	"lume/backend/internal/cuisine"
 	"lume/backend/internal/httpx"
 )
 
@@ -104,6 +105,26 @@ type Store interface {
 	CreateBodyWeight(ctx context.Context, bw *BodyWeight) (*BodyWeight, error)
 	GetBodyWeight(ctx context.Context, id string) (*BodyWeight, error)
 	DeleteBodyWeight(ctx context.Context, id string) error
+	// GetFoodPreferences returns the user's cuisine and dietary preferences;
+	// (nil, nil) when the user has no row yet.
+	GetFoodPreferences(ctx context.Context, userID string) (*FoodPreferences, error)
+	// UpdateFoodPreferences writes only the user_cuisine_preferences row. A nil
+	// field keeps its stored value. It never touches onboarding, goals or
+	// saved_foods.
+	UpdateFoodPreferences(ctx context.Context, userID string, cuisines, dietary []string) (*FoodPreferences, error)
+}
+
+// FoodPreferences is the user's cuisine and dietary selection, editable from
+// Profile without re-running onboarding.
+type FoodPreferences struct {
+	Cuisines            []string `json:"cuisines"`
+	DietaryRequirements []string `json:"dietary_requirements"`
+}
+
+// validDietary is every dietary value the app offers. Only some are acted on
+// server-side (dietaryColumn); the rest are stored for later use.
+var validDietary = map[string]bool{
+	"halal": true, "vegetarian": true, "vegan": true, "gluten_free": true, "dairy_free": true, "none": true,
 }
 
 func Register(mux *http.ServeMux, s Store) {
@@ -115,6 +136,61 @@ func Register(mux *http.ServeMux, s Store) {
 	mux.HandleFunc("GET /api/body-weight", h.listBodyWeight)
 	mux.HandleFunc("POST /api/body-weight", h.postBodyWeight)
 	mux.HandleFunc("DELETE /api/body-weight/{id}", h.deleteBodyWeight)
+	mux.HandleFunc("GET /api/onboarding/preferences", h.getFoodPreferences)
+	mux.HandleFunc("PATCH /api/onboarding/preferences", h.patchFoodPreferences)
+}
+
+func (h *handler) getFoodPreferences(w http.ResponseWriter, r *http.Request) {
+	uid := auth.UserID(r.Context())
+	if uid == "" {
+		httpx.Error(w, http.StatusUnauthorized, "missing bearer token")
+		return
+	}
+	p, err := h.s.GetFoodPreferences(r.Context(), uid)
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to load preferences")
+		return
+	}
+	if p == nil {
+		p = &FoodPreferences{Cuisines: []string{}, DietaryRequirements: []string{}}
+	}
+	httpx.JSON(w, http.StatusOK, p)
+}
+
+type foodPreferencesReq struct {
+	Cuisines            []string `json:"cuisines"`
+	DietaryRequirements []string `json:"dietary_requirements"`
+}
+
+func (h *handler) patchFoodPreferences(w http.ResponseWriter, r *http.Request) {
+	uid := auth.UserID(r.Context())
+	if uid == "" {
+		httpx.Error(w, http.StatusUnauthorized, "missing bearer token")
+		return
+	}
+	var req foodPreferencesReq
+	if err := httpx.Decode(r, &req); err != nil {
+		httpx.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	for _, c := range req.Cuisines {
+		if _, ok := cuisine.Library[c]; !ok {
+			httpx.Error(w, http.StatusBadRequest, "unknown cuisine: "+c)
+			return
+		}
+	}
+	for _, d := range req.DietaryRequirements {
+		if !validDietary[d] {
+			httpx.Error(w, http.StatusBadRequest, "unknown dietary requirement: "+d)
+			return
+		}
+	}
+	p, err := h.s.UpdateFoodPreferences(r.Context(), uid, req.Cuisines, req.DietaryRequirements)
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "failed to save preferences")
+		return
+	}
+	httpx.JSON(w, http.StatusOK, p)
 }
 
 type handler struct{ s Store }

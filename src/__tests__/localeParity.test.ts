@@ -60,6 +60,14 @@ const ENGLISH_ONLY = new Set([
   'goals.plan.goalEatHealthier',
   'goals.plan.trainingDays',
   'goals.plan.trainingDaysSaved',
+  'preferences.food.title',
+  'preferences.food.dietary',
+  'preferences.food.cuisines',
+  'preferences.food.notSet',
+  'preferences.food.loading',
+  'preferences.food.loadFailed',
+  'preferences.food.saved',
+  'preferences.food.saveFailed',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

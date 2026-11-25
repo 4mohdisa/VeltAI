@@ -11,13 +11,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Branch loop/phase4 only. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Last full checkpoint: tsc 0; Jest 283 suites, 1,706 tests, 4 snapshots pass. TestPG 26 pass. Race green.
-- Checkpoint round this session: read only, rerun tsc and full app Jest (see report).
-- exhaustive-deps: only appState.tsx:119 left (parked). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
+- Last full checkpoint (read only): tsc 0; Jest 286 suites, 1,727 tests, 4 snapshots pass. TestPG 26 pass. Race green.
+- exhaustive-deps: only appState.tsx:119 left (needs Isa answer). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b (PARTIAL)
 - Done: step sweep, training days in onboarding store and editable in src/app/profile/goals.tsx (device only), goal and activity editable, Eat healthier kept, goal mapping via goalTypeOf.
-- Next: diet and cuisine in src/app/profile. Needs a backend endpoint: POST /api/onboarding rewrites the whole row and re-seeds saved foods.
+- Now: diet and cuisine editable in src/app/profile via a narrow backend route (not POST /api/onboarding, which rewrites the row and re-seeds saved foods).
 - Plan-ready summary: parked until Isa approves design.
 - Maestro: shared with row 23, not run.
 
@@ -68,11 +67,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Training days: store on device only (no backend field) or add a field.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text: device look.
+- es and fr text for 14 goals.plan.* and 5 onboarding.trainingDays.* keys (parked, English only for now).
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - mutations.ts and hooks.ts import each other; move bodyFromOnboarding to mappers.ts.
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
+- paywall.tsx:81 passes onboarding payload with as unknown as Onboarding; type mismatch would go unnoticed.
 - Missing tests: useEnergyBalance day refetch; BottomSheet lifecycle; ScanReviewCard weight-only refetch; gym re-run timing.
 - Food tab Retry: verify in Row 30. formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
 - Nothing dispatches SIGNED_IN. Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
@@ -82,9 +83,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Checkpoint: full tsc and full app Jest (this round, read only).
-2. Row 2b: diet and cuisine editable in src/app/profile, with backend endpoint.
-3. Row 2b: plan-ready summary (parked until Isa approves design).
-4. Row 3 remainder after Isa signs off.
-5. Gym key rename only after Isa approves.
-6. Next Go gates and lint checkpoint; numbers in BASELINE_phase4.md.
+1. Row 2b: diet and cuisine editable in src/app/profile, backend route first (this round).
+2. Row 2b: plan-ready summary (parked until Isa approves design).
+3. Row 3 remainder after Isa signs off.
+4. Gym key rename only after Isa approves.
+5. Next Go gates and lint checkpoint; numbers in BASELINE_phase4.md.

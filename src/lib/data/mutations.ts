@@ -12,7 +12,7 @@ import { useUserStore } from './userStore';
 import { bodyFromOnboarding } from './hooks';
 import { deriveGoals, goalForDerivation, goalTypeOf, type PlanGoal } from '@/lib/goals/derive';
 import { useSettingsStore } from '@/lib/settings/store';
-import type { ActivityLevel } from '@/lib/types';
+import type { ActivityLevel, CuisineType, DietaryRequirement } from '@/lib/types';
 import type { EntryMethod, MealSlot, SavedFood } from '@/lib/mock/data';
 import { devWarn } from '@/lib/env';
 
@@ -260,4 +260,14 @@ export async function savePlan(patch: { goal?: PlanGoal; activityLevel?: Activit
   });
   useUserStore.getState().setProfile({ goal: profile.goal, activityLevel: profile.activityLevel });
   useSettingsStore.getState().setServerGoals(goalsFromApi(saved));
+}
+
+/**
+ * Save diet or cuisine from Profile with PATCH /api/onboarding/preferences,
+ * which writes only that row. Not optimistic: the store changes once the save
+ * succeeds, so a failure keeps the stored values and the caller shows it.
+ */
+export async function saveFoodPreferences(patch: { cuisines?: CuisineType[]; dietary?: DietaryRequirement[] }): Promise<void> {
+  const saved = await api.onboarding.preferences.update({ cuisines: patch.cuisines, dietary_requirements: patch.dietary });
+  useUserStore.getState().setProfile({ cuisines: saved.cuisines, restrictions: saved.dietary_requirements });
 }

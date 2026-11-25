@@ -543,6 +543,20 @@ export function planFromGoals(g: Goals | null): Partial<UserProfile> {
   return out;
 }
 
+/** Fetch the user's diet and cuisine into the user store (restrictions and
+ *  cuisines), for Profile > Preferences. */
+export async function hydrateFoodPreferences(): Promise<void> {
+  const p = await api.onboarding.preferences.get();
+  useUserStore.getState().setProfile({ cuisines: p.cuisines, restrictions: p.dietary_requirements });
+}
+
+export function useFoodPreferences(): Async<{ cuisines: string[]; dietary: string[] }> {
+  const { isLoading, error, refetch } = useHydration(hydrateFoodPreferences);
+  const cuisines = useUserStore((s) => s.profile.cuisines);
+  const dietary = useUserStore((s) => s.profile.restrictions);
+  return { data: { cuisines, dietary }, isLoading, error, refetch };
+}
+
 export function useUserProfile(): UserProfile {
   const profile = useUserStore((s) => s.profile);
   // Fire-and-forget on mount: a failure leaves whatever is already there

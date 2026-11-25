@@ -42,6 +42,12 @@ func (f *fakeGoals) GetBodyWeight(context.Context, string) (*goals.BodyWeight, e
 	return nil, nil
 }
 func (f *fakeGoals) DeleteBodyWeight(context.Context, string) error { return nil }
+func (f *fakeGoals) GetFoodPreferences(context.Context, string) (*goals.FoodPreferences, error) {
+	return nil, nil
+}
+func (f *fakeGoals) UpdateFoodPreferences(context.Context, string, []string, []string) (*goals.FoodPreferences, error) {
+	return nil, nil
+}
 
 func goalsMux(f *fakeGoals) *http.ServeMux {
 	mux := http.NewServeMux()

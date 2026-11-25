@@ -168,6 +168,12 @@ func (s goalsStore) GetBodyWeight(context.Context, string) (*goals.BodyWeight, e
 	return nil, nil
 }
 func (s goalsStore) DeleteBodyWeight(context.Context, string) error { return nil }
+func (s goalsStore) GetFoodPreferences(context.Context, string) (*goals.FoodPreferences, error) {
+	return nil, nil
+}
+func (s goalsStore) UpdateFoodPreferences(context.Context, string, []string, []string) (*goals.FoodPreferences, error) {
+	return nil, nil
+}
 
 func TestGoalsServerEnforcesCalorieBand(t *testing.T) {
 	st := goalsStore{g: map[string]*goals.Goals{}}

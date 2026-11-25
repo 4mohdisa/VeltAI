@@ -11056,3 +11056,8 @@
 - 2026-11-26 02:15 Training days have no backend field, so they stay on device only. Isa decides whether to add a field; logged in Blocked.
 - 2026-11-26 02:15 Dropped the es and fr translation blocker for goals.plan keys, since Isa set English only.
 - 2026-11-26 02:15 No file changes this round, per the loop note and the checkpoint rule.
+- 2026-11-26 02:16 Chose candidate 1 because it is the next item in the approved order and the notes already name it as next.
+- 2026-11-26 02:16 Split the step: backend route first, then client, then UI. Jev gives this round a 17% clean finish, so each prompt is kept to one module and at most 5 steps.
+- 2026-11-26 02:16 Diet and cuisine updates use a narrow route, not POST /api/onboarding, so saved foods are not re-seeded and the whole row is not rewritten.
+- 2026-11-26 02:16 No es or fr strings, per Isa's English-only override.
+- 2026-11-26 02:16 Did not re-send the appState.tsx:119 disable task. Notes now say it is the only exhaustive-deps item left, pending Isa.

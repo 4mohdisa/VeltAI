@@ -255,6 +255,27 @@ func (f *fakeStore) DeleteBodyWeight(_ context.Context, id string) error {
 	return nil
 }
 
+func (f *fakeStore) GetFoodPreferences(_ context.Context, uid string) (*goals.FoodPreferences, error) {
+	row, ok := f.cuisinePrefs[uid]
+	if !ok {
+		return nil, nil
+	}
+	return &goals.FoodPreferences{Cuisines: row.Cuisines, DietaryRequirements: row.DietaryRequirements}, nil
+}
+
+// UpdateFoodPreferences mirrors the SQL: a nil slice keeps the stored value.
+func (f *fakeStore) UpdateFoodPreferences(_ context.Context, uid string, cuisines, dietary []string) (*goals.FoodPreferences, error) {
+	row := f.cuisinePrefs[uid]
+	if cuisines != nil {
+		row.Cuisines = cuisines
+	}
+	if dietary != nil {
+		row.DietaryRequirements = dietary
+	}
+	f.cuisinePrefs[uid] = row
+	return &goals.FoodPreferences{Cuisines: row.Cuisines, DietaryRequirements: row.DietaryRequirements}, nil
+}
+
 // ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------

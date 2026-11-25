@@ -314,6 +314,9 @@ export type Onboarding = {
 // The onboarding POST also carries cuisine + dietary selections, which the
 // backend uses to seed saved foods and prime the AI brain (they aren't columns
 // on the onboarding row itself, so they're additive to the base Onboarding shape).
+/** Diet and cuisine, editable from Profile without re-running onboarding. */
+export type FoodPreferences = { cuisines: string[]; dietary_requirements: string[] };
+
 export type OnboardingInput = Partial<Omit<Onboarding, 'id' | 'user_id' | 'created_at'>> & {
   cuisines?: string[];
   dietary_requirements?: string[];
@@ -1059,6 +1062,11 @@ export const api = {
   onboarding: {
     get: () => req.get<Onboarding>('/api/onboarding'),
     post: (input: OnboardingInput) => req.post<Onboarding>('/api/onboarding', input),
+    preferences: {
+      get: () => req.get<FoodPreferences>('/api/onboarding/preferences'),
+      // A field left out keeps its stored value; nothing else is rewritten.
+      update: (patch: Partial<FoodPreferences>) => req.patch<FoodPreferences>('/api/onboarding/preferences', patch),
+    },
   },
 
   foodLogs: {

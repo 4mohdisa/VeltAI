@@ -6,29 +6,14 @@ import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, MultiSelectField } from '@/components/forms';
 import { navigate } from '@/lib/nav';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
-import type { DietaryRequirement } from '@/lib/types';
-
-// Labels live in onboarding.dietary.options, keyed by these values.
-const DIETARY = [
-  'halal',
-  'vegetarian',
-  'vegan',
-  'gluten_free',
-  'dairy_free',
-  'none',
-] as const satisfies readonly DietaryRequirement[];
+import { DIETARY, nextDietary } from '@/components/onboarding/dietary';
 
 export default function DietaryScreen() {
   const { t } = useTranslation();
   const dietary = useOnboardingStore((s) => s.dietary_requirements);
   const setDietaryReqs = useOnboardingStore((s) => s.setDietaryReqs);
 
-  const handleChange = (next: string[]) => {
-    const added = next.find((v) => !dietary.includes(v as DietaryRequirement));
-    const result =
-      added === 'none' ? ['none'] : added ? next.filter((v) => v !== 'none') : next;
-    setDietaryReqs(result as DietaryRequirement[]);
-  };
+  const handleChange = (next: string[]) => setDietaryReqs(nextDietary(dietary, next));
 
   return (
     <OnbScaffold

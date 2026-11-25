@@ -201,7 +201,17 @@
     "volume": "Volume",
     "energy": "Energy",
     "language": "Language",
-    "systemDefault": "System default"
+    "systemDefault": "System default",
+    "food": {
+      "title": "Food",
+      "dietary": "Diet",
+      "cuisines": "Cuisines",
+      "notSet": "Not set",
+      "loading": "Loading…",
+      "loadFailed": "Couldn't load your diet and cuisines.",
+      "saved": "Saved.",
+      "saveFailed": "Couldn't save your change. Try again."
+    }
   },
   "goals": {
     "title": "Goals",

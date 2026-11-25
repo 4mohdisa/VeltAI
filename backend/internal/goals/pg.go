@@ -366,3 +366,39 @@ func (s *PGStore) DeleteBodyWeight(ctx context.Context, id string) error {
 	_, err := s.q.Exec(ctx, `DELETE FROM body_weight WHERE id::text = $1`, id)
 	return err
 }
+
+func (s *PGStore) GetFoodPreferences(ctx context.Context, userID string) (*FoodPreferences, error) {
+	var p FoodPreferences
+	err := s.q.QueryRow(ctx,
+		`SELECT cuisines, dietary_requirements FROM user_cuisine_preferences WHERE user_id = $1`, userID).
+		Scan(&p.Cuisines, &p.DietaryRequirements)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
+
+// UpdateFoodPreferences upserts only the preferences row; a nil slice binds as
+// NULL and COALESCE keeps the stored value (or '{}' on first insert).
+func (s *PGStore) UpdateFoodPreferences(ctx context.Context, userID string, cuisines, dietary []string) (*FoodPreferences, error) {
+	if err := s.ensureProfile(ctx, s.q, userID); err != nil {
+		return nil, err
+	}
+	var p FoodPreferences
+	err := s.q.QueryRow(ctx, `
+		INSERT INTO user_cuisine_preferences (user_id, cuisines, dietary_requirements)
+		VALUES ($1, COALESCE($2::text[], '{}'), COALESCE($3::text[], '{}'))
+		ON CONFLICT (user_id) DO UPDATE SET
+			cuisines = COALESCE($2::text[], user_cuisine_preferences.cuisines),
+			dietary_requirements = COALESCE($3::text[], user_cuisine_preferences.dietary_requirements),
+			updated_at = now()
+		RETURNING cuisines, dietary_requirements`,
+		userID, cuisines, dietary).Scan(&p.Cuisines, &p.DietaryRequirements)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
