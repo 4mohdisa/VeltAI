@@ -11,12 +11,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
 - Row 5 server: done. Consent gate on AI and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
-- Row 5 app: scan limits done. Ask Lume limit in hook. Settings withdraw switch done, with backend Postgres test (consent_pg_test.go).
-- Last checkpoint: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race ok; 29 TestPG pass.
+- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume limit done: toast, ask() returns null, input keeps the question. Settings withdraw switch done.
+- Last checkpoint (earlier): tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race ok; 29 TestPG pass.
+- Ask() return change not yet covered by a full run: checkpoint in progress.
 
 ## Next
-1. Row 5 step 2b: Ask Lume screen shows the limit message (this round).
-2. Merge requireAIConsent (ai.go) and requireScanConsent (scan.go).
+1. Full-suite checkpoint after ask() return change (this round).
+2. Merge requireAIConsent (ai.go) and requireScanConsent (scan.go) into one helper.
 3. Row 3 after Isa signs off the Apple steps.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 5. productionReadiness.test.ts 429 expect line.
@@ -37,7 +38,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: scan limits handled where errors are caught (scan.ts, label-scan.tsx). Ask Lume limit in the hook (aiBrain.ts). Consent gate on server first. Consent on profiles.ai_consent_at; consent read error 500. Allow and Not now equal weight. Plain 429 stays queueable; only ai_daily_limit_reached non-retryable. Brief and insights keep fallback text at limit. rate_limit_counters not reused. Kept src/app/ai-consent.tsx. Background insight rebuilds count against allowance.
+- Row 5: scan limits handled where errors are caught (scan.ts, label-scan.tsx). Ask Lume limit in the hook (aiBrain.ts), returns null on daily limit. Consent gate on server first. Consent on profiles.ai_consent_at; consent read error 500. Allow and Not now equal weight. Plain 429 stays queueable; only ai_daily_limit_reached non-retryable. Brief and insights keep fallback text at limit. rate_limit_counters not reused. Kept src/app/ai-consent.tsx. Background insight rebuilds count against allowance.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -51,7 +52,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
-- Jev risk high on recent rounds: one surface per round.
+- One surface per round while risk is high.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -69,7 +70,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Console noise: about 66 deliberate [data], [onboarding], [meals] warns; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
-- requireAIConsent and requireScanConsent: one shared helper later.
+- requireAIConsent and requireScanConsent: one shared helper (queued as Next 2).
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
 - Root config and backend JS not linted. verify:go lacks -count=1 and tests/migrations.
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.

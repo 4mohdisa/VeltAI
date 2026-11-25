@@ -11444,3 +11444,6 @@
 - 2026-11-26 05:11 Chose the Ask Lume screen (step 2b) over the consent helper merge: it is the next listed step and one surface only.
 - 2026-11-26 05:11 Row 5 stays PARTIAL until Isa answers the open consent questions in Blocked.
 - 2026-11-26 05:11 Condensed NOTES to fit the 600 word limit. No decision was removed; repeated lines were merged.
+- 2026-11-26 05:12 Chose the checkpoint first because the last report asked for it and the shared hook return type changed.
+- 2026-11-26 05:12 Kept the Ask Lume step closed: the limit toast and input restore are built and checked by a render test.
+- 2026-11-26 05:12 Refactor of the consent helpers waits one round so the checkpoint result is clean.
