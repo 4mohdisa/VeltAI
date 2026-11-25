@@ -8,15 +8,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (closing this round), 6b.
-- Row 5 server: consent gate in consent.Require (backend/internal/consent/gate.go), used by ai and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
-- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume limit in aiBrain.ts (returns null, toast). Settings withdraw switch done. 429 test in productionReadiness.test.ts rechecked, no change needed.
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
+- PARTIAL: 2b, 3, 6b.
+- Row 5 closed: Ask Lume daily-limit test added (aiBrain.briefProfile.test.ts, 9 of 9 pass). Owner lines in OWNER_CHECKS_phase4.md.
 - Last checkpoint green: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race 36 packages ok.
 
 ## Next
-1. Row 5 close-out: Ask Lume test, lint, owner lines appended, row set to BUILT with 'owner check pending'.
-2. Row 6b: merge duplicate test-result lines.
+1. Row 6b: merge duplicate test-result lines (in progress this round).
+2. Row 2b: check Mobbin MCP (claude mcp list); write DESIGN_REFERENCES.md if available.
 3. Row 3 after Isa signs off the Apple steps (owner).
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 
@@ -51,12 +50,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
-- Jev low confidence (0.20) on round where stop was considered: stop rejected, rows remain open.
+- Jev low confidence on a round where stop was considered: stop rejected, rows remain open.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5 (parked to OWNER_CHECKS_phase4.md): consent version; 500 vs 403 read error; consent analytics wording; 'Who receives it' copy; brief and insights at AI limit (429 or fallback); plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
+- Row 5 owner lines: consent version; 500 vs 403 read error; consent analytics wording; 'Who receives it' copy; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (66 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -76,5 +75,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
-- Row 6b: merge three near-duplicate test-result lines.
 - Consent gate: ai.Store declares its own AIConsentAt rather than embedding consent.Reader (harmless).

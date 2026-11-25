@@ -11461,3 +11461,7 @@
 - 2026-11-26 05:17 Notes step 1 (429 test) is done: the latest report found the test already matches the server response and changed nothing.
 - 2026-11-26 05:17 Handover said 'step 2b AI query screen' but notes say the Ask Lume limit is already done in aiBrain.ts. Kept the notes version, and the prompt checks the current code first.
 - 2026-11-26 05:17 Row 5 consent wording, consent version and the 500 vs 403 read error are parked in OWNER_CHECKS_phase4.md, not asked, per the no-questions rule. The row is marked BUILT with 'owner check pending'.
+- 2026-11-26 05:18 Chose Row 6b cleanup: the smallest open task, docs only, no risk, and Row 5 is closed so this is the next partial row the last report named.
+- 2026-11-26 05:18 Row 3 stays parked: it needs Isa's Apple Developer and Clerk steps first.
+- 2026-11-26 05:18 Row 2b Mobbin check is next after 6b: it is a read only check that can unblock the design work.
+- 2026-11-26 05:18 Status of Row 5 kept as BUILT with owner check pending; the three owner lines are already in OWNER_CHECKS_phase4.md.
