@@ -11251,3 +11251,8 @@
 - 2026-11-26 03:36 Kept one screen per round for consent wiring, as the loop requires after the four-screen prompt was rejected.
 - 2026-11-26 03:36 Kept English only: any new string goes in en.json, no es or fr work.
 - 2026-11-26 03:36 Chose ai-query.tsx first because it is the first item in the Next list.
+- 2026-11-26 03:38 Picked insights.tsx (candidate 1) because the notes set the order insights, then photo-capture, then label-scan. The report's recommendation of label-scan is not taken, to keep one consistent order.
+- 2026-11-26 03:38 Jev ranks run at 89% with clean completion 75%. Agreed: this is a small, single-screen wiring task with a known pattern.
+- 2026-11-26 03:38 Ask Lume's second tap on Send after accepting is logged in Parked, not fixed now, since the consent flow itself is still under review (Isa decision on analytics wording).
+- 2026-11-26 03:38 Analytics turned on by the old alert and not by the consent screen is already in Blocked on Isa; no new owner step added.
+- 2026-11-26 03:38 Each render or regression test change is limited to the one screen, so the wiring stays reviewable one screen per round.

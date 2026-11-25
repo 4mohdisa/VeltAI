@@ -15,7 +15,7 @@ import { act, allText, findAll, renderScreen } from './helpers';
 const mockBrain = { notEnoughData: true };
 
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 jest.mock('@/lib/data/aiBrain', () => ({

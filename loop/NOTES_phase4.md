@@ -13,8 +13,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Last checkpoint: tsc 0, Jest 292 suites, 1,774 tests, all pass. Route audit 93 of 93.
 
 ## Next (one screen per round)
-1. ai-query.tsx: open ai-consent.tsx in place of the ensureAiConsent alert. Update its source-order check in phase14Regression.test.ts only. (in progress, round sent with branch rule)
-2. insights.tsx: same wiring.
+1. DONE: ai-query.tsx opens ai-consent.tsx instead of the ensureAiConsent alert (checked by test).
+2. insights.tsx: same wiring. (in progress)
 3. food/photo-capture.tsx: same wiring.
 4. food/label-scan.tsx: same wiring.
 5. Row 5b: withdraw switch in Settings, then daily limit copy.
@@ -23,6 +23,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
+- Every prompt states the branch rule first.
 - One task per prompt, one screen or component per prompt, max 5 steps. Find files with find (grep -rl matches contents).
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
@@ -57,13 +58,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
 - Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable and storeError (these still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics?
+- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics? (The old alert turned analytics on; the consent screen does not.)
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
+- Ask Lume needs a second tap on Send after accepting consent (wait for consent screen review).
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast. profile/privacy.tsx hardcoded 'Your data' title.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
