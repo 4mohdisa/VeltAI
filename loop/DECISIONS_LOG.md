@@ -11147,3 +11147,10 @@
 - 2026-11-26 03:04 Chose row 6b (d) over the other candidates: it is the next open step of the row already in progress, and it needs no owner input.
 - 2026-11-26 03:04 Terms text (legal copy) and es/fr wording stay parked for Isa; not in this prompt.
 - 2026-11-26 03:04 Jev's 61% run signal agrees with the pick; the smaller one-screen scope follows its low-confidence advice.
+- 2026-11-26 03:06 Took the Jev pick: the last round's targeted tests passed but the full suite was not run and the loop flagged the report as partial. Recording (c) and (d) and fixing the stale wording is small, low risk and closes that gap before step (e).
+- 2026-11-26 03:06 Scope kept to docs and wording. Behaviour is unchanged, so no new owner approval is needed.
+- 2026-11-26 03:06 Did not take the returning-user 402 task now: it changes the onboarding gate path and needs a design choice, so it is queued after row 6b (e).
+- 2026-11-26 03:06 Previous prompt was rejected for asking for more than one screen or component. Rewrote it to one file (PHASE4_ROWS.md) with no code change, per the loop note.
+- 2026-11-26 03:06 Jev pick taken (run, 96% confidence). The step (c) bookkeeping was flagged in the last report and closes the gap before step (e).
+- 2026-11-26 03:06 Step (c) is not yet recorded in the row, though the handover and report disagree. The grep in the prompt confirms the file names before the row is edited.
+- 2026-11-26 03:06 No tests are run for a doc only round. The report must say so instead of implying a check ran.
