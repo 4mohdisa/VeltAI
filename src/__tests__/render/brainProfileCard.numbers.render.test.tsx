@@ -44,7 +44,9 @@ test.each([
   const kcalText = allText(renderScreen(<BrainProfileCard />));
   expect(kcalText).toContain(b.typicalIntakeValue.replace('{{value}}', '2140'));
 
-  useSettingsStore.getState().setUnit('energy', 'kJ');
+  act(() => {
+    useSettingsStore.getState().setUnit('energy', 'kJ');
+  });
   const kjText = allText(renderScreen(<BrainProfileCard />));
   expect(kjText).toContain(b.typicalIntakeValueKj.replace('{{value}}', String(kcalToDisplay(KCAL, 'kJ'))));
   expect(kjText).not.toContain('kcal');

@@ -11368,3 +11368,7 @@
 - 2026-11-26 04:34 Jev ranked run at 100%, which agrees. Jev's risk score of 0.9 (high) is noted, so this round is kept to one file and one surface, not a bigger row.
 - 2026-11-26 04:34 Did not add preferencesLocale to the queue: the notes list it as not done, but the handover marks it as done. Next round checks its warning count first and skips it if the count is 0.
 - 2026-11-26 04:34 Kept the instruction to check the warning source first, because the photoScan warnings came from a store update, not a render.
+- 2026-11-26 04:35 Chose the smallest remaining act() cleanup because Jev risk is high (0.9); one file per round stays the rule.
+- 2026-11-26 04:35 Kept the existing order: brainProfileCard.numbers next, then scanCards.strings, then back to row order.
+- 2026-11-26 04:35 Did not run preferencesLocale again; the handover lists it as next but the latest report already moved past it, so it is checked later by a test run before the next checkpoint.
+- 2026-11-26 04:35 Full suite is not run this round; it waits for the next checkpoint.
