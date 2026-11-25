@@ -25,7 +25,9 @@ jest.mock('@/lib/billing/purchases', () => ({
 
 const mockPost = jest.fn().mockResolvedValue({ completed: true });
 const mockSubscription = jest.fn();
+const mockSleep = jest.fn().mockResolvedValue(undefined);
 jest.mock('@/lib/api', () => ({
+  sleep: (ms: number) => mockSleep(ms),
   api: {
     onboarding: { post: (...args: unknown[]) => mockPost(...args) },
     subscription: { get: () => mockSubscription() },
@@ -72,6 +74,7 @@ beforeEach(() => {
   useOnboardingStore.getState().reset();
   mockPost.mockClear();
   mockSubscription.mockReset().mockResolvedValue(activeSubscription);
+  mockSleep.mockClear();
   (presentPaywall as jest.Mock).mockReset().mockResolvedValue('purchased');
   (showToast as jest.Mock).mockClear();
   useOnboardingStore.getState().setMeasurements({ age: 30, sex: 'male', height_cm: 180, weight_kg: 80 });
@@ -184,4 +187,38 @@ test('a purchase the backend has not confirmed yet does not save and says so', a
   expect(mockPost).not.toHaveBeenCalled();
   expect(useOnboardingStore.getState().completed).toBe(false);
   expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.paywall.notConfirmed, tone: 'info' });
+});
+
+// --- Confirmation retry -----------------------------------------------------
+// Right after a purchase the backend may not have the webhook yet, so the
+// check runs up to 4 times, 1.5 s apart. sleep is mocked: no test waits.
+
+test('a purchase confirmed on a later check saves once', async () => {
+  mockSubscription
+    .mockResolvedValueOnce(noSubscription)
+    .mockRejectedValueOnce(new Error('network'))
+    .mockResolvedValue(activeSubscription);
+  await pressContinue();
+  expect(mockSubscription).toHaveBeenCalledTimes(3);
+  expect(mockSleep).toHaveBeenCalledTimes(2);
+  expect(mockSleep).toHaveBeenCalledWith(1500);
+  expect(mockPost).toHaveBeenCalledTimes(1);
+  expect(useOnboardingStore.getState().completed).toBe(true);
+});
+
+test('a purchase no check confirms saves nothing and shows the message', async () => {
+  mockSubscription.mockResolvedValue(noSubscription);
+  await pressContinue();
+  expect(mockSubscription).toHaveBeenCalledTimes(4);
+  expect(mockSleep).toHaveBeenCalledTimes(3);
+  expect(mockPost).not.toHaveBeenCalled();
+  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.paywall.notConfirmed, tone: 'info' });
+});
+
+test('a dismissal makes no subscription check and never waits', async () => {
+  (presentPaywall as jest.Mock).mockResolvedValue('cancelled');
+  await pressContinue();
+  expect(mockSubscription).not.toHaveBeenCalled();
+  expect(mockSleep).not.toHaveBeenCalled();
+  expect(mockPost).not.toHaveBeenCalled();
 });

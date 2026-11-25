@@ -9,17 +9,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b (plan-ready summary, Maestro flow), 3, 5 (5a closed, 5b open), 6b (step a done).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (a and b done).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests pass. Go: 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so they cannot see the 402 gate. First real check: sandbox run after 6b.
 
 ## Next
-1. Row 6b (b): onboarding saves only after trial or purchase; dismissed paywall never saves.
-2. Row 6b (c): 402 right after purchase retries until the webhook lands.
-3. Row 6b (d): reason copy per reason (English, ENGLISH_ONLY).
-4. Row 6b (e): refresh after purchase.
-5. Row 6b (f): stale message at scanSeam.test.ts:450, STATUS.md:32, test name TestLabel_WritesSessionRowForQuota.
+1. Row 6b (c): after purchase, retry GET /api/subscription with a short wait (in progress).
+2. Row 6b (d): reason copy per reason (English, ENGLISH_ONLY).
+3. Row 6b (e): refresh after purchase.
+4. Row 6b (f): stale message at scanSeam.test.ts:450, STATUS.md:32, test name TestLabel_WritesSessionRowForQuota.
+5. Fix plansUnavailable and storeError copy (still say free tier, later in Settings).
 6. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
 7. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 8. Plan-ready summary: parked until Isa approves.
@@ -39,6 +39,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
 - Training days stay on device. savePlan sends only body metrics. Goal and activity editing on goals row; diet, cuisine, training days on preferences.
 - Row 6b: onboarding answers stay on device until trial or purchase confirmed; dismissed paywall never calls save.
+- Row 6b (c): retry GET /api/subscription 4 times, 1.5 s apart, injectable timing.
 - Row 6 chosen over 5b: no owner dependency. Smallest 6b module first.
 - Webhook secret from env only; if unset, webhook refuses events.
 - No free tier: 7 day Apple trial gives every feature.
@@ -58,7 +59,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Row 5a 500 vs 403 consent read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; app-wide 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend field; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- es and fr text for goals.plan, preferences.food, onboarding.trainingDays (deferred).
+- es and fr text for goals.plan, preferences.food, onboarding.trainingDays, onboarding.paywall.notConfirmed (deferred).
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
 
 ## Parked
@@ -71,4 +72,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Background AI sweep skipping no-consent users: no test. PHASE3_ROWS.md row 14 note over 17,000 chars: trim later.
-- App tests cannot see the 402 gate; sandbox run after 6b is the first real check.
+- Returning user without subscription is sent to paywall at sign-in (GET /api/onboarding gets 402). Dev builds with billing off need LUME_GATING_ENABLED=false.

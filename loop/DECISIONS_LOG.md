@@ -11130,3 +11130,7 @@
 - 2026-11-26 02:56 Kept to one module per round (Isa's rule). 6b (f) and 5b wait.
 - 2026-11-26 02:56 Parked nothing new this round. The stale 402 message and STATUS.md wording stay listed under 6b (f).
 - 2026-11-26 02:56 Trimmed notes below 600 words. Detail moved out of Decisions and Parked; no decision was dropped.
+- 2026-11-26 02:59 Chose 6b (c) over 6b (d) and 5b: it is the next step in the agreed order, needs no owner input, and it closes the first real sandbox risk.
+- 2026-11-26 02:59 Retry count set to 4 checks, 1.5 s apart, with injectable timing so tests stay fast. Chosen as a reasonable webhook lag window; can be tuned after the sandbox run.
+- 2026-11-26 02:59 Plansunavailable and storeError copy still say free tier or later in Settings. Now English only, so the fix is in scope for a later step (added to Next).
+- 2026-11-26 02:59 Row 6b keeps status PARTIAL until the sandbox run proves the 402 gate.

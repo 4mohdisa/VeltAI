@@ -21,7 +21,7 @@ import { showToast } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
-import { api, type Onboarding } from '@/lib/api';
+import { api, sleep, type Onboarding } from '@/lib/api';
 import { bodyFromOnboarding } from '@/lib/data/hooks';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
@@ -33,6 +33,20 @@ import { color, space } from '@/lib/design/tokens';
 import { devWarn, isDevBuild } from '@/lib/env';
 import { useAppState } from '@/lib/auth/appState';
 import { classifyConnectivity } from '@/lib/auth/machine';
+
+// Right after a purchase the backend may not have RevenueCat's webhook yet, so
+// the subscription check is retried before the screen gives up.
+const CONFIRM_ATTEMPTS = 4;
+const CONFIRM_DELAY_MS = 1500;
+
+async function subscriptionConfirmed(): Promise<boolean> {
+  for (let attempt = 0; attempt < CONFIRM_ATTEMPTS; attempt++) {
+    if (attempt > 0) await sleep(CONFIRM_DELAY_MS);
+    const sub = await api.subscription.get().catch(() => null);
+    if (sub?.is_active) return true;
+  }
+  return false;
+}
 
 export default function PaywallScreen() {
   const { dispatch } = useAppState();
@@ -104,8 +118,7 @@ export default function PaywallScreen() {
   // Save only once the backend confirms a trial or an active plan; until then
   // the answers stay on the device.
   const completeIfSubscribed = async () => {
-    const sub = await api.subscription.get().catch(() => null);
-    if (!sub?.is_active) {
+    if (!(await subscriptionConfirmed())) {
       showToast({ message: t('onboarding.paywall.notConfirmed'), tone: 'info' });
       setSubmitting(false);
       return;

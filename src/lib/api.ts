@@ -29,7 +29,7 @@ const RETRY_BASE_MS = 300;
 const isUploadBody = (b: unknown): boolean =>
   typeof b === 'object' && b !== null && ('image_base64' in b || 'images' in b);
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // Clerk's getToken() performs a real network call to its Frontend API whenever
 // the cached session JWT is stale — routinely, not exceptionally. It sat OUTSIDE
