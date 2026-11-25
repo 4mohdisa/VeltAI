@@ -11202,3 +11202,7 @@
 - 2026-11-26 03:21 Kept the helper's optional reason parameter (already reported as a deliberate choice), because a required string would change the plain /onboarding/paywall link.
 - 2026-11-26 03:21 Asked for the PHASE4_ROWS.md note line here because the last report said Row 6b had no line for the helper, and the rule is to record a row's progress.
 - 2026-11-26 03:21 Kept the English only override from Isa: no es or fr work in this round.
+- 2026-11-26 03:22 Chose the verification run first because the notes rule says an incomplete report with the loop flag is verified before moving on, and the last report skipped the two launch gate test files.
+- 2026-11-26 03:22 Kept Jev's 'run' signal (61%) as the action. The task stays small (one verify round, no new feature), which matches the low confidence (0.42).
+- 2026-11-26 03:22 Did not pick the mid session 402 routing, because it needs a routing decision and the row 6b wording is not yet verified.
+- 2026-11-26 03:22 Kept English only, per Isa's override, so no es or fr text is requested.
