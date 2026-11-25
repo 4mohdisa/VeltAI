@@ -10874,3 +10874,6 @@
 - 2026-11-26 01:04 Last prompt rejected for touching two screens. Rewritten to one screen (delete-account.tsx) plus its helper. subscription.tsx moves to the next round.
 - 2026-11-26 01:04 Kept the Platform.OS helper task first: Jev run 99%, smallest open item, already next in the list.
 - 2026-11-26 01:04 Owner steps and Blocked items are not retried; they stay in OWNER_CHECKS_phase4.md and this file.
+- 2026-11-26 01:06 Chose candidate 1: it is the next item in the notes, one screen, and small. Jev also ranks run at 100% confidence.
+- 2026-11-26 01:06 Kept the rule of one screen per prompt and the English only override.
+- 2026-11-26 01:06 Prompt forbids any git command except git branch --show-current, as the brief requires.

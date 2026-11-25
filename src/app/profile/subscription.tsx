@@ -4,7 +4,7 @@
 // dev build → an honest "not configured" note. No fabricated dates or prices —
 // pricing lives on the RevenueCat paywall and in App Store subscription
 // management, both reachable from here.
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -14,7 +14,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, space } from '@/lib/design/tokens';
 import { useEntitlement } from '@/lib/billing/entitlement';
-import { openManageSubscription } from '@/lib/billing/subscriptionLinks';
+import { isManageSubscriptionAvailable, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
 import { useServerEntitlement } from '@/lib/data';
 import { isDevBuild } from '@/lib/env';
@@ -108,7 +108,7 @@ export default function SubscriptionScreen() {
       footer={
         <View style={{ gap: space.sm }}>
           {effectiveEntitled ? (
-            Platform.OS === 'ios' ? (
+            isManageSubscriptionAvailable() ? (
               <Button
                 title={t('subscription.manage')}
                 variant="secondary"

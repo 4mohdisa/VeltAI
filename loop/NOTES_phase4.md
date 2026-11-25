@@ -11,11 +11,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
-- Last checkpoint green: tsc 0, Jest 281 suites and 1,702 tests, Go regression, migrations, account, auth ok.
+- Last checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
+- Row 4 delete account: helper isManageSubscriptionAvailable() in subscriptionLinks.ts; delete-account.tsx uses it (done).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -49,7 +50,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jev 'ask' overruled when the brief forbids ask.
 - Checkpoint rounds change no files; red gates are fixed in the next round.
 - Subscription screen follows the delete screen: same helper, one copy of the URL.
-- Round choice: prompt rejected for two screens, rewritten to one (delete-account.tsx plus helper). subscription.tsx is next.
+- Round choice: prompt rejected for two screens, rewritten to one. Platform helper done in the last round.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -82,11 +83,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 
 ## Next
-1. Platform helper: delete-account.tsx uses isManageSubscriptionAvailable (this round).
-2. subscription.tsx uses the same helper; remove its inline check.
-3. Duplicate gym keys cleanup.
-4. Food tab retry label unify (cleanup).
-5. Phase 3 Row 14 remainder, so Row 2 can close.
+1. subscription.tsx uses isManageSubscriptionAvailable() (this round).
+2. Duplicate gym keys cleanup.
+3. Food tab retry label unify (cleanup).
+4. Phase 3 Row 14 remainder, so Row 2 can close.
+5. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks when the last task was partial or Jev's clean-finish chance is low.
