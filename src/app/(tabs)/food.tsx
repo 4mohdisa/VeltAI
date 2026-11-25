@@ -332,14 +332,19 @@ export default function FoodLogScreen() {
     return sections.map((s) => ({ kind: 'meal', ...s }));
   }, [searching, results, loading, itemCount, sections]);
 
+  // Every Retry and pull-to-refresh reloads both reads, whichever one failed.
+  const reloadBoth = useCallback(() => {
+    refetch();
+    refetchDays();
+  }, [refetch, refetchDays]);
+
   const onRefresh = useCallback(() => {
     haptics.impactLight(); // pull-to-refresh trigger
     setRefreshing(true);
-    refetch();
-    refetchDays();
+    reloadBoth();
     // refetch() is fire-and-forget (returns void) — keep a short visible spin.
     setTimeout(() => setRefreshing(false), 700);
-  }, [refetch, refetchDays]);
+  }, [reloadBoth]);
 
   const removeRow = (id: string) => deleteFoodItem(id);
 
@@ -485,13 +490,13 @@ export default function FoodLogScreen() {
                 writes). They stay on screen, labelled — the empty-list ErrorState
                 below covers the case where there is nothing to show at all. */}
             {loadError && itemCount > 0 ? (
-              <LoadFailedNotice message={t(isPastDay ? 'food.loadFailedPast' : 'food.loadFailed')} onRetry={refetch} />
+              <LoadFailedNotice message={t(isPastDay ? 'food.loadFailedPast' : 'food.loadFailed')} onRetry={reloadBoth} />
             ) : null}
             {/* The dots could not be read: say so rather than let a dotless week
                 pass as "nothing logged". The strip stays usable for picking a day.
                 A food-log failure already shows its own message, so this one waits. */}
             {!searching && !loadError && loggedDaysError ? (
-              <LoadFailedNotice message={t('food.loggedDaysFailed')} onRetry={refetchDays} />
+              <LoadFailedNotice message={t('food.loggedDaysFailed')} onRetry={reloadBoth} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library
                 view rather than a view of one day. */}
@@ -632,7 +637,7 @@ export default function FoodLogScreen() {
           ) : loadError ? (
             <ErrorState
               message={t(isPastDay ? 'food.empty.loadFailedPast' : 'food.empty.loadFailed')}
-              onRetry={refetch}
+              onRetry={reloadBoth}
             />
           ) : loading ? (
             <View style={{ paddingTop: space.lg }}>

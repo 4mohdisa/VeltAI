@@ -10858,3 +10858,7 @@
 - 2026-11-26 00:59 Chose candidate 1 over the Food tab Retry because it is one screen, is a known open item from the last report, and Jev rates the last task as likely clean (71%).
 - 2026-11-26 00:59 Kept the Row 4 follow ups from the last report in Parked rather than fixing them now, one screen per prompt.
 - 2026-11-26 00:59 Left the parity line in OWNER_CHECKS_phase4.md for Isa to close himself, as the 25 Nov override says.
+- 2026-11-26 01:00 Chose Food tab Retry because it is Next 2 in the notes, a single screen, and closes a known dead end.
+- 2026-11-26 01:00 Platform helper deferred: it touches two screens and the one screen per prompt rule applies; it moves to a later round.
+- 2026-11-26 01:00 Duplicate gym keys deferred to the cleanup round, as the notes already say.
+- 2026-11-26 01:00 Screen file not named in the prompt: Claude Code is told to grep for it, since the path is not in the notes.

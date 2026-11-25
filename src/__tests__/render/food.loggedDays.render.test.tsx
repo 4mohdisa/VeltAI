@@ -47,6 +47,20 @@ const METRICS: Metrics = {
 };
 
 const refetchDays = jest.fn();
+const refetchLog = jest.fn();
+const networkError = () => new TypeError('Network request failed');
+
+const MEAL: StoredMeal = {
+  id: 'meal-1',
+  slot: 'Lunch',
+  time: '12:30',
+  method: 'manual',
+  calories: 420,
+  protein: 30,
+  carbs: 40,
+  fat: 12,
+  items: [{ id: 'item-1', name: 'Tuna sandwich', quantityG: 200, calories: 420, protein: 30, carbs: 40, fat: 12 }],
+};
 
 function loggedDays(error: Error | null): LoggedDays {
   const days: ReadonlySet<string> = new Set<string>();
@@ -55,8 +69,9 @@ function loggedDays(error: Error | null): LoggedDays {
 
 beforeEach(() => {
   refetchDays.mockClear();
+  refetchLog.mockClear();
   useFoodStore.getState().reset();
-  (useFoodLog as jest.Mock).mockReturnValue({ data: [], isLoading: false, error: null, refetch: jest.fn() });
+  (useFoodLog as jest.Mock).mockReturnValue({ data: [], isLoading: false, error: null, refetch: refetchLog });
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() =>
     Promise.resolve({ ok: true, status: 200, json: async () => ({ data: [], error: null }) }),
   );
@@ -79,8 +94,10 @@ type Tree = Awaited<ReturnType<typeof renderFoodTab>>;
 // allText's JSON.stringify trips on a circular prop in the full Food screen tree,
 // so match the rendered string children directly.
 const hasText = (tree: Tree, text: string) => findAll(tree, (p) => p.children === text).length > 0;
+// LoadFailedNotice says "Try again"; the empty-list ErrorState says "Retry".
+const RETRY_LABELS: unknown[] = [en.common.tryAgain, en.errorState.retry];
 const retryButtons = (tree: Tree) =>
-  findAll(tree, (p) => p.accessibilityLabel === en.common.tryAgain && typeof p.onPress === 'function');
+  findAll(tree, (p) => RETRY_LABELS.includes(p.accessibilityLabel) && typeof p.onPress === 'function');
 const weekStripShown = (tree: Tree) =>
   findAll(tree, (p) => p.accessibilityLabel === en.weekStrip.previousWeek).length > 0;
 
@@ -93,12 +110,26 @@ test('a failed logged-days read shows the message and a Retry button above a vis
   expect(weekStripShown(tree)).toBe(true);
 });
 
-test('pressing Retry calls refetch once', async () => {
-  const tree = await renderFoodTab(new TypeError('Network request failed'));
+function failFoodLog(data: StoredMeal[]) {
+  (useFoodLog as jest.Mock).mockReturnValue({ data, isLoading: false, error: networkError(), refetch: refetchLog });
+}
 
+function pressRetry(tree: Tree) {
   act(() => {
     (retryButtons(tree)[0].props.onPress as () => void)();
   });
+}
+
+test.each([
+  ['only the logged days fail', () => undefined, networkError()],
+  ['only the food log fails', () => failFoodLog([]), null],
+  ['both fail', () => failFoodLog([MEAL]), networkError()],
+])('when %s, one Retry press reloads the food log and the logged days', async (_case, arrange, daysError) => {
+  arrange();
+  const tree = await renderFoodTab(daysError);
+
+  pressRetry(tree);
+  expect(refetchLog).toHaveBeenCalledTimes(1);
   expect(refetchDays).toHaveBeenCalledTimes(1);
 });
 
@@ -111,24 +142,8 @@ test('a successful read shows no message', async () => {
 });
 
 test('when the food log and the logged days both fail, only the food log notice shows', async () => {
-  const meal: StoredMeal = {
-    id: 'meal-1',
-    slot: 'Lunch',
-    time: '12:30',
-    method: 'manual',
-    calories: 420,
-    protein: 30,
-    carbs: 40,
-    fat: 12,
-    items: [{ id: 'item-1', name: 'Tuna sandwich', quantityG: 200, calories: 420, protein: 30, carbs: 40, fat: 12 }],
-  };
-  (useFoodLog as jest.Mock).mockReturnValue({
-    data: [meal],
-    isLoading: false,
-    error: new TypeError('Network request failed'),
-    refetch: jest.fn(),
-  });
-  const tree = await renderFoodTab(new TypeError('Network request failed'));
+  failFoodLog([MEAL]);
+  const tree = await renderFoodTab(networkError());
 
   expect(hasText(tree, en.food.loadFailed)).toBe(true);
   expect(hasText(tree, en.food.loggedDaysFailed)).toBe(false);

@@ -14,8 +14,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 BUILT. Checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok, 3 TestPG checked.
+- Row 4 BUILT. Checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
+- Subscription Manage button now iOS only (done, 8 tests pass).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -44,7 +45,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
 - Nutrition spoken label stays English, literal, no key.
 - Row 4: oauth_states cleared in profile store delete, no migration. oauth_states in auth.ExportTableNames. Child tables counted by parent ids before delete.
-- Row 4 identity first (Clerk, then rows) accepted: a Clerk failure returns 502 and keeps rows, so retry is safe.
+- Row 4 identity first (Clerk, then rows) accepted: a Clerk failure returns 502 and keeps rows, so retry is safe. A Clerk 404 counts as deleted.
 - Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through one named list (ENGLISH_ONLY) with a reason.
 - Delete screen text in en.json. Failed delete shows plain fallback text for every failure, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
@@ -64,18 +65,15 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Parity line in OWNER_CHECKS_phase4.md is answered by the 25 Nov override; Isa to close it himself (append only).
 
 ## Parked
-- Manage subscription button on Android: fix in progress (Next 1).
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
-- Food tab Try again reloads food log only when both reads fail.
+- Inline Platform.OS === 'ios' checks in delete-account.tsx, AppleSignInButton and subscription.tsx: move into one export in subscriptionLinks.ts (later round).
 - Duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave until cleanup round.
 - Redundant openURL.mockRestore() in delete screen test; left alone.
 - seedChildRows uses the first exercise_library row. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
-- Deletion Postgres test seeds only 5 of the 29 user tables (verify in Row 4 follow up).
-- Delete screen text is in code, not i18n keys; 502 shows server text (check in Row 4 follow up).
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
@@ -85,8 +83,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 
 ## Next
-1. Hide Manage subscription button on Android (this round).
-2. Food tab Try again reloads both reads.
+1. Food tab Try again reloads both reads (this round).
+2. Move Platform.OS checks into subscriptionLinks.ts export.
 3. Duplicate gym keys cleanup.
 4. Phase 3 Row 14 remainder, so Row 2 can close.
 
