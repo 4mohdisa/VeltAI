@@ -10794,3 +10794,7 @@
 - 2026-11-26 00:31 Row 4 step 3a counted as done in code, recorded in PHASE4_ROWS.md this round after the tests pass.
 - 2026-11-26 00:31 Step 3b (seed all 29 tables), the 'verified' wording fix and the delete screen i18n move wait for later rounds to keep each round small.
 - 2026-11-26 00:31 LUME_TEST_DATABASE_URL set per command from the local environment, never printed. Parity rule still blocked on Isa, not retried.
+- 2026-11-26 00:32 Chose Row 4 step 3b over a full checkpoint: it is the next item in the notes and Jev ranks it 95% run; the checkpoint waits until the batch is larger.
+- 2026-11-26 00:32 Dropped the 'verified' wording fix from Next: the last report showed 0 uses in PHASE4_ROWS.md, so it is already done.
+- 2026-11-26 00:32 Kept the English-only override: the delete screen i18n move stays Parked, not done now, because the task is backend only.
+- 2026-11-26 00:32 Used the local Postgres login that works on this Mac for TestPG, since backend/.env names a user that does not exist locally. The URL is never printed or saved.

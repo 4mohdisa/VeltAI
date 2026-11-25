@@ -88,6 +88,44 @@ func seedOAuthState(t *testing.T, pool *pgxpool.Pool, id string) {
 	t.Cleanup(func() { _, _ = pool.Exec(context.Background(), `DELETE FROM oauth_states WHERE user_id = $1`, id) })
 }
 
+// seedRestOfUserTables gives a seeded user one row in each UserTables table
+// that seedUser and seedOAuthState do not reach. Every row hangs off profiles,
+// so seedUser's cleanup removes them.
+func seedRestOfUserTables(t *testing.T, pool *pgxpool.Pool, id string) {
+	t.Helper()
+	for _, sql := range []string{
+		`INSERT INTO saved_foods (user_id, food_name) VALUES ($1, 'oats')`,
+		`INSERT INTO gym_sessions (user_id, date) VALUES ($1, '2026-01-01')`,
+		`INSERT INTO goals (user_id) VALUES ($1)`,
+		`INSERT INTO gym_streaks (user_id) VALUES ($1)`,
+		`INSERT INTO ai_user_brain (user_id) VALUES ($1)`,
+		`INSERT INTO ai_insights (user_id, title, body) VALUES ($1, 'title', 'body')`,
+		`INSERT INTO onboarding (user_id) VALUES ($1)`,
+		`INSERT INTO subscriptions (user_id) VALUES ($1)`,
+		`INSERT INTO user_cuisine_preferences (user_id) VALUES ($1)`,
+		`INSERT INTO scan_sessions (user_id, scan_type) VALUES ($1, 'photo')`,
+		`INSERT INTO scan_corrections (user_id) VALUES ($1)`,
+		`INSERT INTO user_scan_calibration (user_id, food_name) VALUES ($1, 'oats')`,
+		`INSERT INTO user_portion_prefs (user_id, food_name) VALUES ($1, 'oats')`,
+		`INSERT INTO food_name_corrections (user_id, original_name, corrected_name) VALUES ($1, 'oat', 'oats')`,
+		`INSERT INTO recipes (user_id, name) VALUES ($1, 'porridge')`,
+		`INSERT INTO saved_meals (user_id, name) VALUES ($1, 'breakfast')`,
+		`INSERT INTO workout_templates (user_id, name) VALUES ($1, 'push')`,
+		`INSERT INTO workout_schedule (user_id, day_of_week) VALUES ($1, 1)`,
+		`INSERT INTO gym_adherence (user_id, scheduled_date) VALUES ($1, '2026-01-01')`,
+		`INSERT INTO user_gym_patterns (user_id) VALUES ($1)`,
+		`INSERT INTO user_food_affinity (user_id, ai_suggested, user_chose) VALUES ($1, 'oat', 'oats')`,
+		`INSERT INTO analytics_events (user_id, event_name) VALUES ($1, 'app_open')`,
+		`INSERT INTO debug_reports (user_id, client_id, captured_at, title, severity, kind, area, trigger)
+		  VALUES ($1, $1 || '_report', now(), 'title', 'low', 'bug', 'food', 'button')`,
+		`INSERT INTO feedback (user_id, category, message) VALUES ($1, 'idea', 'message')`,
+	} {
+		if _, err := pool.Exec(context.Background(), sql, id); err != nil {
+			t.Fatalf("seed %s: %v\n%s", id, err, sql)
+		}
+	}
+}
+
 func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 	pool := exportPool(t)
 	a := fmt.Sprintf("delete_a_%d", os.Getpid())
@@ -95,8 +133,19 @@ func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 	for _, id := range []string{a, b} {
 		seedUser(t, pool, id)
 		seedOAuthState(t, pool, id)
+		seedRestOfUserTables(t, pool, id)
+	}
+	for table, n := range userRowCounts(t, pool, a) {
+		if n == 0 {
+			t.Fatalf("%s has no seeded row for user A, so the delete check would prove nothing", table)
+		}
 	}
 	before := userRowCounts(t, pool, b)
+	for table, n := range before {
+		if n == 0 {
+			t.Fatalf("%s has no seeded row for user B", table)
+		}
+	}
 
 	if rec := deleteProfile(pool, a); rec.Code != http.StatusOK {
 		t.Fatalf("DELETE /api/profile = %d, body %s", rec.Code, rec.Body)
@@ -112,8 +161,5 @@ func TestPG_DeleteProfileRemovesEveryUserTableRowForCallerOnly(t *testing.T) {
 		if after[table] != n {
 			t.Errorf("%s: user B had %d rows, now %d", table, n, after[table])
 		}
-	}
-	if before["oauth_states"] != 1 || before["food_logs"] != 1 {
-		t.Errorf("seed did not land: %v", before)
 	}
 }
