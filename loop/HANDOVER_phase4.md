@@ -1,42 +1,47 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run first: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First run: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - The only git command allowed is git branch --show-current.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts or src/__tests__/foodDays.test.ts.
-- Never write "verified". Say "built" or "checked by a test".
-- English only: new keys go in src/lib/i18n/locales/en.json (src/locales does not exist) and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, or src/__tests__/foodDays.test.ts.
+- Never write "verified". New strings go in src/lib/i18n/locales/en.json and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 
 Rows
-- Built: 1, 2, 2.2, 2c, 2d, 4, 5 (new this session, owner check pending), 6 (owner check pending), 12, 12b, 29.
+- Built: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29.
 - Partial: 2b, 3, 6b.
-- Last checkpoint: tsc 0 errors; Jest 295 of 295 suites, 1,795 of 1,795 tests; 67 console.error, 163 console.warn; go test -race ./... all ok.
+- Last full checkpoint: tsc 0 errors; Jest 296 of 296 suites, 1,804 of 1,804 tests; 67 console.error, 165 console.warn. That was before dead end 8, which added 1 suite and 6 tests.
 
-Built this session (Row 5)
-- Ask Lume daily limit. useAIQuery in src/lib/data/aiBrain.ts shows an info toast with the server message and returns null on 429 ai_daily_limit_reached. src/app/ai-query.tsx puts the question back in the input. Tests: aiQueryDailyLimit.render.test.tsx and aiBrain.briefProfile.test.ts.
-- Consent screen, the existing src/app/ai-consent.tsx. Allow and Not now have equal weight. Allow saves and goes back. A failed save shows ErrorState with Try again. The aiConsent.screen.done key is removed. Tests: render/aiConsentScreen.render.test.tsx and aiConsent.test.ts.
-- Shared consent gate: backend/internal/consent/gate.go (consent.Require), used by the ai and scan routes. scan.ConsentStore is an alias of consent.Reader. Test: gate_test.go.
-- Postgres test for the withdraw route: backend/tests/ai/consent_pg_test.go.
-
-In progress
-- Row 6b step (f), "stale strings". The row names no strings. loop/DECISIONS_LOG.md says step (f) is the es and fr text, deferred by Isa. This waits for Isa.
+Row 2b this session
+- Dead ends 1 to 8 from the audit in DESIGN_REFERENCES.md are now built:
+  1. Welcome has a Sign in link: src/app/onboarding/index.tsx
+  2. The signup title follows the mode: src/app/onboarding/signup.tsx
+  3. Resend code: signup.tsx
+  4. Back with no history goes to ONBOARDING_ROOT: src/components/onboarding/OnbScaffold.tsx
+  5. Back from measurements dismisses to preview, and Clerk session_exists continues the flow: measurements.tsx, signup.tsx
+  6. A 401 on the subscription check or the final save ends the session: paywall.tsx, endExpiredSession
+  7. Likely already fixed (see open items)
+  8. Target weight validation: measurements.tsx, bodyWeightError
+- Tests are in src/__tests__/render/: welcome, signupSignInMode, signupResend, onboardingScaffold, onboardingSignedInBack, paywallSessionExpired, paywallOnboardingPost, onboardingMeasurementsTargetWeight. screenTitle is shared in src/__tests__/render/helpers.tsx.
+- In progress: dead end 8 is not yet recorded. Add one line to the Row 2b notes cell in PHASE4_ROWS.md and mark row 8 built in the DESIGN_REFERENCES.md dead end table.
 
 Decisions
-- The limit toast lives in the hook, not the screen, because the hook catches the error.
-- I extended existing files instead of creating duplicate screens or helpers at the paths the briefs named.
-- A plain 429 stays queueable.
-- A consent read error stays 500.
+- Continue is never disabled on measurements. Invalid input blocks the press and shows inline errors, as an earlier audit decided.
+- Target weight is required when shown (goal lose or muscle) and reuses the 30 to 300 kg band. The brief asked for this. The server treats it as optional, up to 1000.
+- There is no shared step-order list, so back on a resumed step goes to Welcome, not the previous step.
+- Clerk's useAuth was avoided in signup.tsx because 12 test mocks lack it. Handling session_exists was used instead.
 
-Open for Isa (in OWNER_CHECKS_phase4.md)
-- The "Who receives it" wording. Current text: Gemini for scans and insights; Anthropic only if the backup provider is on.
-- Whether to add a consent version. None is stored; ai_consent_at holds only the date.
-- Whether a consent read error should be 500 or 403.
-- Which strings row 6b step (f) means.
-- Some Row 5 owner-check lines are duplicates, because the file is append-only.
+Open for Isa
+- Whether target weight stays required.
+- Resend cooldown.
+- Previous-step back on a resumed step.
+- Back to preview after sign-in.
+- Whether dead end 7 is closed: onboarding.paywall.plansUnavailable is now written for users; subscription.plansUnavailable is still technical.
+- From the earlier handover: consent version, consent read error 500 or 403, "Who receives it" wording, Row 6b step (f) strings.
 
 Gotchas
-- PG tests need LUME_TEST_DATABASE_URL=postgres://localhost/lume_test_local on that one command. Without it they skip.
-- zsh does not word-split variables. Use arrays for Go package lists.
-- Each test that mounts a hook through the harness prints one react-test-renderer deprecation console.error, so the count grows with each new hook test.
-- Briefs often repeat work that is already done. Check the current state first.
-- ai.Store still declares its own AIConsentAt method instead of embedding consent.Reader. This is harmless.
+- PHASE4_ROWS.md rows must keep 7 columns. Append notes with <br> before the closing " |".
+- zsh: --include=*.ts globs fail. Use plain grep -rn and filter.
+- Lint exit codes are hidden by pipes. Redirect lint output to a file instead.
+- Briefs often name work that is already done, or files that don't exist (welcome.tsx). Grep first.
+- The render setup mocks the router without dismissTo. Tests that need it mock expo-router locally.
+- PG tests need LUME_TEST_DATABASE_URL on that one command only, and never printed.
