@@ -11239,3 +11239,15 @@
 - 2026-11-26 03:34 Chose the checkpoint run because the loop note requires a full type check and full app suite this round and the last report left the full suite unrun.
 - 2026-11-26 03:34 Read only round: no file changes, so the previous report's extra test file is not reverted or edited.
 - 2026-11-26 03:34 Jev ranked run highest (86%). Agreed: the checkpoint is mandatory and a smaller task is safest.
+- 2026-11-26 03:35 Chose the consent wiring task: it is the open next step in notes, it closes the last gap before row 5b, and the Jev run signal is high.
+- 2026-11-26 03:35 Kept consent version 1 and the analytics wording open, as the blocked list requires; no change to those.
+- 2026-11-26 03:35 Trimmed the notes below 600 words; kept every approval, block and park item, merged repeated lines and removed finished checkpoint detail.
+- 2026-11-26 03:35 Next round will verify the consent wiring checks before starting row 5b, because the report is expected to include a full lint and test run for the changed files.
+- 2026-11-26 03:36 Loop rejected the last prompt for covering four screens, so the consent wiring is split into one round per screen: ai-query, insights, photo-capture, label-scan.
+- 2026-11-26 03:36 The analytics side effect of the consent alert stays unchanged until Isa answers the parked analytics question.
+- 2026-11-26 03:36 Chose the ai-query.tsx wiring first because it is the first item in Next and has a clear source-order test to update.
+- 2026-11-26 03:36 Jev ranks the withdraw switch as a lower risk option, but the consent wiring must finish before the switch, so the order stays.
+- 2026-11-26 03:36 Rewrote the rejected prompt to state the loop/phase4 branch rule first, with the single allowed git command and the no push, merge or switch rule.
+- 2026-11-26 03:36 Kept one screen per round for consent wiring, as the loop requires after the four-screen prompt was rejected.
+- 2026-11-26 03:36 Kept English only: any new string goes in en.json, no es or fr work.
+- 2026-11-26 03:36 Chose ai-query.tsx first because it is the first item in the Next list.

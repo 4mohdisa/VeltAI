@@ -1,6 +1,6 @@
 # Lume Loop Notes: Phase 4
 
-Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Park owner steps.
+Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Park owner steps.
 
 ## Overrides (Isa)
 1. English only. es and fr deferred; missing keys fall back to English.
@@ -9,21 +9,21 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f deferred).
-- Last run of consent tests: 22 files plus aiConsentAlert.test.ts (2 tests), all pass. tsc 0.
-- Checkpoint round in progress: full tsc and full Jest run, read only. Previous full run: 289 suites, 1,759 tests, before paywallHref and completed-flag changes.
-- Route audit: 93 of 93 consumed.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f parked).
+- Last checkpoint: tsc 0, Jest 292 suites, 1,774 tests, all pass. Route audit 93 of 93.
 
-## Next
-1. Checkpoint result: fix any red failures in a later round, one file at a time.
-2. Wire ai-consent.tsx in place of the ensureAiConsent alert at ai-query.tsx, insights.tsx, food/photo-capture.tsx, food/label-scan.tsx. Update source-order checks in phase14Regression.test.ts.
-3. Row 5b: withdraw switch in Settings, then daily limit copy.
-4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-5. Row 3 remainder after Isa signs off.
+## Next (one screen per round)
+1. ai-query.tsx: open ai-consent.tsx in place of the ensureAiConsent alert. Update its source-order check in phase14Regression.test.ts only. (in progress, round sent with branch rule)
+2. insights.tsx: same wiring.
+3. food/photo-capture.tsx: same wiring.
+4. food/label-scan.tsx: same wiring.
+5. Row 5b: withdraw switch in Settings, then daily limit copy.
+6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+7. Row 3 remainder after Isa signs off.
 
 ## Rules
-- Branch: work only on loop/phase4. Only git command: git branch --show-current. Never push, merge or switch.
-- One task per prompt, max 5 steps. Find files with find (grep -rl matches contents).
+- Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
+- One task per prompt, one screen or component per prompt, max 5 steps. Find files with find (grep -rl matches contents).
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
@@ -35,7 +35,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart. Confirmed purchase writes status to settings store.
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess). Confirmed purchase writes status to settings store.
 - Launch gate is src/app/index.tsx: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. src/app/onboarding/index.tsx is the Welcome screen.
 - GET /api/subscription is public and never returns 402; the gate checks GET /api/onboarding.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -49,12 +49,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
-- Checkpoint round: read only.
-- Incomplete report with loop flag: verify first. Without flag: Jev pick.
+- Checkpoint round: read only. Incomplete report with loop flag: verify first. Without flag: Jev pick.
+- Loop rejected a prompt covering four screens: consent wiring goes one screen per round.
+- Loop rejected a prompt that did not state the loop/phase4 branch rule: every prompt must state it first.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
-- Row 6b step f: es and fr text for refusal keys and notConfirmed.
+- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable and storeError (these still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
 - Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics?
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -71,9 +72,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. auth.ExportTableNames and account.UserTables overlap.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
-- STATUS.md:32 and scanSeam.test.ts:450 describe free scans. es and fr still describe a free tier. No es or fr text for onboarding.paywall.refusal.* or notConfirmed.
+- STATUS.md:32 and scanSeam.test.ts:450 describe free scans.
 - A returning user without a subscription goes back to onboarding. A plan that ends while the app is open meets 402s in tabs with no paywall.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
-- Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Dev and PHASE3_ROWS.md row 14 note too long.

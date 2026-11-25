@@ -15,7 +15,8 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { TypingIndicator } from '@/components/ai';
 import { useAIQuery } from '@/lib/data/aiBrain';
-import { ensureAiConsent } from '@/lib/ai/consent';
+import { hasAiConsent } from '@/lib/ai/consent';
+import { navigate } from '@/lib/nav';
 import { color, space, radius, layout, surface, categoryAccent } from '@/lib/design/tokens';
 
 const SUGGESTION_KEYS = [
@@ -42,8 +43,12 @@ export default function AIQueryScreen() {
     const q = input.trim();
     if (!q || loading) return;
     // 5.1.2(i): the question + data summary are processed by Google Gemini —
-    // one-time disclosure before the first send.
-    if (!(await ensureAiConsent())) return;
+    // the consent screen comes before the first send. The typed question stays
+    // in the field, so after accepting the user sends it again.
+    if (!(await hasAiConsent())) {
+      navigate('/ai-consent');
+      return;
+    }
     setAttempted(true);
     setQuestion(q);
     setAnswer('');

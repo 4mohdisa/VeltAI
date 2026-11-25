@@ -188,7 +188,8 @@ describe('claim 3 · third-party-AI consent', () => {
 
   test('Ask Lume asks for consent before sending the question', () => {
     const src = read('app/ai-query.tsx');
-    ordered(src, 'if (!(await ensureAiConsent())) return;', 'await ask(q)', 'ai-query');
+    ordered(src, 'if (!(await hasAiConsent())) {', "navigate('/ai-consent');", 'ai-query');
+    ordered(src, "navigate('/ai-consent');", 'await ask(q)', 'ai-query');
   });
 
   test('the insights screen renders nothing (and fetches nothing) before consent', () => {

@@ -1,13 +1,16 @@
 // Ask Lume — one-question-at-a-time AI query screen. Renders immediately, no
 // consent gate on mount (consent is only checked on send). This EXECUTES the
 // screen; it is not a source-text grep.
+import { router } from 'expo-router';
+
 import AIQueryScreen from '@/app/ai-query';
+import { hasAiConsent } from '@/lib/ai/consent';
 import { useAIQuery } from '@/lib/data/aiBrain';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 jest.mock('@/lib/data/aiBrain', () => ({
@@ -56,4 +59,27 @@ test('pressing Send shows the answer once ask resolves', async () => {
   await settle();
 
   expect(allText(tree)).toContain('Your protein is on track this week.');
+});
+
+test('without consent, Send opens the consent screen, sends nothing and keeps the question', async () => {
+  const ask = jest.fn(() => Promise.resolve(''));
+  (useAIQuery as jest.Mock).mockReturnValue({ ask, loading: false, unavailable: false });
+  (hasAiConsent as jest.Mock).mockResolvedValueOnce(false);
+
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <AIQueryScreen />
+    </SafeAreaProvider>,
+  );
+
+  const input = findAll(tree, (p) => p.accessibilityLabel === 'Ask a question')[0];
+  act(() => (input.props.onChangeText as (t: string) => void)("How's my protein this week?"));
+
+  const send = findAll(tree, (p) => p.accessibilityLabel === 'Send')[0];
+  act(() => (send.props.onPress as () => void)());
+  await settle();
+
+  expect(router.push).toHaveBeenCalledWith('/ai-consent');
+  expect(ask).not.toHaveBeenCalled();
+  expect(findAll(tree, (p) => p.accessibilityLabel === 'Ask a question')[0].props.value).toBe("How's my protein this week?");
 });

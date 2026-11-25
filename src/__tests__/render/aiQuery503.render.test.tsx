@@ -11,7 +11,7 @@ import en from '@/lib/i18n/locales/en.json';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 jest.mock('@/lib/data/aiBrain', () => ({
