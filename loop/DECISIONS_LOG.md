@@ -10692,3 +10692,8 @@
 - 2026-11-25 23:51 The last round ran the full suite and it was green (275 suites, 1,673 tests, tsc 0). Recorded as the new checkpoint, round label R253 (unconfirmed, same as before). No full suite next round.
 - 2026-11-25 23:51 Round numbers after R252 are taken from the loop script labels, not guessed. R254 is this round's label, to be confirmed by the loop script.
 - 2026-11-25 23:51 Row 14 steps are split into 14a (gym month line), 14b (Retry buttons), 14c (workoutsLine and nutrition spoken kcal) so each round stays small.
+- 2026-11-25 23:53 R255 picks the gym.tsx:160 literal over Row 14b, following Jev's ranking (81%). Reason: it is a one-string, one-file change with low risk, and the last report named it as the next Row 14 step. Row 14b needs two hooks and their error paths, so it stays next.
+- 2026-11-25 23:53 Row 14 step a (gymRange.ts month line) was already done in an earlier round; recorded in PHASE3_ROWS.md Row 14 notes, which the last report asked for.
+- 2026-11-25 23:53 Jev signal read as advisory: risk 0.8 of 2 at confidence 0.34 is low confidence, so the chosen task stays small and reversible.
+- 2026-11-25 23:53 The records write (PHASE3_ROWS.md) is allowed this round because it is a one-line note, not a code change.
+- 2026-11-25 23:53 English only at launch: es and fr files stay untouched; parity keeps the R180 rule.
