@@ -1,5 +1,5 @@
 // Sign up / sign in screen (PHASE2_ROWS.md row 1) — the local clerkMessage
-// error-code mapping (src/app/onboarding/signup.tsx:147), tested indirectly
+// error-code mapping (src/app/onboarding/signup.tsx:173), tested indirectly
 // through the real screen since clerkMessage is a closure inside ClerkSignup,
 // not exported. This EXECUTES the real screen's sendCode/verifyCode catch
 // blocks with Clerk rejections shaped like the real SDK's error objects; it
@@ -114,6 +114,21 @@ test('form_code_incorrect shows "That code isn\'t right — check it and try aga
 
   expect(useToastStore.getState().current).toMatchObject({
     message: "That code isn't right — check it and try again.",
+    tone: 'error',
+  });
+});
+
+test("an unmapped error code with Clerk's own message shows the generic message, not Clerk's text", async () => {
+  mockSignUpCreate.mockRejectedValueOnce({
+    errors: [{ code: 'too_many_requests', message: 'You have exceeded the rate limit.' }],
+  });
+
+  const tree = renderScreen(<SignupScreen />);
+  enterEmailAndSendCode(tree, 'limited@example.com');
+  await settle();
+
+  expect(useToastStore.getState().current).toMatchObject({
+    message: 'Something went wrong. Check your connection and try again.',
     tone: 'error',
   });
 });

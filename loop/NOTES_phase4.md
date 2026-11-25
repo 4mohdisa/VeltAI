@@ -10,17 +10,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b: dead ends 1 to 6, 8 and 9 built, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
-- Dead end 9 (toggle keeps email step and typed email): built, 3 tests in signupModeSwitchKeepsEmail.render.test.tsx. Other signup tests pass (3, 11, 4, 3, 6).
-- Last full checkpoint (before dead end 8 and 9): tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn.
-- Checkpoint running now (tsc and full Jest after dead end 9).
+- Row 2b: dead ends 1 to 6, 8 and 9 built, each with tests. Dead end 7 pending Isa sign off.
+- Checkpoint after dead end 9: tsc 0 errors; Jest 298/298 suites, 1,813/1,813 tests; 67 console.error, 165 console.warn. Clean.
+- Dead end 8 is not yet written in the PHASE4_ROWS.md notes cell or the DESIGN_REFERENCES.md table. Round 1 below does it.
 
 ## Next
-1. Row 2b checkpoint result: record counts here.
-2. Row 2b sign up flaw 3: clerkMessage raw English fallback, map or hide unmapped codes, with a test.
-3. Row 2b sign in surface pass: next surface after sign up.
-4. Row 3 after Isa signs off the Apple steps (owner).
-5. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Row 2b sign up flaw 3: clerkMessage generic fallback, with a test (in progress).
+2. Row 2b sign in surface pass.
+3. Row 3 after Isa signs off the Apple steps (owner).
+4. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -34,6 +32,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
 - Lint ignores JSON: check locale files with JSON.parse.
+- Gotchas: zsh does not word-split $VAR; use plain grep -rn; redirect lint and test output to files and echo $?.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
@@ -41,7 +40,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 2b dead end 6: 401 on subscriptionConfirmed ends the session, same as the save.
 - Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check, inline error via bodyWeightError. Continue never disabled. Server optional (up to 1000).
-- Row 2b dead end 9: the sign in toggle keeps the email step and typed email; on the buttons step it stays put.
+- Row 2b dead end 9: sign in toggle keeps the email step and typed email; on the buttons step it stays put.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -57,19 +56,18 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
-- Jev low confidence on a round where stop was considered: stop rejected.
-- English only: report suggestions to translate into es and fr are ignored until Isa lifts the override.
+- English only: translation suggestions for es and fr are ignored until Isa lifts the override.
 
 ## Blocked on Isa (park, do not retry)
-- Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it. subscription.plansUnavailable still technical.
-- Row 2b sign up flaw 2: email errors show as toasts, not inline under the field. Changing it changes two existing tests.
-- Row 2b target weight: should it stay required for lose and muscle goals?
-- Row 6b step (f) stale strings and es/fr text: deferred under English only.
-- Resumed onboarding Back goes to Welcome, or to previous step: needs one shared step list.
-- A 402 while the app is open is not routed to the paywall.
+- Dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it. subscription.plansUnavailable is still technical.
+- Sign up flaw 2: email errors are toasts, not inline. Changing it changes two existing tests.
+- Target weight: stay required for lose and muscle?
+- Resumed onboarding Back goes to Welcome, or to the previous step (needs one shared step list).
+- Back to preview after sign in; Clerk session_exists on device; Resend cooldown.
 - legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable; label scan exit; scan.ts vs photo capture screen.
-- Row 2b: back after sign-in goes to preview or not; Clerk SSO session_exists on device; Resend cooldown.
+- Row 5: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable; label scan exit; scan.ts vs photo capture screen.
+- Row 6b step (f) stale strings and es/fr text: deferred under English only.
+- A 402 while the app is open is not routed to the paywall.
 - Restore purchases runs the subscription check, so a 401 there ends the session. Confirm.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
@@ -80,7 +78,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only. Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- subscription.notConfiguredDev reads like a developer message. Check whether a user can see it.
+- subscription.notConfiguredDev reads like a developer message.
 - About 67 deliberate console warns from [data], [onboarding], [meals]; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
@@ -91,4 +89,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
-- Gotchas: zsh does not word-split $VAR (use arrays); each hook test prints one react-test-renderer deprecation; lint and test exit codes hidden by pipes (redirect and echo $?); PHASE4_ROWS rows keep 7 columns (append notes with <br> before ' |'); zsh --include=*.ts globs fail (use plain grep -rn).
+- Gotchas: each hook test prints one react-test-renderer deprecation; PHASE4_ROWS rows keep 7 columns (notes after <br>, before ' |'); zsh --include=*.ts globs fail.

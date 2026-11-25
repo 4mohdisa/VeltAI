@@ -11574,3 +11574,8 @@
 - 2026-11-26 05:51 Flaw 3 (raw Clerk English fallback) is next after the checkpoint, as a small mapping change with a test.
 - 2026-11-26 05:51 Jev confidence on the run choice was high (0.85) and matches the checkpoint rule, so no second look was needed.
 - 2026-11-26 05:51 Kept the English only override: the es and fr notes from the last report are ignored.
+- 2026-11-26 05:52 Combined the dead end 8 docs record with flaw 3 in one prompt: it is a small docs step that the handover left open, and it is on the same surface.
+- 2026-11-26 05:52 Ignored the report's NEXT suggestion to translate plansUnavailable into es and fr: English only override stays in force.
+- 2026-11-26 05:52 Chose the clerkMessage fallback as the next Row 2b item, per the Next list. The subscription.notConfiguredDev copy stays parked.
+- 2026-11-26 05:52 Jev's run recommendation (75%) matches the plan, so no second look was needed.
+- 2026-11-26 05:52 Recorded the clean checkpoint counts after dead end 9 in the notes.

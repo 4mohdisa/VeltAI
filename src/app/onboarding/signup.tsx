@@ -168,15 +168,15 @@ function isSessionExists(e: unknown): boolean {
   return (e as { errors?: { code?: string }[] })?.errors?.[0]?.code === 'session_exists';
 }
 
-// Clerk's error codes mapped to copy. Module scope: it only runs inside event
-// handlers, so i18n.t reads the language current at that moment.
+// Clerk's error codes mapped to copy. Clerk's own message text is English
+// and technical, so every other code shows the generic message. Module scope:
+// it only runs inside event handlers, so i18n.t reads the current language.
 function clerkMessage(e: unknown): string {
-  const err = e as { errors?: { message?: string; code?: string }[] };
-  const first = err?.errors?.[0];
-  if (first?.code === 'form_identifier_exists') return i18n.t('signup.errorEmailExists');
-  if (first?.code === 'form_identifier_not_found') return i18n.t('signup.errorEmailNotFound');
-  if (first?.code === 'form_code_incorrect') return i18n.t('signup.errorCodeIncorrect');
-  return first?.message ?? i18n.t('signup.errorGeneric');
+  const code = (e as { errors?: { code?: string }[] })?.errors?.[0]?.code;
+  if (code === 'form_identifier_exists') return i18n.t('signup.errorEmailExists');
+  if (code === 'form_identifier_not_found') return i18n.t('signup.errorEmailNotFound');
+  if (code === 'form_code_incorrect') return i18n.t('signup.errorCodeIncorrect');
+  return i18n.t('signup.errorGeneric');
 }
 
 function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => void }) {
