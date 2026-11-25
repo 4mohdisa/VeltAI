@@ -90,3 +90,4 @@ Steps only Isa can do. Each says what, where and why.
 7. Test "Continue with Apple" on the sign up screen with the development instance, on a real iPhone and on the Simulator, and confirm a new account and a returning account both sign in.
 
 - Row 4, delete account screen: its text cannot move into en.json while English-only rounds forbid es and fr edits, because localeParity.test.ts fails on any en key that es and fr lack. Choose: allow es and fr keys for it, or let the parity test accept en-only keys.
+- [ ] Row 2b plan-ready summary screen: decide whether to add a summary of the answers between targets and paywall (src/app/onboarding). The row stays PARTIAL until you choose.

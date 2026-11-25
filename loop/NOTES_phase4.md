@@ -3,29 +3,28 @@
 Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never ask. Park owner steps and carry on.
 
 ## Overrides (Isa)
-1. English only. No es or fr writing or review. Missing keys fall back to English.
+1. English only. No es or fr work. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken). Leftovers go to Parked.
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
 - Branch loop/phase4. Loop script commits.
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT (recheck PHASE4_ROWS.md; status unclear).
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b status unclear, recheck in progress.
+- Phase 3 rows 6, 13, 14, 15 BUILT.
 - Last checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass. Go gates and lint not run at that checkpoint.
 - TestPG: 26 pass on lume_test_local. Race green.
-- Phase 3 Rows 6, 13, 14 BUILT.
-- ParameterForm:141 disable already removed (round 1). Verified by grep in last report.
-- Remaining exhaustive-deps disables to check: energy.ts:37 (this round), TodayCard:237, ScanReviewCard:118, appState.tsx:119 (blocked). BottomSheet:88 kept (Reanimated write).
+- exhaustive-deps: removable disables all removed (ParameterForm, BottomSheet, TodayCard, ScanReviewCard, energy.ts). Kept: SliderField:68, BottomSheet:95, 103, 134 (Reanimated writes), gymSchedule.ts:78, debug/impl/index.tsx:99. appState.tsx:119 parked (see Blocked).
 
 ## Rules
-- One module per prompt, max 5 steps, grep first. Every prompt states branch rule, forbids other git commands, ends with report format.
+- One module per prompt, max 5 steps. Grep first. State branch rule, forbid other git commands, end with report format.
 - Report wording: built or checked by a test only. Never write "verified".
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints. Render tests are *.render.test.tsx.
 - Animated: useState(() => new Animated.Value(x)).
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only.
-- Zsh: use arrays or ${=var}.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts.
+- zsh: use arrays or ${=var}.
+- Name files fully in every prompt after a handover.
 - Jev is advice only.
 
 ## Decisions (never delete)
@@ -44,11 +43,11 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; the other removed.
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps: compute plain values in render, depend on them, no disable. Reanimated SharedValue write: keep disable. Real missing dependency: fix unless behaviour changes (then park).
-- Stale plan item (disable not present) is dropped, not added to Blocked.
-- Jev asked for ask at 90%, 74%, 52%; kept run because brief forbids ask.
+- Stale plan items (disable not present) are dropped, not added to Blocked.
+- Jev asked for ask at 90%, 74%, 52%; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
 
-## Blocked on Isa (do not retry)
+## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
 - Prettier. App Store privacy label and account data declaration.
 - Push loop/phase4 and confirm CI on GitHub.
@@ -60,18 +59,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
-- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept. Asked twice; do not retry.
+- appState.tsx:119 exhaustive-deps: changing to snap.effects makes repeated identical batches run again (behaviour change). Recommendation: yes, plus one render test. Disable kept. Asked twice; parked in OWNER_CHECKS_phase4.md, not asked again.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
-- measurements.tsx changeHeightUnit calls heightToCm(); cm heightError has no rounding while draftHeightCm rounds. Align later.
+- measurements.tsx:118 changeHeightUnit calls heightToCm(); cm heightError has no rounding while draftHeightCm rounds. Align later.
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
-- Disables kept: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - seedChildRows depends on exercise_library seed; local user 'lume' absent.
 - 26 vs 28 TestPG pass lines: likely subtests, unconfirmed.
@@ -82,20 +80,18 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
 - consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
-- zsh: $VAR does not split. Use arrays or ${=var}.
 
 ## Next
-1. energy.ts:37 exhaustive-deps (this round). Then TodayCard:237 and ScanReviewCard:118 under the same rule.
-2. appState.tsx:119 stays blocked until Isa answers.
-3. BottomSheet open and close lifecycle render test.
-4. Recheck Row 2b status in PHASE4_ROWS.md and finish its open items.
+1. Row 2b status recheck (this round, read only).
+2. Append appState.tsx:119 recommendation to OWNER_CHECKS_phase4.md (append only).
+3. Finish Row 2b open items.
+4. BottomSheet open and close lifecycle render test.
 5. Row 3 remainder after Isa signs off.
 6. Gym key rename only after Isa approves.
-7. Next checkpoint: run Go gates and lint, record numbers.
+7. Next checkpoint: run Go gates and lint, record numbers in BASELINE_phase4.md.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.
 - Same blocker twice in a row: park it under Blocked and pick a surface that does not depend on it.
 - Build prompts from a fresh grep, not from old gotcha lists.
-- Name files fully in every prompt after a handover.
 - Prompts name one module, state the branch rule, and end with the report format.

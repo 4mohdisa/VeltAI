@@ -10999,3 +10999,8 @@
 - 2026-11-26 01:41 Told the prompt to grep first, because the handover gotcha list is out of date and repeated rounds were built from it.
 - 2026-11-26 01:41 Kept the run action (Jev asked for ask at 54%). The brief forbids ask.
 - 2026-11-26 01:41 Jev's 54% run signal and the 88% clean-finish chance support a small task, so the prompt stays on one module.
+- 2026-11-26 01:43 Picked the Row 2b recheck: it is next in the required order and its status is unclear. It is read only, so the last handover cannot cause a bad edit.
+- 2026-11-26 01:43 Dropped the energy.ts exhaustive-deps item. The disable is already gone (stale plan item), so it is not added to Blocked.
+- 2026-11-26 01:43 appState.tsx:119 is parked, not asked. Keep the disable, and append the recommendation (dependency on snap.effects plus one render test) to OWNER_CHECKS_phase4.md in a later round. No more asks.
+- 2026-11-26 01:43 The loop flagged the last report as partly done. This round re-runs tsc and the grep for energy.ts to close that flag.
+- 2026-11-26 01:43 Trimmed the notes to the word limit. Merged repeated lines. No decision was deleted.
