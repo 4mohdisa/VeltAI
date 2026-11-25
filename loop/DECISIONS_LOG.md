@@ -11012,3 +11012,7 @@
 - 2026-11-26 01:48 Agree with Jev's 'run' signal. Did not ask Isa, per the brief.
 - 2026-11-26 01:48 Kept the signup placeholder literals as English, per the English-only override.
 - 2026-11-26 01:48 Kept the training days answer off the backend plan, because it would overwrite the activity level the user already chose.
+- 2026-11-26 01:50 Chose the step sweep close-out first: the last report was flagged as partly done, and the unrun signup and paywall tests are the only open gap.
+- 2026-11-26 01:50 Kept action run, not ask: the brief forbids ask. Jev's risk score (0.9) is noted; the task is small, touches no hosted service and changes only assertions and a comment.
+- 2026-11-26 01:50 Comment fix at targets.tsx:43 is included because the renumbering is the same change, and the comment text is the only code-adjacent edit.
+- 2026-11-26 01:50 Step numbers are not pinned by any test, so no new test was added this round; that gap is parked below.

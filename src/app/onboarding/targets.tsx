@@ -40,7 +40,7 @@ export default function TargetsScreen() {
       deriveTargets({
         age: age ?? 30,
         sex: sex ?? 'other',
-        // No fallback: measurements (step 7) requires both, so by step 9 they
+        // No fallback: measurements (step 8) requires both, so by step 10 they
         // exist. A `??` here would quietly resurrect the median substitution
         // this screen exists to display honestly.
         height_cm: heightCm ?? 0,

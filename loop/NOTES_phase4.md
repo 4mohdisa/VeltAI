@@ -11,12 +11,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 3, 2b.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Last full checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass. Go gates and lint not run at that checkpoint.
+- Last full checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass.
 - TestPG: 26 pass on lume_test_local. Race green.
 - exhaustive-deps: only appState.tsx:119 remains (parked). Kept disables: SliderField:68, BottomSheet:95, 103, 134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Row 2b open items (PARTIAL)
-- Training days question: DONE in code (step 3, onboarding store only, not sent to plan). Other onboarding render tests after renumbering: checking now.
+- Onboarding step renumbering: 21 onboarding test files pass (145 tests). Signup and paywall render tests: running next (step sweep close-out).
+- Training days question: DONE in code (onboarding store only, not sent to plan).
 - Goal, activity, diet, cuisine, training days not editable in src/app/profile yet.
 - Plan-ready summary screen: approved, not built.
 - signup.tsx placeholders stay English literals.
@@ -55,7 +56,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Stale plan items (disable not present) are dropped, not added to Blocked.
 - Jev asked for ask at 90%, 74%, 52%, 36%; kept run because the brief forbids ask.
 - Checkpoint round: read only, no file changes, full tsc and full app Jest run.
-- Round: onboarding step-number render sweep (closes training days partial flag).
+- Step sweep round: 21 onboarding files pass; close-out of signup and paywall tests and targets.tsx comment (steps 8 and 10) queued.
 
 ## Blocked on Isa (do not retry; park in OWNER_CHECKS_phase4.md)
 - E2E account needs 250+ gym dates: use seed script.
@@ -76,6 +77,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
+- No test pins onboarding step numbers or step count; a wrong number would pass unnoticed. Add one if cheap.
 - 'Continue enabled' test on training days cannot fail (default always selected).
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
 - Food tab Retry: verify in Row 30.
@@ -92,9 +94,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
 - consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
+- Loop keeps resending disables already removed: task list should say only appState.tsx:119 remains.
 
 ## Next
-1. Row 2b: onboarding step-number render sweep (this round).
+1. Row 2b: close step sweep (signup and paywall render tests, targets.tsx comment).
 2. Row 2b: goal, activity, diet, cuisine and training days editable in src/app/profile.
 3. Row 2b: plan-ready summary screen (approved).
 4. Row 3 remainder after Isa signs off.
