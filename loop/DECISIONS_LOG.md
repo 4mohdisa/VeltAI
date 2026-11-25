@@ -11364,3 +11364,7 @@
 - 2026-11-26 04:33 Capped the act() cleanup queue: after photoScan, confidenceBadge, brainProfileCard and scanCards, return to row order (Row 5 remainder, then Row 3 once Isa signs off).
 - 2026-11-26 04:33 Compressed the notes to fit the 600 word limit. No decision was removed; each one is kept in short form.
 - 2026-11-26 04:33 Kept the Jev signal as advisory. No reason to override it this round.
+- 2026-11-26 04:34 Picked confidenceBadge.noBreakdown: it is the next planned item in the act() cleanup queue and is one file, small, with low risk.
+- 2026-11-26 04:34 Jev ranked run at 100%, which agrees. Jev's risk score of 0.9 (high) is noted, so this round is kept to one file and one surface, not a bigger row.
+- 2026-11-26 04:34 Did not add preferencesLocale to the queue: the notes list it as not done, but the handover marks it as done. Next round checks its warning count first and skips it if the count is 0.
+- 2026-11-26 04:34 Kept the instruction to check the warning source first, because the photoScan warnings came from a store update, not a render.

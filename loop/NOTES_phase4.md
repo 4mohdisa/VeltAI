@@ -11,10 +11,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
 - Last checkpoint: tsc 0 errors; 293 suites, 1,784 tests pass. Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
-- act() flush done: accountLocale, integrationsLocale, tabbar, preferencesCopy.
+- act() flush done: accountLocale, integrationsLocale, tabbar, preferencesCopy, photoScan.
 
 ## Next
-1. act() flush, one file per round: photoScan (4), confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2).
+1. act() flush, one file per round: confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2). Check preferencesLocale count first; skip if 0.
 2. Then back to row order: Row 5 remainder; Row 3 after Isa signs off.
 3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 
@@ -52,6 +52,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - i18next showSupportNotice false.
 - One file per round for act() fixes; flush stays inline in each test file, not a shared helper.
 - Act() cleanup queue capped: after photoScan, confidenceBadge, brainProfileCard and scanCards, return to row order.
+- Jev risk 0.9 (high) on the last round noted; kept to one file per round.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -78,3 +79,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 6b: merge three near-duplicate test-result lines.
+- Row 2b: check preferencesLocale act() count; skip if 0.

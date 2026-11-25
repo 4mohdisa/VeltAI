@@ -23,6 +23,7 @@ test.each([
     await i18n.changeLanguage(lng);
   });
   const tree = renderScreen(<ConfidenceBadge score={55} label="High" />);
+  await act(async () => {});
   const hasMessage = () => findAll(tree, (p) => p.children === l.scanCards.noBreakdown).length > 0;
   expect(hasMessage()).toBe(false);
 
