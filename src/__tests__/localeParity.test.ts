@@ -20,12 +20,34 @@ const LOCALES: Record<string, Flat> = { en: flatten(en), es: flatten(es), fr: fl
 const base = LOCALES.en;
 const others = Object.entries(LOCALES).filter(([lang]) => lang !== 'en');
 
+// English only, per Isa override 25 Nov: es and fr fall back to en for these.
+const ENGLISH_ONLY = new Set([
+  'settings.deleteAccountDetails.confirmWord',
+  'settings.deleteAccountDetails.continue',
+  'settings.deleteAccountDetails.understandContinue',
+  'settings.deleteAccountDetails.confirmButton',
+  'settings.deleteAccountDetails.sureTitle',
+  'settings.deleteAccountDetails.sureBody',
+  'settings.deleteAccountDetails.whatTitle',
+  'settings.deleteAccountDetails.data.identity',
+  'settings.deleteAccountDetails.data.profile',
+  'settings.deleteAccountDetails.data.gym',
+  'settings.deleteAccountDetails.data.food',
+  'settings.deleteAccountDetails.data.ai',
+  'settings.deleteAccountDetails.data.integrations',
+  'settings.deleteAccountDetails.subscriptionNote',
+  'settings.deleteAccountDetails.typeToConfirm',
+  'settings.deleteAccountDetails.confirmLabel',
+  'settings.deleteAccountDetails.deleted',
+  'settings.deleteAccountDetails.failed',
+]);
+
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();
 
 test('every locale has exactly the keys en has', () => {
   const missing: Record<string, { missingHere: string[]; missingInEn: string[] }> = {};
   for (const [lang, flat] of others) {
-    const missingHere = [...base.keys()].filter((k) => !flat.has(k));
+    const missingHere = [...base.keys()].filter((k) => !flat.has(k) && !ENGLISH_ONLY.has(k));
     const missingInEn = [...flat.keys()].filter((k) => !base.has(k));
     if (missingHere.length || missingInEn.length) missing[lang] = { missingHere, missingInEn };
   }

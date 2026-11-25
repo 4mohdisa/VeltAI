@@ -9,7 +9,7 @@ import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import { act, findAll, renderScreen } from './helpers';
 
-type Locale = typeof en;
+type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
 const hasLabel = (tree: ReturnType<typeof renderScreen>, label: string) =>
   findAll(tree, (p) => p.accessibilityLabel === label && typeof p.onPress === 'function').length > 0;

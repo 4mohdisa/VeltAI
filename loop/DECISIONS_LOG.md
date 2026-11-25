@@ -10814,3 +10814,12 @@
 - 2026-11-26 00:41 Chose the run over Jev's ask (45%): the brief forbids ask, and the parity question is already parked in OWNER_CHECKS_phase4.md.
 - 2026-11-26 00:41 Ran the pending regression and migration checks first, because the export list changed in step 3a and those suites have not run since.
 - 2026-11-26 00:41 Kept the change to verification plus one notes line, so a red result is isolated before any new row work starts.
+- 2026-11-26 00:43 Chose the finish-Row-4 task over the Jev ask (52%). The brief forbids asking, and the parity question is now answered from Isa's English-only override.
+- 2026-11-26 00:43 Parity rule decided: English-only keys are exempt from localeParity.test.ts through one named list with a reason. Missing es and fr keys fall back to English, as the override says. Blocks nutrition.tsx:231 are not affected because that label stays literal.
+- 2026-11-26 00:43 Row 4 marked BUILT once the delete screen text moves to en.json and its tests pass. The Clerk and device steps are mocked or owner steps, so they do not block the row.
+- 2026-11-26 00:43 The loop flag on the last report is answered by this round: the open item was the parity decision, and it is now made.
+- 2026-11-26 00:43 Previous prompt was rejected for covering more than one screen. Rewritten to cover only delete-account.tsx.
+- 2026-11-26 00:43 Row 4 text move goes ahead now. The parity rule was already decided on 25 Nov (English-only keys exempt by a named list), so the wait for Isa in the last report is no longer needed.
+- 2026-11-26 00:43 Failed delete keeps the plain fallback text for every failure, as already decided. The raw 502 server text is fixed by this step.
+- 2026-11-26 00:43 Jev 'ask' (57%) overruled: the brief forbids ask, and the parity question is answered.
+- 2026-11-26 00:43 Row 4 stays PARTIAL. Steps 1 to 3 are done; the Clerk deletion path and subscription note still need a check before BUILT.

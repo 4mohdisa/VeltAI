@@ -30,7 +30,7 @@ jest.mock('@/lib/api', () => ({
 
 jest.mock('@/components/display/toastStore', () => ({ showToast: jest.fn() }));
 
-type Locale = typeof en;
+type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
 async function pressContinue(title = en.onboarding.paywall.seePlans): Promise<void> {
   const tree = renderScreen(<PaywallScreen />);

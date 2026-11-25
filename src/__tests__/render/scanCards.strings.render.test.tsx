@@ -21,7 +21,7 @@ jest.mock('@/lib/api', () => ({
   },
 }));
 
-type Locale = typeof en;
+type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 const LOCALES: [string, Locale][] = [
   ['en', en],
   ['es', es],

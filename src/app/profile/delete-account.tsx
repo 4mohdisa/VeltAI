@@ -6,6 +6,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
+import { Trans, useTranslation } from 'react-i18next';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { Icon } from '@/components/primitives/Icon';
 import { Screen } from '@/components/navigation/Screen';
@@ -20,16 +21,11 @@ import { showToast } from '@/components/display/toastStore';
 /** The design's side padding on this screen. No token covers it. */
 const SIDE_PADDING = 24;
 
-const DELETED_DATA = [
-  'Your account and sign-in identity (email, name)',
-  'Your profile and onboarding answers',
-  'All gym sessions and your streak',
-  'All food logs and body measurements',
-  'Your AI insights, plans and learning history',
-  'Connected app links (Strava, WHOOP) and their tokens',
-];
+const DELETED_DATA = ['identity', 'profile', 'gym', 'food', 'ai', 'integrations'] as const;
 
 export default function DeleteAccountScreen() {
+  const { t } = useTranslation();
+  const confirmWord = t('settings.deleteAccountDetails.confirmWord');
   const { dispatch } = useAppState();
   const navigation = useNavigation();
   const [step, setStep] = useState(0);
@@ -56,11 +52,11 @@ export default function DeleteAccountScreen() {
     setDeleting(true);
     try {
       await api.profile.delete();
-      showToast({ message: 'Your account has been deleted.', tone: 'success' });
+      showToast({ message: t('settings.deleteAccountDetails.deleted'), tone: 'success' });
       dispatch({ type: 'ACCOUNT_DELETED' });
     } catch {
       // Never the server's text: it is written for logs, not for the user.
-      showToast({ message: "Couldn't delete your account. Check your connection and try again.", tone: 'error' });
+      showToast({ message: t('settings.deleteAccountDetails.failed'), tone: 'error' });
       setDeleting(false);
     }
   };
@@ -73,29 +69,33 @@ export default function DeleteAccountScreen() {
   return (
     <Screen
       variant="floating"
-      eyebrow="Account"
-      title={step === 0 ? undefined : 'Delete Account'} // Screen drops the eyebrow with the title
+      eyebrow={t('settings.account')}
+      title={step === 0 ? undefined : t('settings.accountDetails.deleteAccount')} // Screen drops the eyebrow with the title
       showBack
       contentStyle={{ paddingHorizontal: SIDE_PADDING }}
       footer={
         <View style={{ gap: space.md / 2 }}>
           {step === 0 ? (
-            <Button title="Continue" variant="destructive" onPress={() => setStep(1)} />
+            <Button title={t('settings.deleteAccountDetails.continue')} variant="destructive" onPress={() => setStep(1)} />
           ) : step === 1 ? (
-            <Button title="I understand, continue" variant="destructive" onPress={() => setStep(2)} />
+            <Button
+              title={t('settings.deleteAccountDetails.understandContinue')}
+              variant="destructive"
+              onPress={() => setStep(2)}
+            />
           ) : (
             <Button
-              title="Delete account"
+              title={t('settings.deleteAccountDetails.confirmButton')}
               variant="destructive"
               loading={deleting}
-              disabled={deleting || confirmText.trim().toUpperCase() !== 'DELETE'}
+              disabled={deleting || confirmText.trim().toUpperCase() !== confirmWord}
               onPress={finish}
               // The border stays, in white, so the rendered height keeps 58.
               style={{ backgroundColor: color.white, borderColor: color.white }}
             />
           )}
           <Button
-            title="Cancel"
+            title={t('common.cancel')}
             variant="tertiary"
             disabled={deleting}
             onPress={cancel}
@@ -109,11 +109,10 @@ export default function DeleteAccountScreen() {
         <View style={{ gap: 14, alignItems: 'center' }}>
           <WarningGlyph />
           <Text variant="title2" color={color.label} style={{ textAlign: 'center' }}>
-            Are you sure?
+            {t('settings.deleteAccountDetails.sureTitle')}
           </Text>
           <Text variant="body" color={color.label} style={{ textAlign: 'center', fontSize: 16, lineHeight: 22 }}>
-            This permanently deletes your account and all of your data, immediately. It cannot be
-            undone.
+            {t('settings.deleteAccountDetails.sureBody')}
           </Text>
         </View>
       ) : null}
@@ -121,19 +120,18 @@ export default function DeleteAccountScreen() {
       {step === 1 ? (
         <View style={{ gap: space.md }}>
           <Text variant="title3" color={color.label}>
-            What will be deleted
+            {t('settings.deleteAccountDetails.whatTitle')}
           </Text>
           {DELETED_DATA.map((item) => (
             <View key={item} style={{ flexDirection: 'row', gap: space.sm, alignItems: 'flex-start' }}>
               <Icon name="close-circle" size={18} color={color.label} style={{ marginTop: space.xs / 2 }} />
               <Text variant="body" color={color.label} style={{ flex: 1 }}>
-                {item}
+                {t(`settings.deleteAccountDetails.data.${item}`)}
               </Text>
             </View>
           ))}
           <Text variant="footnote" color={color.secondaryLabel}>
-            Deleting your account does not cancel an active subscription. Cancel it in the iPhone
-            Settings app → your name → Subscriptions, or you will keep being charged.
+            {t('settings.deleteAccountDetails.subscriptionNote')}
           </Text>
         </View>
       ) : null}
@@ -141,15 +139,19 @@ export default function DeleteAccountScreen() {
       {step === 2 ? (
         <View style={{ gap: space.md }}>
           <Text variant="body" color={color.label}>
-            Type <Text variant="bodyBold" color={color.label}>DELETE</Text> to confirm.
+            <Trans
+              i18nKey="settings.deleteAccountDetails.typeToConfirm"
+              values={{ word: confirmWord }}
+              components={{ bold: <Text variant="bodyBold" color={color.label} /> }}
+            />
           </Text>
           <TextField
-            label="Confirmation"
+            label={t('settings.deleteAccountDetails.confirmLabel')}
             value={confirmText}
             onChangeText={setConfirmText}
             autoCapitalize="characters"
             autoCorrect={false}
-            placeholder="DELETE"
+            placeholder={confirmWord}
           />
         </View>
       ) : null}

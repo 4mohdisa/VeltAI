@@ -12,7 +12,7 @@ import fr from '@/lib/i18n/locales/fr.json';
 import type { ExerciseLibraryItem } from '@/lib/types';
 import { act, findAll, renderScreen } from './helpers';
 
-type Locale = typeof en;
+type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
 // The number pad reads the safe-area insets, which a test renderer never measures.
 const METRICS: Metrics = {

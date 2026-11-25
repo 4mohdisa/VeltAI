@@ -26,7 +26,7 @@ const METRICS: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
-type Locale = typeof en;
+type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
 const firstScreen = (l: Locale) => [
   l.insights.askLume,

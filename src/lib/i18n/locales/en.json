@@ -63,6 +63,28 @@
       "nameUpdated": "Name updated.",
       "savedOffline": "Saved on this device — could not reach the server."
     },
+    "deleteAccountDetails": {
+      "confirmWord": "DELETE",
+      "continue": "Continue",
+      "understandContinue": "I understand, continue",
+      "confirmButton": "Delete account",
+      "sureTitle": "Are you sure?",
+      "sureBody": "This permanently deletes your account and all of your data, immediately. It cannot be undone.",
+      "whatTitle": "What will be deleted",
+      "data": {
+        "identity": "Your account and sign-in identity (email, name)",
+        "profile": "Your profile and onboarding answers",
+        "gym": "All gym sessions and your streak",
+        "food": "All food logs and body measurements",
+        "ai": "Your AI insights, plans and learning history",
+        "integrations": "Connected app links (Strava, WHOOP) and their tokens"
+      },
+      "subscriptionNote": "Deleting your account does not cancel an active subscription. Cancel it in the iPhone Settings app → your name → Subscriptions, or you will keep being charged.",
+      "typeToConfirm": "Type <bold>{{word}}</bold> to confirm.",
+      "confirmLabel": "Confirmation",
+      "deleted": "Your account has been deleted.",
+      "failed": "Couldn't delete your account. Check your connection and try again."
+    },
     "privacyDetails": {
       "privacyPolicy": "Privacy policy",
       "termsOfUse": "Terms of use",
