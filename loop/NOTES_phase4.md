@@ -11,13 +11,13 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 ## State
 - Branch loop/phase4. Loop script commits.
 - BUILT: 1, 2.2, 2c, 2d, 4, 12, 12b, 29. Progress 9 of 38 BUILT or EXACT, 0 EXACT.
-- Last checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
+- Last full checkpoint was before the helper, gym key and Food tab label changes. Round 1 of this block is a checkpoint.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Row 4 delete account BUILT. Helper isManageSubscriptionAvailable() in subscriptionLinks.ts.
-- Redundant openURL.mockRestore() removed (checked by a test, 9 of 9).
+- Food tab empty-list Retry uses common.tryAgain (checked by a test).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -54,7 +54,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Round choice: prompt rejected for two screens, rewritten to one. Platform helper done.
 - Round 2026 (duplicate gym keys): one key per meaning kept; the other removed from en.json, and from es/fr as a key deletion only (no translation) so parity holds.
 - 25 Nov: redundant mockRestore cleanup done and checked by a test.
-- 25 Nov: Food retry label unify picked as next (smallest open item). Jev agreed.
+- 25 Nov: Food retry label unify done and checked by a test (food.loggedDays.render 6 of 6, foodTab.emptyStates 8 of 8, localeParity 3 of 3).
+- Round chosen: checkpoint over Platform.OS cleanup (stale gates). Jev run 91%.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -67,6 +68,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve plan-ready summary (2b).
 - Row 3: confirm Apple hidden on Android. Choose native sheet or keep browser flow. Owner steps 1 to 7.
 - Parity line in OWNER_CHECKS_phase4.md: Isa to close it himself (append only).
+- App wide ErrorState default 'Retry' vs 'Try again': touches 13 screens and 7 tests. Needs Isa's call.
 
 ## Parked
 - gym.monthSessions also backs the all-time streak count on the Gym tab; the 'month' name no longer fits. Rename later.
@@ -75,7 +77,6 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
-- Food tab retry label: in progress this round (Next 1).
 - seedChildRows uses the first exercise_library row. Local user 'lume' does not exist; use the Mac's Postgres login for the test URL.
 - Hotspots: useHydration no freshness window; gym/history.tsx maps up to 200 rows in a ScrollView; gym screens refetch on every open; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
@@ -84,9 +85,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - PHASE4_ROWS.md 2.2 and 2b notes use a banned check word (fix in Row 30).
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
+- The delete screen test has a redundant openURL.mockRestore() (cleaned up 25 Nov).
 
 ## Next
-1. Food tab retry label unify on common.tryAgain (this round).
+1. Full checkpoint this round: tsc, full Jest, Go gates. Fix any red gate next round.
 2. Move inline Platform.OS checks into one export in subscriptionLinks.ts.
 3. Phase 3 Row 14 remainder, so Row 2 can close.
 4. Row 3 remainder (Sign in with Apple) once Isa's sign-off is in.

@@ -10889,3 +10889,6 @@
 - 2026-11-26 01:09 Removed the redundant openURL.mockRestore() item from Next: it was done in the last round and checked by a test.
 - 2026-11-26 01:09 errorState.retry is deleted from all three locale files only if no other code uses it. This is a deletion, not a translation, so parity holds.
 - 2026-11-26 01:09 OWNER_CHECKS_phase4.md parity line is left as is (append only). Isa closes it himself.
+- 2026-11-26 01:10 Chose the checkpoint over the Platform.OS cleanup: the last full gates predate the helper, gym key and Food tab label changes, so a red gate would hide. Jev ranked run highest (91%), so no second look needed.
+- 2026-11-26 01:10 Checkpoint round changes no files, per the loop rule. Any red gate is fixed in the next round.
+- 2026-11-26 01:10 Food tab Retry label: done last round and checked by a test (food.loggedDays.render 6 of 6, foodTab.emptyStates 8 of 8). Moved out of Parked.
