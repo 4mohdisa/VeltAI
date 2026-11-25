@@ -11357,3 +11357,6 @@
 - 2026-11-26 04:31 Checkpoint passed (tsc 0 errors, 293 of 293 suites, 1,784 of 1,784 tests), so the checkpoint rule ends and the act() fix is the next task.
 - 2026-11-26 04:31 Chose accountLocale (6 warnings) because it is the next file in the agreed order and is the smallest safe step; Jev ranked the same task first.
 - 2026-11-26 04:31 Maestro stays behind the act() work because Maestro install is not confirmed and it can be parked without blocking.
+- 2026-11-26 04:32 Chose the integrationsLocale flush: it is the next file in the agreed order, one surface, smallest task, matches Jev's run recommendation.
+- 2026-11-26 04:32 Kept deliberate [data] warns visible rather than adding scoped spies, per the standing decision on console noise.
+- 2026-11-26 04:32 Did not run the full suite: last checkpoint passed and this round is not a checkpoint.

@@ -10,12 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
-- Last full run (checkpoint, passed): tsc 0 errors; 293 suites, 1,784 tests pass. Console: 89 error, 80 warn lines.
-- Backend: go vet clean, go test -race, 29 TestPG pass on lume_test_local, 0 skipped.
-- Done: aiQuery.notEnoughData used in aiBrain.ts; settings.privacyDetails.dataTitle used as export section title; unused keys removed; showSupportNotice false; act() flush in tabbar, preferencesCopy and preferencesLocale.
+- Last checkpoint passed: tsc 0 errors; 293 suites, 1,784 tests pass.
+- Backend: go vet clean, go test -race, 29 TestPG pass on lume_test_local.
+- accountLocale act() flush done (3 tests pass).
 
 ## Next
-1. Flush act() warnings, one file per round: accountLocale (6, in progress), integrationsLocale (6), photoScan (4), confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2). Method: await act(async () => {}) after renderScreen.
+1. Flush act() warnings, one file per round: integrationsLocale (6, in progress), photoScan (4), confidenceBadge.noBreakdown (3), brainProfileCard.numbers (2), scanCards.strings (2). Method: await act(async () => {}) after renderScreen.
 2. Row 3 remainder after Isa signs off.
 3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 
@@ -31,6 +31,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
+- Lint ignores JSON: check locale files with JSON.parse.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
@@ -40,7 +41,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1 (approval pending). Copy names Google Gemini; Anthropic only if backup on. Consent screen uses navigate('/ai-consent'); insights uses replace.
+- Row 5: consent on profiles.ai_consent_at; consent read error 500; consent version 1 (approval pending). Copy names Google Gemini; Anthropic only if backup on.
 - aiBrain.ts loads @/lib/nav only inside the 403 branch (node Jest can't parse expo-router).
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
@@ -51,13 +52,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false.
 - One file per round for act() fixes; flush stays inline in each test file, not a shared helper.
-- Checkpoint pick kept over Jev's pick last round: checkpoint rule. Checkpoint now passed.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'; needs approval.
-- Row 5: 500 vs 403 read errors; consent version; consent analytics wording; provider copy; whether consent turns analytics on; replace vs navigate.
+- Row 5: 500 vs 403 read errors; consent version; consent analytics wording; provider copy; replace vs navigate.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 errors): needs device or simulator check before any BottomSheet change.
@@ -68,7 +68,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- Console noise from error-path tests (about 72 deliberate warns; needs scoped spies).
+- Console noise from error-path tests (about 72 deliberate [data], [onboarding], [meals] warns; needs scoped spies).
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.

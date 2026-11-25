@@ -63,11 +63,13 @@ const render = async (lng: string) => {
   await act(async () => {
     await i18n.changeLanguage(lng);
   });
-  return renderScreen(
+  const tree = renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <IntegrationsScreen />
     </SafeAreaProvider>,
   );
+  await act(async () => {});
+  return tree;
 };
 
 test.each(LOCALES)('%s: the title and the nothing-connected eyebrow read from the locale file', async (lng, locale) => {
