@@ -31,13 +31,13 @@ test.each([
   await act(async () => {
     await i18n.changeLanguage(lng);
   });
-  const text = allText(
-    renderScreen(
-      <SafeAreaProvider initialMetrics={METRICS}>
-        <PreferencesScreen />
-      </SafeAreaProvider>,
-    ),
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <PreferencesScreen />
+    </SafeAreaProvider>,
   );
+  await act(async () => {});
+  const text = allText(tree);
 
   expect(text).toContain(locale.settings.preferencesEyebrow);
   expect(text).toContain(locale.preferences.title);

@@ -11348,3 +11348,7 @@
 - 2026-11-26 04:27 Chose preferencesCopy first: the notes rule is one file per round, although the last report suggested both preferences files together.
 - 2026-11-26 04:27 Jev's 94% run signal agreed, so the loop runs the next task instead of asking.
 - 2026-11-26 04:27 Full suite checkpoint passed with no changes needed, so the next rounds go back to small single file fixes.
+- 2026-11-26 04:29 Chose preferencesLocale: it is next in the one-file-per-round order in the notes and the handover's NEXT line; the smallest safe task.
+- 2026-11-26 04:29 Followed the Jev advice to run, not to ask (Isa's rule: never ask).
+- 2026-11-26 04:29 Named every file fully in the prompt because a handover just happened.
+- 2026-11-26 04:29 Compressed the notes below 600 words; no items removed from Blocked on Isa or the Parked list beyond merging repeats.
