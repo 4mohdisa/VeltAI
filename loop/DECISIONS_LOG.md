@@ -10922,3 +10922,6 @@
 - 2026-11-26 01:17 consent.ts has no eslint-disable (Claude Code report), so the consent task was closed and gym.tsx was picked from the list of ten files with a disable comment.
 - 2026-11-26 01:17 Jev 'ask' (46%) overruled: the brief forbids ask. The task was kept small because Jev gives a 5% clean-finish chance.
 - 2026-11-26 01:17 This round runs the type check and the related Jest files, because the loop flag says the last round did not run them.
+- 2026-11-26 01:19 Kept the checkpoint over Jev's purchases.ts pick: the loop note requires a checkpoint after the gym.tsx change, and the last full run predates the subscription test change (6 to 8 tests).
+- 2026-11-26 01:19 Purchases.ts becomes the next task (round after this checkpoint), so Jev's pick is taken one round later, not dropped.
+- 2026-11-26 01:19 Removed Next items 1 and 3 from the notes: gym.tsx disable is removed, and subscriptionLinks.ts already holds the single Platform.OS check.
