@@ -11435,3 +11435,8 @@
 - 2026-11-26 05:07 Kept the existing src/app/ai-consent.tsx and src/lib/ai/consent.ts. No duplicate consent screen at src/app/consent/ai.tsx, as the report says.
 - 2026-11-26 05:07 Did not change the 'Who receives it' wording. It is disclosure copy, so it is parked in OWNER_CHECKS_phase4.md for Isa.
 - 2026-11-26 05:07 Counted the 403 retry as wired: aiBrain and the scan paths already open /ai-consent, so the step 'wire the gate in the app' is done.
+- 2026-11-26 05:08 Chose the Settings withdraw switch: the notes list it as the next Row 5 item and it is one surface, which suits the high risk score from Jev.
+- 2026-11-26 05:08 The handover's 'AI query screen step 2b' is older than the notes' Next list, so the notes win.
+- 2026-11-26 05:08 Asking is not allowed, so the prompt tells Claude Code to park and report if Settings or the withdraw path cannot be found rather than guess.
+- 2026-11-26 05:08 Kept the consent copy and the 'Who receives it' wording as Blocked on Isa; the switch does not change copy.
+- 2026-11-26 05:08 Chose not to run the full suite this round: the last checkpoint was clean and this round is a small surface change.

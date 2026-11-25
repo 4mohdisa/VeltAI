@@ -10,14 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: built. Consent gate on all AI and scan routes (403 ai_consent_required; 500 on read error). Background sweep skips no-consent users. Daily AI limit: default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off), 429 ai_daily_limit_reached.
-- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume done (aiBrain.ts, 403 opens /ai-consent). Consent screen is src/app/ai-consent.tsx (existing; copy and equal buttons done, Allow and Not now). Helper src/lib/ai/consent.ts, tests aiConsent.test.ts and aiConsentScreen.render.test.tsx. Settings switch NOT built.
-- Last checkpoint (before consent change): tsc 0 errors; Jest 294/294 suites, 1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
-- This round: checkpoint after consent copy change (tsc, full Jest).
+- Row 5 server: built. Consent gate on AI and scan routes (403 ai_consent_required; 500 on read error). Background sweep skips no-consent users. Daily AI limit: default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off), 429 ai_daily_limit_reached.
+- Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume done (aiBrain.ts). Consent screen is src/app/ai-consent.tsx. Helper src/lib/ai/consent.ts. Settings withdraw switch: in progress this round.
+- Last checkpoint (after consent copy change): tsc 0 errors; Jest 295/295 suites, 1,794 tests; Go -race ok; 29 TestPG pass on lume_test_local.
+- Row 5 open for Isa: consent version (none stored; profiles.ai_consent_at holds only the date), 'Who receives it' wording.
 
 ## Next
-1. Checkpoint result from this round: read the counts, fix only reds from the consent change.
-2. Row 5: Settings withdraw switch.
+1. Row 5: Settings withdraw switch (this round).
+2. Row 5: AI query screen step 2b.
 3. Row 3 after Isa signs off the Apple steps.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 5. productionReadiness.test.ts 429 expect line (small).
@@ -42,7 +42,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5 scan limits handled where errors are caught (scan.ts, label-scan.tsx). Accepted.
 - Row 5 Ask Lume limit handled in the hook (aiBrain.ts). Accepted.
 - Row 5 consent gate on the server first; consent screen after (Jev run 33%).
-- Row 5 consent on profiles.ai_consent_at; consent read error 500; consent version 1. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count against the allowance.
+- Row 5 consent on profiles.ai_consent_at; consent read error 500. Copy names Google Gemini; Anthropic only if backup on. Background insight rebuilds count against the allowance.
 - Row 5: kept existing src/app/ai-consent.tsx; no duplicate consent screen.
 - Row 5: Allow and Not now have equal weight; Allow goes back after saving.
 - Plain 429 stays queueable; only ai_daily_limit_reached is non-retryable.
@@ -69,9 +69,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text for English-only keys (deferred by override).
 - legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy ('Who receives it' names insight summary, brief says questions too); replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of photo capture screen.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy ('Who receives it'); replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
+- react-test-renderer deprecation (66 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
