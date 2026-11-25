@@ -11331,3 +11331,6 @@
 - 2026-11-26 04:21 The last report skipped the full suite after the setup.ts change; this round's full Jest run in step 1 verifies it first.
 - 2026-11-26 04:21 The api.ts path in the old task is src/lib/api.ts; the row list path mismatch is noted, not fixed.
 - 2026-11-26 04:21 Kept the Maestro onboarding flow as candidate two; it waits for the Maestro check.
+- 2026-11-26 04:23 Last report was flagged and skipped the full suite with projected counts; verify first per the rule that a skipped check is run next round.
+- 2026-11-26 04:23 Chose the verification task over the act() fixes because the change was never checked by a full run.
+- 2026-11-26 04:23 Did not ask Isa; asking is not allowed, so the smallest task runs.

@@ -10,14 +10,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed; 5b Settings switch built), 6b (steps a to e built; f blocked on Isa).
-- Checkpoint clean: tsc 0 errors; Jest 293 suites, 1,784 tests, 4 snapshots; locale parity 3 of 3.
+- Last checkpoint (before i18n notice change): tsc 0 errors; Jest 293 suites, 1,784 tests; locale parity 3 of 3.
 - Backend green: go vet, go test -race, 29 TestPG passed, 0 skipped.
-- Closed: not-enough-data message now en.json aiQuery.notEnoughData (checked by aiBrain.briefProfile.test.ts).
+- FLAGGED: i18n showSupportNotice change verified only by projection. Full run pending (round in progress).
 
 ## Next
-1. Review 255 Jest console blocks (108 error, 80 warn); fix real warnings.
-2. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-3. Row 3 remainder after Isa signs off.
+1. Full Jest run; record real console counts (was 109 error, 80 warn, 246 info before).
+2. act() flushes in 8 test files (tabbar, preferencesCopy, preferencesLocale, integrationsLocale, accountLocale, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers, scanCards.strings).
+3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+4. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -50,6 +51,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Loop rejects multi-screen prompts and prompts without the branch rule first.
 - Jev advice to ask is not followed: asking is not allowed; run the smallest task.
+- i18next showSupportNotice false (stops Locize notice in tests and app).
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
@@ -57,14 +59,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
 - src/app/legal/privacy.tsx says 'Turn off AI processing'; path is now Settings > Privacy > AI processing > Allow AI processing. Needs approval.
 - Row 5: 500 vs 403 read errors; consent version (no version column); consent screen analytics wording; provider copy; whether consent turns analytics on; replace vs navigate for insights.tsx.
-- es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, and aiConsent.screen strings.
+- es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen strings.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
+- react-test-renderer deprecation (45 errors): move render tests to @testing-library/react-native? Isa decides.
+- gesture-handler worklet warning (21 errors): needs device or simulator check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Owner check pending: launch wait for returning users; returning user with answers missing can buy but cannot finish; RevenueCat sandbox webhook setup.
 
+## Unused keys to remove (en, es, fr together)
+- aiConsent.title, body, notNow, continue; settings.privacyDetails.aiTurnOff.
+
 ## Parked
 - Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent.
+- Still hardcoded English: aiBrain not-enough-data message; 'Your data' title in privacy.tsx.
+- Console noise: 'API unreachable' and onboarding/meals warns from deliberate error-path tests; needs scoped spies (about 30 files).
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
@@ -80,4 +89,3 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long. Row 6b: merge three near-duplicate test-result lines.
-- Under zsh, use while read for file loops.
