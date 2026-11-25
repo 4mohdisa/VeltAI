@@ -10,21 +10,22 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed; 5b Settings switch built), 6b (steps a to e built; f blocked on Isa).
-- Last app checkpoint: tsc 0 errors, Jest 293 suites, 1,784 tests, 4 snapshots pass, lint 0 warnings.
-- Backend checkpoint green: go vet clean, go test -race green, 29 TestPG passed, 0 skipped (row 5a and 6b).
+- Last app checkpoint: tsc 0 errors, Jest 293 suites, 1,784 tests, lint 0 warnings. Setup.ts changed since: full suite due at next checkpoint.
+- Backend green: go vet, go test -race, 29 TestPG passed, 0 skipped.
 
 ## Next (one surface per round)
-1. DONE: backend verify for rows 5a and 6b.
-2. IN PROGRESS: replace hardcoded 'Your data' title in src/app/profile/privacy.tsx with an en.json key.
-3. Remove unused alert keys (aiConsent.title, body, notNow, continue, settings.privacyDetails.aiTurnOff) from en, es, fr together.
-4. Review the 255 console blocks in Jest output; fix real warnings.
-5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-6. Row 3 remainder after Isa signs off.
+1. IN PROGRESS: remove unused aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff from en, es, fr. Check aiTurningOff first.
+2. Review Jest console blocks (255); fix real warnings.
+3. Replace hardcoded not-enough-data message in aiBrain.ts with an en.json key.
+4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+5. Row 3 remainder after Isa signs off.
+
+DONE this round: 'Your data' title on Privacy screen now uses settings.privacyDetails.dataTitle.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- One task per prompt, one surface, max 5 steps. Find files with find.
+- One task per prompt, one surface, max 5 steps.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
@@ -33,7 +34,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only. AI tests live in backend/tests/ai.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
-- Under zsh, use while read for file loops.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
@@ -60,7 +60,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
 - Legal copy src/app/legal/privacy.tsx says 'Turn off AI processing'; path is now Settings > Privacy > AI processing > Allow AI processing.
 - Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm. Replace vs navigate for insights.tsx.
-- es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow and aiConsentedOn.
+- es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, settings.privacyDetails.dataTitle.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
@@ -84,5 +84,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long. Row 6b: three near-duplicate test-result lines; merge.
 - Jest output has 255 console blocks (108 error, 80 warn) that hide real warnings.
-- Ask Lume 'Your data' title in privacy.tsx is hardcoded English (in progress, step 2).
 - Not-enough-data message in aiBrain.ts is hardcoded English.

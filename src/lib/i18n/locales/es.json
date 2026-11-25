@@ -68,7 +68,6 @@
       "termsOfUse": "Términos de uso",
       "aiTitle": "Procesamiento con IA",
       "aiFooter": "Retira tu consentimiento para Google Gemini (fotos de comidas, análisis y Pregunta a Lume). El escaneo y las funciones de IA dejan de funcionar hasta que vuelvas a aceptar el aviso.",
-      "aiTurnOff": "Desactivar el procesamiento con IA",
       "aiTurningOff": "Desactivando…",
       "aiTurnedOff": "Procesamiento con IA desactivado. Los escaneos y los análisis quedan desactivados hasta que lo vuelvas a activar.",
       "aiTurnOffFailed": "No se pudo conectar con el servidor para retirar el consentimiento. Inténtalo de nuevo.",
@@ -1103,12 +1102,6 @@
     "suggestionGymDays": "¿Como lo suficiente los días de gimnasio?",
     "suggestionTopFood": "¿Cuál es el alimento que más registro?",
     "suggestionGoal": "¿Cuánto me falta para mi objetivo?"
-  },
-  "aiConsent": {
-    "title": "Funciones de IA y datos de uso",
-    "body": "Google Gemini procesa las fotos de tus comidas y un resumen de tus registros para que funcionen el escaneo, los análisis y Pregunta a Lume. Google los procesa solo para ofrecer esas funciones. Anthropic recibiría el resumen en su lugar solo si activamos nuestro proveedor de IA de respaldo.\n\nLume también cuenta qué funciones usas — nunca lo que registras, nunca tu comida, tu peso ni tus notas, y nunca se vende.\n\nPuedes desactivar cualquiera de las dos en cualquier momento en Ajustes → Privacidad.",
-    "notNow": "Ahora no",
-    "continue": "Continuar"
   },
   "summary": {
     "notTracked": "Sin registrar",

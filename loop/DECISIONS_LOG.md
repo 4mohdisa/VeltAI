@@ -11314,3 +11314,7 @@
 - 2026-11-26 04:13 Chose step 2 from the notes order over the removal of unused keys, because the notes set the order and the 'Your data' string is a visible English leak in a screen the user reaches.
 - 2026-11-26 04:13 New key is English only in en.json, per Isa's override. es and fr fall back to English and the key goes on ENGLISH_ONLY if the parity test needs it.
 - 2026-11-26 04:13 Partly reported flag check: the last report was complete on its checks, so no verify-first round is needed.
+- 2026-11-26 04:14 Chose candidate 1: it finishes the step already queued in the notes and matches Jev's top pick, and it is a small, low risk change.
+- 2026-11-26 04:14 Check settings.privacyDetails.aiTurningOff before removing it, because the previous report flagged it as possibly unused.
+- 2026-11-26 04:14 Only remove keys from locale files and the ENGLISH_ONLY list; no user visible text changes, so the Privacy screen looks the same.
+- 2026-11-26 04:14 Run only the changed and related Jest files this round; the full suite waits for the next checkpoint, as the notes require.
