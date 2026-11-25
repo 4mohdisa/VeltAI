@@ -10,8 +10,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Last checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; TestPG 26 pass; race green.
-- Row 2b open checks closed: all Go packages compile, TestFoodPreferencesPG passes, tsc 0, Jest and lint clean.
+- Last checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; 4 snapshots pass; TestPG 26 pass; race green.
+- Route audit: 93 of 93 backend routes consumed. Two anomaly routes are broken by design (not registered on backend). ROUTE_COVERAGE.md is generated at repo root; Isa decides commit or delete.
+- 2b open: plan-ready summary (needs Isa go-ahead); Maestro flow shared with row 23, not run.
 - exhaustive-deps: only appState.tsx:119 left (needs Isa). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Rules
@@ -37,8 +38,9 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Row 4: oauth_states cleared in profile store delete. Clerk first, then rows; Clerk failure 502 keeps rows. Clerk 404 counts as deleted.
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; other removed.
 - One module per prompt. Exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
-- Checkpoint round: read only, full tsc and full app Jest, no file changes.
+- Checkpoint round: read only, full tsc and full app Jest, no file changes (Go checkpoint may write BASELINE_phase4.md).
 - Goal and activity editing split from diet, cuisine and training days.
+- Training days stay on device; no backend field.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -54,16 +56,19 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Rename gym.monthSessions and gym.monthFreezes.
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
 - Approve goal change rule. Training days: device only or add a backend field.
+- Go-ahead for plan-ready summary screen.
+- Whether route audit runs in npm run verify (changes exit behaviour).
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).
+- es and fr text for goals.plan, preferences.food, onboarding.trainingDays (deferred by English-only override).
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - mutations.ts and hooks.ts import each other; move bodyFromOnboarding to mappers.ts.
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
 - paywall.tsx:81 uses as unknown as Onboarding; type mismatch would go unnoticed.
-- Missing tests: useEnergyBalance day refetch; BottomSheet lifecycle; ScanReviewCard weight-only refetch; gym re-run timing.
+- Missing tests: useEnergyBalance day refetch; BottomSheet lifecycle; ScanReviewCard weight-only refetch; gym re-run timing; step number on screen.
 - Food tab Retry: verify in Row 30. formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
 - Food search ranking caches cuisine preferences up to 5 minutes.
 - SettingsList has no disabled style: loading or failed rows only ignore taps.
@@ -71,11 +76,12 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
+- Generated ROUTE_COVERAGE.md at root; anomaly note hardcoded in audit script.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Fix scripts/audit-routes.mjs (this round), including the preferences route check.
-2. Row 2b plan-ready summary: parked until Isa approves design. Row 2b stays PARTIAL.
-3. Row 3 remainder after Isa signs off.
-4. Gym key rename only after Isa approves.
-5. Go gates and lint checkpoint; numbers in BASELINE_phase4.md.
+1. Go gates and lint checkpoint (this round): numbers in BASELINE_phase4.md.
+2. Row 5 AI consent: split into backend store and route gate first (5a).
+3. Row 6 entitlements webhook with fixtures.
+4. Row 2b plan-ready summary: parked until Isa approves. Row 2b stays PARTIAL.
+5. Row 3 remainder after Isa signs off. Gym key rename only after Isa approves.

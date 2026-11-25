@@ -11069,3 +11069,8 @@
 - 2026-11-26 02:26 Row 2b stays PARTIAL until Isa approves the plan-ready summary design.
 - 2026-11-26 02:26 Dropped the es and fr open items: Isa's override is English only, so they are no longer tasks.
 - 2026-11-26 02:26 Trimmed the notes under 600 words. Nothing approved or blocked was removed, only merged.
+- 2026-11-26 02:28 Chose the Go gates checkpoint because it is the next open item in the notes and is low risk, which fits Jev's low confidence in a clean finish.
+- 2026-11-26 02:28 Did not follow Jev's 62% ask: the brief forbids asking Isa, so the open questions stay parked in OWNER_CHECKS_phase4.md.
+- 2026-11-26 02:28 Did not stop: many rows remain BUILT or DIFFERENT, and nothing dangerous is in view.
+- 2026-11-26 02:28 Left ROUTE_COVERAGE.md alone; Isa decides whether to commit it or the loop deletes it.
+- 2026-11-26 02:28 Kept the audit script exit behaviour as it is; making verify fail on broken routes needs Isa's go-ahead, so it stays parked.
