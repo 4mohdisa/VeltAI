@@ -11191,3 +11191,10 @@
 - 2026-11-26 03:19 Recorded the mid-session 402 gap (plan ends while the app is open, no paywall) in Parked, not as a new task; it needs a design decision on where the paywall opens.
 - 2026-11-26 03:19 The launch wait for returning users (GET /api/onboarding on every launch) stays in OWNER_CHECKS_phase4.md for Isa to confirm on a device.
 - 2026-11-26 03:19 Kept the English-only override: no es or fr work in this round.
+- 2026-11-26 03:20 Chose candidate 1: it is item 2 in Next, it removes a duplicated link expression noted in Parked, and Jev ranks run at 89%.
+- 2026-11-26 03:20 Launch gate change closed: the last round's checks passed (tsc 0 errors, lint clean, launchGate401 4/4, launchGate402 6/6, signupAuth401 4/4). Full suite waits for the next checkpoint.
+- 2026-11-26 03:20 Notes condensed to under 600 words. No approved decision removed; Blocked and Parked lines merged where they repeated.
+- 2026-11-26 03:20 Rejected prompt covered two screens (index.tsx and signup.tsx). Rewritten to one screen: index.tsx; signup.tsx moves to the next round.
+- 2026-11-26 03:20 Chose the nav helper first because it removes the duplicated paywall link and unblocks both launch screens.
+- 2026-11-26 03:20 Kept Jev's pick (run, 88%). No reason to override it.
+- 2026-11-26 03:20 English only, per Isa's override. No es or fr work this round.

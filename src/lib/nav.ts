@@ -14,3 +14,9 @@ export function navigate(href: Href | string): void {
 export function replace(href: Href | string): void {
   router.replace(href as Href);
 }
+
+// The paywall, told why the entitlement gate refused (a 402's reason). No
+// reason opens the paywall without a refusal message.
+export function paywallHref(reason?: string): string {
+  return reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall';
+}

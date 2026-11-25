@@ -28,6 +28,7 @@ import { isClerkEnabled } from '@/lib/auth/clerkEnv';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { getHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { resumeTarget } from '@/lib/onboarding/resume';
+import { paywallHref } from '@/lib/nav';
 
 type Destination = string;
 
@@ -93,7 +94,7 @@ function FlagGatedIndex({ signedIn }: { signedIn: boolean }) {
         // the start of onboarding with no word of why.
         const { status, reason } = e as Partial<ApiError>;
         if (status === 402) {
-          if (active) setDestination(reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall');
+          if (active) setDestination(paywallHref(reason));
           return;
         }
         // Backend unreachable → trust the local flag, else treat as not onboarded.
