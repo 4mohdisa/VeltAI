@@ -10683,3 +10683,8 @@
 - 2026-11-25 23:47 Phase 3 Row 13 stays BUILT: R252 checks passed, the R247 note and calendar mock text were corrected, and no core function is broken.
 - 2026-11-25 23:47 Phase 3 Row 15 (useGoals) stays done from R166; no new work needed.
 - 2026-11-25 23:47 Row 14 stays English only: no es or fr translation, per Isa's override.
+- 2026-11-25 23:50 Chose the checkpoint because the loop note marks this round as one, and the full suite has not run since R242.
+- 2026-11-25 23:50 Kept the prompt to a read only run with no file changes, so a failure cannot leave a half edited tree at a checkpoint.
+- 2026-11-25 23:50 Told Claude Code not to guess round numbers. The Row 6 round label (R253) is unconfirmed and stays as the report gave it until Isa checks it.
+- 2026-11-25 23:50 Excluded lint and Go tests from this round to keep it to one thing, as the loop note asks.
+- 2026-11-25 23:50 Kept Row 6 as BUILT for now. The evidence is a before and after query measurement plus passing targeted tests, and the Row 14 work comes next.
