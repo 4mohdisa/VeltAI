@@ -10950,3 +10950,7 @@
 - 2026-11-26 01:28 Chose appState.tsx:119 over energy.ts:37 because it is next in the handover order.
 - 2026-11-26 01:28 Kept the Reanimated and deliberate disables listed in Parked; the prompt makes the Reanimated check the first step.
 - 2026-11-26 01:28 Rewrote the notes under 600 words: finished work removed, Decisions kept in merged lines, duplicate items merged.
+- 2026-11-26 01:30 Parked the appState.tsx:119 fix as an owner question (Blocked on Isa). The fix changes behaviour (a repeated identical batch would run again), and the brief says park and carry on, never ask. The disable stays and the question goes to OWNER_CHECKS_phase4.md with the recommendation.
+- 2026-11-26 01:30 Jev asked for ask (90%). Kept run. The brief forbids ask. The only Isa-dependent item is parked in the owner file, so the loop can carry on. The next item is a small lint change checked by tsc and lint, so the risk is low.
+- 2026-11-26 01:30 Chose candidate 1 (energy.ts:37) because it follows the agreed order: appState first (parked), then energy.ts, then BottomSheet and ParameterForm after a grep.
+- 2026-11-26 01:30 Kept the rule that a disable is removed only when the fix changes no behaviour. Any fix that changes what the app does is parked, not made.

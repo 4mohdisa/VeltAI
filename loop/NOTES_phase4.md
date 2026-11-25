@@ -27,6 +27,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts.
 - Status words only in the status column. Checkpoint rounds change no files.
+- Disable rule: remove only when the fix changes no behaviour. If the fix changes behaviour, park the question in OWNER_CHECKS_phase4.md and keep the disable.
 - Jev is advice only.
 
 ## Decisions (never delete)
@@ -45,9 +46,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; the other removed (key deletion only).
 - Prompts covering more than one module are rewritten to one module.
 - exhaustive-deps fix: compute plain values in render, depend on them, no disable. ParameterForm tells parent via a params effect after commit (tested).
-- Before removing a disable in BottomSheet or similar: Reanimated SharedValue write = keep; real missing dependency = fix.
+- Before removing a disable in BottomSheet or similar: Reanimated SharedValue write = keep; real missing dependency = fix, unless it changes behaviour (then park).
 - Done: TodayCard:237 (revalidate stable), ScanReviewCard:118 (namesKey).
 - A stale plan item (disable not present) is dropped, not added to Blocked.
+- Jev asked for ask at 90%; kept run because the brief forbids ask. The one Isa question is parked in OWNER_CHECKS_phase4.md.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -61,6 +63,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes (es and fr key moves).
+- appState.tsx:119 exhaustive-deps: listing snap.effects would make a repeated identical batch run again (e.g. two FOREGROUND_AFTER_IDLE in a row re-runs validate). Behaviour change, so disable kept. Question and recommendation (make the fix, add a render test) in OWNER_CHECKS_phase4.md.
 
 ## Parked
 - Food tab Retry: verify in Row 30.
@@ -68,7 +71,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
 - measurements.tsx Continue recomputes heightToCm() and toKg(). ParameterForm paramsKey is redundant.
-- Disables left: appState.tsx:119 (this round), energy.ts:37, BottomSheet.tsx:88 (check first), ParameterForm.tsx:141 (grep; drop if none).
+- Disables left: energy.ts:37 (next round), BottomSheet.tsx:88 (check first), ParameterForm.tsx:141 (grep; drop if none), appState.tsx:119 (owner question).
 - Keep: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
 - Missing tests: BottomSheet open and close lifecycle; ScanReviewCard weight-only change does not refetch; gym re-run timing.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
@@ -82,8 +85,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - zsh: use arrays or ${=var}.
 
 ## Next
-1. appState.tsx:119 disable (this round).
-2. energy.ts:37, then BottomSheet.tsx:88 and ParameterForm.tsx:141 (grep first).
+1. energy.ts:37 disable (this round). Park if the fix changes behaviour.
+2. BottomSheet.tsx:88 and ParameterForm.tsx:141 (grep first).
 3. Lifecycle and weight-only tests.
 4. Phase 3 Row 14 remainder, so Row 2 can close.
 5. Row 3 remainder after Isa signs off.
@@ -92,3 +95,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.
 - Name files fully in every prompt after a handover.
+- Prompts name one module, state the branch rule, and end with the report format.

@@ -9,7 +9,9 @@ import { api } from '@/lib/api';
 import { todayISO } from './mappers';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
 
-function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[] = []): {
+// One fetch per key (the date), plus a re-run per refetch. fetcher must be a
+// module-level function so its identity never changes between renders.
+function useApi<T>(fetcher: (key: string) => Promise<T>, key: string): {
   data: T | null;
   loading: boolean;
   refetch: () => void;
@@ -20,7 +22,7 @@ function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[] = []): {
 
   useEffect(() => {
     let active = true;
-    fetcher()
+    fetcher(key)
       .then((d) => {
         if (active) setData(d);
       })
@@ -33,9 +35,7 @@ function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[] = []): {
     return () => {
       active = false;
     };
-    // fetcher is intentionally excluded — deps + nonce control re-runs.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...deps, nonce]);
+  }, [fetcher, key, nonce]);
 
   const refetch = useCallback(() => {
     setLoading(true);
@@ -43,6 +43,9 @@ function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[] = []): {
   }, []);
   return { data, loading, refetch };
 }
+
+const fetchBalance = (day: string) => api.energy.getBalance(day);
+const fetchWeek = (end: string) => api.energy.getWeek(end);
 
 export function useEnergyBalance(date?: string): {
   balance: EnergyBalance | null;
@@ -53,13 +56,13 @@ export function useEnergyBalance(date?: string): {
   // so the balance must ask for the same day — near midnight the server's
   // calendar (LUME_TIMEZONE) can be a day off from the user's.
   const day = date ?? todayISO();
-  const { data, loading, refetch } = useApi<EnergyBalance>(() => api.energy.getBalance(day), [day]);
+  const { data, loading, refetch } = useApi<EnergyBalance>(fetchBalance, day);
   return { balance: data, loading, refetch };
 }
 
 export function useEnergyWeek(): { week: WeeklyEnergyBalance | null; loading: boolean; refetch: () => void } {
   // Same local-calendar anchoring for the 7-day window.
   const end = todayISO();
-  const { data, loading, refetch } = useApi<WeeklyEnergyBalance>(() => api.energy.getWeek(end), [end]);
+  const { data, loading, refetch } = useApi<WeeklyEnergyBalance>(fetchWeek, end);
   return { week: data, loading, refetch };
 }
