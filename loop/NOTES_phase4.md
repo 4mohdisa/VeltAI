@@ -10,16 +10,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: consent gate on AI and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
+- Row 5 server: consent gate merged into consent.Require (backend/internal/consent/gate.go), used by ai and scan routes. Daily AI limit (default 20, UTC day, LUME_AI_DAILY_LIMIT, 0 = off), 429 ai_daily_limit_reached.
 - Row 5 app: scan limits done (scan.ts, label-scan.tsx). Ask Lume limit done (aiBrain.ts returns null, toast). Settings withdraw switch done.
-- Checkpoint green after ask() return change: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race 36 packages ok. Postgres tests were skipped in that run. TestPG_WithdrawConsentRoute passed earlier on lume_test_local.
+- Last checkpoint green: tsc 0 errors; Jest 295 suites, 1,794 tests; Go -race 36 packages ok.
 
 ## Next
-1. Merge requireAIConsent (ai.go) and requireScanConsent (scan.go) into one helper (in progress).
-2. Set Row 5 to BUILT with 'owner check pending' (consent wording and version questions parked).
-3. productionReadiness.test.ts 429 expect line.
-4. Row 3 after Isa signs off the Apple steps.
-5. Maestro flows (2b, 23) once Maestro is confirmed.
+1. productionReadiness.test.ts 429 expect line (in progress).
+2. Row 5 to BUILT with 'owner check pending' (consent wording and version parked).
+3. Row 3 after Isa signs off the Apple steps.
+4. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -37,7 +36,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: scan limits handled where errors are caught (scan.ts, label-scan.tsx). Ask Lume limit in the hook (aiBrain.ts), returns null on daily limit. Consent gate on server first. Consent on profiles.ai_consent_at; consent read error 500. Allow and Not now equal weight. Plain 429 stays queueable; only ai_daily_limit_reached non-retryable. Brief and insights keep fallback text at limit. rate_limit_counters not reused. Kept src/app/ai-consent.tsx. Background insight rebuilds count against allowance.
+- Row 5: scan limits handled where errors are caught (scan.ts, label-scan.tsx). Ask Lume limit in the hook (aiBrain.ts), returns null on daily limit. Consent gate on server first. Consent on profiles.ai_consent_at; consent read error 500. Allow and Not now equal weight. Plain 429 stays queueable; only ai_daily_limit_reached non-retryable. Brief and insights keep fallback text at limit. rate_limit_counters not reused. Kept src/app/ai-consent.tsx. Background insight rebuilds count against allowance. Consent gate merged into one helper in backend/internal/consent.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -52,7 +51,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - One surface per round while risk is high.
-- Consent gate merge: one helper, placed in an existing consent-aware package or backend/internal/consent.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -78,3 +76,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
 - Row 6b: merge three near-duplicate test-result lines.
+- Consent gate: ai.Store declares its own AIConsentAt rather than embedding consent.Reader (harmless).

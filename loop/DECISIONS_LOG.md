@@ -11452,3 +11452,7 @@
 - 2026-11-26 05:14 The helper goes in an existing package that reads consent if one exists, otherwise in backend/internal/consent, to avoid a new layer.
 - 2026-11-26 05:14 Row 5 has no code gap left after the merge. Next round, set it to BUILT with 'owner check pending' because the consent wording and version questions are parked.
 - 2026-11-26 05:14 Round is not a checkpoint: only changed Go packages are tested, to save time.
+- 2026-11-26 05:15 Merged consent gates accepted as done: one helper consent.Require in backend/internal/consent/gate.go, placed in an existing consent-aware package per the rule. Reason: the report shows the same statuses and messages, with a nil-store 403 that cannot happen in the running app.
+- 2026-11-26 05:15 Chose the 429 test fix before marking Row 5 BUILT: one surface per round while risk is high. Row 5 BUILT with owner check pending moves to next round.
+- 2026-11-26 05:15 Chose the smallest task because Jev confidence is low (0.07) and it favours ask or stop. Asking is not allowed, and stopping is not justified (rows remain). Kept run.
+- 2026-11-26 05:15 Row 5 open questions (consent version, 'Who receives it' wording, brief and insights at limit, plain 429 queueable, label scan exit) are parked in OWNER_CHECKS_phase4.md, not asked. Existing decisions stand.
