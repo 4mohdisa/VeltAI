@@ -1,50 +1,38 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First run: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run first: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - The only git command allowed is git branch --show-current.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the api.ts listSessions defaults or src/__tests__/foodDays.test.ts.
 - English only. Never write "verified".
-- For TestPG, set LUME_TEST_DATABASE_URL for one command only, pointing at lume_test_local on localhost:5432 with user $(whoami) and no password. Never print it.
 
 Rows
-- No PHASE4_ROWS.md row changed this session; all the work was cleanup. Built rows are still 1, 2, 2.2, 2c, 2d, 4, 12, 12b and 29. Row 3 is partial. I did not re-read PHASE4_ROWS.md this session.
+- No status changed this session. Built: 1, 2, 2.2, 2c, 2d, 4, 12, 12b and 29. Row 3 is partial.
+- The row 2 notes cell is now one line. It points the Row 14 simulator flow to row 23 (Maestro, DIFFERENT, not run).
+- Phase 3 rows 6, 13, 14 and 15 are all BUILT.
 
-Built this session
-- src/app/(tabs)/food.tsx: added reloadBoth(). Every Retry and pull-to-refresh reloads both the food log and the logged days. The empty-list ErrorState now uses retryLabel={t('common.tryAgain')}.
-- src/lib/billing/subscriptionLinks.ts: added isManageSubscriptionAvailable(). Both profile/delete-account.tsx and profile/subscription.tsx call it, and no inline Platform.OS checks are left there.
-- New test: src/__tests__/render/subscriptionLinks.render.test.tsx. It is a render test because the node Jest project can't load react-native.
-- Deleted the duplicate gymCount block from en, es and fr. Callers now use gym.monthSessions and gym.monthFreezes.
-- Removed the redundant openURL.mockRestore() in settingsDeleteAccount.render.test.tsx.
-- Removed eslint-disables in:
-  - gym.tsx: revalidate is already stable, so it is now in the dependency list.
-  - onboarding/measurements.tsx: the saved values are computed in render, so the dependency list is complete. A new test covers it.
-- Last full checkpoint: tsc 0 errors; Jest 282 suites and 1,704 tests pass; all Go gates pass, with 26 of 26 TestPG tests run against the local test database. The measurements test (13 tests) was added after that checkpoint.
+Built this session (exhaustive-deps cleanup, no behaviour change)
+- src/components/gym/ParameterForm.tsx: a single [params] effect sends the params to the parent. The setState updaters no longer have side effects, and the redundant paramsKey is gone. New test: src/__tests__/render/parameterForm.params.render.test.tsx.
+- src/components/navigation/BottomSheet.tsx: the dependency list now includes mounted and the shared values.
+- src/components/gym/TodayCard.tsx: the focus callback depends on revalidate, which is stable (useApi wraps it in useCallback with an empty dependency list, gymSchedule.ts:93).
+- src/components/food/scan/ScanReviewCard.tsx: namesKey is JSON of the names, and the effect parses the names from the key.
+- src/lib/data/energy.ts: the fetchers are now module-level (fetchBalance, fetchWeek), and useApi takes (fetcher, key).
+- src/app/onboarding/measurements.tsx: the Continue handler and the age, height and weight error checks reuse typedAge, draftAge, draftHeightCm, draftWeightKg and draftTargetKg.
+- Last full checkpoint: tsc 0 errors; Jest 283 suites and 1,706 tests pass; 4 snapshots pass.
 
 In progress
 - Nothing open.
 
 Decisions
-- The shared ErrorState default stays "Retry", because changing it affects 13 screens.
-- No allTimeSessionCount function: the count is server data (streak.totalGymDays), so a wrapper would add nothing.
-
-Open for Isa
-- Rename gym.monthSessions and gym.monthFreezes to neutral names, with key-only moves in es and fr?
-- Change the app-wide ErrorState label to "Try again"?
-- The seven Apple owner steps, the native Apple sheet, Android hiding for Apple sign-in, R249, and the two Retry tests that haven't been signed off.
+- src/lib/auth/appState.tsx:119 was left as is. Changing the dependency from effectsKey to snap.effects would make repeated identical batches run (for example, two idle returns each giving ['revalidateSession']), which is a behaviour change. The recommendation is yes, with one render test. This needs Isa's answer; there is no line for it in OWNER_CHECKS_phase4.md yet.
+- Disables to keep: the immutability ones in SliderField.tsx:68 and BottomSheet.tsx:95, 103 and 134, plus gymSchedule.ts:78 and debug/impl/index.tsx:99.
 
 Gotchas, not fixed
-- consent.ts and purchases.ts have no eslint-disable; those tasks were aimed at the wrong files.
-- exhaustive-deps disables remain in:
-  - src/components/gym/ParameterForm.tsx:141 (next)
-  - src/components/navigation/BottomSheet.tsx:88
-  - src/components/gym/TodayCard.tsx:237
-  - src/components/food/scan/ScanReviewCard.tsx:118
-  - src/lib/auth/appState.tsx:119
-  - src/lib/data/energy.ts:37
-- Deliberate disables, keep: the Reanimated immutability ones, gymSchedule.ts:78 and debug/impl.
-- The Continue handler in measurements.tsx still recomputes heightToCm() and toKg().
-- OWNER_CHECKS_phase4.md has a parity line that still reads as open. The file is append-only.
-- seedChildRows depends on the exercise_library seed.
+- The loop keeps sending tasks for disables that are already removed (4 times). The task list should say only appState.tsx:119 remains.
+- The ParameterForm preview re-runs when params come out the same. This was true before the session too.
+- measurements.tsx:118, in changeHeightUnit, still calls heightToCm().
+- No test covers the BottomSheet lifecycle, or that a weight-only change in ScanReviewCard does not refetch.
+- energy.ts and gymSchedule.ts each have their own private useApi.
+- The Row 14 note in PHASE3_ROWS.md is over 17,000 characters.
+- Open for Isa from before: the gym.monthSessions and gym.monthFreezes rename, the app-wide "Try again" label, the Apple owner steps, R249, and the two Retry tests that haven't been signed off.
 - Jest output is noisy with "API unreachable" warnings, which are not failures.
-- zsh does not split $VAR into words; use arrays or ${=var}.
