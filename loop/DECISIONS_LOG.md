@@ -11376,3 +11376,6 @@
 - 2026-11-26 04:36 Kept one file per round and no full suite, because the Jev risk signal is high and the notes say checkpoints are read-only except for reds caused by the last change.
 - 2026-11-26 04:36 Told Claude Code to skip the file if it has 0 warnings, since the notes say to check counts first.
 - 2026-11-26 04:36 Path fallback added for scanCards.strings because the exact file name is not confirmed; a missing or ambiguous file is reported, not guessed.
+- 2026-11-26 04:37 Chose the checkpoint round because the notes say a checkpoint is due after the act() cleanup and the report recommends it. It is read only, low risk, and Jev's risk is high on recent rounds.
+- 2026-11-26 04:37 Kept the notes under 600 words by condensing repeated items. No status changed, and no item was dropped from Blocked or Parked.
+- 2026-11-26 04:37 Named the full repo path in the prompt through the file path, not a shortened name, to avoid a wrong-file edit after handover.
