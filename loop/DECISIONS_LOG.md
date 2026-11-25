@@ -11008,3 +11008,7 @@
 - 2026-11-26 01:45 Treated the plan-ready summary as approved, because the Decisions section already records that approval. Removed the stale Blocked line for it.
 - 2026-11-26 01:45 Row 2b stays PARTIAL until training days, profile editing, the plan-ready summary and the shared Maestro flow are all closed. Do not mark it BUILT early.
 - 2026-11-26 01:45 Jev gave ask 36%. Kept run because the brief forbids ask.
+- 2026-11-26 01:48 Chose the step-number sweep first because the last report said the other onboarding render tests were not run after the renumbering, and the loop note says to close partial flags before any new row.
+- 2026-11-26 01:48 Agree with Jev's 'run' signal. Did not ask Isa, per the brief.
+- 2026-11-26 01:48 Kept the signup placeholder literals as English, per the English-only override.
+- 2026-11-26 01:48 Kept the training days answer off the backend plan, because it would overwrite the activity level the user already chose.
