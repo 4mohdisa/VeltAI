@@ -11484,3 +11484,12 @@
 - 2026-11-26 05:23 Verification is read only except for fixes to reds caused by the Row 5 change, to respect the checkpoint rule.
 - 2026-11-26 05:23 Parked: the 25 Nov audit in DESIGN_REFERENCES.md is out of date (maintain option and training-days question now exist; onboarding is now English only). Left for the Row 2b redesign round, which will update it.
 - 2026-11-26 05:23 Jev risk score 1.0 (of 2) noted; mitigated by keeping this round to checks and one table check.
+- 2026-11-26 05:24 Row 5 is closed as BUILT (owner check pending): the verification round checked tsc, targeted Jest, lint, Go consent tests and the table, and all passed.
+- 2026-11-26 05:24 Chose Row 2b dead ends 1 and 2 because the last report recommended it and it is the next step in the agreed order.
+- 2026-11-26 05:24 Folded the DESIGN_REFERENCES audit refresh into this round, because the last report said it must be fixed before Welcome work starts and it touches only that doc.
+- 2026-11-26 05:24 Run chosen over ask (Jev 3%) and stop (Jev 2%). Stop condition not met; ask is barred.
+- 2026-11-26 05:24 Kept one surface per round (Welcome and auth screen) because risk is high.
+- 2026-11-26 05:25 Loop rejected the last prompt for asking more than one surface. Rewrote it to Welcome screen only; auth title (dead end 2) moves to the next round.
+- 2026-11-26 05:25 DESIGN_REFERENCES audit refresh deferred one round. It is doc only, but the one surface rule applies and it does not block the Welcome fix.
+- 2026-11-26 05:25 Welcome link uses the existing auth route and its mode param, with no new screen, so the change stays small.
+- 2026-11-26 05:25 Row 2b stays PARTIAL. Dead ends 1 and 2 are fixed one at a time.
