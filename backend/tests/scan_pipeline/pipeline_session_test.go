@@ -309,6 +309,10 @@ func (c *countingPipelineStore) UpdatePipelineSession(_ context.Context, _ strin
 	return nil
 }
 
+func (c *countingPipelineStore) AIConsentAt(context.Context, string) (*time.Time, error) {
+	return consentedAt()
+}
+
 var _ scan.PipelineStore = (*countingPipelineStore)(nil)
 
 // Three concurrent pipeline requests each get their own log_id and

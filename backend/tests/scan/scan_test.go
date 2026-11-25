@@ -85,6 +85,13 @@ type fakeStore struct {
 
 func portionKey(userID, foodName string) string { return userID + "\x00" + foodName }
 
+// AIConsentAt reports consent on record so the consent gate lets these tests
+// through; consent_quota_test.go overrides it to test the gate itself.
+func (f *fakeStore) AIConsentAt(context.Context, string) (*time.Time, error) {
+	at := time.Unix(0, 0)
+	return &at, nil
+}
+
 func (f *fakeStore) CreateSession(_ context.Context, sess scan.Session) (string, error) {
 	if f.sessions == nil {
 		f.sessions = map[string]fakeSession{}

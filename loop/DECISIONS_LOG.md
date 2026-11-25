@@ -11088,3 +11088,7 @@
 - 2026-11-26 02:33 Jev risk reading is high (1.0 of 2) with a mid confidence, so a small task is preferred over starting 5b.
 - 2026-11-26 02:33 Jev suggested run at 95%; kept run. No reason to ask or stop.
 - 2026-11-26 02:33 requireScanConsent fail-open is queued as the next candidate after this rerun; it touches a security gate, so it gets its own round.
+- 2026-11-26 02:34 Picked the fail closed fix over Row 5b, matching Jev's ranking: it is a consent gate hole, small, and the next item in the queue. Row 5b depends on the consent gate behaving correctly.
+- 2026-11-26 02:34 Latest report accepted: the 7 TestPG tests live in tests/scan and all passed with 0 skipped. The notes now name the package.
+- 2026-11-26 02:34 Consent version and pre-version consent handling stay parked in OWNER_CHECKS_phase4.md; no version field is added in this round.
+- 2026-11-26 02:34 This round is not a checkpoint: scoped Go tests and TestPG for tests/scan only.

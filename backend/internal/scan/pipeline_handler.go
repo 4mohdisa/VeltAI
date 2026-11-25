@@ -49,6 +49,8 @@ func decodeScanBody(w http.ResponseWriter, r *http.Request, dst any) bool {
 // separate from Store so adding it does not change the existing Store contract
 // (and the existing scan tests' fake). *PGStore satisfies both.
 type PipelineStore interface {
+	ConsentStore
+
 	// CreateAnalyzingLog inserts a food_logs row in the 'analyzing' state and
 	// returns its id. The pipeline fills it in and flips it to 'ready'.
 	CreateAnalyzingLog(ctx context.Context, userID, date string, mealType *string) (id string, err error)

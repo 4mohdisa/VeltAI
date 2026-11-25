@@ -21,11 +21,10 @@ import (
 // ErrNotFound is returned by Store lookups when a row does not exist.
 var ErrNotFound = errors.New("not found")
 
-// ConsentStore is the optional capability to read the user's recorded
-// third-party-AI consent (profiles.ai_consent_at). When the wired store
-// implements it — *PGStore does, compile-time asserted below — every route
-// that sends user data to Gemini requires recorded consent and fails CLOSED
-// on a read error. Hermetic test fakes that don't implement it skip the gate.
+// ConsentStore reads the user's recorded third-party-AI consent
+// (profiles.ai_consent_at). Store and PipelineStore both embed it, so every
+// route that sends user data to Gemini requires recorded consent and fails
+// CLOSED: no record, a read error or a missing store all refuse the request.
 //
 // Added in the 2026-08-06 audit: App Store 5.1.2(i) ("including with
 // third-party AI", Nov 2025 revision) requires consent before the send, and
@@ -36,12 +35,12 @@ type ConsentStore interface {
 
 var _ ConsentStore = (*PGStore)(nil)
 
-// requireScanConsent enforces ConsentStore when the store provides it.
-// Returns false once it has written the response.
-func requireScanConsent(w http.ResponseWriter, r *http.Request, store any) bool {
-	cs, ok := store.(ConsentStore)
-	if !ok {
-		return true
+// requireScanConsent never skips the check. Returns false once it has written
+// the response.
+func requireScanConsent(w http.ResponseWriter, r *http.Request, cs ConsentStore) bool {
+	if cs == nil {
+		httpx.Error(w, http.StatusForbidden, "ai_consent_required")
+		return false
 	}
 	at, err := cs.AIConsentAt(r.Context(), auth.UserID(r.Context()))
 	if err != nil {
@@ -135,6 +134,8 @@ type AccuracySummary struct {
 // Store persists confirmed scans and the correction/calibration data used to
 // improve future scans.
 type Store interface {
+	ConsentStore
+
 	// CreateSession inserts a scan_sessions row for a POST /api/scan call
 	// and returns its id.
 	CreateSession(ctx context.Context, s Session) (id string, err error)

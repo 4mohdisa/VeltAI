@@ -10,12 +10,20 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3, 5 (5a built; 5b open).
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Go checkpoint: 49 packages, 770 tests pass, race clean, go vet clean. TestPG: 28 ran and passed earlier. Lint 0 findings. BASELINE_phase4.md written.
+- Go checkpoint: 49 packages, 770 tests pass, race clean, go vet clean. Lint 0 findings. BASELINE_phase4.md written.
 - Frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; 4 snapshots pass.
-- Gate after 5a: go vet clean, scan/ai tests pass (218 passed). tsc 0. 7 TestPG in tests/scan_pipeline were skipped (no URL). Rerun is the current task.
+- 7 TestPG tests in tests/scan: all ran against lume_test_local and passed, 0 skipped (closed).
 - Route audit: 93 of 93 consumed. Two anomaly routes broken by design. ROUTE_COVERAGE.md regenerated; Isa decides commit or delete.
 - 2b open: plan-ready summary (needs Isa go-ahead); Maestro flow shared with row 23, not run.
 - exhaustive-deps: only appState.tsx:119 left (needs Isa).
+
+## Next
+1. requireScanConsent fail closed (scan.go:42) with tests. This round. Chosen over 5b because it closes a consent hole and Jev ranked it first.
+2. Row 5b app consent screen, Settings switch, daily AI limits (getConsent, setConsent, revokeConsent in src/lib/api.ts).
+3. Row 6 entitlements webhook with fixtures.
+4. Maestro onboarding flow for 2b and 23 once Maestro is confirmed installed.
+5. Row 2b plan-ready summary: parked until Isa approves. Row 2b stays PARTIAL.
+6. Row 3 remainder after Isa signs off. Gym key rename only after Isa approves.
 
 ## Rules
 - One module per prompt, max 5 steps. Grep first. Prompts name branch loop/phase4 and forbid switching.
@@ -62,8 +70,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
 - Approve goal change rule. Training days: device only or add a backend field.
 - Go-ahead for plan-ready summary screen.
-- Whether route audit runs in npm run verify.
-- Whether to commit ROUTE_COVERAGE.md.
+- Whether route audit runs in npm run verify. Whether to commit ROUTE_COVERAGE.md.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 - Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).
@@ -85,14 +92,5 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
 - Audit script always rewrites ROUTE_COVERAGE.md; no skip option.
 - Packages with no test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
-- requireScanConsent (backend/internal/scan/scan.go:42) skips the consent check when its store cannot read consent. Real store can read, so only test fakes hit it. Fix queued: fail closed.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
-
-## Next
-1. Rerun the 7 skipped TestPG scan_pipeline tests against lume_test_local (this round, closes the 5a flag).
-2. requireScanConsent fail closed (scan.go:42) with a test.
-3. Row 5b app consent screen, Settings switch, daily AI limits (getConsent, setConsent, revokeConsent in src/lib/api.ts).
-4. Row 6 entitlements webhook with fixtures.
-5. Maestro onboarding flow for 2b and 23 once Maestro is confirmed installed.
-6. Row 2b plan-ready summary: parked until Isa approves. Row 2b stays PARTIAL.
-7. Row 3 remainder after Isa signs off. Gym key rename only after Isa approves.
+- Row 5 consent scan path: requireScanConsent fail closed is in progress this round (see Next 1).

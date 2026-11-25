@@ -197,6 +197,17 @@ func (f *fakePipelineStore) UpdatePipelineSession(_ context.Context, sessionID s
 	return nil
 }
 
+// consentedAt is the consent on record for the fakes, so the consent gate lets
+// the pipeline tests through; consentPipelineStore overrides it.
+func consentedAt() (*time.Time, error) {
+	at := time.Unix(0, 0)
+	return &at, nil
+}
+
+func (f *fakePipelineStore) AIConsentAt(context.Context, string) (*time.Time, error) {
+	return consentedAt()
+}
+
 var _ scan.PipelineStore = (*fakePipelineStore)(nil)
 
 // servePipeline mounts RegisterPipeline on a fresh mux and drives one request
