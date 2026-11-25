@@ -11,16 +11,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Row 2b: dead ends 1 to 6 and 8 built in code, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
-- Last full checkpoint (after dead end 8): tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests, 4 snapshots; 67 console.error, 165 console.warn (background noise).
-- This round: docs only. Record dead end 8 in PHASE4_ROWS.md Row 2b notes and mark row 8 built in DESIGN_REFERENCES.md.
+- Last full checkpoint (after dead end 8 was not yet included): tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn.
+- Last round: docs only. Its type check and tests were NOT run (loop flag). This round verifies them.
 
 ## Next
-1. Docs for dead end 8 (this round). Check the result next round.
+1. Verify dead end 8: tsc, one Jest file, lint on measurements.tsx (this round). Fix only reds caused by dead end 8.
 2. Subscription toast subscription.plansUnavailable (src/app/profile/subscription.tsx:92): reword to user text, en only.
-3. Row 6b: remaining work not tied to step (f).
-4. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
-5. Row 3 after Isa signs off the Apple steps (owner).
-6. Maestro flows (2b, 23) once Maestro is confirmed.
+3. Fix the old 'keeps 7 and 8 open' phrase in the Row 2b notes to 'keeps 7 open'.
+4. Row 6b: remaining work not tied to step (f).
+5. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
+6. Row 3 after Isa signs off the Apple steps (owner).
+7. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -58,6 +59,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
 - Docs only round chosen as the smallest task while Jev risk is high.
+- Verification round chosen first after the loop flagged an unrun type check and tests.
 
 ## Blocked on Isa (park, do not retry)
 - Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it.
@@ -92,3 +94,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Gotcha: each hook test through the harness prints one react-test-renderer deprecation console.error.
 - Gotcha: lint and test exit codes are hidden by pipes; redirect output to a file and echo $?.
 - Gotcha: PHASE4_ROWS.md rows keep 7 columns; append notes with <br> before the closing ' |'.
+- Gotcha: zsh --include=*.ts globs fail; use plain grep -rn and filter.

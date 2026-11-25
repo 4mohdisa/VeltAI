@@ -11551,3 +11551,7 @@
 - 2026-11-26 05:44 Jev's stop vote is 2%, and nothing points at production or needs a stop, so no stop.
 - 2026-11-26 05:44 Not using Jev's ask/run mix: no questions to Isa, per standing rule.
 - 2026-11-26 05:44 Kept the notes under 600 words by merging the open items and dropping finished work from the Next list.
+- 2026-11-26 05:45 Chose the verification round first because the loop flagged the last report as not checked and Jev risk is 1.1 with low confidence on a clean finish.
+- 2026-11-26 05:45 Limited the check to one Jest file, tsc and lint on the changed file, to keep the round small.
+- 2026-11-26 05:45 Kept the subscription toast reword for the next round, since it touches a different surface.
+- 2026-11-26 05:45 Recorded that the old 'keeps 7 and 8 open' phrase in Row 2b is still open as a doc fix to do with the next docs edit.
