@@ -9,25 +9,25 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; 402 launch gate line recorded; open: f stale strings, English only part).
-- Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests. Go 49 packages, 770 tests, race clean.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built, 402 launch gate line recorded; open: f stale English wording).
+- Last full run: tsc 0 errors; Jest 289 suites, 1,759 tests. Go 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
-- App tests mock the API, so the 402 gate is untested in the app. First real check: sandbox run.
-- Last report flagged (full Jest suite skipped). Verification round is in progress.
+- App tests mock the API, so the 402 gate is untested end to end in the app.
+- Checkpoint round requested again: first prompt was rejected (no branch rule). Rewritten with branch check.
 
 ## Next
-1. Verify round: 402 launch gate (row 6b line, tsc, full Jest with --ci, lint on index.tsx and paywall.tsx). Record result.
-2. signup.tsx continueAfterAuth: a 402 after sign-in is treated as unreachable. Add the same 402 branch (Jev 92%).
-3. Completed flag on phone skips onboarding and meets 402s in tabs. Needs a route-level check.
-4. Row 6b (f): English stale free-tier wording in paywall strings (plansUnavailable, storeError). English only.
+1. Checkpoint: tsc and full app Jest, read only (clears loop flag).
+2. signup.tsx continueAfterAuth: 402 after sign-in opens paywall with reason.
+3. Completed flag skips onboarding, so 402s hit in tabs. Route-level check.
+4. Row 6b (f): English free-tier wording in plansUnavailable, storeError.
 5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
 6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 7. Plan-ready summary: parked until Isa approves.
 8. Row 3 remainder after Isa signs off.
 
 ## Rules
-- One task per prompt: one file or component, max 5 steps. Grep with find first (grep -rl matches contents, not names).
-- Only git command: git branch --show-current. Never push.
+- One task per prompt: one file or component, max 5 steps. Find files with find first (grep -rl matches contents, not names).
+- Work only on loop/phase4. Only git command: git branch --show-current. Never push, merge or switch.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
@@ -38,35 +38,29 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Training days stay on device; savePlan sends only body metrics.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; retry GET /api/subscription 4 times, 1.5 s apart, injectable timing. Confirmed purchase writes status to the settings store (serverEntitlement).
-- Launch gate 402: opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding.
-- Returning user purchase with answers missing from phone: parked in OWNER_CHECKS_phase4.md (skip save vs backend contract change). Not blocked on a reply.
-- Incomplete report with loop flag: verify first. Without flag: Jev pick.
-- Rejected prompt (too many screens): rewritten to one file.
-- Webhook secret from env only; unset means refuse events.
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart, injectable timing. Confirmed purchase writes status to settings store.
+- Launch gate 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding.
+- REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- REFUND_REVERSED restores state from event expiry. 402 has a reason field. Billing issue keeps access through grace.
-- Checkpoint round: read only.
 - Row 5: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at. Consent read error stays 500.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Row 6 (Phase 3): hydrateGym limit 200; backend LIMIT kept.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
-- Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json.
-- Exhaustive-deps: no disable except Reanimated SharedValue writes.
-- Analytics and debug reports stay gated (Isa to review).
-- Paywall error copy names no free tier and no later step.
-- Revoking an integration stays public, counted as withdrawing consent.
+- Webhook secret from env only; unset means refuse events.
+- Checkpoint round: read only.
+- Rejected prompts: too many screens (rewrite to one file); missing branch rule (rewrite with branch check).
+- Incomplete report with loop flag: verify first. Without flag: Jev pick.
 
 ## Blocked on Isa (park, do not retry)
 - Row 5a 500 vs 403 read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating; consent version.
-- es and fr text (deferred; English only per Isa).
+- Returning user with answers missing from phone: OWNER_CHECKS_phase4.md.
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier (legal copy).
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
+- es and fr text (deferred; English only per Isa).
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
@@ -77,10 +71,10 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. auth.ExportTableNames and account.UserTables overlap.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
-- Background AI sweep skipping no-consent users: no test. PHASE3_ROWS.md row 14 note too long: trim later.
+- Background AI sweep skipping no-consent users: no test. PHASE3_ROWS.md row 14 note too long.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Sandbox webhook timing: 4 x 1.5 s is a guess.
 - Restore purchases link shows profile.storeUnreachable; not checked for promises of later access.
 - STATUS.md:32 and scanSeam.test.ts:450 describe free scans; TestLabel_WritesSessionRowForQuota keeps its old name.
-- es and fr for onboarding.paywall.refusal.* and notConfirmed missing; plansUnavailable and storeError still describe a free tier in es and fr.
-- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (route-level check needed, see Next 3).
+- A returning user without a subscription goes back to onboarding, because GET /api/onboarding gets 402 (see Next 3).
+- Problem found in report: a user with the completion flag skips the paywall (see Next 3).

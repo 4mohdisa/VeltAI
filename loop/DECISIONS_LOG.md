@@ -11170,3 +11170,12 @@
 - 2026-11-26 03:14 Loop flag set on the last report (full Jest suite skipped), so verify first per the Incomplete report rule. Jev's pick (signup 402 branch, 92%) is next round, not this one.
 - 2026-11-26 03:14 Reason for keeping the verify step over Jev's pick: the flag says the report is incomplete, and the signup change would build on an unverified base.
 - 2026-11-26 03:14 Full Jest run is allowed this round because the flagged report skipped it; this is not a checkpoint round, so the run is read only apart from the one fix the prompt allows.
+- 2026-11-26 03:15 Verify round passed: full Jest 289 suites and 1,759 tests, tsc 0 errors, lint clean on index.tsx and paywall.tsx. The loop flag is cleared.
+- 2026-11-26 03:15 Row 6b 402 launch gate line is recorded; the row stays PARTIAL until step (f) is done.
+- 2026-11-26 03:15 Chose candidate 1 (Jev 96% on run): it is the next item in notes and is a small, one-file change.
+- 2026-11-26 03:15 Report wording limited to 'built' or 'checked by a test'.
+- 2026-11-26 03:15 Previous prompt rejected for missing loop/phase4 branch rule; rewritten with branch check, no-push rule and one-task scope.
+- 2026-11-26 03:15 This round is a checkpoint: tsc and full Jest, read only, because the loop flag is set and the last full run was before the 402 launch gate change.
+- 2026-11-26 03:15 Jev ranks the checkpoint highest (run 89%); chose the same task, which is a cheap, read-only check that also clears the loop flag.
+- 2026-11-26 03:15 Kept the signup 402 fix as the next task because it is a single file and the 402 path is untested end to end.
+- 2026-11-26 03:15 Returning user answers missing from the phone stays parked in OWNER_CHECKS_phase4.md; not blocking.
