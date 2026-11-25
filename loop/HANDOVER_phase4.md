@@ -4,36 +4,47 @@ Setup
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First run: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - The only git command allowed is git branch --show-current.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the api.ts listSessions defaults or src/__tests__/foodDays.test.ts.
-- English only, no es or fr edits. Never write "verified".
-- For TestPG, set LUME_TEST_DATABASE_URL for a single command only, pointing at lume_test_local on localhost:5432 with the Mac's own Postgres login (whoami, no password). The `lume` user in backend/.env does not exist locally. Never print the URL.
+- English only. Never write "verified".
+- For TestPG, set LUME_TEST_DATABASE_URL for one command only, pointing at lume_test_local on localhost:5432 with user $(whoami) and no password. Never print it.
 
-Rows (PHASE4_ROWS.md, progress line "BUILT or EXACT: 9 of 38")
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. Row 4 (account deletion) became BUILT this session.
-- PARTIAL: 3 (Sign in with Apple).
+Rows
+- No PHASE4_ROWS.md row changed this session; all the work was cleanup. Built rows are still 1, 2, 2.2, 2c, 2d, 4, 12, 12b and 29. Row 3 is partial. I did not re-read PHASE4_ROWS.md this session.
 
-Built this session (Row 4)
-- backend/internal/auth/profile_delete_test.go: the Postgres test seeds all 29 account.UserTables plus 5 child tables, counting child rows by parent ids read before the delete. It also has TestClerkUserDeleterTreatsNotFoundAsDeleted (stub http.DefaultTransport).
-- src/app/profile/delete-account.tsx: all text in en.json under settings.deleteAccountDetails. Every failure shows plain fallback text. The bold DELETE is rendered with <Trans>. An iOS-only Manage subscription button.
-- src/lib/billing/subscriptionLinks.ts: APPLE_SUBSCRIPTIONS_URL and openManageSubscription() (returns false on failure). Used by both delete-account.tsx and profile/subscription.tsx.
-- profile/subscription.tsx: Manage subscription shows on iOS only.
-- src/__tests__/localeParity.test.ts: ENGLISH_ONLY set with the 18 new keys (Isa override 25 Nov).
-- 10 render tests now use `type Locale = typeof es`, because en has English-only keys.
-- Last checkpoint: tsc 0 errors, Jest 281 suites and 1,698 tests pass, and all Go gates green. Since then the subscription test went from 6 to 8 tests (that file was run on its own and passes).
+Built this session
+- src/app/(tabs)/food.tsx: added reloadBoth(). Every Retry and pull-to-refresh reloads both the food log and the logged days. The empty-list ErrorState now uses retryLabel={t('common.tryAgain')}.
+- src/lib/billing/subscriptionLinks.ts: added isManageSubscriptionAvailable(). Both profile/delete-account.tsx and profile/subscription.tsx call it, and no inline Platform.OS checks are left there.
+- New test: src/__tests__/render/subscriptionLinks.render.test.tsx. It is a render test because the node Jest project can't load react-native.
+- Deleted the duplicate gymCount block from en, es and fr. Callers now use gym.monthSessions and gym.monthFreezes.
+- Removed the redundant openURL.mockRestore() in settingsDeleteAccount.render.test.tsx.
+- Removed eslint-disables in:
+  - gym.tsx: revalidate is already stable, so it is now in the dependency list.
+  - onboarding/measurements.tsx: the saved values are computed in render, so the dependency list is complete. A new test covers it.
+- Last full checkpoint: tsc 0 errors; Jest 282 suites and 1,704 tests pass; all Go gates pass, with 26 of 26 TestPG tests run against the local test database. The measurements test (13 tests) was added after that checkpoint.
 
 In progress
-- Nothing open. Suggested next step: move the two inline Platform.OS === 'ios' checks into one export in subscriptionLinks.ts.
+- Nothing open.
 
 Decisions
-- The server deletes the Clerk identity first, then the rows. That order is kept on purpose: a Clerk failure returns 502 and keeps the rows. Regression tests in tests/regression/phase14_test.go pin it.
-- A Clerk 404 counts as deleted.
-- No migration was needed. All five child foreign keys are ON DELETE CASCADE.
+- The shared ErrorState default stays "Retry", because changing it affects 13 screens.
+- No allTimeSessionCount function: the count is server data (streak.totalGymDays), so a wrapper would add nothing.
+
+Open for Isa
+- Rename gym.monthSessions and gym.monthFreezes to neutral names, with key-only moves in es and fr?
+- Change the app-wide ErrorState label to "Try again"?
+- The seven Apple owner steps, the native Apple sheet, Android hiding for Apple sign-in, R249, and the two Retry tests that haven't been signed off.
 
 Gotchas, not fixed
-- OWNER_CHECKS_phase4.md has a parity line that still reads as open, even though the override answers it. The file is append-only.
-- The delete screen test has a redundant openURL.mockRestore().
+- consent.ts and purchases.ts have no eslint-disable; those tasks were aimed at the wrong files.
+- exhaustive-deps disables remain in:
+  - src/components/gym/ParameterForm.tsx:141 (next)
+  - src/components/navigation/BottomSheet.tsx:88
+  - src/components/gym/TodayCard.tsx:237
+  - src/components/food/scan/ScanReviewCard.tsx:118
+  - src/lib/auth/appState.tsx:119
+  - src/lib/data/energy.ts:37
+- Deliberate disables, keep: the Reanimated immutability ones, gymSchedule.ts:78 and debug/impl.
+- The Continue handler in measurements.tsx still recomputes heightToCm() and toKg().
+- OWNER_CHECKS_phase4.md has a parity line that still reads as open. The file is append-only.
 - seedChildRows depends on the exercise_library seed.
-- Duplicate keys: gym.monthSessions vs gymCount.sessions.
-- The Food tab Retry reloads only the food log.
-- Jest output is noisy with "API unreachable" warnings.
-- zsh does not split $VAR into words. Use arrays or ${=var}.
-- Open for Isa: the seven Apple owner steps, the native Apple sheet, Android hiding for Apple sign-in, R249, and the two Retry tests that haven't been signed off.
+- Jest output is noisy with "API unreachable" warnings, which are not failures.
+- zsh does not split $VAR into words; use arrays or ${=var}.
