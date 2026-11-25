@@ -10827,3 +10827,7 @@
 - 2026-11-26 00:47 Jev rated the run action at 97% and the clean-finish chance at 68%. The risk of 0.9 has low confidence (0.37). Kept run and kept the task to one test file so a failure is easy to undo.
 - 2026-11-26 00:47 The loop flag was treated as a reason to finish the open item first, not to start Row 4 step 5 or a new row.
 - 2026-11-26 00:47 The parity exemption and the 10 extra test files from the last round are accepted as they are. No change to them in this round.
+- 2026-11-26 00:50 Chose the checkpoint: the loop flag says Row 4 is only partly done, and the last report and Jev's 67% clean-finish chance both point to a small verification step before more code.
+- 2026-11-26 00:50 Checkpoint runs the backend regression and migration tests too, because ExportTableNames changed and those tests read it; they were not run after that change.
+- 2026-11-26 00:50 Checkpoint changes no files, per the loop rule; any red gate is reported and fixed in the next round.
+- 2026-11-26 00:50 Row 4 stays PARTIAL. Open steps: 29-table deletion Postgres test, Clerk deletion path, subscription note.

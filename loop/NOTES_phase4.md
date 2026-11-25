@@ -14,7 +14,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 PARTIAL: steps 1, 2, 3a, 3b, 3c, 4 done (delete screen text in en.json, ENGLISH_ONLY parity list, 10 render files typed as es). Open: render test for the Trans confirm prompt (this round). Then check Clerk deletion path and subscription note.
+- Row 4 PARTIAL: steps 1, 2, 3a, 3b, 3c, 4 done. Trans confirm render test done. Open: checkpoint of tsc, Jest and Go after 13 test files changed (this round), then Clerk deletion path, subscription note, 29-table deletion Postgres test.
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
 - Last checkpoint: tsc 0 errors, 280 suites, 1,689 tests.
 
@@ -48,6 +48,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through one named list (ENGLISH_ONLY) with a reason. Missing es and fr keys fall back to English.
 - Delete screen text in en.json (settings.deleteAccountDetails). Failed delete shows plain fallback text for every failure, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
+- Checkpoint round (Row 4 flag): no file changes; gates reported, fixes in next round.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -76,14 +77,16 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - rate_limit_counters may hold user ids in text keys.
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 - seedChildRows uses the first exercise_library row, so it depends on the library seed migration. Local DATABASE_URL user 'lume' does not exist locally.
-- Deletion Postgres test seeds 5 of 29 user tables (check in Row 4 close-out).
+- Deletion Postgres test seeds 5 of 29 user tables (close in Row 4).
 - OWNER_CHECKS_phase4.md parity line from an earlier round is answered by the override; left in place (append only).
+- Delete screen text is in code rather than i18n keys in one place; check in Row 4 close-out.
 
 ## Next
-1. Row 4: render test for Trans confirm prompt (this round, closes the loop flag).
-2. Row 4: check Clerk deletion path and subscription note. Then close Row 4 with the 29-table deletion test.
-3. Next: Food tab Try again (both reads), then duplicate gym keys.
-4. Settle the handover count at the next checkpoint.
+1. Checkpoint round: tsc, full Jest --ci, Go and regression/migration tests after Row 4 changes. Fix any red gate in the next round.
+2. Row 4: seed all 29 user tables in the deletion Postgres test.
+3. Row 4: check Clerk deletion path and subscription note. Close Row 4.
+4. Then Food tab Try again (both reads), then duplicate gym keys.
+5. Settle the handover count at the next checkpoint.
 
 ## Loop note
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
