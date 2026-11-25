@@ -11,16 +11,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Row 2b: dead ends 1 to 6 and 8 built, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
-- Last full checkpoint: tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests (includes dead end 8). 67 console.error, 165 console.warn.
-- Last round: dead end 8 checked by a test (tsc 0, one Jest file 6/6, lint on measurements.tsx clean). Loop flag was a false alarm.
+- subscription.plansUnavailable reworded in en.json (user text). es and fr deferred.
+- Last full checkpoint: tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests (before the wording change). 67 console.error, 165 console.warn.
+- Last round: subscription wording and PHASE4_ROWS Row 2b note fixed. Only two Jest files and lint run.
 
 ## Next
-1. Reword subscription.plansUnavailable toast (src/app/profile/subscription.tsx:92), en only, user text.
-2. Fix 'keeps 7 and 8 open' to 'keeps 7 open' in Row 2b notes (PHASE4_ROWS.md).
+1. Checkpoint round: full tsc and Jest after wording change and dead end 8 (in progress).
+2. Row 2b: sign up and sign in surface pass, one surface per round.
 3. Row 6b: remaining work not tied to step (f).
-4. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
-5. Row 3 after Isa signs off the Apple steps (owner).
-6. Maestro flows (2b, 23) once Maestro is confirmed.
+4. Row 3 after Isa signs off the Apple steps (owner).
+5. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -58,6 +58,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
 - Verification round chosen first after the loop flagged an unrun type check and tests.
+- Last report's es and fr translation suggestion ignored: English only override.
 
 ## Blocked on Isa (park, do not retry)
 - Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it.
@@ -78,6 +79,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only. Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
+- subscription.notConfiguredDev ('Billing is not configured in this build (development mode).') reads like a developer message. Check whether a user can see it.
 - About 67 deliberate console warns from [data], [onboarding], [meals]; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.

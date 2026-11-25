@@ -11560,3 +11560,7 @@
 - 2026-11-26 05:46 Checks limited to tsc, one lint file, the locale JSON parse and the Jest files that touch the changed text. Full suite is not due until the next checkpoint.
 - 2026-11-26 05:46 Jev 99% run and 92% clean finish agree with the choice. No reason to override.
 - 2026-11-26 05:46 Marked the last round's dead end 8 check as built by a test. The loop's type check flag was a false alarm, so no re-run is needed.
+- 2026-11-26 05:47 Checkpoint round chosen first: the last report ran only two Jest files and the last full checkpoint predates dead end 8 and the subscription wording change.
+- 2026-11-26 05:47 Ignored the last report's suggestion to translate es and fr strings: Isa's override is English only, so es and fr stay deferred.
+- 2026-11-26 05:47 Kept Row 2b as PARTIAL: dead end 7 still awaits Isa's sign off.
+- 2026-11-26 05:47 Jev ranked run first at 62% and stop at 24%; a small verification task is the lower risk choice, so I kept it.
