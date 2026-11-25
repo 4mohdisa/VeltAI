@@ -11033,3 +11033,7 @@
 - 2026-11-26 02:05 Added a fourth Goal option rather than hiding the stored goal, so the user sees their real goal. One new English key, listed in ENGLISH_ONLY.
 - 2026-11-26 02:05 Activity-level saves keep the stored goal unless the Goal row changed. Reason: the save must not alter fields the user did not touch.
 - 2026-11-26 02:05 Import cycle between mutations.ts and hooks.ts parked, not fixed, to keep the round small.
+- 2026-11-26 02:09 Chose the scope audit first because the loop flagged files outside the named task; this must be settled before the next feature step.
+- 2026-11-26 02:09 Jev suggested ask at 21 percent; kept run because the brief forbids ask. Jev is advice only.
+- 2026-11-26 02:09 Isa's English only override makes the es and fr text blocker moot; no es or fr work is queued.
+- 2026-11-26 02:09 Unrelated edits in the goal round's outside test files will be reverted, not kept, to keep the round small and reviewable.
