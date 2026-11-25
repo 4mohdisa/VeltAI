@@ -13,10 +13,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Last checkpoint: tsc 0, Jest 292 suites, 1,774 tests, all pass. Route audit 93 of 93.
 
 ## Next (one screen per round)
-1. DONE: ai-query.tsx opens ai-consent.tsx (replace/navigate per screen type).
+1. DONE: ai-query.tsx opens ai-consent.tsx.
 2. DONE: insights.tsx uses replace('/ai-consent') (no-input screen; Isa to confirm).
-3. IN PROGRESS: food/photo-capture.tsx, same wiring as ai-query.
-4. food/label-scan.tsx: same wiring (navigate, button press).
+3. DONE: food/photo-capture.tsx opens consent before any photo or scan (checked by tests).
+4. IN PROGRESS: food/label-scan.tsx, same wiring. Also update phase14Regression order check, labelScan.render.test.tsx mock, scanScreens.strings.render.test.tsx mock.
 5. Row 5b: withdraw switch in Settings, then daily limit copy.
 6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 7. Row 3 remainder after Isa signs off.
@@ -51,23 +51,22 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only. Incomplete report with loop flag: verify first. Without flag: Jev pick.
-- Loop rejected a prompt covering four screens: one screen per round.
-- Loop rejected a prompt without the branch rule first: every prompt states it first.
+- Loop rejected multi-screen prompts and prompts without the branch rule first.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
-- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable and storeError (these still describe a free tier).
+- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
 - Row 5a/5b: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics? (old alert did; consent screen does not).
-- Confirm replace over navigate for insights.tsx (no-input screen).
-- aiBrain.ts:168 still calls ensureAiConsent after a 403 (alert can still show).
+- Confirm replace over navigate for insights.tsx.
+- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
-- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
-- Ask Lume needs a second tap on Send after accepting consent (wait for consent screen review).
+- aiBrain.ts:168 still calls ensureAiConsent after a 403 (alert can still show). After accepting, the user taps Capture again.
+- Ask Lume needs a second tap on Send after accepting consent.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast. profile/privacy.tsx hardcoded 'Your data' title.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.

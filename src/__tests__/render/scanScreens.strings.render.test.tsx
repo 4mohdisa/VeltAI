@@ -33,7 +33,7 @@ jest.mock('@/lib/api', () => ({
 }));
 
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 // Permission is switchable per test; the camera stub backs the ref so the

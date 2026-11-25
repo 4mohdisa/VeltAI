@@ -11260,3 +11260,6 @@
 - 2026-11-26 03:40 insights.tsx keeps replace('/ai-consent') rather than navigate: that screen takes no input and navigate would leave a blank screen behind. Isa to confirm (Blocked list).
 - 2026-11-26 03:40 Ask Lume's extra tap after accepting consent stays as built; no change this round.
 - 2026-11-26 03:40 Photo-capture test change limited to the consent mock and one new case, per the approved one-screen-per-round rule.
+- 2026-11-26 03:42 Chose label-scan (candidate 1): it is the last screen still using the consent alert, and finishing the wiring on one screen fits the one screen per round rule.
+- 2026-11-26 03:42 Photo capture consent wiring is recorded as checked by tests (last report), so it is marked done.
+- 2026-11-26 03:42 Kept English only and left PHASE4_ROWS.md untouched this round: the row 5b status changes after the withdraw switch.

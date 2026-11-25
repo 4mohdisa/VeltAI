@@ -8,8 +8,10 @@
 // `@/lib/api`'s `api.scan` the same way recipeLog.render.test.tsx mocks
 // `api.recipes`.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import LabelScanScreen from '@/app/food/label-scan';
+import { hasAiConsent } from '@/lib/ai/consent';
 import { useToastStore } from '@/components/display/toastStore';
 import { act, allText, findAll, renderScreen } from './helpers';
 
@@ -31,11 +33,11 @@ jest.mock('@/lib/api', () => ({
   },
 }));
 
-// The one-time AI disclosure (ensureAiConsent) blocks on a real Alert in prod;
-// same stand-in as aiQuery.render.test.tsx / insights.render.test.tsx —
-// consent is always granted so the capture path under test is reached.
+// Consent is granted here unless a test says otherwise, so the capture path
+// under test is reached; without it the screen opens /ai-consent instead
+// (same stand-in as aiQuery.render.test.tsx / photoScan.render.test.tsx).
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 // CameraView is a native component with no jest-env implementation. Unlike
@@ -124,4 +126,19 @@ test('a failed label scan shows the zeroed review with a low-confidence badge an
     message: 'Couldn’t read the label — enter values manually',
     tone: 'warn',
   });
+});
+
+test('without consent, pressing capture opens /ai-consent, takes no photo and sends no scan', async () => {
+  (hasAiConsent as jest.Mock).mockResolvedValueOnce(false);
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <LabelScanScreen />
+    </SafeAreaProvider>,
+  );
+  pressCapture(tree);
+  await settle();
+
+  expect(router.push).toHaveBeenCalledWith('/ai-consent');
+  expect(mockTakePicture).not.toHaveBeenCalled();
+  expect(mockScanLabel).not.toHaveBeenCalled();
 });

@@ -183,8 +183,9 @@ describe('claim 3 · third-party-AI consent', () => {
 
   test('label scan asks for consent before capture', () => {
     const src = read('app/food/label-scan.tsx');
-    expect(src).toContain('if (!(await ensureAiConsent())) return;');
-    ordered(src, 'if (!(await ensureAiConsent())) return;', 'takePictureAsync', 'label-scan');
+    ordered(src, 'if (!(await hasAiConsent())) {', "navigate('/ai-consent');", 'label-scan');
+    ordered(src, "navigate('/ai-consent');", 'takePictureAsync', 'label-scan');
+    ordered(src, "navigate('/ai-consent');", 'api.scan.label(', 'label-scan');
   });
 
   test('Ask Lume asks for consent before sending the question', () => {

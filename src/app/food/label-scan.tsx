@@ -11,7 +11,8 @@ import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { track } from '@/lib/analytics';
-import { ensureAiConsent } from '@/lib/ai/consent';
+import { hasAiConsent } from '@/lib/ai/consent';
+import { navigate } from '@/lib/nav';
 
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
@@ -89,8 +90,12 @@ export default function LabelScanScreen() {
   };
 
   const capture = async () => {
-    // 5.1.2(i): label photos go to Google Gemini — one-time disclosure first.
-    if (!(await ensureAiConsent())) return;
+    // 5.1.2(i): label photos go to Google Gemini — the consent screen comes
+    // before the first capture; nothing is taken or sent without it.
+    if (!(await hasAiConsent())) {
+      navigate('/ai-consent');
+      return;
+    }
     setPhase('reading');
     track('scan_started', { entry: 'label' });
     let base64: string | undefined;
