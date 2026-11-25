@@ -11084,3 +11084,7 @@
 - 2026-11-26 02:32 Consent versioning is parked in OWNER_CHECKS_phase4.md for Isa; the 5b screen is built without a version field until he decides.
 - 2026-11-26 02:32 Row 5 stays PARTIAL until 5b is done.
 - 2026-11-26 02:32 Ran only the changed packages and one type check, not the full suites, because this is not a checkpoint round.
+- 2026-11-26 02:33 Chose the TestPG rerun first because the loop flagged the last report as partly done and the 7 tests were skipped; it is a small, safe, single command task.
+- 2026-11-26 02:33 Jev risk reading is high (1.0 of 2) with a mid confidence, so a small task is preferred over starting 5b.
+- 2026-11-26 02:33 Jev suggested run at 95%; kept run. No reason to ask or stop.
+- 2026-11-26 02:33 requireScanConsent fail-open is queued as the next candidate after this rerun; it touches a security gate, so it gets its own round.
