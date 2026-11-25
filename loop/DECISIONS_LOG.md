@@ -11186,3 +11186,8 @@
 - 2026-11-26 03:17 Kept the change to one file (src/app/index.tsx) plus its test, so the one-file rule holds; the shared helper moves to the next round.
 - 2026-11-26 03:17 Asked Claude Code to record the sign-in 402 change in row 6b, because the last report said that row has no line for it yet.
 - 2026-11-26 03:17 Kept the English-only override: no es or fr text in this round.
+- 2026-11-26 03:19 The loop flagged the last report as partly done, and the report skipped launchGate401 and signupAuth401. Per the rule, verify first before the shared helper.
+- 2026-11-26 03:19 Ran tsc and lint again as part of the verify, since the report's changes sit on the launch path.
+- 2026-11-26 03:19 Recorded the mid-session 402 gap (plan ends while the app is open, no paywall) in Parked, not as a new task; it needs a design decision on where the paywall opens.
+- 2026-11-26 03:19 The launch wait for returning users (GET /api/onboarding on every launch) stays in OWNER_CHECKS_phase4.md for Isa to confirm on a device.
+- 2026-11-26 03:19 Kept the English-only override: no es or fr work in this round.
