@@ -7,7 +7,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import FoodLogScreen from '@/app/(tabs)/food';
 import { useFoodLog } from '@/lib/data';
 import type { LoggedDays } from '@/lib/data/foodDays';
-import { useFoodStore } from '@/lib/data/foodStore';
+import { useFoodStore, type StoredMeal } from '@/lib/data/foodStore';
 import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
 
@@ -107,5 +107,30 @@ test('a successful read shows no message', async () => {
 
   expect(hasText(tree, en.food.loggedDaysFailed)).toBe(false);
   expect(retryButtons(tree).length).toBe(0);
+  expect(weekStripShown(tree)).toBe(true);
+});
+
+test('when the food log and the logged days both fail, only the food log notice shows', async () => {
+  const meal: StoredMeal = {
+    id: 'meal-1',
+    slot: 'Lunch',
+    time: '12:30',
+    method: 'manual',
+    calories: 420,
+    protein: 30,
+    carbs: 40,
+    fat: 12,
+    items: [{ id: 'item-1', name: 'Tuna sandwich', quantityG: 200, calories: 420, protein: 30, carbs: 40, fat: 12 }],
+  };
+  (useFoodLog as jest.Mock).mockReturnValue({
+    data: [meal],
+    isLoading: false,
+    error: new TypeError('Network request failed'),
+    refetch: jest.fn(),
+  });
+  const tree = await renderFoodTab(new TypeError('Network request failed'));
+
+  expect(hasText(tree, en.food.loadFailed)).toBe(true);
+  expect(hasText(tree, en.food.loggedDaysFailed)).toBe(false);
   expect(weekStripShown(tree)).toBe(true);
 });

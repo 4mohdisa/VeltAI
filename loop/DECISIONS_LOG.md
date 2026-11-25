@@ -10670,3 +10670,7 @@
 - 2026-11-25 23:42 Stop was not justified: nothing dangerous, no hosted service involved, and gates are not red (last green checkpoint R242).
 - 2026-11-25 23:42 Rejected prompt fixed: this prompt covers one task (verify) with no screen or component edits, and lists one file per Jest command.
 - 2026-11-25 23:42 Verify round fixes only real bugs in R240 to R248 production code, with no test edits and no alias removal.
+- 2026-11-25 23:44 R251 picks the stacked Food tab notices fix: it is the one open Row 13 bug that needs no approval and the notes recommend it.
+- 2026-11-25 23:44 Plan: R252 is a records round for Row 13 (correct R247 note, calendar mock text and the saved and translation items against the code). Then set Phase 3 Row 13 to BUILT if no core function is broken, with R249 and the es/fr render tests moved under Parked.
+- 2026-11-25 23:44 Jev ranked run at 99 percent. Kept run. No Jev mention in the prompt.
+- 2026-11-25 23:44 Simulator flow not required for R251 because it is a notice-count fix covered by a render test; Row 13 simulator flow goes into Row 23.

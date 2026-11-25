@@ -488,8 +488,9 @@ export default function FoodLogScreen() {
               <LoadFailedNotice message={t(isPastDay ? 'food.loadFailedPast' : 'food.loadFailed')} onRetry={refetch} />
             ) : null}
             {/* The dots could not be read: say so rather than let a dotless week
-                pass as "nothing logged". The strip stays usable for picking a day. */}
-            {!searching && loggedDaysError ? (
+                pass as "nothing logged". The strip stays usable for picking a day.
+                A food-log failure already shows its own message, so this one waits. */}
+            {!searching && !loadError && loggedDaysError ? (
               <LoadFailedNotice message={t('food.loggedDaysFailed')} onRetry={refetchDays} />
             ) : null}
             {/* Day switcher — hidden while searching, which is a whole-library

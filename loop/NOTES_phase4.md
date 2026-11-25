@@ -14,10 +14,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - BUILT: 1, 2.2, 2.5, 12, 12b, 29. Row 2 PARTIAL until Phase 3 Rows 6, 13, 14 are BUILT.
 - Row 2b DIFFERENT: step 1d strings done (en). Plan-ready summary parked for Isa.
-- Row 13 PARTIAL. Done: R240, R241 barcode failed state; R243 foodDays error; R244 calendar error; R245 Food tab notice; R247 calendar.tsx reads data; R248 food.tsx reads data.
-- Parked: R249 alias removal (needs Isa approval, see Blocked).
-- This round: R250 verify (tsc, lint, changed Jest files for R240 to R248).
+- Row 13 PARTIAL. Done: barcode failed state (R240, R241), foodDays error (R243), calendar error (R244), Food tab notice (R245), calendar.tsx and food.tsx read data (R247, R248). R250 verify passed.
 - Last full green checkpoint: R242 (tsc 0, 272 suites, 1,661 tests).
+- This round: R251 one Food tab notice when both reads fail (food.tsx ~488, ~493).
+- Plan: R252 records round for Row 13 (fix stale R247 note, calendar mock text, saved and translation items). Then set Phase 3 Row 13 BUILT unless a core function is broken.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -43,12 +43,12 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R225, R226 validateOnboardingPayload uses i18n. R228, R229 paywall 4xx toast uses onboarding.paywall.submitFailed except 401.
 - R231, R235 CUISINE_LABEL and connectivityMessage removed.
 - R233, R234 Terms disclaimer in legal.terms. R236 en-AU kept as formatNumber output.
-- R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed).
+- R240, R241 barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds still fall back to mock database.
 - R243 foodDays: failure keeps dates and sets error; success clears it. R244 calendar error reuses shared error component. R245 food.tsx keeps week strip, notice above it.
 - R247 calendar.tsx reads data only. R248 food.tsx reads data only.
-- R250 verify only, no alias removal. Jev said ask 80 percent; kept run because ask is not allowed and the R249 question is already recorded in OWNER_CHECKS_phase4.md and does not block verify.
-- Loop note: prior prompt rejected for covering more than one component. R250 prompt names one task (verify), no screen edits.
-- Retry label stays 'Try again'. Dev builds fall back to mock database. useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle).
+- R250 verify only, no alias removal.
+- R251 one notice when both Food tab reads fail; food-log error takes priority.
+- useLoggedDays keeps its own state (moving useHydration breaks hydrationErrorScreens.test.ts:34 and creates an import cycle). Retry label stays 'Try again'.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script, park the rest.
@@ -56,7 +56,7 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - Push loop/phase4 and confirm CI runs green on GitHub.
 - Simulator: answers survive real Clerk expiry; signup, launch and paywall 401 routes; Total tile.
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
-- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Lines 37, 38, 40, 51, 66, 79, 90. Requested in OWNER_CHECKS_phase4.md.
+- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249). Lines 37, 38, 40, 51, 66, 79, 90. In OWNER_CHECKS_phase4.md.
 - Approve plan-ready summary screen (2b).
 
 ## Parked
@@ -71,12 +71,10 @@ Finish the app with no input from Isa. Progress = PHASE4_ROWS.md.
 - R249 alias removal (see Blocked).
 
 ## Problems noticed, not fixed
-- Two Food tab notices stack if food-log and logged-days reads both fail.
-- Row 13 older text lists saved and translation items as open. Check against code at records round.
 - English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) in fr gives '0 jour' (fr parked).
 - Older backend without total_days gives undefined tile. Owner note: deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - getAnomalies and dismissAnomaly swallow errors on purpose. Users do not see which field the server rejected on 4xx.
 - OWNER_CHECKS_phase4.md line 39 quotes old es wording. Append only, leave it.
-- Row 13 'Left to do' item 2 says calendar.strings mock returns only days. Correct at records round.
-- R247 note says isLoading but calendar.tsx reads only data. Correct at records round.
+- R247 note says isLoading but calendar.tsx reads only data. Correct in R252.
+- Row 13 'Left to do' item 2 says the calendar mock returns only days. Correct in R252.
