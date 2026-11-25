@@ -10973,3 +10973,6 @@
 - 2026-11-26 01:34 Row 14 simulator flow stays in Row 23 (already decided), so it does not block Row 2.
 - 2026-11-26 01:34 Handover lists five exhaustive-deps disables as still present; notes said removed. Prompt does not touch them; re-grep before any disable work.
 - 2026-11-26 01:34 Jev suggested ask at 17 percent; not taken because the brief forbids ask.
+- 2026-11-26 01:36 Chose the gate check first: the automatic flag says the last round's tests were not run, and the brief says to fix that before moving on.
+- 2026-11-26 01:36 Jev gave run 43%, ask 41%, stop 16%. Kept run because the brief forbids ask. Did not stop: no danger found and no hosted service involved.
+- 2026-11-26 01:36 appState.tsx:119 stays blocked until Isa answers. No retry.

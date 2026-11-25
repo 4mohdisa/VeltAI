@@ -1,6 +1,6 @@
 # Lume Loop Notes: Phase 4
 
-Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Never ask. Park owner steps and carry on.
+Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never ask. Park owner steps and carry on.
 
 ## Overrides (Isa)
 1. English only. No es or fr writing or review. Missing keys fall back to English.
@@ -9,25 +9,25 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 
 ## State
 - Branch loop/phase4. Loop script commits.
-- Row 2 closing check this round. BUILT after it: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0.
-- Last checkpoint: 282 suites, 1,704 tests, tsc 0, lint clean. Measurements test added after it.
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT.
+- Last full checkpoint: 282 suites, 1,704 tests, tsc 0, lint clean. Measurements test (13) and subscriptionLinks render test were added after it and need a Jest run.
+- Last round changed no code; automatic flag said tests not run. Gate check is this round.
 - TestPG: 26 pass on lume_test_local. Race green.
-- Phase 3 Rows 6, 13, 14 BUILT. Row 14 simulator flow not run (Row 23).
-- Row 3 PARTIAL: browser oauth_apple flow; AppleSignInButton on signup and DevSignup.
-- Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Disable status unclear: handover lists TodayCard:237, ScanReviewCard:118, energy.ts:37, ParameterForm:141, BottomSheet:88 as present. Re-grep before touching.
+- Phase 3 Rows 6, 13, 14 BUILT. Row 14 simulator flow is in Row 23.
+- Remaining exhaustive-deps disables: ParameterForm:141, BottomSheet:88, TodayCard:237, ScanReviewCard:118, energy.ts:37, appState.tsx:119 (owner question). Re-grep before touching.
 
 ## Rules
 - One module per prompt, max 5 steps, grep first. Every prompt states the branch rule and forbids other git commands.
-- Report wording: built or checked by a test. Never verified.
+- Report wording: built or checked by a test. Never write verified.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints. Render tests are *.render.test.tsx.
 - Animated: useState(() => new Animated.Value(x)).
 - Backend: Go tests for changed packages; tests/regression and tests/migrations when ExportTableNames changes.
-- TestPG: localhost:5432, lume_test_local, Mac login (whoami, no password). URL for one command only, never printed.
+- TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only.
 - Disable rule: remove only when the fix changes no behaviour. Otherwise park and keep.
 - Zsh: use arrays or ${=var}.
+- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, or src/__tests__/foodDays.test.ts.
 - Jev is advice only.
 
 ## Decisions (never delete)
@@ -62,8 +62,8 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Parity line in OWNER_CHECKS_phase4.md reads open: Isa closes it.
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes (es and fr key moves).
-- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept. Question in OWNER_CHECKS_phase4.md.
-- Preview re-runs (about 400 ms) when an edit leaves params unchanged. Parked question.
+- appState.tsx:119 exhaustive-deps: repeated identical batch would run again. Behaviour change; disable kept.
+- Preview re-runs (about 400 ms) when an edit leaves params unchanged.
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts). Merge only if no behaviour change.
@@ -73,7 +73,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - es and fr render tests parked.
 - signup.tsx:339, :362 placeholders are literals. Nothing dispatches SIGNED_IN.
 - measurements.tsx Continue recomputes heightToCm() and toKg().
-- Disables left: appState.tsx:119 (owner question). Keep: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
+- Disables kept: SliderField and BottomSheet Reanimated writes, gymSchedule.ts:78, src/debug/impl/index.tsx:99, three test files.
 - Missing tests: BottomSheet open and close lifecycle; ScanReviewCard weight-only change does not refetch; gym re-run timing.
 - Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - seedChildRows depends on exercise_library seed; local user 'lume' absent.
@@ -87,7 +87,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets its exit rule. Nev
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
 
 ## Next
-1. Row 2 closing check (this round).
+1. Gate check (this round): tsc, Jest for changed files, lint.
 2. Lifecycle and weight-only render tests.
 3. Measurements Continue recompute.
 4. Row 3 remainder after Isa signs off.
