@@ -11134,3 +11134,7 @@
 - 2026-11-26 02:59 Retry count set to 4 checks, 1.5 s apart, with injectable timing so tests stay fast. Chosen as a reasonable webhook lag window; can be tuned after the sandbox run.
 - 2026-11-26 02:59 Plansunavailable and storeError copy still say free tier or later in Settings. Now English only, so the fix is in scope for a later step (added to Next).
 - 2026-11-26 02:59 Row 6b keeps status PARTIAL until the sandbox run proves the 402 gate.
+- 2026-11-26 03:01 Chose the free-tier copy fix over step (d): the wrong text contradicts the no-free-tier decision, and it is a small change in the file just edited.
+- 2026-11-26 03:01 Step (c) retry is done (4 checks, 1.5 s apart, injectable timing); recorded in the rows file on the next rows update.
+- 2026-11-26 03:01 The repeated blocker (es and fr text for onboarding.paywall.notConfirmed) is recorded under Blocked on Isa. It is not retried.
+- 2026-11-26 03:01 Copy for paywall errors is English only and stays in ENGLISH_ONLY.

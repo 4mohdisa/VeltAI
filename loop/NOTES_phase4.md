@@ -9,21 +9,20 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (a and b done).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (a, b, c done).
 - Checkpoint: tsc 0 errors; Jest 288 suites, 1,736 tests pass. Go: 49 packages, 770 tests, race clean.
 - Route audit: 93 of 93 consumed.
 - App tests mock the API, so they cannot see the 402 gate. First real check: sandbox run after 6b.
 
 ## Next
-1. Row 6b (c): after purchase, retry GET /api/subscription with a short wait (in progress).
+1. Fix plansUnavailable and storeError copy (still say free tier, later in Settings). In progress.
 2. Row 6b (d): reason copy per reason (English, ENGLISH_ONLY).
 3. Row 6b (e): refresh after purchase.
 4. Row 6b (f): stale message at scanSeam.test.ts:450, STATUS.md:32, test name TestLabel_WritesSessionRowForQuota.
-5. Fix plansUnavailable and storeError copy (still say free tier, later in Settings).
-6. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
-7. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-8. Plan-ready summary: parked until Isa approves.
-9. Row 3 remainder after Isa signs off.
+5. Row 5b: consent screen, Settings switch, daily limit copy. Consent version 1.
+6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+7. Plan-ready summary: parked until Isa approves.
+8. Row 3 remainder after Isa signs off.
 
 ## Rules
 - One task per prompt: one module, screen or component, max 5 steps. Grep first. Branch loop/phase4, no switching.
@@ -54,12 +53,13 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json.
 - Exhaustive-deps: no disable except Reanimated SharedValue writes.
 - Analytics and debug reports stay gated (Isa to review).
+- Paywall error copy names no free tier and no later step in Settings (no free tier rule).
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - Row 5a 500 vs 403 consent read errors. E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; app-wide 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend field; plan-ready go-ahead; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- es and fr text for goals.plan, preferences.food, onboarding.trainingDays, onboarding.paywall.notConfirmed (deferred).
+- es and fr text for goals.plan, preferences.food, onboarding.trainingDays, onboarding.paywall.notConfirmed (deferred; came back twice, do not retry).
 - RevenueCat sandbox webhook setup (URL and Authorization in backend/.env only).
 
 ## Parked
@@ -73,3 +73,4 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Background AI sweep skipping no-consent users: no test. PHASE3_ROWS.md row 14 note over 17,000 chars: trim later.
 - Returning user without subscription is sent to paywall at sign-in (GET /api/onboarding gets 402). Dev builds with billing off need LUME_GATING_ENABLED=false.
+- Sandbox webhook timing: the 4 x 1.5 s paywall budget is a guess; the two constants are the only thing to change.
