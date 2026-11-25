@@ -1,7 +1,7 @@
 # Lume Loop Notes: Phase 4
 
 ## Goal
-Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park owner steps and carry on.
+Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner steps and carry on.
 
 ## Overrides (Isa, 25 Nov)
 1. English only. Do not write, translate or review es or fr. Leave those files untouched. Missing keys fall back to English. No language switcher.
@@ -12,9 +12,10 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 - Branch loop/phase4. Export PATH first. Loop script commits.
 - BUILT: 1, 2, 2c, 2d, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 14, 15 BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 step 1 BUILT: AppleSignInButton + render test (5 tests). Step 2 is next (wire into signup.tsx).
-- Last full checkpoint R265: tsc 0 errors, jest --ci 278 suites, 1,682 tests pass.
-- Progress line PHASE4_ROWS.md is stale ('1 of 36'). Fix in housekeeping.
+- Row 3 step 1 BUILT: AppleSignInButton, 5 tests. Step 2 BUILT: signup.tsx uses it, 20 signup test files and 94 tests pass.
+- Last full checkpoint R265: tsc 0 errors, 278 suites, 1,682 tests pass.
+- Checkpoint in progress this round: record its result in the next notes.
+- Progress line in PHASE4_ROWS.md is stale. Fix in housekeeping.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -53,11 +54,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 - E2E account needs 250+ gym dates: use seed script.
 - Prettier. App Store privacy label and account data declaration.
 - Push loop/phase4 and confirm CI green on GitHub.
-- Simulator: 401 answers after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers (cold start, scroll, memory).
+- Simulator: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers.
 - Approve removing lookupBarcodeAsync and scanSeam.test.ts:521.
-- Approve editing src/__tests__/foodDays.test.ts and removing days and loading aliases (R249).
-- Approve the R258 and R260 Retry assertion changes.
+- Approve editing foodDays.test.ts and removing days and loading aliases (R249).
+- Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
+- Row 3: confirm Apple hidden on Android (R268). Choose native Apple sheet (needs packages and rebuild) or keep browser flow.
 - Parity rule: should English-only keys be exempt from localeParity.test.ts? Literal kept for now.
 
 ## Parked
@@ -66,27 +68,31 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask Isa. Park ow
 - workoutsWeek.untimed_one and _other identical English. Harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
+- Dev DevSignup Apple Button (signup.tsx around line 399) is plain Button, so Apple shows on Android in dev fallback. Fix with AppleSignInButton.
+- Signup tests run as iOS. No sign-up screen test checks Apple hidden on Android.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only when both reads fail.
-- en.json duplicate gym keys (gym.monthSessions/monthFreezes vs gymCount.sessions/freezes): leave.
+- en.json duplicate keys gym.monthSessions and gym.monthFreezes vs gymCount.sessions and gymCount.freezes: leave.
 - Hotspots: useHydration no freshness window; gym/history.tsx uses .map not FlatList; 49 queries use id::text = $1; gym/schedule_pg.go oldest first then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 
-## Housekeeping queue (do before Row 4)
-- PHASE4_ROWS.md progress line (fix to the real BUILT count).
+## Housekeeping queue (before Row 4)
+- PHASE4_ROWS.md progress line (fix to real BUILT count).
 - 2c and 2d 'files likely touched' and 'test' cells: replace 'files from that commit' and 'tests for that work'.
 - PERF_BASELINE.md lines 34 and 41: gym read now limited to 200.
+- DevSignup Apple button (see Parked).
 
-## Row 3 plan (Apple sign in)
-- Step 2: wire AppleSignInButton into signup.tsx in place of the Apple Button (in progress).
-- Step 2b: equal prominence with Google (variant and order), one component per prompt.
-- Step 2c: same on the sign in screen.
-- Step 3: Apple owner steps appended to OWNER_CHECKS_phase4.md (Services ID, key, Clerk Apple settings, redirect URL).
-- Then housekeeping, then Row 4 (account deletion).
+## Next
+1. Record checkpoint result.
+2. Row 3 step 2b: equal prominence with Google on signup.
+3. Row 3 step 2c: sign in screen.
+4. Row 3 step 3: Apple owner steps appended to OWNER_CHECKS_phase4.md (Services ID, key, Clerk Apple settings, redirect URL).
+5. Housekeeping, then Row 4 (account deletion).
 
 ## Loop note
-- R267: previous prompt rejected for multiple components. Rewritten as one component.
+- R267: prompt rejected for multiple components. Rewritten as one component.
 - Jev R267: run 89%, confidence 0.83. Risk 1.1. Chose run, smaller task.
-- R268: Jev run 89%. Chose run for smallest next step (candidate 1).
+- R268: Jev run 89%. Chose run for smallest next step.
+- Checkpoint round: Jev run 82%, risk 1.1. Chose run (read only).

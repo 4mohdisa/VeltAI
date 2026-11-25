@@ -10741,3 +10741,6 @@
 - 2026-11-26 00:13 AppleSignInButton returns null on Android (matches the component's iOS check). Apple is iOS only in the sign up screen for now. The browser flow would work on Android, so this is revisited with the owner checks.
 - 2026-11-26 00:13 Equal prominence (Apple black primary vs Google secondary) is not changed in step 2. Wire first, then equalise in a separate step so each change is small and testable.
 - 2026-11-26 00:13 Step 2 is one component only (signup.tsx). The sign in screen is a later step.
+- 2026-11-26 00:15 Checkpoint round: full tsc and full Jest only, no edits, so the result can be compared with the last checkpoint. Reason: notes say full suites run on checkpoints and the loop note asks for it.
+- 2026-11-26 00:15 Jev run 82% chosen. No concrete reason to override; the task is read only and small.
+- 2026-11-26 00:15 Signup dev-only DevSignup Apple Button (around signup.tsx line 399) is parked in housekeeping, not fixed now. Reason: the step named only the line 301 button and this round changes nothing.
