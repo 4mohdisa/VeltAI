@@ -11518,3 +11518,7 @@
 - 2026-11-26 05:32 Chose verification first: the last report skipped running the neighbouring test files, which the notes flag as a gap to close before new work.
 - 2026-11-26 05:32 Dead end 5 is accepted: back from measurements dismisses to preview, and session_exists continues routing instead of showing an error. Isa to confirm on device.
 - 2026-11-26 05:32 Doc refresh and dead end 6 wait one round so this round stays a single small check.
+- 2026-11-26 05:34 Chose dead end 6 over the audit refresh: it is a real user-facing dead end, and the audit is documentation that can follow in the next round.
+- 2026-11-26 05:34 Kept the 401 rule from the approved launch gate (401 ends session), so no new routing rule was invented.
+- 2026-11-26 05:34 Recorded the repeated Isa-dependent item (back to preview target and Clerk session_exists on device) under Blocked on Isa per the loop note; not retried.
+- 2026-11-26 05:34 Jev confidence 0.91 and run 94%: followed the run action. Risk 1.3 is handled by the one-surface, five-step limit in the prompt.

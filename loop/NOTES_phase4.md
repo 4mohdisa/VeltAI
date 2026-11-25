@@ -10,18 +10,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b dead ends 1 to 5 built. Dead end 5 test: onboardingSignedInBack.render.test.tsx (5 of 5 pass). Neighbour signup and measurements tests NOT yet run (gap).
+- Row 2b dead ends 1 to 5 built. Neighbour tests (signupAuth401, ssoSignin, signupOtp, signupSignInMode, signupResend, welcome, measurements, onboardingSignedInBack) checked by a test: all pass.
 - Dead end 6 open (session ends between signup and paywall; final save shows connection message).
-- Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn.
+- Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; go test -race ./... ok.
 
 ## Next
-1. Verify gap: run signupAuth401, ssoSignin, signupOtp, signupSignInMode, signupResend, welcome, measurements render tests, one file per command.
+1. Row 2b dead end 6 (in progress this round).
 2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 5 built, 6 open).
-3. Row 2b dead end 6.
+3. Row 6b: remaining work not tied to step (f).
 4. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
-5. Row 6b: remaining work not tied to step (f).
-6. Row 3 after Isa signs off the Apple steps (owner).
-7. Maestro flows (2b, 23) once Maestro is confirmed.
+5. Row 3 after Isa signs off the Apple steps (owner).
+6. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -66,7 +65,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
-- Row 2b: Clerk SSO session_exists on device (email path certain).
+- Row 2b (repeated twice, not retried): whether back on measurements goes to preview is the right target; Clerk SSO session_exists on device (email path certain).
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -87,3 +86,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
 - Gotcha: zsh does not word-split $VAR; use an array for Go package lists.
+- Gotcha: each hook test through the harness prints one react-test-renderer deprecation console.error.
