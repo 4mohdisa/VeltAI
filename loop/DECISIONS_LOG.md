@@ -11294,3 +11294,6 @@
 - 2026-11-26 04:07 Picked the not-enough-data message over the unused key removal: removing keys from en, es and fr is listed under Blocked on Isa in the notes, so it stays parked.
 - 2026-11-26 04:07 Picked over the full suite checkpoint: the verify round already ran tsc, all 201 render files and lint, and the notes ask for one surface per round. The full suite follows at the next checkpoint.
 - 2026-11-26 04:07 New string is English only and added to ENGLISH_ONLY, per Isa's override that es and fr are deferred.
+- 2026-11-26 04:08 Picked the full suite checkpoint over the not_enough_data test because the loop note makes this round a checkpoint with no file changes; Jev's 96% run pick agrees.
+- 2026-11-26 04:08 The checkpoint prompt forbids fixes so the run reports reds without changing code; any red becomes the next task.
+- 2026-11-26 04:08 Kept the Settings switch and setup.ts change under this run because the last full run predates both.

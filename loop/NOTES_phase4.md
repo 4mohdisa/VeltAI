@@ -9,14 +9,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, verify round done, all 201 render files pass), 6b (steps a to e built; f blocked on Isa).
-- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change). Full suite still owed at next checkpoint.
-- Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only, ENGLISH_ONLY).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, not yet in a full run), 6b (steps a to e built; f blocked on Isa).
+- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change). This round: full checkpoint run.
+- Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only). Not-enough-data message moved to aiQuery.notEnoughData (en only, in ENGLISH_ONLY). No test calls ask() with not_enough_data yet.
 
 ## Next (one surface per round)
-1. IN PROGRESS: move not-enough-data message in aiBrain.ts ('Keep logging for a few days') into en.json, add to ENGLISH_ONLY.
-2. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
-3. Full suite checkpoint (tsc, all Jest, lint) after Settings switch and setup.ts change.
+1. IN PROGRESS: full checkpoint (tsc, all Jest, lint). Change no files. Any red becomes the next task.
+2. Add test: ask() returns aiQuery.notEnoughData when api.ai.query returns not_enough_data.
+3. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
 4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 5. Row 3 remainder after Isa signs off.
 
@@ -51,8 +51,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
-- Round (verify): kept verify pick over Jev's move-not-enough-data pick, because the last report edited setup.ts and skipped the full run.
-- Round (next): picked move-not-enough-data over Jev's full-suite pick; verify round already covered tsc, render files and lint.
+- Round (checkpoint): picked full suite run over the not_enough_data test; loop note says checkpoint, Jev 96% agrees.
+- Round (prior): moved not-enough-data message; kept verify pick over Jev's pick because the last report edited setup.ts and skipped the full run.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision). Not retried.
@@ -61,7 +61,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Legal copy src/app/legal/privacy.tsx says 'Turn off AI processing'; the path is now Settings > Privacy > AI processing > Allow AI processing.
 - Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm. Replace vs navigate for insights.tsx.
 - Remove four unused alert keys (aiConsent.title, body, notNow, continue) and settings.privacyDetails.aiTurnOff from en, es, fr together.
-- es and fr text for aiQuery.consentNeeded, settings.privacyDetails.aiAllow and aiConsentedOn.
+- es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow and aiConsentedOn.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
@@ -84,5 +84,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long.
 - Row 6b: three near-duplicate test-result lines; merge.
-- Settings switch: src/app/profile/privacy.tsx is not yet covered by a full suite run; see Next 3.
+- Settings switch: src/app/profile/privacy.tsx needs a full suite run; see Next 1.
 - Under zsh, use while read for file loops.
