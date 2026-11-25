@@ -10730,3 +10730,10 @@
 - 2026-11-26 00:07 Spoken meal label stays English with no key: English-only override plus R263. The parity rule question is parked, not asked.
 - 2026-11-26 00:07 Row 6 measurement label 'R253' is kept as recorded and flagged as unconfirmed. It does not block Row 6, which is BUILT.
 - 2026-11-26 00:07 Stale PERF_BASELINE lines, duplicate gym keys and the Food Retry gap move to Parked for a later round.
+- 2026-11-26 00:10 R266 Row 3 chosen over housekeeping: the Phase 4 order is features first, and housekeeping is a quick doc round that can run before Row 4.
+- 2026-11-26 00:10 R266 Accepted the 2c and 2d mapping from the OWNER_CHECKS headings (Gemini for insights, Australia first). Isa can confirm later.
+- 2026-11-26 00:10 R266 Jev run signal (97%, confidence 0.96) agrees with the run. No ask or stop: the brief bans ask and the rows remain open.
+- 2026-11-26 00:10 R267 Previous prompt rejected for covering more than one component. This prompt covers only AppleSignInButton; the sign in screen wiring is step 2.
+- 2026-11-26 00:10 R267 Row 3 goes before housekeeping, as the notes order says. Housekeeping stays queued before Row 4.
+- 2026-11-26 00:10 R267 Apple label: reuse an existing key if one exists, otherwise the English literal per R263. Avoids the parity failure from an English-only key.
+- 2026-11-26 00:10 R267 Clerk Apple hook: native hook if the installed package has one, otherwise oauth_apple. Decided by what is in node_modules, not by guessing.
