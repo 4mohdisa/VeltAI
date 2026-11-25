@@ -13,10 +13,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Last checkpoint: tsc 0, Jest 292 suites, 1,774 tests, all pass. Route audit 93 of 93.
 
 ## Next (one screen per round)
-1. DONE: ai-query.tsx opens ai-consent.tsx instead of the ensureAiConsent alert (checked by test).
-2. insights.tsx: same wiring. (in progress)
-3. food/photo-capture.tsx: same wiring.
-4. food/label-scan.tsx: same wiring.
+1. DONE: ai-query.tsx opens ai-consent.tsx (replace/navigate per screen type).
+2. DONE: insights.tsx uses replace('/ai-consent') (no-input screen; Isa to confirm).
+3. IN PROGRESS: food/photo-capture.tsx, same wiring as ai-query.
+4. food/label-scan.tsx: same wiring (navigate, button press).
 5. Row 5b: withdraw switch in Settings, then daily limit copy.
 6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 7. Row 3 remainder after Isa signs off.
@@ -51,14 +51,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only. Incomplete report with loop flag: verify first. Without flag: Jev pick.
-- Loop rejected a prompt covering four screens: consent wiring goes one screen per round.
-- Loop rejected a prompt that did not state the loop/phase4 branch rule: every prompt must state it first.
+- Loop rejected a prompt covering four screens: one screen per round.
+- Loop rejected a prompt without the branch rule first: every prompt states it first.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
 - Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable and storeError (these still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics? (The old alert turned analytics on; the consent screen does not.)
+- Row 5a/5b: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics? (old alert did; consent screen does not).
+- Confirm replace over navigate for insights.tsx (no-input screen).
+- aiBrain.ts:168 still calls ensureAiConsent after a 403 (alert can still show).
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.

@@ -9,7 +9,8 @@ import { Image, Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { ensureAiConsent } from '@/lib/ai/consent';
+import { hasAiConsent } from '@/lib/ai/consent';
+import { navigate } from '@/lib/nav';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
@@ -64,9 +65,12 @@ export default function PhotoCaptureScreen() {
 
   const capture = async () => {
     if (capturing || done) return;
-    // 5.1.2(i): photos go to Google Gemini — one-time disclosure before the
-    // first capture; nothing is taken or uploaded without it.
-    if (!(await ensureAiConsent())) return;
+    // 5.1.2(i): photos go to Google Gemini — the consent screen comes before
+    // the first capture; nothing is taken or uploaded without it.
+    if (!(await hasAiConsent())) {
+      navigate('/ai-consent');
+      return;
+    }
     setCapturing(true);
     try {
       const photo = await cameraRef.current?.takePictureAsync({ base64: true, quality: 0.6 });

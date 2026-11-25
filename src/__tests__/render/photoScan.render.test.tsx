@@ -24,6 +24,7 @@ import { router } from 'expo-router';
 
 import PhotoCaptureScreen from '@/app/food/photo-capture';
 import FoodLogScreen from '@/app/(tabs)/food';
+import { hasAiConsent } from '@/lib/ai/consent';
 import { ApiError } from '@/lib/api';
 import { logMeal } from '@/lib/data';
 import { scanChainsSettled } from '@/lib/data/scan';
@@ -58,10 +59,10 @@ jest.mock('@/lib/api', () => ({
   },
 }));
 
-// Same stand-in as labelScan.render.test.tsx: ensureAiConsent blocks on a
-// real Alert in prod, so it's always granted here.
+// Consent is granted here unless a test says otherwise; without it the
+// screen opens /ai-consent instead of capturing.
 jest.mock('@/lib/ai/consent', () => ({
-  ensureAiConsent: jest.fn(() => Promise.resolve(true)),
+  hasAiConsent: jest.fn(() => Promise.resolve(true)),
 }));
 
 // A real pipeline success starts a 60s-deadline poller (src/lib/data/
@@ -289,4 +290,17 @@ test('rating the scan after saving calls api.scan.feedback with that scan sessio
   press(tree, 'Spot on');
 
   expect(mockFeedback).toHaveBeenCalledWith('sess-9', 'spot_on');
+});
+
+test('without consent, Capture opens /ai-consent and takes no photo and sends no scan', async () => {
+  (hasAiConsent as jest.Mock).mockResolvedValueOnce(false);
+  const tree = renderCapture();
+  press(tree, 'Capture photo');
+  await settle();
+
+  expect(router.push).toHaveBeenCalledWith('/ai-consent');
+  expect(mockTakePicture).not.toHaveBeenCalled();
+  expect(mockPipeline).not.toHaveBeenCalled();
+  expect(mockPipelineMulti).not.toHaveBeenCalled();
+  expect(mockAnalyze).not.toHaveBeenCalled();
 });

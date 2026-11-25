@@ -11256,3 +11256,7 @@
 - 2026-11-26 03:38 Ask Lume's second tap on Send after accepting is logged in Parked, not fixed now, since the consent flow itself is still under review (Isa decision on analytics wording).
 - 2026-11-26 03:38 Analytics turned on by the old alert and not by the consent screen is already in Blocked on Isa; no new owner step added.
 - 2026-11-26 03:38 Each render or regression test change is limited to the one screen, so the wiring stays reviewable one screen per round.
+- 2026-11-26 03:40 Kept the photo-capture step as next in the notes order (step 3); label-scan follows as step 4 because the last report recommended it first, but the notes order is the agreed plan.
+- 2026-11-26 03:40 insights.tsx keeps replace('/ai-consent') rather than navigate: that screen takes no input and navigate would leave a blank screen behind. Isa to confirm (Blocked list).
+- 2026-11-26 03:40 Ask Lume's extra tap after accepting consent stays as built; no change this round.
+- 2026-11-26 03:40 Photo-capture test change limited to the consent mock and one new case, per the approved one-screen-per-round rule.

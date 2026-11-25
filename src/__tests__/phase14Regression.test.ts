@@ -175,9 +175,10 @@ describe('claim 3 · third-party-AI consent', () => {
 
   test('photo capture asks for consent before any frame is taken or uploaded', () => {
     const src = read('app/food/photo-capture.tsx');
-    ordered(src, 'if (!(await ensureAiConsent())) return;', 'takePictureAsync', 'photo-capture');
+    ordered(src, 'if (!(await hasAiConsent())) {', "navigate('/ai-consent');", 'photo-capture');
+    ordered(src, "navigate('/ai-consent');", 'takePictureAsync', 'photo-capture');
     // Nothing is enqueued for upload ahead of the guard either.
-    ordered(src, 'if (!(await ensureAiConsent())) return;', 'setShots(', 'photo-capture');
+    ordered(src, "navigate('/ai-consent');", 'setShots(', 'photo-capture');
   });
 
   test('label scan asks for consent before capture', () => {
