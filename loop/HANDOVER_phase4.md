@@ -4,51 +4,36 @@ Setup
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. First run: export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH
 - The only git command allowed is git branch --show-current.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the api.ts listSessions defaults or src/__tests__/foodDays.test.ts.
-- English only. Never write "verified"; use "built" or "checked by a test".
-- LUME_TEST_DATABASE_URL is not set in the shell. Set it for a single command, pointing at lume_test_local on localhost:5432, and never print it.
+- English only, no es or fr edits. Never write "verified".
+- For TestPG, set LUME_TEST_DATABASE_URL for a single command only, pointing at lume_test_local on localhost:5432 with the Mac's own Postgres login (whoami, no password). The `lume` user in backend/.env does not exist locally. Never print the URL.
 
-Rows (PHASE4_ROWS.md, progress line "BUILT or EXACT: 8 of 38")
-- BUILT: 1, 2, 2.2, 2c (Gemini for insights), 2d (Australia first), 12, 12b, 29.
-- PARTIAL: 3 (Sign in with Apple) and 4 (account deletion).
-- There is no row 2.5. That work sits inside Row 2's notes.
+Rows (PHASE4_ROWS.md, progress line "BUILT or EXACT: 9 of 38")
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. Row 4 (account deletion) became BUILT this session.
+- PARTIAL: 3 (Sign in with Apple).
 
-Built in these sessions
-- Row 3:
-  - src/components/onboarding/AppleSignInButton.tsx renders nothing on non-iOS.
-  - Both signup.tsx branches use it (ClerkSignup and DevSignup).
-  - Tests: appleSignInButton, devSignupApple, and signupDevFallback (now set to iOS).
-  - Seven owner steps are appended to OWNER_CHECKS_phase4.md.
-- Row 4:
-  - backend/internal/account/tables.go holds UserTables (29 tables) and tables_test.go checks it against the migrations.
-  - pgProfileStore.Delete in internal/auth/profile.go also deletes oauth_states in one statement.
-  - internal/auth/profile_delete_test.go has a unit test and a Postgres test.
-  - The data export (internal/auth/export.go) now includes oauth_states, with the state column dropped. TestExportCoversEveryAccountUserTable fails if the two lists drift apart.
-  - The Settings delete screen (src/app/profile/delete-account.tsx) already matched the spec. It is covered by src/__tests__/render/settingsDeleteAccount.render.test.tsx.
-- Last full checkpoint: tsc 0 errors, 280 suites and 1,689 tests pass.
+Built this session (Row 4)
+- backend/internal/auth/profile_delete_test.go: the Postgres test seeds all 29 account.UserTables plus 5 child tables, counting child rows by parent ids read before the delete. It also has TestClerkUserDeleterTreatsNotFoundAsDeleted (stub http.DefaultTransport).
+- src/app/profile/delete-account.tsx: all text in en.json under settings.deleteAccountDetails. Every failure shows plain fallback text. The bold DELETE is rendered with <Trans>. An iOS-only Manage subscription button.
+- src/lib/billing/subscriptionLinks.ts: APPLE_SUBSCRIPTIONS_URL and openManageSubscription() (returns false on failure). Used by both delete-account.tsx and profile/subscription.tsx.
+- profile/subscription.tsx: Manage subscription shows on iOS only.
+- src/__tests__/localeParity.test.ts: ENGLISH_ONLY set with the 18 new keys (Isa override 25 Nov).
+- 10 render tests now use `type Locale = typeof es`, because en has English-only keys.
+- Last checkpoint: tsc 0 errors, Jest 281 suites and 1,698 tests pass, and all Go gates green. Since then the subscription test went from 6 to 8 tests (that file was run on its own and passes).
 
 In progress
-- Row 4 step 3a is done, but it is not yet recorded in the Row 4 notes.
-- tests/regression and tests/migrations read the export list and have not been run since the change. Run them next.
+- Nothing open. Suggested next step: move the two inline Platform.OS === 'ios' checks into one export in subscriptionLinks.ts.
 
 Decisions
-- Apple uses the browser flow, oauth_apple through Clerk. The native hook needs expo-apple-authentication, expo-crypto and a native rebuild, so that is left for Isa.
-- Apple is hidden on Android. Isa still has to confirm this.
-- The oauth_states fix lives in the store, so the webhook's user.deleted path is fixed too. No migration was added.
-- The export and deletion lists stay separate, because the export needs custom SQL per table. A test keeps them in step instead.
+- The server deletes the Clerk identity first, then the rows. That order is kept on purpose: a Clerk failure returns 502 and keeps the rows. Regression tests in tests/regression/phase14_test.go pin it.
+- A Clerk 404 counts as deleted.
+- No migration was needed. All five child foreign keys are ON DELETE CASCADE.
 
-Open for Isa
-- The seven Apple owner steps.
-- Native Apple sheet or the browser flow.
-- Android hiding.
-- The parity rule for English-only strings.
-- R249 (needs foodDays.test.ts edits).
-- The two Retry tests that haven't been signed off.
-
-Not fixed
-- The delete screen's text is written into the file instead of coming from i18n keys, and a 502 shows the server's raw message.
-- The deletion Postgres test seeds only 5 of the 29 user tables.
-- PHASE4_ROWS.md uses "verified" in the 2.2 and 2b notes.
-- Gym history maps up to 200 rows in a ScrollView, and the gym screens refetch every time they open.
+Gotchas, not fixed
+- OWNER_CHECKS_phase4.md has a parity line that still reads as open, even though the override answers it. The file is append-only.
+- The delete screen test has a redundant openURL.mockRestore().
+- seedChildRows depends on the exercise_library seed.
 - Duplicate keys: gym.monthSessions vs gymCount.sessions.
 - The Food tab Retry reloads only the food log.
 - Jest output is noisy with "API unreachable" warnings.
+- zsh does not split $VAR into words. Use arrays or ${=var}.
+- Open for Isa: the seven Apple owner steps, the native Apple sheet, Android hiding for Apple sign-in, R249, and the two Retry tests that haven't been signed off.
