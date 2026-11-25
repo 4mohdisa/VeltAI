@@ -10,11 +10,12 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 
 ## State
 - Branch loop/phase4. Export PATH first. Loop script commits.
-- BUILT: 1, 2, 2c, 2d, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 14, 15 BUILT.
+- BUILT (per PHASE4_ROWS.md, verify count): 1, 2.2, 2.5, 12, 12b, 29. Phase 3 Rows 6, 13, 14, 15 BUILT in PHASE3_ROWS.md (Row 14 status to confirm: 14b Retry done, 14c done, nutrition spoken label open).
+- Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 step 1 BUILT: AppleSignInButton, 5 tests. Step 2 BUILT: signup.tsx uses it.
-- Checkpoint after Apple button step: tsc 0 errors, 279 suites, 1,687 tests pass, 4 snapshots pass. Recorded.
-- Progress line in PHASE4_ROWS.md is stale (says 1 of 36). Fix in housekeeping.
+- Row 3 PARTIAL: steps 1 to 3 done (AppleSignInButton, signup.tsx uses it, seven owner steps appended to OWNER_CHECKS_phase4.md). Owner checks pending.
+- Checkpoint (after Apple button step): tsc 0 errors, 279 suites, 1,687 tests pass, 4 snapshots pass.
+- Progress line in PHASE4_ROWS.md was stale; being fixed this round from table counts.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -48,7 +49,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - R267 Row 3 step 1 is AppleSignInButton only. Apple label: existing key, else English literal. Clerk hook chosen from node_modules.
 - R268 Apple sign in uses browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits.
 - R268 AppleSignInButton hidden on Android. Revisit with owner checks.
-- This round: Row 3 step 3 (Apple owner steps) chosen over housekeeping. Ask option from Jev ignored (ask not allowed).
+- Row 3 step 3 (Apple owner steps) done. Row 3 bookkeeping (PARTIAL, progress line) done this round, chosen over housekeeping because the last report was flagged as partly done.
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -59,7 +60,8 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Approve editing foodDays.test.ts and removing days and loading aliases (R249).
 - Approve R258 and R260 Retry assertion changes.
 - Approve plan-ready summary (2b).
-- Row 3: confirm Apple hidden on Android (R268). Choose native Apple sheet (needs packages and rebuild) or keep browser flow.
+- Row 3: confirm Apple hidden on Android (R268). Choose native Apple sheet or keep browser flow.
+- Row 3 owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
 - Parity rule: should English-only keys be exempt from localeParity.test.ts? Literal kept for now.
 
 ## Parked
@@ -68,7 +70,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - workoutsWeek.untimed_one and _other identical English. Harmless.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
-- Signup tests run as iOS. No sign-up screen test checks Apple hidden on Android.
+- DevSignup in signup.tsx (dev only) still shows Apple on Android.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Dev only 'Simulate scan' and 'Unknown code' English literals. Food tab Try again reloads food log only when both reads fail.
 - en.json duplicate keys gym.monthSessions and gym.monthFreezes vs gymCount.sessions and gymCount.freezes: leave.
@@ -76,15 +78,18 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors. 4xx field not shown to user.
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
+- PERF_BASELINE.md lines 34 and 41 describe the gym read as unbounded (out of date).
+- Nutrition spoken meal label (src/app/dashboard/nutrition.tsx:231) still open; English-only key blocked by parity rule.
 
 ## Housekeeping queue (before Row 4)
-- PHASE4_ROWS.md progress line (fix to real BUILT count).
+- PHASE4_ROWS.md progress line: done this round, recheck next round.
 - 2c and 2d 'files likely touched' and 'test' cells: replace 'files from that commit' and 'tests for that work'.
 - PERF_BASELINE.md lines 34 and 41: gym read now limited to 200.
-- DevSignup Apple button in signup.tsx (plain Button, shows Apple on Android in dev fallback). Use AppleSignInButton.
+- DevSignup Apple button in signup.tsx: use AppleSignInButton.
+- Loop notes checkpoint line: 279 suites, 1,687 tests.
 
 ## Next
-1. Row 3 step 3: Apple owner steps appended to OWNER_CHECKS_phase4.md (this round).
+1. Row 3 bookkeeping (this round).
 2. Housekeeping queue above.
 3. Row 4 (account deletion).
 
@@ -93,4 +98,4 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jev R267: run 89%, confidence 0.83. Risk 1.1. Chose run, smaller task.
 - R268: Jev run 89%. Chose run for smallest next step.
 - Checkpoint round: Jev run 82%, risk 1.1. Chose run (read only).
-- This round: Jev ask 52%, run 45%, risk 0.9. Chose run; ask not allowed.
+- Flagged report (automatic check): the last report's NEXT step was not done. Chose a run to close it. Jev run 92%, risk 1.1. Ask not allowed.

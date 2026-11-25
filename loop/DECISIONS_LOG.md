@@ -10748,3 +10748,8 @@
 - 2026-11-26 00:16 Jev suggested ask at 52%. Ask is not allowed by the brief, so I ignored that option and chose run.
 - 2026-11-26 00:16 Recorded the checkpoint result as 279 suites and 1,687 tests passing, 0 type errors, from this round's full run. No round number was given, so none is written.
 - 2026-11-26 00:16 The Apple owner steps are documentation only and need no new code, so the prompt limits the Jest run to the existing Apple button test file.
+- 2026-11-26 00:17 Chose the Row 3 bookkeeping because the loop check flagged the last report as partly done and its own NEXT step was not carried out.
+- 2026-11-26 00:17 Progress line gets a count taken from the table, not the stale 1 of 36 and not the handover list, because the two sources disagree.
+- 2026-11-26 00:17 Row 3 set to PARTIAL: steps 1 to 3 done, owner checks pending. It is not BUILT until Isa finishes the Apple steps and the Android and native sheet questions are answered.
+- 2026-11-26 00:17 Ran one render test file, since a round without a Jest run is not done.
+- 2026-11-26 00:17 Jev ranked run at 92%; agreed. Ask was not allowed.
