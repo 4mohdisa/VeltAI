@@ -11267,3 +11267,7 @@
 - 2026-11-26 03:43 Picked the aiBrain 403 retry because it is the last alert path, needs no Isa answer and is the report's own next step.
 - 2026-11-26 03:43 Row 5b withdraw switch waits one round so the consent flow is fully off the alert first.
 - 2026-11-26 03:43 Full suite is due at the next checkpoint because the four consent moves have not been run in full.
+- 2026-11-26 03:46 Chose the checkpoint run first, not the withdraw switch: the four consent moves and the alert deletion have only had per-file runs, and the latest report recommends a full suite. This moves notes step 4 ahead of step 3.
+- 2026-11-26 03:46 Kept the checkpoint read only except for fixing consent-caused reds, per the checkpoint rule in the notes.
+- 2026-11-26 03:46 Kept the four old alert keys in en.json because es.json and fr.json still contain them, which the locale parity test needs.
+- 2026-11-26 03:46 Ask Lume 403 path: accepted the report's approach (open /ai-consent, no alert). Analytics-at-consent stays a blocked question for Isa.
