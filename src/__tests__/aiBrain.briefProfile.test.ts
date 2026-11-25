@@ -1,9 +1,11 @@
 // useMorningBrief and useBrainProfile (src/lib/data/aiBrain.ts) report a failed
 // read through isError instead of an unhandled rejection, and drop any result
-// that settles after unmount. Mounts the real hooks through the shared harness
+// that settles after unmount. useAIQuery answers not_enough_data with the
+// aiQuery.notEnoughData text. Mounts the real hooks through the shared harness
 // and mocks @/lib/api and the consent check at the module boundary.
 import { ApiError } from '@/lib/api';
-import { useBrainProfile, useMorningBrief } from '@/lib/data/aiBrain';
+import { useAIQuery, useBrainProfile, useMorningBrief } from '@/lib/data/aiBrain';
+import en from '@/lib/i18n/locales/en.json';
 import type { AIBrainProfile, MorningBrief } from '@/lib/types';
 
 import { mountHook, readHook } from './helpers/useApiHarness';
@@ -11,6 +13,7 @@ import { mountHook, readHook } from './helpers/useApiHarness';
 const mockGetMorningBrief = jest.fn();
 const mockMarkBriefShown = jest.fn();
 const mockGetProfile = jest.fn();
+const mockQuery = jest.fn();
 jest.mock('@/lib/api', () => ({
   ApiError: jest.requireActual<typeof import('@/lib/api')>('@/lib/api').ApiError,
   api: {
@@ -18,6 +21,7 @@ jest.mock('@/lib/api', () => ({
       getMorningBrief: (...args: unknown[]) => mockGetMorningBrief(...args),
       markBriefShown: (...args: unknown[]) => mockMarkBriefShown(...args),
       getProfile: (...args: unknown[]) => mockGetProfile(...args),
+      query: (...args: unknown[]) => mockQuery(...args),
     },
   },
 }));
@@ -124,5 +128,14 @@ describe('useBrainProfile', () => {
     reject(new ApiError(500, 'failed to load brain'));
     await flush();
     expect(mounted.latest()).toEqual({ profile: null, loading: true, notEnoughData: true, isError: false });
+  });
+});
+
+describe('useAIQuery', () => {
+  test('a not_enough_data answer gives the aiQuery.notEnoughData text', async () => {
+    mockQuery.mockResolvedValueOnce({ state: 'not_enough_data' });
+    const query = await readHook(useAIQuery);
+    expect(await query?.ask('How is my protein?')).toBe(en.aiQuery.notEnoughData);
+    expect(mockQuery).toHaveBeenCalledWith('How is my protein?', 'ai-query');
   });
 });

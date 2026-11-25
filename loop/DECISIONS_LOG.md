@@ -11297,3 +11297,7 @@
 - 2026-11-26 04:08 Picked the full suite checkpoint over the not_enough_data test because the loop note makes this round a checkpoint with no file changes; Jev's 96% run pick agrees.
 - 2026-11-26 04:08 The checkpoint prompt forbids fixes so the run reports reds without changing code; any red becomes the next task.
 - 2026-11-26 04:08 Kept the Settings switch and setup.ts change under this run because the last full run predates both.
+- 2026-11-26 04:09 Picked candidate 1 (Next item 1) because the last checkpoint was clean and this is the smallest open test gap. Jev's 98% run agrees, so no second look was needed.
+- 2026-11-26 04:09 Kept the change to one test file with a fallback fix allowed only if the test finds a bug, to stay within one surface per round.
+- 2026-11-26 04:09 Read the expected text from en.json in the test so a copy change does not break the test.
+- 2026-11-26 04:09 Added the console block review as a Parked item rather than a new task, because the checkpoint showed no failing tests from them.

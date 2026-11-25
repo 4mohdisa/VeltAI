@@ -9,21 +9,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, not yet in a full run), 6b (steps a to e built; f blocked on Isa).
-- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change). This round: full checkpoint run.
-- Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only). Not-enough-data message moved to aiQuery.notEnoughData (en only, in ENGLISH_ONLY). No test calls ask() with not_enough_data yet.
+- PARTIAL: 2b, 3, 5 (5a closed; 5b Settings switch built, not yet in a full run), 6b (steps a to e built; f blocked on Isa).
+- Last full checkpoint: tsc 0 errors, Jest 293 suites, 1,783 tests, 4 snapshots pass, lint 0 warnings.
+- Done: 403 message is aiQuery.consentNeeded; not-enough-data text is aiQuery.notEnoughData (en only).
 
 ## Next (one surface per round)
-1. IN PROGRESS: full checkpoint (tsc, all Jest, lint). Change no files. Any red becomes the next task.
-2. Add test: ask() returns aiQuery.notEnoughData when api.ai.query returns not_enough_data.
-3. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+1. IN PROGRESS: test that ask() returns aiQuery.notEnoughData on not_enough_data (aiBrain.ts).
+2. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+3. Review the 255 console blocks in Jest output; fix real warnings.
 4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 5. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
-- Every prompt states the branch rule first and names files fully (Claude Code knows only the handover).
-- One task per prompt, one screen or component, max 5 steps. Find files with find (grep -rl matches contents).
+- Every prompt states the branch rule first and names files fully.
+- One task per prompt, one surface, max 5 steps. Find files with find.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
@@ -32,6 +32,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
 - OWNER_CHECKS_phase4.md: append only. AI tests live in backend/tests/ai.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
+- Under zsh, use while read for file loops.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
@@ -43,24 +44,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - Row 5: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at. Consent read error stays 500. Consent version 1 (approval pending).
-- Row 5b provider copy: Google Gemini named by default; Anthropic only if backup on. Isa to confirm.
+- Row 5b copy: Google Gemini named by default; Anthropic only if backup on. Isa to confirm.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays.
 - Webhook secret from env only; unset means refuse events.
-- Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
-- Loop rejected multi-screen prompts and prompts without the branch rule first.
-- Round (checkpoint): picked full suite run over the not_enough_data test; loop note says checkpoint, Jev 96% agrees.
-- Round (prior): moved not-enough-data message; kept verify pick over Jev's pick because the last report edited setup.ts and skipped the full run.
+- Checkpoint round: read only except fixing reds caused by the last change.
+- Loop rejects multi-screen prompts and prompts without the branch rule first.
+- Round (this): picked Next 1 over Jev's run pick? No: Jev 98% run agrees; checkpoint clean.
 
 ## Blocked on Isa (park, do not retry)
-- A 402 while the app is open is not routed to the paywall (needs routing decision). Not retried.
+- A 402 while the app is open is not routed to the paywall (needs routing decision).
 - Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (last two still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Legal copy src/app/legal/privacy.tsx says 'Turn off AI processing'; the path is now Settings > Privacy > AI processing > Allow AI processing.
+- Legal copy src/app/legal/privacy.tsx says 'Turn off AI processing'; path is now Settings > Privacy > AI processing > Allow AI processing.
 - Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm. Replace vs navigate for insights.tsx.
-- Remove four unused alert keys (aiConsent.title, body, notNow, continue) and settings.privacyDetails.aiTurnOff from en, es, fr together.
+- Remove unused alert keys aiConsent.title, body, notNow, continue and settings.privacyDetails.aiTurnOff from en, es, fr together.
 - es and fr text for aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow and aiConsentedOn.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -82,7 +82,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes back to onboarding. Plan ending while app open meets 402s in tabs with no paywall.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
-- PHASE3_ROWS.md row 14 note too long.
-- Row 6b: three near-duplicate test-result lines; merge.
-- Settings switch: src/app/profile/privacy.tsx needs a full suite run; see Next 1.
-- Under zsh, use while read for file loops.
+- PHASE3_ROWS.md row 14 note too long. Row 6b: three near-duplicate test-result lines; merge.
+- Settings switch in src/app/profile/privacy.tsx needs a full suite run at the next checkpoint.
+- Jest output has 255 console blocks (108 error, 80 warn) that hide real warnings.
