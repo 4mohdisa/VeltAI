@@ -11,16 +11,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
 - Row 2b: dead ends 1 to 6 and 8 built, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
-- subscription.plansUnavailable reworded in en.json (user text). es and fr deferred.
-- Last full checkpoint: tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests (before the wording change). 67 console.error, 165 console.warn.
-- Last round: subscription wording and PHASE4_ROWS Row 2b note fixed. Only two Jest files and lint run.
+- Last full checkpoint (clean): tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests; 4 snapshots; 67 console.error, 165 console.warn. Lint clean on profile/subscription.tsx and onboarding/measurements.tsx. en.json parses.
 
 ## Next
-1. Checkpoint round: full tsc and Jest after wording change and dead end 8 (in progress).
-2. Row 2b: sign up and sign in surface pass, one surface per round.
-3. Row 6b: remaining work not tied to step (f).
-4. Row 3 after Isa signs off the Apple steps (owner).
-5. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Row 2b: sign up and sign in surface pass, one surface per round (in progress).
+2. Row 6b: remaining work not tied to step (f), English only.
+3. Row 3 after Isa signs off the Apple steps (owner).
+4. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -40,7 +37,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
 - Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 2b dead end 6: 401 on subscriptionConfirmed ends the session, same as the save.
-- Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check and inline error, via bodyWeightError. Continue never disabled. Server still optional (up to 1000).
+- Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check, inline error via bodyWeightError. Continue never disabled. Server optional (up to 1000).
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -57,8 +54,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
-- Verification round chosen first after the loop flagged an unrun type check and tests.
-- Last report's es and fr translation suggestion ignored: English only override.
+- English only: report suggestions to translate into es and fr are ignored until Isa lifts the override.
 
 ## Blocked on Isa (park, do not retry)
 - Row 2b dead end 7 sign off: confirm onboarding.paywall.plansUnavailable closes it.
@@ -79,7 +75,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Server limit message is English only. Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
-- subscription.notConfiguredDev ('Billing is not configured in this build (development mode).') reads like a developer message. Check whether a user can see it.
+- subscription.notConfiguredDev reads like a developer message. Check whether a user can see it. subscription.plansUnavailable is technical wording.
 - About 67 deliberate console warns from [data], [onboarding], [meals]; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
@@ -90,8 +86,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
-- Gotcha: zsh does not word-split $VAR; use an array for Go package lists.
-- Gotcha: each hook test through the harness prints one react-test-renderer deprecation console.error.
-- Gotcha: lint and test exit codes are hidden by pipes; redirect output to a file and echo $?.
-- Gotcha: PHASE4_ROWS.md rows keep 7 columns; append notes with <br> before the closing ' |'.
-- Gotcha: zsh --include=*.ts globs fail; use plain grep -rn and filter.
+- Gotchas: zsh does not word-split $VAR (use arrays); each hook test prints one react-test-renderer deprecation; lint and test exit codes hidden by pipes (redirect and echo $?); PHASE4_ROWS rows keep 7 columns (append notes with <br> before ' |'); zsh --include=*.ts globs fail (use plain grep -rn).

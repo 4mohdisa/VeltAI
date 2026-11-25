@@ -68,6 +68,7 @@ Every onboarding screen reads its text through i18n (useTranslation) from src/li
 | 6 | A session that ends between signup and the paywall gave a "check your connection" toast and never sent the user to sign in | Built | onboarding/paywall.tsx: a 401 on the subscription check or on the final save ends the session, keeps the answers and opens sign-in; a network error keeps the connection message and Continue retries | src/__tests__/render/paywallSessionExpired.render.test.tsx, src/__tests__/render/paywallOnboardingPost.render.test.tsx |
 | 7 | The paywall "unavailable" toast was written for a developer, not a user | Open | onboarding/paywall.tsx, onboarding.paywall.plansUnavailable | None |
 | 8 | Target weight on measurements has no validation; an empty or extreme value is accepted silently | Built | onboarding/measurements.tsx: target weight is required when shown (goal lose or muscle) and uses the same 30 to 300 kg check as weight (bodyWeightError). Whether it stays required is open for Isa | src/__tests__/render/onboardingMeasurementsTargetWeight.render.test.tsx |
+| 9 | "That email already has an account — try signing in instead" sent the user back to the provider buttons when they pressed the sign-in toggle, so they had to choose email again | Built | onboarding/signup.tsx: the toggle keeps the email stage and the typed email; from the code stage it returns to the email stage and clears the code | src/__tests__/render/signupModeSwitchKeepsEmail.render.test.tsx |
 
 ### Static explainer slides
 
@@ -103,6 +104,7 @@ The Mobbin MCP (plugin:mobbin) was connected and search_flows, search_screens an
 | App | Pattern | Why it works for a first-run user | What Lume will apply |
 |---|---|---|---|
 | [Hevy](https://mobbin.com/flows/df17cccd-1cf1-498f-9ba7-1a8e12b08b0a) | The sign-in screen has the email and password fields first, "Forgot password?" right above the main button, then "or" and the platform buttons | Returning users who used email find their path straight away, and recovery sits next to the action | Lume uses email codes, not passwords. Put "Resend code" (dead end 3 above) in the same place, just above the main button |
+| [Peloton Strength+](https://mobbin.com/flows/1ad90a89-3df2-4e85-a210-7b81c4a3c26c), [pliability](https://mobbin.com/flows/8b6cd8da-25ae-49ab-84cb-c3a20a022829) | On the sign-in screen the "Don't have an account? Sign up" switch sits under the form, and the typed email stays on screen | Switching between signing in and signing up never sends the user back a step or makes them retype | The sign-in and sign-up toggle keeps the email stage and the typed email (dead end 9) |
 | [Peloton Strength+](https://mobbin.com/flows/1ad90a89-3df2-4e85-a210-7b81c4a3c26c) | The sign-in screen has a "Created your account with Apple? Learn more" hint | Prevents a user from typing an email when they actually signed up with Apple | When the email sign-in fails with "no account", show a hint to try the platform button they may have used |
 
 ### search_flows "calorie counter app onboarding"

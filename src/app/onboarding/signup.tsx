@@ -392,8 +392,13 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         disabled={anyBusy}
         style={{ marginTop: space.sm }}
         onPress={() => {
+          // "Try signing in instead" must not lose the typed email: from the
+          // email or code stage, land on the email stage with it kept. A code
+          // sent in the other mode is useless, so it is cleared.
           setMode(mode === 'signup' ? 'signin' : 'signup');
-          setStage('buttons');
+          setStage((s) => (s === 'buttons' ? s : 'email'));
+          setCode('');
+          setCodeError(undefined);
         }}
       >
         <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>

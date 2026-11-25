@@ -11564,3 +11564,8 @@
 - 2026-11-26 05:47 Ignored the last report's suggestion to translate es and fr strings: Isa's override is English only, so es and fr stay deferred.
 - 2026-11-26 05:47 Kept Row 2b as PARTIAL: dead end 7 still awaits Isa's sign off.
 - 2026-11-26 05:47 Jev ranked run first at 62% and stop at 24%; a small verification task is the lower risk choice, so I kept it.
+- 2026-11-26 05:49 Chose the Row 2b sign up and sign in surface pass because the notes list it as the next step and it is a small, testable change.
+- 2026-11-26 05:49 Ignored the report's suggestion to translate reworded strings into es and fr: Isa's override is English only, and missing keys fall back to English.
+- 2026-11-26 05:49 Did not stop: rows remain open and no danger was found. Jev stop at 30% was weighed and rejected on that basis.
+- 2026-11-26 05:49 Did not ask: Jev ask at 13% is rejected, the brief forbids asking, and the open owner questions are parked.
+- 2026-11-26 05:49 Kept Row 3 after Isa's Apple sign off as the notes decided, to avoid a Clerk Apple setup that only Isa can do.
