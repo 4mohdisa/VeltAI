@@ -85,8 +85,7 @@ export function BottomSheet({ visible, onClose, title, children, testID }: Botto
         if (finished) runOnJS(setMounted)(false);
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, reduceMotion]);
+  }, [visible, reduceMotion, mounted, translateY, sheetHeight]);
 
   const pan = Gesture.Pan()
     .onBegin(() => {

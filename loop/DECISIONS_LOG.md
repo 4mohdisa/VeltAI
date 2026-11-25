@@ -10934,3 +10934,7 @@
 - 2026-11-26 01:22 Told Claude Code to stop and report if the disable covers a Reanimated SharedValue write, because the Parked list keeps those disables on purpose.
 - 2026-11-26 01:22 Did not ask Isa about the parity line in OWNER_CHECKS_phase4.md: the file is append-only and Isa closes that line himself.
 - 2026-11-26 01:22 Did not re-open the ErrorState label or gym key rename questions: both remain in Blocked on Isa.
+- 2026-11-26 01:24 Chose BottomSheet.tsx:88 because the Next list and the Jev next-action signal both point to the same task, and the latest report left it as the next item.
+- 2026-11-26 01:24 Parked the ParameterForm preview effect (redundant paramsKey) for a later round, because one module per prompt and BottomSheet is already queued.
+- 2026-11-26 01:24 Kept the instruction to check for a Reanimated SharedValue write before any removal, per the decision on exhaustive-deps fixes.
+- 2026-11-26 01:24 Marked ParameterForm.tsx exhaustive-deps disable as done: the latest report removed it and its checks passed.
