@@ -12,6 +12,7 @@ import (
 
 	"lume/backend/internal/auth"
 	"lume/backend/internal/config"
+	"lume/backend/internal/entitlement"
 	"lume/backend/internal/httpx"
 )
 
@@ -60,20 +61,11 @@ const anonPrefix = "$RCAnonymousID:"
 // retention horizon for the processed-event rows.
 const maxEventAge = 24 * time.Hour
 
+// isActive applies the entitlement state model at the current time. A missing
+// expiry is NOT "never expires": the webhook always writes a bounded expiry for
+// a grant (see defaultTTL), so nil means unknown, and unknown fails closed.
 func isActive(s Sub) bool {
-	switch s.Status {
-	case "active", "trialing":
-		// A missing expiry is NOT "never expires" — that turned any grant event
-		// without expiration_at_ms into permanent free Pro. The webhook always
-		// writes a bounded expiry (see defaultTTL), so nil here means unknown,
-		// and unknown fails closed.
-		return s.ExpiresAt != nil && s.ExpiresAt.After(time.Now())
-	case "cancelled":
-		// Auto-renew off: access is paid through ExpiresAt (EXPIRATION ends it).
-		// Refund cancellations carry a past expiration_at_ms, so they stay inactive.
-		return s.ExpiresAt != nil && s.ExpiresAt.After(time.Now())
-	}
-	return false
+	return entitlement.Grants(s.Status, s.ExpiresAt, time.Now())
 }
 
 // Register attaches the authenticated subscription-status route.
@@ -146,11 +138,9 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 		}
 		var body struct {
 			Event struct {
+				entitlement.Event
 				ID               string   `json:"id"`
-				Type             string   `json:"type"`
 				AppUserID        string   `json:"app_user_id"`
-				PeriodType       string   `json:"period_type"`
-				ExpirationAtMs   *int64   `json:"expiration_at_ms"`
 				EventTimestampMs *int64   `json:"event_timestamp_ms"`
 				Store            string   `json:"store"`
 				ProductID        string   `json:"product_id"`
@@ -249,20 +239,8 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 			return
 		}
 
-		var status string
-		switch e.Type {
-		case "INITIAL_PURCHASE", "RENEWAL", "UNCANCELLATION":
-			status = "active"
-			if e.PeriodType == "TRIAL" {
-				status = "trialing"
-			}
-		case "CANCELLATION":
-			status = "cancelled"
-		case "EXPIRATION":
-			status = "expired"
-		case "BILLING_ISSUE":
-			status = "past_due"
-		default:
+		status, expiresAtMs, ok := entitlement.StateFor(e.Event)
+		if !ok {
 			ignored()
 			return
 		}
@@ -279,10 +257,10 @@ func RegisterWebhook(mux *http.ServeMux, store Store, authHeader string) {
 
 		sub := Sub{UserID: e.AppUserID, Status: status, RevenueCatUserID: &e.AppUserID}
 		switch {
-		case e.ExpirationAtMs != nil:
-			t := time.UnixMilli(*e.ExpirationAtMs).UTC()
+		case expiresAtMs != nil:
+			t := time.UnixMilli(*expiresAtMs).UTC()
 			sub.ExpiresAt = &t
-		case status == "active" || status == "trialing":
+		case status == entitlement.StateActive || status == entitlement.StateTrial:
 			// Grant with no expiry: bound it instead of granting forever.
 			t := time.Now().Add(defaultTTL).UTC()
 			sub.ExpiresAt = &t

@@ -11104,3 +11104,7 @@
 - 2026-11-26 02:40 AI consent tests live in backend/tests/ai, not internal/ai as the brief said; the prompt points there.
 - 2026-11-26 02:40 The prompt forbids live AI calls and AI_TEST_LOG writes; mocks only.
 - 2026-11-26 02:40 Consent version and 500 vs 403 stay parked for Isa; no change this round.
+- 2026-11-26 02:41 Row 5a verify step flagged twice by the automatic check; recorded under Blocked on Isa and not retried. The open item is Isa's 500 vs 403 choice, already in OWNER_CHECKS_phase4.md.
+- 2026-11-26 02:41 Chose Row 6 over Row 5b because 5b needs the consent version Isa has not approved. Row 6 has no Isa dependency.
+- 2026-11-26 02:41 Jev ranked the run action high with low confidence on continuing without Isa. Kept the run action because Row 6 is a backend module with no owner input needed, and it is split into five small steps.
+- 2026-11-26 02:41 Webhook secret is read from the environment only. If unset, the webhook refuses events.

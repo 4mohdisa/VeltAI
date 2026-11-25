@@ -1,0 +1,28 @@
+{
+  "api_version": "1.0",
+  "event": {
+    "id": "evt-fixture-001",
+    "type": "INITIAL_PURCHASE",
+    "app_user_id": "user_rc_fixture",
+    "original_app_user_id": "user_rc_fixture",
+    "aliases": [
+      "user_rc_fixture"
+    ],
+    "product_id": "lume_pro_monthly",
+    "entitlement_ids": [
+      "pro"
+    ],
+    "period_type": "NORMAL",
+    "purchased_at_ms": 1767229200000,
+    "expiration_at_ms": 1769817600000,
+    "event_timestamp_ms": 1767229200000,
+    "environment": "SANDBOX",
+    "store": "APP_STORE",
+    "transaction_id": "2000000001",
+    "original_transaction_id": "2000000001",
+    "country_code": "AU",
+    "currency": "AUD",
+    "price": 14.99,
+    "price_in_purchased_currency": 14.99
+  }
+}

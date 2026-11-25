@@ -8,7 +8,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. PARTIAL: 2b, 3, 5 (5a backend and gate tests in backend/tests/ai; 5b open).
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29. PARTIAL: 2b, 3, 5 (5a closed: all six AI routes check consent before any model call; 5b open), 6 (in progress).
 - Phase 3 rows 6, 13, 14, 15 BUILT.
 - Go checkpoint: 49 packages, 770 tests pass, race clean. Lint 0.
 - Frontend checkpoint: tsc 0; Jest 286 suites, 1,727 tests; 4 snapshots pass.
@@ -18,12 +18,11 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - exhaustive-deps: appState.tsx:119 only (needs Isa).
 
 ## Next
-1. Verify 5a gate on all AI routes, record in PHASE4_ROWS.md (in progress).
-2. Row 5b: consent screen, Settings switch, daily limits (getConsent, setConsent, revokeConsent in src/lib/api.ts).
-3. Row 6: entitlements webhook with fixtures.
-4. Maestro onboarding flow for 2b and 23 once Maestro is confirmed.
-5. Row 2b plan-ready summary: parked until Isa approves.
-6. Row 3 remainder after Isa signs off. Gym key rename after Isa approves.
+1. Row 6: entitlement state model, webhook (secret from env, refuse if unset), fixtures in backend/tests/entitlement, middleware gate and route table test.
+2. Row 5b: consent screen, Settings switch, daily limits. Waits for Isa's consent version choice.
+3. Maestro onboarding flow for 2b and 23 once Maestro is confirmed.
+4. Row 2b plan-ready summary: parked until Isa approves.
+5. Row 3 remainder after Isa signs off. Gym key rename after Isa approves.
 
 ## Rules
 - One module per prompt, max 5 steps. Grep first. Prompts name branch loop/phase4 and forbid switching.
@@ -52,9 +51,11 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
 - Checkpoint round: read only, full tsc and full app Jest, no file changes (Go checkpoint may write BASELINE_phase4.md).
 - Row 5 split: 5a backend and route gate; 5b app. 5a: consent on profiles.ai_consent_at; GET/POST/DELETE /api/ai/consent; six AI routes gated; no new table. Consent read error stays 500 and still refused.
-- Verify-only step for the 5a flag before 5b (small task chosen over 5b).
+- Row 6 chosen over 5b: 5b needs Isa's consent version choice; Row 6 has no owner dependency.
+- Webhook secret read from env only; if unset, webhook refuses events.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
+- Row 5a closing check: flagged twice by the automatic check as partly done. Blocker is Isa's 500 vs 403 choice for consent read errors and whether to add a consent version. Not retried.
 - E2E account needs 250+ gym dates: use seed script.
 - Prettier. App Store privacy label and account data declaration.
 - Push loop/phase4 and confirm CI on GitHub.
@@ -68,7 +69,6 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Goal change rule. Training days device only or backend field.
 - Go-ahead for plan-ready summary.
 - Route audit in npm run verify? Commit ROUTE_COVERAGE.md?
-- Consent version; 500 vs 403 for consent read errors.
 - Preview re-runs (about 400 ms) on unchanged params.
 - Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines.
@@ -89,3 +89,5 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - Packages with no test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 - Row 5b: daily limit error copy must be English and shown by the app.
+- Background sweep skipping users without consent has no test (pgstore.go join). Add with Row 5b or Row 16.
+- Row 5a verify step: ai_consent check reviewed, no test for sweep skip yet.
