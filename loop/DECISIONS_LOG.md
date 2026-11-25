@@ -11236,3 +11236,6 @@
 - 2026-11-26 03:32 Consent copy names Google Gemini (the backend default, LLM_PROVIDER=gemini) for photo scan and insights, and Anthropic only if the backup provider is on. The brief's 'Anthropic for insights' would describe the data flow wrongly. Isa to confirm.
 - 2026-11-26 03:32 Accept on the consent screen does not mention analytics. Analytics stays off unless the alert path turns it on. Isa to confirm the screen should cover analytics too.
 - 2026-11-26 03:32 Consent version 1 waits for Isa. setConsent takes no version and the backend stores only a timestamp.
+- 2026-11-26 03:34 Chose the checkpoint run because the loop note requires a full type check and full app suite this round and the last report left the full suite unrun.
+- 2026-11-26 03:34 Read only round: no file changes, so the previous report's extra test file is not reverted or edited.
+- 2026-11-26 03:34 Jev ranked run highest (86%). Agreed: the checkpoint is mandatory and a smaller task is safest.

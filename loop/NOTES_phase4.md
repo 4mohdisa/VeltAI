@@ -9,18 +9,17 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open: ai-consent.tsx built, not yet wired in), 6b (steps a to e built; f deferred).
-- Last full run: tsc 0; Jest 289 suites, 1,759 tests (before paywallHref and completed-flag changes).
-- Round in progress: verify consent.ts change (flagged as unchecked). Existing consent, Privacy and sign-out tests not yet run.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f deferred).
+- Last run of consent tests: 22 files plus aiConsentAlert.test.ts (2 tests), all pass. tsc 0.
+- Checkpoint round in progress: full tsc and full Jest run, read only. Previous full run: 289 suites, 1,759 tests, before paywallHref and completed-flag changes.
 - Route audit: 93 of 93 consumed.
 
 ## Next
-1. Verify the consent.ts change with existing consent tests, tsc and lint.
-2. Wire ai-consent.tsx in place of the ensureAiConsent alert at ai-query.tsx, insights.tsx, food/photo-capture.tsx, food/label-scan.tsx.
+1. Checkpoint result: fix any red failures in a later round, one file at a time.
+2. Wire ai-consent.tsx in place of the ensureAiConsent alert at ai-query.tsx, insights.tsx, food/photo-capture.tsx, food/label-scan.tsx. Update source-order checks in phase14Regression.test.ts.
 3. Row 5b: withdraw switch in Settings, then daily limit copy.
-4. Full Jest run at next checkpoint (read only).
-5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-6. Row 3 remainder after Isa signs off.
+4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+5. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch: work only on loop/phase4. Only git command: git branch --show-current. Never push, merge or switch.
@@ -44,7 +43,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - Row 5: 5a backend and route gate; 5b app. Consent on profiles.ai_consent_at. Consent read error stays 500. Consent version 1 (approval pending).
-- Row 5b provider copy: Google Gemini named by default (LLM_PROVIDER=gemini); Anthropic only if backup on. Brief's 'Anthropic for insights' not used. Isa to confirm.
+- Row 5b provider copy: Google Gemini named by default (LLM_PROVIDER=gemini); Anthropic only if backup on. Isa to confirm.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
@@ -57,7 +56,7 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak exit rule met. Never ask. Pa
 - A 402 while the app is open is not routed to the paywall (needs routing decision).
 - Row 6b step f: es and fr text for refusal keys and notConfirmed.
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm.
+- Row 5a: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics?
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
