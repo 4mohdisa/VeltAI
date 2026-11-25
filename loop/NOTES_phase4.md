@@ -13,10 +13,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - BUILT (PHASE4_ROWS.md): 1, 2.2, 2c, 2d, 12, 12b, 29. Progress: 8 of 38 BUILT, 0 EXACT.
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
-- Row 3 PARTIAL: AppleSignInButton used on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
+- Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (hidden on Android), browser oauth_apple. Owner steps in OWNER_CHECKS_phase4.md.
+- Row 4 DIFFERENT. Step 1 done (account/tables.go, tables_test.go: 29 entries, both directions tested). Step 2 in progress: oauth_states cleared in DELETE /api/profile, Postgres test on lume_test_local.
 - Phase 3 Row 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done. Nutrition spoken label open (blocked).
 - Row 6 label 'R253' still unconfirmed.
-- Last full checkpoint (26 Nov 2026, after DevSignup Apple change): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
+- Last full checkpoint (26 Nov 2026): tsc 0 errors, 280 suites, 1,689 tests pass, 0 failed, 4 snapshots pass.
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -24,7 +25,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Animated: useState(() => new Animated.Value(x)).
 - Render tests *.render.test.tsx. Jest --ci, one file per command, never -u. Full suite only on checkpoints.
-- A round with no Jest run is not done.
+- A round with no Jest run is not done (app rounds). Backend rounds: Go tests for changed packages.
 - TestPG: localhost:5432, lume_test_local. Never print the URL.
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts (until approved).
@@ -44,10 +45,11 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Retry label stays 'Try again' (common.tryAgain).
 - Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169, backend LIMIT kept.
 - Retry assertions changed in gymExerciseProgress.emptyStates and gymMuscles.render. Accepted, sign-off requested.
-- Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android, revisit with owner checks.
+- Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. ios/ off limits. Apple hidden on Android.
 - DevSignup Apple button uses AppleSignInButton. Accepted.
 - Nutrition spoken label stays English, literal, no key.
-- Row 4 step 1 chosen over signup platform pin: Jev 87%, handover names Row 4 next.
+- Row 4 step 1 chosen over signup platform pin: Jev 87%.
+- Row 4 step 2: oauth_states cleared by explicit delete in handler, not a migration (smallest change, no schema change).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -65,7 +67,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - formatCurrency hard-codes A$. English hard-coded in Terms rest, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked until Isa restarts localisation.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
-- signupDevFallback.render.test.tsx does not set the platform; passes because setup reports iOS. Pin it next.
+- signupDevFallback.render.test.tsx does not set the platform. Pin it next (candidate).
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - Jest noise: '[data] API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
 - Food tab Try again reloads food log only when both reads fail.
@@ -75,12 +77,17 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Older backend without total_days gives undefined tile. Deploy backend with app.
 - KNOWN_ISSUES.md Backend section has Phase 3 wording (Row 30).
 - PERF_BASELINE.md lines 34 and 41 describe gym read as unbounded: out of date, fix in Row 19.
+- Row 4 Settings delete screen and confirmation not yet checked.
+- Lists to keep in step: auth.ExportTableNames and account.UserTables overlap. oauth_states is not in the export list. rate_limit_counters may hold user ids in text keys (swept in minutes, not listed).
 
 ## Next
-1. Row 4 step 1: backend table coverage test for account deletion.
-2. Pin platform in signupDevFallback.render.test.tsx.
-3. Next full checkpoint: after the next batch of changes (Isa's handover names R265; the round number is not in these notes, so confirm before recording it).
+1. Re-verify Row 4 step 1 (flagged as partly done): gofmt, vet, go test -race ./internal/account.
+2. Row 4 step 2: clear oauth_states in DELETE /api/profile, unit test, Postgres test on lume_test_local.
+3. Pin platform in signupDevFallback.render.test.tsx.
+4. Row 4 Settings delete screen and confirmation check.
+5. Next full checkpoint: after the next batch of changes. Confirm the round number before recording it.
 
 ## Loop note
 - Same blocker twice: nutrition spoken label (parity rule). Recorded under Blocked, not retried.
+- Auto check flagged Row 4 step 1 report as partly done: re-verified first in the next round.
 - Jev signals used as advice only. Smaller tasks chosen when the last task was partial.

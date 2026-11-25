@@ -97,8 +97,13 @@ func (s *pgProfileStore) Update(ctx context.Context, id string, displayName, ava
 	return p, err
 }
 
+// Delete removes the profile, and with it every table that cascades from
+// profiles(id). oauth_states has no foreign key to profiles, so its rows go in
+// the same statement.
 func (s *pgProfileStore) Delete(ctx context.Context, id string) error {
-	_, err := s.q.Exec(ctx, "DELETE FROM profiles WHERE id = $1", id)
+	_, err := s.q.Exec(ctx, `
+		WITH oauth AS (DELETE FROM oauth_states WHERE user_id = $1)
+		DELETE FROM profiles WHERE id = $1`, id)
 	return err
 }
 
@@ -174,7 +179,8 @@ func RegisterProfileWithIdentity(mux *http.ServeMux, st ProfileStore, deleteIden
 	// DELETE /api/profile permanently removes the account: first the identity at
 	// the auth provider (Clerk user — email/name PII, ability to sign in), then
 	// our profiles row; every user table references profiles(id) ON DELETE
-	// CASCADE, so that one delete purges all of the user's data (food logs, gym,
+	// CASCADE except oauth_states, which the store's Delete clears in the same
+	// statement, so that one delete purges all of the user's data (food logs, gym,
 	// goals, scan sessions, integrations, …). If the identity delete fails we
 	// return 502 WITHOUT touching the row — never claim a deletion that didn't
 	// happen. Idempotent: deleting an already-absent profile/user is a no-op 200.

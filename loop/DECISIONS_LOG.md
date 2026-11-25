@@ -10772,3 +10772,7 @@
 - 2026-11-26 00:22 Kept the English-only parity question as Blocked. Not retried this round.
 - 2026-11-26 00:22 Did not guess a round number. The handover mentions R265 but the notes do not record it.
 - 2026-11-26 00:22 Row 4 step 1 scoped to a parse-based table test with no database, so the gate stays fast.
+- 2026-11-26 00:24 Row 4 step 2 clears oauth_states with an explicit delete in the handler, not a migration: smallest change, no schema change, so no need to wait for Isa's choice between the two options.
+- 2026-11-26 00:24 The automatic partly-done flag on the Row 4 step 1 report is handled first in this round by re-running its checks, since the report's claims were not yet verified in the loop.
+- 2026-11-26 00:24 Jev run 76% agrees with the next task. It is kept because the task is small and backend only.
+- 2026-11-26 00:24 No round number is recorded. The notes do not give the current round number, so none is guessed.
