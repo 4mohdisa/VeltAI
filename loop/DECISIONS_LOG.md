@@ -10994,3 +10994,8 @@
 - 2026-11-26 01:40 Checkpoint numbers recorded: tsc 0 errors, Jest 283 suites and 1,706 tests pass. Go gates and lint were not run that round, so they are queued for the next checkpoint.
 - 2026-11-26 01:40 Notes compressed to fit the 600 word limit: finished work and repeated blocker lines merged, no approved decisions removed.
 - 2026-11-26 01:40 Report wording limited to built or checked by a test, per the notes rule.
+- 2026-11-26 01:41 Dropped the stale ParameterForm:141 item: the latest report showed the disable was already removed in round 1 of the session.
+- 2026-11-26 01:41 Picked energy.ts:37 because it is the only remaining exhaustive-deps item with no kept reason in the notes. BottomSheet:88 is kept as a Reanimated write.
+- 2026-11-26 01:41 Told the prompt to grep first, because the handover gotcha list is out of date and repeated rounds were built from it.
+- 2026-11-26 01:41 Kept the run action (Jev asked for ask at 54%). The brief forbids ask.
+- 2026-11-26 01:41 Jev's 54% run signal and the 88% clean-finish chance support a small task, so the prompt stays on one module.

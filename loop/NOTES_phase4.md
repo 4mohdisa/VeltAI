@@ -9,15 +9,16 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 
 ## State
 - Branch loop/phase4. Loop script commits.
-- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT.
+- BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. Row 3 PARTIAL. Row 2b DIFFERENT (recheck PHASE4_ROWS.md; status unclear).
 - Last checkpoint: tsc 0 errors; Jest 283 suites, 1,706 tests, 4 snapshots pass. Go gates and lint not run at that checkpoint.
 - TestPG: 26 pass on lume_test_local. Race green.
 - Phase 3 Rows 6, 13, 14 BUILT.
-- exhaustive-deps disables left: ParameterForm:141 (chosen this round), BottomSheet:88, TodayCard:237, ScanReviewCard:118, energy.ts:37, appState.tsx:119 (blocked).
+- ParameterForm:141 disable already removed (round 1). Verified by grep in last report.
+- Remaining exhaustive-deps disables to check: energy.ts:37 (this round), TodayCard:237, ScanReviewCard:118, appState.tsx:119 (blocked). BottomSheet:88 kept (Reanimated write).
 
 ## Rules
 - One module per prompt, max 5 steps, grep first. Every prompt states branch rule, forbids other git commands, ends with report format.
-- Report wording: built or checked by a test only.
+- Report wording: built or checked by a test only. Never write "verified".
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints. Render tests are *.render.test.tsx.
 - Animated: useState(() => new Animated.Value(x)).
@@ -66,7 +67,6 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - Missing tests: useEnergyBalance day refetch; BottomSheet open and close; ScanReviewCard weight-only refetch; gym re-run timing.
 - measurements.tsx changeHeightUnit calls heightToCm(); cm heightError has no rounding while draftHeightCm rounds. Align later.
-- Lifecycle render tests after BottomSheet.
 - Food tab Retry: verify in Row 30.
 - formatCurrency hard-codes A$. English literals in Terms, formatNumber, units.ts:76. formatStreak(0) fr gives '0 jour'.
 - es and fr render tests parked.
@@ -82,17 +82,20 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT, soak row meets exit rule. Never a
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
 - consent.ts and purchases.ts have no eslint-disable; earlier tasks aimed at wrong files.
 - Row 14 note in PHASE3_ROWS.md over 17,000 characters: trim later.
+- zsh: $VAR does not split. Use arrays or ${=var}.
 
 ## Next
-1. ParameterForm.tsx:141 exhaustive-deps (this round). Report result, then tsc and lint.
+1. energy.ts:37 exhaustive-deps (this round). Then TodayCard:237 and ScanReviewCard:118 under the same rule.
 2. appState.tsx:119 stays blocked until Isa answers.
 3. BottomSheet open and close lifecycle render test.
-4. Row 3 remainder after Isa signs off.
-5. Gym key rename only after Isa approves.
-6. Next checkpoint: run Go gates and lint, record numbers.
+4. Recheck Row 2b status in PHASE4_ROWS.md and finish its open items.
+5. Row 3 remainder after Isa signs off.
+6. Gym key rename only after Isa approves.
+7. Next checkpoint: run Go gates and lint, record numbers.
 
 ## Loop note
 - Close partial flags before any new row. If tsc or tests were not run, run them first.
 - Same blocker twice in a row: park it under Blocked and pick a surface that does not depend on it.
+- Build prompts from a fresh grep, not from old gotcha lists.
 - Name files fully in every prompt after a handover.
 - Prompts name one module, state the branch rule, and end with the report format.
