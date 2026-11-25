@@ -2,10 +2,14 @@
 // any call (and warns that a subscription is not cancelled), Cancel makes no
 // call, confirming calls DELETE /api/profile once, success hands off to the
 // ACCOUNT_DELETED sign-out purge, and a 502 shows a plain error and keeps the
-// user signed in. The API client is mocked, not the screen.
+// user signed in. The final step's prompt shows DELETE in bold. The API client
+// is mocked, not the screen.
+import { StyleSheet } from 'react-native';
+import type { ReactTestInstance } from 'react-test-renderer';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import DeleteAccountScreen from '@/app/profile/delete-account';
+import { type } from '@/lib/design/tokens';
 import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 const mockDelete = jest.fn();
@@ -67,6 +71,18 @@ function reachFinalStep(tree: Tree): () => Promise<void> {
   };
 }
 
+/** The text a node renders, its nested Text children joined in order. */
+function textOf(node: ReactTestInstance): string {
+  return node.children.map((c) => (typeof c === 'string' ? c : textOf(c))).join('');
+}
+
+/** Host nodes (the rendered element, not the AppText wrapper) that read exactly `text`. */
+function hostTextsReading(root: ReactTestInstance, text: string): ReactTestInstance[] {
+  return root.findAll((n) => typeof n.type === 'string' && textOf(n) === text);
+}
+
+const fontWeightOf = (node: ReactTestInstance) => StyleSheet.flatten(node.props.style).fontWeight;
+
 beforeEach(() => {
   mockDelete.mockReset();
   mockDispatch.mockReset();
@@ -111,4 +127,16 @@ test('a 502 shows a plain error, never the server text, and does not sign out', 
   });
   expect(mockDispatch).not.toHaveBeenCalled();
   expect(buttonWithTitle(tree, 'Delete account')!.props.loading).toBe(false);
+});
+
+test('the final step asks to type DELETE, with only DELETE in bold', () => {
+  const tree = render();
+  press(tree, 'Continue');
+  press(tree, 'I understand, continue');
+  const [prompt] = hostTextsReading(tree.root, 'Type DELETE to confirm.');
+  expect(prompt).toBeDefined();
+  const word = hostTextsReading(prompt, 'DELETE');
+  expect(word).toHaveLength(1);
+  expect(fontWeightOf(word[0])).toBe(type.bodyBold.fontWeight);
+  expect(fontWeightOf(prompt)).toBe(type.body.fontWeight);
 });

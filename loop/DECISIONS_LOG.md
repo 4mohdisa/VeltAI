@@ -10823,3 +10823,7 @@
 - 2026-11-26 00:43 Failed delete keeps the plain fallback text for every failure, as already decided. The raw 502 server text is fixed by this step.
 - 2026-11-26 00:43 Jev 'ask' (57%) overruled: the brief forbids ask, and the parity question is answered.
 - 2026-11-26 00:43 Row 4 stays PARTIAL. Steps 1 to 3 are done; the Clerk deletion path and subscription note still need a check before BUILT.
+- 2026-11-26 00:47 Chose candidate 1 because the last report flagged Row 4 as partly done and the Trans prompt is the only open gap in step 4. It is the smallest task and closes the flag before moving on.
+- 2026-11-26 00:47 Jev rated the run action at 97% and the clean-finish chance at 68%. The risk of 0.9 has low confidence (0.37). Kept run and kept the task to one test file so a failure is easy to undo.
+- 2026-11-26 00:47 The loop flag was treated as a reason to finish the open item first, not to start Row 4 step 5 or a new row.
+- 2026-11-26 00:47 The parity exemption and the 10 extra test files from the last round are accepted as they are. No change to them in this round.
