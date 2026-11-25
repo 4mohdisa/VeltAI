@@ -8,48 +8,37 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 3. Order: 2b, 3 to 14b, 15 to 30, 31.
 
 ## State
-- Branch loop/phase4 only. Loop script commits.
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 12, 12b, 29 (9 of 38). EXACT: 0. PARTIAL: 2b, 3.
 - Phase 3 rows 6, 13, 14, 15 BUILT.
-- Last full checkpoint (read only): tsc 0; Jest 286 suites, 1,727 tests, 4 snapshots pass. TestPG 26 pass. Race green.
-- exhaustive-deps: only appState.tsx:119 left (needs Isa answer). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
-
-## Row 2b (PARTIAL)
-- Done: step sweep, training days stored on device, goal and activity editable in src/app/profile/goals.tsx, goal mapping via goalTypeOf.
-- Done (last round): diet and cuisine editable in Profile > Preferences via GET and PATCH /api/onboarding/preferences (narrow route, no onboarding rewrite, no migration).
-- Open: last round's checks flagged as incomplete. Re-run this round: Go compile across all packages (goals.Store gained two methods), TestPG once, tsc, Jest, lint.
-- Plan-ready summary: parked until Isa approves design.
-- Maestro: shared with row 23, not run.
+- Last checkpoint: tsc 0; Jest 286 suites, 1,727 tests pass; TestPG 26 pass; race green.
+- Row 2b open checks closed: all Go packages compile, TestFoodPreferencesPG passes, tsc 0, Jest and lint clean.
+- exhaustive-deps: only appState.tsx:119 left (needs Isa). Kept disables: SliderField:68, BottomSheet:95,103,134, gymSchedule.ts:78, debug/impl/index.tsx:99.
 
 ## Rules
-- One module per prompt, max 5 steps. Grep first. Every prompt names branch loop/phase4 and forbids switching.
+- One module per prompt, max 5 steps. Grep first. Prompts name branch loop/phase4 and forbid switching.
 - No git commands except git branch --show-current. Never push.
 - Report wording: built or checked by a test only. Never 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
 - TestPG: localhost:5432, lume_test_local, user from whoami, no password. URL for one command only, never printed.
-- OWNER_CHECKS_phase4.md: append only. zsh: arrays or ${=var}. Name files fully after handover. Jev is advice only.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, api.ts listSessions defaults, src/__tests__/foodDays.test.ts.
+- OWNER_CHECKS_phase4.md: append only. Name files fully after handover.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sub sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Training days not sent to plan (would overwrite activity level).
-- Goal change replaces hand-set calorie target with recomputed one (Isa may change). Onboarding keeps original answers.
-- eat_healthier maps to eat-better; derivation same as maintain. savePlan sends only body metrics; activity-only save keeps stored goal.
+- Training days not sent to plan. Goal change replaces hand-set calorie target with recomputed one. Onboarding keeps original answers.
+- eat_healthier maps to eat-better. savePlan sends only body metrics.
 - formatDuration rounds total minutes first. ConfidenceBadge uses scanCards.noBreakdown. useGoals returns data, isLoading, error, refetch.
 - Migration check exits 0 if variable unset. CI local only. Privacy manifest in app.json; camera-only prompt.
-- Barcode failed state via lookupBarcodeResult (found, notFound, failed). Dev builds fall back to mock database.
-- foodDays keeps dates, sets error on failure, clears on success. Food-log error wins when both fail.
+- Barcode failed state via lookupBarcodeResult. Dev builds fall back to mock database.
+- foodDays keeps dates, sets error on failure. Food-log error wins when both fail.
 - Retry label 'Try again' (common.tryAgain). ErrorState default 'Retry' stays (13 screens).
-- Row 6 (Phase 3): hydrateGym limit 200 at hooks.ts:169; backend LIMIT kept.
+- Row 6: hydrateGym limit 200 at hooks.ts:169; backend LIMIT kept.
 - Row 3: browser oauth_apple flow. Apple hidden on Android.
 - Row 4: oauth_states cleared in profile store delete. Clerk first, then rows; Clerk failure 502 keeps rows. Clerk 404 counts as deleted.
 - Duplicate gym keys: gym.monthSessions and gym.monthFreezes kept; other removed.
-- Prompts covering more than one module are rewritten to one module.
-- exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
+- One module per prompt. Exhaustive-deps: plain values computed in render, no disable. Reanimated SharedValue write keeps disable.
 - Checkpoint round: read only, full tsc and full app Jest, no file changes.
-- Goal and activity editing split from diet, cuisine and training days. Unrelated edits reverted.
-- Round (diet and cuisine): Jev ranked audit-routes first (81%); kept the open-check task because the Store interface change can break other packages' fakes, which Jev cannot see.
+- Goal and activity editing split from diet, cuisine and training days.
 
 ## Blocked on Isa (park in OWNER_CHECKS_phase4.md; do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -64,32 +53,29 @@ Goal: every PHASE4_ROWS.md row BUILT or EXACT; soak row meets exit rule. Never a
 - App-wide ErrorState 'Retry' vs 'Try again' (13 screens, 7 tests).
 - Rename gym.monthSessions and gym.monthFreezes.
 - appState.tsx:119 exhaustive-deps: recommend yes plus one render test.
-- Approve goal change rule (replaces hand-set calorie target).
-- Training days: store on device only (no backend field) or add a field.
+- Approve goal change rule. Training days: device only or add a backend field.
 - Preview re-runs (about 400 ms) when an edit leaves params unchanged.
-- Eat healthier and training days labels may shrink on narrow phones or large text: device look.
-- Diet and cuisine: es and fr text for 8 preferences.food.* keys and 14 goals.plan.* and 5 onboarding.trainingDays.* keys (English only for now).
+- Eat healthier and training days labels may shrink on narrow phones or large text.
 - Cuisine change adds no saved foods for new cuisines (intentional; Isa may want it).
 
 ## Parked
 - Two private useApi copies (energy.ts, gymSchedule.ts): merge only if no behaviour change.
 - mutations.ts and hooks.ts import each other; move bodyFromOnboarding to mappers.ts.
 - measurements.tsx:118 changeHeightUnit calls heightToCm(); align later.
-- paywall.tsx:81 passes onboarding payload with as unknown as Onboarding; type mismatch would go unnoticed.
+- paywall.tsx:81 uses as unknown as Onboarding; type mismatch would go unnoticed.
 - Missing tests: useEnergyBalance day refetch; BottomSheet lifecycle; ScanReviewCard weight-only refetch; gym re-run timing.
 - Food tab Retry: verify in Row 30. formatCurrency hard-codes A$. formatStreak(0) fr gives '0 jour'.
-- Food search ranking caches cuisine preferences up to 5 minutes; edits take effect after expiry.
+- Food search ranking caches cuisine preferences up to 5 minutes.
 - SettingsList has no disabled style: loading or failed rows only ignore taps.
 - Nothing dispatches SIGNED_IN. Jest 'API unreachable' noise. Root config and backend JS not linted. verify:go lacks -count=1.
 - Hotspots: useHydration no freshness window; gym/history.tsx up to 200 rows; 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30.
 - getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - rate_limit_counters may hold user ids in text keys. auth.ExportTableNames and account.UserTables overlap.
-- scripts/audit-routes.mjs crashes: reads missing src/lib/api/index.ts. Next round.
 - Row 14 note in PHASE3_ROWS.md over 17,000 chars: trim later.
 
 ## Next
-1. Row 2b: close open checks (this round). Then audit-routes.mjs fix (also checks the new preferences route).
-2. Row 2b: plan-ready summary (parked until Isa approves design).
+1. Fix scripts/audit-routes.mjs (this round), including the preferences route check.
+2. Row 2b plan-ready summary: parked until Isa approves design. Row 2b stays PARTIAL.
 3. Row 3 remainder after Isa signs off.
 4. Gym key rename only after Isa approves.
-5. Next Go gates and lint checkpoint; numbers in BASELINE_phase4.md.
+5. Go gates and lint checkpoint; numbers in BASELINE_phase4.md.

@@ -11065,3 +11065,7 @@
 - 2026-11-26 02:24 Audit-routes fix moves to next round, where it can also check the new /api/onboarding/preferences route.
 - 2026-11-26 02:24 Only test-file stubs may be added for the new Store methods; no behaviour change.
 - 2026-11-26 02:24 TestPG run for one command only, URL never printed.
+- 2026-11-26 02:26 Picked the audit-routes fix: it is a crash that hides app and backend route drift, it is small and checkable. Jev ranked it first and I agree.
+- 2026-11-26 02:26 Row 2b stays PARTIAL until Isa approves the plan-ready summary design.
+- 2026-11-26 02:26 Dropped the es and fr open items: Isa's override is English only, so they are no longer tasks.
+- 2026-11-26 02:26 Trimmed the notes under 600 words. Nothing approved or blocked was removed, only merged.
