@@ -11440,3 +11440,7 @@
 - 2026-11-26 05:08 Asking is not allowed, so the prompt tells Claude Code to park and report if Settings or the withdraw path cannot be found rather than guess.
 - 2026-11-26 05:08 Kept the consent copy and the 'Who receives it' wording as Blocked on Isa; the switch does not change copy.
 - 2026-11-26 05:08 Chose not to run the full suite this round: the last checkpoint was clean and this round is a small surface change.
+- 2026-11-26 05:11 Jev gave ask 42%, run 39%: chose run. Isa is unreachable for the week, the brief forbids asking, and this is the smallest open Row 5 step.
+- 2026-11-26 05:11 Chose the Ask Lume screen (step 2b) over the consent helper merge: it is the next listed step and one surface only.
+- 2026-11-26 05:11 Row 5 stays PARTIAL until Isa answers the open consent questions in Blocked.
+- 2026-11-26 05:11 Condensed NOTES to fit the 600 word limit. No decision was removed; repeated lines were merged.

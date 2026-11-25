@@ -133,8 +133,10 @@ export function useBrainProfile(): {
 
 /** One-shot AI query. `ask` resolves the answer text (or a friendly message);
  *  `unavailable` becomes true on a 503 (ANTHROPIC_API_KEY unset) or any error. */
+/** ask() resolves to the answer text, '' when there is none, or null when the
+ *  daily AI limit refused the question, so the caller can keep it to resend. */
 export function useAIQuery(): {
-  ask: (question: string) => Promise<string>;
+  ask: (question: string) => Promise<string | null>;
   loading: boolean;
   unavailable: boolean;
 } {
@@ -148,7 +150,7 @@ export function useAIQuery(): {
     };
   }, []);
 
-  const ask = useCallback(async (question: string): Promise<string> => {
+  const ask = useCallback(async (question: string): Promise<string | null> => {
     if (mounted.current) {
       setLoading(true);
       setUnavailable(false);
@@ -174,10 +176,12 @@ export function useAIQuery(): {
         return i18n.t('aiQuery.consentNeeded');
       }
       // 429 ai_daily_limit_reached = today's AI allowance is used up. The
-      // server's message says when it resets; show it as scan.ts does, and
-      // keep the unavailable state under it.
+      // server's message says when it resets; show it as scan.ts does, keep
+      // the unavailable state under it, and return null so the question is kept.
       if (e instanceof ApiError && e.code === 'ai_daily_limit_reached') {
         showToast({ message: e.message, tone: 'info' });
+        if (mounted.current) setUnavailable(true);
+        return null;
       }
       // 503 carries the server's own explanation ("could not verify your
       // subscription — try again shortly"). Surfacing the generic unavailable

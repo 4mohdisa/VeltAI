@@ -54,6 +54,10 @@ export default function AIQueryScreen() {
     setAnswer('');
     setInput('');
     const res = await ask(q); // never throws; '' on unavailable
+    if (res === null) {
+      setInput(q);
+      return;
+    }
     setAnswer(res);
   };
 
