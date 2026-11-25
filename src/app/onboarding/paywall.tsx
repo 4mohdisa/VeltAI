@@ -2,10 +2,11 @@
 // custom one: pricing, plans and the purchase CTA render from the dashboard
 // configuration. The custom PlanCards/CTA from earlier phases are gone.
 //
-// Flow: "See plans" presents the RC paywall → purchased/restored marks entitled;
-// dismissed-without-purchase still completes onboarding (entitlement gating
-// decides feature access — the app's existing trial/free logic). Either way the
-// assembled onboarding answers POST to /api/onboarding exactly as before.
+// Flow: "See plans" presents the RC paywall. There is no free tier, so the
+// onboarding answers POST to /api/onboarding only once the backend's
+// subscription status confirms a trial or an active plan (the same record the
+// entitlement gate reads). A dismissed paywall saves nothing: the answers stay
+// in the onboarding store on the device until a later purchase or restore.
 //
 // Billing-disabled dev mode (no key / Expo Go): a "Billing not configured (dev)"
 // note replaces the paywall and Continue proceeds — the app stays fully usable.
@@ -100,8 +101,19 @@ export default function PaywallScreen() {
     }
   };
 
-  // Present RevenueCat's paywall, then complete onboarding regardless of the
-  // purchase outcome (dismiss = free tier; entitlement gates access later).
+  // Save only once the backend confirms a trial or an active plan; until then
+  // the answers stay on the device.
+  const completeIfSubscribed = async () => {
+    const sub = await api.subscription.get().catch(() => null);
+    if (!sub?.is_active) {
+      showToast({ message: t('onboarding.paywall.notConfirmed'), tone: 'info' });
+      setSubmitting(false);
+      return;
+    }
+    await completeOnboarding();
+  };
+
+  // Present RevenueCat's paywall; only a purchase or restore goes on to save.
   const handleContinue = async () => {
     setSubmitting(true);
     if (isBillingEnabled()) {
@@ -129,6 +141,12 @@ export default function PaywallScreen() {
         case 'cancelled':
           break; // deliberate: dismissing the sheet is a choice, not a fault
       }
+      if (outcome !== 'purchased' && outcome !== 'restored') {
+        setSubmitting(false);
+        return;
+      }
+      await completeIfSubscribed();
+      return;
     }
     await completeOnboarding();
   };
@@ -139,16 +157,21 @@ export default function PaywallScreen() {
       return;
     }
     setRestoring(true);
+    let restored = false;
     try {
-      const info = await restorePurchases();
+      restored = hasProEntitlement(await restorePurchases());
       showToast({
-        message: hasProEntitlement(info) ? t('profile.subscriptionRestored') : t('onboarding.paywall.noSubscription'),
-        tone: hasProEntitlement(info) ? 'success' : 'info',
+        message: restored ? t('profile.subscriptionRestored') : t('onboarding.paywall.noSubscription'),
+        tone: restored ? 'success' : 'info',
       });
     } catch {
       showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
     } finally {
       setRestoring(false);
+    }
+    if (restored) {
+      setSubmitting(true);
+      await completeIfSubscribed();
     }
   };
 

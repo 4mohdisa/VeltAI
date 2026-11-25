@@ -11126,3 +11126,7 @@
 - 2026-11-26 02:54 Checkpoint passed (tsc 0, Jest 288 suites and 1,736 tests), so the loop moves on to the next row.
 - 2026-11-26 02:54 Row 6b split into six one-module prompts, in line with the rule of one module per prompt.
 - 2026-11-26 02:54 Left STATUS.md and the quota test name for a later Row 6b step, to keep this prompt to one module.
+- 2026-11-26 02:56 Chose 6b (b): it is the next open 6b step and the 402 gate depends on it. Jev rates run at 95%, which agrees.
+- 2026-11-26 02:56 Kept to one module per round (Isa's rule). 6b (f) and 5b wait.
+- 2026-11-26 02:56 Parked nothing new this round. The stale 402 message and STATUS.md wording stay listed under 6b (f).
+- 2026-11-26 02:56 Trimmed notes below 600 words. Detail moved out of Decisions and Parked; no decision was dropped.

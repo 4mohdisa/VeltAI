@@ -68,6 +68,7 @@ const ENGLISH_ONLY = new Set([
   'preferences.food.loadFailed',
   'preferences.food.saved',
   'preferences.food.saveFailed',
+  'onboarding.paywall.notConfirmed',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

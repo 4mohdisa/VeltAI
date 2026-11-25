@@ -7,6 +7,7 @@
 // possible either.
 import PaywallScreen from '@/app/onboarding/paywall';
 import { showToast } from '@/components/display/toastStore';
+import { presentPaywall } from '@/lib/billing/purchases';
 import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
@@ -23,17 +24,23 @@ jest.mock('@/lib/billing/purchases', () => ({
 }));
 
 const mockPost = jest.fn().mockResolvedValue({ completed: true });
+const mockSubscription = jest.fn();
 jest.mock('@/lib/api', () => ({
-  api: { onboarding: { post: (...args: unknown[]) => mockPost(...args) } },
+  api: {
+    onboarding: { post: (...args: unknown[]) => mockPost(...args) },
+    subscription: { get: () => mockSubscription() },
+  },
   ApiError: class ApiError extends Error {},
 }));
+
+const activeSubscription = { status: 'active', is_active: true, platform: 'ios', plan_interval: 'month', expires_at: null };
+const noSubscription = { status: 'none', is_active: false, platform: null, plan_interval: null, expires_at: null };
 
 jest.mock('@/components/display/toastStore', () => ({ showToast: jest.fn() }));
 
 type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
-async function pressContinue(title = en.onboarding.paywall.seePlans): Promise<void> {
-  const tree = renderScreen(<PaywallScreen />);
+async function pressContinue(title = en.onboarding.paywall.seePlans, tree = renderScreen(<PaywallScreen />)): Promise<void> {
   const cta = buttonWithTitle(tree, title)!;
   await act(async () => {
     (cta.props.onPress as () => void)();
@@ -64,6 +71,8 @@ function screenStrings(l: Locale): string[] {
 beforeEach(() => {
   useOnboardingStore.getState().reset();
   mockPost.mockClear();
+  mockSubscription.mockReset().mockResolvedValue(activeSubscription);
+  (presentPaywall as jest.Mock).mockReset().mockResolvedValue('purchased');
   (showToast as jest.Mock).mockClear();
   useOnboardingStore.getState().setMeasurements({ age: 30, sex: 'male', height_cm: 180, weight_kg: 80 });
   useOnboardingStore.getState().setActivity('moderate');
@@ -135,4 +144,44 @@ test('the posted payload matches the onboarding store answers', async () => {
       goal: 'lose',
     }),
   );
+});
+
+// --- Hard paywall: no free tier ---------------------------------------------
+// The answers are saved only once the backend confirms a trial or an active
+// plan. A dismissed paywall saves nothing and keeps the answers on the device.
+
+test('a confirmed purchase saves the answers once and completes onboarding', async () => {
+  await pressContinue();
+  expect(mockSubscription).toHaveBeenCalledTimes(1);
+  expect(mockPost).toHaveBeenCalledTimes(1);
+  expect(useOnboardingStore.getState().completed).toBe(true);
+});
+
+test('dismissing the paywall never saves and keeps the answers on the device', async () => {
+  (presentPaywall as jest.Mock).mockResolvedValue('cancelled');
+  await pressContinue();
+  expect(mockPost).not.toHaveBeenCalled();
+  expect(mockSubscription).not.toHaveBeenCalled();
+  const kept = useOnboardingStore.getState();
+  expect(kept.completed).toBe(false);
+  expect(kept.goal).toBe('lose');
+  expect(kept.activity_level).toBe('moderate');
+});
+
+test('dismissing, then purchasing later, saves the kept answers once', async () => {
+  (presentPaywall as jest.Mock).mockResolvedValueOnce('cancelled').mockResolvedValueOnce('purchased');
+  const tree = renderScreen(<PaywallScreen />);
+  await pressContinue(en.onboarding.paywall.seePlans, tree);
+  expect(mockPost).not.toHaveBeenCalled();
+  await pressContinue(en.onboarding.paywall.seePlans, tree);
+  expect(mockPost).toHaveBeenCalledTimes(1);
+  expect(mockPost).toHaveBeenCalledWith(expect.objectContaining({ goal: 'lose', activity_level: 'moderate', age: 30 }));
+});
+
+test('a purchase the backend has not confirmed yet does not save and says so', async () => {
+  mockSubscription.mockResolvedValue(noSubscription);
+  await pressContinue();
+  expect(mockPost).not.toHaveBeenCalled();
+  expect(useOnboardingStore.getState().completed).toBe(false);
+  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.paywall.notConfirmed, tone: 'info' });
 });
