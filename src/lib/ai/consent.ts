@@ -11,8 +11,6 @@
 // server keeps its own record and refuses (403 ai_consent_required) without it.
 import { getItem, setItem } from '@/lib/storage/secureStore';
 import { api } from '@/lib/api';
-import i18n from '@/lib/i18n';
-import { useSettingsStore } from '@/lib/settings/store';
 
 export const AI_CONSENT_KEY = 'lume.aiConsent';
 
@@ -43,53 +41,13 @@ export async function revokeAiConsent(): Promise<void> {
   await setItem(AI_CONSENT_KEY, '0');
 }
 
-function markDeviceConsent(): void {
-  cached = true;
-  void setItem(AI_CONSENT_KEY, '1');
-}
-
 /** The consent screen's accept: the server record FIRST, so a failure throws
  *  and the screen can offer a retry instead of a device flag the server would
  *  still refuse. */
 export async function acceptAiConsent(): Promise<void> {
   await api.ai.setConsent();
-  markDeviceConsent();
-}
-
-/** Show the one-time disclosure (if not yet acknowledged). Resolves true when
- *  the user has consented — only then may AI features send data. */
-export async function ensureAiConsent(): Promise<boolean> {
-  if (await hasAiConsent()) return true;
-  // Lazy require: this module is imported by the (node-env) jest suites via
-  // resetRegistry; react-native must not load at module scope there.
-  const { Alert } = require('react-native') as typeof import('react-native');
-  return new Promise((resolve) => {
-    Alert.alert(
-      i18n.t('aiConsent.title'),
-      i18n.t('aiConsent.body'),
-      [
-        { text: i18n.t('aiConsent.notNow'), style: 'cancel', onPress: () => resolve(false) },
-        {
-          text: i18n.t('aiConsent.continue'),
-          onPress: () => {
-            markDeviceConsent();
-            // Best-effort: the device flag is what gates the UI, and the server
-            // independently refuses until its own record exists. A failure here
-            // means AI features 403 until the next acknowledgment rather than
-            // data being sent without consent — the safe direction.
-            void api.ai.setConsent().catch(() => {});
-            // The same acceptance turns on product analytics, which is opt-in
-            // and collects nothing until this point (DECISIONS.md 2026-08-09).
-            // One ask, no second screen; Settings → Privacy separates them
-            // again afterwards, so this is not a bundled all-or-nothing.
-            useSettingsStore.getState().setAnalyticsEnabled(true);
-            resolve(true);
-          },
-        },
-      ],
-      { cancelable: false },
-    );
-  });
+  cached = true;
+  await setItem(AI_CONSENT_KEY, '1');
 }
 
 /** Sign-out / tests: forget the in-memory cache (the persisted key is removed

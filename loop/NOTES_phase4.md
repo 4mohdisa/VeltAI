@@ -10,21 +10,20 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f parked).
-- Last checkpoint: tsc 0, Jest 292 suites, 1,774 tests, all pass. Route audit 93 of 93.
+- Last full checkpoint: tsc 0, Jest 289 suites, 1,759 tests pass (before the label scan consent move). Route audit 93 of 93.
 
-## Next (one screen per round)
-1. DONE: ai-query.tsx opens ai-consent.tsx.
-2. DONE: insights.tsx uses replace('/ai-consent') (no-input screen; Isa to confirm).
-3. DONE: food/photo-capture.tsx opens consent before any photo or scan (checked by tests).
-4. IN PROGRESS: food/label-scan.tsx, same wiring. Also update phase14Regression order check, labelScan.render.test.tsx mock, scanScreens.strings.render.test.tsx mock.
-5. Row 5b: withdraw switch in Settings, then daily limit copy.
-6. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-7. Row 3 remainder after Isa signs off.
+## Next (one surface per round)
+1. DONE: ai-query, insights (replace), photo-capture, label-scan open the consent screen.
+2. IN PROGRESS: aiBrain.ts 403 retry opens /ai-consent instead of the alert. Delete ensureAiConsent and aiConsentAlert.test.ts only if no callers remain.
+3. Row 5b: withdraw switch in Settings, then daily limit copy.
+4. Full suite at the next checkpoint (consent moves not yet run in full).
+5. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+6. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first.
-- One task per prompt, one screen or component per prompt, max 5 steps. Find files with find (grep -rl matches contents).
+- One task per prompt, one screen or component, max 5 steps. Find files with find (grep -rl matches contents).
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check is flagged; next round verifies it first.
 - A blocker that repeats twice goes to Blocked on Isa and is not retried.
@@ -54,7 +53,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
 
 ## Blocked on Isa (park, do not retry)
-- A 402 while the app is open is not routed to the paywall (needs routing decision).
+- A 402 while the app is open is not routed to the paywall (needs routing decision). Recommended twice; not retried.
 - Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
 - Row 5a/5b: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Accept also turns on analytics? (old alert did; consent screen does not).
@@ -65,8 +64,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
-- aiBrain.ts:168 still calls ensureAiConsent after a 403 (alert can still show). After accepting, the user taps Capture again.
-- Ask Lume needs a second tap on Send after accepting consent.
+- Ask Lume needs a second tap on Send after accepting consent. Same for label scan, photo capture: user taps capture again after accepting.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast. profile/privacy.tsx hardcoded 'Your data' title.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.

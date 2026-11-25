@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { api, ApiError } from '@/lib/api';
-import { ensureAiConsent, hasAiConsent } from '@/lib/ai/consent';
+import { hasAiConsent } from '@/lib/ai/consent';
 import type { AIAnomaly, AIBrainProfile, AIInsight, MorningBrief } from '@/lib/types';
 import { handleUpgradeRequired } from '@/lib/billing/upgradePrompt';
 
@@ -163,12 +163,13 @@ export function useAIQuery(): {
       if (await handleUpgradeRequired(e)) return '';
       // 403 ai_consent_required = the server has no AI-partner consent on
       // record for this user. Not an outage, and not something to pay for:
-      // re-run the disclosure and let them decide.
+      // open the consent screen and let them decide.
       if (e instanceof ApiError && e.status === 403) {
-        const granted = await ensureAiConsent();
-        return granted
-          ? 'Thanks — ask me that again and I can answer now.'
-          : 'Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.';
+        // Lazy require, as in consent.ts: the node-env jest suites import this
+        // module, and expo-router (behind nav) must not load at module scope.
+        const { navigate } = require('@/lib/nav') as typeof import('@/lib/nav');
+        navigate('/ai-consent');
+        return 'Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.';
       }
       // 503 carries the server's own explanation ("could not verify your
       // subscription — try again shortly"). Surfacing the generic unavailable

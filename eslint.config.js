@@ -15,10 +15,10 @@ module.exports = defineConfig([
     },
   },
   {
-    // react-native is required lazily so the node-env Jest suites can import this module.
-    files: ["src/lib/ai/consent.ts"],
+    // nav (and expo-router behind it) is required lazily so the node-env Jest suites can import this module.
+    files: ["src/lib/data/aiBrain.ts"],
     rules: {
-      "@typescript-eslint/no-require-imports": ["warn", { allow: ["^react-native$"] }],
+      "@typescript-eslint/no-require-imports": ["warn", { allow: ["^@/lib/nav$"] }],
     },
   },
   {

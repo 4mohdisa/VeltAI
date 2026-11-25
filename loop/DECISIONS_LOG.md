@@ -11263,3 +11263,7 @@
 - 2026-11-26 03:42 Chose label-scan (candidate 1): it is the last screen still using the consent alert, and finishing the wiring on one screen fits the one screen per round rule.
 - 2026-11-26 03:42 Photo capture consent wiring is recorded as checked by tests (last report), so it is marked done.
 - 2026-11-26 03:42 Kept English only and left PHASE4_ROWS.md untouched this round: the row 5b status changes after the withdraw switch.
+- 2026-11-26 03:43 Recorded '402 while the app is open is not routed to the paywall' under Blocked on Isa: it was recommended in two rounds in a row and needs a routing decision. Not retried.
+- 2026-11-26 03:43 Picked the aiBrain 403 retry because it is the last alert path, needs no Isa answer and is the report's own next step.
+- 2026-11-26 03:43 Row 5b withdraw switch waits one round so the consent flow is fully off the alert first.
+- 2026-11-26 03:43 Full suite is due at the next checkpoint because the four consent moves have not been run in full.
