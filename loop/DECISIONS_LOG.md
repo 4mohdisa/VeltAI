@@ -10942,3 +10942,8 @@
 - 2026-11-26 01:25 Next task is TodayCard.tsx:237: smallest remaining disable fix, same pattern as the done rows. Chosen over the BottomSheet lifecycle test to keep rounds small after Jev's low-risk advice.
 - 2026-11-26 01:25 BottomSheet lifecycle test (mount, slide down, unmount, Reduce Motion) kept as a candidate for a later round; logged in Parked, not dropped.
 - 2026-11-26 01:25 Jev signal read as advice only. Run chosen; no ask, since the brief forbids it.
+- 2026-11-26 01:26 Chose ScanReviewCard as the next single module, matching the last report's NEXT and the notes' Next list.
+- 2026-11-26 01:26 Jev 'run' agrees with the plan; no override.
+- 2026-11-26 01:26 Handover lists ParameterForm.tsx:141 as next, but notes record ParameterForm as done. Dropped it: grep first, and remove it from Parked if no disable exists.
+- 2026-11-26 01:26 Stale comments that say revalidate is unstable may exist elsewhere. Logged in Parked for a grep-only round, not fixed in this prompt, to keep one module per round.
+- 2026-11-26 01:26 Notes rewritten under 600 words as the handover and loop note asked; finished items deleted, repeats merged.

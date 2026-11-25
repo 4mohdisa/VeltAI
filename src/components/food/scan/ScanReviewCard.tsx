@@ -85,13 +85,13 @@ export function ScanReviewCard({
   const [calibration, setCalibration] = useState<Record<string, number>>({});
   const calibratedRef = useRef<Set<string>>(new Set());
 
-  const namesKey = useMemo(() => items.map((i) => i.name).join('|'), [items]);
+  const namesKey = useMemo(() => JSON.stringify(items.map((i) => i.name)), [items]);
 
   // Fetch per-name portion memory + the global calibration table on mount / when
   // the item set changes. Best-effort: a failure just leaves the hint/factor out.
   useEffect(() => {
     let active = true;
-    const names = [...new Set(items.map((i) => i.name))];
+    const names = [...new Set<string>(JSON.parse(namesKey))];
     for (const name of names) {
       api.foodLogs
         .portionMemory(name)
@@ -115,7 +115,6 @@ export function ScanReviewCard({
     return () => {
       active = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [namesKey]);
 
   // Apply the calibration multiplier to the initial weight ONCE per item, and
