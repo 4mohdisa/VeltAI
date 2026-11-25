@@ -67,7 +67,7 @@ Every onboarding screen reads its text through i18n (useTranslation) from src/li
 | 5 | Back from measurements returned to the signup buttons with a live session; a provider pressed again could fail | Built | onboarding/measurements.tsx: back goes to preview, skipping signup. onboarding/signup.tsx: Clerk's session_exists continues the flow instead of an error | src/__tests__/render/onboardingSignedInBack.render.test.tsx |
 | 6 | A session that ends between signup and the paywall gave a "check your connection" toast and never sent the user to sign in | Built | onboarding/paywall.tsx: a 401 on the subscription check or on the final save ends the session, keeps the answers and opens sign-in; a network error keeps the connection message and Continue retries | src/__tests__/render/paywallSessionExpired.render.test.tsx, src/__tests__/render/paywallOnboardingPost.render.test.tsx |
 | 7 | The paywall "unavailable" toast was written for a developer, not a user | Open | onboarding/paywall.tsx, onboarding.paywall.plansUnavailable | None |
-| 8 | Target weight on measurements has no validation; an empty or extreme value is accepted silently | Open | onboarding/measurements.tsx: age, sex, height and weight are validated, target weight is not | None |
+| 8 | Target weight on measurements has no validation; an empty or extreme value is accepted silently | Built | onboarding/measurements.tsx: target weight is required when shown (goal lose or muscle) and uses the same 30 to 300 kg check as weight (bodyWeightError). Whether it stays required is open for Isa | src/__tests__/render/onboardingMeasurementsTargetWeight.render.test.tsx |
 
 ### Static explainer slides
 

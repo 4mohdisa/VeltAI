@@ -11547,3 +11547,7 @@
 - 2026-11-26 05:43 Target weight required-when-shown stays as built, per the brief; Isa's call is parked, not asked.
 - 2026-11-26 05:43 Jev advice (run 70%) agrees with running the smallest safe task; no stop, since no danger and no hosted target.
 - 2026-11-26 05:43 Prompt names files fully and keeps one surface per round.
+- 2026-11-26 05:44 Chose the docs only task because the checkpoint was clean and the last task's record is still missing. Jev rates risk high, so the smallest safe task wins.
+- 2026-11-26 05:44 Jev's stop vote is 2%, and nothing points at production or needs a stop, so no stop.
+- 2026-11-26 05:44 Not using Jev's ask/run mix: no questions to Isa, per standing rule.
+- 2026-11-26 05:44 Kept the notes under 600 words by merging the open items and dropping finished work from the Next list.
