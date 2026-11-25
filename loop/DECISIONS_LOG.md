@@ -11479,3 +11479,8 @@
 - 2026-11-26 05:21 Jev suggested stop (30%). Rejected: rows 2b to 31 remain open, so the stop condition is not met.
 - 2026-11-26 05:21 Row 6b step (f) stays in Blocked on Isa. It is not retried, because the blocker has repeated.
 - 2026-11-26 05:21 No source files touched this round. Only a read and documentation step, so the risk is low.
+- 2026-11-26 05:23 Chose the verification run first: the last report skipped Jest and lint, and the loop flagged it; the rules say the next round verifies it first.
+- 2026-11-26 05:23 Run chosen over Jev's ask (6%) and stop (2%); no stop condition is met and ask is barred.
+- 2026-11-26 05:23 Verification is read only except for fixes to reds caused by the Row 5 change, to respect the checkpoint rule.
+- 2026-11-26 05:23 Parked: the 25 Nov audit in DESIGN_REFERENCES.md is out of date (maintain option and training-days question now exist; onboarding is now English only). Left for the Row 2b redesign round, which will update it.
+- 2026-11-26 05:23 Jev risk score 1.0 (of 2) noted; mitigated by keeping this round to checks and one table check.
