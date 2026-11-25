@@ -11418,3 +11418,7 @@
 - 2026-11-26 05:00 Kept the checkpoint read only apart from fixing reds caused by the last change, per the notes rule.
 - 2026-11-26 05:00 Console counts are re-measured with the same method as before. A difference is not called a regression until a test fails or the cause is found.
 - 2026-11-26 05:00 Row 5 step 2b for Ask Lume is recorded as done in PHASE4_ROWS.md this round, as the report asked.
+- 2026-11-26 05:01 Chose the backend consent gate check over the consent screen: the screen needs a second surface, and the gate is the server side safety rule Row 5 requires first.
+- 2026-11-26 05:01 Told Claude Code to check existing state first, because the handover warns that some tasks repeat finished work.
+- 2026-11-26 05:01 Jev gave run 33%, ask 37%, stop 30%. Ask is not allowed under the no-questions rule, and stop is not warranted (no gate red, no danger), so run is the choice.
+- 2026-11-26 05:01 Row 5 status stays PARTIAL until the consent version and the consent screen are done. The consent version waits for Isa and is listed as blocked, not as a reason to stop the row.

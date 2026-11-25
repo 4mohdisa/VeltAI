@@ -10,18 +10,19 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b.
-- Row 5 server: done. Daily AI limit default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
+- Row 5 server: daily AI limit done. Default 20, UTC day, LUME_AI_DAILY_LIMIT (0 = off). 429 code ai_daily_limit_reached. Counts successful calls only.
 - Row 5 step 2a: done. Only ai_daily_limit_reached is non-retryable.
-- Row 5 step 2b: photo scan done (scanRefused in scan.ts). Label scan done (empty review after the limit toast). Ask Lume done (info toast in aiBrain.ts useAIQuery, render test aiQueryDailyLimit.render.test.tsx).
-- Last checkpoint (pending this round): tsc and full Jest re-run after the Ask Lume change. Last full numbers: jest 293/293 suites, 1,788/1,788 tests; Go -race ok, 29 TestPG pass on lume_test_local.
-- Console counts: 66 console.error, 163 console.warn (last report). Handover said 80 warns. Re-count with the same method this round; do not call it a regression until a test fails or the cause is found.
+- Row 5 step 2b: photo scan (scanRefused in scan.ts), label scan (empty review after limit toast), Ask Lume (info toast in aiBrain.ts useAIQuery) all done.
+- Last checkpoint: tsc 0 errors; Jest 294/294 suites, 1,790/1,790 tests; Go -race ok; 29 TestPG pass on lume_test_local.
+- Console counts (same method as last report): 66 console.error, 163 console.warn. Handover said 80 warns; the gap is a counting method difference, not a regression, until a test fails.
 
 ## Next
-1. Row 5: consent gate check on AI routes, then consent screen and Settings switch (one surface per round).
-2. Row 3 after Isa signs off the Apple steps.
-3. Maestro flows (2b, 23) once Maestro is confirmed.
-4. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
-5. Next checkpoint after that: full tsc and Jest plus the console re-count.
+1. Row 5: backend consent gate check on all AI routes (this round; check existing state first).
+2. Row 5: consent screen and Settings withdraw switch (one surface per round).
+3. Row 3 after Isa signs off the Apple steps.
+4. Maestro flows (2b, 23) once Maestro is confirmed.
+5. Other-code 429 expect line in productionReadiness.test.ts (small, later round).
+6. Next checkpoint: full tsc and Jest plus console re-count.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -39,8 +40,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5 photo and label scan limits handled where errors are caught (scan.ts, label-scan.tsx), not in the capture screens. Accepted; not re-asked.
-- Row 5 Ask Lume limit handled in the hook where the error is caught (aiBrain.ts), since the screen never sees the error. Accepted.
+- Row 5 scan limits handled where errors are caught (scan.ts, label-scan.tsx), not in capture screens. Accepted.
+- Row 5 Ask Lume limit handled in the hook (aiBrain.ts). Accepted.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription is public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -58,15 +59,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change.
 - Asking is not allowed: run the smallest task.
-- i18next showSupportNotice false. act() fixes live in tests, one file per round; flush stays inline.
+- i18next showSupportNotice false. act() fixes live in tests, one file per round.
 - Jev risk high on recent rounds: one surface per round, no full suite except checkpoints.
-- Rows: Ask Lume limit task chosen earlier over the consent gate check. This round: checkpoint chosen over consent gate (Jev 93% run; node tests importing aiBrain.ts unrun since last change).
+- Row 5 consent gate chosen over consent screen (Jev run 33%; server gate first).
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
-- es and fr text for English-only keys (row 6b, aiQuery.consentNeeded, aiQuery.notEnoughData, settings.privacyDetails.aiAllow, aiConsentedOn, dataTitle, aiConsent.screen).
+- es and fr text for English-only keys (deferred by override).
 - src/app/legal/terms.tsx:71 describes a free tier. src/app/legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan back to paywall-style exit or empty review; scan.ts instead of the photo capture screen.
+- Row 5: consent version and 500 vs 403 read error; consent analytics wording; provider copy; replace vs navigate; brief and insights at the AI limit (429 or fallback text); plain 429 queueable confirmation; label scan exit; scan.ts instead of the photo capture screen.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (45 console errors): move to @testing-library/react-native? Isa decides.
 - gesture-handler worklet warning (21 console errors): needs device or simulator check before any BottomSheet change.
@@ -76,7 +77,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Parked
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
-- Server limit message is English only (by the English-only rule).
+- Server limit message is English only.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
 - Console noise: about 72 deliberate [data], [onboarding], [meals] warns from error-path tests; needs scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
