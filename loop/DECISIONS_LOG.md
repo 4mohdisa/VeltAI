@@ -10763,3 +10763,7 @@
 - 2026-11-26 00:19 Kept the native Apple sheet question and the Android Apple decision as open items for Isa, not new work.
 - 2026-11-26 00:19 Removed the Row 2.5 reference from the notes: the row does not exist in PHASE4_ROWS.md or PHASE3_ROWS.md.
 - 2026-11-26 00:19 Used the checkpoint figures from these notes (279 suites, 1,687 tests) and did not use the older R242 figure from the handover.
+- 2026-11-26 00:20 Chose the full Jest checkpoint: the handover names the checkpoint as next, and the last report flags it as due. Jev rates a run at 77% and a clean last task at 86%.
+- 2026-11-26 00:20 Row 4 step 1 waits one round. The checkpoint can reveal regressions from the DevSignup change, so it goes first.
+- 2026-11-26 00:20 signupDevFallback platform pin is parked for the next round. It passes now, so it is not blocking the checkpoint.
+- 2026-11-26 00:20 Did not give the checkpoint a round number: the notes do not record a number for it, and the rule is never to guess one.
