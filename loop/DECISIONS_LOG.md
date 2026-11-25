@@ -10744,3 +10744,7 @@
 - 2026-11-26 00:15 Checkpoint round: full tsc and full Jest only, no edits, so the result can be compared with the last checkpoint. Reason: notes say full suites run on checkpoints and the loop note asks for it.
 - 2026-11-26 00:15 Jev run 82% chosen. No concrete reason to override; the task is read only and small.
 - 2026-11-26 00:15 Signup dev-only DevSignup Apple Button (around signup.tsx line 399) is parked in housekeeping, not fixed now. Reason: the step named only the line 301 button and this round changes nothing.
+- 2026-11-26 00:16 Chose Row 3 step 3 because it is the next item in the notes and the smallest useful step. Housekeeping and the DevSignup fix follow in the next rounds.
+- 2026-11-26 00:16 Jev suggested ask at 52%. Ask is not allowed by the brief, so I ignored that option and chose run.
+- 2026-11-26 00:16 Recorded the checkpoint result as 279 suites and 1,687 tests passing, 0 type errors, from this round's full run. No round number was given, so none is written.
+- 2026-11-26 00:16 The Apple owner steps are documentation only and need no new code, so the prompt limits the Jest run to the existing Apple button test file.

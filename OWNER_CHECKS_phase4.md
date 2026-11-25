@@ -78,3 +78,13 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] es and fr wording needs review: barcodeScan.lookupFailedTitle, lookupFailedReason and lookupFailedHint in src/lib/i18n/locales/es.json and fr.json (agent translation, barcode network error).
 - [ ] es and fr wording needs review: calendar.loadFailedTitle and calendar.loadFailedMessage in src/lib/i18n/locales/es.json and fr.json (agent translation, calendar error state).
 - [ ] es and fr wording needs review: food.loggedDaysFailed in src/lib/i18n/locales/es.json and fr.json (agent translation, Food tab logged-days notice).
+
+## Row 3: Sign in with Apple (owner steps)
+
+1. Apple Developer portal, Identifiers: create or confirm the App ID for the `ios.bundleIdentifier` in `app.json`, with the Sign in with Apple capability ticked.
+2. Apple Developer portal, Identifiers: create a Services ID, enable Sign in with Apple on it, and set its website URL to the Clerk return URL shown in step 4.
+3. Apple Developer portal, Keys: create a Sign in with Apple private key and keep the .p8 file in a password manager or folder outside the repo, never in Git, notes or screenshots.
+4. Clerk dashboard, development instance, SSO connections: enable Apple and enter the Services ID, your Team ID, the Key ID and the .p8 key contents there only.
+5. Apple Developer portal, the Services ID from step 2: paste the redirect URL Clerk shows on the Apple connection into its Return URLs.
+6. Clerk dashboard, development instance, allowed redirect URLs: add `lume://sso-callback` (the `scheme` in `app.json` plus the `sso-callback` path that `useSSO` uses).
+7. Test "Continue with Apple" on the sign up screen with the development instance, on a real iPhone and on the Simulator, and confirm a new account and a returning account both sign in.
