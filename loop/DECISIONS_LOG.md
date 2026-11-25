@@ -11469,3 +11469,8 @@
 - 2026-11-26 05:19 Picked step (f) because it is the only open item in row 6b, and it is smaller than a new feature (Jev rates the last task clean at only 13%).
 - 2026-11-26 05:19 Treated the handover's 'Row 5 step 2b' as stale: NOTES says Row 5 is closed, so it is not a candidate.
 - 2026-11-26 05:19 Kept English only, per Isa's override.
+- 2026-11-26 05:20 Chose the checkpoint because the loop flagged the last report for a failed or unrun type check and tests. Deal with it before moving on.
+- 2026-11-26 05:20 Action run, not ask: asking is not allowed. Jev's 49% ask score was not an option.
+- 2026-11-26 05:20 Stop rejected: no stop condition is met (no hosted service, no danger, rows still open). Jev's confidence is low (0.24), so the smallest task was chosen.
+- 2026-11-26 05:20 Row 6b step (f) moved to Blocked on Isa. It names no strings, and the logs say es and fr text was deferred under English only. Not retried.
+- 2026-11-26 05:20 Checkpoint is read only this round. Reds are reported, not fixed, so the failures can be seen before any edit.
