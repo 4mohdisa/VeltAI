@@ -11515,3 +11515,6 @@
 - 2026-11-26 05:30 Back on a resumed step stays on Welcome. Changing it to the previous step needs one shared step list, so it is parked for Isa, not built.
 - 2026-11-26 05:30 DESIGN_REFERENCES.md refresh moved to the next round to keep this round to one surface.
 - 2026-11-26 05:30 Notes trimmed to keep them readable. No decision was deleted; repeated Parked and Blocked lines were merged.
+- 2026-11-26 05:32 Chose verification first: the last report skipped running the neighbouring test files, which the notes flag as a gap to close before new work.
+- 2026-11-26 05:32 Dead end 5 is accepted: back from measurements dismisses to preview, and session_exists continues routing instead of showing an error. Isa to confirm on device.
+- 2026-11-26 05:32 Doc refresh and dead end 6 wait one round so this round stays a single small check.

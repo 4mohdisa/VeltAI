@@ -10,22 +10,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn; 4 snapshots pass.
-- Row 2b dead ends 1 to 3 built (welcome.render.test.tsx, signupSignInMode.render.test.tsx, signupResend.render.test.tsx). Shared helper screenTitle in src/__tests__/render/helpers.tsx.
-- Row 2b dead end 4 built: OnbScaffold back goes to ONBOARDING_ROOT when no history (onboardingScaffold.render.test.tsx).
+- Row 2b dead ends 1 to 5 built. Dead end 5 test: onboardingSignedInBack.render.test.tsx (5 of 5 pass). Neighbour signup and measurements tests NOT yet run (gap).
+- Dead end 6 open (session ends between signup and paywall; final save shows connection message).
+- Last checkpoint: tsc 0 errors; Jest 295/295 suites, 1,795/1,795 tests; 67 console.error, 163 console.warn.
 
 ## Next
-1. Row 2b dead end 5: after sign in, back from measurements shows sign up buttons while signed in. Check first, then fix or test.
-2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 4 now built).
-3. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
-4. Row 6b: remaining work not tied to step (f).
-5. Row 3 after Isa signs off the Apple steps (owner).
-6. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Verify gap: run signupAuth401, ssoSignin, signupOtp, signupSignInMode, signupResend, welcome, measurements render tests, one file per command.
+2. Refresh stale audit in DESIGN_REFERENCES.md (dead ends 1 to 5 built, 6 open).
+3. Row 2b dead end 6.
+4. Row 2b redesign of sign up, sign in and onboarding, one surface per round.
+5. Row 6b: remaining work not tied to step (f).
+6. Row 3 after Isa signs off the Apple steps (owner).
+7. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Every prompt states the branch rule first and names files fully.
-- Briefs may name files that do not exist (welcome.tsx, src/locales). Check paths with grep first.
+- Check paths with grep first. Briefs may name files that do not exist.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
 - Report wording: built, or checked by a test. Never 'verified'.
 - A report that skips a check or leaves a gap is flagged; next round verifies it first.
@@ -36,12 +37,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - OWNER_CHECKS_phase4.md: append only.
 - Never edit src/lib/mock/data.ts, useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
 - Lint ignores JSON: check locale files with JSON.parse.
-- English only: new keys in src/lib/i18n/locales/en.json and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 
 ## Decisions (never delete)
 - Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; English grams group from 1,000; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit in aiBrain.ts returns null on daily limit; consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; brief and insights keep fallback text at limit; rate_limit_counters not reused; kept src/app/ai-consent.tsx; background rebuilds count against allowance; consent gate in backend/internal/consent.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess). Duplicate-note merge dropped (would remove facts).
+- Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; brief and insights keep fallback text at limit; kept src/app/ai-consent.tsx; background rebuilds count against allowance; consent gate in backend/internal/consent.
+- Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast. Isa to confirm on device.
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
@@ -60,11 +61,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 
 ## Blocked on Isa (park, do not retry)
-- Row 6b step (f): stale strings. Names none; deferred under English only. Not retried.
-- Back on a resumed onboarding step goes to Welcome, not the previous step. Needs one shared step list. Isa to decide.
+- Row 6b step (f): stale strings. Deferred under English only.
+- Back on a resumed onboarding step goes to Welcome. Needs one shared step list.
 - A 402 while the app is open is not routed to the paywall.
 - es and fr text (deferred). legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
 - Row 5 owner lines: 'Who receives it' copy; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable confirmation; label scan exit; scan.ts vs photo capture screen.
+- Row 2b: Clerk SSO session_exists on device (email path certain).
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before any BottomSheet change.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -84,5 +86,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip a few extra AI calls past the limit. Old daily counts are never deleted.
-- react-test-renderer: each hook test adds one console.error via the shared harness.
 - Gotcha: zsh does not word-split $VAR; use an array for Go package lists.
