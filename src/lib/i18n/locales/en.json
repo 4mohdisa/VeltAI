@@ -1157,7 +1157,8 @@
     "suggestionGymDays": "Am I eating enough on gym days?",
     "suggestionTopFood": "What's my most logged food?",
     "suggestionGoal": "How close am I to my goal?",
-    "consentNeeded": "Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy."
+    "consentNeeded": "Ask Lume needs your permission to send your logged data to our AI partner. You can turn it on any time in Settings → Privacy.",
+    "notEnoughData": "Keep logging for a few days and I can answer questions about your data."
   },
   "aiConsent": {
     "title": "AI features and usage data",

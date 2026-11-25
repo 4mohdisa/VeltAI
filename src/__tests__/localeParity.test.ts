@@ -24,6 +24,7 @@ const others = Object.entries(LOCALES).filter(([lang]) => lang !== 'en');
 const ENGLISH_ONLY = new Set([
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
+  'aiQuery.notEnoughData',
   'settings.privacyDetails.aiAllow',
   'settings.privacyDetails.aiConsentedOn',
   'aiConsent.screen.eyebrow',

@@ -9,14 +9,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, verify round pending), 6b (steps a to e built; f blocked on Isa).
-- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change).
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open: Settings switch built, verify round done, all 201 render files pass), 6b (steps a to e built; f blocked on Isa).
+- Last full run: tsc 0 errors, Jest 292 suites, 1,778 tests (before the Settings switch and setup.ts change). Full suite still owed at next checkpoint.
 - Done: 403 message in aiBrain.ts moved to aiQuery.consentNeeded (en only, ENGLISH_ONLY).
 
 ## Next (one surface per round)
-1. IN PROGRESS: verify round for the Settings AI consent switch and setup.ts (tsc, all render files, lint). Then checkpoint full suite.
-2. Move not-enough-data message in aiBrain.ts ('Keep logging for a few days') into en.json.
-3. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+1. IN PROGRESS: move not-enough-data message in aiBrain.ts ('Keep logging for a few days') into en.json, add to ENGLISH_ONLY.
+2. Replace hardcoded 'Your data' title in profile/privacy.tsx with an en.json key.
+3. Full suite checkpoint (tsc, all Jest, lint) after Settings switch and setup.ts change.
 4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 5. Row 3 remainder after Isa signs off.
 
@@ -51,7 +51,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Webhook secret from env only; unset means refuse events.
 - Checkpoint round: read only except fixing reds caused by the last change. Incomplete report with loop flag: verify first. Without flag: Jev pick.
 - Loop rejected multi-screen prompts and prompts without the branch rule first.
-- Round (verify): kept verify pick over Jev's move-not-enough-data pick, because the last report edited setup.ts (used by every render test) and skipped the full run.
+- Round (verify): kept verify pick over Jev's move-not-enough-data pick, because the last report edited setup.ts and skipped the full run.
+- Round (next): picked move-not-enough-data over Jev's full-suite pick; verify round already covered tsc, render files and lint.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision). Not retried.
@@ -83,4 +84,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - PHASE3_ROWS.md row 14 note too long.
 - Row 6b: three near-duplicate test-result lines; merge.
-- Settings switch: src/app/profile/privacy.tsx is not yet covered by a full suite run; see Next 1.
+- Settings switch: src/app/profile/privacy.tsx is not yet covered by a full suite run; see Next 3.
+- Under zsh, use while read for file loops.

@@ -155,7 +155,7 @@ export function useAIQuery(): {
     try {
       const res = await api.ai.query(question, 'ai-query');
       if (res.state === 'not_enough_data') {
-        return 'Keep logging for a few days and I can answer questions about your data.';
+        return i18n.t('aiQuery.notEnoughData');
       }
       return res.answer ?? '';
     } catch (e) {

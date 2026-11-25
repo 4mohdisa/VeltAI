@@ -11291,3 +11291,6 @@
 - 2026-11-26 03:57 Restricted any mock fix to setup.ts only, so the verify round cannot drift into feature work.
 - 2026-11-26 03:57 Kept the Settings switch as built (by test) but not EXACT. No simulator check claimed.
 - 2026-11-26 03:57 Kept legal copy change (Turn off AI processing path in src/app/legal/privacy.tsx) in Blocked on Isa, unchanged from the notes.
+- 2026-11-26 04:07 Picked the not-enough-data message over the unused key removal: removing keys from en, es and fr is listed under Blocked on Isa in the notes, so it stays parked.
+- 2026-11-26 04:07 Picked over the full suite checkpoint: the verify round already ran tsc, all 201 render files and lint, and the notes ask for one surface per round. The full suite follows at the next checkpoint.
+- 2026-11-26 04:07 New string is English only and added to ENGLISH_ONLY, per Isa's override that es and fr are deferred.
