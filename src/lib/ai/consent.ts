@@ -43,6 +43,19 @@ export async function revokeAiConsent(): Promise<void> {
   await setItem(AI_CONSENT_KEY, '0');
 }
 
+function markDeviceConsent(): void {
+  cached = true;
+  void setItem(AI_CONSENT_KEY, '1');
+}
+
+/** The consent screen's accept: the server record FIRST, so a failure throws
+ *  and the screen can offer a retry instead of a device flag the server would
+ *  still refuse. */
+export async function acceptAiConsent(): Promise<void> {
+  await api.ai.setConsent();
+  markDeviceConsent();
+}
+
 /** Show the one-time disclosure (if not yet acknowledged). Resolves true when
  *  the user has consented — only then may AI features send data. */
 export async function ensureAiConsent(): Promise<boolean> {
@@ -59,8 +72,7 @@ export async function ensureAiConsent(): Promise<boolean> {
         {
           text: i18n.t('aiConsent.continue'),
           onPress: () => {
-            cached = true;
-            void setItem(AI_CONSENT_KEY, '1');
+            markDeviceConsent();
             // Best-effort: the device flag is what gates the UI, and the server
             // independently refuses until its own record exists. A failure here
             // means AI features 403 until the next acknowledgment rather than

@@ -1160,7 +1160,22 @@
     "title": "AI features and usage data",
     "body": "Meal photos and a summary of your logged data are processed by Google Gemini so scanning, insights and Ask Lume can work. Google processes them only to provide those features. Anthropic would receive the summary instead only if we switch on our backup AI provider.\n\nLume also counts which features you use — never what you log, never your food, weights or notes, and never sold.\n\nYou can turn either off any time in Settings → Privacy.",
     "notNow": "Not now",
-    "continue": "Continue"
+    "continue": "Continue",
+    "screen": {
+      "eyebrow": "AI features",
+      "title": "Before Lume uses AI",
+      "whatTitle": "What is sent",
+      "what": "For a photo scan, the photo of your meal or label. For insights, briefs and Ask Lume, a text summary of what you have logged, plus any question you type.",
+      "whoTitle": "Who receives it",
+      "who": "Google Gemini, for photo scans and for insights. Anthropic would receive the insight summary instead only if we switch on our backup AI provider.",
+      "whyTitle": "Why",
+      "why": "So Lume can estimate what is in your photo and write your insights and answers. The provider processes it only to provide those features.",
+      "withdraw": "You can withdraw consent at any time in Settings → Privacy.",
+      "accept": "Accept",
+      "decline": "Decline",
+      "error": "Your choice wasn't saved. Check your connection and try again.",
+      "done": "Thanks. AI features are on."
+    }
   },
   "summary": {
     "notTracked": "Not tracked",

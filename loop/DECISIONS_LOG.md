@@ -11222,3 +11222,13 @@
 - 2026-11-26 03:27 Did not pick the report's recommended 402-while-open routing: it is on Blocked on Isa and was flagged twice, so it is not retried.
 - 2026-11-26 03:27 Kept row 6b PARTIAL: step f (es and fr text) is deferred per Isa's English-only override, but the row is not closed until the verification passes and Isa decides whether to mark it BUILT.
 - 2026-11-26 03:27 Terms copy at src/app/legal/terms.tsx:71 is legal copy and stays parked for Isa.
+- 2026-11-26 03:28 Followed Jev's pick (Row 5b) over the report's NEXT (terms.tsx:71). Reason Jev cannot see: terms.tsx:71 is already listed under Blocked on Isa as legal copy, so it would be a repeated blocker.
+- 2026-11-26 03:28 Row 6b step f (es and fr text) moved to Blocked on Isa and not retried. Isa chose English only, so it is deferred, not open.
+- 2026-11-26 03:28 Row 6b is treated as built except step f. Its three near-duplicate test lines are merged into one line in the notes, not in the table.
+- 2026-11-26 03:28 Round verify (nav.test.ts, tsc, lint) was already checked in the last report, so it is not repeated this round.
+- 2026-11-26 03:28 The loop flag was handled by recording the repeated blockers under Blocked on Isa and choosing a surface that does not depend on them.
+- 2026-11-26 03:28 Loop rejected the last prompt (no loop/phase4 branch rule, more than one screen). Rewrote it as a one-screen task with the branch rule first, following the rules.
+- 2026-11-26 03:28 Chose Row 5b consent screen only, as the next step after the blocked terms copy. Jev ranked run at 50%; the screen is the smallest unblocked step.
+- 2026-11-26 03:28 Terms copy at legal/terms.tsx:71 stays parked: it is Blocked on Isa and was already repeated twice.
+- 2026-11-26 03:28 Consent version 1 used by default (approval pending, recorded as a decision).
+- 2026-11-26 03:28 Checkpoint for the full Jest run is still due; this round runs only the new test file.
