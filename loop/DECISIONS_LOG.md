@@ -11275,3 +11275,7 @@
 - 2026-11-26 03:47 The brief names src/__tests__/aiConsentScreen.test.ts, which does not exist; the step uses find to locate the real files instead of assuming names.
 - 2026-11-26 03:47 The four unused alert keys stay in place until Isa signs off, as in the blocked list.
 - 2026-11-26 03:47 Row 5 stays PARTIAL until the withdraw switch (5b) is built.
+- 2026-11-26 03:49 Chose candidate 1 because the loop flag says the last report is only partly done and the notes say to verify first.
+- 2026-11-26 03:49 Full Jest run allowed this round because it is the verification of the flagged report, read only unless a red comes from the last change.
+- 2026-11-26 03:49 Kept the status PARTIAL for row 5 until Isa answers the open consent questions.
+- 2026-11-26 03:49 Reconciled the handover count (289 suites, 1,759 tests) with the notes count (292, 1,777) by taking the real numbers from this run.

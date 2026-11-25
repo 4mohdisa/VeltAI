@@ -9,15 +9,16 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f parked).
-- Last full checkpoint: tsc 0, Jest 292 suites, 1,777 tests. Route audit 93 of 93.
-- Consent moves done: Ask Lume, insights, photo capture, label scan open consent. aiBrain.ts 403 opens /ai-consent. ensureAiConsent and aiConsentAlert.test.ts deleted.
+- PARTIAL: 2b, 3, 5 (5a closed, 5b open), 6b (steps a to e built; f blocked on Isa).
+- Last full run: tsc 0 errors, Jest 292 suites, 1,777 tests (before the 403 test; expect 1,778). Route audit 93 of 93.
+- Consent moves done and checked by tests: Ask Lume, insights, photo capture, label scan, 403 retry.
 
 ## Next (one surface per round)
-1. IN PROGRESS: verify Row 5 consent moves with find-located tests; log row 5 note (loop flag).
-2. Row 5b: withdraw switch in Settings, then daily limit copy.
-3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
-4. Row 3 remainder after Isa signs off.
+1. IN PROGRESS: verify the flagged Row 5 report (tsc and full Jest rerun; reconcile counts).
+2. Move the two 403 messages in aiBrain.ts into en.json keys (add to ENGLISH_ONLY if needed).
+3. Row 5b: withdraw switch in Settings, then daily limit copy.
+4. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
+5. Row 3 remainder after Isa signs off.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
@@ -53,10 +54,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall (needs routing decision). Recommended twice; not retried.
-- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (still describe a free tier).
+- Row 6b step f: es and fr text for refusal keys, notConfirmed, plansUnavailable, storeError (plansUnavailable and storeError still describe a free tier).
 - Terms copy src/app/legal/terms.tsx:71 describes a free tier.
-- Row 5a/5b: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm if it should.
-- Confirm replace over navigate for insights.tsx.
+- Row 5: 500 vs 403 read errors. Consent version (no version column). Consent screen analytics wording. Provider copy confirm. Consent screen does not turn analytics on; confirm if it should. Confirm replace over navigate for insights.tsx.
 - Remove four unused alert keys (aiConsent.title, body, notNow, continue) from en, es, fr together.
 - Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; 'Retry' vs 'Try again'; rename gym.monthSessions and gym.monthFreezes; appState.tsx:119; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
@@ -64,9 +64,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Owner check pending: launch wait for returning users; returning user with answers missing from phone can buy but cannot finish; RevenueCat sandbox webhook setup.
 
 ## Parked
-- Ask Lume needs a second tap on Send after accepting consent. Same for label scan, photo capture.
+- Ask Lume, label scan and photo capture need a second tap on Send or Capture after accepting consent. Users must repeat the action.
 - AI 403 messages in aiBrain.ts are hardcoded English, not en.json keys.
-- Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast. profile/privacy.tsx hardcoded 'Your data' title.
+- profile/privacy.tsx hardcoded 'Your data' title.
+- Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts. measurements.tsx:118 heightToCm. paywall.tsx:81 unsafe cast.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; paywallHref unit test; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. formatStreak(0) fr. SettingsList no disabled style. Nothing dispatches SIGNED_IN.
 - Root config and backend JS not linted. verify:go lacks -count=1. Audit script rewrites ROUTE_COVERAGE.md.
@@ -78,4 +79,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - A returning user without a subscription goes back to onboarding. A plan that ends while the app is open meets 402s in tabs with no paywall.
 - No test files (tested from backend/tests): analytics, buildinfo, config, cuisine, db, debugreports, energy, entitlement, food, goals, httpx, recipes, subscription, tools/afcd.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
-- Dev and PHASE3_ROWS.md row 14 note too long.
+- PHASE3_ROWS.md row 14 note too long.
