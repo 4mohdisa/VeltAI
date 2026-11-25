@@ -10947,3 +10947,6 @@
 - 2026-11-26 01:26 Handover lists ParameterForm.tsx:141 as next, but notes record ParameterForm as done. Dropped it: grep first, and remove it from Parked if no disable exists.
 - 2026-11-26 01:26 Stale comments that say revalidate is unstable may exist elsewhere. Logged in Parked for a grep-only round, not fixed in this prompt, to keep one module per round.
 - 2026-11-26 01:26 Notes rewritten under 600 words as the handover and loop note asked; finished items deleted, repeats merged.
+- 2026-11-26 01:28 Chose appState.tsx:119 over energy.ts:37 because it is next in the handover order.
+- 2026-11-26 01:28 Kept the Reanimated and deliberate disables listed in Parked; the prompt makes the Reanimated check the first step.
+- 2026-11-26 01:28 Rewrote the notes under 600 words: finished work removed, Decisions kept in merged lines, duplicate items merged.
