@@ -11555,3 +11555,8 @@
 - 2026-11-26 05:45 Limited the check to one Jest file, tsc and lint on the changed file, to keep the round small.
 - 2026-11-26 05:45 Kept the subscription toast reword for the next round, since it touches a different surface.
 - 2026-11-26 05:45 Recorded that the old 'keeps 7 and 8 open' phrase in Row 2b is still open as a doc fix to do with the next docs edit.
+- 2026-11-26 05:46 Chose the toast reword: smallest user facing fix, English only, and it closes the last open copy item from the dead end audit.
+- 2026-11-26 05:46 Bundled the PHASE4_ROWS.md phrase fix ('keeps 7 and 8 open' to 'keeps 7 open') into the same prompt because it is one cell and was flagged by the last report.
+- 2026-11-26 05:46 Checks limited to tsc, one lint file, the locale JSON parse and the Jest files that touch the changed text. Full suite is not due until the next checkpoint.
+- 2026-11-26 05:46 Jev 99% run and 92% clean finish agree with the choice. No reason to override.
+- 2026-11-26 05:46 Marked the last round's dead end 8 check as built by a test. The loop's type check flag was a false alarm, so no re-run is needed.

@@ -10,24 +10,23 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5 (owner check pending), 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 6b.
-- Row 2b: dead ends 1 to 6 and 8 built in code, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
-- Last full checkpoint (after dead end 8 was not yet included): tsc 0 errors; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn.
-- Last round: docs only. Its type check and tests were NOT run (loop flag). This round verifies them.
+- Row 2b: dead ends 1 to 6 and 8 built, each with a test. Dead end 7 likely fixed (onboarding.paywall.plansUnavailable), pending Isa sign off.
+- Last full checkpoint: tsc 0 errors; Jest 297/297 suites, 1,810/1,810 tests (includes dead end 8). 67 console.error, 165 console.warn.
+- Last round: dead end 8 checked by a test (tsc 0, one Jest file 6/6, lint on measurements.tsx clean). Loop flag was a false alarm.
 
 ## Next
-1. Verify dead end 8: tsc, one Jest file, lint on measurements.tsx (this round). Fix only reds caused by dead end 8.
-2. Subscription toast subscription.plansUnavailable (src/app/profile/subscription.tsx:92): reword to user text, en only.
-3. Fix the old 'keeps 7 and 8 open' phrase in the Row 2b notes to 'keeps 7 open'.
-4. Row 6b: remaining work not tied to step (f).
-5. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
-6. Row 3 after Isa signs off the Apple steps (owner).
-7. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Reword subscription.plansUnavailable toast (src/app/profile/subscription.tsx:92), en only, user text.
+2. Fix 'keeps 7 and 8 open' to 'keeps 7 open' in Row 2b notes (PHASE4_ROWS.md).
+3. Row 6b: remaining work not tied to step (f).
+4. Row 2b: redesign sign up, sign in and onboarding, one surface per round.
+5. Row 3 after Isa signs off the Apple steps (owner).
+6. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
 - Prompts state the branch rule first and name files fully. Grep paths first.
 - One task and one surface per prompt. Max 5 steps. A rejected prompt is rewritten, not sent.
-- Report wording: 'built' or 'checked by a test'. Never 'verified'. A skipped check is flagged and verified first next round.
+- Report wording: 'built' or 'checked by a test'. Never 'verified'. A skipped check is flagged and verified next round.
 - A blocker that repeats twice goes to Blocked and is not retried.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
@@ -41,7 +40,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: limit handled where errors are caught (scan.ts, label-scan.tsx); Ask Lume limit returns null on daily limit; consent gate on server first in backend/internal/consent; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 stays queueable; only ai_daily_limit_reached non-retryable; kept src/app/ai-consent.tsx; background rebuilds count against allowance.
 - Row 2b dead end 5: back from measurements dismisses to preview; session_exists continues routing with no error toast.
 - Row 2b dead end 6: 401 on subscriptionConfirmed ends the session, same as the save.
-- Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check and inline error as weight, via bodyWeightError. Continue never disabled. Server still optional (up to 1000).
+- Row 2b dead end 8: target weight required when shown (lose or muscle), same 30 to 300 kg check and inline error, via bodyWeightError. Continue never disabled. Server still optional (up to 1000).
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding, or opens tabs if completion flag set. GET /api/subscription public, never 402.
 - paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
@@ -58,7 +57,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle sits in src/__tests__/render/helpers.tsx.
 - Resend has no cooldown: Clerk limits sends and the loading state blocks double taps.
 - Jev low confidence on a round where stop was considered: stop rejected.
-- Docs only round chosen as the smallest task while Jev risk is high.
 - Verification round chosen first after the loop flagged an unrun type check and tests.
 
 ## Blocked on Isa (park, do not retry)

@@ -185,7 +185,7 @@
     "activeBody": "Your subscription is active. Billing, renewal and cancellation are managed through your Apple account.",
     "inactiveBody": "Plans, pricing and the free trial are shown on the plans screen before any purchase.",
     "welcomePro": "You're all set — welcome to Lume Pro!",
-    "plansUnavailable": "Plans could not be loaded — the store offering is not available right now.",
+    "plansUnavailable": "Plans can't be shown right now. Please try again in a few minutes.",
     "notConfiguredDev": "Billing is not configured in this build (development mode).",
     "unavailable": "Subscriptions are temporarily unavailable. Please try again later.",
     "autoRenew": "Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name → Subscriptions — Apple handles all billing."
