@@ -14,9 +14,9 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 2 PARTIAL until Phase 3 Row 14 is BUILT.
 - Row 2b DIFFERENT (plan-ready summary parked for Isa).
 - Row 3 PARTIAL: AppleSignInButton on signup and DevSignup (browser oauth_apple). Owner steps 1 to 7 in OWNER_CHECKS_phase4.md.
-- Row 4 BUILT. Checkpoint green: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
+- Row 4 BUILT. Last full checkpoint: tsc 0, Jest 281 suites and 1,698 tests, Go regression, migrations, account, auth ok.
+- Since that checkpoint: subscription Manage test 6 to 8 (passes), Food tab reloadBoth (6 render tests pass).
 - Phase 3 Rows 6 and 13 BUILT. Row 14 PARTIAL: 14a, 14b Retry, 14c done.
-- Subscription Manage button now iOS only (done, 8 tests pass).
 
 ## Rules
 - One screen or component per prompt. Max 5 steps. Grep before editing.
@@ -45,12 +45,14 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Row 3: browser oauth_apple flow. Native sheet needs expo-apple-authentication, expo-crypto and rebuild. Apple hidden on Android. DevSignup Apple button uses AppleSignInButton (accepted).
 - Nutrition spoken label stays English, literal, no key.
 - Row 4: oauth_states cleared in profile store delete, no migration. oauth_states in auth.ExportTableNames. Child tables counted by parent ids before delete.
-- Row 4 identity first (Clerk, then rows) accepted: a Clerk failure returns 502 and keeps rows, so retry is safe. A Clerk 404 counts as deleted.
-- Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through one named list (ENGLISH_ONLY) with a reason.
-- Delete screen text in en.json. Failed delete shows plain fallback text for every failure, never server text.
+- Row 4 identity first (Clerk, then rows) accepted: Clerk failure returns 502 and keeps rows. Clerk 404 counts as deleted.
+- Parity rule (25 Nov): English-only keys exempt from localeParity.test.ts through ENGLISH_ONLY with a reason.
+- Delete screen text in en.json. Failed delete shows plain fallback text, never server text.
 - Jev 'ask' overruled when the brief forbids ask.
 - Checkpoint round rule: no file changes; gates reported, fixes in next round.
 - Subscription screen follows the delete screen: same helper, one copy of the URL (done).
+- Round choice: checkpoint over Platform.OS move (Jev 96%). Reason: last full suite predates Food tab Retry change and subscription test growth; notes require a full run before more rows.
+- Round choice: Platform.OS move chosen over gym key cleanup (smaller task, next in list).
 
 ## Blocked on Isa (do not retry)
 - E2E account needs 250+ gym dates: use seed script.
@@ -70,7 +72,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Signup placeholders signup.tsx:339 and :362 literals. Nothing dispatches SIGNED_IN.
 - eslint-disable in consent.ts and purchases.ts. exhaustive-deps disables at appState.tsx:114, gymSchedule.ts:78, energy.ts:37, measurements.tsx.
 - Jest noise: 'API unreachable' warnings. Root config and backend JS not linted. verify:go has no -count=1.
-- Inline Platform.OS === 'ios' checks in delete-account.tsx, AppleSignInButton and subscription.tsx: move into one export in subscriptionLinks.ts (later round).
+- Food tab uses 'Try again' (common.tryAgain) on notices and 'Retry' (errorState.retry) on the empty-list error. Unify in cleanup.
 - Duplicate keys gym.monthSessions/gym.monthFreezes vs gymCount.sessions/freezes: leave until cleanup round.
 - Redundant openURL.mockRestore() in delete screen test; left alone.
 - seedChildRows uses the first exercise_library row. Local DATABASE_URL user 'lume' does not exist locally; use the Mac's Postgres login for the test URL.
@@ -83,7 +85,7 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - auth.ExportTableNames and account.UserTables overlap (drift test added).
 
 ## Next
-1. Food tab Try again reloads both reads (this round).
+1. Checkpoint result: fix any red gate from this round first.
 2. Move Platform.OS checks into subscriptionLinks.ts export.
 3. Duplicate gym keys cleanup.
 4. Phase 3 Row 14 remainder, so Row 2 can close.
@@ -92,4 +94,4 @@ Finish with no input from Isa. Progress = PHASE4_ROWS.md. Never ask. Park owner 
 - Jev signals are advice only. Smaller tasks chosen when the last task was partial or Jev's clean-finish chance is low.
 - Loop flags of partial work are closed before any new row starts.
 - Checkpoint rounds change no files; any red gate is reported and fixed in the next round.
-- One screen per prompt. Rejected prompts are rewritten to a single screen.
+- One screen per prompt. Rejected prompts are rewritten to a single task.

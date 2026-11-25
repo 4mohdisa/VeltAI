@@ -10862,3 +10862,9 @@
 - 2026-11-26 01:00 Platform helper deferred: it touches two screens and the one screen per prompt rule applies; it moves to a later round.
 - 2026-11-26 01:00 Duplicate gym keys deferred to the cleanup round, as the notes already say.
 - 2026-11-26 01:00 Screen file not named in the prompt: Claude Code is told to grep for it, since the path is not in the notes.
+- 2026-11-26 01:02 Chose candidate 1 because it is the next item in the notes and it is small (three files, one export), in line with the rule to prefer a smaller task after a partial or uncertain round.
+- 2026-11-26 01:02 Kept the Jev 'run' signal (99%) as advice, which agrees with the choice.
+- 2026-11-26 01:02 Food tab Try again versus Retry label mismatch is parked for the cleanup round, not fixed now, to keep this round to one task.
+- 2026-11-26 01:03 Chose the checkpoint over the Platform.OS move that Jev ranked at 96%: the last full suite run predates the Food tab Retry change and the subscription test growth from 6 to 8 tests, and the notes rule requires a full run on checkpoints before more rows. This is the concrete reason Jev cannot see.
+- 2026-11-26 01:03 The previous prompt was rejected for asking for more than one thing; this prompt has one task (checkpoint, no file changes).
+- 2026-11-26 01:03 Any red gate is reported now and fixed in the next round, per the checkpoint rule.
