@@ -130,6 +130,7 @@ test('ScanReviewCard: agreeing angles show the translated agreement line', async
       onSaveAll={() => {}}
     />,
   );
+  await act(async () => {});
   expect(allText(tree)).toContain(fill(fr.scanCards.anglesAgree, { percent: 92 }));
 });
 

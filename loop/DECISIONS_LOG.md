@@ -11372,3 +11372,7 @@
 - 2026-11-26 04:35 Kept the existing order: brainProfileCard.numbers next, then scanCards.strings, then back to row order.
 - 2026-11-26 04:35 Did not run preferencesLocale again; the handover lists it as next but the latest report already moved past it, so it is checked later by a test run before the next checkpoint.
 - 2026-11-26 04:35 Full suite is not run this round; it waits for the next checkpoint.
+- 2026-11-26 04:36 Chose the scanCards.strings act() fix because it is the last small item on the act() list and the notes say to finish it before returning to row order (smallest safe task, Jev risk high).
+- 2026-11-26 04:36 Kept one file per round and no full suite, because the Jev risk signal is high and the notes say checkpoints are read-only except for reds caused by the last change.
+- 2026-11-26 04:36 Told Claude Code to skip the file if it has 0 warnings, since the notes say to check counts first.
+- 2026-11-26 04:36 Path fallback added for scanCards.strings because the exact file name is not confirmed; a missing or ambiguous file is reported, not guessed.

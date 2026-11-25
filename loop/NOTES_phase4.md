@@ -11,11 +11,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 6 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b, 3, 5, 6b (6b step f blocked on Isa).
 - Last checkpoint: tsc 0 errors; 293 suites, 1,784 tests pass. Go vet clean, -race ok, 29 TestPG pass on lume_test_local.
-- act() flush done: accountLocale, integrationsLocale, tabbar, preferencesCopy, photoScan, confidenceBadge.noBreakdown.
+- act() flush done: accountLocale, integrationsLocale, tabbar, preferencesCopy, photoScan, confidenceBadge.noBreakdown, brainProfileCard.numbers.
 
 ## Next
-1. act() flush, one file per round: brainProfileCard.numbers (2), then scanCards.strings (2). Check preferencesLocale count first; skip if 0.
-2. Then back to row order: Row 5 remainder; Row 3 after Isa signs off.
+1. act() flush: scanCards.strings (2 warnings). Then the act() list is empty.
+2. Back to row order: Row 5 remainder; Row 3 after Isa signs off.
 3. Maestro onboarding flow (2b, 23) once Maestro is confirmed.
 
 ## Rules
@@ -51,8 +51,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Asking is not allowed: run the smallest task.
 - i18next showSupportNotice false.
 - One file per round for act() fixes; flush stays inline in each test file, not a shared helper.
-- Act() cleanup queue capped: after brainProfileCard and scanCards, return to row order.
-- Jev risk 0.9 (high) on the last round noted; kept to one file per round.
+- Act() cleanup queue capped: after scanCards, return to row order.
+- Jev risk high (0.9 to 1.0) on recent rounds; kept to one file per round and no full suite.
 
 ## Blocked on Isa (park, do not retry)
 - A 402 while the app is open is not routed to the paywall.
@@ -70,6 +70,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Ask Lume, label scan, photo capture need a second tap after accepting consent.
 - Hardcoded English: aiBrain not-enough-data message; 'Your data' in privacy.tsx.
 - Console noise from error-path tests (about 72 deliberate [data], [onboarding], [meals] warns; needs scoped spies).
+- preferencesLocale act() count: check first; skip if 0.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN.
@@ -79,4 +80,3 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s in tabs with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 6b: merge three near-duplicate test-result lines.
-- Row 2b: check preferencesLocale act() count; skip if 0.
