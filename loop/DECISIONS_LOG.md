@@ -11783,3 +11783,11 @@
 - 2026-11-27 00:07 Row 9 is split: backend half this round, Settings screen next round, to keep each prompt small.
 - 2026-11-27 00:07 Apple Retention Messaging endpoint stays behind RETENTION_MESSAGING_ENABLED (default off) with fixtures only, per the row. The exact endpoint is an owner check if web docs are unavailable.
 - 2026-11-27 00:07 Round 25 log line sits at the end of PHASE4_ROWS.md. Leave it there unless Isa says otherwise. Not a blocker.
+- 2026-11-27 00:17 The loop flag on row 9 is the first 'partly done' flag, so the rule gives one follow-up round. The follow-up closes the known Settings gap before moving on.
+- 2026-11-27 00:17 Chose the row 9 Settings screen over the full Jest run: the flag is about an incomplete task, and the full run can wait for a checkpoint round.
+- 2026-11-27 00:17 Jev suggests running. Kept the run action, since the next step is small, and the flag rule applies to the same task.
+- 2026-11-27 00:17 Row 9 stays PARTIAL until the Settings screen is done, so no owner step is claimed as finished.
+- 2026-11-27 00:17 Loop rejected the earlier round 27 prompt for asking for more than one screen. Rewrote it as a single checkpoint task with no file changes, as the loop note asks.
+- 2026-11-27 00:17 Override 4 tightened from up to 3 screens to one screen or component per prompt, following the loop rejection.
+- 2026-11-27 00:17 The Row 9 Settings screen moves to round 28 as the flagged follow-up, so it stays one screen per prompt.
+- 2026-11-27 00:17 Jev signals reviewed: they favour running, which matches the checkpoint. Kept the checkpoint because the loop note requires it.
