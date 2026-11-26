@@ -11693,3 +11693,8 @@
 - 2026-11-26 11:11 Banner stays on the server record only (past_due via useServerEntitlement), as the last report chose; no wrapper state added.
 - 2026-11-26 11:11 Simulator flow for Row 8 deferred to the end of the row, since the screen change is small and mid-row.
 - 2026-11-26 11:11 English only (Isa's override 1): new strings go in en.json only.
+- 2026-11-26 11:13 Last report was flagged as partly done by the automatic check. The Today mount was done and checked, so I treated the flag as the known Row 8 blocker, not a failed task.
+- 2026-11-26 11:13 Recorded the Row 8 blocker under Blocked on Isa (on-device billing_issue reaction, es and fr billingProblem keys). Not retried, per the loop note.
+- 2026-11-26 11:13 Picked the Profile > Subscription mount: it uses the server record only and does not depend on the blocked items. Top candidate, and it matches Jev's run signal (97%).
+- 2026-11-26 11:13 Jev risk 0.9 read as advisory. Kept the task to one screen and one test file to keep it small.
+- 2026-11-26 11:13 Did not mention Jev in the prompt. Did not run the full suite: this is not a checkpoint round.

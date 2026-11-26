@@ -7,6 +7,7 @@
 import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
+import { BillingProblemBanner } from '@/components/display/BillingProblemBanner';
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Button } from '@/components/forms/Button';
@@ -123,6 +124,9 @@ export default function SubscriptionScreen() {
         </View>
       }
     >
+      {/* Payment problem (store grace period) — renders null for every other state. */}
+      <BillingProblemBanner />
+
       {/* Price, payment method, usage bars and billing history are in the design
           but not in the billing seam — see UI_PASS_GAPS.md. The card shows only
           what RevenueCat and the server's own record actually report. */}
