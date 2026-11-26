@@ -5,6 +5,7 @@
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { NotificationSettingsList } from '@/components/domain/NotificationSettingsList';
+import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import { applySchedule, notificationPermission } from '@/lib/notifications/device';
 import { requestNotificationPermission } from '@/lib/notifications/permissions';
@@ -119,6 +120,20 @@ describe('quiet hours', () => {
     expect(allText(tree)).toContain(Q.end);
     expect(shown(tree, 'start')).toBe('22:00');
     expect(shown(tree, 'end')).toBe('07:00');
+  });
+
+  test('the step buttons read their screen reader labels from common.decrease and common.increase', async () => {
+    i18n.addResources('en', 'translation', { 'common.decrease': 'Key decrease', 'common.increase': 'Key increase' });
+    try {
+      const tree = await openQuietHours();
+      const labelled = (label: string) => findAll(tree, (p) => p.accessibilityLabel === label).length;
+      expect(labelled('Key decrease')).toBeGreaterThan(0);
+      expect(labelled('Key increase')).toBeGreaterThan(0);
+      expect(labelled('Decrease')).toBe(0);
+      expect(labelled('Increase')).toBe(0);
+    } finally {
+      i18n.addResources('en', 'translation', { 'common.decrease': en.common.decrease, 'common.increase': en.common.increase });
+    }
   });
 
   test('changing the start saves it at once', async () => {

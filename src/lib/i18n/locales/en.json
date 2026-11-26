@@ -12,7 +12,9 @@
     "days_one": "{{count}} day",
     "days_other": "{{count}} days",
     "hours": "{{h}}h",
-    "hoursMinutes": "{{h}}h {{m}}m"
+    "hoursMinutes": "{{h}}h {{m}}m",
+    "decrease": "Decrease",
+    "increase": "Increase"
   },
   "settings": {
     "destructiveHint": "Double tap to continue",

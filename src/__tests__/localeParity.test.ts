@@ -71,6 +71,8 @@ const ENGLISH_ONLY = new Set([
   'notifications.quietHours.start',
   'notifications.quietHours.end',
   'notifications.quietHours.sameTime',
+  'common.decrease',
+  'common.increase',
   'subscription.leaving.settingsRow',
   'subscription.leaving.usageTitle',
   'subscription.leaving.meals',

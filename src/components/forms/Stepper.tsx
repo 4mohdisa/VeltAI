@@ -1,6 +1,7 @@
 // Stepper — minus / value / plus for small integer quantities (meals per day,
 // daily notification cap, etc.). Buttons disable at the min/max bounds.
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
 
 import { FieldShell, type FieldShellProps } from './FieldShell';
@@ -32,6 +33,7 @@ export function Stepper({
   disabled,
   testID,
 }: StepperProps) {
+  const { t } = useTranslation();
   const canDecrement = !disabled && value > min;
   const canIncrement = !disabled && value < max;
 
@@ -74,11 +76,11 @@ export function Stepper({
         }}
         style={{ flexDirection: 'row', alignItems: 'center', gap: space.lg }}
       >
-        {button('remove', canDecrement, () => onChange(Math.max(min, value - step)), 'Decrease')}
+        {button('remove', canDecrement, () => onChange(Math.max(min, value - step)), t('common.decrease'))}
         <Text variant="statSmall" color={color.black} style={{ minWidth: 48, textAlign: 'center' }}>
           {valueText}
         </Text>
-        {button('add', canIncrement, () => onChange(Math.min(max, value + step)), 'Increase')}
+        {button('add', canIncrement, () => onChange(Math.min(max, value + step)), t('common.increase'))}
       </View>
     </FieldShell>
   );

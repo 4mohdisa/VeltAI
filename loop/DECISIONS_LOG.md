@@ -11942,3 +11942,10 @@
 - 2026-11-27 01:41 Ignored the Jev ask score (41%). Asking is not allowed, so the choice is between run and stop, and run is correct because nothing is blocked or dangerous.
 - 2026-11-27 01:41 Kept Row 10 PARTIAL. Its remaining items are owner checks or parked leftovers.
 - 2026-11-27 01:41 Rewrote the notes to under 600 words: merged repeats, removed finished round detail, kept all overrides, blocked items and decisions.
+- 2026-11-27 01:44 Round 58 accepted: push token re-register moved from runDailySchedule to ClerkBridge after sign-in, once per user. Its report said the full Jest run was not done, so the checkpoint is queued as Next 3.
+- 2026-11-27 01:44 Round 59 picks the Stepper labels: smallest unblocked item, and Jev runs 75% for continuing. The Row 10 doc fix and the full checkpoint follow.
+- 2026-11-27 01:44 Row 10 stays PARTIAL. Its open items are parked in OWNER_CHECKS_phase4.md and the Blocked list below.
+- 2026-11-27 01:44 Notes rewritten under 600 words as the loop note asked: merged repeats, kept every open item.
+- 2026-11-27 01:46 Round 59 prompt cut to the Stepper labels only, because the loop rejected the previous prompt for covering more than one component.
+- 2026-11-27 01:46 Row 10 doc correction and the full Jest checkpoint move to the next rounds, one task each, to keep prompts small.
+- 2026-11-27 01:46 Jev ranks run at 94 percent; no override needed.
