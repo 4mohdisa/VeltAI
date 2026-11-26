@@ -26,6 +26,14 @@ const SEX_OPTIONS = [
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
+// Blank passes (required is checked separately); anything typed must be a
+// whole number from min to max.
+const wholeInRange = (text: string, min: number, max: number): boolean => {
+  if (text.trim() === '') return true;
+  const n = Number(text);
+  return Number.isInteger(n) && n >= min && n <= max;
+};
+
 // The store keeps kg; the box shows the unit the user picked. Prefilling the
 // kg digits into an lb box restated 154 lb as 69.9 lb on every remount.
 const kgToText = (kg: number | null | undefined, unit: WeightUnit): string =>
@@ -188,13 +196,13 @@ export default function MeasurementsScreen() {
     heightUnit === 'cm' ? heightCmText.trim() === '' : feetText.trim() === '' && inchesText.trim() === '';
   const weightEmpty = weightText.trim() === '';
 
-  // Inches are checked on their own (whole numbers 0 to 11) and shown under the
-  // inches box; the overall 100 to 250 cm range stays under feet.
-  const inches = Number(inchesText);
+  // Feet (whole 3 to 8) and inches (whole 0 to 11) are checked on their own,
+  // each under its own box; the overall 100 to 250 cm range stays under feet.
   const inchesError =
-    heightUnit === 'ftin' && inchesText.trim() !== '' && !(Number.isInteger(inches) && inches >= 0 && inches <= 11)
+    heightUnit === 'ftin' && !wholeInRange(inchesText, 0, 11)
       ? t('onboarding.measurements.heightRangeIn', { min: 0, max: 11 })
       : undefined;
+  const feetValid = heightUnit !== 'ftin' || wholeInRange(feetText, 3, 8);
 
   const heightError = (() => {
     if (heightEmpty) return submitted ? t('onboarding.measurements.heightRequired') : undefined;
@@ -205,7 +213,9 @@ export default function MeasurementsScreen() {
         ? undefined
         : t('onboarding.measurements.heightRangeCm', { min: 100, max: 250 });
     }
-    if ((feetText.trim() === '' && inchesText.trim() === '') || inchesError) return undefined;
+    if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
+    if (!feetValid) return t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
+    if (inchesError) return undefined;
     return draftHeightCm != null && draftHeightCm >= 100 && draftHeightCm <= 250
       ? undefined
       : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });

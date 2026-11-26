@@ -9,13 +9,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT. Row 3 BUILT (owner check pending).
-- PARTIAL: 2b (inches whole 0 to 11 done; body-type sweep open; feet check open), 6b (step f blocked), 3 (owner checks).
+- PARTIAL: 2b (inches whole 0 to 11 done; body-type sweep done; feet whole-number check in progress), 6b (step f blocked), 3 (owner checks).
 - Not started: 7 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Last checkpoint: tsc 0; Jest 299/299 suites, 1,816/1,816 tests; 67 console.error, 165 console.warn.
 
 ## Next
-1. Row 2b: body-type.tsx sweep (this round). If no flaw is left, close 2b as BUILT with owner check pending.
-2. Row 2b: feet box whole-number check (5.5 ft accepted when total height is in range).
+1. Row 2b: feet box whole-number check (this round).
+2. Row 2b: close as BUILT with owner check pending if no flaw is left.
 3. Profile > Goals: check setCustomGoals for a silent calorie clamp.
 4. Row 7: paywall wrapper (RevenueCat behind one module, mocked in Jest).
 5. Row 8: subscription lifecycle screens.
@@ -55,6 +55,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Blocked on Isa (park, do not retry)
 - Target weight stays required? and dead end 7 copy sign off.
 - Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device. Native Apple sheet vs browser flow.
+- Whether Row 2b closes now or waits for Isa's answers (repeated twice; parked, close with owner check pending).
 - es and fr text for onboarding.measurements.heightRangeIn, onboarding.targets.caloriesRange, and three rewritten keys (subscription.plansUnavailable, subscription.notConfiguredDev, onboarding.paywall.plansUnavailable; paywall one names RevenueCat).
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
@@ -76,7 +77,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
 - Setting: Profile > Goals setCustomGoals may clamp calories silently (unchecked).
+- Row 2b: emoji on body-type uses hardcoded fontSize 26, no matching token (left alone to keep the look).
+- Row 2b: es and fr values of three rewritten keys are out of date (paywall one names RevenueCat).
 - Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. Briefs may name files that do not exist; grep first. The render setup mocks the router without dismissTo. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes.
 
 ## Loop note
 - Last prompt was rejected: it did not say to work only on loop/phase4. Every prompt now opens with that rule and a branch check.
+- Same blocker repeated twice (closing Row 2b). Recorded under Blocked; not retried. Work moves to surfaces that do not depend on it.

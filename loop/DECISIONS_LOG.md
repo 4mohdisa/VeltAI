@@ -11654,3 +11654,7 @@
 - 2026-11-26 10:48 Kept the prompt to 5 numbered steps and named the branch rule first, to fix the rejected prompt.
 - 2026-11-26 10:48 Row 2b stays PARTIAL this round; closing it depends on the sweep finding no open flaw.
 - 2026-11-26 10:48 No new owner checks added; es and fr items stay in the blocked list as before.
+- 2026-11-26 10:50 Chose the feet box check: it is a concrete, unblocked flaw flagged in the last report and is still open in Row 2b's Next list.
+- 2026-11-26 10:50 Row 2b closing decision is parked under Blocked on Isa (it repeated twice). Close 2b as BUILT with owner check pending once the feet check is done, rather than waiting for Isa.
+- 2026-11-26 10:50 Body-type sweep is done; the hardcoded emoji size 26 is left alone because no token matches and changing it would change the look.
+- 2026-11-26 10:50 Prompt names only the feet input search start (measurements.tsx) and says grep first, because the exact feet helper path is unknown.
