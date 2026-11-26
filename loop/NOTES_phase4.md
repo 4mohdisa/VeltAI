@@ -13,10 +13,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 141)
+## State (Round 142)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
 - Round 139 checkpoint green: tsc 0, 348 suites, 2,171 tests. Next checkpoint: Round 145.
+- Fix 20 done (round 141; snapshot hand edited, no -u).
 - Jest worker force-exit at end of full run: unexplained.
 
 ## Blocked on Isa (park, do not retry)
@@ -25,18 +26,18 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type.
 - Row 13: age rating, production demo account, lume.fit URLs.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24; Fix 25; Terms describe a free tier; Energy body stats hint.
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24; Fix 25; Terms describe a free tier; Energy body stats hint; Fix 12 option B.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit.
-- Tests rendering Welcome must mock @clerk/clerk-expo. en.json and detail.tsx fail Prettier at HEAD: never --write.
+- Tests rendering Welcome must mock @clerk/clerk-expo or Jest hangs. en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-19 done.
-- Fix 20: weekOf in training.tsx done (Round 141: prompt to refresh stale detailChrome training snapshot by hand, not -u; then Done line).
-- Then: Energy 'not enough days' chart state needs an action.
-- Unfixed (fold in or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
-- Spotted: Food tab checks consent on mount only. insights.tsx comment about feed GET triggering AI: verify later. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected). gym.freeze.confirm has no plural forms. Training 'This week' energy card still uses last 7 days (needs clock-pinned fixture).
-- At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
+- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 done.
+- Fix 21 (round 142): Gym month label counts this month only (gym.tsx ~166).
+- Then: Energy 'not enough days' empty state needs an action.
+- Unfixed (fold in or park at closure): Training 'This week' energy card uses last 7 days (needs clock pinned fixture); training.axisLetters fixed September fixture; gym.freeze.confirm '1 freezes' (no plural forms); targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked); back-or-Food fallback copied in two files; GlassButtons falls back to Today.
+- Spotted: Food tab checks consent on mount only. insights.tsx comment about feed GET triggering AI: verify. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1.
+- At closure: drop stale 'Barcode, Scan and label scan still open' note and update PHASE4_ROWS.md (not updated since start of Phase 4 rows 2b-14b).
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip render tests.
@@ -85,8 +86,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Round 122: Fix 12 option A; option B parked post-launch. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line. Round 135: Energy hint stays unlinked. Round 136: Training empty state links to /gym/log-session. Round 138: Fix 20 split into two prompts.
-- Round 140: Fix 20 second half chosen. Food focus re-check parked.
-- Round 141: Jev said ask 87%. Ask is banned by Isa's rule, so run chosen. Hand edit of one stale snapshot (not -u) to match a render test that already pins the same figures. Revert path in the prompt if figures disagree.
+- Round 141: Jev said ask 87%. Ask is banned by Isa's rule, so run chosen. One stale snapshot hand edited (not -u).
+- Round 142: chose Fix 21 (candidate 1), next in DESIGN_INTENT order. Jev agreed. Fix 21 reuses gymRange.ts helper.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -94,12 +95,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Mock Clerk to avoid the MessagePort that stops Jest exiting. expo-notifications is native: mock in tabs layout tests.
 - Use jest.useFakeTimers({ now, doNotFake: [...] }) to pin dates so setImmediate still runs.
 - Paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
+- Each new key goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done.
 - 128-136: Fixes 16 to 19 done.
-- 137: Fix 20 started, prompt rejected for two screens.
-- 138: Fix 20 part one (helper, summaryCards) issued.
-- 139: checkpoint green.
-- 140: Fix 20 second half (training.tsx) done, one test stale.
-- 141: snapshot refresh by hand, then Fix 20 Done line.
+- 137-141: Fix 20 done (helper, summaryCards, training.tsx, snapshot hand edit).
+- 142: Fix 21 issued (gym month label).

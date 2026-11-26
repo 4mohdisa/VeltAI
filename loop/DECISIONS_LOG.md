@@ -12306,3 +12306,8 @@
 - 2026-11-27 05:04 Snapshot refresh is a hand edit of one training entry, not jest -u. Reason: Isa's rule bans -u and forbids asking; the new render test already pins the same figures, so the hand edit matches tested output.
 - 2026-11-27 05:04 Fix 20 Done line goes next to the other Done lines in DESIGN_INTENT.md, using the file's numbering (Round 140 decision).
 - 2026-11-27 05:04 Round 141 is not a checkpoint round. Full suite waits for Round 145.
+- 2026-11-27 05:06 Round 142: chose candidate 1 (Fix 21), the next fix in DESIGN_INTENT.md order. Jev ranked it the same way, so no second look was needed.
+- 2026-11-27 05:06 Fix 21 reuses the existing month range helper in gymRange.ts, so no new date code is added.
+- 2026-11-27 05:06 Snapshot rule kept: no jest -u. A hand edit is allowed only when the figure matches what the screen computes; otherwise revert and report.
+- 2026-11-27 05:06 Fix 24, Fix 25, Fix 12 option B and the body stats hint stay parked until Isa rules on them.
+- 2026-11-27 05:06 Stale PHASE4_ROWS.md note is removed at closure, not now, so it is not forgotten.

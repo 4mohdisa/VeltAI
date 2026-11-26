@@ -9,6 +9,7 @@ import type { GymSession } from '@/lib/api';
 import i18n from '@/lib/i18n';
 import { dateLocale } from '@/lib/formatting';
 import { fromIso } from '@/lib/data/foodDays';
+import { todayISO } from '@/lib/data/mappers';
 
 let n = 0;
 const row = (date: string, duration_minutes: number | null): GymSession => ({
@@ -152,5 +153,28 @@ describe('monthTitle uses the app date locale', () => {
     await i18n.changeLanguage(lang);
     const expected = fromIso('2026-09-01').toLocaleDateString(dateLocale(lang), { month: 'long' });
     expect(monthTitle('2026-09-01', TODAY)).toBe(expected);
+  });
+});
+
+// Fix 21: the Gym streak strip counts the current calendar month through
+// monthView(today, today, …), not the all-time total.
+describe("the streak strip's month count — the current calendar month only", () => {
+  beforeAll(() => {
+    jest.useFakeTimers({ now: new Date(2026, 8, 30, 9, 0, 0), doNotFake: ['setImmediate'] });
+  });
+  afterAll(() => jest.useRealTimers());
+  const count = (s: GymSession[]) => monthView(todayISO(), todayISO(), s, [], []).sessions;
+
+  test('the pinned clock is the last day of September', () => expect(todayISO()).toBe('2026-09-30'));
+
+  test("last month's sessions are left out", () =>
+    expect(count([row('2026-08-31', 40), row('2026-08-01', 30), row('2026-09-15', 50)])).toBe(1));
+
+  test('sessions on the first and last day of the month are counted', () =>
+    expect(count([row('2026-09-01', 40), row('2026-09-30', null)])).toBe(2));
+
+  test('an empty month counts zero', () => {
+    expect(count([])).toBe(0);
+    expect(count([row('2026-08-20', 45), row('2026-10-01', 45)])).toBe(0);
   });
 });

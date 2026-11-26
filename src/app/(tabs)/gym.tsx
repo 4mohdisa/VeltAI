@@ -68,6 +68,14 @@ export default function GymLogScreen() {
     () => monthView(month, today, monthSessions, loggedDays, [streak.freezeDate ?? '', ...frozenDates]),
     [month, today, monthSessions, loggedDays, streak.freezeDate, frozenDates],
   );
+  // The streak strip counts this calendar month, whichever month the calendar pages to.
+  // ponytail: at offset 0 this repeats the calendar's read; share it if the request count matters.
+  const { sessions: currentSessions, loading: currentLoading, error: currentError, refetch: refetchCurrent } =
+    useGymMonth(today);
+  const currentMonthCount = useMemo(
+    () => monthView(today, today, currentSessions, loggedDays, []).sessions,
+    [today, currentSessions, loggedDays],
+  );
   // Never a number while the month is still loading or failed to load: that is
   // how a real streak ended up beside a false "0 sessions".
   const summary = monthLoading
@@ -80,14 +88,16 @@ export default function GymLogScreen() {
   useFocusEffect(
     useCallback(() => {
       refetchMonth();
-    }, [refetchMonth]),
+      refetchCurrent();
+    }, [refetchMonth, refetchCurrent]),
   );
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     refetch();
     refetchMonth();
+    refetchCurrent();
     setTimeout(() => setRefreshing(false), 800);
-  }, [refetch, refetchMonth]);
+  }, [refetch, refetchMonth, refetchCurrent]);
   // The date eyebrow — today, the day this screen is about. Real clock, no state.
   // Device locale, like food/history — the design's order is en-GB's, but the
   // user's own formatting wins over copying the prototype's string.
@@ -150,9 +160,9 @@ export default function GymLogScreen() {
                   </Text>
                 </>
               )}
-              {!gymLoading && !gymError ? (
+              {!gymLoading && !gymError && !currentLoading && !currentError ? (
                 <Text variant="footnote" color={color.secondaryLabel} style={{ marginLeft: 'auto', flexShrink: 1 }}>
-                  {`${t('gym.monthSessions', { count: streak.totalGymDays })} · ${t('gym.monthFreezes', { count: streak.freezesAvailable })}`}
+                  {`${t('gym.monthSessions', { count: currentMonthCount })} · ${t('gym.monthFreezes', { count: streak.freezesAvailable })}`}
                 </Text>
               ) : null}
             </View>
