@@ -12130,3 +12130,7 @@
 - 2026-11-27 03:20 Extra test file scanSeam.test.ts gained one case in Round 99. Accepted as needed coverage for the scan.ts change.
 - 2026-11-27 03:20 Test for quick-add placed under src/__tests__/render/ to match the project's other render tests, unless an existing file already covers it.
 - 2026-11-27 03:20 Protected files stay untouched. No simulator run, per override 6.
+- 2026-11-27 03:21 Round 101: follow-up on the flagged Round 100 report, allowed once; add screen chosen because it is the one remaining inline slot check named in the report and it stays one screen per prompt.
+- 2026-11-27 03:21 Saved screen parked to the Fix list as a leftover, since the single follow-up is used on the add screen.
+- 2026-11-27 03:21 Round 100 report mislabelled Fix 2 as quick-add; the quick-add line moves under a quick-add entry in DESIGN_INTENT.md so the Fix list matches the file.
+- 2026-11-27 03:21 Summary Today stays the next real Fix 2 task after this follow-up, per the notes order.

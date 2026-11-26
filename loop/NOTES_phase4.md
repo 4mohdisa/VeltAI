@@ -17,10 +17,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (current)
 - Done: meal slot for Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot.
-- Fix 1 DONE (Round 99): photo-capture.tsx passes ?slot via slotFromParam into startPhotoScan and startMultiPhotoScan.
-- Round 100 (in progress): Fix 2, quick-add.tsx:56 uses slotFromParam. Render test added.
-- Next: Fix 3: duplicate SLOTS in food.tsx, label-scan.tsx:42, mappers.ts.
-- Then: Summary 'Today' after browsing (hooks.ts:320-321); gym set removal; top-set-only save; recipes unreachable; then list order.
+- Fix 1 DONE: photo-capture.tsx (Round 99). quick-add.tsx uses slotFromParam (Round 100), with render tests.
+- Round 101 (in progress, follow-up): add screen uses slotFromParam. Saved screen parked to Fix list.
+- Next: Fix 2 real: Summary 'Today' reads today (hooks.ts:320-321).
+- Then: gym set removal; top-set-only save; recipes unreachable; then list order.
+- Parked leftovers: label-scan.tsx:42 and food.tsx each keep a SLOTS copy; mappers.ts duplicate; saved.tsx inline slot check.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -78,7 +79,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
 - Round 90 flagged partly done; Round 91 completed barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
-- Round 100: chose quick-add (Fix 2) over the report's Summary item, following the notes order. Summary Today is next.
+- Round 100: chose quick-add (Fix 2) over the Summary item, following the notes order. Quick-add done.
+- Round 101: follow-up on Round 100 flag, add screen only; saved screen parked to Fix list.
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -96,5 +98,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 81-86: 14a built to step 4, then parked; 14b docs written.
 - 87-97: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label; detail-sheet log drops ?slot.
 - 98: Fix 1 doc edit only; tsc and tests not run.
-- 99: retried as one screen (photo-capture.tsx); Fix 1 closed; 3 of 3 suites, 47 of 47 tests passed.
-- 100: quick-add slot (Fix 2), in progress.
+- 99: photo-capture.tsx slot; Fix 1 closed; 3 of 3 suites, 47 of 47 tests passed.
+- 100: quick-add uses slotFromParam; 2 of 2 suites, 13 of 13 tests passed. Flagged partly done (add and saved still inline).
+- 101: follow-up, add screen slot (in progress).
