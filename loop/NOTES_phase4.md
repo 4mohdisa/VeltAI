@@ -12,16 +12,18 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (code done, Maestro flow written, not run); 9 (backend and leaving screen built; leftover parked); 10 (10a BUILT; 10b and 10c open).
+- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (code done, Maestro flow written, not run); 9 (backend and leaving screen built; leftover parked); 10 (10a BUILT; 10b priming sheet built, Settings switches and quiet hours open; 10c open).
 - Round 32 full Jest without --silent: 312 suites, 1,927 tests, 4 snapshots pass; tsc 0; console.error 68, console.warn 163.
+- Round 33: priming sheet built (permissions.ts, NotificationPriming.tsx, tabs layout, secureStore key, 4 en strings, 10 render tests). Adjacent tests and tsc pass. Full suite not run; flagged.
 
 ## Next
-1. Row 10b: notification priming screen after first logged meal (one component, en).
-2. Row 10b: per-category switches in Settings, en.json titles for notifications.<category>.
+1. Row 10b follow-up: full Jest and tsc run after the priming sheet (round 34).
+2. Row 10b part 2: per-category switches in Settings, en.json titles for notifications.<category>.
 3. Row 10c: push token register endpoint (sending is a hosted step).
 
 ## Blocked on Isa (park, do not retry)
 - Leaving screen: where reason and note go (analytics allow-list, feedback endpoint, or nowhere).
+- Priming copy approval; closing the sheet counts as Not now (confirm).
 - Win back: 'weren't charged' toast kept; English copy approved; which package price to show.
 - Cancelled plan: Resubscribe beside Manage subscription, confirm.
 - 7c StoreKit purchase and real offerings: needs iOS public key.
@@ -29,10 +31,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Notification defaults and training-day workout reminders (OWNER_CHECKS_phase4.md).
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed-step Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
-- Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
+- Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates; npm audit warnings from expo-notifications install; dev-client rebuild (pod install) before the notification prompt runs on simulator.
+- Row 9: Apple Retention Messaging access; App Store Connect API key in backend/.env; approve two English messages; sandbox real-time URL and 700 ms test.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line with backend stopped.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple Developer and Clerk Apple setup; iPhone sign in with Apple; Row 2b items.
-- Row 9: Apple Retention Messaging access; App Store Connect API key in backend/.env; approve two English messages; sandbox real-time URL and 700 ms test.
 
 ## Decisions (never delete)
 - Target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calories asks to update target; sign up errors inline; training days on backend.
@@ -51,16 +53,19 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default.
 - Row 9: retention flag default off; message keys only; fixtures only until owner access; summary gated like paid routes; leaving screen sends no food, body or workout values to analytics.
 - Row 10a: defaults as built (meal times with median after 3 logs, quiet hours 22:00 to 07:00, promotional needs its own opt in, off by default). Workout and streak fire daily until training days are wired.
+- Row 10b: permission prompt only after priming says yes. Answer kept across sign-outs (granted, denied, not_now).
 - Round 29: Settings link chosen over notifications because Jev ranked it first (82%).
 - Round 30: follow-up kept over Jev's Row 10 pick (86%) because the one-follow-up rule applies.
 - Round 31: Row 9 flagged again; leftover parked, Row 9 stays PARTIAL. Row 10 split into 10a, 10b, 10c.
 - Round 32: Row 10a follow-up chosen over Row 10b (Jev run 60%) because of the one-follow-up rule.
-- Round 33: Row 10a flagged a second time; leftover parked, 10a marked BUILT. Row 10b priming screen chosen over Settings switches (Jev 72%). Permission prompt only after priming says yes.
+- Round 33: Row 10a flagged a second time; leftover parked, 10a marked BUILT. Row 10b priming sheet chosen over Settings switches (Jev 72%).
+- Round 34: 10b flagged (full suite not run). Follow-up run chosen. Jev ask 57% not allowed; Settings switches wait one round.
 - Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked
 - Row 9 leftover: leaving screen not yet in a non-silent full run.
 - Row 10a leftover: meal median across midnight averages to midday (late snacks only); skeleton needs a stand-in in render tests (reanimated mock lacks useReducedMotion).
+- notifications.<category>.title strings exist in no locale yet.
 - Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
 - paywallSessionExpired prints unscoped devWarn. Paywall imports constants from a profile route file; move to src/lib.
 - Body type emoji fontSize 26 hardcoded. Goals may clamp calories silently. Ask Lume, label scan, photo capture need a second tap after consent.
@@ -86,3 +91,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Go entitlement tests need LUME_TEST_DATABASE_URL pointed at lume_test_local.
 - Render tests can wrap the screen in SafeAreaProvider, so toJSON() is not null even when empty.
 - English only: new keys go in en.json and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- expo-notifications is native: a mock is needed in tests that render the tabs layout.
