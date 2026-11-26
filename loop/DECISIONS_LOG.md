@@ -11717,3 +11717,8 @@
 - 2026-11-26 11:21 Round 13 runs the full suite checkpoint before the win back screen, because the last full run predates 7a, 7b and Row 8 and the round 12 check flagged the report as incomplete.
 - 2026-11-26 11:21 Jev ranked run at 54% and ask at 43%. Choosing run matches the no-questions rule, and the checkpoint is a smaller, safer task.
 - 2026-11-26 11:21 The Resubscribe paywall toast, the hardcoded 'expired' reason, and the unused paywall keys stay as open questions for Isa, not changed this round, so the checkpoint stays small.
+- 2026-11-26 11:22 Chose the win back screen (candidate 1): it is the next item in Next, and the Jev run signal (87%) agrees.
+- 2026-11-26 11:22 The notes file was rewritten under 600 words as the loop note asked. Finished work was deleted and repeats were merged.
+- 2026-11-26 11:22 The win back screen uses paywallHref('winback') only if the wrapper has no promotional offer API. Apple messages carry no price text, and promotional offers are used only.
+- 2026-11-26 11:22 The console.error trace is deferred to a later round so this round stays on one screen.
+- 2026-11-26 11:22 The full Jest suite was already green in round 13, so this round runs only the changed tests.

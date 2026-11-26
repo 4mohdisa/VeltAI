@@ -209,6 +209,12 @@
       "badge": "Expired",
       "body": "Your subscription has ended. Everything you logged stays in your account. Resubscribe to pick up where you left off.",
       "resubscribe": "Resubscribe"
+    },
+    "winback": {
+      "title": "Come back to Lume Pro",
+      "body": "Pick up where you left off. Your logged meals, workouts and progress are still here.",
+      "price": "{{price}} · {{period}}",
+      "notNow": "Not now"
     }
   },
   "preferences": {

@@ -15,6 +15,9 @@ export function replace(href: Href | string): void {
   router.replace(href as Href);
 }
 
+/** Paywall reason for the win back screen: an offer to return, not a refusal. */
+export const WINBACK_REASON = 'winback';
+
 // The paywall, told why the entitlement gate refused (a 402's reason). No
 // reason opens the paywall without a refusal message.
 export function paywallHref(reason?: string): string {
