@@ -3,36 +3,40 @@ Handover: Lume Phase 4, branch loop/phase4
 Setup
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
 - The only allowed git command is git branch --show-current.
-- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDetail... no: src/__tests__/foodDays.test.ts.
-- English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use npx jest --ci with full paths, never -u.
-- macOS has no timeout command; wrap Jest in perl -e 'alarm N; exec @ARGV'.
-- Last full run (Round 80): tsc 0 errors; Jest 325 of 325 suites, 2,018 tests.
+- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts. foodDetail.test.ts pins the text router.replace('/food/barcode-scan') in detail.tsx.
+- English only: new keys go in src/lib/i18n/locales/en.json and the ENGLISH_ONLY list in src/__tests__/localeParity.test.ts.
+- Never write "verified". Use npx jest --ci with full paths, never -u. Wrap Jest with perl -e 'alarm N; exec @ARGV'. In zsh, pass several paths through xargs; a variable holding them reaches Jest as one argument and matches nothing.
 
 Rows
-- Built: Row 14. Legal screens and terms read from en.json; the paywall shows subscription terms under onboarding.paywall.terms.
-- Row 14a (PARTIAL): steps 1 to 4 done. Step 5 is next: wire the chip into the barcode result with the sheet and a feature_rated event carrying only the feature key and rating.
-- Row 14b (DIFFERENT): DESIGN_INTENT.md has the audit and the Fix list. Fix 1 is done for Search, the barcode scanner and the barcode detail sheet.
+- Row 14 is built.
+- Row 14a is PARTIAL: step 5 (the feedback chip on the barcode result) was never done.
+- Row 14b, Fixes 1 to 4 are done, each with a Done line in DESIGN_INTENT.md:
+  - Fix 1, the meal slot, on every Add path (Rounds 92 to 100).
+  - Fix 2: Summary and Nutrition "Today" always read today (Round 105).
+  - Fix 3: remove a set in a session (Round 106).
+  - Fix 4: prefill sets from the last session (Round 107).
+- PHASE4_ROWS.md was not updated this session.
+- Last checks: tsc 0 errors; the targeted suites pass. The full suite was last run in Round 95: 334 suites, 2,062 tests.
 
 Key files
-- Feedback: src/lib/feedback/features.ts, throttle.ts and promptStore.ts; src/components/feedback/FeatureFeedbackChip.tsx. recordLaunch is called from src/app/_layout.tsx.
-- Meal slot: slotFromParam in src/lib/data/scan.ts; the slot field in src/lib/food/detailSubject.ts; src/app/(tabs)/food.tsx; src/app/food/barcode-scan.tsx; src/app/food/detail.tsx.
-- Docs: DESIGN_INTENT.md, DESIGN_REFERENCES.md (Row 14b Mobbin section), OWNER_CHECKS_phase4.md (Post launch UI).
+- Meal slot: slotFromParam in src/lib/data/scan.ts; src/app/food/{detail,barcode-scan,label-scan,photo-capture,quick-add}.tsx; src/app/(tabs)/food.tsx (dropSlot); src/lib/food/detailSubject.ts (logs and finishDetail).
+- Summary: useDailyMacros and useFibreConsumed in src/lib/data/hooks.ts.
+- Gym: src/app/gym/session.tsx; lastSetsFor in src/lib/data/gymRange.ts.
 
 Decisions
-- The meal reaches the detail sheet through the subject store, never a route param. foodDetail.test.ts forbids params on /food/detail as a privacy guard.
-- Clearing the Food tab search drops ?slot so it does not linger into later searches.
-- The throttle module never reads the clock; callers pass now.
-- The launch counter uses a module-level flag.
+- The detail sheet can't set the Food tab's params, so the subject store counts logs and the tab clears ?slot when the count changes.
+- add.tsx keeps its own check: no meal means the generic title.
+- saved.tsx needs a "no meal" result, so it can't take slotFromParam as it is.
+- The server stores one row per exercise, so the prefill uses the set count plus the top set's reps and weight. History is the last 90 days from useGymRange.
+- Removing every set unticks the exercise, so nothing is saved for it.
 
-Gotchas, not fixed
-- "Scan again" (detail.tsx:235) drops the meal.
-- "Photograph label" drops the meal; label-scan.tsx:74 uses slotForNow.
-- A detail-sheet log does not clear ?slot.
-- quick-add, add and saved repeat the inline slot check.
-- food.tsx keeps a duplicate SLOTS list.
-- Mocking Clerk avoids a MessagePort that stops Jest exiting.
-- SafeAreaProvider hides children without initialMetrics.
-- The full suite logs 164 console.warn lines.
-- The Terms describe a free tier that does not exist (owner check).
-- loop/HANDOVER_phase4.md still mentions two push token test files.
-- The Fix list has 27 more SMALL items; items 2 to 5 are the highest value.
+Open problems, not fixed
+- saved.tsx:48 repeats the inline slot check.
+- label-scan.tsx:42 and food.tsx each keep their own SLOTS list.
+- Prettier flags en.json; don't run --write on it.
+- A Jest worker is force-exited at the end of the full run.
+- Suites print console.warn noise.
+- The Terms describe a free tier that does not exist (an owner check).
+- Isa may want per-set gym history, which needs a backend change.
+
+Next: Fix 5, resubscribing from Profile after sign-out (paywall.tsx:157-160, resetRegistry.ts:52). The Fix list marks it as inferred from code, so write a test that shows the failure first.
