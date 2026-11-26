@@ -9,21 +9,24 @@
 // while the Apple page opens and reports a failure instead of swallowing it;
 // Restore Purchases is busy while the store restore runs. Manage subscription
 // is an Apple page, so it shows on iOS only. An expired plan (Row 8) says
-// what ended and what the user keeps, and Resubscribe opens the paywall; Apple's
-// page cannot restart it, so Manage subscription is hidden.
+// what ended and what the user keeps; Apple's page cannot restart it, so
+// Manage subscription is hidden. Expired and cancelled plans show one
+// Resubscribe, which opens the win back screen.
 import { Linking, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { showToast } from '@/components/display/toastStore';
 import { APPLE_SUBSCRIPTIONS_URL } from '@/lib/billing/subscriptionLinks';
 import { __setPurchasesModule, setDevEntitled, type CustomerInfo, type PurchasesModule } from '@/lib/billing/purchases';
 import en from '@/lib/i18n/locales/en.json';
-import { paywallHref } from '@/lib/nav';
 import { useSettingsStore } from '@/lib/settings/store';
 import SubscriptionScreen from '@/app/profile/subscription';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
-import { act, allText, buttonWithTitle, renderScreen } from './helpers';
+import { act, allText, buttonWithTitle, renderScreen, screenTitle } from './helpers';
 
 jest.mock('@/components/display/toastStore', () => ({ showToast: jest.fn() }));
+jest.mock('@/lib/purchases/revenuecat', () => {
+  throw new Error('Subscription must not load the purchases wrapper');
+});
 
 const METRICS: Metrics = {
   frame: { x: 0, y: 0, width: 393, height: 852 },
@@ -186,6 +189,8 @@ describe('Manage subscription', () => {
 });
 
 describe('Expired plan', () => {
+  const buttonsWithTitle = (tree: ReturnType<typeof render>, title: string) =>
+    tree.root.findAll((n) => n.props.title === title && typeof n.props.onPress === 'function');
   const renderStatus = async (status: string, isActive: boolean) => {
     setDevEntitled(false);
     (globalThis as unknown as { fetch: unknown }).fetch = jest.fn((url: string) =>
@@ -196,7 +201,7 @@ describe('Expired plan', () => {
     return tree;
   };
 
-  test('says the plan ended and the data stays, and Resubscribe opens the paywall', async () => {
+  test('says the plan ended and the data stays, and Resubscribe opens the win back screen', async () => {
     const tree = await renderStatus('expired', false);
     expect(allText(tree)).toContain(en.subscription.expired.body);
     expect(buttonWithTitle(tree, en.subscription.manage)).toBeUndefined();
@@ -205,7 +210,25 @@ describe('Expired plan', () => {
     await act(async () => {
       (buttonWithTitle(tree, en.subscription.expired.resubscribe)!.props.onPress as () => void)();
     });
-    expect(router.push).toHaveBeenCalledWith(paywallHref('expired'));
+    expect(router.push).toHaveBeenCalledWith('/profile/winback');
+  });
+
+  test.each([
+    ['expired', false, true],
+    ['cancelled', true, true],
+    ['active', true, false],
+    ['trialing', true, false],
+    ['none', false, false],
+  ] as const)('a %s plan shows the win back link: %s', async (status, isActive, shown) => {
+    const tree = await renderStatus(status, isActive);
+    expect(screenTitle(tree)).toBe(en.settings.subscription);
+    const links = buttonsWithTitle(tree, en.subscription.expired.resubscribe);
+    expect(links).toHaveLength(shown ? 1 : 0);
+    if (!shown) return;
+    await act(async () => {
+      (links[0].props.onPress as () => void)();
+    });
+    expect(router.push).toHaveBeenCalledWith('/profile/winback');
   });
 
   test.each(['active', 'trialing'])('a %s plan keeps Manage subscription and shows no expired state', async (status) => {

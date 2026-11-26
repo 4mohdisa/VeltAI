@@ -4,7 +4,8 @@
 // dev build → an honest "not configured" note. No fabricated dates or prices —
 // pricing lives on the RevenueCat paywall and in App Store subscription
 // management, both reachable from here. An expired plan says what ended and
-// what stays, and Resubscribe opens the paywall: Apple's page cannot restart it.
+// what stays; Apple's page cannot restart it. Expired and cancelled plans get
+// one Resubscribe, which opens the win back screen.
 import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -19,14 +20,15 @@ import { useEntitlement } from '@/lib/billing/entitlement';
 import { isManageSubscriptionAvailable, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
 import { useServerEntitlement } from '@/lib/data';
-import { paywallHref } from '@/lib/nav';
+import { navigate } from '@/lib/nav';
 import { isDevBuild } from '@/lib/env';
-import { router, type Href } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /** subscriptions.status and the 402 reason for an ended plan (backend/internal/entitlement/state.go). */
 export const EXPIRED = 'expired';
+/** subscriptions.status for a cancelled plan that still runs to its period end. */
+const CANCELLED = 'cancelled';
 
 export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
@@ -36,6 +38,7 @@ export default function SubscriptionScreen() {
   const serverEntitlement = useServerEntitlement();
   const effectiveEntitled = serverEntitlement ? serverEntitlement.isActive : isEntitled;
   const expired = serverEntitlement?.status === EXPIRED;
+  const showWinback = expired || serverEntitlement?.status === CANCELLED;
   // The billing problem banner carries Manage subscription while payment is
   // failing, so the footer drops its copy rather than offer Apple's page twice.
   const showFooterManage = isManageSubscriptionAvailable() && serverEntitlement?.status !== BILLING_ISSUE;
@@ -118,9 +121,10 @@ export default function SubscriptionScreen() {
       showBack contentStyle={{ gap: space.xl }}
       footer={
         <View style={{ gap: space.sm }}>
-          {expired ? (
-            <Button title={t('subscription.expired.resubscribe')} onPress={() => router.push(paywallHref(EXPIRED) as Href)} />
-          ) : effectiveEntitled ? (
+          {showWinback ? (
+            <Button title={t('subscription.expired.resubscribe')} onPress={() => navigate('/profile/winback')} />
+          ) : null}
+          {expired ? null : effectiveEntitled ? (
             showFooterManage ? (
               <Button
                 title={t('subscription.manage')}

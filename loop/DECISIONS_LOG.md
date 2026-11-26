@@ -11726,3 +11726,7 @@
 - 2026-11-26 11:24 Kept the change to one screen per prompt (paywall.tsx and its test), per the one screen rule. The link from Subscription to winback goes next round.
 - 2026-11-26 11:24 Kept English only for this round since no new strings are added, and no full suite until the checkpoint round.
 - 2026-11-26 11:24 Parked the untraced console.error rise until Row 8 is closed, so it does not compete with the user facing fix.
+- 2026-11-26 11:27 Flagged blocker (win back paywall toast on a real failed purchase) recorded under Blocked on Isa and not retried; the round 15 behaviour stays as built, because the message is true after a failed purchase.
+- 2026-11-26 11:27 Chose the Subscription win back link next because it does not depend on the toast question or the copy approval.
+- 2026-11-26 11:27 Accepted the round 15 change to test case (1) as the default; the Isa decision is parked.
+- 2026-11-26 11:27 Kept the notes under the 600 word target by condensing wording; all decisions kept in short form.
