@@ -11958,3 +11958,8 @@
 - 2026-11-27 01:49 Row 10 push token line corrected to ClerkBridge, as the Round 60 checkpoint report requested.
 - 2026-11-27 01:49 Round 61 is a light round: no full Jest run, since round 60 was a clean full checkpoint.
 - 2026-11-27 01:49 Jev risk 1.5 with confidence 0.24 noted; the chosen task does not touch hosted services, keys or payments, so the risk is limited to the test rerun.
+- 2026-11-27 01:50 Chose Row 11 step 1 (interface and mock) over Row 13 because the order is 11 to 14b and Row 11 is the next DIFFERENT row.
+- 2026-11-27 01:50 Native HealthKit package and ios/ changes are parked: ios/ is protected and pod install is an owner step, so the real provider waits.
+- 2026-11-27 01:50 Row 13 is not in the BUILT list in the notes, so each row's status in PHASE4_ROWS.md is checked before starting it.
+- 2026-11-27 01:50 Jev agrees on run (80 percent). No override needed.
+- 2026-11-27 01:50 Notes rewritten under 600 words: finished rows merged, repeated parked items merged.

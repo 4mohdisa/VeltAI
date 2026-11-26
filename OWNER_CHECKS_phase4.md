@@ -125,3 +125,16 @@ The backend half is built and off by default (`RETENTION_MESSAGING_ENABLED`). En
 - [ ] Approve the two messages in `backend/internal/retention/apple.go` (keep_progress, keep_insights). They are English only; es and fr text is still to come.
 - [ ] Set the sandbox real-time URL with Configure Realtime URL and pass Apple's performance test (a reply within 700 ms) before any production use. The webhook does not check Apple's signature yet, because its reply is the same public message id for every caller.
 - [ ] Row 10a notification defaults: approve or change breakfast 08:00, lunch 12:30, snacks 15:30, dinner 18:30, workout 17:00, streak at risk 20:00, weekly summary Sunday 18:00, promotional Saturday 11:00 (only after opt in) and quiet hours 22:00 to 07:00 (src/lib/notifications/schedule.ts and types.ts), and say whether workout reminders should follow the training days chosen in onboarding.
+
+## Row 11: HealthKit device check (owner check pending)
+
+Only the read only provider interface and the mock provider exist so far (`src/lib/health/types.ts`, `mockProvider.ts`, `index.ts`). Run this once the real provider, the Settings switch and the purpose strings land. It needs a physical iPhone: the Simulator's Health app can't produce real step or active energy samples, and the HealthKit entitlement has to be on the build.
+
+- [ ] **Entitlement.** In the Apple Developer portal, confirm the app ID has HealthKit enabled (the note in `src/lib/health/appleHealth.ts` says it was still in compliance screening), then make a development build with it.
+- [ ] **Seed data.** On the iPhone, open Health > Browse > Activity > Steps > Add Data and add 5,000 steps for today. Do the same for Active Energy (300 kcal today) and Body Measurements > Weight (one entry this week). Record one workout in the Workout app or add one under Browse > Activity > Workouts.
+- [ ] **First ask.** Install the build, sign in, open Settings > Apple Health and turn it on. The system sheet must list only read items (Steps, Active Energy, Weight, Workouts) and no write items. Check that the purpose text in the sheet matches the app's wording.
+- [ ] **Grant all.** Turn every item on and tap Allow. Today's steps and active energy, this week's weight and the workout must show in the app with the values seeded above.
+- [ ] **Deny one.** In the Health app, go to Profile (top right) > Privacy > Apps > Lume and turn Steps off. Return to Lume and pull to refresh: the seeded 5,000 steps (or any older cached value) must no longer show, while the other kinds still show. iOS doesn't tell apps a read was denied, so the app sees this the same as no step data.
+- [ ] **Deny all at first ask.** Delete the app, reinstall, sign in, turn the switch on and tap Don't Allow. Nothing from Health may show anywhere, and the app must not ask again on its own.
+- [ ] **No writes.** After using the app for a day, open Health > Browse for each kind > Data Sources & Access > Lume: Lume must appear under reading only, with no samples written by Lume.
+- [ ] **Sign out.** Sign out and sign in as a different test account: no Health values from the first account may show until the switch is turned on again.
