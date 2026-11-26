@@ -12558,3 +12558,8 @@
 - 2026-11-27 07:31 Row 17 closes with a full verify run now, because the report says it is the only step left and it confirms the new guard in the chain.
 - 2026-11-27 07:31 Row 18 is next after the Row 17 verify, as the rows order requires. The 403 vs 404 ruling stays parked and does not block it.
 - 2026-11-27 07:31 Notes condensed to under 600 words. Parked and blocked items kept, merged where they repeat. Jev signals not followed: the step is a single small, verifiable task.
+- 2026-11-27 07:32 Chose the Row 17 follow-up first: flagged work is run before any new task (override 8), and this is the one allowed follow-up (override 5).
+- 2026-11-27 07:32 Lint fix touches two test files outside Row 17. Checked the change is test-only and minimal; keep it, because lint is a verify gate. Revert if it breaks Jest.
+- 2026-11-27 07:32 Used a scoped eslint-disable only if hoisting forces it, never a file wide disable.
+- 2026-11-27 07:32 If verify stays red after this follow-up, the leftover is parked in KNOWN_ISSUES.md and Row 17 stays BUILT, per override 5.
+- 2026-11-27 07:32 Round 204 stays the full checkpoint (tsc, full Jest, go vet, no edits).

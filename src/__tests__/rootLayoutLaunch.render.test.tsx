@@ -47,9 +47,12 @@ type Launch = {
 /** A fresh module registry: the layout, its mocked recordLaunch and the render helpers. */
 function launch(): Launch {
   jest.resetModules();
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- loaded after resetModules for a fresh launch
   const helpers = require('./render/helpers');
   return {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- loaded after resetModules for a fresh launch
     RootLayout: require('@/app/_layout').default,
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- loaded after resetModules for a fresh launch
     recordLaunch: require('@/lib/feedback/promptStore').recordLaunch,
     render: helpers.renderScreen,
     act: helpers.act,

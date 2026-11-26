@@ -14,10 +14,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoints about every 5 rounds (tsc, full Jest, go vet, no edits). Next: 204.
 
-## State (Round 202)
+## State (Round 203)
 - BUILT 20 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18-28, 30.
-- Row 17 BUILT (202): migrate.sh tests on lume_test_migrate_* databases. Verify run pending in this round.
+- Row 17 BUILT (202) but verify chain exited 1 at lint (4 warnings in productionReadiness.test.ts:88 and rootLayoutLaunch.render.test.tsx:50,52,53). Round 203 follow-up: fix lint, full verify. If still red, park the leftover in KNOWN_ISSUES.md.
 
 ## Parked (fix only in its row)
 - Debug reports: null context saved as null (debugreports.go:61); retry skips captured_at, trigger, route, versions.
@@ -68,6 +68,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Row 17: migration tests drive deploy/migrate.sh; rollback is forward fix only (no down scripts).
 - Body weight DELETE is the last id route in goals; integration routes take a provider name, not an id.
 - Jev ask and stop signals not followed; no Isa blocker stops the loop.
+- Round 203: lint fix in two out of scope test files kept as test-only, minimal change (override 9).
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -81,5 +82,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 182-201: Row 16 done (authz table, ownership and validation tests); BUILT at 201.
 - Checkpoints green at 184, 189, 194, 199 (tsc 0, Jest 350/350, 2190 tests, go vet clean).
 - 200: Go checkpoint green (44 ok, race clean).
-- 201-202: Row 17 migration tests written and passing (10 tests). Verify chain run queued in Round 202.
-- Next: Round 203 verify result, then Row 18. Round 204: full checkpoint.
+- 201-202: Row 17 migration tests written and passing (10 tests). Verify chain stopped at lint.
+- 203: follow-up queued for lint fix and full verify rerun.
+- Next: Round 203 result, then Round 204 full checkpoint, then Row 18.

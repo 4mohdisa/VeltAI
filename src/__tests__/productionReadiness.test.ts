@@ -85,7 +85,7 @@ test('a timed-out request is transient → queued for replay, never dropped', as
 
 test('the scan upload path gets its own, longer bound', async () => {
   // Held, not hung forever: answered at the end so the 4s upload timer is cleared.
-  const held: Array<(res: unknown) => void> = [];
+  const held: ((res: unknown) => void)[] = [];
   setFetch(jest.fn(() => new Promise((resolve) => held.push(resolve))));
   await withApiEnv(
     { EXPO_PUBLIC_API_TIMEOUT_MS: '40', EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS: '4000', EXPO_PUBLIC_API_RETRIES: '0' },
