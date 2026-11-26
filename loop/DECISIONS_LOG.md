@@ -11605,3 +11605,7 @@
 - 2026-11-26 10:34 Kept the checkpoint over Jev's pick (wrong code error, 97%). Reason Jev cannot see: the loop note sets this round as a checkpoint, and the checkpoint is item 1 in Next, so the full suite must run before more feature work. The wrong code change would also touch signup.tsx on the same day as the email change, so a checkpoint first keeps the baseline clean.
 - 2026-11-26 10:34 This round changes no files, so the checkpoint numbers describe the code as it stands after the inline email error change.
 - 2026-11-26 10:34 Dead end 7 stays open in DESIGN_REFERENCES.md until Isa signs off the paywall copy. The stale es and fr strings are not translated this round because English only is the rule.
+- 2026-11-26 10:35 Checkpoint result recorded: tsc 0 errors, Jest 298 of 298 suites and 1,815 of 1,815 tests, 67 console.error and 165 console.warn, no file changes.
+- 2026-11-26 10:35 Picked the codeError change: it is the next item in the loop notes, Jev ranks run highest, and it is small.
+- 2026-11-26 10:35 Dead end 7 stays Blocked on Isa's copy sign off; not retried.
+- 2026-11-26 10:35 Lint and tsc run without pipes so exit codes are real; only the changed and neighbouring test files run, not the full suite.

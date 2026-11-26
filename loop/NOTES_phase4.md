@@ -10,13 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 2b (dead ends 1 to 6, 8, 9 built; 7 open for Isa's copy sign off; sign up email errors inline done), 3 (waits on Apple owner steps), 6b.
-- Last full checkpoint: tsc 0; Jest 298/298 suites, 1,815/1,815 tests; 67 console.error, 165 console.warn. This round is a checkpoint with no file changes. Result goes in the report.
+- Last checkpoint (passed): tsc 0; Jest 298/298 suites, 1,815/1,815 tests; 4/4 snapshots; 67 console.error, 165 console.warn. No file changes that round.
 
 ## Next
-1. Checkpoint this round (tsc, full Jest). Record the numbers.
-2. Candidate: wrong code error under the code field via codeError (signup.tsx).
-3. Row 3 after Isa signs off Apple steps (owner).
-4. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Wrong code error under the code field via codeError (signup.tsx). In progress.
+2. Row 3 after Isa signs off Apple steps (owner).
+3. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
 - Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge, switch or delete branches.
@@ -49,10 +48,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 - English only: es and fr deferred. The 'translate es and fr' follow-up is dropped.
 - Dead end 8 (target weight) is recorded in PHASE4_ROWS.md Row 2b and DESIGN_REFERENCES.md.
-- Checkpoint round (this one) kept over Jev's pick of the codeError change: the loop note sets it and Next item 1 requires it. Change no files this round.
+- Round chosen: codeError wrong code change (Jev top pick, matches loop Next item).
 
 ## Blocked on Isa (park, do not retry)
-- Dead end 7 copy sign off. Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
+- Dead end 7 copy sign off (DESIGN_REFERENCES.md still says Open). Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Row 6b step (f) stale strings. es and fr values of subscription.plansUnavailable, subscription.notConfiguredDev, onboarding.paywall.plansUnavailable are out of date (deferred, English only).
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
@@ -61,7 +60,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup.
 
 ## Parked
-- Wrong code still a toast (could go under code field via codeError if Isa wants).
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
 - About 67 deliberate console warns need scoped spies.

@@ -109,10 +109,7 @@ test('form_code_incorrect shows "That code isn\'t right — check it and try aga
   act(() => (buttonWithTitle(tree, 'Verify')!.props.onPress as () => void)());
   await settle();
 
-  expect(useToastStore.getState().current).toMatchObject({
-    message: "That code isn't right — check it and try again.",
-    tone: 'error',
-  });
+  expect(findAll(tree, (p) => p.label === 'Code')[0].props.error).toBe("That code isn't right — check it and try again.");
 });
 
 test("an unmapped error code with Clerk's own message shows the generic message, not Clerk's text", async () => {

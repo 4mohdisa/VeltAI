@@ -164,15 +164,19 @@ function LegalFooter() {
 
 // Clerk refuses a second sign-in while a session is active. The user is
 // already signed in, so continue the flow instead of showing an error.
+function clerkErrorCode(e: unknown): string | undefined {
+  return (e as { errors?: { code?: string }[] })?.errors?.[0]?.code;
+}
+
 function isSessionExists(e: unknown): boolean {
-  return (e as { errors?: { code?: string }[] })?.errors?.[0]?.code === 'session_exists';
+  return clerkErrorCode(e) === 'session_exists';
 }
 
 // Clerk's error codes mapped to copy. Clerk's own message text is English
 // and technical, so every other code shows the generic message. Module scope:
 // it only runs inside event handlers, so i18n.t reads the current language.
 function clerkMessage(e: unknown): string {
-  const code = (e as { errors?: { code?: string }[] })?.errors?.[0]?.code;
+  const code = clerkErrorCode(e);
   if (code === 'form_identifier_exists') return i18n.t('signup.errorEmailExists');
   if (code === 'form_identifier_not_found') return i18n.t('signup.errorEmailNotFound');
   if (code === 'form_code_incorrect') return i18n.t('signup.errorCodeIncorrect');
@@ -256,6 +260,7 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
         setEmailAddressId(factorEmailId);
         await prepareCode(factorEmailId);
       }
+      setCodeError(undefined);
       setStage('code');
       showToast({ message: t('signup.toastCodeSent', { email: addr }), tone: 'info' });
     } catch (e) {
@@ -303,7 +308,9 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
       }
       await continueAfterAuth(dispatch);
     } catch (e) {
-      showToast({ message: clerkMessage(e), tone: 'error' });
+      // A wrong code belongs to the code field, like email errors to theirs.
+      if (clerkErrorCode(e) === 'form_code_incorrect') setCodeError(clerkMessage(e));
+      else showToast({ message: clerkMessage(e), tone: 'error' });
     } finally {
       setBusy(null);
     }
