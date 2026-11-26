@@ -83,3 +83,30 @@ test('without consent, Send opens the consent screen, sends nothing and keeps th
   expect(ask).not.toHaveBeenCalled();
   expect(findAll(tree, (p) => p.accessibilityLabel === 'Ask a question')[0].props.value).toBe("How's my protein this week?");
 });
+
+describe('Fix 15b: Back always has somewhere to go', () => {
+  const pressBack = () => {
+    const tree = renderScreen(
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <AIQueryScreen />
+      </SafeAreaProvider>,
+    );
+    act(() => (findAll(tree, (p) => p.accessibilityLabel === 'Back')[0].props.onPress as () => void)());
+  };
+
+  afterEach(() => jest.restoreAllMocks());
+
+  test('with history, Back goes back', () => {
+    jest.spyOn(router, 'canGoBack').mockReturnValue(true);
+    pressBack();
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  test('with no history, Back lands on the Food tab', () => {
+    jest.spyOn(router, 'canGoBack').mockReturnValue(false);
+    pressBack();
+    expect(router.replace).toHaveBeenCalledWith('/(tabs)/food');
+    expect(router.back).not.toHaveBeenCalled();
+  });
+});

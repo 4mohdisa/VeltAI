@@ -12244,3 +12244,8 @@
 - 2026-11-27 04:19 Jev ranked the same top task (run 83%); no reason to override.
 - 2026-11-27 04:19 saved.tsx meal pass (opened from a meal's + loses the meal) parked as a 14b unfixed item, not in this prompt.
 - 2026-11-27 04:19 Prettier failures on detail.tsx and foodDetailLogged test are at HEAD; not fixed here.
+- 2026-11-27 04:22 Round 127: chose Fix 15b. It is the smallest open flaw in 14b and the last report recommends it. Jev's 96% run signal agrees.
+- 2026-11-27 04:22 Round 127: fallback with no history is the Food tab, matching ai-consent.tsx, for consistency.
+- 2026-11-27 04:22 Round 127: shared goBackOrHome Today fallback parked. It changes every screen and is outside 14b's scope; revisit at 14b closure.
+- 2026-11-27 04:22 Round 127: notes rewritten under 600 words as the loop note asked. Done work deleted, decisions kept.
+- 2026-11-27 04:22 Round 126 (kept): consent Back and Not now go back, not to the origin, to avoid a loop back into the consent prompt.

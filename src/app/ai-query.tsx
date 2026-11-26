@@ -70,7 +70,9 @@ export default function AIQueryScreen() {
         {/* Header: back control + title + subheading */}
         <View style={{ paddingHorizontal: space.lg, paddingTop: space.sm, gap: space.xs }}>
           <Pressable
-            onPress={() => router.back()}
+            // Opened from a deep link or as the entry screen there is no history:
+            // land on the Food tab, as AI consent does.
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/food'))}
             accessibilityLabel={t('aiQuery.back')}
             style={{ alignSelf: 'flex-start' }}
           >
