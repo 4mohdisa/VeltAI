@@ -11791,3 +11791,10 @@
 - 2026-11-27 00:17 Override 4 tightened from up to 3 screens to one screen or component per prompt, following the loop rejection.
 - 2026-11-27 00:17 The Row 9 Settings screen moves to round 28 as the flagged follow-up, so it stays one screen per prompt.
 - 2026-11-27 00:17 Jev signals reviewed: they favour running, which matches the checkpoint. Kept the checkpoint because the loop note requires it.
+- 2026-11-27 00:18 Chose candidate 1 because the notes say it is the next step and the flagged gap is one screen.
+- 2026-11-27 00:18 Jev run signal (93%) agrees with running this round. Its 31% clean-finish score is noted, so the prompt keeps to one screen and at most 5 steps.
+- 2026-11-27 00:18 Kept the English-only override: new strings go to en.json and ENGLISH_ONLY.
+- 2026-11-27 00:19 Round 28 prompt was rejected for asking for more than one screen; rewritten as one screen (leaving.tsx) with its test.
+- 2026-11-27 00:19 The Settings link to the leaving screen moves to the next round so each prompt keeps to one screen or component. The flagged Settings gap stays open until then.
+- 2026-11-27 00:19 Reason survey uses fixed keys mapped to English labels; no free text or body, food or workout values go to analytics.
+- 2026-11-27 00:19 No analytics event is added for the leaving screen this round, to keep it minimal.

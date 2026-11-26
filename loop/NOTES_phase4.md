@@ -5,26 +5,26 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 1. English only; es and fr deferred. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken).
 3. Order: 3 to 14b, 15 to 30, 31.
-4. One screen or component per prompt (loop rejected a two-screen prompt).
+4. One screen or component per prompt. Rejected prompts get rewritten; never bundle.
 5. Prompts have at most 5 numbered steps.
 6. A 'partly done' flag gets ONE follow-up round. Flagged again: park leftover, move on.
 7. No simulator flow after each row. Simulator and Maestro only in row 23 and soak rows.
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend built; Settings screen is the flagged gap).
-- Round 26 green: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots; 68 console.error, 163 console.warn.
-- Round 27: checkpoint (full tsc and full Jest, no file changes). Round 27 prompt was rejected for two screens.
+- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend built; Settings screen is the flagged gap, follow-up in round 28, screen only; Settings link next).
+- Round 27 checkpoint green: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots; 68 console.error, 163 console.warn.
 
 ## Next
-1. Round 28: Row 9 Settings 'Thinking of leaving' screen (follow-up, one screen) using api.retention.summary().
-2. Row 10 notifications (pure scheduling logic, fake clock, DST).
+1. Round 28: Row 9 leaving.tsx screen (one screen) using api.retention.summary().
+2. Round 29: Settings link to the leaving screen.
+3. Row 10 notifications (pure scheduling logic, fake clock, DST).
 
 ## Blocked on Isa (park, do not retry)
 - Win back: 'weren't charged' toast kept; English copy approved; which package price to show.
 - Cancelled plan: Resubscribe beside Manage subscription, confirm.
 - 7c StoreKit purchase and real offerings: needs iOS public key.
-- Row 8: react to on-device billing_issue before webhook? Maestro: install; email code sign in (E2E_EMAIL is not +clerk_test); backend on lume_test_local (now lume on 127.0.0.1:55432); run expired, cancelled, past_due.
+- Row 8: react to on-device billing_issue before webhook? Maestro: install; email code sign in (E2E_EMAIL is not +clerk_test); backend on local lume on 127.0.0.1:55432; run expired, cancelled, past_due.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed-step Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
@@ -47,7 +47,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Win back: store price via wrapper; promotional offers only; no price text in Apple messages; WINBACK_REASON in nav.ts. Wrapper has no promotional offer API, so win back opens the paywall.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default.
-- Row 9: retention flag default off; message keys only; fixtures only until owner access; summary gated like paid routes.
+- Row 9: retention flag default off; message keys only; fixtures only until owner access; summary gated like paid routes; leaving screen sends no food, body or workout values to analytics.
 - Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked
@@ -75,3 +75,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Spy on useLocalSearchParams through jest.requireMock('expo-router'), not import *.
 - Go entitlement tests need LUME_TEST_DATABASE_URL pointed at lume_test_local.
 - Render tests can wrap the screen in SafeAreaProvider, so toJSON() is not null even when empty.
+- English only: new keys go in en.json and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- Round 25 log line stays at the end of PHASE4_ROWS.md.

@@ -215,6 +215,28 @@
       "body": "Pick up where you left off. Your logged meals, workouts and progress are still here.",
       "price": "{{price}} · {{period}}",
       "notNow": "Not now"
+    },
+    "leaving": {
+      "title": "Thinking of leaving?",
+      "usageTitle": "Your last 30 days",
+      "meals": "Meals logged",
+      "workouts": "Workouts",
+      "streak": "Day streak",
+      "emptyTitle": "Nothing logged yet",
+      "emptyBody": "Your meals and workouts from the last 30 days will show here.",
+      "tryAgain": "Try again",
+      "reasonLabel": "What's the main reason?",
+      "reasons": {
+        "too_expensive": "Too expensive",
+        "not_using": "Not using it enough",
+        "missing_feature": "Missing a feature",
+        "found_other": "Found another app",
+        "not_working": "Something isn't working",
+        "other": "Other"
+      },
+      "noteLabel": "Anything else? (optional)",
+      "notePlaceholder": "Tell us what would help",
+      "keepPlan": "Keep my plan"
     }
   },
   "preferences": {
