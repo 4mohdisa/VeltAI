@@ -9,23 +9,25 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 5. Partly done gets ONE follow-up; flagged again: park leftover, move on.
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with branch rule. Every round runs tsc first.
-8. A round flagged for untested work: run the changed tests before any new task.
+8. Flagged untested work: run changed tests before any new task.
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
-- Round 104 checked Round 103. Round 105 (Fix 2) green. Round 106 (Fix 3, remove a set) reported green: 4 suites, 16 tests, tsc 0.
+- Round 107 (Fix 4) green: 10 suites, 110 tests. Not run in simulator.
 
 ## Row 14b (current)
-- Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture, quick-add via slotFromParam, add.tsx no-meal check kept, Summary Today uses today's rows (Fix 2), remove set in session.tsx (Fix 3).
-- Round 107: Fix 4 (prefill gym sets from last session for that exercise) prompted.
-- Next: gym top-set-only save; recipes unreachable; then list order.
+- Done: Fix 1 meal slot on every Add path; Fix 2 Summary and Nutrition Today read today; Fix 3 remove a set; Fix 4 prefill sets from last session (top set only, 90 day window).
+- Next: Fix 5 resubscribe from Profile after sign-out (paywall screen ~157-160, resetRegistry.ts:52). Test first; if not reproduced, record and move on.
+- Then: gym top-set-only save; recipes unreachable; then list order.
+- PHASE4_ROWS.md notes for 14b not yet updated (Round 108 does it).
 - Parked: saved.tsx:48 inline slot check (needs helper returning 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
 - Owner decision logged: Terms describe a free tier that does not exist.
-- Tooling: en.json fails Prettier (not reformatted; check in row 22).
+- Open for Isa: per-set gym history needs a backend change.
+- Tooling: en.json fails Prettier. Do not --write; check in row 22.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
@@ -36,7 +38,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Blocked on Isa (park)
-- Rows 5, 8, 9: consent copy, recipients, win back and leaving copy, Apple Retention access, sandbox URL, Maestro install, expired/cancelled/past_due runs, 7c iOS public key.
+- Rows 5, 8, 9: consent copy, recipients, win back and leaving copy, Apple Retention access, sandbox URL, Maestro install, expired, cancelled and past_due runs, 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating, pod install.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID label; push token manifest type.
@@ -55,8 +57,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Protected (do not edit)
-- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts.
-- foodDays.test.ts pins router.replace('/food/barcode-scan'); add branches instead.
+- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches instead).
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
@@ -79,9 +80,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Meal reaches the detail sheet through the subject store, never a route param.
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
-- Round 104: Summary Today always shows today. Applied in Round 105.
-- Round 107: Fix 4 chosen as next in order. Jev run 94%, risk 1.1 noted; scope kept small.
-- Prettier on en.json: not reformatted, to avoid touching unrelated strings.
+- Summary Today always shows today (Round 104, applied Round 105).
+- Gym prefill: top set only, from the last 90 days; removing every set unticks the exercise.
+- Prettier on en.json: not reformatted.
+- Round 107: Fix 4 done; scope kept small.
+- Round 108: Fix 5 chosen first; test before fix; Jev run 75% noted.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -94,9 +97,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - A Jest worker is force-exited at the end of the full run (leaked handle).
 
 ## Round log (condensed)
-- 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
-- 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-101: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, photo-capture, quick-add.
-- 102-105: checks and Fix 2 (43 tests passing).
-- 106: Fix 3 (remove a set) green, 16 tests.
-- 107: Fix 4 (prefill from last session) prompted.
+- 60-86: rows 10, 11, 12a, 13, 14 closed; 14a built to step 4 then parked; 14b docs written.
+- 87-101: meal slot added to Search, scanner, barcode detail, Scan again, label scan, photo capture, quick-add.
+- 102-107: Fix 2 (Summary Today), Fix 3 (remove set), Fix 4 (prefill from last session).
+- 108: Fix 5 prompted (test first).
+
+## Handover
+- Last handover at Round 107. Next handover after Round 120.

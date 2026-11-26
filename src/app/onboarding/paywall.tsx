@@ -159,6 +159,14 @@ export default function PaywallScreen() {
     // named here rather than coming back as an opaque 400 (audit 2026-08-08).
     const problem = validateOnboardingPayload(session);
     if (problem) {
+      // Sign-out empties the answers on this device. A returning user who
+      // resubscribes already has them on the server, so enter the app on that.
+      if ((await api.onboarding.get().catch(() => null))?.completed) {
+        markCompleted();
+        await setHasCompletedOnboarding(true);
+        router.replace('/(tabs)');
+        return;
+      }
       showToast({ message: problem, tone: 'error' });
       setSubmitting(false);
       return;

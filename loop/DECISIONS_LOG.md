@@ -12160,3 +12160,8 @@
 - 2026-11-27 03:31 Jev rated run at 94% with a risk of 1.1. Kept the run because the scope is small, and the risk is recorded here.
 - 2026-11-27 03:31 Prettier flags en.json. Not reformatted, because a whole-file write could change strings that other rows rely on. Logged for the row 22 lint pass.
 - 2026-11-27 03:31 Session prefill uses the existing gym session data source, so no new endpoint or protected file is touched.
+- 2026-11-27 03:35 Chose Fix 5 because it is next in the agreed order, small, and needs no Isa input.
+- 2026-11-27 03:35 Jev suggested running (75%). Kept the run, with scope held to one new test file and one minimal fix.
+- 2026-11-27 03:35 Fix 5 starts with a test that must show the failure first. If it does not reproduce, the round records that and changes no app code.
+- 2026-11-27 03:35 Rewrote the notes file to under 600 words and removed finished work (Rounds 60 to 101 condensed, Row 14a Done details dropped).
+- 2026-11-27 03:35 Added the missing PHASE4_ROWS.md update for Row 14b Fixes 1 to 4 to this prompt, as the handover flagged it as not done.
