@@ -244,7 +244,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`barcode:${subject.code}`}
         title={t('food.confirmProduct')}
-        meal={slotForNow()}
+        meal={subject.slot ?? slotForNow()}
         seed={{
           name: p.name,
           quantityG: first,

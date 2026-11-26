@@ -111,7 +111,8 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 1. **Keep the chosen meal through Add.** The meal from "Add to dinner" is dropped on Search, Barcode, Scan and label scan (`add.tsx` forwards `slot`; `food.tsx:208` reads only `focus`; `food.tsx:388` and `detail.tsx:178,247` use `slotForNow()`). Every per-meal log can land in the wrong meal.
    - Search: done. The Food tab reads `?slot` through `slotFromParam` (`src/lib/data/scan.ts`) for the one-tap "+" and passes it to the search detail sheet; clearing the search drops it. Test: `src/__tests__/render/foodSearchSlot.render.test.tsx`.
    - Barcode scanner: done. `barcode-scan.tsx` reads `?slot` through `slotFromParam` and puts it in the barcode detail subject (`slot`), never in the route. Test: `src/__tests__/render/barcodeScanSlot.render.test.tsx`.
-   - Barcode detail sheet: open. `detail.tsx:247` still uses `slotForNow()` instead of `subject.slot`.
+   - Barcode detail sheet: done. Barcode mode uses `subject.slot ?? slotForNow()` (`detail.tsx:247`). Test: `src/__tests__/render/barcodeDetailSlot.render.test.tsx`.
+   - Still open: "Scan again" on the not-found sheet drops the meal (`detail.tsx:235`); the scanner's "Photograph label" button does not pass the meal to label scan; a log from the detail sheet does not clear the Food tab's `?slot`.
    - Scan and label scan: open.
 2. **Summary "Today" shows today.** The Summary macros card and Nutrition read the Food tab's selected day (`hooks.ts:320-321`). After the user looks at yesterday, Summary is wrong.
 3. **Remove a set in a session.** "Log" prefills the planned sets (3 if none) and only "Add set" exists (`session.tsx:101,256,534-538`). Logging 1 of 3 sets is impossible.

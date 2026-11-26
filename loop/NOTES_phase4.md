@@ -17,7 +17,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (current)
 - DESIGN_INTENT.md done: nav map, four answers per screen, key numbers, Fix list (28 SMALL, 6 POST LAUNCH).
-- Fix order: 1 meal slot (Search DONE Round 88; Barcode in progress: barcode-scan.tsx Round 89 retry, then detail.tsx barcode mode; then Scan, label scan); Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
+- Fix 1 (meal slot): Search DONE (R88). Barcode scanner DONE (R90). Barcode detail sheet: follow-up in Round 91 (detail.tsx ~247). Then Scan again, label scan meal pass-through.
+- Fix order after Fix 1: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
 - Open: detail sheet log does not clear ?slot; quick-add, add, saved repeat the slot check inline (switch to slotFromParam when touched); food.tsx keeps its own SLOTS list (mappers.ts has one too).
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
@@ -72,7 +73,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Legal: copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease and common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
-- Round 89 prompt rejected (two screens). Retried as one screen: barcode-scan.tsx this round, detail.tsx barcode mode next. Jev ranked barcode first.
+- Round 89 prompt rejected (two screens). Round 90 done for barcode-scan.tsx only; route params banned by foodDetail.test.ts, so slot goes via detailSubject store.
+- Round 90 flagged partly done. Follow-up 1 (Round 91): detail.tsx barcode meal. If flagged again, park the leftover and move on.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -85,4 +87,5 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written (Round 86 had no tsc, flagged).
 - 87: prompt rejected (four screens). 88: Fix 1, Search screen only (done, tsc 0, 6 suites pass).
-- 89: prompt rejected (two screens). 90 (this round): Fix 1 Barcode, barcode-scan.tsx only, with render test.
+- 89: prompt rejected (two screens). 90: Fix 1 Barcode scanner only (done, tsc 0, 6 suites pass). Flagged partly done (detail sheet open).
+- 91 (this round): follow-up, detail.tsx barcode meal line, with render test.

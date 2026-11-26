@@ -12083,3 +12083,6 @@
 - 2026-11-27 03:00 Reuse slotFromParam from scan.ts rather than the inline check in quick-add, add and saved. Reason: no duplicated logic; those three are left for a later round.
 - 2026-11-27 03:00 Candidate 2 (detail.tsx) is the next round, because the detail sheet only needs the slot once barcode-scan.tsx sends it. Jev ranked the barcode path first, so the choice stands.
 - 2026-11-27 03:00 Caller check (Food tab) is recorded in NEXT, not edited. Reason: one screen per prompt.
+- 2026-11-27 03:03 Round 90 report was flagged as partly done; this is the one allowed follow-up (Override 5) on the same barcode item, so no new task is started.
+- 2026-11-27 03:03 Route param rejected again because foodDetail.test.ts forbids params on /food/detail; the slot goes through the subject store.
+- 2026-11-27 03:03 Scan again, label scan meal passing and detail sheet ?slot clearing stay open in DESIGN_INTENT.md; they are separate small fixes for later rounds, not part of this follow-up.
