@@ -96,7 +96,16 @@ function screenStrings(l: Locale): string[] {
   ];
 }
 
+// Every console.error is recorded and must stay empty: a stray act() warning
+// means a test left a state update running after it finished.
+let consoleErrors: unknown[][];
+let errorSpy: jest.SpyInstance;
+
 beforeEach(() => {
+  consoleErrors = [];
+  errorSpy = jest.spyOn(console, 'error').mockImplementation((...args: unknown[]) => {
+    consoleErrors.push(args);
+  });
   useOnboardingStore.getState().reset();
   mockPost.mockClear();
   mockSubscription.mockReset().mockResolvedValue(activeSubscription);
@@ -112,6 +121,8 @@ afterEach(async () => {
   await act(async () => {
     await i18n.changeLanguage('en');
   });
+  errorSpy.mockRestore();
+  expect(consoleErrors).toEqual([]);
 });
 
 test.each([
@@ -141,8 +152,10 @@ test.each([
   }
 });
 
-test('with no cuisines picked the database line is the personalised one', () => {
-  const text = allText(renderScreen(<PaywallScreen />));
+test('with no cuisines picked the database line is the personalised one', async () => {
+  const tree = renderScreen(<PaywallScreen />);
+  await plansLoaded();
+  const text = allText(tree);
   expect(text).toContain(en.onboarding.paywall.features.personalisedDatabase);
   expect(text).not.toContain(en.onboarding.paywall.features.halal);
 });

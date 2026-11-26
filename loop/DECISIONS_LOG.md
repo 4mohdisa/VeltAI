@@ -11763,3 +11763,11 @@
 - 2026-11-26 11:36 Jev ranked Run first at 78%, so I kept Run and did not use the Ask option, which is not allowed.
 - 2026-11-26 11:36 Kept the step count at five and one screen per prompt, per Isa's override.
 - 2026-11-26 11:36 Left the console warning count out of this round to keep the scope to one screen.
+- 2026-11-27 00:00 Row 8 set to BUILT with 'owner check pending': the Round 23 Maestro flow is written but not run (Maestro missing, email code sign in). Rule 6 applies: flagged twice, so the leftover is parked, not retried. Backend entitlement tests for all three states pass.
+- 2026-11-27 00:00 Chose Run over Ask (Jev 69% ask): ask is not allowed. The park path is the correct use of that signal. Risk score 1.4 does not apply: the next task only edits one test file on the local branch.
+- 2026-11-27 00:00 Chose candidate 1 (console trace) as the planned Round 24 step, ahead of the cleanup in Round 25.
+- 2026-11-27 00:00 Simulator and Maestro checks for Row 8 move to row 23 and the soak rows, per override 7.
+- 2026-11-27 00:01 Rewrote the rejected prompt to 5 numbered steps, the limit in the loop note (the notes say 8, the loop note says 5; the newer rule wins).
+- 2026-11-27 00:01 Chose Round 24 over Jev's ask lean: asking is not allowed, and the task is small and scoped.
+- 2026-11-27 00:01 Kept Round 24 as the next step because the notes place it before the Round 25 checkpoint.
+- 2026-11-27 00:01 Condensed the notes to under 600 words, keeping every decision and blocked item in one line each.
