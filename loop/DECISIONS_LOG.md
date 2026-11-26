@@ -12563,3 +12563,7 @@
 - 2026-11-27 07:32 Used a scoped eslint-disable only if hoisting forces it, never a file wide disable.
 - 2026-11-27 07:32 If verify stays red after this follow-up, the leftover is parked in KNOWN_ISSUES.md and Row 17 stays BUILT, per override 5.
 - 2026-11-27 07:32 Round 204 stays the full checkpoint (tsc, full Jest, go vet, no edits).
+- 2026-11-27 07:34 Round 203 lint follow-up accepted: verify green, Row 17 stays BUILT, lint fix kept as test-only (override 9).
+- 2026-11-27 07:34 Round 204 is a checkpoint with no edits, per override 11 (next checkpoint at 204).
+- 2026-11-27 07:34 Jev risk and ask signals are advisory and not followed; no Isa blocker stops the loop (decision already on record).
+- 2026-11-27 07:34 Notes condensed under 600 words; no rule or parked item was dropped.
