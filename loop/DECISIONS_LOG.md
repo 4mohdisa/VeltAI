@@ -12230,3 +12230,7 @@
 - 2026-11-27 04:10 Jev ask advice not followed: ask is forbidden. Run action and the Round 123 tsc-first rule kept.
 - 2026-11-27 04:10 Notes rewritten under 600 words. Finished work removed (Fixes 1-12 summarised, Round 120-122 items merged). Open items kept.
 - 2026-11-27 04:10 Stale handover Next (Fix 5) and stale Row 14a/14b status lines in the handover ignored; the notes state is used instead.
+- 2026-11-27 04:14 Round 124 is the scheduled checkpoint from the notes and the loop note, so the full suite runs before Fix 14. Jev's 82% for Fix 14 was weighed; the checkpoint is a scheduled gate and Fix 14 waits one round. Reason recorded in the notes.
+- 2026-11-27 04:14 The checkpoint prompt allows read-only git status to confirm that no files changed.
+- 2026-11-27 04:14 Fix 14 stays the next task. Its test pin on router.replace('/food/barcode-scan') is named in the prompt so it is not broken.
+- 2026-11-27 04:14 Notes rewritten under 600 words: finished rounds merged into one line, repeated open items merged, Round 109 baseline kept for comparison.
