@@ -3,6 +3,7 @@
 // run. A failed sessions read shows the LoadFailedNotice, not 'No sessions', and
 // its Retry re-runs the read; a successful empty read shows the empty state; a
 // failed energy read shows its own notice in the energy card, not 'No energy data'.
+import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import TrainingDetailScreen from '@/app/dashboard/training';
@@ -10,7 +11,7 @@ import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import { todayISO } from '@/lib/data/mappers';
-import { act, findAll, renderScreen } from './helpers';
+import { act, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 const mockListSessions = jest.fn();
 const mockGetWeek = jest.fn();
@@ -84,6 +85,15 @@ test('a successful read with no sessions shows the empty state', async () => {
 
   expect(hasText(tree, en.dashboard.trainingNoSessionsTitle)).toBe(true);
   expect(hasText(tree, en.gym.loadFailed)).toBe(false);
+});
+
+test('Fix 19: the empty state opens Log gym, the route the Gym tab uses', async () => {
+  mockListSessions.mockResolvedValue([]);
+  jest.mocked(router.push).mockClear();
+  const tree = await renderTraining();
+
+  act(() => (buttonWithTitle(tree, en.addMenu.logGymSession)!.props.onPress as () => void)());
+  expect(router.push).toHaveBeenCalledWith('/gym/log-session');
 });
 
 test('a failed energy read shows its own notice in the energy card, in English and Spanish', async () => {

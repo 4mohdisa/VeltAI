@@ -161,6 +161,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
    - Done (Round 134): at 0 freezes the freeze sheet's headline reads `gym.freeze.noneLeft` ("No freezes left to use today.") instead of offering one, so it matches the reason line; the 1-freeze headline is unchanged and Done stays off at 0. Test: `src/__tests__/render/freeze.render.test.tsx`.
 19. **Energy "add body stats" hint opens `/profile/goals`.** Training and Energy empty states link to Log gym (`energy.tsx:185`, `training.tsx:78-82`).
    - Done in part (Round 135, Energy): the Energy no-data empty state links to Log gym (`/gym/log-session`, the Gym tab's route). The "add body stats" hint is not linked yet: its copy says body stats are added in onboarding, and `/profile/goals` has no weight or height fields, so the link waits for a ruling. Training is next. Test: `src/__tests__/render/energy.render.test.tsx`.
+   - Done (Round 136, Training): the Training no-data empty state links to Log gym (`/gym/log-session`) with `addMenu.logGymSession`, the Energy pattern. No new strings. The Energy body stats hint stays unlinked (parked, see decisions). Test: `src/__tests__/render/dashboardTraining.emptyStates.render.test.tsx`.
 20. **One week rule.** Summary Workouts and the Training detail both count Monday to Sunday (`summaryCards.ts:58`, `training.tsx:114-117`).
 21. **Gym month label counts this month's sessions**, not all time (`gym.tsx:166`).
 22. **Week detail:** Net switches the hero chart, and a tapped bar shows that day's value (`week.tsx:126,169-206`).

@@ -12282,3 +12282,8 @@
 - 2026-11-27 04:52 Round 135 is the checkpoint, so the full Jest suite runs after the changed tests.
 - 2026-11-27 04:52 Notes rewritten under 600 words as the loop note asked; finished items dropped.
 - 2026-11-27 04:52 Gym month freeze plural (gym.freeze.confirm has no _one form) left for a later localisation pass.
+- 2026-11-27 04:54 Previous report flagged as partly done: the Energy body stats hint stays unlinked. Linking it to Goals would open a screen that cannot enter body stats, and rewording needs a ruling. Parked as option 3 (leave unlinked until a body stats editor exists). Follow-up used; the rest of Fix 19 is closed for Energy.
+- 2026-11-27 04:54 Training fix goes first because it needs no string change and no owner ruling.
+- 2026-11-27 04:54 Notes rewritten under 600 words: finished work removed, repeats merged.
+- 2026-11-27 04:54 Jev ranks run first at 87%, matching my pick. Risk 1.0 accepted: nothing in this task depends on Isa or a hosted service.
+- 2026-11-27 04:54 Energy 'not enough days' empty state and the Jest force exit stay in NEXT, not in this round.

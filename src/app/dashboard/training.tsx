@@ -15,6 +15,7 @@
 // with the other three detail routes: src/components/display/DetailChart.tsx.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -79,6 +80,8 @@ export default function TrainingDetailScreen(): JSX.Element {
           icon="barbell"
           title={t('dashboard.trainingNoSessionsTitle')}
           message={t('dashboard.trainingNoSessionsMessage')}
+          actionLabel={t('addMenu.logGymSession')}
+          onAction={() => router.push('/gym/log-session')}
         />
       ) : (
         <Body

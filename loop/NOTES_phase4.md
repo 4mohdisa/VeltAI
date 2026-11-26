@@ -16,7 +16,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
-- Last green full suite: Round 124 (346 suites, 2,108 tests). Checkpoint: Round 135.
+- Last green full suite: Round 135 (347 suites, 2,134 tests). Checkpoint: Round 145.
 - Untested flagged: none.
 
 ## Blocked on Isa (park, do not retry)
@@ -24,13 +24,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier.
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier; Energy body stats hint (option 3: unlinked).
 - Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit. Tests rendering Welcome must mock @clerk/clerk-expo. en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-18. Round 134: freeze headline at 0 freezes follows the reason line.
-- Next: Fix 19 (energy hint to /profile/goals; Training and Energy empty states link to Log gym: energy.tsx:185, training.tsx:78-82). Round 135: energy.tsx first, training.tsx next.
+- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-18, Fix 19 Energy empty state.
+- Next: Fix 19 Training empty state to /gym/log-session (training.tsx). Then Energy 'not enough days' chart state (needs an action).
 - Unfixed (fold into a fix or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
 - Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify, comment-only fix later. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected, left alone).
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
@@ -51,6 +51,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts); gym.freeze.confirm has no plural forms.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
+- Jest worker force-exit at end of full run: unexplained, investigate in its own round.
 
 ## Protected (do not edit)
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
@@ -80,7 +81,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
-- Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line.
+- Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line. Round 135: Energy hint stays unlinked (option 3).
 - Food focus re-check parked.
 
 ## Gotchas
@@ -91,5 +92,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
-- 128-134: Fixes 16 to 18 done.
-- 135: Fix 19 energy.tsx (checkpoint round).
+- 128-135: Fixes 16 to 19 (Energy) done.
+- 136: Fix 19 Training empty state.
