@@ -28,6 +28,7 @@ jest.mock('expo-notifications', () => ({ requestPermissionsAsync: jest.fn() }));
 jest.mock('./device', () => ({
   notificationPermission: jest.fn(),
   applySchedule: jest.fn(async () => undefined),
+  clearReminders: jest.fn(async () => undefined),
 }));
 jest.mock('@/lib/api', () => ({ deviceTimeZone: () => 'UTC' }));
 jest.mock('@/lib/data/hooks', () => ({ fetchWeekLogs: jest.fn(async () => []) }));

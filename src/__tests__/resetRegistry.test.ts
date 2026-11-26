@@ -8,7 +8,13 @@ import { useSettingsStore } from '@/lib/settings/store';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { enqueue, loadQueue, pendingCount } from '@/lib/offline/queue';
 import { track, pendingCount as analyticsPending, initAnalytics } from '@/lib/analytics';
-import { getItem } from '@/lib/storage/secureStore';
+import { getItem, setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
+import * as Notifications from 'expo-notifications';
+import { REMINDER_PREFIX } from '@/lib/notifications/device';
+
+const reminder = (identifier: string) =>
+  Notifications.scheduleNotificationAsync({ identifier, content: {}, trigger: null });
+const scheduledIds = async () => (await Notifications.getAllScheduledNotificationsAsync()).map((r) => r.identifier);
 
 test('sign-out clears every store, the offline queue, and persisted keys', async () => {
   // Dirty every store with user data.
@@ -84,4 +90,21 @@ test('every store exposes a reset path (regression guard)', () => {
   expect(typeof useUserStore.getState().resetProfile).toBe('function');
   expect(typeof useSettingsStore.getState().reset).toBe('function');
   expect(typeof useOnboardingStore.getState().reset).toBe('function');
+});
+
+test('sign-out cancels this account\'s reminders and leaves other notifications', async () => {
+  await reminder(`${REMINDER_PREFIX}meal_reminder.Lunch.1`);
+  await reminder('other-app-alarm');
+  await resetAllStores();
+  expect(await scheduledIds()).toEqual(['other-app-alarm']);
+});
+
+test('a failure clearing reminders does not stop the rest of sign-out', async () => {
+  const read = jest.spyOn(Notifications, 'getAllScheduledNotificationsAsync').mockRejectedValueOnce(new Error('denied'));
+  // The persisted keys are deleted after reminders are cleared, so this one shows sign-out went on.
+  await setItem(STORAGE_KEYS.notificationDayKey, '2026-11-27');
+  await expect(resetAllStores()).resolves.toBeUndefined();
+  expect(read).toHaveBeenCalled();
+  expect(await getItem(STORAGE_KEYS.notificationDayKey)).toBeNull();
+  read.mockRestore();
 });

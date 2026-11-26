@@ -11,6 +11,7 @@ import { deleteItem, setHasCompletedOnboarding, STORAGE_KEYS } from '@/lib/stora
 import { resetAnalytics } from '@/lib/analytics';
 import { AI_CONSENT_KEY, __resetAiConsentCache } from '@/lib/ai/consent';
 import { __resetForTests as resetOfflineQueue } from '@/lib/offline/queue';
+import { clearReminders } from '@/lib/notifications/device';
 
 // Persisted secure-store keys owned by the app (beyond the zustand-persist ones).
 //
@@ -52,6 +53,9 @@ export async function resetAllStores({ keepOnboarding = false }: { keepOnboardin
   // Analytics buffer (in-memory + persisted) — unsent events must never be
   // attributed to the next account on this device.
   await resetAnalytics().catch(() => {});
+
+  // This account's reminders must not fire for the next one on this device.
+  await clearReminders().catch(() => {});
 
   // Persisted flags/keys.
   await setHasCompletedOnboarding(false).catch(() => {});

@@ -93,6 +93,7 @@
           "^expo-secure-store$": "<rootDir>/src/__tests__/mocks/expoSecureStore.ts",
           "^expo/virtual/env$": "<rootDir>/src/__tests__/mocks/expoVirtualEnv.js",
           "^expo-constants$": "<rootDir>/src/__tests__/mocks/expoConstants.ts",
+          "^expo-notifications$": "<rootDir>/src/__tests__/mocks/expoNotifications.ts",
           "^@/(.*)$": "<rootDir>/src/$1"
         },
         "transformIgnorePatterns": [

@@ -3,7 +3,7 @@
 // own notifications (identifier prefix), with rollback when a schedule fails.
 import * as Notifications from 'expo-notifications';
 
-import { applySchedule, notificationPermission, REMINDER_PREFIX } from '@/lib/notifications/device';
+import { applySchedule, clearReminders, notificationPermission, REMINDER_PREFIX } from '@/lib/notifications/device';
 import type { ScheduledNotification } from '@/lib/notifications/types';
 import en from '@/lib/i18n/locales/en.json';
 
@@ -100,5 +100,25 @@ describe('applySchedule', () => {
       `Could not schedule ${REMINDER_PREFIX}streak_at_risk.all.${STREAK.fireAt.getTime()}: quota reached`,
     );
     expect(N.cancelScheduledNotificationAsync.mock.calls).toEqual([[OLD_OWN], [firstId]]);
+  });
+});
+
+describe('clearReminders', () => {
+  test('cancels every Lume reminder and leaves other notifications alone', async () => {
+    const otherOwn = `${REMINDER_PREFIX}meal_reminder.Breakfast.2`;
+    N.getAllScheduledNotificationsAsync.mockResolvedValue([
+      { identifier: FOREIGN },
+      { identifier: OLD_OWN },
+      { identifier: otherOwn },
+    ] as Notifications.NotificationRequest[]);
+    await clearReminders();
+    expect(N.cancelScheduledNotificationAsync.mock.calls).toEqual([[OLD_OWN], [otherOwn]]);
+    expect(N.scheduleNotificationAsync).not.toHaveBeenCalled();
+  });
+
+  test('with nothing of Lume scheduled, cancels nothing', async () => {
+    N.getAllScheduledNotificationsAsync.mockResolvedValue([{ identifier: FOREIGN }] as Notifications.NotificationRequest[]);
+    await clearReminders();
+    expect(N.cancelScheduledNotificationAsync).not.toHaveBeenCalled();
   });
 });

@@ -11893,3 +11893,7 @@
 - 2026-11-27 01:10 Round 47 run kept over Jev's ask (84%). Concrete reason Jev cannot see: the quiet hours question in the report is already decided in Decisions (meal and streak dropped, workout and weekly moved to quiet end), and the brief forbids asking. Recorded again in notes.
 - 2026-11-27 01:10 Round 47 is the full tsc and Jest checkpoint the notes already scheduled, so it comes before the sign-out and push token tasks.
 - 2026-11-27 01:10 Report item 'meal reminders in quiet hours' treated as decided, not as an open question for Isa.
+- 2026-11-27 01:11 Round 47 checkpoint green (tsc 0, Jest 319 suites, 1,975 tests); no fix needed.
+- 2026-11-27 01:11 Round 48 picks sign-out reminder clearing: a privacy correctness issue, one small change, no Isa input needed. Jev ranked the same options; the notes order already put it first.
+- 2026-11-27 01:11 Permission-grant rescheduling and the push endpoint stay queued as next items 3 and 4.
+- 2026-11-27 01:11 Open design items (UTC fallback, same-day permission wait, app-start run before sign-in) are recorded as decisions for Isa to rule on later; they do not block.

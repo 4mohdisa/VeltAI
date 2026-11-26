@@ -27,12 +27,17 @@ async function cancelOwn(identifiers: string[]): Promise<void> {
   await Promise.all(identifiers.map((id) => Notifications.cancelScheduledNotificationAsync(id)));
 }
 
+/** Cancels every notification Lume scheduled (REMINDER_PREFIX) and nothing else. */
+export async function clearReminders(): Promise<void> {
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  await cancelOwn(scheduled.map((r) => r.identifier).filter((id) => id.startsWith(REMINDER_PREFIX)));
+}
+
 /** Replaces Lume's scheduled notifications with `list`. If one fails to
  *  schedule, the ones this call already scheduled are cancelled and the call
  *  rejects, so the device never keeps half a schedule. */
 export async function applySchedule(list: ScheduledNotification[]): Promise<void> {
-  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
-  await cancelOwn(scheduled.map((r) => r.identifier).filter((id) => id.startsWith(REMINDER_PREFIX)));
+  await clearReminders();
 
   const added: string[] = [];
   for (const n of list) {
