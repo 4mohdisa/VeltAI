@@ -14,23 +14,25 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits. About every 5 rounds (next due Round 182).
 
-## State (Round 179)
+## State (Round 180)
 - BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 15, 31. DIFFERENT: 16-28, 30.
 - Round 177 checkpoint green: tsc 0, Jest 350/350 suites, 2,190 tests.
 
 ## Row 15 (in progress)
-- Done: gym 77.9, recipes 82.1, integrations 88.4, scan 79.3, food 84.0, auth 87.7.
-- Order (Round 170): debugreports (0, Round 179), analytics (63.4), then scan and gym leftovers.
+- Done: gym 77.9, recipes 82.1, integrations 88.4, scan 79.3, food 84.0, auth 87.7, debugreports 96.3.
+- Order (Round 170): analytics (63.4, Round 180), then scan and gym leftovers, auth and food leftovers.
 - Scan leftovers: runScanPipeline 50.0, Register 66.2, CalibrationReport 60.0.
 - Food leftovers: summary 66.7, listSaved 57.1, dietaryScore 61.9, optFloat 44.4, toFloat 60.0.
 - Auth leftover: RegisterWebhook 68.6, error branches.
 - Gym leftovers: patchSession, patchExercise, lastLogged, listTemplates.
 - Measure: go test -coverpkg=./internal/<pkg> ./... (plain -cover undercounts).
-- Shared test helper (testPool, testUser) duplicated in gym, recipes, integrations, food. Needs Isa approval.
+- Shared test helper (testPool, testUser) copied in gym, recipes, integrations, food, debugreports (five copies). Needs Isa approval.
 - tests/scan/learning_store_pg_test.go kept (test only). Isa may move it.
 
 ## Parked (fix only in its row)
+- Debugreports: explicit "context": null is saved as JSON null, not {} (debugreports.go:61). Production fix needs approval.
+- Debugreports retry does not update captured_at, trigger, route, app_version, build_number. Check if deliberate; add a comment or test.
 - Scanned food log delete fails: scan_sessions.food_log_id has no ON DELETE rule (food/pg.go:145). Needs migration.
 - Recipe and saved meal ORDER BY random UUID (pg.go:126, 292). Needs migration.
 - Integrations: sync stops at 50 Strava or 25 WHOOP items. Expired token with no refresh gives 502. WHOOP external user ID never set.
@@ -87,7 +89,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 172: checkpoint is read only (tsc, full Jest, go vet).
 - Round 176: food done at 84.0. Kept tests/scan/learning_store_pg_test.go (test only).
 - Round 178: auth done at 87.7 (Jev's pick accepted). No production change.
-- Round 179: debugreports next by Round 170 order (0 percent). Analytics follows.
+- Round 179: debugreports done at 96.3. No production change.
+- Round 180: analytics next (Round 170 order). Null context bug parked, not fixed.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. zsh needs xargs -0 for 350 paths.
@@ -107,4 +110,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 169-171: Row 15 steps 1-2, verify:go gate.
 - 173-176: Row 15 recipes, integrations, scan, food (84.0).
 - 178: Row 15 auth (87.7).
-- 179: Row 15 debugreports (in progress).
+- 179: Row 15 debugreports (96.3).
+- 180: Row 15 analytics (in progress).

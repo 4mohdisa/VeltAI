@@ -12472,3 +12472,8 @@
 - 2026-11-27 06:41 Round 179: debugreports chosen over analytics because Round 170 order puts it first and it is at 0 percent. Claude Code suggested analytics; order kept.
 - 2026-11-27 06:41 Round 179: auth is done at 87.7 percent and removed from the in-progress list; RegisterWebhook error branches parked as a small follow-up.
 - 2026-11-27 06:41 Round 179: the stale Under 70 list in BACKEND_COVERAGE.md is fixed inside this row because the row names that file.
+- 2026-11-27 06:45 Round 180 picks analytics (63.4) per the Round 170 order (gym, recipes, integrations, scan, debugreports, analytics, auth, food). Jev ranked the same candidates in the same order, so no second look.
+- 2026-11-27 06:45 Debugreports (96.3 percent) accepted as done: its tests pass under -race and none were skipped. No production change in that round.
+- 2026-11-27 06:45 The explicit null context bug in debugreports.go:61 is parked for Row 15 and is not in scope for a test row. Fix needs Isa's approval for a production change, or a later step in its row.
+- 2026-11-27 06:45 The debugreports retry that keeps captured_at, trigger, route, app_version and build_number unchanged is recorded as a question to check, not a bug.
+- 2026-11-27 06:45 Checkpoint stays due at Round 182 (full tsc and Jest, read only).

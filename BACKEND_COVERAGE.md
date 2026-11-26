@@ -12,7 +12,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 | `cmd/server` | 7.6% | 7.6% | Yes |
 | `internal/ai` | 6.2% | 77.4% | No |
 | `internal/aiquota` | 0.0% | 97.4% | No |
-| `internal/analytics` | 0.0% | 63.4% | Yes |
+| `internal/analytics` | 78.0% | 97.6% (Round 180, was 0.0% and 63.4%) | No |
 | `internal/auth` | 54.7% | 87.7% (Round 178, was 32.1% and 69.5%) | No |
 | `internal/buildinfo` | 0.0% | 87.0% | No |
 | `internal/config` | 0.0% | 83.2% | No |
@@ -44,7 +44,6 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Under 70 percent (next round: table driven tests)
 
 - `cmd/server` (7.6%)
-- `internal/analytics` (63.4%)
 - `internal/db` (0.0%)
 - `scripts` (2.5%)
 - `tools/afcd` (0.0%)
@@ -74,3 +73,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 179
 
 - `internal/debugreports`: 0.0% to 96.3% with all tests counted. New `internal/debugreports/debugreports_internal_test.go`: TestPG tests for the POST validation table (bad JSON, wrong type, missing client_id or title, the 12 MB body cap), post and list (newest first, only the caller's reports, a retried client_id updates the row and keeps the screenshot, no screenshot in the list, a missing context defaults to {}), the fallback capture time, and the 500 paths through a failing store. The Under 70 list above no longer names auth, debugreports, food, integrations, recipes or scan, which have all passed 70 percent (see their round entries).
+
+## Round 180
+
+- `internal/analytics`: 63.4% to 97.6% with all tests counted, and 0.0% to 78.0% from its own tests. New `internal/analytics/pg_internal_test.go`: TestPG tests for `PGStore.InsertEvents` (empty batch, valid batch, a bad event rolls back the whole batch, a user with no profile is refused, another user's events untouched) and for the ingest route on top of it (invalid JSON, session_id one over and at the limit, null properties stored as {}), plus the 500 path through a failing store. Only the failed-transaction-start branch of `InsertEvents` is still uncovered.
