@@ -1,10 +1,13 @@
 // PHASE3_ROWS.md row 14, Food tab anomaly banner. A failed insights read used to
 // leave the banner slot silently empty; the Food tab now reads useInsights'
-// isError and shows the shared ErrorState there instead. Mounts the real screen
-// (the foodLogRowMotion.render.test.tsx pattern) with useInsights mocked.
+// isError and shows the shared ErrorState there instead. Fix 17 (DESIGN_INTENT.md):
+// the insights read waits for AI consent. Mounts the real screen (the
+// foodLogRowMotion.render.test.tsx pattern) with useInsights and the consent
+// check mocked.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FoodLogScreen from '@/app/(tabs)/food';
+import { hasAiConsent } from '@/lib/ai/consent';
 import { useInsights } from '@/lib/data/aiBrain';
 import { useFoodStore } from '@/lib/data/foodStore';
 import type { AIAnomaly } from '@/lib/api';
@@ -19,6 +22,8 @@ jest.mock('@/components/display/LoadingSkeleton', () => ({
 
 jest.mock('@/lib/data/aiBrain', () => ({ useInsights: jest.fn() }));
 
+jest.mock('@/lib/ai/consent', () => ({ hasAiConsent: jest.fn() }));
+
 const METRICS: Metrics = {
   frame: { x: 0, y: 0, width: 393, height: 852 },
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
@@ -32,15 +37,17 @@ const ANOMALY: AIAnomaly = {
   created_at: '2026-01-01T00:00:00.000Z',
 };
 
-const insights = (isError: boolean, anomalies: AIAnomaly[]) => ({
+const insights = (isError: boolean, anomalies: AIAnomaly[], loading = false) => ({
   insights: [],
   anomalies,
-  loading: false,
+  loading,
   isError,
   dismiss: jest.fn(),
 });
 
 beforeEach(() => {
+  (hasAiConsent as jest.Mock).mockResolvedValue(true);
+  (useInsights as jest.Mock).mockClear();
   useFoodStore.getState().reset();
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() =>
     Promise.resolve({ ok: true, status: 200, json: async () => ({ data: [], error: null }) }),
@@ -79,4 +86,27 @@ test('a successful insights read keeps the anomaly banner and no ErrorState', as
   expect(errorStates(tree)).toHaveLength(0);
   expect(hasText(tree, 'Unusual spike in sodium')).toBe(true);
   expect(hasText(tree, 'Something went wrong')).toBe(false);
+});
+
+test('without AI consent no insights read is made, and the slot shows nothing, not an error', async () => {
+  (hasAiConsent as jest.Mock).mockResolvedValue(false);
+  (useInsights as jest.Mock).mockReturnValue(insights(true, [ANOMALY]));
+  const tree = await renderFoodLog();
+  expect(useInsights).not.toHaveBeenCalled();
+  expect(errorStates(tree)).toHaveLength(0);
+  expect(hasText(tree, 'Unusual spike in sodium')).toBe(false);
+});
+
+test('with AI consent the insights read is made', async () => {
+  (useInsights as jest.Mock).mockReturnValue(insights(false, []));
+  await renderFoodLog();
+  expect(useInsights).toHaveBeenCalled();
+});
+
+test('while the read loads the slot shows neither the banner nor an error', async () => {
+  (useInsights as jest.Mock).mockReturnValue(insights(false, [], true));
+  const tree = await renderFoodLog();
+  expect(useInsights).toHaveBeenCalled();
+  expect(errorStates(tree)).toHaveLength(0);
+  expect(hasText(tree, 'Unusual spike in sodium')).toBe(false);
 });

@@ -12257,3 +12257,8 @@
 - 2026-11-27 04:27 Fix 16 (round 128) recorded under Blocked on Isa after the second automatic flag. Not retried. Its tsc and Jest results were reported as green but not confirmed by the check; the Round 135 full suite is the recheck.
 - 2026-11-27 04:27 Renumbered: the welcome fix is Fix 17 now; the Food tab insights fix becomes Fix 18.
 - 2026-11-27 04:27 Notes rewritten to under 600 words; finished work merged or deleted. Nothing deleted from the decisions list.
+- 2026-11-27 04:42 Run, not ask: Jev's 52% ask is not an option under the no questions rule; run chosen over stop (Jev 8%).
+- 2026-11-27 04:42 Fix 16 recheck is step 2: Fix 18 reads through useInsights, so Overrides rule 8 applies first.
+- 2026-11-27 04:42 Fix 17 accepted as done: 3 suites, 14 tests pass. Its Done line was misfiled under Fix 6 and is moved in step 3.
+- 2026-11-27 04:42 Welcome work touched a second test file (onboardingIndex.render) with a Clerk mock: accepted, it stops the Jest hang.
+- 2026-11-27 04:42 Kept to one screen and 5 steps because Jev's risk score is high (1.8); smaller steps reduce drift.

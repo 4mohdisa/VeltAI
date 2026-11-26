@@ -16,42 +16,38 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
 - Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135 (handover).
-- Untested flagged work: Fix 16 (round 128), see Blocked.
+- Untested flagged: Fix 16 (round 128). Recheck in round 130 (step 2).
 
 ## Blocked on Isa (park, do not retry)
-- Fix 16 (round 128): automatic check flagged it twice (tsc or tests not confirmed). Parked. Round 135 full suite is the recheck.
-- Rows 5, 8, 9: consent copy, win back and leaving copy, Apple Retention access, sandbox URL, expired, cancelled, past_due runs, 7c iOS public key.
+- Fix 16: flagged twice. Round 135 full suite is the final recheck.
+- Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording.
-- Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit.
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier.
+- Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit. Any test rendering Welcome must mock @clerk/clerk-expo or Jest hangs. en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- Done: Fixes 1-15b. Fix 12 option A. Fix 15a consent returns to asker. Fix 15b ai-query Back falls back to Food. Fix 16 insights error with Retry (round 128, flagged, see Blocked).
-- Next: Fix 17 welcome sign-in for signed-in user with no record (round 129). Then Fix 18: Food tab insights before consent (food.tsx:202).
+- Done: Fixes 1-15b (Fix 12 option A; 15a consent returns to asker; 15b ai-query Back fallback). Fix 16 insights error with Retry (flagged). Fix 17 Welcome hides Sign in for signed-in user with no record (round 129, 3 suites, 14 tests pass).
+- Next: Fix 18 Food insights before consent (food.tsx:202), after Fix 16 recheck.
 - Unfixed (fold into a fix or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
-- Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
-- Owner decisions pending: Terms describe a free tier; per-set gym history needs a backend change.
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
-- Tooling: en.json fails Prettier; detail.tsx and foodDetailLogged test fail Prettier at HEAD. Never --write.
 
 ## Row 14a: parked
-- Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
+- Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip render tests.
 - Parked: chip wiring, feature_rated analytics, Settings feedback screen, Ask me for feedback switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md. Wire or delete the chip before Row 31.
 
 ## Parked: legal
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Parked: other (fix only in its row)
-- Shared helper for 'open Apple's page, else failure toast' (subscription.tsx, delete-account.tsx, leaving.tsx).
-- Leaving feedback rows grouped only by the leaving_reason: prefix.
+- Shared helper for 'open Apple's page, else failure toast' (subscription, delete-account, leaving).
 - Push: DELETE after session 401; stale tokens never removed; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated in ai-consent and ai-query (shared helper in nav.ts).
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -75,7 +71,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Expired: Subscription, then win back, then paywall. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag off by default; message keys only; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00-07:00; all off by default; permission only after priming says yes.
-- Push token: secure storage after 204 (STORAGE_KEYS.pushToken). Sign-out deletes the saved copy only after DELETE succeeds.
+- Push token: secure storage after 204 (STORAGE_KEYS.pushToken). Sign-out deletes saved copy only after DELETE succeeds.
 - Health: no denied state for reads; null when not granted or no data.
 - Legal: copy in en.json; UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
@@ -83,14 +79,13 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
-- Prettier on en.json: not reformatted.
-- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 123: Fix 13 chosen. Round 124: checkpoint green.
-- Round 126: Fix 15a. Consent Back and Not now go back, not to the origin, to avoid a loop.
-- Round 127: Fix 15b. ai-query keeps its own header; Back fallback changed in place.
-- Round 129: Welcome chosen over Fix 18 (Food insights). Fix 18 reads through useInsights, the hook changed in Fix 16 that was flagged, so it depends on the unverified work. Jev's 83% pick was for Fix 18; kept the welcome fix for this reason.
+- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green.
+- Round 126: Fix 15a; consent Back goes back, not to origin. Round 127: Fix 15b.
+- Round 129: Welcome (Fix 17) chosen over Fix 18 because Fix 18 depends on unverified Fix 16.
+- Round 130: Fix 18 chosen after a Fix 16 recheck (step 2). Stop if Fix 16 still fails.
 
 ## Gotchas
-- Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
+- Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
 - Lint: no setState in effect body; use guarded .then. Render tests: *.render.test.tsx.
 - Mock Clerk to avoid the MessagePort that stops Jest exiting. expo-notifications is native: mock in tabs layout tests.
 - Paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
@@ -98,4 +93,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
 - 128: Fix 16 done, flagged by automatic check, parked under Blocked.
-- 129: Fix 17 welcome (running). Fix 18 Food insights next.
+- 129: Fix 17 Welcome done (3 suites, 14 tests). Done line misfiled under Fix 6; moved in round 130.
+- 130: Fix 16 recheck, then Fix 18 Food insights before consent (running).

@@ -155,6 +155,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 16. **Insights shows its error state when the read fails**, not "no insights" (`insights.tsx:51`).
    - Done (Round 128): `useInsights` now also returns `refetch`; its success values are unchanged. A failed feed read shows the shared `ErrorState` (its own default copy, no new strings) with Retry, which reads the feed again; "No insights yet" shows only after a read that succeeds with no items. Test: `src/__tests__/render/insightsFeedStates.render.test.tsx`.
 17. **The Food tab does not fetch insights before AI consent** (`food.tsx:202`).
+   - Done (Round 130, asked for as "Fix 18"): the Food tab checks `hasAiConsent()` (the shared check the Insights screen uses) on mount, and only then mounts the anomaly banner's own component, which is what calls `useInsights`. Without consent no insights request is made and the slot shows nothing, not an error; with consent the banner, its error state and its loading behaviour are unchanged. No new strings. Tests: `src/__tests__/render/food.anomalyError.render.test.tsx`, `src/__tests__/phase14Regression.test.ts`.
 18. **Streak freezes open `/gym/freeze`; Freeze explains why it is disabled at 0** (`streak.tsx:52-54`, `freeze.tsx:49,66`).
 19. **Energy "add body stats" hint opens `/profile/goals`.** Training and Energy empty states link to Log gym (`energy.tsx:185`, `training.tsx:78-82`).
 20. **One week rule.** Summary Workouts and the Training detail both count Monday to Sunday (`summaryCards.ts:58`, `training.tsx:114-117`).

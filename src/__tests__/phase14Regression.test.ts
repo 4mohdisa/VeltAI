@@ -204,29 +204,15 @@ describe('claim 3 · third-party-AI consent', () => {
     ordered(src, 'if (!granted)', '<InsightsInner />', 'insights');
   });
 
-  // DISCREPANCY (documented, not asserted as desired): the Food tab makes the
-  // only useInsights() call (AnomalyBanner takes props) → GET /api/ai/insights (+ the
-  // routeless /api/ai/anomalies) with NO consent gate. Those two are pure DB
-  // reads server-side (ai.listInsights only calls Store.ListInsights; there is
-  // no /api/ai/anomalies route at all), so no personal data reaches a third
-  // party before consent — the privacy substance of 5.1.2(i) holds. But the
-  // comment in app/insights.tsx justifying its gate ("the feed's GET can
-  // trigger Anthropic generation server-side") is FALSE: only
-  // /api/ai/morning-brief and /api/ai/query call the LLM, and both are gated.
-  // This test pins the real wiring so a future change that makes listInsights
-  // generate (and thus leak pre-consent) fails here.
-  test('actual behaviour: the Food-tab anomaly banner fetches insights ungated', () => {
+  // The Food tab's anomaly banner is the one useInsights() call outside the
+  // Insights screen. It used to read GET /api/ai/insights with no consent gate;
+  // it now mounts the reading component only once hasAiConsent() is true, the
+  // same gate as the Insights screen (DESIGN_INTENT.md Fix 17).
+  test('the Food-tab anomaly banner reads insights only after consent', () => {
     const food = read('app/(tabs)/food.tsx');
     expect(food).toContain('<AnomalyBanner');
-    expect(food).toContain('anomalies={anomalies}');
     expect(food).toContain('useInsights()');
-    expect(food).not.toContain('AiConsent');
-    const brain = read('lib/data/aiBrain.ts');
-    // useInsights has no consent gate today…
-    const useInsightsBody = brain.slice(brain.indexOf('export function useInsights'), brain.indexOf('export function useBrainProfile'));
-    expect(useInsightsBody).not.toContain('hasAiConsent');
-    // …and that is only acceptable while these endpoints stay DB-only reads.
-    expect(useInsightsBody).toContain('api.ai.getInsights()');
+    ordered(food, 'void hasAiConsent().then', '{aiConsent ? <InsightsBanner /> : null}', 'food');
   });
 
   test('the morning brief fetches nothing before consent', () => {

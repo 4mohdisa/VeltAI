@@ -66,6 +66,7 @@ import { fromIso, useLoggedDays } from '@/lib/data/foodDays';
 import { WeekStrip } from '@/components/food/WeekStrip';
 import { openFoodDetail, useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
 import { useInsights } from '@/lib/data/aiBrain';
+import { hasAiConsent } from '@/lib/ai/consent';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/lib/types';
 import type { FoodResult, MealSlot } from '@/lib/mock/data';
@@ -199,7 +200,19 @@ export default function FoodLogScreen() {
   // Same duration token the tab bar's "+" rotation and the root stack's push
   // use (motion.duration.snap); Reduce Motion drops the vertical slide and
   // keeps only the fade (HIG §7.3), same rule AddMenu follows.
-  const { anomalies, isError: insightsError, dismiss: dismissInsight } = useInsights();
+  // 5.1.2(i): the insights read waits for AI consent, as the Insights screen
+  // does. Without it the banner slot stays empty; consent is asked where an AI
+  // feature starts (Insights, scans, Ask Lume).
+  const [aiConsent, setAiConsent] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void hasAiConsent().then((ok) => {
+      if (active && ok) setAiConsent(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
   const reduceMotion = useReduceMotion();
   const rowEntering = reduceMotion ? FadeIn.duration(motion.duration.snap) : FadeInDown.duration(motion.duration.snap);
   const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
@@ -454,13 +467,7 @@ export default function FoodLogScreen() {
         // never remounts (no focus loss) when results appear.
         ListHeaderComponent={
           <View style={{ paddingBottom: 14, gap: 14 }}>
-            {/* Amber anomaly banner — renders null when there are none, ErrorState when the insights read failed. */}
-            <AnomalyBanner
-              anomalies={anomalies}
-              isError={insightsError}
-              onPress={() => router.push('/insights' as Href)}
-              onDismiss={(id) => dismissInsight(id, 'anomaly')}
-            />
+            {aiConsent ? <InsightsBanner /> : null}
             {/* Eyebrow + large title inside the scroll — the design's header. The
                 eyebrow names the day being shown, which is no longer always today
                 (architecture item 3). */}
@@ -724,6 +731,21 @@ export default function FoodLogScreen() {
 // the hero number and the macro totals beneath it, each over a bar that fills
 // against the user's own target. There is deliberately no "left today" figure
 // and no calorie progress bar (UI_PASS_GAPS.md §2).
+/** Amber anomaly banner: null when there are none, ErrorState when the insights
+ *  read failed. Its own component so useInsights mounts, and reads, only after
+ *  AI consent. */
+function InsightsBanner() {
+  const { anomalies, isError, dismiss } = useInsights();
+  return (
+    <AnomalyBanner
+      anomalies={anomalies}
+      isError={isError}
+      onPress={() => router.push('/insights' as Href)}
+      onDismiss={(id) => dismiss(id, 'anomaly')}
+    />
+  );
+}
+
 function CaloriesCard({
   total,
   macros,
