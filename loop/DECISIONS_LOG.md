@@ -12287,3 +12287,9 @@
 - 2026-11-27 04:54 Notes rewritten under 600 words: finished work removed, repeats merged.
 - 2026-11-27 04:54 Jev ranks run first at 87%, matching my pick. Risk 1.0 accepted: nothing in this task depends on Isa or a hosted service.
 - 2026-11-27 04:54 Energy 'not enough days' empty state and the Jest force exit stay in NEXT, not in this round.
+- 2026-11-27 04:55 Chose Fix 20 over the Energy empty state: it is smaller, concrete and has a clear test. Jev also ranks run at 76%.
+- 2026-11-27 04:55 Kept one screen per prompt and max 5 steps, per override 4. Fix 20 touches two call sites through one helper.
+- 2026-11-27 04:55 Jest force-exit investigation stays parked until the Fix list is closed, because it needs a full run and a longer round.
+- 2026-11-27 04:58 Round 138: last prompt rejected for naming two screens, so Fix 20 is split: helper plus summaryCards first, training.tsx second. Reason: one screen per prompt.
+- 2026-11-27 04:58 Round 138: notes rewritten under 600 words, finished items removed, repeats merged. Reason: loop note asked for it.
+- 2026-11-27 04:58 Round 138: Jev ranking agrees with the recommended Fix 20 task. No override.
