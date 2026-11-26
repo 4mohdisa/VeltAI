@@ -144,7 +144,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 11. **Food history day rows open that day** with `setSelectedDate`, the same way the calendar does (`history.tsx:150`).
    - Done (Round 120): food history day rows open that day.
 12. **Food calorie card opens `/dashboard/nutrition`** (`food.tsx:709-752`).
-   - Parked (Round 121): the card has no onPress today. Opening Nutrition for the day viewed on the Food tab needs Nutrition to take a date, and it cannot within one small change: it reads `useDailyMacros` and `useFibreConsumed`, which Fix 2 pinned to today in `src/lib/data/hooks.ts` (outside this round's files), and at least six of its labels say "today" (`nutrition.caloriesToday`, `remainingToday`, `todayAgainstTargets`, `mealsToday`, `noMealsToday`, the `formatRelativeDate(new Date())` note), which would need new strings for a past day. Options for Isa: open Nutrition from the card only when the Food tab shows today, or a dated Nutrition (hooks take a date, labels for other days).
+   - Done (Round 122): the calorie card links to Nutrition for today only (option A). While the Food tab shows today the card opens `/dashboard/nutrition`; on any other day it is a plain card with no tap. Nutrition, its labels and the hooks are unchanged. Test: `src/__tests__/render/foodCalorieCard.render.test.tsx`.
 13. **Custom food: save fibre, and log it when the user came from "no matches"** (`custom-food.tsx:38-47`).
 14. **Saved dish: allow a portion change, then log** from the detail sheet (`detail.tsx:276-309`).
 15. **AI consent returns to the screen that asked**, and ai-query's Back falls back when there is no history (`ai-consent.tsx:29,57`, `ai-query.tsx:73`).

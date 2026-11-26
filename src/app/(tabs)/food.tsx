@@ -521,7 +521,13 @@ export default function FoodLogScreen() {
               />
             ) : null}
             {!searching && !loading && !loadError && itemCount > 0 ? (
-              <CaloriesCard total={total} macros={macroTotals} energyUnit={energyUnit} />
+              <CaloriesCard
+                total={total}
+                macros={macroTotals}
+                energyUnit={energyUnit}
+                // Nutrition shows today only, so the card opens it only for today.
+                onPress={selectedDate === todayISO() ? () => router.push('/dashboard/nutrition') : undefined}
+              />
             ) : null}
             <TextField
               placeholder={t('foodLog.searchPlaceholder')}
@@ -722,10 +728,12 @@ function CaloriesCard({
   total,
   macros,
   energyUnit,
+  onPress,
 }: {
   total: number;
   macros: { protein: number; carbs: number; fat: number; fibre: number };
   energyUnit: ReturnType<typeof useUnitPreferences>['energy'];
+  onPress?: () => void;
 }) {
   const { t } = useTranslation();
   const goals = useGoals().data;
@@ -736,7 +744,7 @@ function CaloriesCard({
     { name: t('nutrition.fibre'), tint: categoryAccent.fibre, value: macros.fibre, target: goals.fibre },
   ];
   return (
-    <Card variant="elevated" style={{ gap: space.lg }}>
+    <Card variant="elevated" onPress={onPress} style={{ gap: space.lg }}>
       <CardHeaderRow title={t('gymLog.celebration.calories')} icon="flame.fill" tint={categoryAccent.calories} />
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
         <Text variant="statLarge" color={color.label}>

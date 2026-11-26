@@ -12220,3 +12220,8 @@
 - 2026-11-27 04:07 food.tsx is named explicitly for Fix 12. The latest report said it was off limits last round, and that no longer applies.
 - 2026-11-27 04:07 The stale handover Next (Fix 5) is ignored because Fix 5 is done (Round 120).
 - 2026-11-27 04:07 The loop note rewrite was done here: the notes were cut to under 600 words by merging repeated items.
+- 2026-11-27 04:08 Round 122 runs tsc and the Round 120-121 suites first, because the loop note flagged that the last report's checks were not run (override 8).
+- 2026-11-27 04:08 Fix 12 uses option A (card links only when the selected day is today). It is a small change in food.tsx and avoids showing today's numbers under a past day. Option B (dated Nutrition) is parked as a later post-launch item, because it needs hook and label changes outside this fix.
+- 2026-11-27 04:08 Fix 12 is one screen per prompt, within the 5-step limit (override 4).
+- 2026-11-27 04:08 The Jev signal (ask 64%) is not followed: action ask is forbidden. The advisory risk of 1.5 is handled by running tsc and the related suites first and keeping the task to one small change.
+- 2026-11-27 04:08 The Fix 12 option question is decided here instead of being sent to Isa, per the no-questions rule.

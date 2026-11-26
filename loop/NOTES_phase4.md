@@ -16,11 +16,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
 - Green checkpoints: 66, 80, 95, 109, 114. Next checkpoint about Round 123.
+- Round 121 tsc and tests were not run. Round 122 re-runs them first.
 
 ## Row 14b (open)
-- Done: Fixes 1-11. Fix 10: leaving survey via feedback API (category account, leaving_reason: key). Fix 11: food history day rows open that day (Round 121 log: Round 120).
-- Next: Fix 12 (Food calorie card opens /dashboard/nutrition, food.tsx ~709-752; must open selected day). Then Fix 13 (close DESIGN_INTENT.md).
-- Unfixed items (pick into a fix or park at closure): targets reuses earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; Gym tab has no logged pill (look change, parked); history.tsx isoDaysAgo repeats isoDate in foodDays.ts.
+- Done: Fixes 1-11.
+- Round 122: Fix 12 (option A, card links to Nutrition for today only). Then Fix 13 (custom food saves fibre, logs food after 'no matches'), then close DESIGN_INTENT.md.
+- Unfixed (pick into a fix or park at closure): targets reuses earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; Gym tab has no logged pill (look change, parked); history.tsx isoDaysAgo repeats isoDate in foodDays.ts; Food tab calorie card links nowhere; Manage subscription open-or-toast code in three places.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decisions pending: Terms describe a free tier; per-set gym history needs a backend change.
 - Drop the stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
@@ -43,27 +44,27 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
-- Shared helper for 'open Apple's page, else failure toast': three copies (subscription.tsx, delete-account.tsx, leaving.tsx). One helper in a later code pass.
+- Shared helper for 'open Apple's page, else failure toast' (subscription.tsx, delete-account.tsx, leaving.tsx). Later code pass.
 - Leaving feedback rows grouped only by the leaving_reason: prefix.
 - Push: DELETE after session 401; stale tokens never removed; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings (body emoji, A$, Your data, server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48 and label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
+- Code: hardcoded strings (body emoji, A$, Your data, server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Protected (do not edit)
-src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches instead).
+src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
-- Fix 5 follow-up over Fix 7. Paywall checks server record first. Fix 6: no record and no answers goes to /onboarding/goal.
-- Fix 8: units saved to settings store on measurements Continue via setUnit.
-- Fix 9: macros split from adjusted calorie target on client and server (one shared helper each).
-- Fix 10: survey via existing feedback API (category account, leaving_reason: key, no note, no migration). Manage subscription via existing helper.
+- Paywall checks server record first. No record and no answers goes to /onboarding/goal.
+- Units saved to settings store on measurements Continue via setUnit.
+- Macros split from adjusted calorie target on client and server (one shared helper each).
+- Leaving survey via feedback API (category account, leaving_reason: key, no note, no migration). Manage subscription via existing helper.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows. Clerk failure gives 502 and keeps rows. Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
@@ -83,7 +84,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
 - Round 120: stale handover Next (Fix 5) ignored; Fix 5 done.
-- Round 121: Jev risk 0.9 advisory. Kept the round to one screen.
+- Round 122: Fix 12 option A chosen (card links for today only). Option B (dated Nutrition) parked as post-launch.
+- Round 122: Jev ask advice not followed (ask is forbidden); tsc and related suites run first.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -95,6 +97,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
 - 109: checkpoint green. 110-115: Fixes 5-8.
 - 117-118: Fix 9 done; backend change outside named files kept.
-- 119: Fix 10 issued. 120: Fix 10 done.
-- 121: Fix 11 done (history rows open the day). Fix 12 issued.
+- 119-120: Fix 10 done. 121: Fix 11 done. Fix 12 parked (no code changed).
+- 122: tsc and Round 120-121 suites re-run; Fix 12 option A.
 - Last handover Round 107. Next handover after Round 135 (15 rounds).
