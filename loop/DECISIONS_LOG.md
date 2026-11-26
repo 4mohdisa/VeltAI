@@ -12278,3 +12278,7 @@
 - 2026-11-27 04:49 Chose the freeze headline fix first: the contradiction is visible to the user, the change is one string and one comment, and the report flagged it as a follow-up to Fix 18. Fix 19 goes next round.
 - 2026-11-27 04:49 Kept the rule that new strings use en.json only (Isa override: English only, es and fr deferred).
 - 2026-11-27 04:49 Jev signal (run 98%, last task clean 93%) agrees with a small task; no override.
+- 2026-11-27 04:52 Round 135: Fix 19 split. energy.tsx this round, training.tsx next, to keep one screen per prompt.
+- 2026-11-27 04:52 Round 135 is the checkpoint, so the full Jest suite runs after the changed tests.
+- 2026-11-27 04:52 Notes rewritten under 600 words as the loop note asked; finished items dropped.
+- 2026-11-27 04:52 Gym month freeze plural (gym.freeze.confirm has no _one form) left for a later localisation pass.

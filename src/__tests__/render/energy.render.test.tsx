@@ -7,6 +7,7 @@
 // that file does not: a successful real-data render, the no-data empty state,
 // and the failed-fetch state, which shows the load-failed notice instead of the
 // no-data empty state.
+import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import EnergyScreen from '@/app/energy';
@@ -16,7 +17,7 @@ import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import type { EnergyBalance, WeeklyEnergyBalance } from '@/lib/types';
 import { readHook } from '../helpers/useApiHarness';
-import { act, allText, renderScreen } from './helpers';
+import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 // The loading state's two Skeletons animate through reanimated's
 // useReducedMotion, which this render environment does not provide (same gap
@@ -90,6 +91,21 @@ test('shows the no-data empty state when both windows resolve with no days', asy
   const text = allText(tree);
   expect(text).toContain('No data yet');
   expect(text).toContain('Log some food and workouts to see your daily energy balance.');
+});
+
+test('Fix 19: the no-data empty state opens Log gym, the route the Gym tab uses', async () => {
+  mockGetWeek.mockResolvedValue(weekly([]));
+  jest.mocked(router.push).mockClear();
+
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <EnergyScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+
+  act(() => (buttonWithTitle(tree, en.addMenu.logGymSession)!.props.onPress as () => void)());
+  expect(router.push).toHaveBeenCalledWith('/gym/log-session');
 });
 
 test('a failed fetch shows the load-failed notice, not the no-data empty state', async () => {

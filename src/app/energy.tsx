@@ -13,6 +13,7 @@
 // with the other three detail routes: src/components/display/DetailChart.tsx.
 import type { JSX } from 'react';
 import { View } from 'react-native';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -79,6 +80,8 @@ export default function EnergyScreen(): JSX.Element {
           icon="flame"
           title={t('dashboard.energyNoDataTitle')}
           message={t('dashboard.energyNoDataMessage')}
+          actionLabel={t('addMenu.logGymSession')}
+          onAction={() => router.push('/gym/log-session')}
         />
       ) : (
         <Body days={days} latest={latest} />
