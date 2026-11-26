@@ -12554,3 +12554,7 @@
 - 2026-11-27 07:25 Round 201 is the next round after the round 200 Go checkpoint. Full checkpoint stays at round 204.
 - 2026-11-27 07:25 Row 17 chosen over 18 and 22: it is the next row in order (Override 3) and is a backend test with no UI risk.
 - 2026-11-27 07:25 Jev suggested ask or stop; not followed. No Isa blocker stops the loop (decision from round 191).
+- 2026-11-27 07:31 Round 202: Row 17 BUILT. Its four tests pass and the verify guard refuses to run without a local URL; the open items (column check, CONCURRENTLY guard) are parked in KNOWN_ISSUES.md.
+- 2026-11-27 07:31 Row 17 closes with a full verify run now, because the report says it is the only step left and it confirms the new guard in the chain.
+- 2026-11-27 07:31 Row 18 is next after the Row 17 verify, as the rows order requires. The 403 vs 404 ruling stays parked and does not block it.
+- 2026-11-27 07:31 Notes condensed to under 600 words. Parked and blocked items kept, merged where they repeat. Jev signals not followed: the step is a single small, verifiable task.

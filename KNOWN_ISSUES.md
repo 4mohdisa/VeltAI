@@ -72,3 +72,7 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 
 ## Phase 4 Row 16
 - The sync and connect handlers in backend/internal/integrations/integrations.go check the encryption key before the provider name, so an unknown provider without INTEGRATION_ENCRYPTION_KEY returns 503 instead of 404. Not fixed; needs Isa approval.
+
+## Phase 4 Row 17 open items
+- The migration schema test in backend/tests/migrations checks the table names used by backend SQL but not the column names.
+- No test blocks a CREATE INDEX CONCURRENTLY migration, which would fail only inside the transaction deploy/migrate.sh wraps each migration in.
