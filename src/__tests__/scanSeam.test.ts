@@ -261,6 +261,21 @@ describe('startPhotoScan (async pipeline)', () => {
 });
 
 describe('startMultiPhotoScan', () => {
+  // The meal photo scan from a meal's "Add to dinner" (DESIGN_INTENT.md Fix 1).
+  const mealOf = (id: string) => useFoodStore.getState().meals.find((m) => m.items.some((i) => i.id === id))?.slot;
+
+  test.each([
+    ['one image', [{ image_base64: 'ONE', angle: 'top' }]],
+    ['2+ images', [{ image_base64: 'T', angle: 'top' }, { image_base64: 'S', angle: 'side' }]],
+  ] as [string, ScanAngleImage[]][])('%s: a given slot logs the pending row to that meal', async (_label, images) => {
+    pipelineMock.mockResolvedValue({ log_id: 'log-1', scan_session_id: 'sess-1', status: 'analyzing' });
+    pipelineMultiMock.mockResolvedValue({ log_id: 'log-m', scan_session_id: 'sess-m', status: 'analyzing' });
+    const pre = idsNow();
+    expect(startMultiPhotoScan(images, 'Dinner')).toBe('Dinner');
+    expect(mealOf(newSince(pre)[0].id)).toBe('Dinner');
+    await flush();
+  });
+
   test('one image delegates to the single-image path', async () => {
     pipelineMock.mockResolvedValue({ log_id: 'log-1', scan_session_id: 'sess-1', status: 'analyzing' });
     startMultiPhotoScan([{ image_base64: 'ONE', angle: 'top' }]);

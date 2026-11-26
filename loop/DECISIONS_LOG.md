@@ -12116,3 +12116,12 @@
 - 2026-11-27 03:15 Kept the Jev pick over my labelScan test: the stale 'Still open' line contradicts the Round 97 line and blocks closing Fix 1, it is a doc only change, and Jev rates the risk as high (0.9), so the smallest task is preferred.
 - 2026-11-27 03:15 Round 98 is a doc only round, so only tsc runs; Jest is skipped because no code changes.
 - 2026-11-27 03:15 Notes rewritten under 600 words; finished Round 96 and 97 detail merged into one Done line.
+- 2026-11-27 03:17 Chose the meal photo scan fix over the quick-add cleanup because the last report found Fix 1 still open and the Jev risk score is high; a small, closed task fits the advice to prefer the smallest task.
+- 2026-11-27 03:17 Ran the type check first because the loop check flagged the last round's tsc and tests as not run.
+- 2026-11-27 03:17 Parked the label scan slot (label-scan.tsx:74) for this round so the change stays one path only.
+- 2026-11-27 03:17 Rewrote the notes file below 600 words by merging repeated parked items and deleting finished rounds 60 to 97 into a short summary.
+- 2026-11-27 03:17 Round 99 retried as one screen (photo-capture.tsx) plus its two scan helpers, to meet the one screen per prompt rule and the 5 step limit.
+- 2026-11-27 03:17 Rewrote the notes under 600 words, merged repeats and removed finished detail.
+- 2026-11-27 03:17 Kept the photo scan fix ahead of quick-add because Fix 1 is the open item and Round 98 flagged it.
+- 2026-11-27 03:17 Jev advice (run) agrees with the chosen task; it is the smallest available change, so no reason to override.
+- 2026-11-27 03:17 Risk noted: the Jev risk score is 1.4 and the last task finished cleanly only 5% of the time, so this round stays small and gated by tsc plus scoped Jest.

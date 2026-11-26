@@ -145,14 +145,15 @@ const pendingPlaceholder = { name: 'Analyzing…', quantityG: 0, calories: 0, pr
  * pipeline is unavailable (503 = no GEMINI_API_KEY, or unreachable) it falls
  * back to the old synchronous /api/scan and confirms directly (no review),
  * preserving no-key behaviour. The mock path (no image — the camera doesn't
- * capture frames yet) keeps the offline experience working. Returns the slot.
+ * capture frames yet) keeps the offline experience working. Logs to `slot`,
+ * the meal for now when absent. Returns the slot.
  */
 export function startPhotoScan(
   imageBase64?: string,
   mimeType = 'image/jpeg',
   entry: ScanEntry = 'camera',
+  slot: MealSlot = slotForNow(),
 ): MealSlot {
-  const slot = slotForNow();
   track('scan_started', { entry });
 
   if (imageBase64) {
@@ -207,13 +208,15 @@ export function startPhotoScan(
 /**
  * Multi-angle scan (Phase 13): 1–3 shots with angle hints. One shot delegates to
  * the single-image path; more go through the reconciling pipeline. Same pending
- * row + poller + fallback contract as startPhotoScan.
+ * row + poller + fallback contract as startPhotoScan, and the same `slot` default.
  */
-export function startMultiPhotoScan(images: { image_base64: string; mime_type?: string; angle: 'top' | 'side' | 'oblique' }[]): MealSlot {
+export function startMultiPhotoScan(
+  images: { image_base64: string; mime_type?: string; angle: 'top' | 'side' | 'oblique' }[],
+  slot: MealSlot = slotForNow(),
+): MealSlot {
   if (images.length <= 1) {
-    return startPhotoScan(images[0]?.image_base64, images[0]?.mime_type ?? 'image/jpeg');
+    return startPhotoScan(images[0]?.image_base64, images[0]?.mime_type ?? 'image/jpeg', 'camera', slot);
   }
-  const slot = slotForNow();
   track('scan_started', { entry: 'camera' });
   const id = logMeal(slot, pendingPlaceholder, 'photo', true);
   scanEntries.set(id, 'camera');

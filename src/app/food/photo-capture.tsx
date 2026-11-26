@@ -8,7 +8,7 @@ import { useRef, useState } from 'react';
 import { Image, Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { hasAiConsent } from '@/lib/ai/consent';
 import { navigate } from '@/lib/nav';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -20,7 +20,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import { CaptureGuidanceOverlay } from '@/components/food/CaptureGuidanceOverlay';
 import { showToast } from '@/components/display/toastStore';
-import { startMultiPhotoScan, startPhotoScan } from '@/lib/data';
+import { slotFromParam, startMultiPhotoScan, startPhotoScan } from '@/lib/data';
 import { color, radius, space } from '@/lib/design/tokens';
 import { isDevBuild } from '@/lib/env';
 
@@ -42,6 +42,8 @@ const ANGLE_KEY: Record<Angle, string> = {
 
 export default function PhotoCaptureScreen() {
   const { t } = useTranslation();
+  // From a meal's "Add to dinner" the Add sheet passes ?slot; the scan logs to it.
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const [shots, setShots] = useState<Shot[]>([]);
@@ -52,7 +54,10 @@ export default function PhotoCaptureScreen() {
 
   const finish = (finalShots: Shot[]) => {
     if (finalShots.length === 0) return;
-    startMultiPhotoScan(finalShots.map((s) => ({ image_base64: s.base64, mime_type: 'image/jpeg', angle: s.angle })));
+    startMultiPhotoScan(
+      finalShots.map((s) => ({ image_base64: s.base64, mime_type: 'image/jpeg', angle: s.angle })),
+      slotFromParam(slot),
+    );
     router.replace('/(tabs)/food');
     showToast({
       message:
@@ -86,7 +91,7 @@ export default function PhotoCaptureScreen() {
       // path so the flow is reviewable without a camera; a real build reports
       // the failure and stays put so the user can retry.
       if (isDevBuild()) {
-        startPhotoScan();
+        startPhotoScan(undefined, 'image/jpeg', 'camera', slotFromParam(slot));
         router.replace('/(tabs)/food');
         showToast({ message: t('photoCapture.scanningMeal'), tone: 'info' });
       } else {

@@ -14,11 +14,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
+- Round 98: Fix 1 not closed; tsc and tests not run.
 
 ## Row 14b (current)
-- Fix list in DESIGN_INTENT.md. Done: meal slot for Search, barcode scanner, barcode detail sheet, Scan again, label scan, Photograph label (96); detail-sheet log clears ?slot (97).
-- Round 98: close Fix 1 (doc only: remove stale 'Still open' text).
-- Next, in order: Fix list item 2 (quick-add, add, saved repeat use slotFromParam); item 3 (duplicate SLOTS in food.tsx, label-scan.tsx:42, mappers.ts).
+- Done: meal slot for Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot.
+- Round 99 (retry, in progress): photo-capture.tsx reads slotFromParam; startPhotoScan and startMultiPhotoScan take optional slot; render test. Closes Fix 1.
+- Then Fix list 2: quick-add.tsx:56 uses slotFromParam.
+- Then Fix list 3: duplicate SLOTS in food.tsx, label-scan.tsx:42, mappers.ts.
 - Then: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
@@ -27,33 +29,33 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
 - Parked: chip wiring, feature_rated analytics, Settings feedback screen and route, 'Ask me for feedback' switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
-- Chip unwired: wire or delete before Row 31. Reads state once on mount; save result ignored.
+- Chip unwired: wire or delete before Row 31.
 
 ## Parked: legal
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Blocked on Isa (park)
-- Rows 5, 8, 9: consent copy and version, recipients; win back and leaving copy, price; Apple Retention access; App Store Connect key; sandbox URL; Maestro install; expired, cancelled, past_due runs; 7c needs iOS public key.
-- Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE public or gated, pod install.
-- Row 11: Settings switch, purpose strings, real HealthKit provider, device steps.
+- Rows 5, 8, 9: consent copy, recipients, win back and leaving copy, Apple Retention access, sandbox URL, Maestro install, expired/cancelled/past_due runs, 7c iOS public key.
+- Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating, pod install.
+- Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID label; push token manifest type.
-- Row 13: age rating; production demo account; confirm lume.fit URLs live.
+- Row 13: age rating; production demo account; confirm lume.fit URLs.
 - Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording.
-- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit at end of run.
+- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
-- Push: DELETE after session gets 401; stale tokens never removed; failed POST not retried; two push token test files (check before editing).
+- Push: DELETE after session 401; stale tokens never removed; failed POST not retried; two push token test files.
 - Schedules: leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap.
-- RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
+- RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
 - Code: hardcoded strings (body emoji, A$, 'Your data', server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; 26 suites print console.warn.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Protected (do not edit)
-- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
-- foodDetail.test.ts pins exact source text for router.replace('/food/barcode-scan'); keep that call and add branches instead.
+- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts, src/__tests__/foodDetail.test.ts.
+- foodDetail.test.ts pins router.replace('/food/barcode-scan'); add branches instead.
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
@@ -61,23 +63,22 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
-- AI consent: server gate first; profiles.ai_consent_at; Allow and Not now equal weight; 429 queueable; only ai_daily_limit_reached non-retryable. Insights go to Gemini; Anthropic only when LLM_PROVIDER=claude.
+- AI consent: server gate first; profiles.ai_consent_at; 429 queueable; only ai_daily_limit_reached non-retryable. Insights go to Gemini; Anthropic only when LLM_PROVIDER=claude.
 - Row 6: hydrateGym limit 200, backend LIMIT kept. 6b: answers stay on device until trial or purchase; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
-- Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial, no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
+- Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial, no free tier. REFUND_REVERSED restores from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
 - Expired: Subscription, then win back, then paywall. No price text in Apple messages. WINBACK_REASON in nav.ts.
-- Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default; permission only after priming says yes. expo-notifications only in permissions.ts and device.ts.
-- Push token: secure storage after 204 (STORAGE_KEYS.pushToken, kept at sign-out); re-registered once per signed-in user; sign-out deletes saved copy only after DELETE succeeds. Native device token.
+- Retention: flag default off; message keys only; leaving screen sends no food, body or workout values to analytics.
+- Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; all off by default; permission only after priming says yes.
+- Push token: secure storage after 204 (STORAGE_KEYS.pushToken); sign-out deletes saved copy only after DELETE succeeds.
 - Health: no denied state for reads; null when not granted or no data.
-- Legal: copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); UPDATED date literal stays (manifest pins it). Crash data not linked to user.
+- Legal: copy in en.json; UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease and common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
 - Meal reaches the detail sheet through the subject store, never a route param.
-- Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot (Round 97).
+- Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
-- Round 90 flagged partly done; Round 91 completed the barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
-- Round 98 closes Fix 1 by doc edit only. Jev's pick was kept over the labelScan test because the stale line contradicts Round 97 and the risk score is high.
+- Round 90 flagged partly done; Round 91 completed barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -93,6 +94,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Round log (condensed)
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-96: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label.
-- 97: detail-sheet log drops ?slot via subject store logs count; Fix 1 (b) done; tests 6 suites, 59 tests green.
-- 98: close Fix 1 in DESIGN_INTENT.md (doc only).
+- 87-97: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label; detail-sheet log drops ?slot.
+- 98: Fix 1 doc edit only; meal photo scan still open; tsc and tests not run.
+- 99: rejected for multi-screen scope; retried as one screen (photo-capture.tsx) with scan helpers.
