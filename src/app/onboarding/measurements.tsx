@@ -12,6 +12,7 @@ import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button, SegmentedField, TextField } from '@/components/forms';
 import { navigate } from '@/lib/nav';
 import { space } from '@/lib/design/tokens';
+import { useSettingsStore } from '@/lib/settings/store';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { Sex } from '@/lib/types';
 
@@ -268,6 +269,10 @@ export default function MeasurementsScreen() {
       weight_kg: draftWeightKg,
       target_weight_kg: draftTargetKg,
     });
+    // The units chosen here are the app's units too, so Preferences opens on them.
+    const { setUnit } = useSettingsStore.getState();
+    setUnit('weight', weightUnit);
+    setUnit('height', heightUnit);
     navigate('/onboarding/body-type');
   };
 

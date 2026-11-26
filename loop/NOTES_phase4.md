@@ -14,12 +14,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29; Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
-- Green checkpoints: Rounds 66, 80, 95, 109 (340 suites, 2,090 tests, tsc 0). Next about Round 123.
+- Green checkpoints: Rounds 66, 80, 95, 109, 114 re-check (340 suites, 2,090 tests, tsc 0). Next checkpoint about Round 123.
 
 ## Row 14b (current)
-- Done: Fix 1 meal slot on all Add paths; Fix 2 Summary and Nutrition read today; Fix 3 remove a set; Fix 4 prefill from last session; Fix 5 paywall server check; Fix 6 no record and no answers goes to goal step; Fix 7 gym log button on every day (Round 113).
-- Now (Round 114): re-check Fix 7 (tsc, gym tests, eslint) after automatic flag; fix stale comment in gymStreakStripFootnote test.
-- Next: Fix 8 units into Settings (measurements.tsx:57,68); gym top-set save; recipes unreachable; list order.
+- Done: Fix 1 meal slot on all Add paths; Fix 2 Summary and Nutrition read today; Fix 3 remove a set; Fix 4 prefill from last session; Fix 5 paywall server check; Fix 6 no record and no answers goes to goal step; Fix 7 gym log button on every day (Round 113, re-checked Round 114).
+- Now (Round 115): Fix 8 units into Settings (measurements.tsx:57,68).
+- Next: gym top-set save; recipes unreachable; list order.
 - Follow-ups: measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes; gym tab shows no logged pill once logged (look change, parked).
 - Parked: saved.tsx:48 slot check; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
@@ -87,7 +87,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110: Fix 6 done. 111: Fix 5 follow-up rejected (two screens). 112: Fix 5 follow-up done.
-- 113: Fix 7 done (report says tsc and gym tests green; automatic check flagged it).
-- 114: re-check Fix 7 before any new task.
+- 109: checkpoint green. 110: Fix 6 done. 111: Fix 5 follow-up rejected. 112: Fix 5 follow-up done.
+- 113: Fix 7 done. 114: Fix 7 re-check clean (tsc 0, 41 gym suites, eslint clean).
+- 115: Fix 8 started (units into Settings).
 - Last handover Round 107; next after Round 120.

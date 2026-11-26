@@ -12190,3 +12190,8 @@
 - 2026-11-27 03:49 Round 114: an automatic check flagged the Round 113 report, so the next task re-runs tsc and the Fix 7 tests before any new work (override 8: run flagged work's tests before a new task).
 - 2026-11-27 03:49 Stale line-number comment in gymStreakStripFootnote test fixed in the same round because it is the only loose end from Fix 7 and it is a one-line change.
 - 2026-11-27 03:49 Fix 8 deferred one round so the verification is not mixed with a new screen change.
+- 2026-11-27 03:51 Chose Fix 8 (units in Settings) as the next task: it is the next item in the 14b list and the Round 114 report names it as NEXT.
+- 2026-11-27 03:51 Kept the task to one screen and one test file, in line with the one screen per prompt override.
+- 2026-11-27 03:51 Left the Welcome sign-in follow-up and the paywall re-post follow-up for later rounds: both are already logged, and only one open item per round keeps the loop small.
+- 2026-11-27 03:51 Treated the Round 114 Fix 7 re-check as complete: tsc 0, 41 gym suites and eslint clean, so no untested flagged work remains.
+- 2026-11-27 03:51 Shortened the notes to fit the 600 word limit. Kept every open item, parked item, protected file and decision; removed the finished round-by-round detail.
