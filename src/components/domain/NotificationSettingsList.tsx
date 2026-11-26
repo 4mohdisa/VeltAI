@@ -1,11 +1,15 @@
 // Row 10b · The Notifications group on Settings: one switch per category and the
 // quiet hours. Reads and saves the Row 10a settings through the settings store;
-// promotional is its own opt in and starts off.
+// promotional is its own opt in and starts off. A saved change reschedules the
+// device's reminders when notification permission is already granted.
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { SettingsList, type SettingsRowProps } from '@/components/display/SettingsList';
+import { deviceTimeZone } from '@/lib/api';
 import { formatTime } from '@/lib/formatting';
+import { applySchedule, notificationPermission } from '@/lib/notifications/device';
+import { scheduleNotifications } from '@/lib/notifications/schedule';
 import type { LocalMinutes, NotificationCategory } from '@/lib/notifications/types';
 import { hydrateNotificationSettings, useSettingsStore } from '@/lib/settings/store';
 
@@ -28,17 +32,24 @@ export function NotificationSettingsList() {
     void hydrateNotificationSettings();
   }, []);
 
-  const toggle = (category: NotificationCategory, on: boolean) =>
+  const toggle = async (category: NotificationCategory, on: boolean) => {
     setNotifications(
       category === 'promotional' ? { promotionalOptIn: on } : { enabled: { ...settings.enabled, [category]: on } },
     );
+    // Reschedules only when permission is already granted; this screen never prompts.
+    if (!(await notificationPermission())) return;
+    const saved = useSettingsStore.getState().notifications;
+    // ponytail: no per-slot meal logging times exist yet, so meal reminders use the default times.
+    // A failed schedule keeps the saved switch; the next change schedules again.
+    await applySchedule(scheduleNotifications(new Date(), deviceTimeZone() ?? 'UTC', saved, {})).catch(() => undefined);
+  };
 
   const rows: SettingsRowProps[] = CATEGORIES.map(({ category, icon }) => ({
     icon,
     label: t(`notifications.${category}.label`),
     kind: 'toggle',
     switchValue: category === 'promotional' ? settings.promotionalOptIn : settings.enabled[category],
-    onToggle: (on) => toggle(category, on),
+    onToggle: (on) => void toggle(category, on),
   }));
   const quiet = settings.quietHours;
   rows.push({

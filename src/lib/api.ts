@@ -169,7 +169,7 @@ function qs(params?: Query): string {
 /** The device's IANA time zone (e.g. Australia/Adelaide), read per request so
  *  a user who travels gets the right "today". The server uses it for every
  *  "today"/"yesterday" decision, daylight saving included. */
-function deviceTimeZone(): string | undefined {
+export function deviceTimeZone(): string | undefined {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone || undefined;
   } catch {
