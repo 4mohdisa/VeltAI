@@ -5,26 +5,29 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 1. English only; es and fr deferred. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core broken).
 3. Order: 3 to 14b, 15 to 30, 31.
-4. One screen or component per prompt. Never bundle. Max 5 numbered steps.
+4. One screen or component per prompt. Max 5 numbered steps.
 5. 'Partly done' gets ONE follow-up round; flagged again: park leftover, move on.
 6. Simulator and Maestro only in row 23 and soak rows.
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b (priming), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches and quiet hours display built, not wired to scheduling; 10c open).
-- Round 34 full Jest: 313 suites, 1,936 tests pass; tsc 0; console.error 68. Round 35 full suite not run.
+- Round 34 full Jest: 313 suites, 1,936 tests pass; tsc 0. Round 35 full suite not run.
+- Round 36 stopped with no changes (scope). Round 37 starts device helper.
 
 ## Next
-1. Round 36: NotificationSettingsList calls the existing scheduling helper on switch change.
-2. Move settings reload from Settings open to app start.
-3. Row 10c: push token endpoint (sending is hosted).
-4. Quiet hours editing (later). 5. Full suite at next checkpoint.
+1. Round 37: src/lib/notifications/device.ts with notificationPermission() (getPermissionsAsync, never prompts) and applySchedule(list) (cancels only app marked notifications, schedules the list). Tests.
+2. Round 38: NotificationSettingsList saves, then applies schedule when permission granted. Two tests: switch applies once with new settings; no permission saves but does not schedule.
+3. Settings reload moves from Settings open to app start.
+4. Row 10c: push token endpoint (sending is hosted).
+5. Quiet hours editing (later).
+6. Full suite at next checkpoint.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving screen destination; priming copy; win back copy, es/fr text, price package; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase and offerings need iOS public key.
 - Row 8: Maestro install; email code sign in (E2E_EMAIL not +clerk_test); database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10b: approve quiet hours strings and category labels; switches ship only with scheduling; permission after Not now (currently no).
+- Row 10b: approve quiet hours strings and category labels; permission after Not now.
 - Notification defaults; training-day reminders.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
@@ -44,7 +47,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. No free tier: 7 day Apple trial gives every feature. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events.
 - Expired goes Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall (wrapper has no promotional offer API); no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, reload on Settings open, cleared on sign-out.
+- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, reload on Settings open, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts.
 - Analytics off by default. Retry label 'Try again'.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
@@ -52,7 +55,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours display only.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. paywallSessionExpired has unscoped devWarn. Hardcoded: body emoji 26, A$, 'Your data', server limit message.
-- Skeleton in render tests needs stand-in (reanimated lacks useReducedMotion). About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
+- Skeleton in render tests needs stand-in. About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Unused: onboarding.paywall.seePlans, trialNote. Nothing dispatches SIGNED_IN.
 - Root config and backend JS unlinted; verify:go lacks -count=1; route checks see literal strings only.

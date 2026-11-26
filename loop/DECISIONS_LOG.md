@@ -11838,3 +11838,8 @@
 - 2026-11-27 00:45 Chose the switch to scheduling wiring first, because the switches currently do nothing and must not ship dead.
 - 2026-11-27 00:45 Kept the device schedule tied to permission: no permission prompt is added in this round, matching the current answer on Not now.
 - 2026-11-27 00:45 Condensed the notes to stay under 600 words; no open item was dropped, only merged.
+- 2026-11-27 00:46 Jev put ask at 89%. Kept run. Reason: the blocker is file scope, not a missing answer from Isa. Widening scope to a new device.ts inside the notifications module is a small, reversible choice I can make, and the brief forbids asking.
+- 2026-11-27 00:46 Permission and scheduling go in a new src/lib/notifications/device.ts, so the component does not import expo-notifications. permissions.ts and device.ts are the only two importers of expo-notifications.
+- 2026-11-27 00:46 Split the wiring into its own round so each prompt touches one module or one component.
+- 2026-11-27 00:46 The loop flagged the last report because tsc and tests were not run. This round runs tsc and the changed tests before reporting.
+- 2026-11-27 00:46 Last round left no changes, so the device scheduling round is not counted as a repeat of a failed attempt.
