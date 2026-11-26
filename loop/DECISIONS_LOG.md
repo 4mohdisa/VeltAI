@@ -11609,3 +11609,8 @@
 - 2026-11-26 10:35 Picked the codeError change: it is the next item in the loop notes, Jev ranks run highest, and it is small.
 - 2026-11-26 10:35 Dead end 7 stays Blocked on Isa's copy sign off; not retried.
 - 2026-11-26 10:35 Lint and tsc run without pipes so exit codes are real; only the changed and neighbouring test files run, not the full suite.
+- 2026-11-26 10:36 Loop flag says last report looks partly done. Next prompt first records dead end 8 in PHASE4_ROWS.md Row 2b and marks it built in DESIGN_REFERENCES.md, since the handover said this was not yet recorded. Then it confirms the wrong code change is complete, then runs the checkpoint.
+- 2026-11-26 10:36 Chose candidate 1 (checkpoint plus close-out). Jev top pick is run, and this matches the loop Next item. Candidate 2 needs Isa's sign off, so it is parked.
+- 2026-11-26 10:36 Dead end 7 stays Open on Isa's list. Not closed by the manager.
+- 2026-11-26 10:36 Checkpoint runs tsc and full Jest only once, to file, with counts taken from the run itself.
+- 2026-11-26 10:36 Jev signals treated as advisory. Risk 0.9 is noted, but the task only touches onboarding copy and records, so no Isa question is needed.

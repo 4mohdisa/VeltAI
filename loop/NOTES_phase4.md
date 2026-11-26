@@ -9,11 +9,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b (dead ends 1 to 6, 8, 9 built; 7 open for Isa's copy sign off; sign up email errors inline done), 3 (waits on Apple owner steps), 6b.
-- Last checkpoint (passed): tsc 0; Jest 298/298 suites, 1,815/1,815 tests; 4/4 snapshots; 67 console.error, 165 console.warn. No file changes that round.
+- PARTIAL: 2b (dead ends 1 to 6, 8 built; 7 open for Isa; wrong code error under code field done), 3 (waits on Apple owner steps), 6b.
+- Last full checkpoint: tsc 0; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn. Dead end 8 added 1 suite and 6 tests after that.
+- Flag from loop: last round looked partly done. Being closed in the next round (dead end 8 record, wrong code check, checkpoint).
 
 ## Next
-1. Wrong code error under the code field via codeError (signup.tsx). In progress.
+1. Close-out and checkpoint (tsc, full Jest, lint of signup files). Record exact counts.
 2. Row 3 after Isa signs off Apple steps (owner).
 3. Maestro flows (2b, 23) once Maestro is confirmed.
 
@@ -32,7 +33,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Isa (26 Nov): target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie target asks 'Update your calorie target to match?'; sign up email errors inline under field; training days stored on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md and add route check to verify; export, delete account, disconnect integrations and privacy/consent settings work without subscription.
-- Row 2b: measurements Continue never disabled; invalid input shows inline errors. Target weight required when shown (lose or muscle), 30 to 300 kg; server treats it as optional up to 1000. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session.
+- Row 2b: measurements Continue never disabled; invalid input shows inline errors. Target weight required when shown (lose or muscle), 30 to 300 kg; server optional up to 1000. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session.
 - Row 5: consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. GET /api/subscription public. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
@@ -47,8 +48,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 - English only: es and fr deferred. The 'translate es and fr' follow-up is dropped.
-- Dead end 8 (target weight) is recorded in PHASE4_ROWS.md Row 2b and DESIGN_REFERENCES.md.
-- Round chosen: codeError wrong code change (Jev top pick, matches loop Next item).
+- Dead end 8 (target weight) recorded in PHASE4_ROWS.md Row 2b and DESIGN_REFERENCES.md (to be confirmed next round).
+- Wrong email code shows under the code field (codeError), reuses en.json signup.errorCodeIncorrect, test signupWrongCode.render.test.tsx.
 
 ## Blocked on Isa (park, do not retry)
 - Dead end 7 copy sign off (DESIGN_REFERENCES.md still says Open). Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
@@ -72,5 +73,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
-- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts for test runs must match the command run.
+- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run.
 - Gotchas: PHASE4_ROWS.md rows keep 7 columns. Lint exit codes hidden by pipes. Briefs may name files that do not exist; grep first.
