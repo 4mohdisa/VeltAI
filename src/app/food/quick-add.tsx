@@ -32,7 +32,7 @@ import { Text } from '@/components/primitives/Text';
 import { showToast } from '@/components/display/toastStore';
 import { color, layout, opacity, radius, space, surface } from '@/lib/design/tokens';
 import { formatCalories, formatNumber } from '@/lib/formatting';
-import { slotForNow } from '@/lib/data';
+import { slotFromParam } from '@/lib/data';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
 import { SLOTS } from '@/lib/data/mappers';
 import { api, isTransient } from '@/lib/api';
@@ -53,13 +53,12 @@ export default function QuickAddScreen() {
   const { t } = useTranslation();
   // Slot targeting from the food log's per-meal "+" (via the add menu).
   const { slot } = useLocalSearchParams<{ slot?: string }>();
-  const initialSlot = SLOTS.includes(slot as MealSlot) ? (slot as MealSlot) : slotForNow();
   const [kcal, setKcal] = useState(DEFAULT_KCAL);
   // Raw entry string while the bar is open; empty greys the figure out, as the
   // design does, to show the typed number will replace it.
   const [entry, setEntry] = useState('');
   const [editing, setEditing] = useState(false);
-  const [mealType, setMealType] = useState<MealSlot>(initialSlot);
+  const [mealType, setMealType] = useState<MealSlot>(() => slotFromParam(slot));
   const [submitting, setSubmitting] = useState(false);
 
   const add = async () => {

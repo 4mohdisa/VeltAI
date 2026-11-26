@@ -12125,3 +12125,8 @@
 - 2026-11-27 03:17 Kept the photo scan fix ahead of quick-add because Fix 1 is the open item and Round 98 flagged it.
 - 2026-11-27 03:17 Jev advice (run) agrees with the chosen task; it is the smallest available change, so no reason to override.
 - 2026-11-27 03:17 Risk noted: the Jev risk score is 1.4 and the last task finished cleanly only 5% of the time, so this round stays small and gated by tsc plus scoped Jest.
+- 2026-11-27 03:20 Chose quick-add (Fix 2) over the report's NEXT (Summary Today) because the notes order puts quick-add first and it is one screen with a small change. Summary Today is next.
+- 2026-11-27 03:20 Round 99 closed Fix 1: photo-capture.tsx now passes the meal from ?slot, verified by the report's tests. Recorded as done.
+- 2026-11-27 03:20 Extra test file scanSeam.test.ts gained one case in Round 99. Accepted as needed coverage for the scan.ts change.
+- 2026-11-27 03:20 Test for quick-add placed under src/__tests__/render/ to match the project's other render tests, unless an existing file already covers it.
+- 2026-11-27 03:20 Protected files stay untouched. No simulator run, per override 6.

@@ -32,9 +32,10 @@ jest.mock('@/components/display/toastStore', () => ({
 // push/replace/back as the same kind of spy the shared mock uses.
 const mockBack = jest.fn();
 const mockCanGoBack = jest.fn(() => true);
+let mockParams: { slot?: string } = {};
 jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: (...args: unknown[]) => mockBack(...args), canGoBack: () => mockCanGoBack() },
-  useLocalSearchParams: () => ({}),
+  useLocalSearchParams: () => mockParams,
   usePathname: () => '/food/quick-add',
   Href: {},
 }));
@@ -56,6 +57,7 @@ beforeEach(() => {
   mockShowToast.mockClear();
   mockBack.mockClear();
   mockCanGoBack.mockReturnValue(true);
+  mockParams = {};
 });
 
 test('renders the Quick add sheet title', () => {
@@ -132,4 +134,29 @@ test('when router.canGoBack() is false, a successful add keeps the sheet open an
 
   expect(mockBack).not.toHaveBeenCalled();
   expect(allText(tree)).toContain('Quick add');
+});
+
+// DESIGN_INTENT.md Fix list 1: the meal from "Add to breakfast" reaches the add.
+// Only Date is faked, at 7 pm (a dinner hour), so the async flushes run on real timers.
+describe('meal slot from ?slot', () => {
+  beforeAll(() => {
+    jest.useFakeTimers({
+      now: new Date(2026, 10, 27, 19, 0, 0),
+      doNotFake: ['nextTick', 'setImmediate', 'clearImmediate', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'queueMicrotask', 'requestAnimationFrame', 'cancelAnimationFrame', 'requestIdleCallback', 'cancelIdleCallback', 'performance', 'hrtime'],
+    });
+  });
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  test.each([
+    ['a breakfast slot logs to breakfast', { slot: 'Breakfast' }, 'Breakfast'],
+    ['no slot logs to the meal for the time of day', {}, 'Dinner'],
+    ['an unknown slot falls back to the meal for the time of day', { slot: 'breakfast' }, 'Dinner'],
+  ])('%s', async (_label, params, expected) => {
+    mockParams = params;
+    mockQuickAdd.mockResolvedValueOnce({});
+    await pressAdd();
+    expect(mockQuickAdd).toHaveBeenCalledWith(expect.objectContaining({ meal_type: expected }));
+  });
 });
