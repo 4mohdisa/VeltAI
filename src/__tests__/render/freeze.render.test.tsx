@@ -9,7 +9,8 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { useGymStore } from '@/lib/data/gymStore';
 import FreezeScreen from '@/app/gym/freeze';
-import { act, allText, renderScreen } from './helpers';
+import en from '@/lib/i18n/locales/en.json';
+import { act, allText, findAll, renderScreen } from './helpers';
 
 const mockListSessions = jest.fn();
 const mockStreak = jest.fn();
@@ -82,4 +83,33 @@ test('renders zero freezes available once this streak has already used its freez
   const text = allText(tree);
   expect(text).toContain('Use 1 of your 0 freezes for today?');
   expect(text).toContain('A freeze protects your 5-day streak on a planned rest day — it just keeps the streak alive.');
+});
+
+describe('Fix 18: Done says why it is off at 0 freezes', () => {
+  const streakWith = (freezeUsed: boolean) => ({
+    current_streak: 5,
+    longest_streak: 20,
+    total_days: 20,
+    last_gym_date: null,
+    freeze_used: freezeUsed,
+    last_freeze_date: freezeUsed ? '2026-11-10' : null,
+  });
+  const done = (tree: ReturnType<typeof renderWithInsets>) =>
+    findAll(tree, (p) => p.accessibilityLabel === en.common.done && typeof p.onPress === 'function')[0];
+
+  test('1 freeze: no reason line, and Done is enabled', async () => {
+    mockStreak.mockResolvedValue(streakWith(false));
+    const tree = renderWithInsets();
+    await settle();
+    expect(allText(tree)).not.toContain(en.gymStreak.noFreezes);
+    expect(done(tree).props.disabled).toBeFalsy();
+  });
+
+  test('0 freezes: the reason line shows, and Done is disabled', async () => {
+    mockStreak.mockResolvedValue(streakWith(true));
+    const tree = renderWithInsets();
+    await settle();
+    expect(allText(tree)).toContain(en.gymStreak.noFreezes);
+    expect(done(tree).props.disabled).toBe(true);
+  });
 });

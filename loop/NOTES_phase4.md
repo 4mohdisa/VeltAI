@@ -17,7 +17,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
 - Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135.
 - Untested flagged: none.
-- Round 130: Food consent gate, 6 suites, 45 tests passed. Fix 16 recheck: 10 suites, 53 tests passed.
 
 ## Blocked on Isa (park, do not retry)
 - Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
@@ -29,10 +28,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-15b, 16, 17 (Food consent gate). Welcome sign-in fix stays under Fix 6.
-- Next: Fix 18 streak freezes. Round 132: streak.tsx entry explains 0 freezes. Then freeze.tsx.
+- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-15b, 16, 17, 18 part one (streak.tsx Freezes opens the sheet; 0 shows reason).
+- Next: Fix 18 part two: freeze.tsx explains Done is off at 0 freezes, reusing gymStreak.noFreezes.
 - Unfixed (fold into a fix or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
-- Spotted: Food tab checks consent on mount only; re-check on focus parked (router mock lacks useFocusEffect). insights.tsx comment about feed GET triggering AI: verify against server, comment-only fix later.
+- Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify, comment-only fix later. src/lib/mock/data.ts:27 says '2 freezes' but the real cap is 1 (protected, left alone).
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
 
 ## Row 14a: parked
@@ -72,7 +71,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Expired: Subscription, then win back, then paywall. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag off by default; message keys only; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00-07:00; all off by default; permission only after priming says yes.
-- Push token: secure storage after 204 (STORAGE_KEYS.pushToken). Sign-out deletes saved copy only after DELETE succeeds.
+- Push token: secure storage after 204. Sign-out deletes saved copy only after DELETE succeeds.
 - Health: no denied state for reads; null when not granted or no data.
 - Legal: copy in en.json; UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
@@ -81,8 +80,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green.
-- Round 126: Fix 15a; consent Back goes back. Round 127: Fix 15b. Round 129: Welcome done under Fix 6. Round 130: Food consent gate done.
-- Round 131: Fix 18 chosen, split: streak.tsx first, freeze.tsx next. Round 132: streak.tsx (one screen per prompt).
+- Round 131: Fix 18 split: streak.tsx first, freeze.tsx next. Round 133: freeze.tsx reuses gymStreak.noFreezes.
 - Food focus re-check parked.
 
 ## Gotchas
@@ -93,5 +91,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
-- 128: Fix 16 done, parked under Blocked. 129: Welcome done. 130: Fix 16 recheck passed; Food consent gate done.
-- 131: Fix 18 split decided. Next: streak.tsx.
+- 128-130: Fix 16 done and rechecked; Welcome done under Fix 6; Food consent gate done.
+- 131-132: Fix 18 split decided; streak.tsx done.
+- 133: freeze.tsx (Fix 18 part two) in progress.

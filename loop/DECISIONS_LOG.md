@@ -12270,3 +12270,8 @@
 - 2026-11-27 04:45 Fix 18 split into two single screen rounds: streak.tsx first, freeze.tsx next. This meets the one screen per prompt override.
 - 2026-11-27 04:45 Welcome sign-in fix stays under Fix 6. The Fix 17 numbering in DESIGN_INTENT.md is authoritative; Isa can rule later.
 - 2026-11-27 04:45 Strings added in en.json only, per the English only override.
+- 2026-11-27 04:48 Round 133: chose Fix 18 part two (freeze.tsx) as the logical next step after streak.tsx, as the last report recommended.
+- 2026-11-27 04:48 Round 133: freeze.tsx reuses gymStreak.noFreezes, so no new string is added.
+- 2026-11-27 04:48 Round 133: src/lib/mock/data.ts:27 comment ('2 freezes') is protected and left alone; it is logged as a spotted issue.
+- 2026-11-27 04:48 Round 133: Jev 'ask 43%' signal ignored, since the loop never asks Isa. Jev's risk score (1.2) is low for a local UI change, so I kept the normal task size.
+- 2026-11-27 04:48 Round 133: the notes file is rewritten under 600 words, with finished work merged.

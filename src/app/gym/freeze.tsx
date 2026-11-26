@@ -2,7 +2,8 @@
 // Confirmation sheet: "Use 1 of your X freezes for [date]?" X-left dismisses,
 // tick-right applies. Freezes protect a day from breaking the streak. A failed
 // read with nothing stored shows the LoadFailedNotice with Retry; with no streak
-// to protect yet, an empty state points to logging a session instead.
+// to protect yet, an empty state points to logging a session instead. At 0
+// freezes Done is off, and a caption says why.
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -68,6 +69,11 @@ export default function FreezeScreen() {
             <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
               {t('gym.freeze.explainer', { days: streak.current })}
             </Text>
+            {streak.freezesAvailable === 0 ? (
+              <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+                {t('gymStreak.noFreezes')}
+              </Text>
+            ) : null}
           </View>
         </Card>
       )}
