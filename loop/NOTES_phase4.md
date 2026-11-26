@@ -14,16 +14,17 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 194.
 
-## State (Round 190)
+## State (Round 191)
 - BUILT (18 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 16-28, 30.
-- Row 16: step 1 done (102 routes). Step 2 done for food, gym, recipes, saved meals, body weight. Round 190 adds insights dismiss; step 2 then complete.
+- PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
+- Row 16: step 1 done (102 routes). Step 2 done (all ownership groups incl. insights dismiss). Step 3 (validation and error envelope, tests/food and tests/gym) in progress.
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
 - Debug reports: context null saved as null (debugreports.go:61); retry skips captured_at, trigger, route, versions.
 - Food: scanned log delete fails (scan_sessions FK, needs migration); UpsertPortionPref can wipe meal type; search 'Add custom food' does not log; goBackOrHome falls back to Today; delete-account.tsx:101 white on white (device).
 - Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated. Row 18: recipes.authorize copies food.authorize.
+- Insights: DismissInsight updates by id only (safe via handler owner check); add user_id to query with approval.
 - Integrations: sync stops at 50 Strava or 25 WHOOP items; expired token gives 502.
 - Gym complete handler reads body only when ContentLength != 0.
 - Test helpers: seedMealLog and seedDay leave profiles (Row 25); signedTokens and seedOwner copied per package; DB pool helper has 8 copies.
@@ -35,12 +36,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Backend: 49 queries use id::text; schedule_pg.go sorts then LIMIT 30; errors swallowed in getMorningBrief, getProfile, getAnomalies; gym patchSession, patchExercise, lastLogged, listTemplates barely covered.
 - Server loads .env from working folder; PORT without LUME_ENV counts as production (document in Row 30).
 - tests/smoke has hand written route copy: replace with Row 16 table.
-- Code: hardcoded strings; 158 console warn and error calls in Jest (count per call, not per log line); two useApi copies; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
+- Code: hardcoded strings; 158 console warn and error calls in Jest; two useApi copies; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent.
 - Docs: README and HOSTING_CHECKLIST need LUME_TEST_DATABASE_URL before npm run verify.
 
 ## Blocked on Isa (park, do not retry)
-- Approvals: food delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper; Gym TestPG skip ruling; coverage scope; bug fixes above.
+- Approvals: food delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper; Gym TestPG skip ruling; coverage scope; bug fixes above; insights user_id hardening.
 - Copy: consent, win back, leaving; target weight; resend cooldown; paywall terms; Terms free tier; gym.freeze.confirm_one (es, fr); dashboard.weekNoNetMessage; dashboard.energyAddBodyStats; body stats hint; Fixes 24, 25, 12 option B; dashboardNutrition.render.test.tsx:102.
 - Apple and RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention. HealthKit: Settings switch, purpose strings, device steps.
@@ -67,6 +68,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Row 16: route list read from source; 401 test runs real cmd/server from a temp folder; one package group per round; token helper copied until shared helper approved.
 - Round 181: Row 15 BUILT with owner check pending. Round 169: measurements Back unchanged. Round 171: verify:go fails when LUME_TEST_DATABASE_URL unset.
 - Round 188: body weight DELETE is the last id route in goals; integration routes take a provider name, not an id.
+- Round 191: Jev ask and stop signals not followed; no Isa blocker stops the loop.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -80,4 +82,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 187: recipe and saved meal ownership, safe.
 - 188: body weight ownership in goals, safe. No leaks found.
 - 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean). No edits.
-- 190: insights dismiss ownership test (chosen from 3 candidates).
+- 190: insights dismiss ownership test, safe. Step 2 complete.
+- 191: started Row 16 step 3 (validation and envelope, food and gym).

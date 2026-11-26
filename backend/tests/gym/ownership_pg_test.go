@@ -83,18 +83,20 @@ func signedTokens(t *testing.T, h http.Handler) (http.Handler, func(userID strin
 	return auth.Middleware(verifier)(h), sign
 }
 
-func TestPG_GymRoutesRefuseAnotherUsersIDs(t *testing.T) {
-	pool := ownershipPool(t)
-	ctx := context.Background()
-	a := seedOwner(t, pool, fmt.Sprintf("owner_gym_a_%d", os.Getpid()))
-	b := seedOwner(t, pool, fmt.Sprintf("owner_gym_b_%d", os.Getpid()))
-
+// pgMux mounts the gym and schedule routes on the real Postgres stores.
+func pgMux(pool *pgxpool.Pool) *http.ServeMux {
 	mux := http.NewServeMux()
 	gym.RegisterWithEngine(mux, gym.NewPGStore(pool), gym.NewParamEngine(pool))
 	gym.RegisterSchedule(mux, gym.NewSchedulePGStore(pool))
-	h, sign := signedTokens(t, mux)
+	return mux
+}
 
-	send := func(method, path, user, body string) *httptest.ResponseRecorder {
+// sender wraps h in signedTokens and returns a function that sends one
+// request as the given user.
+func sender(t *testing.T, h http.Handler) func(method, path, user, body string) *httptest.ResponseRecorder {
+	t.Helper()
+	h, sign := signedTokens(t, h)
+	return func(method, path, user, body string) *httptest.ResponseRecorder {
 		t.Helper()
 		req := httptest.NewRequest(method, path, strings.NewReader(body))
 		req.Header.Set("Authorization", "Bearer "+sign(user))
@@ -102,6 +104,15 @@ func TestPG_GymRoutesRefuseAnotherUsersIDs(t *testing.T) {
 		h.ServeHTTP(rec, req)
 		return rec
 	}
+}
+
+func TestPG_GymRoutesRefuseAnotherUsersIDs(t *testing.T) {
+	pool := ownershipPool(t)
+	ctx := context.Background()
+	a := seedOwner(t, pool, fmt.Sprintf("owner_gym_a_%d", os.Getpid()))
+	b := seedOwner(t, pool, fmt.Sprintf("owner_gym_b_%d", os.Getpid()))
+
+	send := sender(t, pgMux(pool))
 	created := func(method, path, body string) string {
 		t.Helper()
 		rec := send(method, path, a, body)
