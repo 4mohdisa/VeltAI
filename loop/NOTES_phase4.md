@@ -16,10 +16,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
 
 ## Row 14b (current)
-- Fix list in DESIGN_INTENT.md. Fix 1 meal slot done for Search, barcode scanner, barcode detail sheet, Scan again, label scan, Photograph label (Round 96).
-- Open, in order: (b) detail-sheet log does not clear ?slot (Round 97, in progress); (c) quick-add, add, saved repeat use slotFromParam; (d) duplicate SLOTS lists in food.tsx, label-scan.tsx:42, mappers.ts.
+- Fix list in DESIGN_INTENT.md. Done: meal slot for Search, barcode scanner, barcode detail sheet, Scan again, label scan, Photograph label (96); detail-sheet log clears ?slot (97).
+- Round 98: close Fix 1 (doc only: remove stale 'Still open' text).
+- Next, in order: Fix list item 2 (quick-add, add, saved repeat use slotFromParam); item 3 (duplicate SLOTS in food.tsx, label-scan.tsx:42, mappers.ts).
 - Then: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
-- Update DESIGN_INTENT.md: Photograph label is done.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -28,11 +28,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
 - Parked: chip wiring, feature_rated analytics, Settings feedback screen and route, 'Ask me for feedback' switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
 - Chip unwired: wire or delete before Row 31. Reads state once on mount; save result ignored.
-
-## Next
-- Round 97: Fix 1 (b), then labelScan render test.
-- Then: terms.tsx onto legal.terms keys; health disclaimer; paywall subscription terms.
-- Checkpoint: count console.warn suites (26 suites, 82 blocks at Round 95).
 
 ## Parked: legal
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
@@ -44,7 +39,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Row 12a: Email, Name, User ID label; push token manifest type.
 - Row 13: age rating; production demo account; confirm lume.fit URLs live.
 - Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording.
-- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit at end of run (run --detectOpenHandles later).
+- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit at end of run.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
@@ -52,7 +47,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings (body emoji, A$, 'Your data', server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion.
+- Code: hardcoded strings (body emoji, A$, 'Your data', server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; 26 suites print console.warn.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -79,9 +74,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Analytics off by default. Stepper labels: common.decrease and common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
 - Meal reaches the detail sheet through the subject store, never a route param.
-- Clearing the Food tab search drops ?slot.
+- Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot (Round 97).
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
 - Round 90 flagged partly done; Round 91 completed the barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
+- Round 98 closes Fix 1 by doc edit only. Jev's pick was kept over the labelScan test because the stale line contradicts Round 97 and the risk score is high.
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -97,6 +93,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Round log (condensed)
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-95: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan; checkpoint green at 95.
-- 96: Photograph label passes the meal; tests green (6 suites, 50 tests).
-- 97: Fix 1 (b) in progress.
+- 87-96: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label.
+- 97: detail-sheet log drops ?slot via subject store logs count; Fix 1 (b) done; tests 6 suites, 59 tests green.
+- 98: close Fix 1 in DESIGN_INTENT.md (doc only).

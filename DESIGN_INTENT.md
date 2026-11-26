@@ -115,8 +115,8 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
    - Done (Round 92): "Scan again" on the not-found sheet keeps the meal; it reopens the scanner with `?slot` set from the subject's slot.
    - Done (Round 94): label scan reads `?slot` through `slotFromParam`, falling back to the meal for the time of day. Test: `src/__tests__/render/labelScanSlot.render.test.tsx`.
    - Done (Round 97): a log from the detail sheet drops the Food tab's `?slot` (the subject store counts logs; the tab's search-clear `dropSlot` runs on each). Test: `src/__tests__/render/foodSearchSlot.render.test.tsx`.
-   - Still open: the scanner's "Photograph label" button does not pass the meal to label scan.
-   - Scan and label scan: open.
+   - Done (Round 96): the scanner's "Photograph label" button passes the meal to label scan as `?slot`. Test: `src/__tests__/render/barcodeScanSlot.render.test.tsx`.
+   - Still open: Scan (meal photo). `photo-capture.tsx` receives `?slot` from the Add sheet but `startPhotoScan` and `startMultiPhotoScan` log to `slotForNow()` (`src/lib/data/scan.ts:155,216`).
 2. **Summary "Today" shows today.** The Summary macros card and Nutrition read the Food tab's selected day (`hooks.ts:320-321`). After the user looks at yesterday, Summary is wrong.
 3. **Remove a set in a session.** "Log" prefills the planned sets (3 if none) and only "Add set" exists (`session.tsx:101,256,534-538`). Logging 1 of 3 sets is impossible.
 4. **Prefill session sets from the last session**, not the plan (`session.tsx:100-105`). This is the most useful default at the gym.

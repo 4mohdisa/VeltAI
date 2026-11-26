@@ -12113,3 +12113,6 @@
 - 2026-11-27 03:12 Round 97: the Photograph label doc update (candidate 3) is folded into the next docs pass, not a separate round.
 - 2026-11-27 03:12 Round 97: English only per Isa override 1; new strings go to en.json only.
 - 2026-11-27 03:12 Round 97: Jev risk 0.8 (of 2) noted; the task touches one screen and one test file, so the smallest task is kept.
+- 2026-11-27 03:15 Kept the Jev pick over my labelScan test: the stale 'Still open' line contradicts the Round 97 line and blocks closing Fix 1, it is a doc only change, and Jev rates the risk as high (0.9), so the smallest task is preferred.
+- 2026-11-27 03:15 Round 98 is a doc only round, so only tsc runs; Jest is skipped because no code changes.
+- 2026-11-27 03:15 Notes rewritten under 600 words; finished Round 96 and 97 detail merged into one Done line.
