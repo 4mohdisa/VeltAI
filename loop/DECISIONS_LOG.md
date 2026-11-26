@@ -12429,3 +12429,8 @@
 - 2026-11-27 05:56 Round 169 is measure only with a small fix allowed on failures. Coverage fixes wait for the next round so each round stays small (Override 4).
 - 2026-11-27 05:56 Round 172 is the next checkpoint (last green was 167, checkpoints every 5 rounds).
 - 2026-11-27 05:56 Row 14b closed as BUILT in Round 168 with parked leftovers kept in Parked (Override 2).
+- 2026-11-27 05:59 Round 170: chose internal/gym as the largest statement gap; recipes and debugreports follow in later rounds, one package per round.
+- 2026-11-27 05:59 Entry points (cmd/server, scripts, tools/*, internal/db) are excluded from the 70 percent target: they are command line and wiring code, not logic. Isa can overrule later.
+- 2026-11-27 05:59 Coverage is measured with -coverpkg=./... because plain go test -cover undercounts tests in backend/tests.
+- 2026-11-27 05:59 The local test database URL is set per command only and never written to a file.
+- 2026-11-27 05:59 Round 170 is a regular round; checkpoint stays at Round 172.

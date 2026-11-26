@@ -25,7 +25,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 | `internal/feedback` | 94.7% | 94.7% | No |
 | `internal/food` | 0.0% | 68.9% | Yes |
 | `internal/goals` | 0.0% | 70.1% | No |
-| `internal/gym` | 5.5% | 49.8% | Yes |
+| `internal/gym` | 44.9% | 77.9% | No |
 | `internal/httpx` | 0.0% | 100.0% | No |
 | `internal/integrations` | 10.5% | 39.1% | Yes |
 | `internal/localdb` | 94.7% | 94.7% | No |
@@ -49,7 +49,6 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 - `internal/db` (0.0%)
 - `internal/debugreports` (0.0%)
 - `internal/food` (68.9%)
-- `internal/gym` (49.8%)
 - `internal/integrations` (39.1%)
 - `internal/recipes` (26.8%)
 - `internal/scan` (57.3%)
@@ -57,3 +56,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 - `tools/afcd` (0.0%)
 - `tools/retention` (0.0%)
 - `tools/seed` (21.5%)
+
+## Round 170
+
+- `internal/gym`: 49.8% to 77.9% with all tests counted (938 of 1,204 statements), and 5.5% to 44.9% from its own tests. New in-package TestPG tests: `internal/gym/pg_internal_test.go` (PGStore, ParamEngine) and `internal/gym/schedule_pg_internal_test.go` (SchedulePGStore). Still uncovered: the `patchSession`, `patchExercise`, `lastLogged` and `listTemplates` handlers.
