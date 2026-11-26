@@ -14,6 +14,9 @@ type DeriveInput struct {
 	WeightUnit    string
 	ActivityLevel string
 	Goal          string
+	// CalorieTarget is the user's adjusted target, already inside the safety
+	// band. When set, the macros are split from it instead of the derived value.
+	CalorieTarget *int
 }
 
 type DerivedGoals struct {
@@ -94,6 +97,9 @@ func DeriveGoals(in DeriveInput) DerivedGoals {
 	}
 
 	calories := math.Max(calorieFloor(in.Sex), math.Round((tdee+adj)/10)*10)
+	if in.CalorieTarget != nil {
+		calories = float64(*in.CalorieTarget)
+	}
 	perKg := 1.8
 	if in.Goal == "muscle" {
 		perKg = 2.0

@@ -14,16 +14,17 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29; Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
-- Green checkpoints: Rounds 66, 80, 95, 109, 114 (340 suites, 2,090 tests, tsc 0). Next checkpoint about Round 123.
+- Green checkpoints: Rounds 66, 80, 95, 109, 114. Next checkpoint about Round 123.
 
 ## Row 14b (current)
-- Done: Fixes 1-7 (Fix 7 re-checked Round 114). Fix 8 units copied from onboarding to settings on measurements Continue (Round 115; settingsUnits.render.test.tsx).
-- Now (Round 116): re-run tsc and Fix 8 tests (flagged check; full suite not run in 115).
-- Next: Fix 9 Targets Adjust macros match kcal (targets.tsx:85); then Fixes 10-13.
-- Follow-ups: units copied only on Continue (going back loses them); food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes; gym tab shows no logged pill once logged (look change, parked).
+- Done: Fixes 1-8. Fix 8 re-checked Round 116 (tsc 0, 30 suites, 222 tests, eslint clean).
+- Now (Round 117): Fix 9, Targets Adjust macros match kcal (targets.tsx:85).
+- Then: Fixes 10-13 (see DESIGN_INTENT.md).
+- Follow-ups: units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; gym tab shows no logged pill once logged (look change, parked).
+- Drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
 - Parked: saved.tsx:48 slot check; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
-- Owner decisions pending: Terms describe a free tier that does not exist. Per-set gym history needs a backend change (Isa).
+- Owner decisions pending: Terms describe a free tier that does not exist; per-set gym history needs a backend change (Isa).
 - Tooling: en.json fails Prettier; never --write.
 
 ## Row 14a: parked
@@ -58,7 +59,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Local Postgres and sandbox keys only. Deploys are Isa's.
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
 - Fix 6: no record and no answers goes to /onboarding/goal; with answers goes to measurements.
-- Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Paywall checks server record first, 401 ends session.
+- Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Paywall checks server record first; 401 ends session.
 - Fix 8: units saved to settings store on measurements Continue via existing setUnit; no second units row.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
@@ -66,7 +67,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - AI consent: server gate first; profiles.ai_consent_at; 429 queueable; only ai_daily_limit_reached non-retryable. Insights to Gemini; Anthropic only when LLM_PROVIDER=claude.
 - Row 6: hydrateGym limit 200, backend LIMIT kept. 6b: answers stay on device until trial or purchase; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
-- Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial, no free tier. REFUND_REVERSED restores from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
+- Billing: only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial, no free tier. REFUND_REVERSED restores from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
 - Expired: Subscription, then win back, then paywall. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag off by default; message keys only; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00-07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; all off by default; permission only after priming says yes.
@@ -88,8 +89,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110: Fix 6 done. 111: Fix 5 follow-up rejected. 112: Fix 5 follow-up done.
-- 113: Fix 7 done. 114: Fix 7 re-check clean.
-- 115: Fix 8 done (units copied on measurements Continue). Report flagged for check.
-- 116: flagged check on Fix 8 (tsc, Fix 8 tests, eslint). Jev preferred Fix 9; kept check per rule 8.
+- 109: checkpoint green. 110: Fix 6. 111: Fix 5 follow-up rejected. 112: Fix 5 follow-up done.
+- 113: Fix 7 done. 114: Fix 7 re-check clean. 115: Fix 8 done.
+- 116: flagged check on Fix 8 passed (tsc 0, 30 suites, 222 tests, eslint clean).
+- 117: Fix 9 prompt issued.
 - Last handover Round 107; next after Round 120.

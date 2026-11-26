@@ -1,6 +1,6 @@
 // Targets — shows the derived calorie + macro plan (identical maths to the
 // backend). Users can accept it or adjust the calorie target in a bottom sheet;
-// macros stay derived display (only the calorie target is persisted).
+// the macros are split from that target (only the calorie target is persisted).
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +18,6 @@ import { navigate } from '@/lib/nav';
 import { color, space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 
-type Macros = { calories: number; protein: number; carbs: number; fat: number };
-
 export default function TargetsScreen() {
   const { t } = useTranslation();
   const age = useOnboardingStore((s) => s.age);
@@ -28,9 +26,10 @@ export default function TargetsScreen() {
   const weightKg = useOnboardingStore((s) => s.weight_kg);
   const activity = useOnboardingStore((s) => s.activity_level);
   const goal = useOnboardingStore((s) => s.goal);
+  const calorieTarget = useOnboardingStore((s) => s.calorie_target);
   const setCalorieTarget = useOnboardingStore((s) => s.setCalorieTarget);
 
-  const derived = useMemo(
+  const macros = useMemo(
     () =>
       deriveTargets({
         age: age ?? 30,
@@ -42,16 +41,10 @@ export default function TargetsScreen() {
         weight_kg: weightKg ?? 0,
         activity_level: activity ?? 'sedentary',
         goal: goal ?? 'track',
+        calorie_target: calorieTarget,
       }),
-    [age, sex, heightCm, weightKg, activity, goal],
+    [age, sex, heightCm, weightKg, activity, goal, calorieTarget],
   );
-
-  const [macros, setMacros] = useState<Macros>(() => ({
-    calories: derived.calories,
-    protein: derived.protein,
-    carbs: derived.carbs,
-    fat: derived.fat,
-  }));
 
   const [sheetOpen, setSheetOpen] = useState(false);
   const [draft, setDraft] = useState('');
@@ -82,7 +75,6 @@ export default function TargetsScreen() {
       );
       return;
     }
-    setMacros((m) => ({ ...m, calories }));
     setCalorieTarget(calories);
     setSheetOpen(false);
   };

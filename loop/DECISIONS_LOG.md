@@ -12199,3 +12199,7 @@
 - 2026-11-27 03:54 Jev ranked Fix 9 first at 86%. I looked again and kept the verification, because the flag is open and Fix 9 comes next round. Reason Jev cannot see: the flag is in this round's loop note.
 - 2026-11-27 03:54 Fix 8 is closed as BUILT in DESIGN_INTENT.md only after the re-check passes.
 - 2026-11-27 03:54 Notes condensed to stay under 600 words. No rule or decision was dropped.
+- 2026-11-27 03:55 Chose Fix 9 because the Round 116 report names it as NEXT and Jev ranks it first in the candidate list; no concrete reason to override.
+- 2026-11-27 03:55 Kept Round 116's flagged check result (tsc 0, 30 suites, eslint clean) as passed, so no extra re-check is needed before Fix 9.
+- 2026-11-27 03:55 Split Fix 9 into five steps with a failing test first, per rule 4 and the test first habit in the notes.
+- 2026-11-27 03:55 Dropped the handover's stale 'Fix 5 next' instruction; Fix 5 was closed in Round 112.

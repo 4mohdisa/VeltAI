@@ -357,6 +357,13 @@ func TestDeriveGoals(t *testing.T) {
 			want: goals.DerivedGoals{Calories: 2760, Protein: 144, Carbs: 373, Fat: 77, Fibre: 39},
 		},
 		{
+			// Row 14b Fix 9: an adjusted 1800 target splits the macros from 1800:
+			// fat 1800*0.25/9 = 50; carbs (1800-576-450)/4 = 193.5 → 194
+			name: "male moderate maintain adjusted to 1800",
+			in:   goals.DeriveInput{Age: 30, Sex: "male", Height: 180, Weight: 80, ActivityLevel: "moderate", Goal: "health", CalorieTarget: func() *int { n := 1800; return &n }()},
+			want: goals.DerivedGoals{Calories: 1800, Protein: 144, Carbs: 194, Fat: 50, Fibre: 25},
+		},
+		{
 			// BMR = 600+1031.25-125-161 = 1345.25; TDEE = 1849.71875; -400 → 1450
 			name: "female light lose",
 			in:   goals.DeriveInput{Age: 25, Sex: "female", Height: 165, Weight: 60, ActivityLevel: "light", Goal: "lose"},

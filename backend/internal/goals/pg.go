@@ -171,22 +171,20 @@ func (s *PGStore) CompleteOnboarding(ctx context.Context, in OnboardingCompletio
 	d := DeriveGoals(DeriveInput{
 		Age: in.Age, Sex: in.Sex, Height: in.Height, HeightUnit: in.HeightUnit,
 		Weight: in.Weight, WeightUnit: in.WeightUnit, ActivityLevel: in.ActivityLevel, Goal: in.Goal,
+		CalorieTarget: in.CalorieTarget,
 	})
 	// The user's manual calorie override wins over the derived value — that is
 	// the whole point of the "Adjust manually" step, which previously changed a
 	// number on screen and then discarded it. The handler has already checked it
-	// against the 1.4.1 safety band. Macros stay derived: only calories are
-	// adjustable in the onboarding UI.
+	// against the 1.4.1 safety band. DeriveGoals splits the macros from it, as
+	// the onboarding Targets screen shows them.
 	src := "onboarding"
-	calories := fptr(d.Calories)
 	if in.CalorieTarget != nil {
 		src = "manual"
-		c := float64(*in.CalorieTarget)
-		calories = &c
 	}
 	gl, err := upsertGoals(ctx, tx, &Goals{
 		UserID:        in.UserID,
-		CalorieTarget: calories,
+		CalorieTarget: fptr(d.Calories),
 		ProteinTarget: fptr(d.Protein),
 		CarbTarget:    fptr(d.Carbs),
 		FatTarget:     fptr(d.Fat),

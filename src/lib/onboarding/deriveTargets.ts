@@ -52,6 +52,9 @@ export type DeriveInput = {
   weight_kg: number;
   activity_level: ActivityLevel;
   goal: Goal;
+  /** The user's adjusted target, already inside the safety band. The macros
+   *  are split from it instead of the derived calories. */
+  calorie_target?: number | null;
 };
 
 export function deriveTargets(input: DeriveInput): MacroTargets {
@@ -70,7 +73,7 @@ export function deriveTargets(input: DeriveInput): MacroTargets {
   if (input.goal === 'lose') adj = -400;
   else if (input.goal === 'muscle') adj = 250;
 
-  const calories = Math.max(calorieFloor(input.sex), Math.round((tdee + adj) / 10) * 10);
+  const calories = input.calorie_target ?? Math.max(calorieFloor(input.sex), Math.round((tdee + adj) / 10) * 10);
   const perKg = input.goal === 'muscle' ? 2.0 : 1.8;
   const protein = Math.round(weightKg * perKg);
   const fat = Math.round((calories * 0.25) / 9);
