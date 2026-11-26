@@ -11884,3 +11884,12 @@
 - 2026-11-27 01:01 Sign-out clearing of old reminders is queued next, not this round, to keep the task to one change.
 - 2026-11-27 01:01 Midnight wrap-around in the median stays parked, as the notes already say.
 - 2026-11-27 01:01 Permission-granted-same-day retry stays an Isa question in Blocked; not changed.
+- 2026-11-27 01:08 Round 47 runs the full gates for round 46 because its report had only targeted runs, and the loop flagged the task as not fully checked.
+- 2026-11-27 01:08 Jev asked for ask at 88%. I kept run: the round 46 quiet-hours question is already answered in Decisions (meal and streak dropped in quiet hours, workout and weekly moved to quiet end), so no new answer from Isa is needed.
+- 2026-11-27 01:08 Jev's risk score is 1.4. Kept the change to a verify round with notification files only, which limits the risk of continuing.
+- 2026-11-27 01:08 Per-slot meal times use the median of 3 or more logged meals in the last 7 days. Each slot counts once per day, timed by its earliest row, so multi-item meals count as one meal.
+- 2026-11-27 01:08 The app-start run before sign-in can plan at default meal times if the food log read fails. Parked, and fixed on the next day's run.
+- 2026-11-27 01:10 Rejected prompt rewritten: it now names the loop/phase4 branch, forbids switching, pushing, merging and any other git command, and lists every point the loop note raised.
+- 2026-11-27 01:10 Round 47 run kept over Jev's ask (84%). Concrete reason Jev cannot see: the quiet hours question in the report is already decided in Decisions (meal and streak dropped, workout and weekly moved to quiet end), and the brief forbids asking. Recorded again in notes.
+- 2026-11-27 01:10 Round 47 is the full tsc and Jest checkpoint the notes already scheduled, so it comes before the sign-out and push token tasks.
+- 2026-11-27 01:10 Report item 'meal reminders in quiet hours' treated as decided, not as an open question for Isa.
