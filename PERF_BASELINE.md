@@ -11,7 +11,7 @@ Step 1 is a code-reading audit only. No code was changed and nothing was measure
 | Screen transition (push to first content) | 300 ms | not measured: needs simulator run |
 | Scroll smoothness, longest list (Food tab day, seeded heavy user) | 58 fps or more, no frame over 32 ms | not measured: needs simulator run |
 | Memory (after 5 minutes of tab switching) | 250 MB | not measured: needs simulator run |
-| Slowest backend route (local, seeded heavy user) | 200 ms p95 | not measured: needs simulator run |
+| Slowest backend route (local, seeded heavy user) | 200 ms p95 | GET /api/retention/summary: 0.40 ms p95 over 200 calls, seed_heavy on local lume_test_local, 27 Nov 2026 (TestPG_SummaryP95OnSeededHeavyUser); other routes not measured |
 
 ## Screens read
 

@@ -19,6 +19,7 @@ var publicRoutes = map[string]bool{
 	// authenticated mux.
 	"POST /api/webhooks/clerk":                  true,
 	"POST /api/webhooks/revenuecat":             true,
+	"POST /api/webhooks/apple/retention":        true,
 	"GET /api/integrations/{provider}/callback": true,
 
 	// Subscription status read, so the app can show the paywall.

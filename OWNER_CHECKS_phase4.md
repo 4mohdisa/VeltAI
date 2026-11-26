@@ -115,3 +115,12 @@ Steps only Isa can do. Each says what, where and why.
      - cancelled: `UPDATE subscriptions SET status = 'cancelled', expires_at = now() + interval '7 days' WHERE user_id = '<clerk user id>';`
      - past_due: `UPDATE subscriptions SET status = 'past_due', expires_at = now() + interval '7 days' WHERE user_id = '<clerk user id>';`
   5. Screenshots land in /tmp/lume_r23/.
+
+## Row 9: Apple Retention Messaging (owner steps)
+
+The backend half is built and off by default (`RETENTION_MESSAGING_ENABLED`). Endpoints come from Apple's Retention Messaging API docs, read 27 Nov 2026: upload is `PUT https://api.storekit-sandbox.apple.com/inApps/v1/messaging/message/{messageIdentifier}` (production host `api.storekit.apple.com`), and Apple calls our `POST /api/webhooks/apple/retention` (Get Retention Message).
+
+- [ ] Apple calls the Retention Messaging API a pre-release. Confirm Lume has access in App Store Connect.
+- [ ] Create an App Store Connect API key for the App Store Server API. Set `APPLE_IAP_KEY_ID`, `APPLE_IAP_ISSUER_ID`, `APPLE_IAP_PRIVATE_KEY` and `APPLE_BUNDLE_ID` in `backend/.env` only, then run `go run ./tools/retention` from `backend/` with the flag on (sandbox only).
+- [ ] Approve the two messages in `backend/internal/retention/apple.go` (keep_progress, keep_insights). They are English only; es and fr text is still to come.
+- [ ] Set the sandbox real-time URL with Configure Realtime URL and pass Apple's performance test (a reply within 700 ms) before any production use. The webhook does not check Apple's signature yet, because its reply is the same public message id for every caller.

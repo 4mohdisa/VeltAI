@@ -30,6 +30,7 @@ import (
 	"lume/backend/internal/integrations"
 	"lume/backend/internal/ratelimit"
 	"lume/backend/internal/recipes"
+	"lume/backend/internal/retention"
 	"lume/backend/internal/scan"
 	"lume/backend/internal/scan/pipeline"
 	"lume/backend/internal/subscription"
@@ -115,6 +116,7 @@ func main() {
 	auth.RegisterWebhook(mux, profiles, config.Env("CLERK_WEBHOOK_SECRET", ""))
 	subs := subscription.NewPGStore(pool)
 	subscription.RegisterWebhook(mux, subs, config.Env("REVENUECAT_WEBHOOK_AUTH", ""))
+	retention.RegisterWebhook(mux, retention.Enabled())
 
 	// Integrations (Strava/WHOOP). The OAuth callback is a browser redirect with
 	// no Clerk JWT, so it registers on the root mux (public, like the webhooks
@@ -156,6 +158,7 @@ func main() {
 	recipes.Register(api, recipes.NewPGStore(pool))
 	analytics.Register(api, analytics.NewPGStore(pool))
 	feedback.Register(api, feedback.NewPGStore(pool))
+	retention.Register(api, retention.NewPGStore(pool))
 	// Internal testing capture (secondary copy — the device is the source of
 	// truth). Harmless in production: it only ever stores the caller's own rows.
 	debugreports.Register(api, debugreports.NewPGStore(pool))

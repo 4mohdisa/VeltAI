@@ -113,6 +113,7 @@ func TestPolicyTable(t *testing.T) {
 		{"GET", "/api/profile", entitlement.Pro},
 		{"PATCH", "/api/profile", entitlement.Pro},
 		{"GET", "/api/energy-balance", entitlement.Pro},
+		{"GET", "/api/retention/summary", entitlement.Pro},
 		{"GET", "/api/unknown-new-route", entitlement.Pro}, // gated by default
 
 		// NEVER gated — a user can always manage their account and leave.
@@ -125,6 +126,7 @@ func TestPolicyTable(t *testing.T) {
 		{"POST", "/api/feedback", entitlement.Free},
 		{"POST", "/api/webhooks/revenuecat", entitlement.Free},
 		{"POST", "/api/webhooks/clerk", entitlement.Free},
+		{"POST", "/api/webhooks/apple/retention", entitlement.Free},
 		{"GET", "/api/integrations/strava/callback", entitlement.Free},
 	}
 	for _, c := range cases {

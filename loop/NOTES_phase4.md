@@ -12,26 +12,26 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (Maestro flow written, not run; parked under rule 6).
-- Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
-- Round 25: removed onboarding.paywall.seePlans and trialNote from en, es, fr (unused; parity test needs equal keys). Type check 0 after fix. Full Jest run flagged by loop; re-run in progress (round 25b).
-- Last full run before round 25: Jest 309 suites, 1,894 tests; console.error 68 expected, 163 console.warn.
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (Maestro flow written, not run).
+- Round 25b green: tsc 0; Jest 309 of 309 suites, 1,894 tests, 4 snapshots; 68 console.error, 163 console.warn.
+- Round 26: Row 9 backend half (retention summary endpoint, perf test, flagged Apple client).
 
 ## Next
-1. Round 25b: full tsc and full Jest. Confirm 309 of 309 suites, 1,894 tests, console.error about 68. Fix anything red.
-2. Then Row 9 (cancel and retention endpoint, behind a flag, fixtures only).
+1. Row 9 Settings screen: Thinking of leaving, reason survey, usage message from the summary endpoint.
+2. Row 10 notifications (pure scheduling logic, fake clock, DST).
 
 ## Blocked on Isa (park, do not retry)
 - Win back: 'weren't charged' toast kept; English copy approved?; which package price to show.
 - Cancelled plan: Resubscribe beside Manage subscription, confirm.
 - 7c StoreKit purchase and real offerings: needs iOS public key.
 - Row 8 banner: react to on-device billing_issue before webhook?
-- Row 8 Maestro: install; sign in by hand or +clerk_test address; backend on lume_test_local (currently 'lume'); run three states.
+- Row 8 Maestro: install Maestro; sign in with email code (E2E_EMAIL is not a +clerk_test address); backend on lume_test_local (currently database lume on 127.0.0.1:55432); run expired, cancelled, past_due.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed-step Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line with backend stopped.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple Developer and Clerk Apple setup; iPhone sign in with Apple; Row 2b items.
+- Row 9: Apple Retention Messaging access, keys and real call.
 
 ## Decisions (never delete)
 - Isa: target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie asks 'Update your calorie target to match?'; sign up errors inline; training days on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md with route check in verify; export, delete account, disconnect integrations, privacy settings work without subscription.
@@ -44,9 +44,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 7: wrapper first, screen second. Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when store says eligible. Restore failure: 'no previous subscription found'.
 - Row 8: banner reads server record (useServerEntitlement), past_due only, never loads the SDK. Past_due and expired hide the Subscription Manage button. Expired goes Subscription, then win back, then paywall.
 - Win back: store price via wrapper; promotional offers only; no price text in Apple messages; WINBACK_REASON in nav.ts; EXPIRED and CANCELLED exported once from subscription.tsx. Wrapper has no promotional offer API, so win back opens the paywall.
-- Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
+- Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke, retention summary (authenticated, counts only).
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default; loop follows Settings switch.
+- Row 9: Apple retention flag default off; message keys only, no price or discount text; fixtures only until owner access.
+- Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked
 - Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
@@ -63,6 +65,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. Row 5: parallel requests can slip past AI limit; old daily counts never deleted.
+- onboarding.paywall.seePlans and trialNote removed in round 25.
 
 ## Gotchas
 - Pass full paths to Jest. Never jest -u. Redirect output to files. Touch a fresh marker each round.
@@ -72,6 +75,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Typed routes lack /profile/winback; use navigate().
 - Spy on useLocalSearchParams through jest.requireMock('expo-router'), not import *.
 - Go entitlement tests need LUME_TEST_DATABASE_URL pointed at local lume_test_local.
-
-## Loop note
-- Round 25 was flagged by the loop (type check or tests not green at the time of the report). Round 25b re-runs the checkpoint. Do not move on until it is green.
+- Render tests can wrap the screen in SafeAreaProvider, so toJSON() is not null even when empty.

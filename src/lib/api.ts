@@ -1064,6 +1064,14 @@ export type FeedbackInput = {
   device_model?: string;
 };
 
+// GET /api/retention/summary — counts only, for the thinking of leaving screen.
+// Shape matches backend/internal/retention/summary.go.
+export type RetentionSummary = {
+  meals_last_30_days: number;
+  workouts_last_30_days: number;
+  current_streak_days: number;
+};
+
 // GET /api/export — the user's own data, one array of rows per table.
 type ExportDocument = Record<string, unknown>;
 
@@ -1247,6 +1255,10 @@ export const api = {
   // device fields are present only when the user turned the switch on.
   feedback: {
     post: (input: FeedbackInput) => req.post<{ id: string }>('/api/feedback', input),
+  },
+
+  retention: {
+    summary: () => req.get<RetentionSummary>('/api/retention/summary'),
   },
 
   analytics: {

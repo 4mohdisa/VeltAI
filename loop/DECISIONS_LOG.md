@@ -11778,3 +11778,8 @@
 - 2026-11-27 00:05 Chose the full checkpoint re-run first because the loop flagged the last report: the type check and locale parity test failed before the es and fr removal, and the full Jest suite has not run since.
 - 2026-11-27 00:05 Removed onboarding.paywall.seePlans and trialNote from en, es and fr, because no code or test uses them and the parity test requires equal key sets. This is a small deviation from the English only rule, recorded here.
 - 2026-11-27 00:05 Kept the Row 9 endpoint as the next feature task, after the checkpoint clears.
+- 2026-11-27 00:07 Round 25b is green (tsc 0, Jest 309 of 309 suites, 1,894 tests, 68 console.error as expected), so the checkpoint is closed and work moves on.
+- 2026-11-27 00:07 Chose run over ask. Isa said never ask, so the owner steps stay parked in OWNER_CHECKS_phase4.md.
+- 2026-11-27 00:07 Row 9 is split: backend half this round, Settings screen next round, to keep each prompt small.
+- 2026-11-27 00:07 Apple Retention Messaging endpoint stays behind RETENTION_MESSAGING_ENABLED (default off) with fixtures only, per the row. The exact endpoint is an owner check if web docs are unavailable.
+- 2026-11-27 00:07 Round 25 log line sits at the end of PHASE4_ROWS.md. Leave it there unless Isa says otherwise. Not a blocker.
