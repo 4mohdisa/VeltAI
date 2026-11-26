@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { EXPIRED } from '@/app/profile/subscription';
+import { CANCELLED, EXPIRED } from '@/app/profile/subscription';
 import { Card } from '@/components/display/Card';
 import { Button } from '@/components/forms/Button';
 import { Screen } from '@/components/navigation/Screen';
@@ -18,9 +18,6 @@ import { color, space } from '@/lib/design/tokens';
 import { paywallHref, WINBACK_REASON } from '@/lib/nav';
 import { getOfferings } from '@/lib/purchases/revenuecat';
 import type { PurchasablePackage } from '@/lib/purchases/types';
-
-/** subscriptions.status for a cancelled plan (backend/internal/entitlement/state.go). */
-const CANCELLED = 'cancelled';
 
 export default function WinbackScreen() {
   const { t } = useTranslation();

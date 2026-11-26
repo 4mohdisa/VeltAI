@@ -14,15 +14,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner, expired, cancelled, win back built; simulator flow not run).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Round 17 checkpoint: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots pass. console.error 69, console.warn 163.
+- Round 18: subscription.tsx exports CANCELLED. Expired, cancelled and past_due states confirmed in code. 3 suites, 22 tests pass.
 
 ## Next
-1. Round 18: Row 8 per screen. Profile > Subscription first (export CANCELLED, check expired, cancelled, past_due states). One screen per prompt.
-2. Round 19: winback.tsx imports CANCELLED from subscription.tsx.
-3. Then: paywall reason list uses EXPIRED constant, not a literal (paywall.tsx).
-4. Trace console.error rise (67 baseline, 69 now) with a scoped spy.
-5. Remove onboarding.paywall.seePlans and trialNote after checking en.json.
-6. Simulator flow for Row 8 once the per-screen checks pass.
-7. Full suites on round 22 checkpoint.
+1. Round 19 (running): winback.tsx imports CANCELLED from subscription.tsx.
+2. Round 20: paywall.tsx reason list uses EXPIRED constant, not a literal.
+3. Round 21: trace console.error rise (67 baseline, 69 now) with a scoped spy.
+4. Round 22: remove onboarding.paywall.seePlans and trialNote after checking en.json. Full suites on this checkpoint.
+5. Then: Row 8 simulator flow once per-screen checks pass.
 
 ## Blocked on Isa (park, do not retry)
 - Win back: a real failed purchase shows 'weren't charged' toast. Kept, it is true.
@@ -30,7 +29,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Win back copy: approve English; supply es and fr later; pick package price to show.
 - 7c StoreKit purchase and real offerings: needs iOS public key in env.
 - Row 8 banner: react to on-device billing_issue before webhook lands?
-- Expired message plus Resubscribe error toast together.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed-step Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser flow.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
@@ -48,13 +46,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 7: wrapper first (7a), paywall screen second (7b). Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when store says eligible. 7b replaces hosted paywall on onboarding route only. Restore failure shows 'no previous subscription found'.
 - Row 8: banner reads server record (useServerEntitlement), shows only for past_due, never loads RevenueCat SDK. On past_due and expired the Subscription footer Manage button hides.
 - Win back: store price via wrapper; promotional offers only; no price text in Apple messages. WINBACK_REASON 'winback' in nav.ts; EXPIRED exported from subscription.tsx. Round 15 toast behaviour kept.
+- Round 19: winback.tsx imports CANCELLED from subscription.tsx; one definition.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset means refuse events. Analytics off by default; loop follows the Settings switch.
 - Round 18: rewritten after rejection to one screen; Row 8 simulator checks split per screen.
 
 ## Parked
-- Subscription footer may show two Manage buttons on past_due. Today pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
+- Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
 - Body type emoji fontSize 26 hardcoded. Goals may clamp calories silently.
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only; aiBrain not-enough-data and 'Your data' hardcoded English.
@@ -69,12 +68,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Row 5: parallel requests can slip past AI limit; old daily counts never deleted.
 
 ## Gotchas
-- zsh --include=*.ts globs fail. Pass full paths to Jest. Test files end in .render.test.tsx. Never jest -u. Never write 'verified'.
-- Redirect output to files; pipes hide exit codes. Use find -newer against a fresh marker (touch a new one each round).
+- zsh --include=*.ts globs fail. Pass full paths to Jest. Never jest -u. Never write 'verified'.
+- Redirect output to files; pipes hide exit codes. Touch a fresh marker each round.
 - Lint forbids setState inside an effect body; use a guarded .then.
 - Every prompt opens with the branch check. One screen or component per prompt. Max 5 numbered steps.
-- The render setup's Reanimated mock lacks useReducedMotion; screens with a skeleton need a per-file LoadingSkeleton mock.
+- Screens with a skeleton need a per-file LoadingSkeleton mock (Reanimated mock lacks useReducedMotion).
 
 ## Loop note
-- Round 18 prompt rewritten to one screen and 5 steps after rejection. Full suites on round 22 checkpoint.
+- Round 19 running: winback single definition. Full suites on round 22 checkpoint.
 - Last full run: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots (round 17).

@@ -11745,3 +11745,6 @@
 - 2026-11-26 11:30 The winback import of CANCELLED moves to round 19 so each round touches one screen.
 - 2026-11-26 11:30 Simulator flow not claimed this round; it runs once the per-screen checks are done.
 - 2026-11-26 11:30 Chose the smallest task (candidate 1) because the last rejected prompt asked for too much, and Jev's confidence in a clean finish of the last task is only 43%.
+- 2026-11-26 11:31 Round 19 runs the winback.tsx single-definition fix because the Round 18 report named it as NEXT and it is a one file, no behaviour change task (reason: smallest safe step on Row 8).
+- 2026-11-26 11:31 Jev ranked run at 62 percent; the ask option is not used because of the no questions rule, so no change to the plan (reason: consistent with the brief).
+- 2026-11-26 11:31 Round 18 report: Expired, cancelled and past_due states were already in code; no new states added (reason: the report confirmed it and tests pass).
