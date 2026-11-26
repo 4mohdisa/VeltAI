@@ -14,9 +14,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
 - Last full checkpoint: Round 66 (tsc 0; Jest 323 suites, 2,015 tests).
+- Round 79: push token tests merged into src/__tests__/pushToken.test.ts (10 tests pass). Row 14 BUILT.
+- Round 80: forced checkpoint, the gate was not run after Round 79.
 
 ## Next
-1. Round 79: merge the two push token test files (in progress).
+1. Round 80: checkpoint, full tsc and full Jest, no edits.
 2. Row 14a step 1: FEATURES config and throttle module (fake clock tests).
 3. Row 14a: chip, sheet, Settings screen, backend (one piece per round).
 4. Row 14b design intent audit.
@@ -25,9 +27,10 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Health disclaimer link.
 - web/lib/legal.ts lacks push, Sentry, PostHog lines.
 - LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'.
-- Banned word in legalParity server consent comment (flagged twice).
-- Paywall and signup LegalLink duplicates; shared link component later.
-- Paywall footer height on small iPhone: Row 23.
+- Banned word in legalParity comment (flagged twice).
+- Paywall and signup LegalLink duplicates; shared component later.
+- Paywall footer on small iPhone: Row 23.
+- loop/HANDOVER_phase4.md:34 still says two push token test files exist.
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -37,7 +40,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Row 12a: Email, Name, User ID on App Store label; push token manifest type.
 - Row 13: age rating; production demo account; confirm lume.fit URLs live.
 - Row 5 copy: recipients, consent version, 500 vs 403, AI limit copy.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall subscription terms wording (legal review).
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording (legal review).
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications).
 - Simulator checks (row 23): 401 after Clerk expiry; signup; launch; paywall; Row 6 numbers; Row 14 gym line offline.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
@@ -55,6 +58,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - appleHealth.ts has write types; merge into real provider later.
 - Root config and backend JS unlinted; verify:go lacks -count=1.
 - Reanimated shared mock lacks useReducedMotion.
+- Two push token test files still listed in handover: src/lib/notifications/pushToken.test.ts was deleted in Round 79; confirm in the checkpoint.
 
 ## Decisions (never delete)
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
@@ -68,11 +72,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes. expo-notifications imported only in permissions.ts and device.ts. Reschedules go through rescheduleToday or runDailySchedule; neither prompts.
-- Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered once per signed-in user; sign-out deletes saved copy only after DELETE succeeds. Native device token, not Expo token.
+- Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered once per signed-in user; sign-out deletes saved copy only after DELETE succeeds. Native device token, not Expo token. Kept test: src/__tests__/pushToken.test.ts.
 - Analytics off by default. English only for new keys. Stepper labels: common.decrease and common.increase.
 - Row 11: no denied state for reads; reads return null when not granted or no data.
 - Row 12a: account data in PRIVACY_DATA.md and app.json; manifest does not list push token.
-- Row 13: APP_STORE_METADATA.md English only; follows PRIVACY_DATA.md and app.json; Gemini is default photo AI; crash data not linked to user.
+- Row 13: APP_STORE_METADATA.md English only; Gemini is default photo AI; crash data not linked to user.
 - Row 14: legal copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); legalParity reads headings from en.json; UPDATED date literal stays because the manifest pins it.
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
@@ -88,6 +92,5 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## Round log
 - Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
 - Round 67: Row 12a done. Round 68: prompt rejected for multiple screens.
-- Rounds 70 to 75: privacy screen built; terms move; banned word parked.
-- Round 76 to 78: paywall terms moved to onboarding.paywall.terms; clean. Row 14 BUILT in round 79.
-- Round 79: push token test merge prompt issued.
+- Rounds 70 to 79: privacy screen, terms move, paywall terms, push token merge; Row 14 BUILT.
+- Round 80: checkpoint (forced by loop note).

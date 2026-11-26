@@ -12036,3 +12036,6 @@
 - 2026-11-27 02:22 Chose the push token merge over 14a. It is a small cleanup that was already on the Next list and it removes a duplicate test pair before new feedback code lands. Jev ranked run at 66%, so the run choice matches its signal.
 - 2026-11-27 02:22 Kept the notes under 600 words by merging repeated parked items. Nothing still open was dropped.
 - 2026-11-27 02:22 Excluded the simulator check for the paywall footer and the hardcoded LegalScreen strings from this round, per the one-screen rule and override 6.
+- 2026-11-27 02:24 Chose the checkpoint because the loop flagged the last report as not having run the type check and full suite, and the loop note requires this round to be the checkpoint.
+- 2026-11-27 02:24 Row 14a waits one round, so a red gate is not mixed with new feature work.
+- 2026-11-27 02:24 Round 79 merge is recorded as done; the full suite has not run since Round 66, so this round's result is the first confirmation.
