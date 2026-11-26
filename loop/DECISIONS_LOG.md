@@ -12352,3 +12352,8 @@
 - 2026-11-27 05:29 Kept the rule that a Fix with a visual or product question is parked in OWNER_CHECKS_phase4.md and not built.
 - 2026-11-27 05:29 Round 150 tests already green (Fix 20 snapshot and weekRange tests), so no untested flagged work to clear first.
 - 2026-11-27 05:29 Rewrote the notes below 600 words: merged repeats, removed finished Fix 1-20 detail, kept the blocked list and gotchas.
+- 2026-11-27 05:32 Chose Fix 28 over Fix 26 because Fix 26 spans two screens, which breaks the one-screen override.
+- 2026-11-27 05:32 Checked DESIGN_INTENT.md for an existing Done line before building, after round 151 picked a Fix that was already done.
+- 2026-11-27 05:32 If no existing create-workout route exists, park the item instead of inventing a route.
+- 2026-11-27 05:32 Notes rewritten under 600 words: finished work deleted, parked items merged into one line each.
+- 2026-11-27 05:32 Jev's advice (run 92%) agrees with this choice; kept it because it is the next open Fix in the Row 14b order.

@@ -181,6 +181,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 27. **Muscles Back falls back to the Gym tab**, not Summary (`muscles.tsx:127`).
    - Done (Round 151): with no history (a deep link) the Muscles screen's Back lands on the Gym tab (`/(tabs)/gym`, the route session and log-session use) instead of Summary; with history it still goes back. No new strings, no visual change. Test: `src/__tests__/render/gymMuscles.render.test.tsx` (loading, error, empty and data states, plus the history case).
 28. **Schedule with no workouts offers "Create a workout"** in the day picker (`schedule.tsx:174-188`).
+   - Done (Round 152): with no workouts the Schedule day picker (`src/app/gym/schedule.tsx`) shows a New workout row that closes the sheet and opens `/gym/new-template`, the route My workouts uses, with the existing `gymTemplates.newWorkoutLabel` and `gymTemplates.emptyMessage` strings; with workouts the row is not shown. No new strings, no visual change. Test: `src/__tests__/render/schedule.render.test.tsx`.
 
 ### POST LAUNCH (major visual change, also listed in OWNER_CHECKS_phase4.md under "Post launch UI")
 

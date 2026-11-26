@@ -180,6 +180,18 @@ export default function ScheduleScreen() {
                 onPress={() => choose(activeDay, template.id)}
               />
             ))}
+            {/* No workouts yet: the picker offers the one way to make one. */}
+            {templates.length === 0 ? (
+              <SheetRow
+                label={t('gymTemplates.newWorkoutLabel')}
+                sublabel={t('gymTemplates.emptyMessage')}
+                selected={false}
+                onPress={() => {
+                  setActiveDay(null);
+                  navigate('/gym/new-template');
+                }}
+              />
+            ) : null}
             <SheetRow
               label={t('gymLog.restDayTitle')}
               sublabel={t('gymSession.nothingScheduled')}

@@ -5,8 +5,10 @@
 // day's workout calls api.gym.setScheduleDay. Mocked at that one module
 // boundary, so the real hooks and the screen's own choose() logic run.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import ScheduleScreen from '@/app/gym/schedule';
+import en from '@/lib/i18n/locales/en.json';
 import { act, allText, findAll, renderScreen } from './helpers';
 
 const mockGetSchedule = jest.fn();
@@ -105,4 +107,45 @@ test('changing Monday to a rest day calls setScheduleDay with that day and a nul
   });
 
   expect(mockSetScheduleDay).toHaveBeenCalledWith(1, null);
+});
+
+// Fix 28: with no workouts the day picker offers New workout, on the route the
+// My workouts screen uses; with workouts it does not.
+const openTuesday = async (tree: ReturnType<typeof renderWithInsets>) => {
+  const row = findAll(
+    tree,
+    (p) => typeof p.accessibilityLabel === 'string' && (p.accessibilityLabel as string).startsWith('Tuesday,') && typeof p.onPress === 'function',
+  )[0];
+  expect(row).toBeDefined();
+  await act(async () => {
+    (row.props.onPress as () => void)();
+  });
+};
+const newWorkoutOption = (tree: ReturnType<typeof renderWithInsets>) =>
+  findAll(tree, (p) => p.accessibilityLabel === en.gymTemplates.newWorkoutLabel && typeof p.onPress === 'function')[0];
+
+test('with no workouts the day picker offers New workout and opens the create flow', async () => {
+  mockGetSchedule.mockResolvedValue(SCHEDULE.map((d) => ({ ...d, is_rest_day: true, template_id: null, template: null })));
+  mockGetTemplates.mockResolvedValue([]);
+  const tree = renderWithInsets();
+  await settle();
+  await openTuesday(tree);
+
+  const option = newWorkoutOption(tree);
+  expect(option).toBeDefined();
+  expect(allText(tree)).toContain(en.gymTemplates.emptyMessage);
+  await act(async () => {
+    (option.props.onPress as () => void)();
+  });
+  expect(router.push).toHaveBeenCalledWith('/gym/new-template');
+  expect(mockSetScheduleDay).not.toHaveBeenCalled();
+});
+
+test('with workouts the day picker lists them and offers no New workout', async () => {
+  const tree = renderWithInsets();
+  await settle();
+  await openTuesday(tree);
+
+  expect(findAll(tree, (p) => p.accessibilityLabel === 'Push day').length).toBeGreaterThan(0);
+  expect(newWorkoutOption(tree)).toBeUndefined();
 });
