@@ -32,6 +32,8 @@ const ENGLISH_ONLY = new Set([
   ...flatten(en.legal.terms.sections, 'legal.terms.sections').keys(),
   // The paywall subscription terms (src/app/onboarding/paywall.tsx), English only until legal review.
   ...flatten(en.onboarding.paywall.terms, 'onboarding.paywall.terms').keys(),
+  // The feature feedback chip (src/components/feedback/FeatureFeedbackChip.tsx).
+  ...flatten(en.feedback.chip, 'feedback.chip').keys(),
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',

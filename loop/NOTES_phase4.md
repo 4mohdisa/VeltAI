@@ -16,17 +16,17 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Checkpoints: Round 66 and Round 80 green (325 suites, 2,018 tests).
 
 ## Row 14a (feedback), in progress
-- Done: features.ts (11 keys); throttle.ts (canPromptFeature, recordPrompt copies dontAskAgain); feedbackThrottle.test.ts (12 tests).
-- Done R82: promptStore.ts (load, save, recordLaunch, never throws); feedbackPromptStore.test.ts (7 tests); STORAGE_KEYS.feedbackPrompt kept across sign-out.
-- Round 83: step 3, recordLaunch once at start-up in root layout, with render test.
-- Then: chip; sheet (reasons, free text, what do you like); Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback; delete and export coverage; PRIVACY_DATA.md.
-- Small fixes later: promptStore shape check must filter feature keys inside lastPromptByFeature and dontAskAgain; saveFeedbackPromptState must handle setItem false.
+- Done: features.ts (11 keys); throttle.ts; feedbackThrottle test (12); promptStore.ts (load, save, recordLaunch, never throws) with 7 tests; recordLaunch once at start-up in root layout (2 render tests).
+- Step 4 (Round 84): FeatureFeedbackChip component and render test. Not wired until step 5.
+- Then: step 5 wire chip on barcode scan with sheet (reasons, free text, what do you like); Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback; delete and export coverage; PRIVACY_DATA.md.
+- Small fixes later: promptStore shape check must filter feature keys in lastPromptByFeature and dontAskAgain; saveFeedbackPromptState must handle setItem false.
 
 ## Row 14b
 - Write DESIGN_INTENT.md (four questions per screen), then small fixes: smart defaults, contextual links, remove what does not earn its place.
 
 ## Next after that
 - Checkpoint: find which suites emit console.warn (164 now, 82 at Round 66).
+- Move terms.tsx onto legal.terms keys; then health disclaimer and paywall subscription terms.
 
 ## Parked (Row 14 and legal, do not retry)
 - Health disclaimer link. web/lib/legal.ts lacks push, Sentry, PostHog lines.
@@ -34,7 +34,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Banned word in legalParity comment (flagged twice).
 - Paywall and signup LegalLink duplicates; shared component later.
 - Paywall footer on small iPhone: Row 23.
-- HANDOVER line 34 says two push token test files; check before editing.
+- HANDOVER says two push token test files; check before editing.
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -52,6 +52,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## Parked (other)
 - DELETE after session gets 401; stale push tokens never removed; failed POST not retried; sign-out cannot remove token after relaunch.
 - Leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap; expired session clears reminders until foreground.
+- Fast refresh resets launch flag (dev only). Other render tests may leave Clerk MessagePort open; check.
 - Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons; pull-to-refresh skips subscription.
 - Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
@@ -79,12 +80,13 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Analytics off by default. English only for new keys. Stepper labels: common.decrease and common.increase.
 - Row 11: no denied state for reads; reads return null when not granted or no data.
 - Row 12a: account data in PRIVACY_DATA.md and app.json; manifest does not list push token.
-- Row 13: APP_STORE_METADATA.md English only; Gemini is default photo AI; crash data not linked to user.
+- Row 13: APP_STORE_METADATA.md English only; Gemini is default photo AI; crash data not linked to user. Insights go to Gemini by default; Anthropic only when LLM_PROVIDER=claude.
 - Row 14: legal copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); legalParity reads headings from en.json; UPDATED date literal stays (manifest pins it).
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
-- Round 82: persistence before chip (chip depends on throttle state); recordPrompt copies dontAskAgain.
-- Round 83: 14a step 3 chosen over shape and write fixes (smallest, unblocks chip; Jev risk high).
+- Round 82: persistence before chip; recordPrompt copies dontAskAgain.
+- Round 83: 14a step 3 chosen over shape and write fixes (smallest, unblocks chip).
+- Round 84: step 4 chosen; chip not wired until step 5 to avoid dead code.
 
 ## Gotchas
 - Branch check first. Full Jest paths; never jest -u; use --ci; redirect output.
@@ -92,9 +94,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Skeleton screens need per-file LoadingSkeleton mock. Typed routes lack /profile/winback and /profile/leaving: use navigate().
 - expo-notifications is native: mock in tabs layout tests. Render tests must be *.render.test.tsx.
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
+- SafeAreaProvider hides children under Jest without initialMetrics.
 
 ## Round log
 - Rounds 60 to 80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - Round 81: features.ts and throttle.ts with 12 tests.
-- Round 82: promptStore and persistence done; Row 14a step 3 next.
-- Round 83: Row 14a step 3 issued.
+- Round 82: promptStore and persistence done.
+- Round 83: 14a step 3 done (launch recorded once).
+- Round 84: 14a step 4 issued.

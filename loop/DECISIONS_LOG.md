@@ -12052,3 +12052,8 @@
 - 2026-11-27 02:28 Two follow-ups from the Round 82 report are parked for a later small step: the shape filter for feature keys and the setItem false handling.
 - 2026-11-27 02:28 Row 14a status set to PARTIAL in PHASE4_ROWS.md, since it was still DIFFERENT after persistence work.
 - 2026-11-27 02:28 Step 3 test covers a rejecting recordLaunch so a storage failure cannot block start-up.
+- 2026-11-27 02:46 Round 84: step 4 chosen as the next blocker for Row 14a; the chip depends on the persisted throttle state that is already done.
+- 2026-11-27 02:46 Round 84: chip built but not wired into any screen until step 5 (sheet), to avoid dead code.
+- 2026-11-27 02:46 Round 84: followed Jev's 100% run signal; no reason to override.
+- 2026-11-27 02:46 Round 84: notes rewritten under 600 words as the loop note asked; finished work removed, repeats merged.
+- 2026-11-27 02:46 Round 84: the 14a small fixes stay queued after step 6, since they do not block the chip.

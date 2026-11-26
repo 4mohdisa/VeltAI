@@ -128,7 +128,13 @@
     "includeDeviceHint": "Adds the app version and your device model to this message",
     "send": "Send",
     "sent": "Thanks, your feedback was sent.",
-    "error": "Couldn't send your feedback. Check your connection and try again."
+    "error": "Couldn't send your feedback. Check your connection and try again.",
+    "chip": {
+      "question": "Was this useful?",
+      "thumbsUp": "Yes, this was useful",
+      "thumbsDown": "No, this was not useful",
+      "dismiss": "Dismiss"
+    }
   },
   "profile": {
     "loadFailed": "Couldn't load your gym data.",
