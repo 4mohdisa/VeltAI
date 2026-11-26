@@ -12061,3 +12061,7 @@
 - 2026-11-27 02:48 Kept the chip unwired until step 5, as decided in Round 84, to avoid dead code.
 - 2026-11-27 02:48 Deferred the sticky state and fast refresh launch issues to later rows; they do not block step 5.
 - 2026-11-27 02:48 Rewrote the notes under 600 words, merging repeated items and removing finished work.
+- 2026-11-27 02:50 Row 14a flagged a second time (override 5): parked its leftovers (scan wiring, feature_rated, Settings screen, backend route, npm run feedback, delete and export coverage, PRIVACY_DATA.md) and moved on to 14b.
+- 2026-11-27 02:50 The feedback chip stays unwired for now; it is listed as dead code to wire or delete before Row 31.
+- 2026-11-27 02:50 Chose 14b over 14a step 5 because it is documentation only, cannot break gates, and the 14a chip is already built.
+- 2026-11-27 02:50 Prompt limited to one step set (documentation) to keep the round small.

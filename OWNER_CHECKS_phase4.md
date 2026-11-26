@@ -139,3 +139,18 @@ Only the read only provider interface and the mock provider exist so far (`src/l
 - [ ] **No writes.** After using the app for a day, open Health > Browse for each kind > Data Sources & Access > Lume: Lume must appear under reading only, with no samples written by Lume.
 - [ ] **Sign out.** Sign out and sign in as a different test account: no Health values from the first account may show until the switch is turned on again.
 - [ ] **Row 12a account data on the App Store privacy label.** In App Store Connect > App Privacy > Data Types, add Contact Info > Email Address, Contact Info > Name and Identifiers > User ID. For each one answer: used for App Functionality only; linked to the user's identity: yes; used for tracking: no. This matches `PRIVACY_DATA.md` (Account data) and `app.json` `ios.privacyManifests`.
+
+## Post launch UI
+
+From the Row 14b design intent audit (DESIGN_INTENT.md, Fix list). Major visual changes, parked until after launch.
+
+- [ ] A session detail screen, opened from Gym history rows and calendar days.
+- [ ] Store every set of a session, not only the top set (backend shape change plus new history and volume views).
+- [ ] An entry point for recipes (food/meals and food/new-recipe are unreachable today), or remove the feature.
+- [ ] A discoverable way to delete a whole meal (long press only today).
+- [ ] A visible step label in onboarding in place of the dots.
+- [ ] A per-muscle drill-down on the Muscles screen once per-muscle data exists.
+
+## Row 14b: owner decision
+
+- [ ] **Terms say there is a free tier; the app has none.** `legal.terms.sections.freeTier` in en.json describes a free tier, but the paywall saves onboarding only with a trial or plan (`src/app/onboarding/paywall.tsx:6`). Decide which is true and have the Terms wording changed with the legal review.
