@@ -767,7 +767,6 @@
     "fibre": "Fibres",
     "energyLogged": "{{unit}} au total",
     "mealsToday": "Repas du jour",
-    "percentOfTarget": "Pourcentage de l’objectif",
     "macroPercentLabel": "{{macro}} : {{percent}} pour cent de l’objectif",
     "weekMacrosSummary": "Protéines, glucides, lipides et fibres par jour, du {{from}} au {{to}}.",
     "breakdown": "Répartition",

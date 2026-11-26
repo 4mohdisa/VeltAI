@@ -888,7 +888,6 @@
     "fibre": "Fibre",
     "energyLogged": "{{unit}} logged",
     "mealsToday": "Meals today",
-    "percentOfTarget": "Percent of target",
     "macroPercentLabel": "{{macro}} {{percent}} percent of target",
     "weekMacrosSummary": "Daily protein, carbs, fat and fibre, {{from}} to {{to}}.",
     "breakdown": "Breakdown",

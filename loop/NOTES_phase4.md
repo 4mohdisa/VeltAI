@@ -14,18 +14,18 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits, report failures.
 
-## State (Round 165)
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
+## State (Round 166)
+- BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31. DIFFERENT: 15-28, 30.
 - Last green checkpoint: Round 163 (tsc 0, Jest 350/350, 2,190 tests).
-- Round 164 flagged: tsc ran, Jest did not. Round 165 runs tests first.
+- Round 164: Jest not run (flagged). Round 165: tsc only, no locale change (flagged). Round 166 runs both flagged test files first.
 
 ## Row 14b (open)
 - Done: Fixes 1-23, 26a, 26b, 27, 28, 29. Parked: Fix 24, Fix 25, Fix 12 option B, body stats hint.
 - Open: energy 'not enough days' has no action; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Training axisLetters uses fixed September fixture.
 - Spotted: Food tab checks consent on mount only; Gym tab reads this month twice; saved list drops meal slot for detail sheet.
+- Round 166: remove nutrition.percentOfTarget (en, es, fr). Keep nutrition.todayAgainstTargets (read by dashboardNutrition.render.test.tsx:102).
 - English only: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle.
-- Unused keys nutrition.todayAgainstTargets, nutrition.percentOfTarget: removal in Round 165.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, chip render tests.
@@ -45,7 +45,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Blocked on Isa (park, do not retry)
-- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; Fix 12 B; body stats hint; Fix 24; Fix 25; gym.freeze.confirm_one es and fr.
+- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; Fix 12 B; body stats hint; Fix 24; Fix 25; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and dashboard.energyAddBodyStats wording; todayAgainstTargets ruling.
 - Apple/RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key; native Apple sheet vs browser; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
 - HealthKit: Settings switch, purpose strings, provider, device steps.
@@ -72,7 +72,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Fix 12 option A. Training energy card: Monday to today via weekOf.
 - Ask banned. Chosen task runs each round. Jev asks are advisory only.
 - New strings: en only; add each new key at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
-- Round 165: removing unused keys from es and fr as well (unused everywhere).
+- Removing unused keys from es and fr as well (unused everywhere). Round 166 removes nutrition.percentOfTarget.
+- Tally 'Built or exact: 17 of 39' checked and correct (Round 165).
 
 ## Gotchas
 - Full Jest paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
@@ -87,4 +88,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
 - 158, 160, 163: checkpoints green. 159, 161, 162: small fixes or no edit.
 - 164: docs cleanup; tsc only, Jest not run (flagged).
-- 165: unused key removal and tally fix; affected tests run.
+- 165: tsc only; unused key removal stopped (todayAgainstTargets is read by a test). Flagged, no Jest run.
+- 166: run flagged tests; remove percentOfTarget.

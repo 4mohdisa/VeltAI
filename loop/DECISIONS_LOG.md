@@ -12412,3 +12412,7 @@
 - 2026-11-27 05:52 Round 165: chose the unused key removal, which is the smallest safe step. Jev's 81% run choice agrees.
 - 2026-11-27 05:52 Round 165: removing unused keys from es and fr too, since they are unused in all locales and English only is the rule for new strings.
 - 2026-11-27 05:52 Round 165: fixing the tally line in PHASE4_ROWS.md, since it contradicts the table.
+- 2026-11-27 05:53 Round 166 runs the two tests skipped in Round 165 before any new task, because the flag on the last report says Jest was not run (rule 8).
+- 2026-11-27 05:53 nutrition.todayAgainstTargets stays in the locales because dashboardNutrition.render.test.tsx:102 reads it. Only nutrition.percentOfTarget is removed, since nothing uses it. Isa's ruling on the other key is still open.
+- 2026-11-27 05:53 Removing an unused key from es and fr is allowed, since the key is unused in all three locales (decision from Round 165).
+- 2026-11-27 05:53 The tally line 'Built or exact: 17 of 39' in PHASE4_ROWS.md is correct, as the report counted. No edit needed.
