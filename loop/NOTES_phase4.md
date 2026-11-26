@@ -1,37 +1,39 @@
 # Lume Loop Notes: Phase 4
-Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branch loop/phase4 only. Never write 'verified'.
+Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branch loop/phase4 only.
 
 ## Overrides (Isa)
 1. English only; es/fr deferred; missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken).
-3. Order: 12a, 14, 14a, 14b, 15 to 30, 31.
+3. Order: 14, 14a, 14b, 15 to 30, 31.
 4. One screen or component per prompt, max 5 numbered steps.
-5. 'Partly done' gets ONE follow-up round; flagged again: park leftover, move on.
+5. Partly done gets ONE follow-up round; flagged again: park leftover, move on.
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with the branch rule and forbids switching, pushing, merging.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12, 12b, 13, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
-- Row 13: full gate re-run still pending (Round 65 ran changed-file gates only).
-- Last full checkpoint: Round 66. tsc 0; Jest 323 suites, 2,015 tests, 4 snapshots.
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl. 12a), 13, 29. Phase 3 rows 6, 13, 14, 15.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (privacy screen in progress).
+- Row 13: full gate re-run pending.
+- Last full checkpoint: Round 66. tsc 0; Jest 323 suites, 2,015 tests.
+- Round 67: Row 12a done. Account data (email, name, user ID) in PRIVACY_DATA.md and app.json. Manifest check OK.
 
 ## Next
-1. Row 12a: account data in PRIVACY_DATA.md and app.json; fix Push tokens section (out of date since Row 10).
-2. Row 14 in-app legal, then 14a, 14b.
-3. Merge the two push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
-4. Confirm each row's status in PHASE4_ROWS.md before starting it.
+1. Round 70: Row 14 privacy policy screen, one screen only (rewrite of the rejected multi-screen prompt).
+2. Then one screen per round: Settings link to privacy, terms, health disclaimer, paywall terms.
+3. Row 14a feedback, then 14b design intent audit.
+4. PRIVACY_DATA.md line 215 uses a banned word ('unverified'). Small text fix.
+5. APP_STORE_METADATA.md account data answers still say owner to decide. Update.
+6. Merge push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
+7. Confirm each row's status in PHASE4_ROWS.md before starting it.
 
 ## Blocked on Isa (park, do not retry)
-- Leaving: destination; reason and note destination; priming copy; win back copy and price; resubscribe beside Manage on cancelled.
-- 7c: StoreKit purchase needs iOS public key.
-- Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test.
-- Row 10: category strings; notification defaults; training-day reminders; quiet hours wording and off switch; UTC fallback; same-day reschedule after later grant; push token retention; DELETE public or gated; push re-register rate.
-- Row 11: Settings switch and purpose strings; real HealthKit provider (native package, entitlement, pod install); device steps; confirm 'requested' or 'not_determined'.
-- Row 12a: how to declare account data (email, name, user ID) on the privacy label.
-- Row 13: age rating answers; production demo account; confirm lume.fit/support and lume.fit/privacy are live.
-- Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
+- Leaving and retention: destination; reason and priming copy; win back copy and price; resubscribe on cancelled; Apple Retention access; App Store Connect key; approve two messages; sandbox URL and 700 ms test.
+- 7c: StoreKit purchase needs iOS public key. Row 8: Maestro install; email code sign in; lume DB on 127.0.0.1:55432; expired, cancelled, past_due runs.
+- Row 10: category strings; notification defaults; training-day reminders; quiet hours wording and off switch; UTC fallback; same-day reschedule after grant; push token retention; DELETE public or gated; re-register rate.
+- Row 11: Settings switch and purpose strings; real HealthKit provider (native package, entitlement, pod install); device steps.
+- Row 12a: declare Email, Name, User ID on App Store label (in OWNER_CHECKS). Push token manifest type: owner decides.
+- Row 13: age rating answers; production demo account; confirm lume.fit support and privacy URLs live.
+- Row 5 copy: Who receives it; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
@@ -49,17 +51,17 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot, once per day; 7 day window; quiet hours 22:00 to 07:00 (15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes. expo-notifications imported only in permissions.ts and device.ts. Every reschedule goes through rescheduleToday or runDailySchedule; neither prompts.
-- Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered from ClerkBridge once per signed-in user; sign-out deletes saved copy only after DELETE succeeds; API client treats 204 as success.
+- Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered from ClerkBridge once per signed-in user; sign-out deletes saved copy only after DELETE succeeds. Native device token, not an Expo token.
 - Analytics off by default. Retry label 'Try again'. English only for new keys. Stepper labels: common.decrease and common.increase.
-- Row 11: no denied state for reads; reads return null when not granted or no data. Real provider waits for native package approval and pod install.
-- Row 13: APP_STORE_METADATA.md English only; follows PRIVACY_DATA.md and app.json; analytics described as off until turned on; Gemini is default photo AI; crash data not linked to user. Support and privacy URLs from web/lib/site.ts.
+- Row 11: no denied state for reads; reads return null when not granted or no data.
+- Row 12a: account data in PRIVACY_DATA.md and app.json; push token section rewritten. Manifest does not list push token.
+- Row 13: APP_STORE_METADATA.md English only; follows PRIVACY_DATA.md and app.json; analytics described as off until turned on; Gemini is default photo AI; crash data not linked to user.
 - Render test expo-notifications stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (package.json).
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
-- Round 67: Row 12a chosen over Jev's ask favourite. Jev risk 1.1, low confidence, so kept the task small and file only.
 
 ## Parked
-- DELETE after session ends gets 401; stale row stays. Stale push tokens never removed. Failed POST not retried in same session.
+- DELETE after session ends gets 401; stale row stays. Stale push tokens never removed. Failed POST not retried in same session. Token in memory only after relaunch: sign-out cannot remove it.
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours stepper does not wrap at midnight.
 - Expired session clears reminders until next foreground. Nothing derives per-slot meal times at app start.
 - Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
@@ -69,7 +71,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
-- appleHealth.ts has write types and its own API: merge into real provider later, park write path.
+- appleHealth.ts has write types and its own API: merge into real provider later.
 - Root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Gotchas
@@ -80,10 +82,8 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 
 ## Round log
-- Round 60: full checkpoint clean. tsc 0; Jest 322 suites, 2,008 tests.
-- Round 61: Row 10 closed as BUILT with owner checks.
-- Round 63: Row 11 leftovers parked; BUILT with owner check pending.
-- Round 64: Row 13 store drafts written; no gate run (flagged).
-- Round 65: changed-file gates green. Row 13 gate run complete for changed files.
-- Round 66: full checkpoint clean. tsc 0; Jest 323 suites, 2,015 tests, 4 snapshots.
-- Round 67: Row 12a started (this round).
+- Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed (see state).
+- Round 67: Row 12a done (manifest OK; 5 suites, 67 tests pass).
+- Round 68: prompt rejected for multiple screens.
+- Round 69: privacy policy screen started; rewritten as one screen.
+- Round 70: one-screen privacy policy prompt issued (see Next 1).

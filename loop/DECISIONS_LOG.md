@@ -11981,3 +11981,18 @@
 - 2026-11-27 02:00 Jev risk is 1.1 with low confidence, so I kept the task small: no simulator, no source changes beyond the privacy files.
 - 2026-11-27 02:00 Round 66 checkpoint is clean (tsc 0, Jest 323 suites, 2,015 tests), so the next full checkpoint is set for after row 14.
 - 2026-11-27 02:00 Account data declaration on the App Store label stays parked as an owner step in OWNER_CHECKS_phase4.md.
+- 2026-11-27 02:03 Row 14 chosen over the privacy label follow-up because the loop order puts 14 before 14a and 14b.
+- 2026-11-27 02:03 Row 14 split into steps: privacy policy screen first, then terms, health disclaimer and paywall subscription terms in later rounds.
+- 2026-11-27 02:03 Jev risk 1.3 with low confidence, so kept the task to one screen and one link.
+- 2026-11-27 02:03 Row 12a closed as BUILT per the Claude Code report; the label follow-up stays on the list.
+- 2026-11-27 02:03 Legal copy comes only from the repo legal folder; no new legal claims written by the loop.
+- 2026-11-27 02:03 Round 68 prompt was rejected for asking for more than one screen; rewritten as one screen with five steps, same goal.
+- 2026-11-27 02:03 Chose Row 14 privacy policy screen over the metadata label update (Jev ranked ask low). Kept the round small because Jev reports risk 1.1.
+- 2026-11-27 02:03 Row 14 stays PARTIAL until terms, health disclaimer and paywall terms are built.
+- 2026-11-27 02:03 The banned word fix on the PostHog line is included in this screen's copy, because the screen reads from PRIVACY_DATA.md.
+- 2026-11-27 02:03 No Simulator or Maestro this round (Isa's rule: row 23 and soak only).
+- 2026-11-27 02:04 Chose the privacy screen (Row 14) because the rejected Round 68 and 69 prompts named several screens; this prompt covers one screen and its test only.
+- 2026-11-27 02:04 Settings link, terms, health disclaimer and paywall terms are parked for later rounds to keep one screen per prompt.
+- 2026-11-27 02:04 Jev ranks run at 69 percent and the last task was 10 percent clean; I kept a small single screen task and did not take on the larger Row 14 legal bundle.
+- 2026-11-27 02:04 The banned word in PRIVACY_DATA.md line 215 is a separate small task, queued as the next candidate.
+- 2026-11-27 02:04 Strings stay English only, per Isa's override; es and fr keys are deferred.

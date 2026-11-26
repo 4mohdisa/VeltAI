@@ -19,6 +19,8 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
+import en from '@/lib/i18n/locales/en.json';
+
 const REPO = join(__dirname, '..', '..');
 const manifest = JSON.parse(readFileSync(join(REPO, 'legal/manifest.json'), 'utf8')) as {
   lastUpdated: string;
@@ -26,12 +28,18 @@ const manifest = JSON.parse(readFileSync(join(REPO, 'legal/manifest.json'), 'utf
   terms: { sections: { id: string; heading: string }[] };
 };
 
-/** Headings, in order, as the screen declares them. */
+type PrivacyKey = keyof typeof en.legal.privacy.sections;
+
+/** Section keys, in order, as privacy.tsx lists them; its copy lives in en.json legal.privacy. */
+const privacyKeys = (src: string) => [...src.matchAll(/^\s{2}\{ key: '(\w+)'/gm)].map((m) => m[1] as PrivacyKey);
+
+/** Headings, in order, as the screen declares them (literal, or by key from en.json). */
 function headingsOf(file: string): string[] {
   const src = readFileSync(join(REPO, 'src/app/legal', file), 'utf8');
-  return [...src.matchAll(/^\s{4}heading: '((?:[^'\\]|\\.)*)',$/gm)].map((m) =>
+  const literal = [...src.matchAll(/^\s{4}heading: '((?:[^'\\]|\\.)*)',$/gm)].map((m) =>
     m[1].replace(/\\'/g, "'"),
   );
+  return literal.length > 0 ? literal : privacyKeys(src).map((k) => en.legal.privacy.sections[k].heading);
 }
 
 /** Manifest headings are sentence-case; compare case-insensitively so a
@@ -61,9 +69,10 @@ describe('in-app legal screens match the canonical section list', () => {
 });
 
 describe('the in-app legal screens make no unsupported claim', () => {
+  // privacy.tsx keeps its copy in en.json, so its body text is that subtree.
   const sources = ['privacy.tsx', 'terms.tsx'].map((f) => ({
     f,
-    src: readFileSync(join(REPO, 'src/app/legal', f), 'utf8'),
+    src: readFileSync(join(REPO, 'src/app/legal', f), 'utf8') + (f === 'privacy.tsx' ? JSON.stringify(en.legal.privacy) : ''),
   }));
 
   // Body strings only — the file header comments explain why these are banned

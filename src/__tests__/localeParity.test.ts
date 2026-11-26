@@ -22,6 +22,8 @@ const others = Object.entries(LOCALES).filter(([lang]) => lang !== 'en');
 
 // English only, per Isa override 25 Nov: es and fr fall back to en for these.
 const ENGLISH_ONLY = new Set([
+  // The in-app Privacy Policy (src/app/legal/privacy.tsx), English only until legal review.
+  ...flatten(en.legal.privacy, 'legal.privacy').keys(),
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',
