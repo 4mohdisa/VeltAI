@@ -12496,3 +12496,5 @@
 - 2026-11-27 06:56 Round 185: Row 16 step 2 limited to food routes to fit the 5 step prompt limit; other route groups follow in later rounds.
 - 2026-11-27 06:56 Round 185: Chose candidate 1 over the smoke test cleanup, since ownership is the next step in the notes and the smoke list is a cleanup of the same table.
 - 2026-11-27 06:56 Round 185: Jev ranks the same next action as run at 91 percent; no change needed.
+- 2026-11-27 06:58 Round 186: Row 16 step 2 moves to gym routes, the largest remaining group with {id} routes; the token helper is copied into tests/gym because the shared helper is still waiting on Isa.
+- 2026-11-27 06:58 Round 186: the profile leak in seedMealLog and seedDay is parked for Row 25 cleanup, since it is test hygiene and does not block the ownership work.
