@@ -11897,3 +11897,7 @@
 - 2026-11-27 01:11 Round 48 picks sign-out reminder clearing: a privacy correctness issue, one small change, no Isa input needed. Jev ranked the same options; the notes order already put it first.
 - 2026-11-27 01:11 Permission-grant rescheduling and the push endpoint stay queued as next items 3 and 4.
 - 2026-11-27 01:11 Open design items (UTC fallback, same-day permission wait, app-start run before sign-in) are recorded as decisions for Isa to rule on later; they do not block.
+- 2026-11-27 01:15 Round 49 is the single allowed follow-up for Round 48 (the automatic check flagged it as partly done), so the leftover rescheduleToday on grant is finished first.
+- 2026-11-27 01:15 Jev suggested ask at 45%. Kept run: the brief forbids asking, and the item is already decided in the notes.
+- 2026-11-27 01:15 Notes condensed to stay under 600 words. No decision was dropped; repeats were merged.
+- 2026-11-27 01:15 Shared Jest config change (expo-notifications mapping in package.json, Round 48) is listed for Isa to accept. Not reverted, because node tests need it to load the sign-out path.
