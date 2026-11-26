@@ -11,6 +11,7 @@ package migrationstests
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -42,10 +43,15 @@ func localTestConfig(dsn string) (*pgx.ConnConfig, error) {
 	return cfg, nil
 }
 
-func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
+// scratchDatabase creates a throwaway lume_test_migrate_* database on the
+// LUME_TEST_DATABASE_URL server, applies the Supabase shims to it, and drops
+// only that database when the test ends. It returns a connection to the scratch
+// database and its URL. Skips when LUME_TEST_DATABASE_URL is unset.
+func scratchDatabase(t *testing.T) (*pgx.Conn, string) {
+	t.Helper()
 	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
-		t.Skip("LUME_TEST_DATABASE_URL not set — skipping migration apply check")
+		t.Skip("LUME_TEST_DATABASE_URL not set — skipping migration check against a real database")
 	}
 	cfg, err := localTestConfig(dsn)
 	if err != nil {
@@ -57,7 +63,6 @@ func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
 	if err != nil {
 		t.Fatalf("connect to %s: %v", cfg.Database, err)
 	}
-
 	scratch := fmt.Sprintf("lume_test_migrate_%d", time.Now().UnixNano())
 	// The admin connection stays open until the cleanup has dropped the scratch database.
 	t.Cleanup(func() {
@@ -76,7 +81,7 @@ func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
 	if err != nil {
 		t.Fatalf("connect to %s: %v", scratch, err)
 	}
-	defer conn.Close(ctx)
+	t.Cleanup(func() { conn.Close(context.Background()) })
 
 	shims, err := os.ReadFile(shimsFile)
 	if err != nil {
@@ -85,6 +90,18 @@ func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
 	if _, err := conn.Exec(ctx, string(shims)); err != nil {
 		t.Fatalf("apply Supabase shims: %v", err)
 	}
+
+	u, err := url.Parse(dsn)
+	if err != nil {
+		t.Fatal("LUME_TEST_DATABASE_URL does not parse")
+	}
+	u.Path = "/" + scratch
+	return conn, u.String()
+}
+
+func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
+	conn, _ := scratchDatabase(t)
+	ctx := context.Background()
 	names := migrationNames(t)
 	for _, n := range names {
 		b, err := os.ReadFile(filepath.Join(migrationsDir, n))
@@ -95,7 +112,7 @@ func TestPG_MigrationsApplyToEmptyDatabase(t *testing.T) {
 			t.Fatalf("apply %s: %v", n, err)
 		}
 	}
-	t.Logf("applied %d migrations to %s", len(names), scratch)
+	t.Logf("applied %d migrations", len(names))
 }
 
 func TestLocalTestConfigRefusesNonLocalTargets(t *testing.T) {

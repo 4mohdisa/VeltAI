@@ -68,8 +68,8 @@
     "assert:env": "node scripts/assert-build-env.mjs",
     "preflight": "node scripts/preflight.mjs",
     "verify": "tsc --noEmit && npm run lint -- --max-warnings 0 && jest --ci && npm run verify:go && npm run verify:migrations && npm run secrets:scan && npm run check:manifest",
-    "verify:go": "node -e \"const v=process.env.LUME_TEST_DATABASE_URL;if(!v){console.error('verify:go needs LUME_TEST_DATABASE_URL: set it to the local lume_test_local database on localhost or 127.0.0.1.');process.exit(1)}let h='';try{h=new URL(v).hostname}catch{}if(!['localhost','127.0.0.1'].includes(h)){console.error('verify:go refuses LUME_TEST_DATABASE_URL: its host must be localhost or 127.0.0.1.');process.exit(1)}\" && cd backend && go test -race -count=1 $(go list ./... | grep -v '/tests/migrations$')",
-    "verify:migrations": "cd backend && go test -race -count=1 -v ./tests/migrations",
+    "verify:go": "node scripts/require-local-test-db.mjs verify:go && cd backend && go test -race -count=1 $(go list ./... | grep -v '/tests/migrations$')",
+    "verify:migrations": "node scripts/require-local-test-db.mjs verify:migrations && cd backend && go test -race -count=1 -v ./tests/migrations",
     "secrets:scan": "node scripts/secrets-scan.mjs",
     "check:manifest": "node scripts/checkPrivacyManifest.js"
   },

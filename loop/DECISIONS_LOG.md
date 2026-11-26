@@ -12550,3 +12550,7 @@
 - 2026-11-27 07:24 Ran the Go half of the checkpoint now (round 200) instead of waiting for round 204, because the Row 16 status decision depends on it.
 - 2026-11-27 07:24 Kept Row 16 at PARTIAL until the Go checkpoint is green and its full description is compared (Override 9, no new work).
 - 2026-11-27 07:24 Round 200 is report only: no edits, so no out of scope changes can occur.
+- 2026-11-27 07:25 Row 16 set to BUILT: steps 1 to 3 done for all route groups, route table test runs on the real server, invalid-token gap closed. Owner check pending for the 403 vs 404 ruling. Validation gaps stay parked in KNOWN_ISSUES.md (Override 9, Blocked on Isa approvals), not fixed in Row 16.
+- 2026-11-27 07:25 Round 201 is the next round after the round 200 Go checkpoint. Full checkpoint stays at round 204.
+- 2026-11-27 07:25 Row 17 chosen over 18 and 22: it is the next row in order (Override 3) and is a backend test with no UI risk.
+- 2026-11-27 07:25 Jev suggested ask or stop; not followed. No Isa blocker stops the loop (decision from round 191).
