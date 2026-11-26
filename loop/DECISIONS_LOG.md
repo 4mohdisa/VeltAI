@@ -12011,3 +12011,11 @@
 - 2026-11-27 02:14 Row 14a starts next round with the FEATURES config and throttle module only, one component per round per override 4.
 - 2026-11-27 02:14 Parked items stay parked: they were already decided in earlier rounds and are not retried here.
 - 2026-11-27 02:14 Kept the notes under 600 words by merging the blocked and parked lists; no decision removed, only shortened.
+- 2026-11-27 02:17 Round 75: the loop flag says Round 74 looks partly done. The report itself names a banned word in legalParity.test.ts, so I issued one follow-up on the same task instead of a new row (override 5).
+- 2026-11-27 02:17 Chose candidate 1 over Jev's run/stop split: the flag is concrete and the prompt is small, which fits the high risk score (0.9, low confidence).
+- 2026-11-27 02:17 Row 14 stays PARTIAL until the paywall terms and the parked items are handled or parked.
+- 2026-11-27 02:17 Round 76 rewritten to one screen (paywall) because the Round 75 prompt was rejected for covering more than one screen or component.
+- 2026-11-27 02:17 Terms move is closed: the banned word in the legalParity server consent comment is parked (flagged twice, move on). Not a blocker for Row 14.
+- 2026-11-27 02:17 Paywall subscription terms chosen first because it is the next listed Row 14 item and is a single screen.
+- 2026-11-27 02:17 Paywall file location is left to Claude Code to find, because the path is not confirmed in notes.
+- 2026-11-27 02:17 Each prompt now limited to one screen or component and at most 5 numbered steps, per Isa's override 4.

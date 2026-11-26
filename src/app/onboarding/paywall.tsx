@@ -281,9 +281,12 @@ export default function PaywallScreen() {
               {restoring ? t('onboarding.paywall.restoring') : t('onboarding.paywall.restore')}
             </Text>
           </Pressable>
-          {/* 3.1.2 — Terms + Privacy stay reachable next to the purchase.
-              Footnote text is ~18pt tall; 14pt vertical hitSlop makes each
-              link ≥44pt. */}
+          {/* 3.1.2 — the subscription terms, then Terms + Privacy, stay next to
+              the purchase. Footnote text is ~18pt tall; 14pt vertical hitSlop
+              makes each link ≥44pt. */}
+          <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+            {`${t('paywall.terms.autoRenew')} ${t('paywall.terms.cancel')} ${t('paywall.terms.price')}`}
+          </Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: space.md }}>
             <Pressable
               accessibilityRole="link"

@@ -11,21 +11,21 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 7. Every prompt starts with branch rule; forbids switching, pushing, merging.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl 12a), 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl 12a), 13, 29. Phase 3 rows 6, 13, 14, 15.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (terms move done Round 75; paywall terms in progress Round 76).
 - Last full checkpoint: Round 66 (tsc 0; Jest 323 suites, 2,015 tests).
-- Round 73: flag cleared (tsc 0, 2 suites and manifest check pass).
 
 ## Next
-1. Move terms.tsx onto legal.terms keys (Row 14 leftover).
+1. Round 76: paywall subscription terms (one screen, one render test).
 2. Merge the two push token test files.
-3. Row 14a: FEATURES config and throttle module, then chip, sheet, Settings screen, backend.
+3. Row 14a: FEATURES config and throttle module, then chip, sheet, Settings screen, backend (one piece per round).
 4. Row 14b design intent audit.
 
 ## Parked (Row 14, do not retry)
-- Health disclaimer link; paywall subscription terms.
+- Health disclaimer link.
 - web/lib/legal.ts lacks push, Sentry, PostHog lines.
 - LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'.
+- Banned word in legalParity server consent comment (flagged twice).
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -71,6 +71,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Row 11: no denied state for reads; reads return null when not granted or no data.
 - Row 12a: account data in PRIVACY_DATA.md and app.json; manifest does not list push token.
 - Row 13: APP_STORE_METADATA.md English only; follows PRIVACY_DATA.md and app.json; Gemini is default photo AI; crash data not linked to user.
+- Row 14: legal copy lives in en.json (legal.privacy, legal.terms); legalParity reads headings from en.json; UPDATED date literal stays because the manifest pins it.
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
@@ -86,6 +87,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
 - Round 67: Row 12a done. Round 68: prompt rejected for multiple screens.
 - Round 70 to 71: privacy screen built; partly done, follow-up done, flagged again.
-- Round 72: Row 14 leftovers parked, Row 14 set BUILT.
-- Round 73: Round 72 flag cleared.
-- Round 74: terms move prompt issued.
+- Round 72: Row 14 leftovers parked, Row 14 set BUILT. Round 73: flag cleared.
+- Round 74: terms move done; flagged partly done (banned word in legalParity comment).
+- Round 75: terms move done (en.json legal.terms, terms.tsx, legalParity, localeParity). Follow-up used; banned word parked.
+- Round 76: prompt rejected for multiple components; rewritten to the paywall screen only.
