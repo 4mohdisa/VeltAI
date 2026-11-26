@@ -107,27 +107,56 @@ Extra fields beyond the table:
   (`GET /api/export`) and are deleted with the profile (`on delete cascade`).
 - **Retention**: not defined in code, owner to decide.
 
+## Account data
+
+- **Service**: Clerk (sign-in provider) and the Lume backend. Clerk holds the
+  sign-in identity; the backend copies the email address and name into its own
+  `profiles` table through the Clerk webhook (`backend/internal/auth/webhook.go`).
+- **Linked to the user**: yes, all three fields. None is used for tracking.
+
+| Field | Where it comes from | Stored in | Purpose | Retention |
+| --- | --- | --- | --- | --- |
+| Email address | Typed at sign up (email code), or supplied by Sign in with Apple or Google | Clerk; `profiles.email` | Sign in, account management, account deletion | Until the account is deleted |
+| Name | Supplied by Sign in with Apple or Google when the user shares it; email sign up asks for none | Clerk; `profiles.display_name` | Account management, account deletion | Until the account is deleted |
+| User ID (Clerk user ID) | Created by Clerk at sign up | Clerk; `profiles.id` and every row the account owns | Sign in, account management, account deletion | Until the account is deleted |
+
+- **Deletion**: Settings → Delete my account removes the Clerk user and the
+  profile, and every row tied to the user ID goes with it (`on delete cascade`).
+
 ## Push tokens
 
 - **Service**: Lume backend only (`POST /api/push/token`, `DELETE
   /api/push/token`), stored in its own database in the `push_tokens` table.
-  Source of truth: `backend/internal/push/` and
-  `supabase/migrations/20261127000001_push_tokens.sql`. The app does not
-  register a token yet, and nothing sends push yet (a hosted step).
+  Source of truth: `src/lib/notifications/pushToken.ts`,
+  `backend/internal/push/` and
+  `supabase/migrations/20261127000001_push_tokens.sql`. Nothing sends push
+  yet (a hosted step).
+- **Registered after sign in**: once notification permission is granted, the
+  app sends the device's native push token (`getDevicePushTokenAsync` from
+  `expo-notifications`) to `POST /api/push/token`. It does so from the priming
+  sheet when permission is granted, and once per signed-in session from
+  `src/lib/auth/ClerkBridge.tsx` when permission is already granted. It never
+  asks for permission to do this.
+- **Kept on the device** in secure storage (`lume.pushToken`) so sign out can
+  still remove it after a relaunch.
+- **Removed at sign out**: sign out sends `DELETE /api/push/token`. The copy
+  on the device is cleared once the delete succeeds; a failed delete is tried
+  again at the next sign out.
 - **One row per device token**, bound to the account that last registered it.
   A device that signs in to another account moves its token to that account.
 
 | Field | Required | Sent by default | Stored in | Receiving service | Reason |
 | --- | --- | --- | --- | --- | --- |
-| `token` (device push token, 1 to 512 characters, no whitespace) | Yes | Not sent yet | `push_tokens.token` | Lume backend and its own database | Address push to this device. |
-| `platform` (ios or android) | Yes | Not sent yet | `push_tokens.platform` | Lume backend and its own database | Pick the push service for the device. |
+| `token` (device push token, 1 to 512 characters, no whitespace) | Yes | Yes, after sign in once permission is granted | `push_tokens.token` | Lume backend and its own database | Address push to this device. |
+| `platform` (ios or android) | Yes | Yes, with the token | `push_tokens.platform` | Lume backend and its own database | Pick the push service for the device. |
 | user id | Yes | Taken from the sign-in token, not sent in the body | `push_tokens.user_id` | Lume backend and its own database | Send push only to the account's own devices. |
 | `id`, `created_at`, `updated_at` | Not sent | Not sent, set by the database | `push_tokens.id`, `push_tokens.created_at`, `push_tokens.updated_at` | Lume backend and its own database | Identify rows and see when a token was last registered. |
 
 - **Access and deletion**: push token rows are included in Export my data
   (`GET /api/export`) without the token itself, which can send push to the
-  device, and are deleted with the profile (`on delete cascade`).
-- **Retention**: not defined in code, owner to decide.
+  device, and are deleted with the account (`on delete cascade`).
+- **Retention**: until sign out removes it or the account is deleted. How long
+  an unused token is kept is not defined in code, owner to decide.
 
 ## AI providers
 
@@ -163,6 +192,9 @@ type names. No type is used for tracking. `scripts/checkPrivacyManifest.js`
 | `NSPrivacyCollectedDataTypeHealth` | Yes | App functionality | Food logs, goals and body weights |
 | `NSPrivacyCollectedDataTypeFitness` | Yes | App functionality | Gym sessions |
 | `NSPrivacyCollectedDataTypeOtherUserContent` | Yes | App functionality | Ask Lume questions |
+| `NSPrivacyCollectedDataTypeEmailAddress` | Yes | App functionality | Account email address |
+| `NSPrivacyCollectedDataTypeName` | Yes | App functionality | Account name, when a social sign-in shares it |
+| `NSPrivacyCollectedDataTypeUserID` | Yes | App functionality | Clerk user ID |
 
 ## Defaults and open items
 

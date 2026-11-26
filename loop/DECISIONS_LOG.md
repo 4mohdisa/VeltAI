@@ -11977,3 +11977,7 @@
 - 2026-11-27 01:59 Kept the checkpoint prompt to one job with no file changes, as the loop note requires.
 - 2026-11-27 01:59 Notes rewritten under 600 words: repeated items merged, finished work removed, Round 61 to 63 details reduced to state lines.
 - 2026-11-27 01:59 Jev signal on risk (1.3, confidence 0.19) is low confidence, so it does not change the plan.
+- 2026-11-27 02:00 Chose row 12a over the Jev favourite (ask). The brief forbids asking, and the row is small, file only and needs no Isa input.
+- 2026-11-27 02:00 Jev risk is 1.1 with low confidence, so I kept the task small: no simulator, no source changes beyond the privacy files.
+- 2026-11-27 02:00 Round 66 checkpoint is clean (tsc 0, Jest 323 suites, 2,015 tests), so the next full checkpoint is set for after row 14.
+- 2026-11-27 02:00 Account data declaration on the App Store label stays parked as an owner step in OWNER_CHECKS_phase4.md.
