@@ -76,6 +76,7 @@ beforeEach(() => {
   jest.mocked(showToast).mockClear();
   useOnboardingStore.getState().reset();
   useOnboardingStore.getState().setGoal('lose');
+  useOnboardingStore.getState().setActivity('moderate');
 });
 
 afterAll(() => registerSignOutExecutor(null));

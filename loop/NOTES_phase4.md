@@ -14,22 +14,20 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
-- Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
-- Round 107 (Fix 4) green: 10 suites, 110 tests. Not run in simulator.
-- Round 108 (Fix 5) green: 9 suites, 63 tests. Not run in simulator.
-- Round 109: checkpoint (full tsc and full Jest, no edits).
+- Green checkpoints: Rounds 66, 80, 95, 109 (340 suites, 2,090 tests, tsc 0).
+- Fixes 4 and 5: targeted tests green, no simulator run.
 
 ## Row 14b (current)
-- Done: Fix 1 meal slot on every Add path; Fix 2 Summary and Nutrition Today read today; Fix 3 remove a set; Fix 4 prefill sets from last session; Fix 5 resubscribe after sign-out (paywall server check).
-- Next: Fix 6, sign-in with no server record goes to goal step instead of measurements. Test first.
-- Then: gym top-set-only save; recipes unreachable; then list order.
-- Open from Fix 5: resubscribe without sign-out re-posts old answers and opens /onboarding/done; expired session during the server check shows the missing-answer message; 14b notes still say barcode and scan are open (Fix 1 closed it).
-- Parked: saved.tsx:48 inline slot check (needs helper returning 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
+- Done: Fix 1 meal slot on every Add path (barcode and scan included); Fix 2 Summary and Nutrition read today; Fix 3 remove a set; Fix 4 prefill sets from last session; Fix 5 resubscribe paywall server check.
+- Now: Fix 6, signed-in user with no server record goes to goal step, not measurements.
+- Next: gym top-set-only save; recipes unreachable; list order.
+- Open from Fix 5: resubscribe while signed in re-posts old answers and opens /onboarding/done; expired session during server check shows missing-answer message.
+- Parked: saved.tsx:48 inline slot check; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
-- Owner decision logged: Terms describe a free tier that does not exist.
+- Owner decision: Terms describe a free tier that does not exist.
 - Open for Isa: per-set gym history needs a backend change.
-- Tooling: en.json fails Prettier. Do not --write; check in row 22.
+- Tooling: en.json fails Prettier; do not --write.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
@@ -85,7 +83,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Summary Today always shows today.
 - Gym prefill: top set only, from the last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
-- Round 109 checkpoint: no edits; Fix 6 waits for its result.
+- Round 109 checkpoint: no edits.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -99,10 +97,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Round log (condensed)
 - 60-86: rows 10, 11, 12a, 13, 14 closed; 14a built to step 4 then parked; 14b docs written.
-- 87-101: meal slot added to Search, scanner, barcode detail, Scan again, label scan, photo capture, quick-add.
-- 102-107: Fix 2 (Summary Today), Fix 3 (remove set), Fix 4 (prefill from last session).
-- 108: Fix 5 done (paywall server check; new test red then green).
-- 109: checkpoint round, full tsc and full Jest.
+- 87-101: meal slot added to all Add paths.
+- 102-108: Fix 2 (Summary Today), Fix 3 (remove set), Fix 4 (prefill), Fix 5 (paywall server check).
+- 109: checkpoint, full tsc and Jest green.
+- 110: Fix 6 prompt issued.
 
 ## Handover
 - Last handover at Round 107. Next handover after Round 120.

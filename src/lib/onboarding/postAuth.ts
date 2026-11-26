@@ -13,27 +13,31 @@ export type PostAuthInput = {
   serverCompleted?: boolean;
   /** Local evidence this device already finished onboarding. */
   locallyCompleted: boolean;
+  /** Steps 1 to 6 are answered on this device (goal and activity set). Signing
+   *  in from Welcome skips them, so the flow must start at the goal step. */
+  answered: boolean;
 };
 
 export type PostAuthDecision = {
-  destination: '/(tabs)' | '/onboarding/measurements';
+  destination: '/(tabs)' | '/onboarding/measurements' | '/onboarding/goal';
   /** True when we are acting on local state because the server never answered. */
   degraded: boolean;
 };
 
 export function resolvePostAuth(input: PostAuthInput): PostAuthDecision {
+  const flowStart = input.answered ? '/onboarding/measurements' : '/onboarding/goal';
   if (input.serverCompleted === true) {
     return { destination: '/(tabs)', degraded: false };
   }
   if (input.serverCompleted === false) {
     // Definitive: this account genuinely has no onboarding record.
-    return { destination: '/onboarding/measurements', degraded: false };
+    return { destination: flowStart, degraded: false };
   }
   // The check did not complete. Local evidence of a finished setup beats an
   // unanswered question — re-running onboarding is destructive to someone who
   // has already done it.
   return {
-    destination: input.locallyCompleted ? '/(tabs)' : '/onboarding/measurements',
+    destination: input.locallyCompleted ? '/(tabs)' : flowStart,
     degraded: true,
   };
 }

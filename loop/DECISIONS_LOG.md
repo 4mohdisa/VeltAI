@@ -12169,3 +12169,7 @@
 - 2026-11-27 03:38 Fix 6 and the Fix 5 follow-ups wait until the checkpoint is green or its failures are recorded, so no new code lands on an unknown baseline.
 - 2026-11-27 03:38 Jev ranked run at 90% and the checkpoint is a low risk, read only step, so no second look was needed.
 - 2026-11-27 03:38 Notes rewritten under 600 words: repeated items merged, finished Fix 1 to 4 detail removed, Fix 5 recorded as done.
+- 2026-11-27 03:40 Chose Fix 6 as the smallest open task, since the last task finished with low confidence and the loop should take small steps.
+- 2026-11-27 03:40 Kept Fix 5 follow-ups open for a later round; they need their own test first.
+- 2026-11-27 03:40 Rewrote the notes under 600 words: merged repeats, removed finished Round 60 to 101 detail, kept open items.
+- 2026-11-27 03:40 Round 109 checkpoint recorded as green; no edits were made that round.

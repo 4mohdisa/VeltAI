@@ -79,9 +79,10 @@ async function continueAfterAuth(dispatch: (event: AuthEvent) => void): Promise<
     }
   }
 
-  const locallyCompleted =
-    useOnboardingStore.getState().completed || (await getHasCompletedOnboarding().catch(() => false));
-  const { destination, degraded } = resolvePostAuth({ serverCompleted, locallyCompleted });
+  const answers = useOnboardingStore.getState();
+  const locallyCompleted = answers.completed || (await getHasCompletedOnboarding().catch(() => false));
+  const answered = answers.goal != null && answers.activity_level != null;
+  const { destination, degraded } = resolvePostAuth({ serverCompleted, locallyCompleted, answered });
 
   if (destination === '/(tabs)') {
     if (!degraded) {

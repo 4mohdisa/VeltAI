@@ -7,6 +7,7 @@ import SignupScreen from '@/app/onboarding/signup';
 import { router } from 'expo-router';
 import { useToastStore } from '@/components/display/toastStore';
 import en from '@/lib/i18n/locales/en.json';
+import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { act, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 jest.mock('expo-router', () => ({
@@ -51,6 +52,9 @@ beforeEach(() => {
   mockOnboardingGet.mockReset().mockResolvedValue({ completed: false });
   jest.mocked(router.dismissTo).mockClear();
   useToastStore.getState().dismiss();
+  // Steps 1 to 6 come before signup, so their answers are on the device.
+  useOnboardingStore.getState().setGoal('lose');
+  useOnboardingStore.getState().setActivity('moderate');
 });
 
 test('back from measurements skips the signup buttons and returns to preview', () => {
