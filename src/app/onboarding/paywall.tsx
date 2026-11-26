@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { router, useLocalSearchParams, type Href } from 'expo-router';
 
+import { EXPIRED } from '@/app/profile/subscription';
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button } from '@/components/forms';
 import { LoadFailedNotice, showToast } from '@/components/display';
@@ -70,7 +71,7 @@ async function subscriptionConfirmed(): Promise<boolean> {
 }
 
 // The 402 gate's refusal reasons (backend/internal/entitlement/state.go).
-const REFUSAL_REASONS = ['trial_ended', 'expired', 'billing_failed', 'cancelled_ended', 'refunded', 'not_subscribed'];
+const REFUSAL_REASONS = ['trial_ended', EXPIRED, 'billing_failed', 'cancelled_ended', 'refunded', 'not_subscribed'];
 
 /** The i18n key for a 402 refusal; an unknown or missing reason uses storeError. */
 function refusalKey(reason: string | undefined): string {

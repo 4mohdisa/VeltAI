@@ -11748,3 +11748,6 @@
 - 2026-11-26 11:31 Round 19 runs the winback.tsx single-definition fix because the Round 18 report named it as NEXT and it is a one file, no behaviour change task (reason: smallest safe step on Row 8).
 - 2026-11-26 11:31 Jev ranked run at 62 percent; the ask option is not used because of the no questions rule, so no change to the plan (reason: consistent with the brief).
 - 2026-11-26 11:31 Round 18 report: Expired, cancelled and past_due states were already in code; no new states added (reason: the report confirmed it and tests pass).
+- 2026-11-26 11:33 Chose Round 20 over my earlier pick because Jev ranks it first at 90% and it is the smallest next step (Jev confidence 0.22, risk 1.2 favour small tasks).
+- 2026-11-26 11:33 Round 19 is treated as finished only after a grep confirms a single CANCELLED definition, since the automatic check flagged the report as partly done.
+- 2026-11-26 11:33 Paywall reason list reuses the EXPIRED constant, the same import style winback.tsx uses.
