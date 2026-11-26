@@ -160,3 +160,7 @@ From the Row 14b design intent audit (DESIGN_INTENT.md, Fix list). Major visual 
 ## Row 14b: owner decision
 
 - [ ] **Terms say there is a free tier; the app has none.** `legal.terms.sections.freeTier` in en.json describes a free tier, but the paywall saves onboarding only with a trial or plan (`src/app/onboarding/paywall.tsx:6`). Decide which is true and have the Terms wording changed with the legal review.
+
+## Row 18b: owner decision
+
+- [ ] **NUL byte answers 500.** A string input holding a NUL byte gets a 500 on 103 routes and fields (nothing is written). Approve one shared guard that answers 400 for a NUL in the path, the query, `httpx.Decode` and the debug report and scan pipeline decoders (SECURITY_TEST_REPORT.md Part B).

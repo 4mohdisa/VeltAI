@@ -12572,3 +12572,6 @@
 - 2026-11-27 07:35 Secrets scan masks values and never prints full keys; real leaked keys go to OWNER_CHECKS_phase4.md, not into the report.
 - 2026-11-27 07:35 Validation gaps from the handover stay parked; 18a tests only assert what handlers reject today.
 - 2026-11-27 07:35 Jev advice not followed: its low risk and high next action confidence match the plan, so no change.
+- 2026-11-27 07:38 Round 206: Row 18b runs in steps of at most 5 steps each; step 1 is injection fuzzing (injection is the highest risk input path, so it goes first).
+- 2026-11-27 07:38 Round 206: the injection test copies the token helper, consistent with the Row 16 decision, until Isa approves a shared helper.
+- 2026-11-27 07:38 Round 206: out of scope fixes only for 500s and row changes; other validation gaps stay parked.

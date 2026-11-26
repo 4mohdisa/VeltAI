@@ -76,3 +76,6 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 ## Phase 4 Row 17 open items
 - The migration schema test in backend/tests/migrations checks the table names used by backend SQL but not the column names.
 - No test blocks a CREATE INDEX CONCURRENTLY migration, which would fail only inside the transaction deploy/migrate.sh wraps each migration in.
+
+## Phase 4 Row 18b open items
+- A NUL byte in a string input (path, query or JSON body) gets a 500 on 103 of the 169 fuzzed inputs, because Postgres refuses it in a text value; nothing is written. Parked: the fix is one shared 400 guard, see SECURITY_TEST_REPORT.md Part B.
