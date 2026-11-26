@@ -11970,3 +11970,6 @@
 - 2026-11-27 01:55 Jev advised ask (72%). Chose run: the brief forbids asking, and the rule for a second flag is park and move on.
 - 2026-11-27 01:55 Row 13 is English only (override 1). es and fr are deferred.
 - 2026-11-27 01:55 Kept the 'requested' or 'not_determined' status decision from round 63; Isa confirms it when the Settings switch is built (parked).
+- 2026-11-27 01:58 Chose the gate run first because the loop flagged the last report as not verified, and the loop rules say to deal with it before moving on.
+- 2026-11-27 01:58 Kept Row 13 at BUILT. Only markdown changed, so the gate run confirms the status rather than reopening the row.
+- 2026-11-27 01:58 Rerun of the notificationSettingsList wiring render test added because the report says it changed on disk after its last run.
