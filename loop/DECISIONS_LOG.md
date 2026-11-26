@@ -12578,3 +12578,7 @@
 - 2026-11-27 07:45 Round 207: chose 18b step 2 (uploads and SSRF) because the previous report recommended it and the notes list it next; Jev ranked the same work as a close second, no reason to override.
 - 2026-11-27 07:45 Round 207: Jev ask and stop signals not followed; the loop does not ask Isa, and the null byte fix stays parked as an owner decision.
 - 2026-11-27 07:45 Round 207: step kept to 4 work steps plus a note, within the 5 step cap.
+- 2026-11-27 07:51 Round 208: the flagged partial task gets one follow-up under override 5. The redirect finding becomes a permanent pinned test so it is reproducible and tracked, not only in the report.
+- 2026-11-27 07:51 Round 208: pinning the open redirect behaviour in a test is allowed because it is a tripwire recorded in KNOWN_ISSUES.md; no shared guard without Isa.
+- 2026-11-27 07:51 Round 208: Row 18 stays DIFFERENT until steps 3 and 18c are done.
+- 2026-11-27 07:51 Round 208: chose the follow-up over step 3 because the loop flagged the last round as partial and the override says to deal with it first.

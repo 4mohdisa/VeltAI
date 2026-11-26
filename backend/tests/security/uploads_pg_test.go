@@ -27,6 +27,8 @@ import (
 	"testing"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"lume/backend/internal/food"
 )
 
 // geminiReply is a generateContent answer both the photo and label parsers read.
@@ -52,15 +54,30 @@ func (r *recorder) calls() []string {
 	return append([]string(nil), r.seen...)
 }
 
+// fakeUpstream plays Gemini and Open Food Facts for the stubbed clients.
+func fakeUpstream(w http.ResponseWriter, r *http.Request) {
+	switch {
+	case strings.HasSuffix(r.URL.Path, ":generateContent"):
+		fmt.Fprint(w, geminiReply)
+	case r.URL.Path == "/cgi/search.pl":
+		fmt.Fprint(w, `{"products":[]}`)
+	default:
+		http.NotFound(w, r)
+	}
+}
+
 // stubbedAPI is newAPI with a Gemini key and every injectable client sent
-// through rec to a local stub, for an owner who has given AI consent.
+// through rec to a local stub serving upstreamHandler, for an owner who has
+// given AI consent. The clients share one copy of the real food search
+// http.Client with only its transport swapped, so the redirect policy under
+// test is the production one (no client sets CheckRedirect).
 type stubbedAPI struct {
 	stub *httptest.Server
 	rec  *recorder
 	send func(method, target, body string) *httptest.ResponseRecorder
 }
 
-func newStubbedAPI(t *testing.T) stubbedAPI {
+func newStubbedAPI(t *testing.T, upstreamHandler http.Handler) stubbedAPI {
 	t.Helper()
 	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
@@ -72,23 +89,16 @@ func newStubbedAPI(t *testing.T) stubbedAPI {
 	}
 	t.Cleanup(pool.Close)
 
-	stub := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch {
-		case strings.HasSuffix(r.URL.Path, ":generateContent"):
-			fmt.Fprint(w, geminiReply)
-		case r.URL.Path == "/cgi/search.pl":
-			fmt.Fprint(w, `{"products":[]}`)
-		default:
-			http.NotFound(w, r)
-		}
-	}))
+	stub := httptest.NewServer(upstreamHandler)
 	t.Cleanup(stub.Close)
 	rec := &recorder{}
 	owner := seedOwner(t, pool, fmt.Sprintf("security_uploads_%d", os.Getpid()))
 	if _, err := pool.Exec(context.Background(), `UPDATE profiles SET ai_consent_at = now() WHERE id = $1`, owner); err != nil {
 		t.Fatalf("grant AI consent: %v", err)
 	}
-	handler, sign := newAPI(t, pool, upstream{geminiKey: "test-key", base: stub.URL, client: &http.Client{Transport: rec}})
+	client := *food.NewSearchClient("").HTTP
+	client.Transport = rec
+	handler, sign := newAPI(t, pool, upstream{geminiKey: "test-key", base: stub.URL, client: &client})
 	token := sign(owner)
 	return stubbedAPI{stub: stub, rec: rec, send: func(method, target, body string) *httptest.ResponseRecorder {
 		req := httptest.NewRequest(method, target, strings.NewReader(body))
@@ -115,7 +125,7 @@ func imageBody(b64, mime string) string {
 }
 
 func TestPG_UploadsAreBoundedAndTyped(t *testing.T) {
-	api := newStubbedAPI(t)
+	api := newStubbedAPI(t, http.HandlerFunc(fakeUpstream))
 	small := smallPNG(t)
 	// Base64 of 16 MB: an image over the 15 MB decoded cap in a body under the
 	// 24 MB scan body cap.
@@ -178,7 +188,7 @@ func TestPG_UploadsAreBoundedAndTyped(t *testing.T) {
 }
 
 func TestPG_UserInputNeverChoosesAnOutboundHost(t *testing.T) {
-	api := newStubbedAPI(t)
+	api := newStubbedAPI(t, http.HandlerFunc(fakeUpstream))
 	trap := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		t.Errorf("trap server reached: %s %s", r.Method, r.URL)
 	}))
