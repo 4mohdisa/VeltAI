@@ -12195,3 +12195,7 @@
 - 2026-11-27 03:51 Left the Welcome sign-in follow-up and the paywall re-post follow-up for later rounds: both are already logged, and only one open item per round keeps the loop small.
 - 2026-11-27 03:51 Treated the Round 114 Fix 7 re-check as complete: tsc 0, 41 gym suites and eslint clean, so no untested flagged work remains.
 - 2026-11-27 03:51 Shortened the notes to fit the 600 word limit. Kept every open item, parked item, protected file and decision; removed the finished round-by-round detail.
+- 2026-11-27 03:54 Round 116 runs the flagged check on Fix 8 first. The report said the full suite was not run and the loop note flags the check. Overrides rule 8 requires testing flagged work before any new task.
+- 2026-11-27 03:54 Jev ranked Fix 9 first at 86%. I looked again and kept the verification, because the flag is open and Fix 9 comes next round. Reason Jev cannot see: the flag is in this round's loop note.
+- 2026-11-27 03:54 Fix 8 is closed as BUILT in DESIGN_INTENT.md only after the re-check passes.
+- 2026-11-27 03:54 Notes condensed to stay under 600 words. No rule or decision was dropped.
