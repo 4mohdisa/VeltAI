@@ -12003,3 +12003,7 @@
 - 2026-11-27 02:11 Picked the small text fixes over the Terms screen the last report suggested. Reason: the flag rule says park the leftover and move on, and these two doc fixes are Row 13 items already listed in Next, small and low risk. Jev ranked this first too (83%).
 - 2026-11-27 02:11 Round 71 follow-up was the Settings privacy link. The link already existed; the new render test pins it. Accepted as done.
 - 2026-11-27 02:11 Notes rewritten under 600 words: finished work removed, repeated items merged. Decisions kept, condensed to one line each.
+- 2026-11-27 02:13 Chose the type check and tests first because the automatic check flagged Round 72 as not run; the loop note says to deal with this before moving on.
+- 2026-11-27 02:13 Terms screen and push token test merge stay next in line; Jev ranked the run action first with high confidence, so no second look was needed.
+- 2026-11-27 02:13 Notes rewritten under 600 words: finished items removed, repeated parked items merged into one line each, decisions kept in short form.
+- 2026-11-27 02:13 Round 72 document edits accepted as done; Row 13 status stays BUILT per the report.

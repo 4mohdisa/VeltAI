@@ -11,21 +11,21 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 7. Every prompt starts with the branch rule and forbids switching, pushing, merging.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl. 12a), 13, 14 (privacy linked from Settings; Terms, health disclaimer, paywall terms parked), 29. Phase 3 rows 6, 13, 14, 15.
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl. 12a), 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
-- Row 13: full gate re-run pending.
 - Last full checkpoint: Round 66. tsc 0; Jest 323 suites, 2,015 tests.
+- Round 72: automatic flag, type check not run. Round 73 clears it.
 
 ## Next
-1. Round 72: PRIVACY_DATA.md banned word line 215; APP_STORE_METADATA.md account data answers match PRIVACY_DATA.md and app.json.
-2. Row 14a feedback, one screen or component per round.
-3. Row 14b design intent audit.
-4. Merge push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
-5. Confirm each row's status in PHASE4_ROWS.md before starting it.
+1. Round 73: type check, two Round 72 tests, manifest check; Row 13 note line.
+2. Terms screen onto legal.terms keys (Row 14 leftover, recommended in handover).
+3. Merge push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
+4. Row 14a feedback, one screen or component per round.
+5. Row 14b design intent audit.
 
 ## Parked (Row 14 leftovers, do not retry without a reason)
-- Terms screen onto legal keys; health disclaimer link; paywall subscription terms.
-- web/lib/legal.ts: push, Sentry, PostHog lines.
+- Health disclaimer link; paywall subscription terms.
+- web/lib/legal.ts lacks push, Sentry, PostHog lines.
 - LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'.
 
 ## Blocked on Isa (park, do not retry)
@@ -40,6 +40,21 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b items; HealthKit device steps.
+
+## Parked (other)
+- DELETE after session ends gets 401; stale row stays. Stale push tokens never removed. Failed POST not retried in same session. Token in memory only after relaunch: sign-out cannot remove it.
+- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours stepper does not wrap at midnight.
+- Expired session clears reminders until next foreground. Nothing derives per-slot meal times at app start.
+- Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
+- Past_due may show two Manage buttons. Pull-to-refresh skips subscription.
+- Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
+- About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
+- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
+- RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
+- Hotspots: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
+- appleHealth.ts has write types and its own API: merge into real provider later.
+- Root config and backend JS unlinted; verify:go lacks -count=1.
+- Shared reanimated mock lacks useReducedMotion; render tests reaching skeletons need own mocks.
 
 ## Decisions (never delete)
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
@@ -62,21 +77,6 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
 
-## Parked (other)
-- DELETE after session ends gets 401; stale row stays. Stale push tokens never removed. Failed POST not retried in same session. Token in memory only after relaunch: sign-out cannot remove it.
-- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours stepper does not wrap at midnight.
-- Expired session clears reminders until next foreground. Nothing derives per-slot meal times at app start.
-- Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
-- Past_due may show two Manage buttons. Pull-to-refresh skips subscription.
-- Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
-- About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
-- Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
-- RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
-- Hotspots: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
-- appleHealth.ts has write types and its own API: merge into real provider later.
-- Root config and backend JS unlinted; verify:go lacks -count=1.
-- Shared reanimated mock lacks useReducedMotion; render tests reaching skeletons need own mocks.
-
 ## Gotchas
 - Branch check first (git branch --show-current only). Full Jest paths for single files; never jest -u; use --ci; redirect output to files.
 - Lint: no setState in effect body; use guarded .then.
@@ -86,9 +86,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## Round log
 - Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
-- Round 67: Row 12a done (manifest OK).
-- Round 68: prompt rejected for multiple screens.
-- Round 69: privacy policy screen started.
-- Round 70: privacy screen finished; flagged partly done.
-- Round 71: follow-up done. Settings privacy link already existed; render test settingsPrivacyLink added. Flagged again.
-- Round 72: Row 14 leftovers parked, Row 14 set BUILT (rule 5). Chose doc text fixes over Terms screen: small, low risk, already in Next, Jev ranked first (83%).
+- Round 67: Row 12a done. Round 68: prompt rejected for multiple screens.
+- Round 70-71: privacy screen built; flagged partly done, follow-up done, flagged again.
+- Round 72: Row 14 leftovers parked, Row 14 set BUILT. Doc text fixes done. Automatic flag: type check not run.
+- Round 73: clearing the Round 72 flag (type check and two tests).
