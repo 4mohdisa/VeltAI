@@ -12165,3 +12165,7 @@
 - 2026-11-27 03:35 Fix 5 starts with a test that must show the failure first. If it does not reproduce, the round records that and changes no app code.
 - 2026-11-27 03:35 Rewrote the notes file to under 600 words and removed finished work (Rounds 60 to 101 condensed, Row 14a Done details dropped).
 - 2026-11-27 03:35 Added the missing PHASE4_ROWS.md update for Row 14b Fixes 1 to 4 to this prompt, as the handover flagged it as not done.
+- 2026-11-27 03:38 Chose the checkpoint because the loop note asks for it and Fix 5 was only checked in 9 targeted suites, so a full run is needed before new work.
+- 2026-11-27 03:38 Fix 6 and the Fix 5 follow-ups wait until the checkpoint is green or its failures are recorded, so no new code lands on an unknown baseline.
+- 2026-11-27 03:38 Jev ranked run at 90% and the checkpoint is a low risk, read only step, so no second look was needed.
+- 2026-11-27 03:38 Notes rewritten under 600 words: repeated items merged, finished Fix 1 to 4 detail removed, Fix 5 recorded as done.

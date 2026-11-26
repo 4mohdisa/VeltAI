@@ -16,12 +16,14 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
 - Round 107 (Fix 4) green: 10 suites, 110 tests. Not run in simulator.
+- Round 108 (Fix 5) green: 9 suites, 63 tests. Not run in simulator.
+- Round 109: checkpoint (full tsc and full Jest, no edits).
 
 ## Row 14b (current)
-- Done: Fix 1 meal slot on every Add path; Fix 2 Summary and Nutrition Today read today; Fix 3 remove a set; Fix 4 prefill sets from last session (top set only, 90 day window).
-- Next: Fix 5 resubscribe from Profile after sign-out (paywall screen ~157-160, resetRegistry.ts:52). Test first; if not reproduced, record and move on.
+- Done: Fix 1 meal slot on every Add path; Fix 2 Summary and Nutrition Today read today; Fix 3 remove a set; Fix 4 prefill sets from last session; Fix 5 resubscribe after sign-out (paywall server check).
+- Next: Fix 6, sign-in with no server record goes to goal step instead of measurements. Test first.
 - Then: gym top-set-only save; recipes unreachable; then list order.
-- PHASE4_ROWS.md notes for 14b not yet updated (Round 108 does it).
+- Open from Fix 5: resubscribe without sign-out re-posts old answers and opens /onboarding/done; expired session during the server check shows the missing-answer message; 14b notes still say barcode and scan are open (Fix 1 closed it).
 - Parked: saved.tsx:48 inline slot check (needs helper returning 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -80,11 +82,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Meal reaches the detail sheet through the subject store, never a route param.
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
-- Summary Today always shows today (Round 104, applied Round 105).
+- Summary Today always shows today.
 - Gym prefill: top set only, from the last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
-- Round 107: Fix 4 done; scope kept small.
-- Round 108: Fix 5 chosen first; test before fix; Jev run 75% noted.
+- Round 109 checkpoint: no edits; Fix 6 waits for its result.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -100,7 +101,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 60-86: rows 10, 11, 12a, 13, 14 closed; 14a built to step 4 then parked; 14b docs written.
 - 87-101: meal slot added to Search, scanner, barcode detail, Scan again, label scan, photo capture, quick-add.
 - 102-107: Fix 2 (Summary Today), Fix 3 (remove set), Fix 4 (prefill from last session).
-- 108: Fix 5 prompted (test first).
+- 108: Fix 5 done (paywall server check; new test red then green).
+- 109: checkpoint round, full tsc and full Jest.
 
 ## Handover
 - Last handover at Round 107. Next handover after Round 120.
