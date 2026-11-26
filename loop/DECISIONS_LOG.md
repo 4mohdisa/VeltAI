@@ -11666,3 +11666,7 @@
 - 2026-11-26 10:52 Repeated blocker: the Profile > Goals setCustomGoals calorie clamp check came back as the next item without a result twice, so it is recorded under Blocked on Isa as not retried. It is a Parked setting item, not an owner step; it can be picked up after Row 7.
 - 2026-11-26 10:52 Jev suggests run at 79%. Kept run. Consistent with the Next list order.
 - 2026-11-26 10:52 Did not add ROUTE_COVERAGE or Maestro work this round; both wait for their rows.
+- 2026-11-26 10:54 Chose the checkpoint task because the loop note asks for a checkpoint round with no file changes. Jev also ranks run first at 97%.
+- 2026-11-26 10:54 Kept the read only rule for this round so the checkpoint numbers match the command that produced them.
+- 2026-11-26 10:54 Parked the console.error trace for a later round so this checkpoint stays one thing only.
+- 2026-11-26 10:54 Condensed the notes to fit the 600 word limit. Blocked, owner and parked items are kept, with duplicates merged.
