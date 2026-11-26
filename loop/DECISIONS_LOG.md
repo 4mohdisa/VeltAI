@@ -12144,3 +12144,7 @@
 - 2026-11-27 03:23 Add screen title for the global '+' stays generic (addMenu.title). Recommendation to Isa is to keep it; ruling pending, no change made.
 - 2026-11-27 03:23 Jev risk noted at 1.1 of 2 (moderate). Kept to a one-hook task with a single test file to stay small.
 - 2026-11-27 03:23 Jev next-action signal (run 81%) agrees with the run choice.
+- 2026-11-27 03:24 Round 104 verifies Round 103 first, because the automatic check flagged it and the rule says to run the changed tests before any new task.
+- 2026-11-27 03:24 Fix 2 direction: Summary Today always shows today, as written in DESIGN_INTENT.md Fix 2 and recommended in the Round 103 report. Isa is not asked. Applied in the round after verification, with tests.
+- 2026-11-27 03:24 Round 103 changed no code, so the verification run is test only and needs no fix in this round.
+- 2026-11-27 03:24 Jev risk 1.8 and ask 75% noted. Kept the smallest task (verify only) because the last task is flagged and we never ask Isa.

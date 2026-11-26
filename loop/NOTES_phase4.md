@@ -19,9 +19,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (current)
 - Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture (Round 99), quick-add via slotFromParam (Round 100).
-- Round 101: add.tsx keeps its no-meal check (title only). Generic title kept for global '+'. Isa ruling pending.
-- Round 103: Fix 2 (Summary 'Today' follows the Food tab's selected day, hooks.ts:320-321). Tests not run yet: verify in Round 104 if flagged.
-- Next: gym set removal; top-set-only save; recipes unreachable; then list order.
+- Round 101: add.tsx keeps its no-meal check (title only). Generic title kept for global '+'.
+- Round 103: no code change. Fix 2 decision: Summary 'Today' always shows today (DESIGN_INTENT Fix 2). Apply with byDate[todayISO()] in useDailyMacros and useFibreConsumed plus tests.
+- Round 104: verify Round 103 (tsc, tests for useDailyMacros and useFibreConsumed). Flagged; must be closed before Fix 2.
+- Next: Fix 2 apply; gym set removal; top-set-only save; recipes unreachable; then list order.
 - Parked: saved.tsx:48 inline slot check (needs a helper that returns 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -80,6 +81,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
 - Round 100: quick-add done. Round 101: add screen check kept as is.
+- Round 104: Fix 2 direction is Summary Today always shows today (no question to Isa).
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -99,4 +101,5 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 98-100: photo-capture slot; quick-add uses slotFromParam.
 - 101: add.tsx check reviewed, no change.
 - 102: verified Round 101 (17 tests pass).
-- 103: Fix 2 Summary 'Today' (this round).
+- 103: no code change; flagged as untested. Fix 2 direction decided.
+- 104: verify Round 103 (this round).
