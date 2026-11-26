@@ -13,18 +13,18 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (switches, runs, per-slot times, sign-out clearing; quiet hours not editable).
-- Round 52 checkpoint: tsc 0 errors. Jest red: 2 render suites, 20 tests, caused by expo-notifications console.warn hitting the RevenueCat-only warning spy (Round 48 import chain).
+- Round 53: render setup mocks expo-notifications. Both failing suites pass; render 219/219 suites, 889 tests. tsc 0 errors.
 
 ## Next
-1. Round 53: mock expo-notifications in src/__tests__/render/setup.ts; rerun the two suites and the render folder.
-2. Round 54: full tsc and full Jest checkpoint.
-3. Then Row 10: quiet hours editing.
+1. Round 54: full tsc and full Jest checkpoint; record totals and console counts.
+2. Row 10: quiet hours editing.
+3. DECISIONS.md: say permissions.ts and device.ts import expo-notifications.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving destination; priming copy; win back copy and price; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase needs iOS public key.
 - Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: quiet hours and category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); console.warn fix choice.
+- Row 10: quiet hours and category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1).
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -47,7 +47,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; notification settings cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Start and foreground share one run. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
 - Push token: registered after grant on priming sheet (registerPushToken, next to rescheduleToday); removed first in resetAllStores; not awaited; API client treats 204 as success with no data.
 - Analytics off by default. Retry label 'Try again'. English only for new keys (en.json plus ENGLISH_ONLY in localeParity.test.ts).
-- Render test expo-notifications stub lives in src/__tests__/render/setup.ts, not the shared root config (Round 53).
+- Render test expo-notifications stub lives in src/__tests__/render/setup.ts, not the shared root config.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
 ## Parked
@@ -67,9 +67,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. AI limit: parallel requests slip past; old counts never deleted.
 - App-start run before sign-in can plan at default meal times if the food log read fails. deviceTimeZone() ?? 'UTC' fallback in two places.
-- DECISIONS.md still names only permissions.ts as importing expo-notifications.
-- Skeleton render tests need a stand-in (reanimated useReducedMotion missing from test setup).
-- console.warn from expo-notifications in render tests: being fixed in Round 53 via setup mock.
+- Today's pull-to-refresh skips subscription state.
 
 ## Gotchas
 - Branch check first (git branch --show-current only). Full Jest paths for single files; never jest -u; use --ci; redirect output to files.
@@ -78,6 +76,6 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Spy useLocalSearchParams via jest.requireMock('expo-router').
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 - expo-notifications is native: mock in tabs layout tests. Render tests must be *.render.test.tsx.
-- Never edit the protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
+- Never edit the protected files listed in Setup.
 - Round 26 log line stays at end of PHASE4_ROWS.md.
 - Keep prompts to one screen or component.
