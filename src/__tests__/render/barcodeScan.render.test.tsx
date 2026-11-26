@@ -75,9 +75,16 @@ test('a known barcode calls the lookup with that code and opens the product on t
     await new Promise((r) => setImmediate(r));
   });
 
+  // One lookup per scan, and the product it found goes on with the code (Fix 26a).
+  expect(mockLookup).toHaveBeenCalledTimes(1);
   expect(mockLookup).toHaveBeenCalledWith('9300605000000');
   // No ?slot here, so the meal is the one for the time of day.
-  expect(useDetailSubject.getState().subject).toEqual({ mode: 'barcode', code: '9300605000000', slot: slotForNow() });
+  expect(useDetailSubject.getState().subject).toEqual({
+    mode: 'barcode',
+    code: '9300605000000',
+    slot: slotForNow(),
+    product: YOGHURT,
+  });
   expect(router.replace).toHaveBeenCalledWith('/food/detail');
 
   // The sheet the scan hands off to renders the real product off that same code.
@@ -95,8 +102,12 @@ test('an unknown barcode shows "Product not found" and does not crash', async ()
     await new Promise((r) => setImmediate(r));
   });
 
+  expect(mockLookup).toHaveBeenCalledTimes(1);
   expect(mockLookup).toHaveBeenCalledWith('0000000000000');
   expect(allText(tree)).toContain('Product not found');
+  // No product, so no detail sheet is opened with one.
+  expect(useDetailSubject.getState().subject).toBeNull();
+  expect(router.replace).not.toHaveBeenCalled();
 });
 
 test('a failed lookup shows the network error with Retry, not "Product not found"', async () => {
@@ -113,6 +124,7 @@ test('a failed lookup shows the network error with Retry, not "Product not found
   expect(text).toContain(`${en.barcodeScan.lookupFailedReason} ${en.barcodeScan.lookupFailedHint}`);
   expect(text).not.toContain(en.food.productNotFound);
   expect(router.replace).not.toHaveBeenCalled();
+  expect(useDetailSubject.getState().subject).toBeNull();
 
   act(() => {
     (buttonWithTitle(tree, en.errorState.retry)!.props.onPress as () => void)();

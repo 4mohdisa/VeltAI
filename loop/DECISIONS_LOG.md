@@ -12367,3 +12367,12 @@
 - 2026-11-27 05:34 Fix 26a widened to src/lib/food/detailSubject.ts: the barcode subject must carry the found product for the type check to pass. Kept with this decision (override 9).
 - 2026-11-27 05:34 Fix 26b (detail.tsx) waits until the full suite is green.
 - 2026-11-27 05:34 Done lines in DESIGN_INTENT.md stay the authority for Fix numbering.
+- 2026-11-27 05:36 Fix 26a runs now: the widening to detailSubject.ts was already kept in round 154 under override 9, so the report's request for approval is treated as settled.
+- 2026-11-27 05:36 Jev's ask signal is not taken: the brief forbids ask. Run continues with the chosen task.
+- 2026-11-27 05:36 Fixes 24, 25, 12 option B and the body stats hint stay parked for Isa's ruling. No retry.
+- 2026-11-27 05:36 Checkpoint green at round 154 (350 suites, 2,189 tests, tsc 0), so no untested flagged work is pending.
+- 2026-11-27 05:36 Notes rewritten under 600 words. Finished work removed, repeats merged. Training 'This week' item dropped because the Training energy card was moved to Monday to today (Fix 20).
+- 2026-11-27 05:36 Round 156: the previous prompt was rejected for asking for more than one screen. Rewritten to one screen (barcode-scan.tsx) plus the helper detailSubject.ts already in scope (round 154 decision), 5 steps max.
+- 2026-11-27 05:36 Jev suggested ask. Ask is banned by the brief, so the smallest concrete step runs instead.
+- 2026-11-27 05:36 Notes cut under 600 words: finished work deleted, repeats merged, Fix 20 and checkpoint history condensed.
+- 2026-11-27 05:36 Fix 26b waits for 26a to be done and checked, so only one screen changes per round.

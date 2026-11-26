@@ -2,10 +2,11 @@
 //
 // A STORE, not route params, for two reasons. A food name and its macros are
 // personal data, and this repo never puts personal data in a query string. And
-// the barcode case carries only a code — the sheet still has to run an async
-// lookup — so params would buy nothing anyway.
+// the barcode case carries the product the scan already found, which no route
+// param could hold.
 import { create } from 'zustand';
 
+import type { BarcodeProduct } from '@/lib/food/barcode';
 import type { MealSlot } from '@/lib/mock/data';
 
 /** The editable shape every subject collapses to once it is resolved. */
@@ -25,7 +26,8 @@ export type DetailItem = {
  *  - `search`  a manual-search hit. The sheet shows energy only (the local dev
  *              catalog has nothing else), but a real API hit carries the per-100 g
  *              fibre through so the logged row keeps it.
- *  - `barcode` a scanned code. The sheet does the product lookup itself.
+ *  - `barcode` a scanned code, with the product the scanner's lookup found.
+ *              Without one the sheet looks the code up itself.
  *  - `saved`   a dish in Saved foods (edit / un-save).
  *  - `logged`  a row already in the food log (edit / delete / save to my foods).
  *  - `review`  a scanned row still under review — rename only (the review card
@@ -43,7 +45,7 @@ export type DetailSubject =
       /** The meal it was searched for; the meal for now when absent. */
       slot?: MealSlot;
     }
-  | { mode: 'barcode'; code: string; slot?: MealSlot }
+  | { mode: 'barcode'; code: string; slot?: MealSlot; product?: BarcodeProduct }
   | { mode: 'saved'; item: DetailItem }
   | { mode: 'logged'; item: DetailItem; slot?: MealSlot }
   | { mode: 'review'; item: DetailItem };

@@ -178,6 +178,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 25. **Profile: remove the rows repeated in Privacy and Subscription**, and keep one feedback path (`profile/index.tsx:199-212`).
    - Parked (Round 151): which rows stay and which feedback path is kept is a product decision waiting for Isa's ruling; listed under Post launch UI in OWNER_CHECKS_phase4.md.
 26. **Barcode: look the code up once**, passing the result to detail (`barcode-scan.tsx:44`, `detail.tsx:108`).
+   - Done (Round 156, Fix 26a): the barcode subject in `src/lib/food/detailSubject.ts` can carry the found `BarcodeProduct`, and `src/app/food/barcode-scan.tsx` puts the product from its one lookup into it when it opens the detail sheet; a not-found or failed lookup opens nothing. `detail.tsx` still runs its own lookup until Fix 26b. No new strings. Tests: `src/__tests__/render/barcodeScan.render.test.tsx`, `src/__tests__/render/barcodeScanSlot.render.test.tsx`.
 27. **Muscles Back falls back to the Gym tab**, not Summary (`muscles.tsx:127`).
    - Done (Round 151): with no history (a deep link) the Muscles screen's Back lands on the Gym tab (`/(tabs)/gym`, the route session and log-session use) instead of Summary; with history it still goes back. No new strings, no visual change. Test: `src/__tests__/render/gymMuscles.render.test.tsx` (loading, error, empty and data states, plus the history case).
 28. **Schedule with no workouts offers "Create a workout"** in the day picker (`schedule.tsx:174-188`).

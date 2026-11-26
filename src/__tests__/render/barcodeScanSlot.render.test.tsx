@@ -56,7 +56,12 @@ test.each([
   ['an invalid slot falls back to the meal for the time of day', { slot: 'Brunch' }, 'Breakfast'],
 ])('%s', async (_label, params, expected) => {
   await scan(params);
-  expect(useDetailSubject.getState().subject).toEqual({ mode: 'barcode', code: '9300605000000', slot: expected });
+  expect(useDetailSubject.getState().subject).toEqual({
+    mode: 'barcode',
+    code: '9300605000000',
+    slot: expected,
+    product: { name: 'Greek Yoghurt', kcalPer100: 59 },
+  });
   expect(router.replace).toHaveBeenCalledWith('/food/detail');
 });
 

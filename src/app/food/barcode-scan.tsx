@@ -46,9 +46,9 @@ export default function BarcodeScanScreen() {
     const result = await lookupBarcodeResult(code);
     setLookingUp(false);
     if (result.status === 'found') {
-      // The shared food-detail sheet does its own lookup; the code and the meal
-      // travel in the subject store, never as a route param.
-      openFoodDetail({ mode: 'barcode', code, slot: slotFromParam(slot) });
+      // The product found here, the code and the meal travel to the shared
+      // food-detail sheet in the subject store, never as a route param.
+      openFoodDetail({ mode: 'barcode', code, slot: slotFromParam(slot), product: result.product });
       router.replace('/food/detail');
     } else {
       setMiss(result.status);
