@@ -11730,3 +11730,7 @@
 - 2026-11-26 11:27 Chose the Subscription win back link next because it does not depend on the toast question or the copy approval.
 - 2026-11-26 11:27 Accepted the round 15 change to test case (1) as the default; the Isa decision is parked.
 - 2026-11-26 11:27 Kept the notes under the 600 word target by condensing wording; all decisions kept in short form.
+- 2026-11-26 11:28 Chose the checkpoint because the loop note requires one full type check and full suite this round, and the last full run predates Row 7 and Row 8.
+- 2026-11-26 11:28 Kept Row 8 PARTIAL until its simulator flow runs; the round 16 report did not run it.
+- 2026-11-26 11:28 Did not follow the 25 percent ask weight from Jev; the loop never asks Isa, so the task is run with a no-change constraint.
+- 2026-11-26 11:28 Kept all blocked items parked; none needs a retry this round.
