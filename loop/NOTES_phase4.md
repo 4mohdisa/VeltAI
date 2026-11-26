@@ -12,11 +12,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl 12a), 13, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (terms move done Round 75; paywall terms in progress Round 76).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (paywall terms in place, keys at top-level paywall).
 - Last full checkpoint: Round 66 (tsc 0; Jest 323 suites, 2,015 tests).
 
 ## Next
-1. Round 76: paywall subscription terms (one screen, one render test).
+1. Round 78: move paywall terms keys to onboarding.paywall.terms (one screen). Then Row 14 BUILT if green.
 2. Merge the two push token test files.
 3. Row 14a: FEATURES config and throttle module, then chip, sheet, Settings screen, backend (one piece per round).
 4. Row 14b design intent audit.
@@ -26,6 +26,8 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - web/lib/legal.ts lacks push, Sentry, PostHog lines.
 - LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'.
 - Banned word in legalParity server consent comment (flagged twice).
+- Paywall Terms and Privacy links repeated inline; signup.tsx LegalLink duplicate. Shared link component later.
+- Paywall footer height on small iPhone: Simulator check in row 23.
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -35,13 +37,13 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Row 12a: Email, Name, User ID on App Store label; push token manifest type.
 - Row 13: age rating; production demo account; confirm lume.fit URLs live.
 - Row 5 copy: recipients, consent version, 500 vs 403, AI limit copy.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser.
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall subscription terms wording (legal review).
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications).
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Row 6 numbers; Row 14 gym line offline.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked (other)
-- DELETE after session ends gets 401; stale row stays; stale push tokens never removed; failed POST not retried in session; sign-out cannot remove token after relaunch.
+- DELETE after session ends gets 401; stale push tokens never removed; failed POST not retried in session; sign-out cannot remove token after relaunch.
 - Leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap at midnight; expired session clears reminders until foreground.
 - Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons; pull-to-refresh skips subscription.
@@ -71,9 +73,9 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Row 11: no denied state for reads; reads return null when not granted or no data.
 - Row 12a: account data in PRIVACY_DATA.md and app.json; manifest does not list push token.
 - Row 13: APP_STORE_METADATA.md English only; follows PRIVACY_DATA.md and app.json; Gemini is default photo AI; crash data not linked to user.
-- Row 14: legal copy lives in en.json (legal.privacy, legal.terms); legalParity reads headings from en.json; UPDATED date literal stays because the manifest pins it.
+- Row 14: legal copy in en.json (legal.privacy, legal.terms; paywall terms moving to onboarding.paywall.terms); legalParity reads headings from en.json; UPDATED date literal stays because the manifest pins it.
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
-- Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
+- Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
 
 ## Gotchas
@@ -87,7 +89,8 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
 - Round 67: Row 12a done. Round 68: prompt rejected for multiple screens.
 - Round 70 to 71: privacy screen built; partly done, follow-up done, flagged again.
-- Round 72: Row 14 leftovers parked, Row 14 set BUILT. Round 73: flag cleared.
-- Round 74: terms move done; flagged partly done (banned word in legalParity comment).
-- Round 75: terms move done (en.json legal.terms, terms.tsx, legalParity, localeParity). Follow-up used; banned word parked.
-- Round 76: prompt rejected for multiple components; rewritten to the paywall screen only.
+- Round 72: Row 14 leftovers parked, set BUILT. Round 73: flag cleared.
+- Round 74 and 75: terms move done; banned word parked.
+- Round 76: paywall terms added under top-level paywall key, partly done.
+- Round 77: follow-up prompt rejected for covering multiple screens.
+- Round 78: rewritten to one screen (paywall keys move to onboarding.paywall.terms). Jev: run 42%, ask 42%, confidence 0.13, risk 1.4 of 2.

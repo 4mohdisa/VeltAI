@@ -31,7 +31,7 @@ const ENGLISH_ONLY = new Set([
   'legal.terms.awaiting',
   ...flatten(en.legal.terms.sections, 'legal.terms.sections').keys(),
   // The paywall subscription terms (src/app/onboarding/paywall.tsx), English only until legal review.
-  ...flatten(en.paywall.terms, 'paywall.terms').keys(),
+  ...flatten(en.onboarding.paywall.terms, 'onboarding.paywall.terms').keys(),
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',

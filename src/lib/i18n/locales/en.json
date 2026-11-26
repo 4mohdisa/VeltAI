@@ -1439,6 +1439,11 @@
         "personalisedDatabase": "Personalised food database",
         "gym": "Gym tracking + streaks",
         "halal": "Halal dietary filtering"
+      },
+      "terms": {
+        "autoRenew": "The subscription renews automatically until cancelled, unless auto-renew is turned off at least 24 hours before the end of the current period.",
+        "cancel": "You can cancel any time in your Apple ID subscription settings.",
+        "price": "Apple shows the price and the billing period before you confirm a purchase."
       }
     },
     "validation": {
@@ -1722,13 +1727,6 @@
           ]
         }
       }
-    }
-  },
-  "paywall": {
-    "terms": {
-      "autoRenew": "The subscription renews automatically until cancelled, unless auto-renew is turned off at least 24 hours before the end of the current period.",
-      "cancel": "You can cancel any time in your Apple ID subscription settings.",
-      "price": "Apple shows the price and the billing period before you confirm a purchase."
     }
   }
 }

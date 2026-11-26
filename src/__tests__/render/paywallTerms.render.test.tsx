@@ -32,9 +32,9 @@ async function render() {
 
 test('shows the auto-renew, Apple ID cancel and price terms', async () => {
   const text = allText(await render());
-  expect(text).toContain(en.paywall.terms.autoRenew);
-  expect(text).toContain(en.paywall.terms.cancel);
-  expect(text).toContain(en.paywall.terms.price);
+  expect(text).toContain(en.onboarding.paywall.terms.autoRenew);
+  expect(text).toContain(en.onboarding.paywall.terms.cancel);
+  expect(text).toContain(en.onboarding.paywall.terms.price);
 });
 
 test('links to Terms and Privacy', async () => {

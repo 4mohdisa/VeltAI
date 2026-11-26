@@ -12019,3 +12019,16 @@
 - 2026-11-27 02:17 Paywall subscription terms chosen first because it is the next listed Row 14 item and is a single screen.
 - 2026-11-27 02:17 Paywall file location is left to Claude Code to find, because the path is not confirmed in notes.
 - 2026-11-27 02:17 Each prompt now limited to one screen or component and at most 5 numbered steps, per Isa's override 4.
+- 2026-11-27 02:19 Round 77 is the one allowed follow-up for the flagged Round 76 report (Override 5).
+- 2026-11-27 02:19 Moving paywall.terms under onboarding.paywall to match the existing paywall copy layout, as the last report itself suggested.
+- 2026-11-27 02:19 Simulator footer check goes to the Row 23 notes, because Simulator runs are reserved for row 23 and soak rows (Override 6).
+- 2026-11-27 02:19 Push token test merge stays queued as the next task after this follow-up, so this round stays small.
+- 2026-11-27 02:20 Round 77 prompt was rejected for covering more than one screen; rewritten as one screen (paywall.tsx) with five steps and the branch rule first.
+- 2026-11-27 02:20 Paywall terms keys move under onboarding.paywall.terms, because the latest report kept them at top level and the Round 77 follow-up required the move.
+- 2026-11-27 02:20 Row 14 set to BUILT once the paywall terms follow-up is green, because its remaining leftovers are parked.
+- 2026-11-27 02:20 Notes trimmed to under 600 words: finished work deleted and repeated items merged.
+- 2026-11-27 02:20 Jev ran at 54% and confidence 0.31, so I kept the smallest task (one screen) and did not change the pick.
+- 2026-11-27 02:20 Rewrote the rejected Round 77 prompt into one screen (paywall) per override 4.
+- 2026-11-27 02:20 Chose the key path move over the notes' next step, because the last report flagged that the top-level paywall key does not match the onboarding copy layout.
+- 2026-11-27 02:20 Kept the task small because Jev confidence is low (0.13); it prefers a smaller step.
+- 2026-11-27 02:20 Left the paywall footer Simulator check in row 23 and the legal review sign-off with Isa.

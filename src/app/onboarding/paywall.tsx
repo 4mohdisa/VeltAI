@@ -285,7 +285,7 @@ export default function PaywallScreen() {
               the purchase. Footnote text is ~18pt tall; 14pt vertical hitSlop
               makes each link ≥44pt. */}
           <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
-            {`${t('paywall.terms.autoRenew')} ${t('paywall.terms.cancel')} ${t('paywall.terms.price')}`}
+            {`${t('onboarding.paywall.terms.autoRenew')} ${t('onboarding.paywall.terms.cancel')} ${t('onboarding.paywall.terms.price')}`}
           </Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: space.md }}>
             <Pressable
