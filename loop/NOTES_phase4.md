@@ -13,11 +13,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 147)
+## State (Round 148)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
-- Round 146: detailChrome training snapshot hand edited (no -u); 3 files green; tsc 0 errors.
-- Round 147: full run checkpoint to confirm Rounds 145-146 (last full green: Round 139, 348 suites, 2,171 tests).
+- PARTIAL: 6b, 7, 8, 9, 14a, 14b (open), 31 (open).
+- Round 147: full checkpoint green (350 suites, 2,182 tests, tsc 0). Force-exit warning still present.
 - PHASE4_ROWS.md is stale. Update at closure.
 
 ## Blocked on Isa (park, do not retry)
@@ -32,8 +31,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (open)
 - DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 done.
-- Open, fold in or park at closure: Fix 21 onward per DESIGN_INTENT.md; gym.freeze.confirm '1 freezes' (needs plural); Energy 'not enough days' needs an action; targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked); back-or-Food fallback copied in two files; GlassButtons falls back to Today; hero 'No net yet' says 'in onboarding' (body stats hint); nutrition.todayAgainstTargets and percentOfTarget unused (remove in en, es, fr later); dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle English only (add es, fr).
-- Spotted: Food tab checks consent on mount only. insights.tsx comment about feed GET triggering AI: verify. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1. Gym tab reads this month twice. Saved list does not pass meal slot to detail sheet.
+- Open: Fix 21 onward per DESIGN_INTENT.md; gym.freeze.confirm '1 freezes' (needs plural); Energy 'not enough days' needs an action; targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; food calorie card past days (option B, post launch); goBackOrHome falls back to Today (parked); GlassButtons falls back to Today; hero 'No net yet' says 'in onboarding' (body stats hint); nutrition.todayAgainstTargets and percentOfTarget unused (remove in en); dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle English only (fine under override 1).
+- Spotted: Food tab checks consent on mount only. Insights comment about feed GET triggering AI: verify. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1. Gym tab reads this month twice. Saved list does not pass meal slot to detail sheet.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip render tests.
@@ -51,7 +50,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
-- Jest worker force-exit on full run: unexplained. Own round after checkpoint.
 
 ## Protected (do not edit)
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
@@ -63,7 +61,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Paywall checks server record first. No record and no answers goes to /onboarding/goal.
 - Units saved to settings store on measurements Continue via setUnit.
 - Macros split from adjusted calorie target on client and server (one shared helper each).
-- Leaving survey via feedback API (category account, leaving_reason: key, no note, no migration). Manage subscription via existing helper.
+- Leaving survey via feedback API (category account, leaving_reason: key, no note). Manage subscription via existing helper.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows. Clerk failure gives 502 and keeps rows. Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
@@ -77,28 +75,18 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Health: no denied state for reads; null when not granted or no data.
 - Legal: copy in en.json; UPDATED date literal stays. Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
-- Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
-- Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
-- Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
-- Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
-- Fix 12 option A; option B parked post-launch. Fix 18 split. freeze.tsx reuses gymStreak.noFreezes. Headline at 0 freezes follows the reason line. Energy hint stays unlinked. Training empty state links to /gym/log-session. Fix 20 split into two prompts.
-- Round 141, 143, 144, 145: Jev said ask; ask banned by Isa's rule, so ran chosen.
-- Round 145: Training energy card now Monday to today via weekOf.
-- Round 146: snapshot hand edit (no -u). Jev risk 1.3 noted; reversible single snapshot edit, continued.
-- Round 147: full checkpoint run chosen (rule 8: untested flagged work first). Jev run 58%.
+- Fix 12 option A; option B parked post-launch. Training energy card: Monday to today via weekOf (shared helper in foodDays.ts).
+- Round 141, 143, 144, 145: Jev said ask; ask banned, ran chosen. Round 146: snapshot hand edit (no -u), continued.
+- Round 148: force-exit leak chosen (first item in last NEXT). Jev run 75%.
 
 ## Gotchas
-- Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
-- Lint: no setState in effect body; use guarded .then. Render tests: *.render.test.tsx.
-- Mock Clerk to avoid the MessagePort that stops Jest exiting. Welcome imports Clerk: any test rendering it must mock @clerk/clerk-expo.
-- expo-notifications is native: mock in tabs layout tests.
+- Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
+- Mock Clerk in any test rendering welcome (MessagePort stops Jest exit). expo-notifications is native: mock in tabs layout tests.
 - Use jest.useFakeTimers({ now, doNotFake: [...] }) to pin dates so setImmediate still runs.
-- Paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
 - Each new key goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 - en.json and detail.tsx fail Prettier at HEAD: never --write.
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done.
-- 128-141: Fixes 16 to 20 done. 142: Fix 21. 143: Fix 22. 144: Fix 23.
-- 145: Training energy card. 146: detailChrome training snapshot hand edit, all three files green.
-- 147: full checkpoint run (in progress).
+- 128-144: Fixes 16 to 23 done. 145-146: training energy card, snapshot edit. 147: full checkpoint green.
+- 148: force-exit leak investigation (in progress).

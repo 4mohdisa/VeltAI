@@ -72,6 +72,17 @@ const press = async (tree: ReturnType<typeof render>, label: string) => {
   await settle();
 };
 
+// The loading test holds its reads open. Each one is answered at teardown, so
+// the API client's deadline timer is cleared before the worker exits.
+const held: (() => void)[] = [];
+const holdFetch = () =>
+  jest.fn((url: string, init?: Init) => new Promise((resolve) => held.push(() => resolve(mockFetch(200)(url, init)))));
+
+afterEach(async () => {
+  held.splice(0).forEach((answer) => answer());
+  await settle();
+});
+
 beforeEach(() => {
   putBodies = [];
   useSettingsStore.getState().reset();
@@ -81,7 +92,7 @@ beforeEach(() => {
 });
 
 test('loading: the goal and activity rows are disabled until the goals read lands', () => {
-  (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() => new Promise(() => {}));
+  (globalThis as unknown as { fetch: unknown }).fetch = holdFetch();
   const tree = render();
   expect(option(tree, en.goals.plan.goalOptions.muscle).props.disabled).toBe(true);
   expect(option(tree, en.goals.plan.activityOptions.light).props.disabled).toBe(true);

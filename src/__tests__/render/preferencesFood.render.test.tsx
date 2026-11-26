@@ -56,6 +56,17 @@ const tap = async (node: { props: { onPress?: unknown } }) => {
   await settle();
 };
 
+// The loading test holds its read open. It is answered at teardown, so the API
+// client's deadline timer is cleared before the worker exits.
+const held: (() => void)[] = [];
+const holdFetch = () =>
+  jest.fn((url: string, init?: Init) => new Promise((resolve) => held.push(() => resolve(mockFetch()(url, init)))));
+
+afterEach(async () => {
+  held.splice(0).forEach((answer) => answer());
+  await settle();
+});
+
 beforeEach(() => {
   patches = [];
   useUserStore.getState().resetProfile();
@@ -63,7 +74,7 @@ beforeEach(() => {
 });
 
 test('loading: the rows say so and cannot be opened yet', () => {
-  setFetch(jest.fn(() => new Promise(() => {})));
+  setFetch(holdFetch());
   const tree = render();
   expect(allText(tree)).toContain(en.preferences.food.loading);
   expect(rowPress(tree, en.preferences.food.dietary)).toBeUndefined();
