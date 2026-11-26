@@ -11619,3 +11619,8 @@
 - 2026-11-26 10:38 Row 3 marked BUILT with owner check pending, per the status rules in the brief.
 - 2026-11-26 10:38 Jev suggested ask (67%) and stop (27%). Ask is not allowed. Stop needs every row BUILT or EXACT, which is not met. Run is the only valid action.
 - 2026-11-26 10:38 Close-out checkpoint from the last report is treated as done: tsc 0 errors, Jest 299 suites and 1,816 tests passing, lint clean on the signup files.
+- 2026-11-26 10:39 Row 3 accepted as BUILT with owner check pending: the Apple button, shared sso() handler, iOS-only check and label were already in the code; only the new render test file was added.
+- 2026-11-26 10:39 Kept the browser oauth_apple flow for Row 3; whether to use the native Apple sheet stays an open question for Isa, not a blocker.
+- 2026-11-26 10:39 Chose Row 2b for this round because it is first in the brief order and has one clear remaining step, with a cap: if no open surface is found, the row closes as BUILT with owner checks parked.
+- 2026-11-26 10:39 Row 7 is the next feature row after 2b. Row 6b stays PARTIAL only for the blocked stale-string step (f), which is deferred.
+- 2026-11-26 10:39 Jev suggested run at 96% confidence; agreed, with a smaller task than the Row 7 wrapper because risk is moderate (1.1 of 2).

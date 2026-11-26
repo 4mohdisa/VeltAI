@@ -9,13 +9,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b (dead ends 1 to 10 built; dead end 7 copy still Open in DESIGN_REFERENCES.md; next 2b surface open), 6b.
-- Last full checkpoint: tsc 0; Jest 299/299 suites, 1,816/1,816 tests, 4 snapshots; 67 console.error, 165 console.warn. Lint clean on signup files.
+- PARTIAL: 2b (dead ends 1 to 10 built; dead end 7 copy Open; last surface round running), 6b (step f blocked).
+- Not started: 7, 8, 9, 10, 11, 13, 14, 14a, 14b, 15 to 31.
+- Last full checkpoint: tsc 0; Jest 299/299 suites, 1,816/1,816 tests, 4 snapshots; 67 console.error, 165 console.warn.
 
 ## Next
-1. Row 3 build in progress (Apple button, tests, owner lines appended).
-2. Row 2b: pick the next open sign in or onboarding surface.
-3. Row 6b: stale es and fr strings (deferred), step f.
+1. Row 2b: one last surface round, then close as BUILT with owner checks.
+2. Row 7: paywall wrapper (RevenueCat behind one module, mocked in Jest).
+3. Row 8: subscription lifecycle screens.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
@@ -34,8 +35,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Decisions (never delete)
 - Isa (26 Nov): target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie target asks 'Update your calorie target to match?'; sign up email errors inline under field; training days stored on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md and add route check to verify; export, delete account, disconnect integrations and privacy/consent settings work without subscription.
 - Row 2b: measurements Continue never disabled; invalid input shows inline errors. Target weight required when shown (lose or muscle), 30 to 300 kg; server optional up to 1000. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session.
-- Dead end 8 target weight, 9 mode toggle keeps email, 10 Send code errors under email field. Apple, Google and other code-check errors stay as toasts.
-- Row 3: browser oauth_apple flow. Apple button hidden on Android. Built now; Apple Developer and Clerk steps are owner checks.
+- Dead ends 8 (target weight), 9 (mode toggle keeps email), 10 (Send code errors under email field). Apple, Google and other code-check errors stay as toasts.
+- Row 3: browser oauth_apple flow. Apple button hidden on Android. Built; Apple Developer and Clerk steps are owner checks.
 - Row 5: consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. GET /api/subscription public. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
@@ -49,9 +50,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 - English only: es and fr deferred. The 'translate es and fr' follow-up is dropped.
+- Row 2b last-surface cap: if no open surface is found, close 2b as BUILT with owner checks.
 
 ## Blocked on Isa (park, do not retry)
-- Dead end 7 copy sign off. Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
+- Dead end 7 copy sign off. Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device. Native Apple sheet vs browser flow.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Row 6b step (f) stale strings: es and fr values of subscription.plansUnavailable, subscription.notConfiguredDev, onboarding.paywall.plansUnavailable (deferred, English only).
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
@@ -72,4 +74,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
-- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. PHASE4_ROWS.md rows keep 7 columns. Briefs may name files that do not exist; grep first. Test files end in .render.test.tsx. The render setup mocks the router without dismissTo. Use find -newer against a /tmp marker, not git status.
+- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. PHASE4_ROWS.md rows keep 7 columns. Briefs may name files that do not exist; grep first. Test files end in .render.test.tsx. The render setup mocks the router without dismissTo. Use find -newer against a /tmp marker, not git status. Brief's src/locales/en.json is really src/lib/i18n/locales/en.json.

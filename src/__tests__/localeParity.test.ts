@@ -26,6 +26,7 @@ const ENGLISH_ONLY = new Set([
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',
   'onboarding.measurements.targetRequired',
+  'onboarding.targets.caloriesRange',
   'settings.privacyDetails.aiAllow',
   'settings.privacyDetails.aiConsentedOn',
   'settings.privacyDetails.dataTitle',

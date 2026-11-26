@@ -1296,7 +1296,8 @@
       "fat": "{{grams}}g fat",
       "sheetTitle": "Adjust your calorie target",
       "sheetNote": "Protein, carbs and fat are set from your profile.",
-      "caloriesLabel": "Calories"
+      "caloriesLabel": "Calories",
+      "caloriesRange": "Enter a target between {{min}} and {{max}} kcal"
     },
     "preview": {
       "title": "Here's what Lume knows about you already",

@@ -11,19 +11,14 @@ import { Badge } from '@/components/display';
 import { HealthDisclaimer } from '@/components/display/HealthDisclaimer';
 import { BottomSheet } from '@/components/navigation/BottomSheet';
 import { Text } from '@/components/primitives/Text';
-import { deriveTargets } from '@/lib/onboarding/deriveTargets';
-import { clampCalories } from '@/lib/settings/store';
+import { calorieFloor, deriveTargets } from '@/lib/onboarding/deriveTargets';
+import { CALORIE_TARGET_MAX, clampCalories } from '@/lib/settings/store';
 import { formatNumber } from '@/lib/formatting';
 import { navigate } from '@/lib/nav';
 import { color, space } from '@/lib/design/tokens';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 
 type Macros = { calories: number; protein: number; carbs: number; fat: number };
-
-const parseNum = (text: string, fallback: number): number => {
-  const n = parseInt(text, 10);
-  return Number.isFinite(n) && n >= 0 ? n : fallback;
-};
 
 export default function TargetsScreen() {
   const { t } = useTranslation();
@@ -60,9 +55,11 @@ export default function TargetsScreen() {
 
   const [sheetOpen, setSheetOpen] = useState(false);
   const [draft, setDraft] = useState('');
+  const [draftError, setDraftError] = useState<string | undefined>();
 
   const openSheet = () => {
     setDraft(String(macros.calories));
+    setDraftError(undefined);
     setSheetOpen(true);
   };
 
@@ -72,7 +69,18 @@ export default function TargetsScreen() {
     // comes from the ONBOARDING store: the profile store still holds its
     // default here, and the server floors this submission on the sex the
     // onboarding POST carries, so anything else 400s the whole flow.
-    const calories = clampCalories(parseNum(draft, macros.calories), sex ?? 'other');
+    // A value outside the band is refused with the range, never silently
+    // replaced by the floor or ceiling.
+    const calories = parseInt(draft, 10);
+    if (clampCalories(calories, sex ?? 'other') !== calories) {
+      setDraftError(
+        t('onboarding.targets.caloriesRange', {
+          min: formatNumber(calorieFloor(sex ?? 'other')),
+          max: formatNumber(CALORIE_TARGET_MAX),
+        }),
+      );
+      return;
+    }
     setMacros((m) => ({ ...m, calories }));
     setCalorieTarget(calories);
     setSheetOpen(false);
@@ -113,7 +121,11 @@ export default function TargetsScreen() {
         <TextField
           label={t('onboarding.targets.caloriesLabel')}
           value={draft}
-          onChangeText={setDraft}
+          onChangeText={(text) => {
+            setDraft(text);
+            setDraftError(undefined);
+          }}
+          error={draftError}
           keyboardType="number-pad"
         />
         <Button title={t('common.save')} onPress={saveSheet} />
