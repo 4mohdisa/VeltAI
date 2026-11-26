@@ -42,17 +42,26 @@ test('after a grant, reads return the fixture data, ranges filtered', async () =
   expect(await readAll()).toEqual([8421, 512, [WEIGHT], [RUN]]);
 });
 
-test('a denied kind stays null, even when asked again', async () => {
-  __setMockHealth({ steps: 8421, answers: { steps: 'denied', activeEnergy: 'granted', bodyMass: 'granted', workouts: 'granted' } });
-  await health.requestRead(['steps']);
-  await health.requestRead(['steps']);
-  expect(await health.getAuthorization('steps')).toBe('denied');
-  expect(await health.readSteps(DAY)).toBeNull();
+test('a denied kind reads as null, the same as not granted, even when asked again', async () => {
+  const denyAll = { steps: 'denied', activeEnergy: 'denied', bodyMass: 'denied', workouts: 'denied' } as const;
+  __setMockHealth({ steps: 8421, activeEnergy: 512, bodyMass: [WEIGHT], workouts: [RUN], answers: denyAll });
+  const notGranted = await readAll();
+  await health.requestRead(HEALTH_KINDS);
+  await health.requestRead(HEALTH_KINDS);
+  expect(await readAll()).toEqual(notGranted);
+  expect(notGranted).toEqual([null, null, null, null]);
 });
 
-test('requestRead reports the result for each kind asked, and only those', async () => {
+test('a granted kind with no data reads as null', async () => {
+  __setMockHealth();
+  await health.requestRead(HEALTH_KINDS);
+  expect(await readAll()).toEqual([null, null, null, null]);
+});
+
+test('requestRead reports requested for each kind asked, whatever the answer, and only those', async () => {
   __setMockHealth({ answers: { steps: 'granted', activeEnergy: 'denied', bodyMass: 'granted', workouts: 'denied' } });
-  expect(await health.requestRead(['steps', 'activeEnergy'])).toEqual({ steps: 'granted', activeEnergy: 'denied' });
+  expect(await health.requestRead(['steps', 'activeEnergy'])).toEqual({ steps: 'requested', activeEnergy: 'requested' });
+  expect(await health.getAuthorization('activeEnergy')).toBe('requested');
   expect(await health.getAuthorization('bodyMass')).toBe('not_determined');
 });
 

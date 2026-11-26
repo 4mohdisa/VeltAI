@@ -11963,3 +11963,6 @@
 - 2026-11-27 01:50 Row 13 is not in the BUILT list in the notes, so each row's status in PHASE4_ROWS.md is checked before starting it.
 - 2026-11-27 01:50 Jev agrees on run (80 percent). No override needed.
 - 2026-11-27 01:50 Notes rewritten under 600 words: finished rows merged, repeated parked items merged.
+- 2026-11-27 01:53 Read denial: iOS hides it, so read kinds drop 'denied' and show no data (null). Reason: an app cannot detect denial, so a denied state would be false.
+- 2026-11-27 01:53 Flagged partial task gets its one follow-up round (override 5). Isa's open question is answered by this decision, not asked (no questions rule).
+- 2026-11-27 01:53 Jev suggested ask. I run because the choice is small, reversible code that Isa can change later. Recorded here as the concrete reason to keep running.
