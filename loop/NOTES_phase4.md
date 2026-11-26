@@ -14,10 +14,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoints about every 5 rounds (tsc, full Jest, go vet, no edits). Next: 209.
 
-## State (Round 204)
+## State (Round 205)
 - BUILT 20 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18-28, 30.
-- Row 17 verify chain green at 203 (lint fixed, Jest 350/350, 2190 tests, Go 44 ok, migrations pass).
+- Checkpoint 204 green: tsc 0, Jest 350/350 suites, 2190 tests, go vet clean.
+- Row 18 split: 18a auth and webhooks; 18b injection, uploads, SSRF, rate limits, headers; 18c govulncheck, npm audit, final report.
 
 ## Parked (fix only in its row)
 - Debug reports: null context saved as null (debugreports.go:61); retry skips captured_at, trigger, route, versions.
@@ -69,6 +70,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Body weight DELETE is the last id route in goals; integration routes take a provider name, not an id.
 - Jev ask and stop signals not followed; no Isa blocker stops the loop.
 - Round 203: lint fix in two out of scope test files kept as test-only, minimal change (override 9).
+- Round 205: Row 18 split into 18a, 18b, 18c (override 4). Secrets scan masks values; leaked real keys go to OWNER_CHECKS_phase4.md.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -79,8 +81,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - cmd/server loads .env from its working folder; PORT without LUME_ENV counts as production.
 
 ## Round log
-- 182-201: Row 16 done (authz table, ownership and validation tests); BUILT at 201.
-- 201-202: Row 17 migration tests written and passing (10 tests).
-- 203: lint fixed in two test files; full verify exit 0. Row 17 BUILT.
-- 204: checkpoint round (tsc, full Jest, go vet, no edits).
-- Next: Round 204 result, then Row 18 security pass (SECURITY_TEST_REPORT.md).
+- 182-201: Row 16 done; BUILT at 201.
+- 201-203: Row 17 migration tests; BUILT at 203.
+- 204: checkpoint round, green.
+- 205: Row 18a started (auth, webhook tests, secrets scan, SECURITY_TEST_REPORT.md part A).
+- Next: 18a result, then 18b (injection, uploads, SSRF, rate limits, headers), then 18c (govulncheck, npm audit).

@@ -12567,3 +12567,8 @@
 - 2026-11-27 07:34 Round 204 is a checkpoint with no edits, per override 11 (next checkpoint at 204).
 - 2026-11-27 07:34 Jev risk and ask signals are advisory and not followed; no Isa blocker stops the loop (decision already on record).
 - 2026-11-27 07:34 Notes condensed under 600 words; no rule or parked item was dropped.
+- 2026-11-27 07:35 Round 205 starts Row 18 (security pass) after the round 204 checkpoint was green, per the agreed order 18 to 30.
+- 2026-11-27 07:35 Row 18 split into 18a (auth, token and webhook signatures, secrets scan), 18b (injection fuzz, uploads, SSRF, rate limits, headers) and 18c (govulncheck, npm audit, final report) so each prompt stays at 5 steps or fewer (override 4).
+- 2026-11-27 07:35 Secrets scan masks values and never prints full keys; real leaked keys go to OWNER_CHECKS_phase4.md, not into the report.
+- 2026-11-27 07:35 Validation gaps from the handover stay parked; 18a tests only assert what handlers reject today.
+- 2026-11-27 07:35 Jev advice not followed: its low risk and high next action confidence match the plan, so no change.
