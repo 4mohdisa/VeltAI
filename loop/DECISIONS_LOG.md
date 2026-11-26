@@ -11843,3 +11843,12 @@
 - 2026-11-27 00:46 Split the wiring into its own round so each prompt touches one module or one component.
 - 2026-11-27 00:46 The loop flagged the last report because tsc and tests were not run. This round runs tsc and the changed tests before reporting.
 - 2026-11-27 00:46 Last round left no changes, so the device scheduling round is not counted as a repeat of a failed attempt.
+- 2026-11-27 00:48 Round 38 is the one allowed follow-up for the 'partly done' flag on round 37 (override 5). The flag matches the report: the helper is not wired yet.
+- 2026-11-27 00:48 Wiring stays inside NotificationSettingsList with one step per concern, to keep the prompt under five steps (override 4).
+- 2026-11-27 00:48 Notification defaults, priming copy and quiet hours strings stay parked for Isa; no new user facing copy is added.
+- 2026-11-27 00:48 Per-slot meal times are not derived this round; default times remain and are reported in NEXT.
+- 2026-11-27 00:48 The DECISIONS.md correction is folded into this round because it is a one line fix tied to the new import.
+- 2026-11-27 00:49 Chose the checkpoint over Jev's first pick. The loop note asks for a checkpoint this round. The full suite has not run since round 34 and the console.error baseline (about 68) is unconfirmed. Wiring the switches now would mix new failures with old ones.
+- 2026-11-27 00:49 Checkpoint prompt makes no file changes, so the git and branch rule can be checked on its own.
+- 2026-11-27 00:49 Failures are reported, not fixed, this round. The next round fixes them before the wiring task.
+- 2026-11-27 00:49 Rejected prompt's missing branch rule is now the first step of the prompt.
