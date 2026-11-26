@@ -13,12 +13,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 139)
+## State (Round 140)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
-- Last green full suite: Round 135 (347 suites, 2,134 tests). Next checkpoint: Round 145.
-- Round 138 flagged as partly done. weekOf (foodDays.ts) is the shared week helper; weekRange.ts was not created. weekRange.test.ts (3 suites, 73 tests) passed, but not yet in a full run.
-- Round 139: forced checkpoint (full tsc and full app Jest, no file changes).
+- Round 139 checkpoint green: tsc 0 errors, 348 suites, 2,171 tests. Next checkpoint: Round 145.
+- Jest worker force-exit at end of full run: still unexplained.
 
 ## Blocked on Isa (park, do not retry)
 - Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
@@ -32,11 +31,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-19.
-- Fix 20 half done: summaryCards.ts:58 uses weekOf. Next: training.tsx:114-117 (dates.slice(-7) to weekOf(today)).
+- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-19 done.
+- Fix 20: summaryCards.ts uses weekOf (done). Round 140: training.tsx:114-117 moves from dates.slice(-7) to weekOf(today).
 - Then: Energy 'not enough days' chart state needs an action.
 - Unfixed (fold in or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
-- Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify later. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected, left alone).
+- Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify later. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected, left alone). gym.freeze.confirm has no plural forms.
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
 
 ## Row 14a: parked
@@ -52,10 +51,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts); gym.freeze.confirm has no plural forms.
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
-- Jest worker force-exit at end of full run: unexplained. Investigate with --detectOpenHandles in its own round.
+- Jest worker force-exit: investigate with --detectOpenHandles in its own round.
 
 ## Protected (do not edit)
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
@@ -67,7 +66,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Paywall checks server record first. No record and no answers goes to /onboarding/goal.
 - Units saved to settings store on measurements Continue via setUnit.
 - Macros split from adjusted calorie target on client and server (one shared helper each).
-- Leaving survey via feedback API (category account, leaving_reason: key, no note, no migration). Manage subscription via existing helper.
+- Leaving survey via feedback API (category account, leaving_reason: key, no note, no migration). Manage subscription via existing helper. Feedback has no leaving kind (needs a migration).
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows. Clerk failure gives 502 and keeps rows. Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
@@ -85,10 +84,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
-- Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line. Round 135: Energy hint stays unlinked. Round 136: Training empty state links to /gym/log-session.
+- Round 122: Fix 12 option A; option B parked post-launch. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line. Round 135: Energy hint stays unlinked. Round 136: Training empty state links to /gym/log-session.
 - Round 138: Fix 20 split into two prompts (one screen per prompt).
-- Round 139: checkpoint chosen over Jev's Fix 20 second half pick, because the loop flagged round 138 and the full gates must run before new work.
-- Food focus re-check parked.
+- Round 139: checkpoint chosen over Jev's Fix 20 second half pick, because the loop flagged round 138.
+- Round 140: Fix 20 second half chosen (Jev and Claude Code agree). Food focus re-check parked.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -97,8 +96,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
 
 ## Round log
-- 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
+- 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done.
 - 128-136: Fixes 16 to 19 done.
 - 137: Fix 20 started, prompt rejected for two screens.
-- 138: Fix 20 part one (helper, summaryCards) issued; report partly done, weekRange.ts not created.
-- 139: checkpoint (full tsc and full app Jest, no changes).
+- 138: Fix 20 part one (helper, summaryCards) issued; report partly done.
+- 139: checkpoint green (tsc 0, 348 suites, 2,171 tests).
+- 140: Fix 20 second half issued (training.tsx).

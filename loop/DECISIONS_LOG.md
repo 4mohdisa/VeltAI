@@ -12297,3 +12297,7 @@
 - 2026-11-27 05:00 Kept the checkpoint over Jev's 95% pick for Fix 20 second half. Reason Jev cannot see: round 138 was flagged as partly done and its only new test file (weekRange.test.ts) has not been through the full suite.
 - 2026-11-27 05:00 Notes rewritten under 600 words: finished work deleted, repeated items merged, the stale 'Barcode, Scan and label scan still open' item marked for removal at closure.
 - 2026-11-27 05:00 Round 138 decision recorded: weekOf in foodDays.ts is the shared week helper, so no weekRange.ts file was created.
+- 2026-11-27 05:01 Round 140: chose Fix 20 second half (candidate 1), matching Jev's top pick and Claude Code's recommendation. Round 139 checkpoint is green, so the reason to hold it is gone.
+- 2026-11-27 05:01 Round 140: kept the prompt to one file plus its test, under 5 steps, per override 4. Force-exit investigation and Energy empty state wait for later rounds.
+- 2026-11-27 05:01 Round 140: rewrote the notes under 600 words by merging repeated items and removing finished work (Fix 1-19 summarised, Round 122-139 decisions condensed).
+- 2026-11-27 05:01 Round 140: Jev signal recorded as advisory only: 54% clean finish, risk 1.1. The prompt is small to offset that.

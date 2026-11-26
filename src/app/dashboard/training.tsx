@@ -39,6 +39,7 @@ import { Text } from '@/components/primitives/Text';
 import { categoryAccent, color, radius, space } from '@/lib/design/tokens';
 import { formatDuration, formatNumber, formatRelativeDate } from '@/lib/formatting';
 import { mean, useEnergyRange, weekdayLetter } from '@/lib/data/energyRange';
+import { weekOf } from '@/lib/data/foodDays';
 import { minutesByDate, sessionsOn, useGymRange } from '@/lib/data/gymRange';
 import type { EnergyBalance } from '@/lib/types';
 import type { GymSession } from '@/lib/api';
@@ -114,8 +115,12 @@ function Body({
 }): JSX.Element {
   const { t } = useTranslation();
   const minutes = minutesByDate(sessions, dates);
-  const weekDates = dates.slice(-7);
-  const weekMinutes = minutes.slice(-7);
+  // This calendar week, Monday to today: the week Summary Workouts counts
+  // (summaryCards.ts workoutsWeek). The range ends today and spans 14 days, so
+  // it always covers it.
+  const today = dates[dates.length - 1];
+  const weekDates = weekOf(today).filter((d) => d <= today);
+  const weekMinutes = minutesByDate(sessions, weekDates);
 
   const weekSessions = weekDates.reduce((n, d) => n + sessionsOn(sessions, d).length, 0);
   const weekTimed = weekMinutes.filter((m): m is number => m != null);
