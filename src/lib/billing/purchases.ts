@@ -24,7 +24,20 @@ export const PRO_ENTITLEMENT = 'pro';
 export const TRIAL_DAYS = 7;
 
 // Minimal surface of react-native-purchases the app uses.
-export type CustomerInfo = { entitlements: { active: Record<string, unknown> } };
+export type SdkEntitlement = {
+  isActive: boolean;
+  willRenew: boolean;
+  periodType: string;
+  billingIssueDetectedAt: string | null;
+};
+export type CustomerInfo = {
+  entitlements: { active: Record<string, unknown>; all?: Record<string, SdkEntitlement> };
+};
+export type SdkPackage = {
+  identifier: string;
+  product: { identifier: string; priceString: string; subscriptionPeriod: string | null };
+};
+export type SdkOffering = { identifier: string; availablePackages: SdkPackage[] };
 export type PurchasesModule = {
   configure(opts: { apiKey: string }): void;
   logIn(appUserID: string): Promise<{ customerInfo: CustomerInfo }>;
@@ -32,6 +45,13 @@ export type PurchasesModule = {
   getCustomerInfo(): Promise<CustomerInfo>;
   restorePurchases(): Promise<CustomerInfo>;
   addCustomerInfoUpdateListener(listener: (info: CustomerInfo) => void): void;
+};
+// The store calls only src/lib/purchases/revenuecat.ts makes. The real SDK has
+// them; an injected test module may not, and that wrapper catches the throw.
+export type StorePurchasesModule = PurchasesModule & {
+  getOfferings(): Promise<{ current: SdkOffering | null; all: Record<string, SdkOffering> }>;
+  purchasePackage(pkg: SdkPackage): Promise<{ customerInfo: CustomerInfo }>;
+  checkTrialOrIntroductoryPriceEligibility(productIds: string[]): Promise<Record<string, { status: number }>>;
 };
 
 let purchasesModule: PurchasesModule | null = null;
@@ -77,6 +97,12 @@ export function isBillingEnabled(): boolean {
     console.warn('RevenueCat unavailable (no key or no native module) — running in billing-disabled dev mode.');
   }
   return enabled;
+}
+
+/** The SDK when billing can run, else null. The only way other modules reach it. */
+export function purchasesSdk(): StorePurchasesModule | null {
+  const mod = loadModule();
+  return mod && isBillingEnabled() ? (mod as StorePurchasesModule) : null;
 }
 
 /** Initialize the SDK once (root layout, after Clerk is ready). No-op when disabled. */

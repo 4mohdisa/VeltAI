@@ -9,14 +9,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT. Row 3 BUILT (owner check pending).
-- PARTIAL: 6b (step f blocked).
-- Not started: 7 to 11, 13, 14, 14a, 14b, 15 to 31.
-- Checkpoint (last round): tsc 0; Jest 303/303 suites, 1,835/1,835 tests, 4 snapshots; 68 console.error, 165 console.warn. phase14Regression.test.ts updated for the targets.tsx clamp rewrite.
-- Checkpoint this round: tsc and full Jest, no file changes. Compare to the numbers above.
+- PARTIAL: 6b (step f blocked). 7 (step 7a in progress).
+- Not started: 8 to 11, 13, 14, 14a, 14b, 15 to 31.
+- Checkpoint (last full run): tsc 0; Jest 303/303 suites, 1,835/1,835 tests, 4 snapshots; 68 console.error, 165 console.warn. Green.
 
 ## Next
-1. Phase 4 checkpoint result (this round).
-2. Row 7: paywall wrapper (RevenueCat behind one module, mocked in Jest).
+1. Row 7 step 7a: RevenueCat wrapper (src/lib/purchases), Jest mocked.
+2. Row 7 step 7b: paywall screen on the wrapper.
 3. Row 8: subscription lifecycle screens.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 
@@ -29,8 +28,6 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Redirect lint and test output to files. Pipes hide exit codes.
 - TestPG: localhost:5432, lume_test_local, URL on one command only, never printed.
 - PHASE4_ROWS.md rows keep 7 columns: notes after <br>, before ' |'. OWNER_CHECKS_phase4.md append only.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, foodDays.test.ts, listSessions defaults.
-- New English strings: src/lib/i18n/locales/en.json. ENGLISH_ONLY in localeParity.test.ts only if es and fr lack the key.
 - Use find -newer against /tmp/p4_marker, not git status.
 - A blocker that repeats twice goes to Blocked and is not retried.
 
@@ -50,6 +47,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 - English only: es and fr deferred.
+- Row 7: wrapper first (7a), paywall screen second (7b). Only src/lib/purchases imports the RevenueCat SDK. Trial shown only when the store says eligible.
 
 ## Blocked on Isa (park, do not retry)
 - Target weight stays required? and dead end 7 copy sign off.
@@ -77,8 +75,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
 - Row 2b: emoji on body-type uses hardcoded fontSize 26, no matching token (left alone to keep the look).
 - phase14Regression.test.ts checks source text of targets.tsx; a render test would be sturdier.
+- Body type emoji size hardcoded at 26.
 - Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. Briefs may name files that do not exist; grep first. Render setup mocks the router without dismissTo. Jest name patterns can match more files than intended; pass full paths. Test files end in .render.test.tsx. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes.
 
 ## Loop note
 - Every prompt opens with the branch check and the rule to work only on loop/phase4.
-- Checkpoint round this round. Next round: Row 7.
+- Round 7a: wrapper module. Next: 7b paywall screen.

@@ -11670,3 +11670,8 @@
 - 2026-11-26 10:54 Kept the read only rule for this round so the checkpoint numbers match the command that produced them.
 - 2026-11-26 10:54 Parked the console.error trace for a later round so this checkpoint stays one thing only.
 - 2026-11-26 10:54 Condensed the notes to fit the 600 word limit. Blocked, owner and parked items are kept, with duplicates merged.
+- 2026-11-26 10:56 Checkpoint green (tsc 0, Jest 303 suites and 1,835 tests, 68 console.error): no regression, so move to Row 7.
+- 2026-11-26 10:56 Row 7 split into 7a (wrapper, tests only) and 7b (paywall screen) so each round changes one thing.
+- 2026-11-26 10:56 Wrapper is the only module that imports react-native-purchases; screens will use it through the interface.
+- 2026-11-26 10:56 Trial eligibility is read from the store on every purchase path; no trial text unless the store says eligible.
+- 2026-11-26 10:56 Missing RevenueCat key means a not configured state, not a crash, so simulator and CI runs stay safe.

@@ -188,7 +188,18 @@
     "plansUnavailable": "Plans can't load right now. Try again in a moment.",
     "notConfiguredDev": "Subscriptions aren't available in this build right now.",
     "unavailable": "Subscriptions are temporarily unavailable. Please try again later.",
-    "autoRenew": "Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name → Subscriptions — Apple handles all billing."
+    "autoRenew": "Subscriptions auto-renew until cancelled. Cancel anytime in Settings → your name → Subscriptions — Apple handles all billing.",
+    "period": {
+      "day_one": "Daily",
+      "day_other": "Every {{count}} days",
+      "week_one": "Weekly",
+      "week_other": "Every {{count}} weeks",
+      "month_one": "Monthly",
+      "month_other": "Every {{count}} months",
+      "year_one": "Yearly",
+      "year_other": "Every {{count}} years",
+      "oneTime": "One-time purchase"
+    }
   },
   "preferences": {
     "title": "Preferences",

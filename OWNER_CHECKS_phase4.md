@@ -104,3 +104,5 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Row 2b: sign off the dead end 7 copy (the paywall plans unavailable message).
 - [ ] Row 2b: decide on the plan-ready summary screen between targets and paywall.
 - [ ] Row 2b: run the sign up and onboarding Maestro flow, shared with Row 23.
+- [ ] Row 7: set the RevenueCat iOS public key in the environment (EXPO_PUBLIC_REVENUECAT_IOS_KEY, never in the repo) for device and simulator runs; without it the purchases wrapper reports not configured.
+- [ ] Row 7: a StoreKit configuration file is needed later so Simulator purchases can run (step 7b or later).
