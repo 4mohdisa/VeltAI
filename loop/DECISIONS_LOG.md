@@ -12362,3 +12362,8 @@
 - 2026-11-27 05:33 Fix 28 is treated as done: its Done line is in DESIGN_INTENT.md and its tests passed per the round 152 report, so no follow-up is needed before the next task (override 8).
 - 2026-11-27 05:33 Jev's advice to run (89%) agrees with the choice; no ask or stop needed.
 - 2026-11-27 05:33 Rewrote the notes under 600 words, merging repeated items and removing finished work (Fix 28 and the round 152 detail).
+- 2026-11-27 05:34 Checkpoint round chosen: the loop note flagged round 153 as failed or not run, and untested work must be checked before any new task.
+- 2026-11-27 05:34 Jev suggested ask. Ask is banned, so it was not used. Stop was not chosen because nothing dangerous was found.
+- 2026-11-27 05:34 Fix 26a widened to src/lib/food/detailSubject.ts: the barcode subject must carry the found product for the type check to pass. Kept with this decision (override 9).
+- 2026-11-27 05:34 Fix 26b (detail.tsx) waits until the full suite is green.
+- 2026-11-27 05:34 Done lines in DESIGN_INTENT.md stay the authority for Fix numbering.
