@@ -13,15 +13,16 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
-- Last full checkpoint: Round 66 (tsc 0; Jest 323 suites, 2,015 tests).
-- Round 79: push token tests merged into src/__tests__/pushToken.test.ts (10 tests pass). Row 14 BUILT.
-- Round 80: forced checkpoint, the gate was not run after Round 79.
+- Checkpoints: Round 66 and Round 80 (tsc 0; Jest 325 suites, 2,018 tests, 4 snapshots, all green).
 
 ## Next
-1. Round 80: checkpoint, full tsc and full Jest, no edits.
-2. Row 14a step 1: FEATURES config and throttle module (fake clock tests).
-3. Row 14a: chip, sheet, Settings screen, backend (one piece per round).
-4. Row 14b design intent audit.
+1. Round 81: Row 14a step 1, FEATURES config and throttle module with fake clock tests (in progress).
+2. Row 14a step 2: feedback chip component.
+3. Row 14a step 3: feedback sheet (What went wrong reasons, free text, What do you like).
+4. Row 14a step 4: Settings feedback screen (pick feature, rate, My feedback) plus backend route with rate limit.
+5. Row 14a step 5: npm run feedback summary script, delete and export coverage, PRIVACY_DATA.md.
+6. Row 14b design intent audit (DESIGN_INTENT.md, then small fixes).
+7. Checkpoint: find which suites emit the 164 console.warn blocks (82 at Round 66).
 
 ## Parked (Row 14 and legal, do not retry)
 - Health disclaimer link.
@@ -30,7 +31,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Banned word in legalParity comment (flagged twice).
 - Paywall and signup LegalLink duplicates; shared component later.
 - Paywall footer on small iPhone: Row 23.
-- loop/HANDOVER_phase4.md:34 still says two push token test files exist.
+- loop/HANDOVER_phase4.md:34 says two push token test files exist; only src/__tests__/pushToken.test.ts remains.
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -58,7 +59,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - appleHealth.ts has write types; merge into real provider later.
 - Root config and backend JS unlinted; verify:go lacks -count=1.
 - Reanimated shared mock lacks useReducedMotion.
-- Two push token test files still listed in handover: src/lib/notifications/pushToken.test.ts was deleted in Round 79; confirm in the checkpoint.
+- Two push token test files: src/lib/notifications/pushToken.test.ts deleted in Round 79; confirm at checkpoint.
 
 ## Decisions (never delete)
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
@@ -93,4 +94,5 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
 - Round 67: Row 12a done. Round 68: prompt rejected for multiple screens.
 - Rounds 70 to 79: privacy screen, terms move, paywall terms, push token merge; Row 14 BUILT.
-- Round 80: checkpoint (forced by loop note).
+- Round 80: checkpoint green (325 suites, 2,018 tests); no edits.
+- Round 81: Row 14a step 1 prompt issued.

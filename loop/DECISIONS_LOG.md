@@ -12039,3 +12039,8 @@
 - 2026-11-27 02:24 Chose the checkpoint because the loop flagged the last report as not having run the type check and full suite, and the loop note requires this round to be the checkpoint.
 - 2026-11-27 02:24 Row 14a waits one round, so a red gate is not mixed with new feature work.
 - 2026-11-27 02:24 Round 79 merge is recorded as done; the full suite has not run since Round 66, so this round's result is the first confirmation.
+- 2026-11-27 02:25 Chose candidate 1 because it is the next step in the agreed Row 14a order, and Jev also ranks run at 95%.
+- 2026-11-27 02:25 Kept English only for all new strings, per Override 1, even though the brief asks for es and fr.
+- 2026-11-27 02:25 Console warn rise (82 to 164) is recorded for the next checkpoint, not treated as a blocker, because the count method is unclear.
+- 2026-11-27 02:25 Split Row 14a into five single step prompts, per Override 4, so each round stays small.
+- 2026-11-27 02:25 Paywall and trial feedback kept in a separate constant, since they are only asked after a purchase or cancel.
