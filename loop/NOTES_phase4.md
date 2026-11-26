@@ -15,23 +15,24 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
-- Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135 (handover).
-- Untested flagged: Fix 16 (round 128). Recheck in round 130 (step 2).
+- Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135.
+- Untested flagged: none.
+- Round 130: Food consent gate, 6 suites, 45 tests passed. Fix 16 recheck: 10 suites, 53 tests passed.
 
 ## Blocked on Isa (park, do not retry)
-- Fix 16: flagged twice. Round 135 full suite is the final recheck.
 - Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
 - Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier.
-- Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit. Any test rendering Welcome must mock @clerk/clerk-expo or Jest hangs. en.json and detail.tsx fail Prettier at HEAD: never --write.
+- Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit. Tests rendering Welcome must mock @clerk/clerk-expo. en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- Done: Fixes 1-15b (Fix 12 option A; 15a consent returns to asker; 15b ai-query Back fallback). Fix 16 insights error with Retry (flagged). Fix 17 Welcome hides Sign in for signed-in user with no record (round 129, 3 suites, 14 tests pass).
-- Next: Fix 18 Food insights before consent (food.tsx:202), after Fix 16 recheck.
+- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-15b, 16, 17 (Food consent gate). Welcome sign-in fix stays under Fix 6.
+- Next: Fix 18 streak freezes. Round 132: streak.tsx entry explains 0 freezes. Then freeze.tsx.
 - Unfixed (fold into a fix or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
+- Spotted: Food tab checks consent on mount only; re-check on focus parked (router mock lacks useFocusEffect). insights.tsx comment about feed GET triggering AI: verify against server, comment-only fix later.
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
 
 ## Row 14a: parked
@@ -80,9 +81,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green.
-- Round 126: Fix 15a; consent Back goes back, not to origin. Round 127: Fix 15b.
-- Round 129: Welcome (Fix 17) chosen over Fix 18 because Fix 18 depends on unverified Fix 16.
-- Round 130: Fix 18 chosen after a Fix 16 recheck (step 2). Stop if Fix 16 still fails.
+- Round 126: Fix 15a; consent Back goes back. Round 127: Fix 15b. Round 129: Welcome done under Fix 6. Round 130: Food consent gate done.
+- Round 131: Fix 18 chosen, split: streak.tsx first, freeze.tsx next. Round 132: streak.tsx (one screen per prompt).
+- Food focus re-check parked.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -92,6 +93,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
-- 128: Fix 16 done, flagged by automatic check, parked under Blocked.
-- 129: Fix 17 Welcome done (3 suites, 14 tests). Done line misfiled under Fix 6; moved in round 130.
-- 130: Fix 16 recheck, then Fix 18 Food insights before consent (running).
+- 128: Fix 16 done, parked under Blocked. 129: Welcome done. 130: Fix 16 recheck passed; Food consent gate done.
+- 131: Fix 18 split decided. Next: streak.tsx.

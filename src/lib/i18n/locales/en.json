@@ -736,7 +736,8 @@
   "gymStreak": {
     "emptyTitle": "No streak yet",
     "emptyMessage": "Log a gym session to start your streak.",
-    "sessions": "Sessions"
+    "sessions": "Sessions",
+    "noFreezes": "Your freeze for this streak is used. A new streak brings a new one."
   },
   "gymFreeze": {
     "emptyTitle": "No streak to protect yet",

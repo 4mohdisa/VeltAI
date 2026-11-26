@@ -5,7 +5,9 @@
 // inventing them, this screen shows only what the server actually knows. A
 // failed read with nothing stored shows the LoadFailedNotice with Retry; a user
 // who has never trained sees the empty state instead of a row of zeros. While
-// the first read runs with nothing stored, neither shows.
+// the first read runs with nothing stored, neither shows. The freezes figure
+// opens the freeze sheet; at 0 it says why, and stays tappable so the sheet can
+// show the rule.
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -16,8 +18,10 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Stat } from '@/components/display/Stat';
 import { StreakCounter } from '@/components/domain/StreakCounter';
+import { Pressable } from '@/components/primitives/Pressable';
+import { Text } from '@/components/primitives/Text';
 import { useGym } from '@/lib/data';
-import { space } from '@/lib/design/tokens';
+import { color, space } from '@/lib/design/tokens';
 
 export default function StreakDetailScreen() {
   const { t } = useTranslation();
@@ -28,6 +32,7 @@ export default function StreakDetailScreen() {
     refetch,
   } = useGym();
   const hasStreak = streak.longest > 0 || streak.totalGymDays > 0;
+  const noFreezes = streak.freezesAvailable === 0;
 
   return (
     <Screen variant="floating" title={t('profile.streak')} showBack contentStyle={{ gap: space.xl }}>
@@ -48,10 +53,22 @@ export default function StreakDetailScreen() {
           </Card>
 
           <Card variant="elevated">
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Stat value={streak.longest} label={t('profile.longest')} size="small" align="center" />
-              <Stat value={streak.totalGymDays} label={t('gymStreak.sessions')} size="small" align="center" />
-              <Stat value={streak.freezesAvailable} label={t('profile.freezes')} size="small" align="center" />
+            <View style={{ gap: space.sm }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                <Stat value={streak.longest} label={t('profile.longest')} size="small" align="center" />
+                <Stat value={streak.totalGymDays} label={t('gymStreak.sessions')} size="small" align="center" />
+                <Pressable
+                  onPress={() => router.push('/gym/freeze')}
+                  accessibilityLabel={`${t('profile.freezes')}, ${streak.freezesAvailable}${noFreezes ? `. ${t('gymStreak.noFreezes')}` : ''}`}
+                >
+                  <Stat value={streak.freezesAvailable} label={t('profile.freezes')} size="small" align="center" />
+                </Pressable>
+              </View>
+              {noFreezes ? (
+                <Text variant="caption" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
+                  {t('gymStreak.noFreezes')}
+                </Text>
+              ) : null}
             </View>
           </Card>
         </>

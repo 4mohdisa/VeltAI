@@ -12262,3 +12262,11 @@
 - 2026-11-27 04:42 Fix 17 accepted as done: 3 suites, 14 tests pass. Its Done line was misfiled under Fix 6 and is moved in step 3.
 - 2026-11-27 04:42 Welcome work touched a second test file (onboardingIndex.render) with a Clerk mock: accepted, it stops the Jest hang.
 - 2026-11-27 04:42 Kept to one screen and 5 steps because Jev's risk score is high (1.8); smaller steps reduce drift.
+- 2026-11-27 04:45 Round 131: Fix 18 chosen as the next row 14b fix. The report's NEXT recommendation and DESIGN_INTENT.md agree; the open-problems list has no higher-priority item.
+- 2026-11-27 04:45 Numbering: DESIGN_INTENT.md is the authoritative list. Its Fix 17 is the Food tab consent gate (done in round 130). The Welcome sign-in fix (round 129) stays under Fix 6, as the report recommended.
+- 2026-11-27 04:45 Food tab re-check on focus is parked: the shared router mock has no useFocusEffect, and a change there is out of scope for this round.
+- 2026-11-27 04:45 Insights comment about the feed GET triggering AI generation is a candidate for a comment-only fix in a later round, after checking the server code.
+- 2026-11-27 04:45 Jev ranks 'ask' higher, but the brief forbids asking, so the run action stands. Jev's risk score (1.6) is noted; the chosen task is small and touches only three files.
+- 2026-11-27 04:45 Fix 18 split into two single screen rounds: streak.tsx first, freeze.tsx next. This meets the one screen per prompt override.
+- 2026-11-27 04:45 Welcome sign-in fix stays under Fix 6. The Fix 17 numbering in DESIGN_INTENT.md is authoritative; Isa can rule later.
+- 2026-11-27 04:45 Strings added in en.json only, per the English only override.

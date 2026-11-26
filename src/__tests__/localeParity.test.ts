@@ -174,6 +174,8 @@ const ENGLISH_ONLY = new Set([
   'preferences.food.saved',
   'preferences.food.saveFailed',
   'onboarding.paywall.notConfirmed',
+  // Fix 18: the streak screen's 0-freezes reason.
+  'gymStreak.noFreezes',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();
