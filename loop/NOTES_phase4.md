@@ -12,13 +12,14 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Out of scope changes: check, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Round 182 is a checkpoint.
+11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 187.
 
-## State (Round 182)
+## State (Round 183)
 - BUILT (18 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 16-28, 30.
+- Row 16 in progress: step 1 (authz route table) running in Round 183.
 - Row 15 owner check pending: scope ruling for cmd/server, scripts, tools/*, internal/db.
-- Round 181 report flagged by loop check (tsc or tests not confirmed). Round 182 re-verifies.
+- Round 182 checkpoint clean: tsc 0, Jest 350/2190, go vet clean.
 
 ## Parked (fix only in its row)
 - Debug reports: 'context': null saved as null (debugreports.go:61). Retry skips captured_at, trigger, route, versions.
@@ -66,8 +67,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle English only.
 - Round 169: measurements Back unchanged. Round 171: verify:go fails when LUME_TEST_DATABASE_URL unset.
 - Rounds 176-180: food 84.0, auth 87.7, debugreports 96.3, analytics 97.6 closed. Test only.
-- Round 181: Row 15 BUILT with owner check pending. Next: Row 16.
-- Round 182: checkpoint re-verifies the flagged Round 181 report before Row 16.
+- Round 181: Row 15 BUILT with owner check pending.
+- Round 183: Jev ask suggestion not used (asking is not allowed); Row 16 step 1 run, max 5 steps per row step.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -78,6 +79,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-157: rows 10-14, 14b, Fixes 1-28 (except 24, 25).
-- 158-180: checkpoints green; Row 15 packages closed one by one.
-- 181: Row 15 closed, BACKEND_COVERAGE.md table fixed.
-- 182: checkpoint (tsc, full Jest, go vet). No edits.
+- 158-181: checkpoints green; Row 15 closed.
+- 182: checkpoint green. No edits.
+- 183: Row 16 step 1 (authz route table test).

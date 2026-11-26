@@ -12485,3 +12485,7 @@
 - 2026-11-27 06:49 Flagged report handled first (Override 8): this round re-runs tsc and full Jest with no edits, which is also the checkpoint due at Round 182 (Override 11).
 - 2026-11-27 06:49 Row 16 deferred one round so the flag is cleared before a new task starts.
 - 2026-11-27 06:49 Tally in PHASE4_ROWS.md (18 of 39 BUILT) accepted as the previous report stated; to be checked against the status column in the next checkpoint.
+- 2026-11-27 06:50 Round 183: checkpoint re-verified Round 182 (tsc 0, Jest 350/2190, go vet clean). Clean, so no fixes needed.
+- 2026-11-27 06:50 Chose Row 16 (next in the order 16 to 30). Jev suggested ask or run; asking is not allowed, so run the smallest step.
+- 2026-11-27 06:50 Row 16 split into steps of max 5; step 1 is the route table with 401 checks and the completeness guard.
+- 2026-11-27 06:50 Round 183 Jev risk 1.1 noted; mitigated by a backend-only, single-package task with no UI or data edits.
