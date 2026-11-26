@@ -3,39 +3,41 @@ Handover: Lume Phase 4, branch loop/phase4
 Setup
 - Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. The only allowed git command is git branch --show-current.
 - Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
-- Strings are English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use --ci and never -u.
-- Go tests: LUME_TEST_DATABASE_URL=postgres://mohammedisa@127.0.0.1:5432/lume_test_local?sslmode=disable.
+- Strings are English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use npx jest --ci with full paths, never -u.
+- Last full run (Round 66): tsc 0 errors; Jest 323 of 323 suites, 2,015 tests, 4 snapshots; 68 console.error and 82 console.warn blocks. New tests since then pass.
 
 Rows
-- No row was closed this session. Row 10 is still PARTIAL, and the rows listed as built at the start are unchanged.
-- Last full run (Round 54): tsc 0 errors; Jest 320 of 320 suites, 1,992 tests, 4 snapshots; 68 console.error, 164 console.warn matches (82 real warning blocks).
+- Built this session: Row 10 (notifications, with an owner check list) and Row 13 (store content).
+- Row 12: 12a account data is done; the status was already BUILT.
+- Partial: Row 11 (health interface and mock provider) and Row 14 (privacy screen, linked from Settings).
 
-Row 10 built
-- Settings switches and quiet hours editing: src/components/domain/NotificationSettingsList.tsx. Quiet hours use a Stepper (15 minutes a step) in a BottomSheet; an equal start and end shows an error and isn't saved.
-- Daily reschedule at app start and on foreground: src/lib/notifications/daily.ts, called from src/app/_layout.tsx. The day key is cleared on sign-out.
-- Meal reminders use the user's real meal times: src/lib/notifications/mealTimes.ts, fed by fetchWeekLogs in src/lib/data/hooks.ts.
-- Sign-out (src/lib/auth/resetRegistry.ts) clears reminders (clearReminders in device.ts) and removes the push token (pushToken.ts).
-- A grant on NotificationPriming.tsx reschedules today and registers the push token.
-- Backend 10c: backend/internal/push, POST and DELETE /api/push/token, migration 20261127000001_push_tokens.sql (applied to lume_test_local), and push_tokens added to account deletion and the export.
+Key files
+- Notifications: src/lib/notifications/pushToken.ts, src/lib/auth/ClerkBridge.tsx, src/components/forms/Stepper.tsx.
+- Health: src/lib/health/types.ts, mockProvider.ts and index.ts.
+- Legal: src/app/legal/privacy.tsx, with its copy under legal.privacy in en.json; src/__tests__/legalParity.test.ts.
+- Docs: PRIVACY_DATA.md, app.json ios.privacyManifests, APP_STORE_METADATA.md, OWNER_CHECKS_phase4.md.
 
 Decisions
-- Only permissions.ts and device.ts import expo-notifications.
-- Every reschedule goes through rescheduleToday or runDailySchedule. Neither ever prompts.
-- Meals inside quiet hours are dropped (decided).
-- DELETE /api/push/token is public, so a lapsed account can stop push. A token moves to whichever account registers it last. The export omits the token itself.
-- The shared API client accepts a 204 with no body.
-- The node Jest project maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (in package.json), and src/__tests__/render/setup.ts mocks it for render tests.
+- The push token is stored in secure storage (lume.pushToken) and deleted only after a DELETE succeeds. ClerkBridge re-registers it once per signed-in user, never from runDailySchedule, so there is no 401 at launch.
+- Health reads have no denied state, because iOS hides read denial. The status is 'requested' or 'not_determined', and null means not granted or no data.
+- privacy.tsx keeps the 15 manifest sections. legalParity reads its headings and body from en.json. The UPDATED date literal stays because the manifest pins it.
+- Insights go to Gemini by default; Anthropic is used only when the server runs with LLM_PROVIDER=claude.
 
-Open for Isa
-- The UTC fallback when the device time zone can't be read.
-- Whether to reschedule the same day once permission is granted later.
-- The quiet hours step and wording, and that quiet hours can't be turned off.
-- The push token retention period, and whether DELETE should stay public.
+Next
+- Recommended: move src/app/legal/terms.tsx onto legal.terms keys, the same way as privacy (Row 14).
+- After that: the health disclaimer and the paywall subscription terms.
 
-Not fixed
-- The push token is kept in memory only, so after a relaunch sign-out can't remove it. This is the recommended next task.
-- A DELETE sent after the session has ended gets a 401 and leaves the server row.
-- The node expo-notifications mock lacks getDevicePushTokenAsync.
-- The quiet hours stepper doesn't wrap past midnight, and late snacks around midnight don't wrap either.
-- Stepper's "Decrease" and "Increase" screen-reader labels are hardcoded English.
-- src/__tests__/render/notificationSettingsList.wiring.render.test.tsx changed on disk after its last run. Rerun it before trusting the Round 55 result.
+Gotchas, not fixed
+- The shared reanimated mock lacks useReducedMotion. Settings render tests need the settingsHelp mocks.
+- LegalScreen hardcodes "Last updated" and "PENDING LEGAL REVIEW".
+- web/lib/legal.ts lacks the push token, Sentry and PostHog lines.
+- Two push token test files exist: src/__tests__/pushToken.test.ts and src/lib/notifications/pushToken.test.ts.
+- The push token is re-registered only when a Clerk key is configured. A DELETE after the session ends gets a 401.
+- appleHealth.ts is an older second health layer with write types. The real provider needs the native package and the entitlement.
+- The quiet hours stepper doesn't wrap past midnight.
+- Owner checks pending for Isa:
+  - the App Store privacy label;
+  - the age rating;
+  - the review account;
+  - push token retention, and whether DELETE stays public;
+  - the HealthKit device check.
