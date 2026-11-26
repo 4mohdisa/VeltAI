@@ -4,15 +4,19 @@
 // empty state; a successful read with no volume shows the empty state; the copy
 // is read from en.json, and every gymMuscles key exists in en, es and fr.
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import MuscleFocusScreen from '@/app/gym/muscles';
 import { useGymPatterns } from '@/lib/data/gymSchedule';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
-import { findAll, renderScreen } from './helpers';
+import { act, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/data/gymSchedule', () => ({ useGymPatterns: jest.fn() }));
+// Skeleton animates through reanimated's useReducedMotion, which this render
+// environment does not provide; the loading Back test only needs the header.
+jest.mock('@/components/display/LoadingSkeleton', () => ({ Skeleton: () => null, SkeletonCard: () => null, SkeletonList: () => null }));
 
 const METRICS: Metrics = {
   frame: { x: 0, y: 0, width: 393, height: 852 },
@@ -63,4 +67,40 @@ test('every gymMuscles key exists in en, es and fr', () => {
   const keys = Object.keys(en.gymMuscles).sort();
   expect(Object.keys(es.gymMuscles).sort()).toEqual(keys);
   expect(Object.keys(fr.gymMuscles).sort()).toEqual(keys);
+});
+
+// Fix 27: Back returns to where the user came from, and with no history (a deep
+// link) it lands on the Gym tab, not Summary. The header is the same in every state.
+describe('Back', () => {
+  afterEach(() => jest.restoreAllMocks());
+
+  const pressBack = (tree: Tree) => {
+    const back = findAll(tree, (p) => p.accessibilityLabel === en.common.goBack && typeof p.onPress === 'function')[0];
+    expect(back).toBeDefined();
+    act(() => {
+      (back.props.onPress as () => void)();
+    });
+  };
+
+  test.each([
+    ['loading', { patterns: null, isError: false, loading: true }],
+    ['error', { patterns: null, isError: true, loading: false }],
+    ['empty', { patterns: { muscle_volume_map: {} }, isError: false, loading: false }],
+    ['data', { patterns: { muscle_volume_map: { chest: 1200, back: 800 } }, isError: false, loading: false }],
+  ])('%s: with no history Back lands on the Gym tab', (_state, value) => {
+    (useGymPatterns as jest.Mock).mockReturnValue(value);
+    jest.spyOn(router, 'canGoBack').mockReturnValue(false);
+    pressBack(renderMuscles());
+
+    expect(router.replace).toHaveBeenCalledWith('/(tabs)/gym');
+    expect(router.back).not.toHaveBeenCalled();
+  });
+
+  test('with history Back goes back', () => {
+    mockPatterns({ patterns: { muscle_volume_map: {} }, isError: false });
+    pressBack(renderMuscles());
+
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
 });

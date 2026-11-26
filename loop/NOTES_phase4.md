@@ -13,13 +13,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 150)
+## State (Round 151)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open), 31 (open).
 - DIFFERENT: 15-28, 30.
-- Last full green: round 148 (350 suites, 2,182 tests, tsc 0).
-- Round 149: PHASE4_ROWS.md refresh. Type check passed. Tests not run (docs only).
-- Round 150: Fix 20 tests pending (see Row 14b).
+- Last full green: round 148 (350 suites, 2,182 tests, tsc 0). Round 150: Fix 20 green, tsc 0.
 
 ## Blocked on Isa (park, do not retry)
 - Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
@@ -32,11 +30,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-19 done (19: Energy and Training empty states link to /gym/log-session).
-- Fix 20 (Training week = Monday to today via weekOf): code done; training.render.test.tsx and detailChrome snapshot being hand edited (no -u). Add Done line once green.
+- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 done (each has a Done line).
+- Next: Fix 21 onward per DESIGN_INTENT.md, one Fix per round. If none buildable, close 14b as BUILT with owner checks.
 - Parked: Fix 24, Fix 25, Fix 12 option B, body stats hint (Energy copy says 'in onboarding').
-- Next: Fix 21 onward per DESIGN_INTENT.md. If none buildable, close 14b as BUILT with owner checks.
-- Small open items: gym.freeze.confirm '1 freezes' (add _one); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; targets reuses earlier calorie target; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; food calorie card past days (post launch); goBackOrHome and GlassButtons fall back to Today (parked, back-or-Food copied in two files); Week 'No net yet' says 'in onboarding'.
+- Open small items: gym.freeze.confirm '1 freezes' (add _one); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; targets reuses earlier calorie target; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; food calorie card past days (post launch); goBackOrHome and GlassButtons fall back to Today (back-or-Food copied in two files); Week 'No net yet' says 'in onboarding'; Training axisLetters uses fixed September fixture.
 - Spotted: Food tab checks consent on mount only. Gym tab reads this month twice. Saved list does not pass meal slot to detail sheet. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected, do not edit).
 - English only (fine under override 1): dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle.
 
@@ -53,9 +50,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; production test scan upload 4 s timer may leak; Jest worker force exit at end of full run.
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; production test scan upload 4 s timer may leak; Jest worker force exit at end of full run; Energy and Training share a duplicate of the week range helper (use weekOf).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
+- Docs: PHASE4_ROWS.md round log stops at Round 61; Round 145 and Fix 20 Done lines in DESIGN_INTENT.md overlap (keep both, merge later).
 
 ## Protected (do not edit)
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
@@ -82,7 +80,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Legal: copy in en.json; UPDATED date literal stays. Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
 - Fix 12 option A; option B parked post-launch. Training energy card: Monday to today via weekOf (shared helper in foodDays.ts).
-- Jev said ask in several rounds: ask banned, chosen task run each time.
+- Ask banned. Chosen task run each round.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
@@ -97,4 +95,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b done.
 - 128-148: Fixes 16 to 23 done; training energy card; force-exit leak fixed; checkpoint green.
 - 149: PHASE4_ROWS.md refresh.
-- 150: Fix 20 tests and snapshot hand edit.
+- 150: Fix 20 done (tests and snapshot already green).
+- 151: Fix 21 (next open Fix in DESIGN_INTENT.md).

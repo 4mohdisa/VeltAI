@@ -174,9 +174,12 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 23. **Nutrition chart title matches the chart** (7 days of grams). The new title goes into en.json only (`nutrition.tsx:144`).
    - Done (Round 144): the Macros detail's 7-day chart (`src/app/dashboard/nutrition.tsx`) is titled `nutrition.weekGramsTitle` ("Grams per day", English only, in ENGLISH_ONLY), with the existing `dashboard.lastDays` ("Last 7 days") as its note, replacing "Today against targets" / "Percent of target". The `detailChrome` macros snapshot was edited by hand on those two lines; `-u` was not run. Test: `src/__tests__/render/dashboardNutrition.render.test.tsx`.
 24. **Drop the training-days step** from onboarding. Nothing reads it, and its default needs an extra tap (`training-days.tsx:2`).
+   - Parked (Round 151): removing an onboarding step is a product decision waiting for Isa's ruling; listed under Post launch UI in OWNER_CHECKS_phase4.md.
 25. **Profile: remove the rows repeated in Privacy and Subscription**, and keep one feedback path (`profile/index.tsx:199-212`).
+   - Parked (Round 151): which rows stay and which feedback path is kept is a product decision waiting for Isa's ruling; listed under Post launch UI in OWNER_CHECKS_phase4.md.
 26. **Barcode: look the code up once**, passing the result to detail (`barcode-scan.tsx:44`, `detail.tsx:108`).
 27. **Muscles Back falls back to the Gym tab**, not Summary (`muscles.tsx:127`).
+   - Done (Round 151): with no history (a deep link) the Muscles screen's Back lands on the Gym tab (`/(tabs)/gym`, the route session and log-session use) instead of Summary; with history it still goes back. No new strings, no visual change. Test: `src/__tests__/render/gymMuscles.render.test.tsx` (loading, error, empty and data states, plus the history case).
 28. **Schedule with no workouts offers "Create a workout"** in the day picker (`schedule.tsx:174-188`).
 
 ### POST LAUNCH (major visual change, also listed in OWNER_CHECKS_phase4.md under "Post launch UI")

@@ -12348,3 +12348,7 @@
 - 2026-11-27 05:28 Rewrote the notes under 600 words, merging the round log and the duplicate open-items lists. Finished work is removed except for the Row 14b Done lines.
 - 2026-11-27 05:28 Jev signal said ask 28%, but ask is banned. Ran the chosen task, which Jev also ranks first at 61%.
 - 2026-11-27 05:28 Reply shows the 'Done' line for Fix 20 as pending until the tests pass, so the row is not closed early.
+- 2026-11-27 05:29 Chose candidate 1 (Fix 21) because Row 14b is the open row and the order is 14b before 15. Jev ranked this run first, so no second look was needed.
+- 2026-11-27 05:29 Kept the rule that a Fix with a visual or product question is parked in OWNER_CHECKS_phase4.md and not built.
+- 2026-11-27 05:29 Round 150 tests already green (Fix 20 snapshot and weekRange tests), so no untested flagged work to clear first.
+- 2026-11-27 05:29 Rewrote the notes below 600 words: merged repeats, removed finished Fix 1-20 detail, kept the blocked list and gotchas.

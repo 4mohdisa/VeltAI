@@ -150,6 +150,8 @@ From the Row 14b design intent audit (DESIGN_INTENT.md, Fix list). Major visual 
 - [ ] A discoverable way to delete a whole meal (long press only today).
 - [ ] A visible step label in onboarding in place of the dots.
 - [ ] A per-muscle drill-down on the Muscles screen once per-muscle data exists.
+- [ ] Post launch UI item (Fix 24): drop the onboarding training-days step, which nothing reads; needs your ruling.
+- [ ] Post launch UI item (Fix 25): remove the Profile rows repeated in Privacy and Subscription and keep one feedback path; needs your ruling.
 
 ## Row 14b: owner decision
 

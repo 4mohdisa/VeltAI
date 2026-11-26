@@ -124,7 +124,7 @@ export default function MuscleFocusScreen(): JSX.Element {
       >
         <Pressable
           haptic={false}
-          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)'))}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/gym'))}
           accessibilityLabel={t('common.goBack')}
           style={({ pressed }) => ({ opacity: pressed ? BACK_PRESSED_OPACITY : opacity.full })}
         >
