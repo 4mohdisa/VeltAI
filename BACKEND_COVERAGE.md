@@ -72,3 +72,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 175
 
 - `internal/scan`: 57.3% to 79.3% with all tests counted (412 of 719 statements before). New TestPG file `tests/scan/learning_store_pg_test.go`, which reuses the package's `pgScanStore` and `freshUser` helpers: corrections and the signals they feed (portion, identity, macro, discard), calibration factors, the accuracy summary, session owner, rating and AI consent lookups, the user context block, saved meals, the pipeline session writes and the calibration report. New `internal/scan/decode_internal_test.go`: the request body limits (oversize is 413, bad JSON is 400). Still under 70%: `runScanPipeline` (50.0%), `Register` (66.2%) and `CalibrationReport` (60.0%), mostly failure branches. Found the scanned food log delete bug, recorded in KNOWN_ISSUES.md.
+
+## Round 176
+
+- `internal/food`: 68.9% to 84.0% with all tests counted. New in-package TestPG tests in `internal/food/pg_internal_test.go` (logs, saved foods, cuisine preferences and library, portion preferences, name corrections, the brain rebuild flag, meal memory). Deleting a food log linked to a scan session is deliberately untested (the KNOWN_ISSUES.md foreign key bug).

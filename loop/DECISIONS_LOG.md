@@ -12457,3 +12457,7 @@
 - 2026-11-27 06:27 Integrations expired token with no refresh token, WHOOP missing external user ID, and the shared test helper package are added to Parked. Each is fixed only in its own row.
 - 2026-11-27 06:27 Row 15 stays PARTIAL until every backend package is at 70 percent or has a recorded exception.
 - 2026-11-27 06:27 Integrations report used the wrong package scope (not USDA or barcode). Accepted as the real package. Its tests stay as written.
+- 2026-11-27 06:32 Round 176: kept tests/scan/learning_store_pg_test.go. It is test only, a new file, reuses existing helpers, and no production code changed. Isa may move it; logged under Blocked.
+- 2026-11-27 06:32 Round 176: food chosen over auth. It is the next package in the Row 15 order and the gap is small. Jev's ask and stop advice not followed: the loop never asks, and the risky scan delete fix is parked rather than attempted.
+- 2026-11-27 06:32 Round 176: scanned food log delete bug parked for Isa approval (needs a migration). No test covers that path until it is approved.
+- 2026-11-27 06:32 Round 176: Jev's risk score of 1.4 accepted as a reason to keep Row 15 tests small and avoid schema changes.
