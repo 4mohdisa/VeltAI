@@ -12206,3 +12206,7 @@
 - 2026-11-27 03:59 Round 118 picks the scope check over Fix 10: the loop flagged changed files outside the named task, and the brief requires untested flagged work to be tested before any new task.
 - 2026-11-27 03:59 Keep the Fix 9 backend change (derive.go, pg.go, goals_test.go): it fixes the same macro mismatch on the server, is one shared helper, and was asked for by no one but matches the row intent. Reverted only if the scope check finds it unrelated.
 - 2026-11-27 03:59 Added override 9: changes outside a prompt's named files are checked for scope, then kept with a decision or reverted.
+- 2026-11-27 04:01 Fix 10: wire the survey through the existing feedback API rather than drop it, because Row 9 requires a reason survey; the reason key only, no free text, to keep the no-values rule.
+- 2026-11-27 04:01 Next task is Fix 10, not the handover's 'Fix 5' line: the latest report and notes show Fix 5 already BUILT.
+- 2026-11-27 04:01 Jev and the latest report agree on the next action; chose the smallest concrete task (one screen, max 5 steps).
+- 2026-11-27 04:01 Notes file rewritten under 600 words; finished work deleted, repeats merged. Row 14a chip wiring stays parked until before Row 31.

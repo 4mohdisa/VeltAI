@@ -243,8 +243,9 @@
         "not_working": "Something isn't working",
         "other": "Other"
       },
-      "noteLabel": "Anything else? (optional)",
-      "notePlaceholder": "Tell us what would help",
+      "send": "Send reason",
+      "sent": "Thanks, that helps us improve Lume.",
+      "sendFailed": "Couldn't send that. Try again.",
       "keepPlan": "Keep my plan"
     }
   },

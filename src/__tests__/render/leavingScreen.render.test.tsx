@@ -1,7 +1,8 @@
 // Thinking of leaving (src/app/profile/leaving.tsx, Row 9). The summary comes
 // from api.retention.summary (mocked here): a skeleton while it loads, an error
 // with Try again, an empty state for a user with nothing logged, and the three
-// counts otherwise. One reason at a time, an optional note, Keep my plan goes back.
+// counts otherwise. One reason at a time, Keep my plan goes back. Sending the
+// reason and Manage subscription are covered in leavingSendReason.render.test.tsx.
 import { router } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
@@ -98,17 +99,6 @@ test('the reason survey allows one choice at a time', async () => {
   expect(checkedReasons(tree)).toEqual([L.reasons.not_working]);
   await tap(tree, L.reasons.not_working);
   expect(checkedReasons(tree)).toEqual([]);
-});
-
-test('the note is optional and keeps what the user types', async () => {
-  const tree = await render();
-  const note = () => findAll(tree, (p) => p.accessibilityLabel === L.noteLabel && 'onChangeText' in p)[0];
-  expect(note().props.value).toBe('');
-  await act(async () => {
-    note().props.onChangeText('Need a family plan');
-  });
-  expect(note().props.value).toBe('Need a family plan');
-  expect(buttonWithTitle(tree, L.keepPlan)!.props.disabled).toBeFalsy();
 });
 
 test('Keep my plan goes back', async () => {

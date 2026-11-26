@@ -1,7 +1,7 @@
 // Row 9 · Thinking of leaving
-// The user's own last 30 days from GET /api/retention/summary (counts only),
-// a one-choice reason survey with an optional note, and Keep my plan. Nothing
-// on this screen is sent to analytics.
+// The user's own last 30 days from GET /api/retention/summary (counts only), a
+// one-choice reason survey sent through POST /api/feedback (the reason key only),
+// Keep my plan and Manage subscription. Nothing on this screen is sent to analytics.
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,12 +12,13 @@ import { EmptyState } from '@/components/display/EmptyState';
 import { ErrorState } from '@/components/display/ErrorState';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
 import { Stat } from '@/components/display/Stat';
+import { showToast } from '@/components/display/toastStore';
 import { Button } from '@/components/forms/Button';
 import { MultiSelectField } from '@/components/forms/MultiSelectField';
-import { TextField } from '@/components/forms/TextField';
 import { Screen } from '@/components/navigation/Screen';
 import { Text } from '@/components/primitives/Text';
 import { api, type RetentionSummary } from '@/lib/api';
+import { isManageSubscriptionAvailable, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { useApi } from '@/lib/data/gymSchedule';
 import { color, space } from '@/lib/design/tokens';
 import { formatNumber } from '@/lib/formatting';
@@ -30,8 +31,6 @@ const LEAVING_REASONS = [
   'not_working',
   'other',
 ] as const;
-
-const MAX_NOTE = 500;
 
 function Usage({ summary }: { summary: RetentionSummary }) {
   const { t } = useTranslation();
@@ -58,7 +57,26 @@ export default function LeavingScreen() {
   const { t } = useTranslation();
   const { data, loading, isError, refetch } = useApi<RetentionSummary | null>(() => api.retention.summary(), null);
   const [reason, setReason] = useState('');
-  const [note, setNote] = useState('');
+  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent'>('idle');
+
+  // The reason key only: no free text, so nothing the user typed leaves the device.
+  const sendReason = async () => {
+    setSendState('sending');
+    try {
+      await api.feedback.post({ category: 'account', message: `leaving_reason:${reason}` });
+      setSendState('sent');
+      showToast({ message: t('subscription.leaving.sent'), tone: 'success' });
+    } catch {
+      setSendState('idle');
+      showToast({ message: t('subscription.leaving.sendFailed'), tone: 'error' });
+    }
+  };
+
+  const openSubscriptions = async () => {
+    if (!(await openManageSubscription())) {
+      showToast({ message: t('profile.manageSubscriptionFailed'), tone: 'error' });
+    }
+  };
 
   return (
     <Screen
@@ -67,7 +85,14 @@ export default function LeavingScreen() {
       title={t('subscription.leaving.title')}
       showBack
       contentStyle={{ gap: space.xl }}
-      footer={<Button title={t('subscription.leaving.keepPlan')} onPress={() => router.back()} />}
+      footer={
+        <View style={{ gap: space.sm }}>
+          <Button title={t('subscription.leaving.keepPlan')} onPress={() => router.back()} />
+          {isManageSubscriptionAvailable() ? (
+            <Button title={t('subscription.manage')} variant="tertiary" onPress={() => void openSubscriptions()} />
+          ) : null}
+        </View>
+      }
     >
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
@@ -93,13 +118,12 @@ export default function LeavingScreen() {
         // One choice: keep only the chip just tapped, or none when it is tapped again.
         onChange={(next) => setReason(next.find((v) => v !== reason) ?? '')}
       />
-      <TextField
-        label={t('subscription.leaving.noteLabel')}
-        placeholder={t('subscription.leaving.notePlaceholder')}
-        value={note}
-        onChangeText={setNote}
-        maxLength={MAX_NOTE}
-        multiline
+      <Button
+        title={t('subscription.leaving.send')}
+        variant="secondary"
+        disabled={!reason || sendState === 'sent'}
+        loading={sendState === 'sending'}
+        onPress={() => void sendReason()}
       />
     </Screen>
   );
