@@ -75,14 +75,20 @@ export const presetsFor = (grams: number): number[] =>
 
 type DetailSubjectState = {
   subject: DetailSubject | null;
+  /** Meals logged from the sheet; the Food tab watches it to drop its `?slot`. */
+  logs: number;
   openDetail: (subject: DetailSubject) => void;
   clearDetail: () => void;
+  /** Clear the subject after a log, counting it. */
+  finishDetail: () => void;
 };
 
 export const useDetailSubject = create<DetailSubjectState>((set) => ({
   subject: null,
+  logs: 0,
   openDetail: (subject) => set({ subject }),
   clearDetail: () => set({ subject: null }),
+  finishDetail: () => set((s) => ({ subject: null, logs: s.logs + 1 })),
 }));
 
 /** Set the subject, then `router.push('/food/detail')`. Kept separate from the

@@ -12109,3 +12109,7 @@
 - 2026-11-27 03:11 Round 95 checkpoint is green (tsc 0 errors, 334 suites, 2,062 tests). No change needed.
 - 2026-11-27 03:11 Jest worker force-exit and 26 console.warn suites are logged as parked tooling, not fixed this round, to keep the one task per round rule.
 - 2026-11-27 03:11 Notes rewritten under 600 words: merged repeated items, deleted finished work, and shortened the round log.
+- 2026-11-27 03:12 Round 97: chose candidate 1 because it is the last open Fix 1 item and the smallest change; Jev also ranks run at 97%.
+- 2026-11-27 03:12 Round 97: the Photograph label doc update (candidate 3) is folded into the next docs pass, not a separate round.
+- 2026-11-27 03:12 Round 97: English only per Isa override 1; new strings go to en.json only.
+- 2026-11-27 03:12 Round 97: Jev risk 0.8 (of 2) noted; the task touches one screen and one test file, so the smallest task is kept.

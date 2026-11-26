@@ -9,7 +9,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import FoodLogScreen from '@/app/(tabs)/food';
 import { logMeal } from '@/lib/data';
 import { useFoodStore } from '@/lib/data/foodStore';
-import { openFoodDetail } from '@/lib/food/detailSubject';
+import { openFoodDetail, useDetailSubject } from '@/lib/food/detailSubject';
 import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import { mealSlotName } from '@/lib/mealSlotName';
@@ -116,4 +116,16 @@ test('clearing the search drops the chosen meal', async () => {
   const { field } = await search({ slot: 'Dinner' });
   act(() => field.props.onChangeText(''));
   expect(router.setParams).toHaveBeenCalledWith({ slot: undefined });
+});
+
+test('a log from the detail sheet drops the chosen meal', async () => {
+  await search({ slot: 'Dinner' });
+  act(() => useDetailSubject.getState().finishDetail());
+  expect(router.setParams).toHaveBeenCalledWith({ slot: undefined });
+});
+
+test('a log from the detail sheet with no meal chosen changes no params', async () => {
+  await search({});
+  act(() => useDetailSubject.getState().finishDetail());
+  expect(router.setParams).not.toHaveBeenCalled();
 });

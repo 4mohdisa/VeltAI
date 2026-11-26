@@ -16,9 +16,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
 
 ## Row 14b (current)
-- Fix list in DESIGN_INTENT.md. Fix 1 (meal slot) done for Search, barcode scanner, barcode detail sheet, Scan again, label scan.
-- Open, in order: (a) barcode-scan.tsx:182 Photograph label must pass slot (Round 96); (b) detail-sheet log does not clear ?slot; (c) quick-add, add, saved repeat use slotFromParam; (d) duplicate SLOTS lists in food.tsx, label-scan.tsx:42, mappers.ts.
+- Fix list in DESIGN_INTENT.md. Fix 1 meal slot done for Search, barcode scanner, barcode detail sheet, Scan again, label scan, Photograph label (Round 96).
+- Open, in order: (b) detail-sheet log does not clear ?slot (Round 97, in progress); (c) quick-add, add, saved repeat use slotFromParam; (d) duplicate SLOTS lists in food.tsx, label-scan.tsx:42, mappers.ts.
 - Then: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
+- Update DESIGN_INTENT.md: Photograph label is done.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -29,7 +30,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Chip unwired: wire or delete before Row 31. Reads state once on mount; save result ignored.
 
 ## Next
-- Round 96: barcode-scan.tsx:182 follow-up, then labelScan render test.
+- Round 97: Fix 1 (b), then labelScan render test.
 - Then: terms.tsx onto legal.terms keys; health disclaimer; paywall subscription terms.
 - Checkpoint: count console.warn suites (26 suites, 82 blocks at Round 95).
 
@@ -91,10 +92,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 - Mocking Clerk avoids a MessagePort that stops Jest exiting. SafeAreaProvider hides children without initialMetrics.
 - macOS has no timeout command: wrap Jest in perl -e 'alarm N; exec @ARGV'.
+- A Jest worker is force-exited at the end of the full run (leaked handle).
 
 ## Round log (condensed)
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-94: prompts rejected when multi-screen; meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan.
-- 95: checkpoint green (tsc 0 errors, 334 suites, 2,062 tests).
-- 96: barcode Photograph label slot (in progress).
+- 87-95: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan; checkpoint green at 95.
+- 96: Photograph label passes the meal; tests green (6 suites, 50 tests).
+- 97: Fix 1 (b) in progress.

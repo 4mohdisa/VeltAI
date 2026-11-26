@@ -64,7 +64,7 @@ import { useFoodStore } from '@/lib/data/foodStore';
 import { todayISO } from '@/lib/data/mappers';
 import { fromIso, useLoggedDays } from '@/lib/data/foodDays';
 import { WeekStrip } from '@/components/food/WeekStrip';
-import { openFoodDetail, type DetailItem } from '@/lib/food/detailSubject';
+import { openFoodDetail, useDetailSubject, type DetailItem } from '@/lib/food/detailSubject';
 import { useInsights } from '@/lib/data/aiBrain';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import type { DietaryRequirement, ScanFeedbackRating, ScanItemStatus } from '@/lib/types';
@@ -388,11 +388,16 @@ export default function FoodLogScreen() {
   // the chosen meal (else the meal for now) instead of routing through the detail
   // sheet. Seeded exactly as detail.tsx seeds a search result, so both paths write the same row.
   const addSlot = slotFromParam(slot);
-  // Clearing the search ends it, so the chosen meal does not carry into a later search.
+  // Clearing the search, or logging from the detail sheet, ends it, so the
+  // chosen meal does not carry into a later search.
+  const dropSlot = useCallback(() => {
+    if (slot) router.setParams({ slot: undefined });
+  }, [slot]);
   const changeQuery = (text: string) => {
     setQuery(text);
-    if (!text && slot) router.setParams({ slot: undefined });
+    if (!text) dropSlot();
   };
+  useEffect(() => useDetailSubject.subscribe((s, prev) => s.logs !== prev.logs && dropSlot()), [dropSlot]);
   const quickAdd = (food: FoodResult) => {
     logMeal(
       addSlot,

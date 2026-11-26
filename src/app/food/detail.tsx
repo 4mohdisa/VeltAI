@@ -84,6 +84,7 @@ export default function FoodDetailScreen() {
   // the content out from under a half-finished edit.
   const [subject] = useState(() => useDetailSubject.getState().subject);
   const clearDetail = useDetailSubject((s) => s.clearDetail);
+  const finishDetail = useDetailSubject((s) => s.finishDetail);
 
   const [lookup, setLookup] = useState<BarcodeLookup | null>(null);
   const [loading, setLoading] = useState(subject?.mode === 'barcode');
@@ -128,7 +129,7 @@ export default function FoodDetailScreen() {
   // Logged and gone: the sheet is finished with, so drop the subject on the way
   // out and land back on the food tab.
   const logAndLeave = (name: string) => {
-    clearDetail();
+    finishDetail();
     showToast({ message: t('food.savedAdded', { name }), tone: 'success' });
     router.replace('/(tabs)/food');
   };

@@ -55,6 +55,12 @@ test('a product scanned for dinner is logged to dinner', async () => {
   expect(jest.mocked(logMeal).mock.calls[0][0]).toBe('Dinner');
 });
 
+test('a log counts once in the subject store, so the Food tab drops its ?slot', async () => {
+  const before = useDetailSubject.getState().logs;
+  await logFrom('Dinner', 'Dinner');
+  expect(useDetailSubject.getState()).toMatchObject({ subject: null, logs: before + 1 });
+});
+
 test('with no meal chosen, the product goes to the meal for the time of day', async () => {
   await logFrom(undefined, 'Breakfast');
   expect(jest.mocked(logMeal).mock.calls[0][0]).toBe('Breakfast');
