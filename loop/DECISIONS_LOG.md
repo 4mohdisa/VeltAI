@@ -11614,3 +11614,8 @@
 - 2026-11-26 10:36 Dead end 7 stays Open on Isa's list. Not closed by the manager.
 - 2026-11-26 10:36 Checkpoint runs tsc and full Jest only once, to file, with counts taken from the run itself.
 - 2026-11-26 10:36 Jev signals treated as advisory. Risk 0.9 is noted, but the task only touches onboarding copy and records, so no Isa question is needed.
+- 2026-11-26 10:38 Chose Row 3 now: the Apple owner steps are parked in OWNER_CHECKS_phase4.md, so they no longer block the build (the brief says park and carry on).
+- 2026-11-26 10:38 Row 2b next surface left for a later round: no concrete target was named in the notes, and a vague surface would need a discovery step first.
+- 2026-11-26 10:38 Row 3 marked BUILT with owner check pending, per the status rules in the brief.
+- 2026-11-26 10:38 Jev suggested ask (67%) and stop (27%). Ask is not allowed. Stop needs every row BUILT or EXACT, which is not met. Run is the only valid action.
+- 2026-11-26 10:38 Close-out checkpoint from the last report is treated as done: tsc 0 errors, Jest 299 suites and 1,816 tests passing, lint clean on the signup files.
