@@ -11861,3 +11861,7 @@
 - 2026-11-27 00:53 The expo-notifications mock lives only in the wiring render test file, not in global setup, so other Settings tests keep their warning until a checkpoint.
 - 2026-11-27 00:53 The UTC fallback for an unreadable device time zone is kept as is and parked for Isa, because it was flagged as a choice for him.
 - 2026-11-27 00:53 Still parked: quiet hours editing, the push token endpoint sending (hosted), and the leaving screen destination.
+- 2026-11-27 00:55 Chose the checkpoint run: the notes say it is due after round 42 passed, and it confirms the console.warn drop before more notification work.
+- 2026-11-27 00:55 Did not add the expo-notifications mock to notificationSettings.render.test.tsx: the file is off the allowed-edit list, and the warning does not fail a gate. Parked.
+- 2026-11-27 00:55 Corrected the round 42 note: no mock was added, because the wiring test already mocks device.ts and permissions.ts and is clean.
+- 2026-11-27 00:55 Kept the Jev signal (run 77%, low risk) as a second opinion that agrees with the choice.
