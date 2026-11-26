@@ -16,9 +16,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Checkpoints: Round 66 and Round 80 green (325 suites, 2,018 tests).
 
 ## Row 14a (feedback), in progress
-- Done: features.ts (11 keys, after-purchase keys); throttle.ts (canPromptFeature, recordPrompt); feedbackThrottle.test.ts (12 tests).
-- Round 82: persist prompt state and session count; copy dontAskAgain in recordPrompt.
-- Next: feedback chip; sheet (reasons, free text, what do you like); Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback script; delete and export coverage; PRIVACY_DATA.md.
+- Done: features.ts (11 keys); throttle.ts (canPromptFeature, recordPrompt copies dontAskAgain); feedbackThrottle.test.ts (12 tests).
+- Done R82: promptStore.ts (load, save, recordLaunch, never throws); feedbackPromptStore.test.ts (7 tests); STORAGE_KEYS.feedbackPrompt kept across sign-out.
+- Round 83: step 3, recordLaunch once at start-up in root layout, with render test.
+- Then: chip; sheet (reasons, free text, what do you like); Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback; delete and export coverage; PRIVACY_DATA.md.
+- Small fixes later: promptStore shape check must filter feature keys inside lastPromptByFeature and dontAskAgain; saveFeedbackPromptState must handle setItem false.
 
 ## Row 14b
 - Write DESIGN_INTENT.md (four questions per screen), then small fixes: smart defaults, contextual links, remove what does not earn its place.
@@ -32,7 +34,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Banned word in legalParity comment (flagged twice).
 - Paywall and signup LegalLink duplicates; shared component later.
 - Paywall footer on small iPhone: Row 23.
-- HANDOVER line 34 says two push token test files; only src/__tests__/pushToken.test.ts remains.
+- HANDOVER line 34 says two push token test files; check before editing.
 
 ## Blocked on Isa (park)
 - Leaving and retention: destination, reason and priming copy, win back copy and price, Apple Retention access, App Store Connect key, approve two messages, sandbox URL.
@@ -82,6 +84,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
 - Round 82: persistence before chip (chip depends on throttle state); recordPrompt copies dontAskAgain.
+- Round 83: 14a step 3 chosen over shape and write fixes (smallest, unblocks chip; Jev risk high).
 
 ## Gotchas
 - Branch check first. Full Jest paths; never jest -u; use --ci; redirect output.
@@ -93,4 +96,5 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## Round log
 - Rounds 60 to 80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - Round 81: features.ts and throttle.ts with 12 tests.
-- Round 82: Row 14a step 2 issued.
+- Round 82: promptStore and persistence done; Row 14a step 3 next.
+- Round 83: Row 14a step 3 issued.

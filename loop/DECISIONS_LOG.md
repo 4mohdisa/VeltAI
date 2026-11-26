@@ -12048,3 +12048,7 @@
 - 2026-11-27 02:27 Include the recordPrompt array-copy fix in this round because it touches the same module and is a known defect.
 - 2026-11-27 02:27 Settings switch deferred to a later step so this prompt stays within one component and five steps.
 - 2026-11-27 02:27 Parked the handover stale line (two push token test files) and the console.warn count for the checkpoint round; not in scope here.
+- 2026-11-27 02:28 Round 83: chose 14a step 3 over the shape-filter fix and the lost-write fix. It is the smallest step and unblocks the feedback chip. Jev risk is high (1.0) and clean finish is 62%, so a small task is safer.
+- 2026-11-27 02:28 Two follow-ups from the Round 82 report are parked for a later small step: the shape filter for feature keys and the setItem false handling.
+- 2026-11-27 02:28 Row 14a status set to PARTIAL in PHASE4_ROWS.md, since it was still DIFFERENT after persistence work.
+- 2026-11-27 02:28 Step 3 test covers a rejecting recordLaunch so a storage failure cannot block start-up.

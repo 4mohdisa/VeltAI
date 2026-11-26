@@ -25,12 +25,16 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
 import { flushAnalytics, initAnalytics, track } from '@/lib/analytics';
 import { startDailySchedule } from '@/lib/notifications/daily';
+import { recordLaunch } from '@/lib/feedback/promptStore';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 import { initCrashReporting } from '@/lib/crashReporting';
 import { initAnalyticsSink } from '@/lib/analyticsSink';
 
 initCrashReporting();
 initAnalyticsSink();
+
+// Module level, so a remount or a re-render never counts the launch twice.
+let launchRecorded = false;
 
 // AuthGate mounts ClerkProvider only when a publishable key exists. With no key
 // in a DEV build (Expo Go, keys not yet issued) the app runs in local dev auth
@@ -103,6 +107,14 @@ export default function RootLayout() {
 
   // Reduce Motion (HIG §7.3): replace slide push transitions with a fade.
   const reduceMotion = useReduceMotion();
+
+  // One session for the feedback prompt throttle per launch. A storage failure
+  // is dropped: it must never block start-up.
+  useEffect(() => {
+    if (launchRecorded) return;
+    launchRecorded = true;
+    recordLaunch().catch(() => undefined);
+  }, []);
 
   // Rehydrate + attempt to flush any offline-queued writes on launch, and
   // initialize RevenueCat (no-op in billing-disabled dev mode).
