@@ -1,43 +1,38 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. The only allowed git command is git branch --show-current.
-- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
-- Strings are English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use npx jest --ci with full paths, never -u.
-- Last full run (Round 66): tsc 0 errors; Jest 323 of 323 suites, 2,015 tests, 4 snapshots; 68 console.error and 82 console.warn blocks. New tests since then pass.
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
+- The only allowed git command is git branch --show-current.
+- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDetail... no: src/__tests__/foodDays.test.ts.
+- English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use npx jest --ci with full paths, never -u.
+- macOS has no timeout command; wrap Jest in perl -e 'alarm N; exec @ARGV'.
+- Last full run (Round 80): tsc 0 errors; Jest 325 of 325 suites, 2,018 tests.
 
 Rows
-- Built this session: Row 10 (notifications, with an owner check list) and Row 13 (store content).
-- Row 12: 12a account data is done; the status was already BUILT.
-- Partial: Row 11 (health interface and mock provider) and Row 14 (privacy screen, linked from Settings).
+- Built: Row 14. Legal screens and terms read from en.json; the paywall shows subscription terms under onboarding.paywall.terms.
+- Row 14a (PARTIAL): steps 1 to 4 done. Step 5 is next: wire the chip into the barcode result with the sheet and a feature_rated event carrying only the feature key and rating.
+- Row 14b (DIFFERENT): DESIGN_INTENT.md has the audit and the Fix list. Fix 1 is done for Search, the barcode scanner and the barcode detail sheet.
 
 Key files
-- Notifications: src/lib/notifications/pushToken.ts, src/lib/auth/ClerkBridge.tsx, src/components/forms/Stepper.tsx.
-- Health: src/lib/health/types.ts, mockProvider.ts and index.ts.
-- Legal: src/app/legal/privacy.tsx, with its copy under legal.privacy in en.json; src/__tests__/legalParity.test.ts.
-- Docs: PRIVACY_DATA.md, app.json ios.privacyManifests, APP_STORE_METADATA.md, OWNER_CHECKS_phase4.md.
+- Feedback: src/lib/feedback/features.ts, throttle.ts and promptStore.ts; src/components/feedback/FeatureFeedbackChip.tsx. recordLaunch is called from src/app/_layout.tsx.
+- Meal slot: slotFromParam in src/lib/data/scan.ts; the slot field in src/lib/food/detailSubject.ts; src/app/(tabs)/food.tsx; src/app/food/barcode-scan.tsx; src/app/food/detail.tsx.
+- Docs: DESIGN_INTENT.md, DESIGN_REFERENCES.md (Row 14b Mobbin section), OWNER_CHECKS_phase4.md (Post launch UI).
 
 Decisions
-- The push token is stored in secure storage (lume.pushToken) and deleted only after a DELETE succeeds. ClerkBridge re-registers it once per signed-in user, never from runDailySchedule, so there is no 401 at launch.
-- Health reads have no denied state, because iOS hides read denial. The status is 'requested' or 'not_determined', and null means not granted or no data.
-- privacy.tsx keeps the 15 manifest sections. legalParity reads its headings and body from en.json. The UPDATED date literal stays because the manifest pins it.
-- Insights go to Gemini by default; Anthropic is used only when the server runs with LLM_PROVIDER=claude.
-
-Next
-- Recommended: move src/app/legal/terms.tsx onto legal.terms keys, the same way as privacy (Row 14).
-- After that: the health disclaimer and the paywall subscription terms.
+- The meal reaches the detail sheet through the subject store, never a route param. foodDetail.test.ts forbids params on /food/detail as a privacy guard.
+- Clearing the Food tab search drops ?slot so it does not linger into later searches.
+- The throttle module never reads the clock; callers pass now.
+- The launch counter uses a module-level flag.
 
 Gotchas, not fixed
-- The shared reanimated mock lacks useReducedMotion. Settings render tests need the settingsHelp mocks.
-- LegalScreen hardcodes "Last updated" and "PENDING LEGAL REVIEW".
-- web/lib/legal.ts lacks the push token, Sentry and PostHog lines.
-- Two push token test files exist: src/__tests__/pushToken.test.ts and src/lib/notifications/pushToken.test.ts.
-- The push token is re-registered only when a Clerk key is configured. A DELETE after the session ends gets a 401.
-- appleHealth.ts is an older second health layer with write types. The real provider needs the native package and the entitlement.
-- The quiet hours stepper doesn't wrap past midnight.
-- Owner checks pending for Isa:
-  - the App Store privacy label;
-  - the age rating;
-  - the review account;
-  - push token retention, and whether DELETE stays public;
-  - the HealthKit device check.
+- "Scan again" (detail.tsx:235) drops the meal.
+- "Photograph label" drops the meal; label-scan.tsx:74 uses slotForNow.
+- A detail-sheet log does not clear ?slot.
+- quick-add, add and saved repeat the inline slot check.
+- food.tsx keeps a duplicate SLOTS list.
+- Mocking Clerk avoids a MessagePort that stops Jest exiting.
+- SafeAreaProvider hides children without initialMetrics.
+- The full suite logs 164 console.warn lines.
+- The Terms describe a free tier that does not exist (owner check).
+- loop/HANDOVER_phase4.md still mentions two push token test files.
+- The Fix list has 27 more SMALL items; items 2 to 5 are the highest value.
