@@ -11714,3 +11714,6 @@
 - 2026-11-26 11:18 Left BillingProblemBanner export alone unless it is unused, to avoid touching a second screen.
 - 2026-11-26 11:18 Manage button hidden on expired, matching past_due, because Apple's page cannot restart an expired plan.
 - 2026-11-26 11:18 Used the existing paywallHref helper so there is one paywall link builder.
+- 2026-11-26 11:21 Round 13 runs the full suite checkpoint before the win back screen, because the last full run predates 7a, 7b and Row 8 and the round 12 check flagged the report as incomplete.
+- 2026-11-26 11:21 Jev ranked run at 54% and ask at 43%. Choosing run matches the no-questions rule, and the checkpoint is a smaller, safer task.
+- 2026-11-26 11:21 The Resubscribe paywall toast, the hardcoded 'expired' reason, and the unused paywall keys stay as open questions for Isa, not changed this round, so the checkpoint stays small.

@@ -10,21 +10,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; past_due footer proof done in round 11).
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; expired state with Resubscribe built in round 12).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
-- Last full run: tsc 0; Jest 303 suites, 1,835 tests (before 7a, 7b, Row 8). Full suite checkpoint due.
+- Last full run: tsc 0; Jest 303 suites, 1,835 tests (before 7a, 7b, Row 8). Round 13 is the full suite checkpoint.
 
 ## Next
-1. Row 8: expired state with Resubscribe on Profile > Subscription (round 12).
+1. Round 13: full suite checkpoint (tsc, full Jest, fix red).
 2. Row 8: win back offer screen.
 3. Row 8: remove BILLING_ISSUE export if unused; check the BillingProblemBanner export.
 4. Row 8 simulator flow at end of row.
-5. Full suite checkpoint when the loop calls one.
 
 ## Blocked on Isa (park, do not retry)
 - 7c StoreKit simulator purchase and real offerings: needs iOS public key in env. Blocked twice.
-- es and fr for onboarding.paywall keys, subscription.period.* labels, subscription.billingProblem.* keys.
+- es and fr for onboarding.paywall keys, subscription.period.* labels, subscription.billingProblem.* keys, subscription.expired.* keys.
 - Row 8 banner: whether it should react to on-device billing_issue before the webhook lands. Server record only for now.
+- Round 12: Resubscribe opens the paywall with reason 'expired', so the paywall's expired error toast shows on top of the expired message. Isa decides whether that is wanted.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; previous-step back on resumed step; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser flow.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation (68 console.error); gesture-handler worklet warning (21); Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
@@ -52,10 +52,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Rounds 9 to 10: on past_due the Subscription footer Manage button hides; the banner owns that action.
 - Round 11: proof done. Test fails without footer fix, passes with it. Console block in banner tests scoped to the expected RevenueCat warning.
 - Round 12: expired state hides Manage (same as past_due) and shows Resubscribe via paywallHref.
+- Round 13: full suite checkpoint before win back screen; last full run predates 7a, 7b, Row 8; round 12 flagged as incomplete.
 
 ## Parked
 - Today pull-to-refresh does not refetch subscription state.
 - entitlementFromApi stores unknown server status as is; should check it.
+- Paywall reason list hardcodes 'expired' next to the EXPIRED constant in subscription.tsx.
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
 - About 68 deliberate console warns need scoped spies. Trace the 67 to 68 console.error rise.
@@ -78,10 +80,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Redirect output to files; pipes hide exit codes.
 - Lint forbids setState inside an effect body; use a guarded .then.
 - Every prompt opens with the branch check and the rule to work only on loop/phase4.
-- Keep every prompt to one screen or component, including its own test file.
+- Keep every prompt to one screen or component, including its own test file. Exception: full suite checkpoint rounds.
 
 ## Loop note
 - Round 9: handover happened; prompt names files in full.
 - Round 10: previous prompt rejected (too many screens). Rewritten as one screen plus its test file.
 - Round 11: flag from automatic check on round 10 report. Proof and console trace done.
-- Round 12: Row 8 expired state, one screen and its test file.
+- Round 12: Row 8 expired state, one screen and its test file. Report claimed checks passed, but the automatic check flagged it as incomplete (full suite not run).
+- Round 13: full suite checkpoint, to close the flag and confirm 7a, 7b and Row 8 are green.
