@@ -135,23 +135,25 @@ func TestPG_FoodRoutesRefuseAnotherUsersIDs(t *testing.T) {
 	}
 }
 
-func TestPG_RecipeAndSavedMealRoutesRefuseAnotherUsersIDs(t *testing.T) {
-	_, pool := daysPGStore(t)
-	ctx := context.Background()
-	a := seedOwner(t, pool, fmt.Sprintf("recipe_owner_a_%d", os.Getpid()))
-	b := seedOwner(t, pool, fmt.Sprintf("recipe_owner_b_%d", os.Getpid()))
+// recipeMux mounts the recipe and saved meal routes on the real Postgres store.
+func recipeMux(pool *pgxpool.Pool) *http.ServeMux {
 	mux := http.NewServeMux()
 	recipes.Register(mux, recipes.NewPGStore(pool))
-	send := sender(t, mux)
+	return mux
+}
 
-	rec := send(http.MethodPost, "/api/recipes", a, `{"name":"Oats","serving_count":2,"ingredients":[
+// seedRecipeAndMeal creates, as user, a recipe with two ingredients and a
+// saved meal with two items through the real POST routes.
+func seedRecipeAndMeal(t *testing.T, send func(method, path, user, body string) *httptest.ResponseRecorder, user string) (recipes.Recipe, recipes.SavedMeal) {
+	t.Helper()
+	rec := send(http.MethodPost, "/api/recipes", user, `{"name":"Oats","serving_count":2,"ingredients":[
 		{"food_name":"Rolled oats","quantity_g":80,"calories":300},
 		{"food_name":"Milk","quantity_g":200,"calories":130}]}`)
 	if rec.Code != http.StatusCreated {
 		t.Fatalf("create recipe = %d (body %s)", rec.Code, rec.Body.String())
 	}
 	recipe := data[recipes.Recipe](t, rec)
-	rec = send(http.MethodPost, "/api/saved-meals", a, `{"name":"Usual lunch","meal_type":"lunch","items":[
+	rec = send(http.MethodPost, "/api/saved-meals", user, `{"name":"Usual lunch","meal_type":"lunch","items":[
 		{"food_name":"Rice","quantity_g":150,"calories":200},
 		{"food_name":"Chicken","quantity_g":120,"calories":190}]}`)
 	if rec.Code != http.StatusCreated {
@@ -161,33 +163,48 @@ func TestPG_RecipeAndSavedMealRoutesRefuseAnotherUsersIDs(t *testing.T) {
 	if len(meal.Items) != 2 {
 		t.Fatalf("saved meal has %d items, want 2", len(meal.Items))
 	}
+	return recipe, meal
+}
+
+// recipeRows reads back the recipe and saved meal with their child rows, the
+// owner's recipe and saved meal counts, and the food_logs count for owner and
+// other. Child rows are sorted by name because their stored order is random
+// (KNOWN_ISSUES.md).
+func recipeRows(t *testing.T, pool *pgxpool.Pool, recipeID, mealID, owner, other string) string {
+	t.Helper()
+	var s string
+	if err := pool.QueryRow(context.Background(), `SELECT concat_ws('|',
+		(SELECT concat_ws(':', name, total_calories, serving_count, updated_at) FROM recipes
+			WHERE id::text = $1 AND user_id = $3),
+		(SELECT string_agg(concat_ws(':', food_name, quantity_g, calories), ',' ORDER BY food_name)
+			FROM recipe_ingredients WHERE recipe_id::text = $1),
+		(SELECT concat_ws(':', name, total_calories, logged_count, last_logged) FROM saved_meals
+			WHERE id::text = $2 AND user_id = $3),
+		(SELECT string_agg(concat_ws(':', food_name, quantity_g, calories), ',' ORDER BY food_name)
+			FROM saved_meal_items WHERE saved_meal_id::text = $2),
+		(SELECT count(*) FROM recipes WHERE user_id = $3),
+		(SELECT count(*) FROM saved_meals WHERE user_id = $3),
+		(SELECT count(*) FROM food_logs WHERE user_id IN ($3, $4)))`,
+		recipeID, mealID, owner, other).Scan(&s); err != nil {
+		t.Fatalf("read rows back: %v", err)
+	}
+	return s
+}
+
+func TestPG_RecipeAndSavedMealRoutesRefuseAnotherUsersIDs(t *testing.T) {
+	_, pool := daysPGStore(t)
+	a := seedOwner(t, pool, fmt.Sprintf("recipe_owner_a_%d", os.Getpid()))
+	b := seedOwner(t, pool, fmt.Sprintf("recipe_owner_b_%d", os.Getpid()))
+	send := sender(t, recipeMux(pool))
+	recipe, meal := seedRecipeAndMeal(t, send, a)
 
 	// The token path works: user A reads their own recipe.
-	rec = send(http.MethodGet, "/api/recipes/"+recipe.ID, a, "")
+	rec := send(http.MethodGet, "/api/recipes/"+recipe.ID, a, "")
 	if rec.Code != http.StatusOK || len(data[recipes.Recipe](t, rec).Ingredients) != 2 {
 		t.Fatalf("owner GET = %d, want 200 with 2 ingredients (body %s)", rec.Code, rec.Body.String())
 	}
 
-	// Child rows are sorted by name because their stored order is random
-	// (KNOWN_ISSUES.md). The food_logs count catches a log written for anyone.
-	snapshot := func() string {
-		t.Helper()
-		var s string
-		if err := pool.QueryRow(ctx, `SELECT concat_ws('|',
-			(SELECT concat_ws(':', name, total_calories, serving_count, updated_at) FROM recipes
-				WHERE id::text = $1 AND user_id = $3),
-			(SELECT string_agg(concat_ws(':', food_name, quantity_g, calories), ',' ORDER BY food_name)
-				FROM recipe_ingredients WHERE recipe_id::text = $1),
-			(SELECT concat_ws(':', name, total_calories, logged_count, last_logged) FROM saved_meals
-				WHERE id::text = $2 AND user_id = $3),
-			(SELECT string_agg(concat_ws(':', food_name, quantity_g, calories), ',' ORDER BY food_name)
-				FROM saved_meal_items WHERE saved_meal_id::text = $2),
-			(SELECT count(*) FROM food_logs WHERE user_id IN ($3, $4)))`,
-			recipe.ID, meal.ID, a, b).Scan(&s); err != nil {
-			t.Fatalf("read A's rows back: %v", err)
-		}
-		return s
-	}
+	snapshot := func() string { return recipeRows(t, pool, recipe.ID, meal.ID, a, b) }
 	before := snapshot()
 
 	cases := []struct {

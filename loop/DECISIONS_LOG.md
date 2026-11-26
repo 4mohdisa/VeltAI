@@ -12517,3 +12517,7 @@
 - 2026-11-27 07:08 Ignored the Jev ask and stop signals: none of the blockers stops the loop, and the remaining work can run without Isa. Risk noted, work kept small.
 - 2026-11-27 07:08 Bad input found by the new tests will be skipped with a recorded reason and logged in KNOWN_ISSUES.md, not fixed, because handler changes need Isa approval.
 - 2026-11-27 07:08 Round 191 is not a checkpoint. Next checkpoint stays at Round 194.
+- 2026-11-27 07:10 Round 192: Row 16 step 3 keeps recipes and saved meals first, then goals and body weight in Round 193, since the previous step ran food then gym (one package group per round).
+- 2026-11-27 07:10 Round 192: the three spotted validation gaps from the last report are parked, not fixed. They change API behaviour and sit outside the test only scope of Row 16 (Override 9).
+- 2026-11-27 07:10 Round 192: known recipe PATCH gap is not tested as a failure. Only cases the handler already rejects go into the validation table.
+- 2026-11-27 07:10 Round 192: no Jev signal followed or ignored; the chosen task matches its run recommendation, and the task is small.
