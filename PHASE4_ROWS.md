@@ -43,3 +43,5 @@
 | 31 | Soak and bug hunt | Rotate bug hunting methods one per round; exit when 10 rounds in a row find no new bug and every gate is green | any | npm run verify | DIFFERENT | |
 
 BUILT or EXACT: 9 of 38
+
+Round 25: removed unused onboarding.paywall.seePlans and onboarding.paywall.trialNote from en, es and fr; tsc 0 errors, Jest 309 of 309 suites, 1,894 tests, 4 snapshots, 68 console.error.

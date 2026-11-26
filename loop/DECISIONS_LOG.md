@@ -11775,3 +11775,6 @@
 - 2026-11-27 00:03 Kept the paywall devWarn and the entitlementFromApi change parked, since they are not in this checkpoint.
 - 2026-11-27 00:03 Told Claude Code to leave a key in place and report it if code still uses it, so a risky removal never happens.
 - 2026-11-27 00:03 Did not use the Jev 'ask' signal: the task is safe to run without Isa, and the risk score is the normal checkpoint risk.
+- 2026-11-27 00:05 Chose the full checkpoint re-run first because the loop flagged the last report: the type check and locale parity test failed before the es and fr removal, and the full Jest suite has not run since.
+- 2026-11-27 00:05 Removed onboarding.paywall.seePlans and trialNote from en, es and fr, because no code or test uses them and the parity test requires equal key sets. This is a small deviation from the English only rule, recorded here.
+- 2026-11-27 00:05 Kept the Row 9 endpoint as the next feature task, after the checkpoint clears.

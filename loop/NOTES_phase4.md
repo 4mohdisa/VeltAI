@@ -14,12 +14,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (Maestro flow written, not run; parked under rule 6).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
-- Round 24: act() warning fixed in paywallOnboardingPost.render.test.tsx; file has a scoped console.error spy. console.error expected about 68.
-- Last full run (round 17): tsc 0; Jest 309 suites, 1,894 tests; console.error 69 (baseline 67).
+- Round 25: removed onboarding.paywall.seePlans and trialNote from en, es, fr (unused; parity test needs equal keys). Type check 0 after fix. Full Jest run flagged by loop; re-run in progress (round 25b).
+- Last full run before round 25: Jest 309 suites, 1,894 tests; console.error 68 expected, 163 console.warn.
 
 ## Next
-1. Round 25 (in progress): remove onboarding.paywall.seePlans and trialNote only if no code uses them. Full suites on this checkpoint (tsc, full Jest). Record counts.
-2. Then Row 9 (cancel and retention endpoint).
+1. Round 25b: full tsc and full Jest. Confirm 309 of 309 suites, 1,894 tests, console.error about 68. Fix anything red.
+2. Then Row 9 (cancel and retention endpoint, behind a flag, fixtures only).
 
 ## Blocked on Isa (park, do not retry)
 - Win back: 'weren't charged' toast kept; English copy approved?; which package price to show.
@@ -74,4 +74,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Go entitlement tests need LUME_TEST_DATABASE_URL pointed at local lume_test_local.
 
 ## Loop note
-- Full suites on the Round 25 checkpoint (in progress).
+- Round 25 was flagged by the loop (type check or tests not green at the time of the report). Round 25b re-runs the checkpoint. Do not move on until it is green.
