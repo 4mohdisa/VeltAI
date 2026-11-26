@@ -1,49 +1,48 @@
-Handover: Lume Phase 4, branch loop/phase4
+Handover: Lume Phase 4, branch loop/phase4 (Rounds 157 to 171)
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. Last type check: 0 errors.
-- Run Jest as perl -e 'alarm N; exec @ARGV' npx jest --ci <full paths>, output to /tmp. Never use -u or Prettier --write.
-- Last full suite (Round 154): 350 of 350 suites, 2,189 tests, no force exit warning.
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first.
+- Last checks: type check 0 errors. Jest 350 of 350 suites and 2,190 tests (Round 167). Round 163 ran with --detectOpenHandles and found no open handles. Go race tests: 39 packages ok.
+- Run Jest as perl -e 'alarm N; exec @ARGV' npx jest --ci <full paths> > /tmp/... Never use -u or Prettier --write.
+- Go TestPG tests need LUME_TEST_DATABASE_URL=postgres://localhost:5432/lume_test_local?sslmode=disable, set on the command line only and never written to a file.
 
-Rows (PHASE4_ROWS.md, updated Round 149)
-- BUILT (17): 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 12b, 13, 14, 29. Rows 2.2, 2b, 2d, 3, 5, 6, 10, 11, 12 and 13 say "owner check pending".
-- PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31.
-- DIFFERENT: 15 to 28 and 30.
+Rows
+- BUILT (17): 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 12b, 13, 14, 29. The "17 of 39" tally is correct.
+- PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31. DIFFERENT: 15 to 28 and 30.
 
-Row 14b (DESIGN_INTENT.md Fix list)
-- Done: Fixes 1 to 23, 27 and 28, plus Fix 26a.
-- Parked for Isa's ruling: Fixes 24 and 25 (both in OWNER_CHECKS_phase4.md under Post launch UI), Fix 12 option B and the body stats hint.
-- In progress: Fix 26b in src/app/food/detail.tsx.
-  - What it does: use subject.product when it is present, and call lookupBarcodeResult only when it is missing or on Retry. Keep the failed and not-found states.
-  - Then: update the found test in src/__tests__/render/barcodeScan.render.test.tsx so the detail render makes no second lookup.
-  - Add a Done line under Fix 26 in DESIGN_INTENT.md and a note in Row 14b of PHASE4_ROWS.md.
+In progress: Row 15, backend test completeness
+- Step 1 done: BACKEND_COVERAGE.md.
+- Step 2 done: internal/gym went from 49.8 to 77.9 percent, using backend/internal/gym/pg_internal_test.go and schedule_pg_internal_test.go.
+- Next: internal/recipes (26.8 percent), then the others on the list in BACKEND_COVERAGE.md.
+- Measure all tests with -coverpkg=./internal/<pkg> ./... Plain -cover undercounts, because most tests live in backend/tests/*.
 
-Key files
-- src/lib/food/detailSubject.ts: the barcode subject now has an optional product (BarcodeProduct).
-- src/app/food/barcode-scan.tsx
-- Other files changed this session:
-  - src/app/dashboard/training.tsx, week.tsx and nutrition.tsx
-  - src/app/(tabs)/gym.tsx
-  - src/app/gym/muscles.tsx and schedule.tsx
-  - Snapshot: src/__tests__/render/__snapshots__/detailChrome.render.test.tsx.snap, hand edited.
+Done in these rounds
+- Fix 26b: src/app/food/detail.tsx uses subject.product.
+- Fix 29: gym.freeze.confirm is now a plural, confirm_one and confirm_other.
+- The 4 second timer in src/__tests__/productionReadiness.test.ts is fixed.
+- nutrition.percentOfTarget removed from all three locales.
+- Docs cleanup in DESIGN_INTENT.md and PHASE4_ROWS.md.
+- verify:go in package.json now requires a local LUME_TEST_DATABASE_URL and uses -count=1.
 
 Decisions
-- Snapshots are edited by hand, never with -u. Jest's snapshot diff ignores indentation, so rebuild the entry from a --expand diff and check that removed lines match exactly.
-- New strings go in en.json only, and each key goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts. Isa ruled English only, although CLAUDE.md asks for en, es and fr.
-- The Gym streak strip counts the current calendar month through useGymMonth(today) and monthView, so the same month is read twice. It is marked with a ponytail comment.
-- The force exit was fixed in the goalsPlan and preferencesFood tests: held requests are answered in afterEach.
+- Override 1 allows English-only strings. Each new key goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- Every _one key needs an _other key, so confirm was renamed to confirm_other in en, es and fr.
+- verify:go still leaves out ./tests/migrations, because verify:migrations runs it.
+- New TestPG tests skip only when the database variable is unset, as all existing ones do.
+
+Waiting on Isa
+- New wording for dashboard.weekNoNetMessage and dashboard.energyAddBodyStats. The net is missing only when body stats are missing, so "log food" copy would be wrong.
+- Whether to rewrite the assertion at dashboardNutrition.render.test.tsx:102, so todayAgainstTargets can be removed.
+- es and fr text for gym.freeze.confirm_one.
+- What the measurements "Back" flaw means. Back skipping signup is the intended Row 2b fix, and onboardingSignedInBack.render.test.tsx checks it.
+- Whether TestPG tests may skip.
+- Whether cmd/server, scripts, tools/* and internal/db count toward 70 percent.
+- Fixes 24 and 25, Fix 12 option B and the body stats hint.
 
 Gotchas
-- Gym is src/app/(tabs)/gym.tsx, Nutrition is src/app/dashboard/nutrition.tsx and the food screens are under src/app/food/.
-- Mock LoadingSkeleton in render tests. To fake no history, use jest.spyOn(router, 'canGoBack'), not replaceProperty.
-- Pin dates with jest.useFakeTimers({ now, doNotFake: ['setImmediate'] }).
-- A fetch mock that never resolves leaks the API client's 15 second timer.
-
-Problems spotted, not fixed
-- In productionReadiness.test.ts, the scan upload test leaves a 4 second timer pending.
-- nutrition.todayAgainstTargets and nutrition.percentOfTarget are unused in all three locales.
-- The Week screen's "No net yet" copy says "in onboarding".
-- gym.freeze.confirm says "1 freezes".
-- dashboard.weekPickedNet, dashboard.weekPickedNoNet and nutrition.weekGramsTitle are English only.
-- The PHASE4_ROWS.md round log stops at Round 61.
-- DESIGN_INTENT.md has two Fix 20 Done lines that say the same thing.
+- loop/DECISIONS_LOG.md and loop/NOTES_phase4.md are the loop script's files. Never edit them.
+- Never touch src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts or ios/.
+- Unchecked risk: Back on measurements may misbehave after a resume straight from sign-in (postAuth.ts:28), when preview is not in the history.
+- Still barely covered in internal/gym: patchSession, patchExercise, lastLogged and listTemplates.
+- Docs should tell developers to export LUME_TEST_DATABASE_URL before running npm run verify.
+- The DECISIONS_LOG round numbers (around 678) differ from the PHASE4_ROWS round numbers (around 171).
