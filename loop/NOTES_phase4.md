@@ -10,26 +10,28 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; expired state with Resubscribe built).
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; expired state built; win back screen built, not yet reachable, paywall toast fix in progress).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Round 13 full suite: tsc 0; Jest 308 suites, 1,880 tests, green. console.error 69 (baseline 67), untraced.
 
 ## Next
-1. Row 8: win back offer screen (round 14).
-2. Trace the console.error rise (67 to 69) to a test and scope its spy.
-3. Remove onboarding.paywall.seePlans and trialNote after checking en.json.
-4. Row 8 simulator flow at end of row.
+1. Row 8: fix paywall toast for WINBACK_REASON (round 15).
+2. Row 8: link Subscription expired and cancelled states to /profile/winback; close Row 8.
+3. Trace the console.error rise (67 to 69) and scope its spy.
+4. Remove onboarding.paywall.seePlans and trialNote after checking en.json.
+5. Row 8 simulator flow at end of row.
 
 ## Blocked on Isa (park, do not retry)
-- 7c StoreKit simulator purchase and real offerings: needs iOS public key in env. Blocked twice.
+- 7c StoreKit simulator purchase and real offerings: needs iOS public key in env.
 - Row 8 banner: whether it should react to on-device billing_issue before the webhook lands.
-- Round 12: Resubscribe opens the paywall with reason 'expired', so an expired error toast shows on top of the expired message. Isa decides.
+- Row 8 win back: approve English copy for subscription.winback.* keys; supply es and fr; pick which package price to show (now first package of current offering).
+- Round 12: Resubscribe opens paywall with reason 'expired', so an expired error toast shows on top of the expired message. Isa decides.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; previous-step back on resumed step; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser flow.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Owner check pending: launch wait for returning users; RevenueCat sandbox webhook; Apple Developer and Clerk Apple setup; iPhone sign in with Apple; Row 2b items in OWNER_CHECKS_phase4.md.
-- Es and fr text for onboarding.paywall, subscription.period.*, subscription.billingProblem.*, subscription.expired.* keys (deferred by Isa).
+- Es and fr text for onboarding.paywall, subscription.period.*, subscription.billingProblem.*, subscription.expired.*, subscription.winback.* (deferred by Isa).
 
 ## Decisions (never delete)
 - Isa (26 Nov): target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie target asks 'Update your calorie target to match?'; sign up email errors inline under field; training days stored on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md and add route check to verify; export, delete account, disconnect integrations and privacy/consent settings work without subscription.
@@ -37,17 +39,17 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 3: browser oauth_apple flow. Apple button hidden on Android.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 5: consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
+- Row 6: hydrateGym limit 200; backend LIMIT kept.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. GET /api/subscription public. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
-- Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
 - Retry label 'Try again'. Webhook secret from env only; unset means refuse events.
 - Analytics off by default; loop follows the Settings switch.
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
 - Row 7: wrapper first (7a), paywall screen second (7b). Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when the store says eligible. 7b replaces the hosted paywall on the onboarding route only. Restore failure shows 'no previous subscription found'.
 - Row 8: banner reads the server record (useServerEntitlement), shows only for past_due, never loads the RevenueCat SDK. Mounted on Today and Profile > Subscription. On past_due and expired the Subscription footer Manage button hides; the banner or Resubscribe owns that action.
-- Round 14: win back screen uses store price via wrapper; promotional offers only; no price text in Apple messages.
+- Round 14: win back screen uses store price via wrapper; promotional offers only; no price text in Apple messages. WINBACK_REASON 'winback' in nav.ts; EXPIRED constant exported from subscription.tsx.
 
 ## Parked
 - Today pull-to-refresh does not refetch subscription state.
@@ -57,7 +59,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Goals may clamp calories silently through setCustomGoals; not retried.
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
-- About 68 deliberate console warns need scoped spies.
+- About 69 console warns and errors need scoped spies; rise from 67 untraced.
 - Subscription screen still uses hosted paywall and old billing calls, not the 7a wrapper.
 - Test render Reanimated mock lacks useReducedMotion; skeleton screens need a per-file LoadingSkeleton mock.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
@@ -80,6 +82,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - The render Reanimated mock lacks useReducedMotion; skeleton screens need a per-file mock.
 
 ## Loop note
-- Round 13: full suite checkpoint passed. Closed the flag from round 12.
+- Round 13: full suite checkpoint passed.
 - Round 14: notes rewritten under 600 words at the loop's request.
+- Round 14 report flagged as partly done by the automatic check; round 15 finishes the paywall toast fix before linking winback.
 - Rejected prompts are rewritten at once.

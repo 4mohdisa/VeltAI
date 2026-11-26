@@ -11722,3 +11722,7 @@
 - 2026-11-26 11:22 The win back screen uses paywallHref('winback') only if the wrapper has no promotional offer API. Apple messages carry no price text, and promotional offers are used only.
 - 2026-11-26 11:22 The console.error trace is deferred to a later round so this round stays on one screen.
 - 2026-11-26 11:22 The full Jest suite was already green in round 13, so this round runs only the changed tests.
+- 2026-11-26 11:24 Chose the paywall toast fix first because the last report says it shows a false error to paying users; the loop flag asks for the partly done task to be finished first.
+- 2026-11-26 11:24 Kept the change to one screen per prompt (paywall.tsx and its test), per the one screen rule. The link from Subscription to winback goes next round.
+- 2026-11-26 11:24 Kept English only for this round since no new strings are added, and no full suite until the checkpoint round.
+- 2026-11-26 11:24 Parked the untraced console.error rise until Row 8 is closed, so it does not compete with the user facing fix.

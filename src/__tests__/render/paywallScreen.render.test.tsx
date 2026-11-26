@@ -1,13 +1,14 @@
 // Onboarding paywall (Row 7b) on the purchases wrapper. EXECUTES the screen;
 // src/lib/purchases/revenuecat.ts is mocked, so no SDK and no store call.
 // Covers loading, error with Try again, cancelled, purchased, not configured,
-// trial eligible and not, restore with and without a subscription, and the
-// Terms and Privacy links.
+// trial eligible and not, restore with and without a subscription, the
+// Terms and Privacy links, and the arrival message for each paywall reason.
 import { router } from 'expo-router';
 
 import PaywallScreen from '@/app/onboarding/paywall';
 import { showToast } from '@/components/display/toastStore';
 import en from '@/lib/i18n/locales/en.json';
+import { WINBACK_REASON } from '@/lib/nav';
 import { getEntitlementState, getOfferings, purchasePackage, restorePurchases } from '@/lib/purchases/revenuecat';
 import type { Offering } from '@/lib/purchases/types';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
@@ -205,4 +206,35 @@ test('Terms and Privacy open the existing legal screens', async () => {
 
   expect(router.push).toHaveBeenCalledWith('/legal/terms');
   expect(router.push).toHaveBeenCalledWith('/legal/privacy');
+});
+
+describe('paywall reason', () => {
+  const failedPurchaseFrom = async (reason?: string) => {
+    jest.spyOn(jest.requireMock<typeof import('expo-router')>('expo-router'), 'useLocalSearchParams').mockReturnValue(reason ? { reason } : {});
+    jest.mocked(purchasePackage).mockResolvedValue({ kind: 'error', code: '2' });
+    const tree = await render();
+    expect(screenTitle(tree)).toBe(p.title);
+    const arrival = jest.mocked(showToast).mock.calls.map(([toast]) => toast);
+    jest.mocked(showToast).mockClear();
+    await press(tree, p.subscribe);
+    return arrival;
+  };
+  const storeErrorOnly = () => expect(jest.mocked(showToast).mock.calls).toEqual([[{ message: p.storeError, tone: 'info' }]]);
+
+  afterEach(() => jest.restoreAllMocks());
+
+  test('the win back reason opens with no message; a failed purchase still says so once', async () => {
+    expect(await failedPurchaseFrom(WINBACK_REASON)).toEqual([]);
+    storeErrorOnly();
+  });
+
+  test('the expired reason opens with its refusal message, as before', async () => {
+    expect(await failedPurchaseFrom('expired')).toEqual([{ message: p.refusal.expired, tone: 'error' }]);
+    storeErrorOnly();
+  });
+
+  test('no reason opens with no message, as before', async () => {
+    expect(await failedPurchaseFrom()).toEqual([]);
+    storeErrorOnly();
+  });
 });

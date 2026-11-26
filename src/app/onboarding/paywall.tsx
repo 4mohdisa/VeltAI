@@ -30,7 +30,7 @@ import { entitlementFromApi } from '@/lib/data/mappers';
 import { useSettingsStore } from '@/lib/settings/store';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
-import { navigate } from '@/lib/nav';
+import { navigate, WINBACK_REASON } from '@/lib/nav';
 import { isBillingEnabled, TRIAL_DAYS } from '@/lib/billing/purchases';
 import {
   getEntitlementState,
@@ -125,8 +125,9 @@ export default function PaywallScreen() {
   const selected =
     plans.status === 'ready' ? (plans.packages.find((p) => p.productId === selectedId) ?? plans.packages[0]) : undefined;
 
+  // The win back screen's reason is an offer to return, not a refusal.
   useEffect(() => {
-    if (reason) showToast({ message: t(refusalKey(reason)), tone: 'error' });
+    if (reason && reason !== WINBACK_REASON) showToast({ message: t(refusalKey(reason)), tone: 'error' });
   }, [reason, t]);
 
   const features: string[] = [
