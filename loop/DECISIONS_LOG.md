@@ -12537,3 +12537,7 @@
 - 2026-11-27 07:18 Round 196: 403 kept for another user's insight (never 200, no leak). Changing to 404 touches every ownership route; parked for Isa in Blocked.
 - 2026-11-27 07:18 Round 196: Row 16 line in PHASE4_ROWS.md added in this prompt, as the last round asked.
 - 2026-11-27 07:18 Round 196: integrations next, since it is the only Row 16 group left before the checkpoint at 199.
+- 2026-11-27 07:20 Chose Row 16 closing work because the latest report names it as NEXT and it is the smallest remaining step before the round 199 checkpoint (Override 3 order, Override 4 small prompts).
+- 2026-11-27 07:20 Kept the sync and connect key-check order as a parked bug in KNOWN_ISSUES.md, not fixed, because handlers are Isa-approved changes only (Override 9).
+- 2026-11-27 07:20 Jev suggested ask at 21 percent; not followed, because no question to Isa is allowed (Round 191 rule).
+- 2026-11-27 07:20 403 vs 404 for another user's id stays parked as Isa's ruling; no route change this round.
