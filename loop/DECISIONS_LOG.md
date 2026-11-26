@@ -12464,3 +12464,8 @@
 - 2026-11-27 06:37 Round 177 is the scheduled checkpoint (override 11, notes say next checkpoint is Round 177). Read only, no edits, so the scheduled gate runs before any new feature work.
 - 2026-11-27 06:37 Jev ranked Row 15 auth first (91 percent). Kept the checkpoint for this round for a concrete reason Jev cannot see: the scheduled checkpoint. Auth moves to Round 178, where Jev's pick is accepted.
 - 2026-11-27 06:37 Food coverage (84.0 percent) accepted as done. Its tests pass under race with none skipped. The scanned food log delete path stays untested on purpose and is parked.
+- 2026-11-27 06:38 Round 178: auth chosen, Jev's pick accepted. It is the next under-70 package in the agreed order.
+- 2026-11-27 06:38 Round 178: Round 177 checkpoint recorded as green from the report (tsc 0, Jest 350/350 suites and 2,190 tests, go vet clean). No edits.
+- 2026-11-27 06:38 Round 178: prompt limited to internal/auth, 5 steps. Production code is not changed; a real bug is parked instead.
+- 2026-11-27 06:38 Round 178: notes rewritten under 600 words. Finished items merged, the Jest console count updated to 158.
+- 2026-11-27 06:38 Round 178: UpsertPortionPref empty meal type wipe kept in Parked, to be fixed only in the Food row.

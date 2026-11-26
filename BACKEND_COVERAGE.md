@@ -13,7 +13,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 | `internal/ai` | 6.2% | 77.4% | No |
 | `internal/aiquota` | 0.0% | 97.4% | No |
 | `internal/analytics` | 0.0% | 63.4% | Yes |
-| `internal/auth` | 32.1% | 69.5% | Yes |
+| `internal/auth` | 54.7% | 87.7% (Round 178, was 32.1% and 69.5%) | No |
 | `internal/buildinfo` | 0.0% | 87.0% | No |
 | `internal/config` | 0.0% | 83.2% | No |
 | `internal/consent` | 100.0% | 100.0% | No |

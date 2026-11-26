@@ -1,5 +1,5 @@
 # Lume Loop Notes: Phase 4
-Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branch loop/phase4 only. Never push or merge.
+Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branch loop/phase4 only. Never push, merge or switch.
 
 ## Overrides (Isa)
 1. English only for new strings. es and fr deferred. Missing keys fall back to English.
@@ -12,53 +12,51 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Changes outside named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint rounds: full tsc and full Jest, no edits. Every ~5 rounds.
+11. Checkpoint rounds: full tsc and full Jest, no edits. About every 5 rounds.
 
-## State (Round 177)
+## State (Round 178)
 - BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 15, 31. DIFFERENT: 16-28, 30.
-- Round 172 checkpoint green: tsc 0, Jest 350/350 suites, 2,190 tests.
-- Round 177: scheduled checkpoint (read only). Result goes in the Round 177 log line.
+- Round 177 checkpoint green: tsc 0, Jest 350/350 suites, 2,190 tests, go vet clean.
 
 ## Row 15 (in progress)
-- Done (coverage): gym 77.9, recipes 82.1, integrations 88.4, scan 79.3, food 84.0 (Round 176).
-- Under 70, next in order: auth 69.5 (Round 178, Jev's pick), debugreports 0, analytics 63.4, gym handlers (patchSession, patchExercise, lastLogged, listTemplates).
-- Scan leftovers: runScanPipeline 50.0, Register 66.2, CalibrationReport 60.0. Food leftovers: summary 66.7, listSaved 57.1, dietaryScore 61.9, optFloat 44.4, toFloat 60.0.
-- Measure with -coverpkg=./internal/<pkg> ./... (plain -cover undercounts).
-- Shared test helper (testPool, testUser) now duplicated 4 times (gym, recipes, integrations, food). Needs Isa approval (outside row scope).
+- Done: gym 77.9, recipes 82.1, integrations 88.4, scan 79.3, food 84.0.
+- Under 70, in order: auth 69.5 (Round 178, in progress), debugreports 0, analytics 63.4, gym handlers (patchSession, patchExercise, lastLogged, listTemplates).
+- Scan leftovers: runScanPipeline 50.0, Register 66.2, CalibrationReport 60.0.
+- Food leftovers: summary 66.7, listSaved 57.1, dietaryScore 61.9, optFloat 44.4, toFloat 60.0.
+- Measure: from backend, go test -coverpkg=./internal/<pkg> ./... (plain -cover undercounts).
+- Shared test helper (testPool, testUser) duplicated in gym, recipes, integrations, food. Needs Isa approval.
 - tests/scan/learning_store_pg_test.go kept (test only). Isa may move it.
 
 ## Row 30 follow-up
 - README and HOSTING_CHECKLIST: export LUME_TEST_DATABASE_URL before npm run verify.
-- Console noise: about 73 console.error and 85 console.warn in Jest output. Track later.
+- Console noise: 158 console.warn and console.error calls in Jest output. Track later.
 
 ## Parked (fix only in its row)
-- Scanned food log delete fails: scan_sessions.food_log_id has no ON DELETE rule (food/pg.go:145). Needs migration, Isa approval.
+- Scanned food log delete fails: scan_sessions.food_log_id has no ON DELETE rule (food/pg.go:145). Needs migration.
 - Recipe and saved meal ORDER BY random UUID (pg.go:126, 292). Needs migration (position column).
-- Integrations sync stops at 50 Strava or 25 WHOOP items and moves last_sync_at forward.
-- Integrations: expired token with no refresh token gives 502 not reconnect prompt; WHOOP token exchange never sets external user ID.
+- Integrations: sync stops at 50 Strava or 25 WHOOP items and moves last_sync_at forward. Expired token with no refresh token gives 502. WHOOP token exchange never sets external user ID.
 - Recipe and saved meal log do not validate meal_type.
-- Food: UpsertPortionPref with empty meal type wipes typical_meal_type (rare).
+- Food: UpsertPortionPref with empty meal type can wipe typical_meal_type.
 - Feedback 14a: wire or delete the chip before Row 31. Also feature_rated analytics, Settings feedback screen, Ask me switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
 - Legal: web/lib/legal.ts lacks push, Sentry, PostHog. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment.
-- Measurements Back: postAuth.ts:28 resume path. Row 23 check.
+- Measurements Back: postAuth.ts:28 resume path. Check in row 23.
 - Shared helper 'open Apple page, else toast' (subscription, delete-account, leaving).
 - Push: DELETE after 401; stale tokens; failed POST not retried.
-- Schedules: leaving screen not in full run; meal median across midnight; quiet hours no wrap.
+- Schedules: leaving screen not in full run; meal median across midnight; quiet hours do not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
-- Backend: 49 queries use id::text = $1; schedule_pg.go sort then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Food UI: energy 'not enough days' no action; index.tsx:101-106; paywall re-posts answers; history isoDaysAgo duplicate; search 'Add custom food' does not log; goBackOrHome falls back to Today; Gym tab reads month twice; saved list drops meal slot; delete-account.tsx:101 white on white (device).
-- Code: hardcoded strings; ~68 console errors; two useApi copies; mutations.ts/hooks.ts cycle; reanimated mock lacks useReducedMotion; SLOTS copies; mappers.ts duplicate.
+- Backend: 49 queries use id::text = $1; schedule_pg.go sorts then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
+- Food UI: energy 'not enough days' has no action; index.tsx:101-106; paywall re-posts answers; history isoDaysAgo duplicate; search 'Add custom food' does not log; goBackOrHome falls back to Today; Gym tab reads month twice; saved list drops meal slot; delete-account.tsx:101 white on white (device).
+- Code: hardcoded strings; ~68 console errors; two useApi copies; mutations.ts and hooks.ts cycle; reanimated mock lacks useReducedMotion; SLOTS copies; mappers.ts duplicate.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent; Training axisLetters fixture.
 - Config: root and backend JS unlinted.
 
 ## Blocked on Isa (park, do not retry)
-- Approve scanned food log delete fix (migration).
-- Approve or move tests/scan/learning_store_pg_test.go.
-- Approve recipe ingredient order fix and integration sync paging fix.
+- Approve scanned food log delete fix (migration). Approve recipe ingredient order fix (migration). Approve integration sync paging fix.
+- Approve or move tests/scan/learning_store_pg_test.go. Approve shared test helper package.
 - Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and energyAddBodyStats wording; body stats hint; Week copy; freeze es and fr; Fixes 24, 25, 12 option B; dashboardNutrition.render.test.tsx:102.
 - Gym TestPG t.Skip when no database (ruling needed). Coverage scope: cmd/server, scripts, tools/*, internal/db.
-- Apple/RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet vs browser; Clerk session_exists on device.
+- Apple and RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet vs browser; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
 - HealthKit: Settings switch, purpose strings, provider, device steps.
 - Labels: Email, Name, User ID; push token manifest type.
@@ -88,9 +86,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 170: Row 15 order gym, recipes, integrations, scan, debugreports, analytics, auth, food.
 - Round 171: verify:go fails when LUME_TEST_DATABASE_URL is unset; no silent skip in the gate.
 - Round 172: checkpoint is read only (tsc, full Jest, go vet).
-- Round 173-175: recipes, integrations, scan chosen (smallest in-scope gaps, low risk).
 - Round 176: food done at 84.0. Kept tests/scan/learning_store_pg_test.go (test only).
-- Round 177: scheduled checkpoint chosen over Jev's auth pick (override 11). Auth is Round 178, Jev's pick accepted.
+- Round 177: scheduled checkpoint chosen over Jev's auth pick. Green.
+- Round 178: auth chosen (Jev's pick accepted). Prompt limited to internal/auth, 5 steps.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. zsh needs xargs -0 for 350 paths.
@@ -100,12 +98,13 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Gym is src/app/(tabs)/gym.tsx; Nutrition is src/app/dashboard/nutrition.tsx; food screens are under src/app/food/.
 - Go TestPG needs LUME_TEST_DATABASE_URL on the command line only, never written to a file.
 - Go tests that wait on client disconnect can hang under -race. Use a release channel.
+- Round numbers in DECISIONS_LOG.md differ from PHASE4_ROWS.md. Use PHASE4_ROWS.md.
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b.
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
-- 158, 160, 163, 167, 172: checkpoints green. 164-166: cleanup.
-- 168: Row 14b closed. 169-171: Row 15 steps 1-2, verify:go gate.
+- 158, 160, 163, 167, 172, 177: checkpoints green.
+- 164-166: cleanup. 168: Row 14b closed.
+- 169-171: Row 15 steps 1-2, verify:go gate.
 - 173-176: Row 15 recipes, integrations, scan, food (84.0).
-- 177: scheduled checkpoint, read only. Result to be recorded from the report.
-- 178: planned Row 15 auth (69.5 to 70 or more).
+- 178: Row 15 auth (69.5 to 70 or more).
