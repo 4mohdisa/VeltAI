@@ -77,6 +77,13 @@ func TestMapStravaType(t *testing.T) {
 		"Ride":           {"Cycling", "cardio"},
 		"Swim":           {"Swimming", "cardio"},
 		"WeightTraining": {"WeightTraining", "strength"},
+		"Crossfit":       {"Crossfit", "strength"},
+		"TrailRun":       {"Running", "cardio"},
+		"EBikeRide":      {"Cycling", "cardio"},
+		"Hike":           {"Incline Walking", "cardio"},
+		"Kayaking":       {"Rowing", "cardio"},
+		"Elliptical":     {"Elliptical Trainer", "cardio"},
+		"StairStepper":   {"Stair Climber", "cardio"},
 		"Yoga":           {"Yoga", "cardio"}, // unknown → raw label, cardio
 	}
 	for in, want := range cases {

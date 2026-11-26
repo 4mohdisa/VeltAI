@@ -12447,3 +12447,8 @@
 - 2026-11-27 06:08 Round 173 is a normal run round, not a checkpoint; the next checkpoint stays at Round 177.
 - 2026-11-27 06:08 The recipes prompt limits edits to one package plus two doc lines, so any scope creep is easy to see.
 - 2026-11-27 06:08 Jev suggested asking (7 percent). Not used: Isa cannot be reached and the loop never asks.
+- 2026-11-27 06:12 Chose integrations over scan: lowest remaining package in scope, one package per prompt, and the risk score is high so a small task is preferred.
+- 2026-11-27 06:12 Recipe ingredient and saved meal order bug (pg.go:126, 292, ORDER BY random UUID): parked, not fixed. A fix needs a schema migration, which is an owner decision; logged in KNOWN_ISSUES.md and OWNER_CHECKS_phase4.md. Isa cannot be asked, so no approval is sought.
+- 2026-11-27 06:12 Recipe meal_type not validated (unknown values go to food_logs): parked under Backend, to fix in the Food or Row 16 pass, not in Row 15 (coverage only).
+- 2026-11-27 06:12 Duplicated testPool and testUser helpers across gym, retention and recipes tests: parked. Shared test helper needs a file outside the row scope; fix later as a cleanup.
+- 2026-11-27 06:12 Recipes Round 173 result accepted: 82.1 percent, 40 tests green, no production code changed.

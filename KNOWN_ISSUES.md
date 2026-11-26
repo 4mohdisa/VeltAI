@@ -42,6 +42,7 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - npm audit reports 48 vulnerabilities. Dependency upgrades are not in Phase 3.
 - The authenticated role is missing in local Postgres 17. Phase 4.
 - Recipe ingredients and saved meal items come back in random order, because they are sorted by a random UUID id (ORDER BY id in backend/internal/recipes/pg.go:126 and :292). Found in Round 173 and not fixed, since fixing it changes behaviour.
+- Integration sync reads only the first page (Strava per_page=50 at backend/internal/integrations/strava.go:127, WHOOP limit=25 at whoop.go:108) and then moves last_sync_at to now (integrations.go:442), so any workouts past that page are never imported. Found in Round 174 and not fixed.
 
 ## Docs
 - Row 14's older notes still say 'status stays partial' while the row is BUILT. The notes are history and are not rewritten.

@@ -64,3 +64,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 173
 
 - `internal/recipes`: 26.8% to 82.1% with all tests counted, and 0.0% to 82.1% from its own tests. New in-package TestPG tests: `internal/recipes/pg_internal_test.go` (handlers on top of PGStore). Still uncovered: the store failure (500) branches. Found the random ingredient order bug, recorded in KNOWN_ISSUES.md.
+
+## Round 174
+
+- `internal/integrations`: 39.1% to 88.4% with all tests counted. New in-package tests: `internal/integrations/providers_internal_test.go` (Strava and WHOOP against an httptest fake upstream: token exchange and refresh, activity mapping, partial responses, upstream errors, unreachable provider, timeout) and `internal/integrations/pg_internal_test.go` (TestPG for PGStore connections, OAuth state and imported sessions). The `mapStravaType` table in `internal_test.go` gained the remaining types. Still under 70%: the `callback`, `sync` and `disconnect` storage-error branches. Found the first-page-only sync bug, recorded in KNOWN_ISSUES.md.
