@@ -921,7 +921,10 @@
     },
     "quietHours": {
       "label": "Quiet hours",
-      "value": "{{start}} to {{end}}"
+      "value": "{{start}} to {{end}}",
+      "start": "Starts",
+      "end": "Ends",
+      "sameTime": "Start and end can't be the same time."
     },
     "priming": {
       "title": "Want a nudge to log?",

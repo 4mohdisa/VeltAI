@@ -12,19 +12,19 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (switches, runs, per-slot times, sign-out clearing; quiet hours not editable).
-- Round 53: render setup mocks expo-notifications. Both failing suites pass; render 219/219 suites, 889 tests. tsc 0 errors.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (quiet hours not editable).
+- Round 54 checkpoint: tsc 0 errors; Jest 320 suites, 1,992 tests, 4 snapshots pass; 68 console.error, 164 console.warn (82 real).
 
 ## Next
-1. Round 54: full tsc and full Jest checkpoint; record totals and console counts.
-2. Row 10: quiet hours editing.
-3. DECISIONS.md: say permissions.ts and device.ts import expo-notifications.
+1. Round 55: Row 10 quiet hours editing (in progress).
+2. DECISIONS.md: say permissions.ts and device.ts import expo-notifications.
+3. Row 10: save push token in secure storage, re-register at start.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving destination; priming copy; win back copy and price; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase needs iOS public key.
 - Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: quiet hours and category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1).
+- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1).
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -55,7 +55,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - DELETE after session ends gets 401; stale row stays on server.
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks wrap at midnight.
 - A switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground.
-- Nothing derives per-slot meal times at app start; settings reload only when Settings opens. Quiet hours can't be edited.
+- Nothing derives per-slot meal times at app start; settings reload only when Settings opens.
 - Stale push tokens never removed (nothing sends push yet). ROUTE_COVERAGE shows no orphaned routes now.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message.

@@ -11925,3 +11925,7 @@
 - 2026-11-27 01:29 Round 54 is the full checkpoint the notes call for, since Round 53 only ran the render folder.
 - 2026-11-27 01:29 Render expo-notifications mock stays in src/__tests__/render/setup.ts, per the Round 53 decision.
 - 2026-11-27 01:29 Jev ranked the same next action (run). No reason to override it.
+- 2026-11-27 01:31 Chose candidate 1 (quiet hours editing): it is item 2 of Next, it finishes the last open part of Row 10, and it is one component, which keeps the round small. Jev's second opinion favours a run at 59%, so a small task fits.
+- 2026-11-27 01:31 Treated the quiet hours and category strings as English copy under override 1, so they do not block editing. Isa's copy review stays parked.
+- 2026-11-27 01:31 Deferred push token persistence and the DECISIONS.md fix to later rounds to keep this round to one component.
+- 2026-11-27 01:31 Kept the Mobbin step optional, because quiet hours is a control inside an existing screen and not a new screen.
