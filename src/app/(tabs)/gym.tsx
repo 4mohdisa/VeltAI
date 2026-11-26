@@ -26,7 +26,6 @@ import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useGym } from '@/lib/data';
 import { addMonths } from '@/lib/data/foodDays';
 import { monthSummary, monthTitle, monthView, useGymMonth } from '@/lib/data/gymRange';
-import { useToday } from '@/lib/data/gymSchedule';
 import { todayISO } from '@/lib/data/mappers';
 import { formatWeekdayDate } from '@/lib/formatting';
 
@@ -53,7 +52,6 @@ export default function GymLogScreen() {
     error: gymError,
     refetch,
   } = useGym();
-  const { today: todayWorkout, revalidate } = useToday();
   // Nothing stored yet and the first read still running: a 0 here would read as a real streak.
   const streakPending = gymLoading && streak.longest === 0 && streak.totalGymDays === 0;
   const insets = useSafeAreaInsets();
@@ -83,15 +81,6 @@ export default function GymLogScreen() {
     useCallback(() => {
       refetchMonth();
     }, [refetchMonth]),
-  );
-  // Same silent re-read as TodayCard.tsx's own useToday() instance (step B) —
-  // this screen keeps a separate copy for the CTA visibility check below, so
-  // it needs its own focus revalidate. revalidate keeps one identity across
-  // renders, so listing it re-fires this only on focus.
-  useFocusEffect(
-    useCallback(() => {
-      revalidate();
-    }, [revalidate]),
   );
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -185,8 +174,9 @@ export default function GymLogScreen() {
           {/* Today's scheduled workout (renders null when nothing is scheduled). */}
           <TodayCard />
 
-          {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds. */}
-          {!streak.gymLoggedToday && todayWorkout && todayWorkout.exercises.length > 0 ? (
+          {/* The design's showLogCta. This tab only ever shows today, so its "not past" always holds.
+              Shown on rest days too: log session opens the library when nothing is planned. */}
+          {!streak.gymLoggedToday ? (
             <GymSessionButton logged={false} onPress={() => router.push('/gym/log-session')} />
           ) : null}
 

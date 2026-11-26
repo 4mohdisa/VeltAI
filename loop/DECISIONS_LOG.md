@@ -12182,3 +12182,8 @@
 - 2026-11-27 03:44 Kept Fix 7 next, after the follow-up, because the follow-up was already in progress and the rejected attempt counts as the first failure.
 - 2026-11-27 03:44 Told the worker not to edit resetRegistry.ts. If the cause sits there, it is reported as BLOCKED and parked, not widened into a second screen.
 - 2026-11-27 03:44 Shortened the notes to under 600 words by merging repeated parked items and dropping finished round logs. No decision or protected file was removed.
+- 2026-11-27 03:46 Chose Fix 7 over the follow-ups because it is the next listed Fix and the Round 111 follow-up is already tested and done.
+- 2026-11-27 03:46 Kept one screen per prompt and five steps max, per Override 4.
+- 2026-11-27 03:46 Untested work check: the Round 112 paywall fixes have their tests green (25/25 and 56/56), so no rerun is needed before this task.
+- 2026-11-27 03:46 Left the stale 'Barcode, Scan and label scan still open' note in PHASE4_ROWS.md until 14b closes, as recorded in the follow-ups.
+- 2026-11-27 03:46 Kept Fix 24 and Fix 25 untouched until Isa rules on them.
