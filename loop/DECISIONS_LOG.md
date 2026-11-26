@@ -12482,3 +12482,6 @@
 - 2026-11-27 06:48 Override 3 order now 16-30 then 31, since Row 15 closes this round.
 - 2026-11-27 06:48 Round 181 is a docs only round. Round 182 stays the read only checkpoint.
 - 2026-11-27 06:48 Row 16 is the next real build task after this round.
+- 2026-11-27 06:49 Flagged report handled first (Override 8): this round re-runs tsc and full Jest with no edits, which is also the checkpoint due at Round 182 (Override 11).
+- 2026-11-27 06:49 Row 16 deferred one round so the flag is cleared before a new task starts.
+- 2026-11-27 06:49 Tally in PHASE4_ROWS.md (18 of 39 BUILT) accepted as the previous report stated; to be checked against the status column in the next checkpoint.
