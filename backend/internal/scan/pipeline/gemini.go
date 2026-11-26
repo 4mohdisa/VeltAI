@@ -234,6 +234,13 @@ var supportedMimes = map[string]bool{
 	"image/heic": true,
 }
 
+// SupportedMime reports whether a client-sent mime_type is empty (sent as
+// image/jpeg) or one of supportedMimes; the scan handlers refuse anything else.
+func SupportedMime(mimeType string) bool {
+	m := strings.ToLower(strings.TrimSpace(mimeType))
+	return m == "" || supportedMimes[m]
+}
+
 // normalizeMime returns a supported image MIME type, defaulting to image/jpeg.
 func normalizeMime(mimeType string) string {
 	if supportedMimes[strings.ToLower(strings.TrimSpace(mimeType))] {

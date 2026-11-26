@@ -146,3 +146,65 @@ A single quote; `x' -- `; `' OR 1=1 --`; `' UNION SELECT id, email FROM profiles
 - 1,521 cases (169 inputs, 9 payloads) pass with `go test -race`.
 - No payload changed a row on a refused request, ran as SQL, or dropped a table. All SQL in these handlers is parameterised, so no fix was needed.
 - The null byte gets a 500 on 103 of the 169 inputs. Postgres refuses a NUL byte in a text value (invalid UTF8 byte sequence), and the handler reports that as a 500 such as "storage error" or "failed to create log", writing nothing. It is input validation, not injection, so it is parked. The test exempts only the 500 check for this payload; the envelope and row count checks still run. Fixing it means one shared guard: reject a NUL in the path, the query, `httpx.Decode` and the two direct decoders (debug reports, scan pipeline) with 400. Logged in KNOWN_ISSUES.md and OWNER_CHECKS_phase4.md.
+
+## Part C: upload limits and SSRF
+
+Checked 27 Nov 2026 on loop/phase4 against the local test database (Row 18b step 2).
+
+### Upload routes
+
+| route | size limit | accepted types | checks before the paid call |
+|---|---|---|---|
+| `POST /api/scan` | 20 MB body (`httpx.Decode`); an oversize body answers 400 `invalid JSON body`, not 413 | `mime_type` empty (sent as image/jpeg), image/jpeg, image/png, image/webp or image/heic (new this step) | consent, `image_base64` present, quota. The base64 and the image size are not checked beyond the body cap. |
+| `POST /api/scan/pipeline` | 24 MB body (413), 15 MB per decoded image (413), at most 3 images | same `mime_type` list (new this step) | consent, base64 valid, angle valid, header dimensions at most 20,000 per side and 40M pixels (413) for JPEG and PNG, quota, capacity (503) |
+| `POST /api/scan/label` | 24 MB body (413), 15 MB decoded image (413) | same `mime_type` list (new this step) | consent, base64 valid, quota. No dimension check. |
+| `POST /api/debug-reports` | 12 MB body (413) | no type: `image_base64` is stored as sent and never decoded on the server | `client_id` and `title` present |
+| `POST /api/webhooks/clerk` | 1 MB body | JSON | Svix signature |
+| every other JSON route | 20 MB body (`httpx.Decode`) | JSON | per handler |
+
+OAuth token and activity responses from Strava and WHOOP are read through a 1 MB `io.LimitReader`.
+
+### Outbound fetches
+
+| client | host | timeout | part from the user | redirects |
+|---|---|---|---|---|
+| Food search, Open Food Facts (`internal/food/search.go`) | fixed `world.openfoodfacts.org` | 10 s | `q`, query escaped | default policy |
+| Food search, USDA | fixed `api.nal.usda.gov` | 10 s | `q`, query escaped; the API key is in the query string | default policy |
+| Barcode lookup, Open Food Facts | fixed | 10 s | barcode, path escaped into one segment | default policy |
+| Photo scan, Gemini (`internal/scan/gemini.go`) | fixed Google host and model path | 30 s | image and `mime_type` in the JSON body only | default policy |
+| Pipeline and label scan, Gemini (`internal/scan/pipeline/gemini.go`) | fixed Google host and model path | 30 s | image in the body; `mime_type` normalised | default policy |
+| Insights, brief and Ask Lume, Gemini or Claude (`internal/ai/llm.go`) | fixed host; model from `GEMINI_MODEL` (server env) | 30 s, 60 s | the question in the body only | default policy |
+| Clerk JWKS and user delete (`internal/auth`) | fixed `api.clerk.com` | 10 s | the user id from the verified token, path escaped | default policy |
+| Strava and WHOOP (`internal/integrations`) | fixed hosts | 15 s | the OAuth `code` from the callback, as a form value | default policy |
+| Apple Retention Messaging (`internal/retention/apple.go`) | sandbox or production base from server config | 10 s | none (the message id is server generated) | default policy |
+
+No user-supplied string picks a scheme, a host or a port. User text only goes into escaped query values, one escaped path segment, or request bodies.
+
+### Tests
+
+`backend/tests/security/uploads_pg_test.go`. Both tests mount the routes with `newAPI` (shared with the injection test in the same package) and give it a fake Gemini key. Food search and the three Gemini clients go through a recording transport to a local stub that plays Gemini and Open Food Facts, so nothing reaches the network.
+
+- `TestPG_UploadsAreBoundedAndTyped` (24 cases):
+  - Refused, each in the one error envelope, never 500, and with no outbound (paid) call:
+    - `text/html` and `application/pdf` as `mime_type` on the three scan routes (400)
+    - an empty body and `{}` on the three scan routes and debug reports (400)
+    - a body over the cap: `/api/scan` 21 MB (400 or 413), pipeline and label 25 MB (413), debug reports 13 MB (413)
+    - a 16 MB decoded image on pipeline and label (413)
+  - Accepted: a valid 2x2 PNG on `/api/scan` (200), label (200) and pipeline (202), and a debug report with that screenshot (201).
+- `TestPG_UserInputNeverChoosesAnOutboundHost`:
+  - Five hostile values (a local trap server URL, `http://127.0.0.1:1/`, `http://169.254.169.254/latest/meta-data/`, `file:///etc/passwd`, a scheme-relative redirect target) are each sent into the 11 inputs that could reach a fetch: food search `q`, the barcode path, scan `mime_type` and `image_base64`, label `mime_type`, the pipeline angle, the Ask Lume question, profile `avatar_url`, a debug report `route`, the integration provider path, and the OAuth callback `code` and `state`.
+  - No request answers 500 and the trap server is never reached.
+  - Every recorded outbound call went to the configured stub base. The test also fails if no outbound call was made at all.
+
+### Results and fix
+
+- All size caps hold: 413, or 400 for `/api/scan`, never 500.
+- Gap found and fixed: the three scan routes sent any `mime_type` on to the paid Gemini call. `/api/scan` passed it through as is; pipeline and label sent it as image/jpeg. They now answer 400 `mime_type must be image/jpeg, image/png, image/webp or image/heic` through one check, `pipeline.SupportedMime` (`internal/scan/pipeline/gemini.go`), used in `internal/scan/scan.go` and `internal/scan/pipeline_handler.go`. An empty `mime_type` is still sent as image/jpeg, which is what the app sends.
+- SSRF: no user input reached a fetch, so no fix was needed.
+
+### Open findings
+
+- No outbound client sets `CheckRedirect`, so each follows up to 10 redirects to any host. A one-off check with the real food search client showed an upstream 302 reaching another host with the USDA key still in the query string. Go copies the custom key headers (`x-goog-api-key`, `x-api-key`) to the new host too; it drops only `Authorization` and cookies. This would only matter if a trusted upstream or its TLS were compromised, since no user input chooses the host. The fix is a `CheckRedirect` that refuses another host on each client, which is a shared guard, so it is parked. Owner check pending.
+- `/api/scan` answers 400, not 413, for an oversize body, because `httpx.Decode` hides the size error. It does not check base64 or image size before the paid call. The label route has no dimension check. Pipeline and label pass bytes that are not an image (but carry a valid `mime_type`) on to Gemini. The daily AI quota still bounds each of these. Parked.
+- Debug report screenshots are stored without a type or base64 check. They are never decoded on the server, and the route is test-build only.
+- The Strava and WHOOP clients use a package-level `http.Client` that tests cannot inject. Their URLs are constants, and without `INTEGRATION_ENCRYPTION_KEY` the routes answer 503 before any call, so they are covered by reading the code, not by the stub.

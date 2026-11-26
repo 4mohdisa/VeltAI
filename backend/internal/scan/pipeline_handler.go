@@ -451,6 +451,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 				httpx.Error(w, http.StatusBadRequest, "every image needs image_base64")
 				return
 			}
+			if !pipeline.SupportedMime(raw.mime) {
+				httpx.Error(w, http.StatusBadRequest, "mime_type must be image/jpeg, image/png, image/webp or image/heic")
+				return
+			}
 			if !pipeline.ValidAngle(raw.angle) {
 				httpx.Error(w, http.StatusBadRequest, "angle must be top, side or oblique")
 				return
@@ -546,6 +550,10 @@ func RegisterPipeline(mux *http.ServeMux, gem *pipeline.Gemini, store PipelineSt
 		}
 		if req.ImageBase64 == "" {
 			httpx.Error(w, http.StatusBadRequest, "image_base64 is required")
+			return
+		}
+		if !pipeline.SupportedMime(req.MimeType) {
+			httpx.Error(w, http.StatusBadRequest, "mime_type must be image/jpeg, image/png, image/webp or image/heic")
 			return
 		}
 		if !gem.Configured() {

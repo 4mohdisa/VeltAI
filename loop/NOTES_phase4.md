@@ -4,14 +4,14 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested before new task. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds; next 209.
 
-## State (Round 206)
-BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18a-c, 19-28, 30. Checkpoint 204 green. 18a done.
+## State (Round 207)
+BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18a-c, 19-28, 30. 18a done. 18b step 1 done (injection fuzz, 1,521 cases pass; null byte 500 parked for Isa).
 
 ## Parked (fix only in its row)
-Debug: null context saved as null; retry drops fields. Food: scan log delete (FK, migration); portion pref wipes meal type; delete-account contrast (device); saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH takes future date. Goals: any weight_goal, activity_level, source stored; onboarding skips sex, units. Recipes: random UUID order; PATCH and meal_type unchecked. Integrations: sync caps 50 and 25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY grant. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors. Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: copies in 6, 5, 7 packages. Docs: LUME_TEST_DATABASE_URL.
+Debug: null context saved as null; retry drops fields. Food: scan log delete (FK, migration); portion pref wipes meal type; delete-account contrast (device); saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH takes future date. Goals: any weight_goal, activity_level, source stored; onboarding skips sex, units. Recipes: random UUID order; PATCH and meal_type unchecked. Integrations: sync caps 50 and 25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY grant. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors; debug and scan decoders skip httpx.Decode; no length cap on long text (10,000 chars accepted). Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: copies in 7 packages. Docs: LUME_TEST_DATABASE_URL.
 
 ## Blocked on Isa (do not retry)
-Migration approvals (food delete, recipe order), integration paging, null context fix, shared test helper, coverage scope, 403 vs 404 (403 kept), RevenueCat shared header. Copy: consent, win back, leaving, target weight, paywall terms, Terms free tier, five others. Apple and RevenueCat: Retention access, sandbox, Apple sheet, 7c key. Push and HealthKit: categories, switches, purpose strings, device steps. Store: age rating, demo account, URLs. Tooling: CI, E2E account, npm audit. Owner checks: OWNER_CHECKS_phase4.md.
+Migration approvals (food delete, recipe order), integration paging, null context fix, null byte 400 guard (18b), shared test helper, coverage scope, 403 vs 404 (403 kept), RevenueCat shared header. Copy: consent, win back, leaving, target weight, paywall terms, Terms free tier, five others. Apple and RevenueCat: Retention access, sandbox, Apple sheet, 7c key. Push and HealthKit: categories, switches, purpose strings, device steps. Store: age rating, demo account, URLs. Tooling: CI, E2E account, npm audit. Owner checks: OWNER_CHECKS_phase4.md.
 
 ## Protected
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, backend/tests/scan/learning_store_pg_test.go. foodDays.test.ts: add branches only. Loop files.
@@ -30,11 +30,12 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Jev ask and stop signals not followed; no Isa blocker stops the loop.
 - Round 203: lint fix in two out-of-scope test files kept (override 9).
 - Round 205: Row 18 split 18a, b, c. Secrets scan masks values.
-- Round 206: 18b in steps of max 5; step 1 is injection fuzz.
+- Round 206: 18b in steps of max 5; step 1 is injection fuzz. Null byte fix needs Isa; no shared guard without approval.
+- Round 207: 18b step 2 is uploads and SSRF.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204: checkpoint green. 205: 18a done. 206: 18b step 1 started.
-Next: 18b steps 2-3 (uploads, SSRF, rate limits, headers), then 18c.
+182-203: Rows 16, 17 BUILT. 204: checkpoint green. 205: 18a done. 206: 18b step 1 done. 207: 18b step 2 started.
+Next: 18b step 3 (rate limits, headers), then 18c.

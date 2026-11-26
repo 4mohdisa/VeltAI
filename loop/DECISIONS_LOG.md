@@ -12575,3 +12575,6 @@
 - 2026-11-27 07:38 Round 206: Row 18b runs in steps of at most 5 steps each; step 1 is injection fuzzing (injection is the highest risk input path, so it goes first).
 - 2026-11-27 07:38 Round 206: the injection test copies the token helper, consistent with the Row 16 decision, until Isa approves a shared helper.
 - 2026-11-27 07:38 Round 206: out of scope fixes only for 500s and row changes; other validation gaps stay parked.
+- 2026-11-27 07:45 Round 207: chose 18b step 2 (uploads and SSRF) because the previous report recommended it and the notes list it next; Jev ranked the same work as a close second, no reason to override.
+- 2026-11-27 07:45 Round 207: Jev ask and stop signals not followed; the loop does not ask Isa, and the null byte fix stays parked as an owner decision.
+- 2026-11-27 07:45 Round 207: step kept to 4 work steps plus a note, within the 5 step cap.

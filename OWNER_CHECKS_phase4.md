@@ -164,3 +164,4 @@ From the Row 14b design intent audit (DESIGN_INTENT.md, Fix list). Major visual 
 ## Row 18b: owner decision
 
 - [ ] **NUL byte answers 500.** A string input holding a NUL byte gets a 500 on 103 routes and fields (nothing is written). Approve one shared guard that answers 400 for a NUL in the path, the query, `httpx.Decode` and the debug report and scan pipeline decoders (SECURITY_TEST_REPORT.md Part B).
+- [ ] **Outbound clients follow redirects to other hosts.** None sets `CheckRedirect`, so an upstream redirect would carry the USDA key and the Gemini and Claude key headers to another host. Approve a redirect guard that refuses other hosts on every outbound client (SECURITY_TEST_REPORT.md Part C).

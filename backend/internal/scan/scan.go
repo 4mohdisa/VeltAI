@@ -18,6 +18,7 @@ import (
 	"lume/backend/internal/consent"
 	"lume/backend/internal/db"
 	"lume/backend/internal/httpx"
+	"lume/backend/internal/scan/pipeline"
 )
 
 // ErrNotFound is returned by Store lookups when a row does not exist.
@@ -626,6 +627,10 @@ func Register(mux *http.ServeMux, ocr OCR, store Store, quota *aiquota.Quota) {
 		}
 		if req.ImageBase64 == "" {
 			httpx.Error(w, http.StatusBadRequest, "image_base64 is required")
+			return
+		}
+		if !pipeline.SupportedMime(req.MimeType) {
+			httpx.Error(w, http.StatusBadRequest, "mime_type must be image/jpeg, image/png, image/webp or image/heic")
 			return
 		}
 		if req.MimeType == "" {

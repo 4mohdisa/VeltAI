@@ -183,21 +183,42 @@ var fuzzRoutes = []fuzzRoute{
 // and the insight, which no API route creates without a paid AI call.
 const unknownID = "00000000-0000-4000-8000-000000000000"
 
+// upstream is where the food search and Gemini clients send their calls. The
+// zero value gives no Gemini key, so those clients refuse before any call, and
+// points food search at a local server that answers 404.
+type upstream struct {
+	geminiKey string
+	base      string
+	client    *http.Client
+}
+
 // newAPI mounts the routes as cmd/server does, without the rate limiter and
 // the entitlement gate, behind the real auth middleware, and returns a token
 // signer for it.
-func newAPI(t *testing.T, pool *pgxpool.Pool) (http.Handler, func(userID string) string) {
+func newAPI(t *testing.T, pool *pgxpool.Pool, up upstream) (http.Handler, func(userID string) string) {
 	t.Helper()
 	if err := gym.SeedExerciseLibrary(pool); err != nil {
 		t.Fatalf("seed exercise library: %v", err)
 	}
-	offline := httptest.NewServer(http.NotFoundHandler())
-	t.Cleanup(offline.Close)
+	if up.base == "" {
+		offline := httptest.NewServer(http.NotFoundHandler())
+		t.Cleanup(offline.Close)
+		up.base = offline.URL
+	}
+	if up.client == nil {
+		up.client = http.DefaultClient
+	}
 	search := food.NewSearchClient("")
-	search.OFFBase, search.USDABase = offline.URL, offline.URL
+	search.OFFBase, search.USDABase, search.HTTP = up.base, up.base, up.client
+	ocr := scan.NewGemini(up.geminiKey).(*scan.Gemini)
+	ocr.Base, ocr.HTTP = up.base, up.client
+	scanGemini := pipeline.NewGemini(up.geminiKey)
+	scanGemini.Base, scanGemini.HTTP = up.base, up.client
+	llm := ai.NewGemini(up.geminiKey, "").(*ai.Gemini)
+	llm.Base, llm.HTTP = up.base, up.client
 
 	profiles := auth.NewPGProfileStore(pool)
-	quota := aiquota.New(5, aiquota.NewPGStore(pool))
+	quota := aiquota.New(1000, aiquota.NewPGStore(pool))
 	integrationsSvc := integrations.NewService(integrations.NewPGStore(pool), nil, integrations.NewStrava(), integrations.NewWhoop())
 	scanStore := scan.NewPGStore(pool)
 
@@ -210,8 +231,8 @@ func newAPI(t *testing.T, pool *pgxpool.Pool) (http.Handler, func(userID string)
 	energy.Register(api, energy.NewPGStore(pool))
 	integrations.Register(api, integrationsSvc)
 	goals.Register(api, goals.NewPGStore(pool))
-	scan.Register(api, scan.NewGemini(""), scanStore, quota)
-	drain := scan.RegisterPipeline(api, pipeline.NewGemini(""), scanStore, pool, quota)
+	scan.Register(api, ocr, scanStore, quota)
+	drain := scan.RegisterPipeline(api, scanGemini, scanStore, pool, quota)
 	t.Cleanup(func() { drain(context.Background()) })
 	subscription.Register(api, subscription.NewPGStore(pool))
 	recipes.Register(api, recipes.NewPGStore(pool))
@@ -219,7 +240,7 @@ func newAPI(t *testing.T, pool *pgxpool.Pool) (http.Handler, func(userID string)
 	feedback.Register(api, feedback.NewPGStore(pool))
 	push.Register(api, push.NewPGStore(pool))
 	debugreports.Register(api, debugreports.NewPGStore(pool))
-	ai.NewService(ai.NewPGStore(pool), ai.NewGemini("", ""), quota).Routes(api)
+	ai.NewService(ai.NewPGStore(pool), llm, quota).Routes(api)
 
 	root := http.NewServeMux()
 	integrations.RegisterCallbacks(root, integrationsSvc)
@@ -240,7 +261,7 @@ func TestPG_StringInputsResistInjection(t *testing.T) {
 	t.Cleanup(pool.Close)
 
 	owner := seedOwner(t, pool, fmt.Sprintf("security_injection_%d", os.Getpid()))
-	handler, sign := newAPI(t, pool)
+	handler, sign := newAPI(t, pool, upstream{})
 	token := sign(owner)
 	send := func(t *testing.T, method, target, body string) *httptest.ResponseRecorder {
 		t.Helper()
