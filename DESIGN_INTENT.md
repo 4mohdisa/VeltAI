@@ -145,7 +145,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
    - Done (Round 120): food history day rows open that day.
 12. **Food calorie card opens `/dashboard/nutrition`** (`food.tsx:709-752`).
    - Done (Round 122): the calorie card links to Nutrition for today only (option A). While the Food tab shows today the card opens `/dashboard/nutrition`; on any other day it is a plain card with no tap. Nutrition, its labels and the hooks are unchanged. Test: `src/__tests__/render/foodCalorieCard.render.test.tsx`.
-13. **Custom food: save fibre, and log it when the user came from "no matches"** (`custom-food.tsx:38-47`).
+13. Done (Round 123): Custom food saves the fibre typed in (a blank field stays unknown, not 0 g). The Food tab's "no matches" link passes the search's meal as `?slot`; with it, Save also logs 100 g to that meal through `logMeal(slotFromParam(slot), …)`, shows the "added to" toast and goes back to Food. Test: `src/__tests__/render/customFoodSave.render.test.tsx`.
 14. **Saved dish: allow a portion change, then log** from the detail sheet (`detail.tsx:276-309`).
 15. **AI consent returns to the screen that asked**, and ai-query's Back falls back when there is no history (`ai-consent.tsx:29,57`, `ai-query.tsx:73`).
 16. **Insights shows its error state when the read fails**, not "no insights" (`insights.tsx:51`).

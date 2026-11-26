@@ -12225,3 +12225,8 @@
 - 2026-11-27 04:08 Fix 12 is one screen per prompt, within the 5-step limit (override 4).
 - 2026-11-27 04:08 The Jev signal (ask 64%) is not followed: action ask is forbidden. The advisory risk of 1.5 is handled by running tsc and the related suites first and keeping the task to one small change.
 - 2026-11-27 04:08 The Fix 12 option question is decided here instead of being sent to Isa, per the no-questions rule.
+- 2026-11-27 04:10 Round 123: chose Fix 13. It is the next open item in Row 14b and stays inside one screen per prompt (Isa override 4).
+- 2026-11-27 04:10 Full checkpoint suite moved from Round 123 to Round 124 so this round stays one screen and at most 5 steps.
+- 2026-11-27 04:10 Jev ask advice not followed: ask is forbidden. Run action and the Round 123 tsc-first rule kept.
+- 2026-11-27 04:10 Notes rewritten under 600 words. Finished work removed (Fixes 1-12 summarised, Round 120-122 items merged). Open items kept.
+- 2026-11-27 04:10 Stale handover Next (Fix 5) and stale Row 14a/14b status lines in the handover ignored; the notes state is used instead.

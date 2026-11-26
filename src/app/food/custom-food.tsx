@@ -1,17 +1,22 @@
 // C10 · Custom food form
 // name, calories per 100g, protein, carbs, fat, fibre. Save adds it to the
-// user's custom food list for reuse.
+// user's custom food list for reuse. Opened from the Food tab's "no matches" with
+// a meal (?slot), Save also logs 100 g of it to that meal.
 import { Button } from '@/components/forms/Button';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { SheetContent } from '@/components/navigation/SheetContent';
 import { TextField } from '@/components/forms/TextField';
 import { showToast } from '@/components/display/toastStore';
 import { space } from '@/lib/design/tokens';
-import { saveFood } from '@/lib/data';
+import { logMeal, saveFood } from '@/lib/data';
+import { slotFromParam } from '@/lib/data/scan';
+import { mealSlotName } from '@/lib/mealSlotName';
+import { useUnitPreferences } from '@/lib/settings/store';
+import { formatEnergy } from '@/lib/units';
 
 type Macros = { calories: string; protein: string; carbs: string; fat: string; fibre: string };
 
@@ -19,6 +24,8 @@ const num = (s: string) => Math.max(0, Number(s) || 0);
 
 export default function CustomFoodScreen() {
   const { t } = useTranslation();
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
+  const energyUnit = useUnitPreferences().energy;
   const [name, setName] = useState('');
   const [macros, setMacros] = useState<Macros>({ calories: '', protein: '', carbs: '', fat: '', fibre: '' });
 
@@ -35,15 +42,29 @@ export default function CustomFoodScreen() {
   // Actually persist the custom food to the saved-foods list (AUDIT_REPORT.md M6):
   // previously this only toasted and discarded the entry.
   const done = () => {
-    saveFood({
+    const food = {
       name: name.trim(),
-      servingG: 100,
       calories: num(macros.calories),
       protein: num(macros.protein),
       carbs: num(macros.carbs),
       fat: num(macros.fat),
-    });
-    showToast({ message: t('customFood.saved', { name: name.trim() }), tone: 'success' });
+      // A blank fibre field is "not known", which is not 0 g.
+      ...(macros.fibre.trim() !== '' ? { fibre: num(macros.fibre) } : {}),
+    };
+    saveFood({ ...food, servingG: 100 });
+    if (slot) {
+      const meal = slotFromParam(slot);
+      logMeal(meal, { ...food, quantityG: 100 }, 'manual');
+      showToast({
+        message: t('foodLog.addedToMeal', {
+          energy: formatEnergy(food.calories, energyUnit),
+          slot: mealSlotName(t, meal).toLowerCase(),
+        }),
+        tone: 'success',
+      });
+    } else {
+      showToast({ message: t('customFood.saved', { name: food.name }), tone: 'success' });
+    }
     close();
   };
 

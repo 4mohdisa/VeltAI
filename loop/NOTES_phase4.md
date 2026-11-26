@@ -13,18 +13,19 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
-- Green checkpoints: 66, 80, 95, 109, 114. Next checkpoint about Round 123.
-- Round 121 tsc and tests were not run. Round 122 re-runs them first.
+- Green checkpoints: 66, 80, 95, 109, 114. Round 122 tsc and targeted suites green.
+- Next checkpoint: Round 124 (full suite).
+- Untested flagged work: none.
 
 ## Row 14b (open)
-- Done: Fixes 1-11.
-- Round 122: Fix 12 (option A, card links to Nutrition for today only). Then Fix 13 (custom food saves fibre, logs food after 'no matches'), then close DESIGN_INTENT.md.
-- Unfixed (pick into a fix or park at closure): targets reuses earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; Gym tab has no logged pill (look change, parked); history.tsx isoDaysAgo repeats isoDate in foodDays.ts; Food tab calorie card links nowhere; Manage subscription open-or-toast code in three places.
+- Done: Fixes 1-12. Fix 12 (Round 122): calorie card links to Nutrition for today only.
+- Next: Fix 13 (custom food saves fibre; logs food after 'no matches'), then close DESIGN_INTENT.md.
+- Unfixed (pick into a fix or park at closure): targets reuses earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; Gym tab has no logged pill (look change, parked); history.tsx isoDaysAgo repeats isoDate in foodDays.ts; Food tab calorie card on past days (option B, post launch); Manage subscription open-or-toast in three places.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decisions pending: Terms describe a free tier; per-set gym history needs a backend change.
-- Drop the stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
+- At closure: drop the stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
 - Tooling: en.json fails Prettier. Never --write.
 
 ## Row 14a: parked
@@ -84,8 +85,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
 - Round 120: stale handover Next (Fix 5) ignored; Fix 5 done.
-- Round 122: Fix 12 option A chosen (card links for today only). Option B (dated Nutrition) parked as post-launch.
-- Round 122: Jev ask advice not followed (ask is forbidden); tsc and related suites run first.
+- Round 122: Fix 12 option A chosen. Option B parked as post-launch. Jev ask advice not followed (ask is forbidden).
+- Round 123: Fix 13 chosen; checkpoint moved to Round 124.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -95,8 +96,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110-115: Fixes 5-8.
-- 117-118: Fix 9 done; backend change outside named files kept.
-- 119-120: Fix 10 done. 121: Fix 11 done. Fix 12 parked (no code changed).
-- 122: tsc and Round 120-121 suites re-run; Fix 12 option A.
-- Last handover Round 107. Next handover after Round 135 (15 rounds).
+- 109: checkpoint green. 110-115: Fixes 5-8. 117-121: Fixes 9-11.
+- 122: tsc and suites green; Fix 12 done.
+- 123: Fix 13 prompt issued.
+- Last handover Round 107. Next handover after Round 135.

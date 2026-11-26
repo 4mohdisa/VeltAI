@@ -650,7 +650,7 @@ export default function FoodLogScreen() {
               title={t('foodLog.noMatches', { query: query.trim() })}
               message={t('foodLog.noMatchesHint')}
               actionLabel={t('foodLog.addCustomFood')}
-              onAction={() => router.push('/food/custom-food')}
+              onAction={() => router.push({ pathname: '/food/custom-food', params: { slot: addSlot } })}
             />
           ) : loadError ? (
             <ErrorState
