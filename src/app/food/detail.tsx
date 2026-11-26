@@ -281,26 +281,38 @@ export default function FoodDetailScreen() {
   }
 
   if (subject.mode === 'saved') {
+    // A saved dish logs at the portion on screen, rescaled from its own per-gram
+    // values like a logged row. "Save changes" is what rewrites the dish itself.
     const item = subject.item;
+    const basis = basisOf(item);
     return (
       <DetailForm
         key={`saved:${item.id}`}
         title={t('food.editFoodTitle')}
-        ctaLabel={t('food.saveChanges')}
         seed={item}
+        servings={basis ? presetsFor(item.quantityG) : undefined}
+        per100={basis ?? undefined}
         macros
+        meal={slotForNow()}
         onClose={close}
-        onDone={(draft) => {
-          editSavedFood(item.id, {
-            name: draft.name,
-            servingG: draft.quantityG,
-            calories: draft.calories,
-            protein: draft.protein,
-            carbs: draft.carbs,
-            fat: draft.fat,
-            ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
-          });
-          close();
+        onDone={(draft, slot) => {
+          logMeal(slot ?? slotForNow(), draft, 'manual');
+          logAndLeave(draft.name);
+        }}
+        secondary={{
+          label: t('food.saveChanges'),
+          run: (draft) => {
+            editSavedFood(item.id, {
+              name: draft.name,
+              servingG: draft.quantityG,
+              calories: draft.calories,
+              protein: draft.protein,
+              carbs: draft.carbs,
+              fat: draft.fat,
+              ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
+            });
+            close();
+          },
         }}
         remove={{
           label: t('food.savedRemoveAction'),
@@ -341,20 +353,24 @@ export default function FoodDetailScreen() {
         close();
       }}
       // Star equivalent: keep this logged food for one-tap re-adding later.
-      onSaveToFoods={
+      secondary={
         review
           ? undefined
-          : (draft) => {
-              saveFood({
-                name: draft.name,
-                servingG: draft.quantityG,
-                calories: draft.calories,
-                protein: draft.protein,
-                carbs: draft.carbs,
-                fat: draft.fat,
-                ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
-              });
-              showToast({ message: t('food.savedToDishes'), tone: 'success' });
+          : {
+              label: t('food.saveToDishes'),
+              icon: 'bookmark-outline',
+              run: (draft) => {
+                saveFood({
+                  name: draft.name,
+                  servingG: draft.quantityG,
+                  calories: draft.calories,
+                  protein: draft.protein,
+                  carbs: draft.carbs,
+                  fat: draft.fat,
+                  ...(draft.fibre != null ? { fibre: draft.fibre } : {}),
+                });
+                showToast({ message: t('food.savedToDishes'), tone: 'success' });
+              },
             }
       }
       remove={
@@ -401,7 +417,8 @@ type DetailFormProps = {
    *  changes" for something already logged. Omitted for a new food, whose pill
    *  follows the meal control: "Add to lunch". */
   ctaLabel?: string;
-  onSaveToFoods?: (draft: FoodValues) => void;
+  /** The secondary pill under the primary one, given the current values. */
+  secondary?: { label: string; icon?: string; run: (draft: FoodValues) => void };
   remove?: { label: string; confirm: string; run: () => void };
   onClose: () => void;
 };
@@ -420,7 +437,7 @@ function DetailForm({
   meal,
   onDone,
   ctaLabel: fixedCtaLabel,
-  onSaveToFoods,
+  secondary,
   remove,
   onClose,
 }: DetailFormProps) {
@@ -707,13 +724,8 @@ function DetailForm({
 
         <Button title={ctaLabel} onPress={() => onDone(draft(), slot)} />
 
-        {onSaveToFoods ? (
-          <Button
-            title={t('food.saveToDishes')}
-            variant="secondary"
-            icon="bookmark-outline"
-            onPress={() => onSaveToFoods(draft())}
-          />
+        {secondary ? (
+          <Button title={secondary.label} variant="secondary" icon={secondary.icon} onPress={() => secondary.run(draft())} />
         ) : null}
 
         {remove ? (

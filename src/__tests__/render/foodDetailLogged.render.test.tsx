@@ -20,15 +20,21 @@ const item = { id: 'it_rice', name: 'Rice', quantityG: 200, calories: 400, prote
 // on — mocked here the same way, everything else in the module stays real.
 const mockSaveFood = jest.fn();
 const mockUnsaveFood = jest.fn();
+const mockLogMeal = jest.fn();
+const mockEditSavedFood = jest.fn();
 jest.mock('@/lib/data', () => ({
   ...jest.requireActual('@/lib/data'),
   saveFood: (...args: unknown[]) => mockSaveFood(...args),
   unsaveFood: (...args: unknown[]) => mockUnsaveFood(...args),
+  logMeal: (...args: unknown[]) => mockLogMeal(...args),
+  editSavedFood: (...args: unknown[]) => mockEditSavedFood(...args),
 }));
 
 beforeEach(() => {
   mockSaveFood.mockClear();
   mockUnsaveFood.mockClear();
+  mockLogMeal.mockClear();
+  mockEditSavedFood.mockClear();
   const s = useFoodStore.getState();
   s.setDayMeals(s.selectedDate, [
     { id: 'm1', slot: 'Lunch', time: '12:30', method: 'manual', calories: 400, protein: 8, carbs: 88, fat: 2, items: [item] },
@@ -154,6 +160,70 @@ test('removing a saved food from its own detail sheet calls unsaveFood with the 
   expect(mockUnsaveFood).toHaveBeenCalledWith('sf_oats');
 
   alertSpy.mockRestore();
+});
+
+describe('Fix 14: a saved dish logs at the portion set on screen', () => {
+  const dish = { id: 'sf_oats', name: 'Oats', quantityG: 250, calories: 320, protein: 28, carbs: 40, fat: 8 };
+  // An editable sheet captions the presets on the grams chip row, so the
+  // presets carry no label of their own: find them by the grams they hold.
+  const servingField = (tree: Tree) =>
+    findAll(tree, (p) => Array.isArray(p.options) && p.value === '250' && typeof p.onChange === 'function')[0];
+  const logPill = (tree: Tree) =>
+    findAll(tree, (p) => typeof p.title === 'string' && p.title.startsWith('Add to') && typeof p.onPress === 'function')[0];
+
+  beforeEach(() => openFoodDetail({ mode: 'saved', item: dish }));
+
+  test('a changed portion logs the new amount, rescaled from the dish', () => {
+    const tree = renderSheet();
+    const serving = servingField(tree);
+    expect(serving.props.options.map((o: { label: string }) => o.label)).toEqual(['125 g', '250 g', '375 g', '500 g']);
+
+    act(() => serving.props.onChange('500'));
+    act(() => logPill(tree).props.onPress());
+
+    expect(mockLogMeal).toHaveBeenCalledWith(
+      expect.any(String),
+      { name: 'Oats', quantityG: 500, calories: 640, protein: 56, carbs: 80, fat: 16 },
+      'manual',
+    );
+    expect(mockEditSavedFood).not.toHaveBeenCalled();
+  });
+
+  test('an unchanged portion logs the stored default', () => {
+    const tree = renderSheet();
+    act(() => logPill(tree).props.onPress());
+
+    expect(mockLogMeal).toHaveBeenCalledWith(
+      expect.any(String),
+      { name: 'Oats', quantityG: 250, calories: 320, protein: 28, carbs: 40, fat: 8 },
+      'manual',
+    );
+  });
+
+  test('the meal switch picks the meal it logs to', () => {
+    const tree = renderSheet();
+    const meal = findAll(tree, (p) => p.compact === true && typeof p.onChange === 'function')[0];
+    act(() => meal.props.onChange('Dinner'));
+    act(() => logPill(tree).props.onPress());
+
+    expect(mockLogMeal.mock.calls[0][0]).toBe('Dinner');
+  });
+
+  test('"Save changes" still rewrites the dish and logs nothing', () => {
+    const tree = renderSheet();
+    act(() => servingField(tree).props.onChange('125'));
+    act(() => buttonWithTitle(tree, 'Save changes')!.props.onPress());
+
+    expect(mockEditSavedFood).toHaveBeenCalledWith('sf_oats', {
+      name: 'Oats',
+      servingG: 125,
+      calories: 160,
+      protein: 14,
+      carbs: 20,
+      fat: 4,
+    });
+    expect(mockLogMeal).not.toHaveBeenCalled();
+  });
 });
 
 test('pressing "Delete item" on a logged entry removes it from the food store', () => {

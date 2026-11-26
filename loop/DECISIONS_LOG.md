@@ -12234,3 +12234,8 @@
 - 2026-11-27 04:14 The checkpoint prompt allows read-only git status to confirm that no files changed.
 - 2026-11-27 04:14 Fix 14 stays the next task. Its test pin on router.replace('/food/barcode-scan') is named in the prompt so it is not broken.
 - 2026-11-27 04:14 Notes rewritten under 600 words: finished rounds merged into one line, repeated open items merged, Round 109 baseline kept for comparison.
+- 2026-11-27 04:16 Round 125: Fix 14 chosen, matching Jev's first rank (98%). It is the next item in the handover and in Row 14b.
+- 2026-11-27 04:16 Round 125: Prompt limited to detail.tsx and its tests, with a 5 step cap, per Isa's override 4.
+- 2026-11-27 04:16 Round 124 checkpoint accepted as green: 346 suites, 2,108 tests, tsc 0 errors. The count rose from Round 109 because of later fixes.
+- 2026-11-27 04:16 Loop-managed files (loop/DECISIONS_LOG.md, loop/NOTES_phase4.md) are never edited by Claude Code. The unsaved edits found in Round 124 are left alone.
+- 2026-11-27 04:16 Notes rewritten under 600 words, as the loop note asked. Finished work removed; repeated items merged.
