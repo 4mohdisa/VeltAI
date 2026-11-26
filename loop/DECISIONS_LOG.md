@@ -11602,3 +11602,6 @@
 - 2026-11-26 10:32 Wrong code toast stays a toast this round. Moving it is a new small task after the checkpoint is green.
 - 2026-11-26 10:32 Stale es and fr strings are not fixed: English only is an Isa override, so they are dropped.
 - 2026-11-26 10:32 Notes trimmed to stay under 600 words. Decisions and Blocked-on-Isa items kept; finished parked items removed.
+- 2026-11-26 10:34 Kept the checkpoint over Jev's pick (wrong code error, 97%). Reason Jev cannot see: the loop note sets this round as a checkpoint, and the checkpoint is item 1 in Next, so the full suite must run before more feature work. The wrong code change would also touch signup.tsx on the same day as the email change, so a checkpoint first keeps the baseline clean.
+- 2026-11-26 10:34 This round changes no files, so the checkpoint numbers describe the code as it stands after the inline email error change.
+- 2026-11-26 10:34 Dead end 7 stays open in DESIGN_REFERENCES.md until Isa signs off the paywall copy. The stale es and fr strings are not translated this round because English only is the rule.
