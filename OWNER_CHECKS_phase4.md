@@ -99,3 +99,8 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Row 5: approve or change the 'Who receives it' consent wording (current text: Google Gemini for photo scans and for insights; Anthropic receives the insight summary only if the backup AI provider is switched on).
 - [ ] Row 5: decide whether the consent screen needs a version number (none is stored today; profiles.ai_consent_at holds only the date).
 - [ ] Row 5: decide whether a consent read error returns 500 or 403 (current: 500).
+- [ ] Row 2b: write the es and fr text for onboarding.measurements.heightRangeIn and onboarding.targets.caloriesRange (English only for now).
+- [ ] Row 2b: decide whether target weight stays required on measurements for the lose and muscle goals.
+- [ ] Row 2b: sign off the dead end 7 copy (the paywall plans unavailable message).
+- [ ] Row 2b: decide on the plan-ready summary screen between targets and paywall.
+- [ ] Row 2b: run the sign up and onboarding Maestro flow, shared with Row 23.

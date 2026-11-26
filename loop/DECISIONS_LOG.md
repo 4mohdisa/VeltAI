@@ -11658,3 +11658,7 @@
 - 2026-11-26 10:50 Row 2b closing decision is parked under Blocked on Isa (it repeated twice). Close 2b as BUILT with owner check pending once the feet check is done, rather than waiting for Isa.
 - 2026-11-26 10:50 Body-type sweep is done; the hardcoded emoji size 26 is left alone because no token matches and changing it would change the look.
 - 2026-11-26 10:50 Prompt names only the feet input search start (measurements.tsx) and says grep first, because the exact feet helper path is unknown.
+- 2026-11-26 10:51 The loop flag says the last report looks partly done. The gap is the empty feet case, which is a flaw on the same screen, so it is fixed before closing the row.
+- 2026-11-26 10:51 Row 2b closes as BUILT with owner check pending. This is the parked decision from the Blocked list, which was already repeated twice, so it is not retried again.
+- 2026-11-26 10:51 Open Isa decisions (target weight, dead end 7, es and fr text, plan-ready summary) go to OWNER_CHECKS_phase4.md and do not block the row.
+- 2026-11-26 10:51 The body-type emoji hardcoded size 26 stays as is, to keep the Phase 1 look.

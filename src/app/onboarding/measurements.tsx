@@ -198,11 +198,12 @@ export default function MeasurementsScreen() {
 
   // Feet (whole 3 to 8) and inches (whole 0 to 11) are checked on their own,
   // each under its own box; the overall 100 to 250 cm range stays under feet.
+  // Feet are needed once inches are typed (both empty is heightRequired).
   const inchesError =
     heightUnit === 'ftin' && !wholeInRange(inchesText, 0, 11)
       ? t('onboarding.measurements.heightRangeIn', { min: 0, max: 11 })
       : undefined;
-  const feetValid = heightUnit !== 'ftin' || wholeInRange(feetText, 3, 8);
+  const feetValid = heightUnit !== 'ftin' || (feetText.trim() !== '' && wholeInRange(feetText, 3, 8));
 
   const heightError = (() => {
     if (heightEmpty) return submitted ? t('onboarding.measurements.heightRequired') : undefined;
@@ -213,7 +214,6 @@ export default function MeasurementsScreen() {
         ? undefined
         : t('onboarding.measurements.heightRangeCm', { min: 100, max: 250 });
     }
-    if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
     if (!feetValid) return t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
     if (inchesError) return undefined;
     return draftHeightCm != null && draftHeightCm >= 100 && draftHeightCm <= 250
