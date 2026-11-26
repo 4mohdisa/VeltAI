@@ -19,7 +19,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 | `internal/consent` | 100.0% | 100.0% | No |
 | `internal/cuisine` | 0.0% | 100.0% | No |
 | `internal/db` | 0.0% | 0.0% | Yes |
-| `internal/debugreports` | 0.0% | 0.0% | Yes |
+| `internal/debugreports` | 96.3% | 96.3% (Round 179, was 0.0%) | No |
 | `internal/energy` | 0.0% | 75.4% | No |
 | `internal/entitlement` | 0.0% | 93.1% | No |
 | `internal/feedback` | 94.7% | 94.7% | No |
@@ -45,13 +45,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 
 - `cmd/server` (7.6%)
 - `internal/analytics` (63.4%)
-- `internal/auth` (69.5%)
 - `internal/db` (0.0%)
-- `internal/debugreports` (0.0%)
-- `internal/food` (68.9%)
-- `internal/integrations` (39.1%)
-- `internal/recipes` (26.8%)
-- `internal/scan` (57.3%)
 - `scripts` (2.5%)
 - `tools/afcd` (0.0%)
 - `tools/retention` (0.0%)
@@ -76,3 +70,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 176
 
 - `internal/food`: 68.9% to 84.0% with all tests counted. New in-package TestPG tests in `internal/food/pg_internal_test.go` (logs, saved foods, cuisine preferences and library, portion preferences, name corrections, the brain rebuild flag, meal memory). Deleting a food log linked to a scan session is deliberately untested (the KNOWN_ISSUES.md foreign key bug).
+
+## Round 179
+
+- `internal/debugreports`: 0.0% to 96.3% with all tests counted. New `internal/debugreports/debugreports_internal_test.go`: TestPG tests for the POST validation table (bad JSON, wrong type, missing client_id or title, the 12 MB body cap), post and list (newest first, only the caller's reports, a retried client_id updates the row and keeps the screenshot, no screenshot in the list, a missing context defaults to {}), the fallback capture time, and the 500 paths through a failing store. The Under 70 list above no longer names auth, debugreports, food, integrations, recipes or scan, which have all passed 70 percent (see their round entries).

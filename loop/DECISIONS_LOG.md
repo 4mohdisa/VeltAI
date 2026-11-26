@@ -12469,3 +12469,6 @@
 - 2026-11-27 06:38 Round 178: prompt limited to internal/auth, 5 steps. Production code is not changed; a real bug is parked instead.
 - 2026-11-27 06:38 Round 178: notes rewritten under 600 words. Finished items merged, the Jest console count updated to 158.
 - 2026-11-27 06:38 Round 178: UpsertPortionPref empty meal type wipe kept in Parked, to be fixed only in the Food row.
+- 2026-11-27 06:41 Round 179: debugreports chosen over analytics because Round 170 order puts it first and it is at 0 percent. Claude Code suggested analytics; order kept.
+- 2026-11-27 06:41 Round 179: auth is done at 87.7 percent and removed from the in-progress list; RegisterWebhook error branches parked as a small follow-up.
+- 2026-11-27 06:41 Round 179: the stale Under 70 list in BACKEND_COVERAGE.md is fixed inside this row because the row names that file.
