@@ -12420,3 +12420,7 @@
 - 2026-11-27 05:54 Round 166 reported dashboard.weekPickedNet, dashboard.weekPickedNoNet and nutrition.weekGramsTitle as English only. Override 1 allows English only, so no change.
 - 2026-11-27 05:54 loop/DECISIONS_LOG.md and loop/NOTES_phase4.md show in git diff. They belong to the loop script; left alone.
 - 2026-11-27 05:54 Row 14b parked items stay parked: they need Isa's ruling (Fixes 24, 25, Fix 12 option B, body stats hint).
+- 2026-11-27 05:55 Row 14b is over its budget (about 100 rounds against the 15 round guideline). After this round it closes as BUILT, and the remaining items go to the Parked list below, not to new rounds. Reason: Override 2.
+- 2026-11-27 05:55 Chose the measurements Back fix because it is a concrete user-facing dead end that needs one small change and one test.
+- 2026-11-27 05:55 Jev ranks stop highest with low confidence (0.07) and rates risk high. Kept run: nothing here is dangerous, the task is one screen with local tests, and the stop reasons in the brief do not apply.
+- 2026-11-27 05:55 Owner rulings (Week copy, todayAgainstTargets assertion, freeze translations, Fixes 24, 25, 12B, body stats hint) move to one entry in OWNER_CHECKS_phase4.md in a later round. They do not block Row 15.
