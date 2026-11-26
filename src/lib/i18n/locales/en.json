@@ -550,6 +550,8 @@
     "setRepsLabel": "Set {{n}} reps",
     "setWeightLabel": "Set {{n}} weight",
     "removeExercise": "Remove {{name}}",
+    "removeSet": "Remove set {{n}}",
+    "noSets": "No sets logged. Add a set to log this exercise.",
     "durationLabel": "{{name}} duration in minutes",
     "distanceLabel": "{{name}} distance in kilometres, optional",
     "rpeLabel": "RPE — effort (optional)",

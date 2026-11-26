@@ -12151,3 +12151,7 @@
 - 2026-11-27 03:25 Round 105: Fix 2 applied as Summary Today always shows today. Decided in Round 104; the Round 104 report asked Isa, but the rule is no questions, so the decision stands.
 - 2026-11-27 03:25 Round 104 closed: the 10 suites and 41 tests that cover useDailyMacros and useFibreConsumed pass. Flag cleared.
 - 2026-11-27 03:25 Jev signals advisory only. Chose the smallest task (Fix 2, two hooks plus tests) because Jev rates the risk of continuing as high and the last task as only 25% clean. Ask (54%) is not used: no questions to Isa.
+- 2026-11-27 03:28 Round 105 report shows its tests passed (11 suites, 43 tests) and tsc 0, so no separate verification round; flag closed.
+- 2026-11-27 03:28 Chose Fix 3 over the parked saved.tsx slot helper: it is a user-visible blocker (cannot log 1 of 3 sets) and fits one screen.
+- 2026-11-27 03:28 Fix 3 kept to session.tsx and its new render test; saved.tsx, label-scan.tsx and food.tsx stay parked.
+- 2026-11-27 03:28 Jev (advisory): run 99%, risk 0.8 noted. Prefer the smallest task; Fix 3 is one screen, five steps. Nothing dangerous in the round.

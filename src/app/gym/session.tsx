@@ -274,6 +274,17 @@ export default function GymSessionScreen(): JSX.Element {
       return { ...prev, [row.key]: { ...cur, sets: [...cur.sets, { ...last }], checked: true } };
     });
 
+  // Logging fewer sets than planned. Removing the last set unticks the row, so a
+  // row with no sets is not saved. The pad closes: its set index may have shifted.
+  const removeSet = (row: Row, idx: number) => {
+    setPad((open) => (open?.rowKey === row.key ? null : open));
+    setStates((prev) => {
+      const cur = prev[row.key] ?? initialStateFor(row, mode);
+      const sets = cur.sets.filter((_, i) => i !== idx);
+      return { ...prev, [row.key]: { ...cur, sets, checked: sets.length > 0 } };
+    });
+  };
+
   const updateCardio = (row: Row, field: 'duration' | 'distance', value: string) =>
     setStates((prev) => {
       const cur = prev[row.key] ?? initialStateFor(row, mode);
@@ -528,8 +539,21 @@ export default function GymSessionScreen(): JSX.Element {
                     </Text>
                     {valueBox({ field: 'reps', rowKey: row.key, index: idx }, s.reps, t('gymSession.setRepsLabel', { n: idx + 1 }))}
                     {valueBox({ field: 'weight', rowKey: row.key, index: idx }, s.weight, t('gymSession.setWeightLabel', { n: idx + 1 }))}
+                    <Pressable
+                      onPress={() => removeSet(row, idx)}
+                      haptic={false}
+                      accessibilityLabel={t('gymSession.removeSet', { n: idx + 1 })}
+                      style={{ alignItems: 'center' }}
+                    >
+                      <Icon name="remove-circle-outline" size={20} color={color.secondaryLabel} />
+                    </Pressable>
                   </View>
                 ))}
+                {st.sets.length === 0 ? (
+                  <Text variant="footnote" color={color.secondaryLabel}>
+                    {t('gymSession.noSets')}
+                  </Text>
+                ) : null}
                 <Button
                   title={t('gymSession.addSet')}
                   variant="tertiary"

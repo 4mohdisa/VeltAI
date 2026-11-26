@@ -15,12 +15,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
-- Round 104 verified Round 103 (10 suites, 41 tests pass). Flag closed.
+- Round 104 checked Round 103 (10 suites, 41 tests pass). Flag closed.
+- Round 105 (Fix 2, Summary Today shows today) reported green: 11 suites, 43 tests, tsc 0. Flag closed in Round 106.
 
 ## Row 14b (current)
-- Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture, quick-add via slotFromParam, add.tsx no-meal check kept.
-- Round 105: Fix 2 applied (Summary Today always shows today: useDailyMacros, useFibreConsumed read byDate[todayISO()]) with tests. Verify in Round 106.
-- Next: gym set removal; top-set-only save; recipes unreachable; then list order.
+- Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture, quick-add via slotFromParam, add.tsx no-meal check kept, Summary Today uses today's rows (Fix 2).
+- Next: Fix 3 (remove a set in session.tsx, round 106); then gym top-set-only save; recipes unreachable; then list order.
 - Parked: saved.tsx:48 inline slot check (needs helper returning 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -55,7 +55,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Protected (do not edit)
 - src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts.
-- foodDetail.test.ts pins router.replace('/food/barcode-scan'); add branches instead.
+- foodDays.test.ts (formerly foodDetail reference) pins router.replace('/food/barcode-scan'); add branches instead.
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
@@ -95,5 +95,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
 - 87-101: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, photo-capture, quick-add.
-- 102: verified Round 101. 103: no code change, flagged. 104: verified Round 103 (41 tests pass).
-- 105: Fix 2 applied with tests (this round).
+- 102-104: Round 101 and 103 checked; 104 found 41 tests pass.
+- 105: Fix 2 applied with 43 tests passing.
+- 106: Fix 3 (remove a set in session.tsx) prompted.

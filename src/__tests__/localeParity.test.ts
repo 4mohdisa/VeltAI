@@ -36,6 +36,8 @@ const ENGLISH_ONLY = new Set([
   ...flatten(en.feedback.chip, 'feedback.chip').keys(),
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
+  'gymSession.removeSet',
+  'gymSession.noSets',
   'aiQuery.notEnoughData',
   'onboarding.measurements.targetRequired',
   'onboarding.targets.caloriesRange',
