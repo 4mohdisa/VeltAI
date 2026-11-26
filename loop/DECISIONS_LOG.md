@@ -11698,3 +11698,11 @@
 - 2026-11-26 11:13 Picked the Profile > Subscription mount: it uses the server record only and does not depend on the blocked items. Top candidate, and it matches Jev's run signal (97%).
 - 2026-11-26 11:13 Jev risk 0.9 read as advisory. Kept the task to one screen and one test file to keep it small.
 - 2026-11-26 11:13 Did not mention Jev in the prompt. Did not run the full suite: this is not a checkpoint round.
+- 2026-11-26 11:15 Chose the duplicate Manage subscription fix first: it is a real flaw on the screen just mounted, it is one screen, and it addresses the automatic 'task looks partly done' flag by closing the loose end from the last report.
+- 2026-11-26 11:15 Banner keeps Manage subscription on past_due and the footer button hides in that state, because the banner is the one place the user sees the billing problem. Reason: one control per action, no change to the banner's look.
+- 2026-11-26 11:15 Used a fresh marker file (/tmp/p4_marker_r9) because the old marker is stale, per the handover gotcha.
+- 2026-11-26 11:15 Handover happened this round, so the prompt names every file in full.
+- 2026-11-26 11:15 Jev ranked run highest (84%) and its risk score is advisory; the run choice matches the plan, so no second look is needed.
+- 2026-11-26 11:15 Round 10 picks the duplicate Manage button fix: it is the open loose end from round 9, it is one screen, and it is small. The expired state comes next.
+- 2026-11-26 11:15 Kept the rejected prompt's scope to one screen plus its own test file, per the one screen or component rule.
+- 2026-11-26 11:15 Jev ranked run highest; kept it. The prompt stays small because the last task was a rejected prompt.

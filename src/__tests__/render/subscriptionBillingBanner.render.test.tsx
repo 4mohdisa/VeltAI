@@ -9,7 +9,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import SubscriptionScreen from '@/app/profile/subscription';
 import en from '@/lib/i18n/locales/en.json';
 import type { ServerEntitlement } from '@/lib/settings/store';
-import { act, findAll, renderScreen, screenTitle } from './helpers';
+import { act, buttonWithTitle, findAll, renderScreen, screenTitle } from './helpers';
 
 let mockEntitlement: ServerEntitlement = null;
 jest.mock('@/lib/data', () => ({
@@ -60,5 +60,25 @@ test('an active plan shows no banner on Subscription', async () => {
   mockEntitlement = { isActive: true, status: 'active' };
   const tree = await renderSubscription();
   expect(screenTitle(tree)).toBe(en.settings.subscription);
+  expect(bannerAction(tree)).toHaveLength(0);
+});
+
+const manageLabel = en.subscription.manage;
+const manageLabels = (tree: Awaited<ReturnType<typeof renderSubscription>>) =>
+  tree.root.findAll((n) => typeof n.type === 'string' && n.props.children === manageLabel);
+
+test('a billing issue shows Manage subscription once, on the banner', async () => {
+  mockEntitlement = { isActive: true, status: 'past_due' };
+  const tree = await renderSubscription();
+  expect(screenTitle(tree)).toBe(en.settings.subscription);
+  expect(manageLabels(tree)).toHaveLength(1);
+  expect(buttonWithTitle(tree, manageLabel)).toBeUndefined();
+});
+
+test('an active plan keeps the footer Manage subscription button', async () => {
+  mockEntitlement = { isActive: true, status: 'active' };
+  const tree = await renderSubscription();
+  expect(screenTitle(tree)).toBe(en.settings.subscription);
+  expect(buttonWithTitle(tree, manageLabel)).toBeDefined();
   expect(bannerAction(tree)).toHaveLength(0);
 });

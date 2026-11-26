@@ -15,7 +15,7 @@ import { hydrateSubscription, useServerEntitlement } from '@/lib/data';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 
 /** subscriptions.status for a billing issue (backend/internal/entitlement/state.go). */
-const BILLING_ISSUE = 'past_due';
+export const BILLING_ISSUE = 'past_due';
 
 export function BillingProblemBanner(): JSX.Element | null {
   const { t } = useTranslation();

@@ -7,7 +7,7 @@
 import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
-import { BillingProblemBanner } from '@/components/display/BillingProblemBanner';
+import { BILLING_ISSUE, BillingProblemBanner } from '@/components/display/BillingProblemBanner';
 import { Card } from '@/components/display/Card';
 import { Badge } from '@/components/display/Badge';
 import { Button } from '@/components/forms/Button';
@@ -29,6 +29,9 @@ export default function SubscriptionScreen() {
   // about yet still shows correctly. No server row yet → RevenueCat's own read.
   const serverEntitlement = useServerEntitlement();
   const effectiveEntitled = serverEntitlement ? serverEntitlement.isActive : isEntitled;
+  // The billing problem banner carries Manage subscription while payment is
+  // failing, so the footer drops its copy rather than offer Apple's page twice.
+  const showFooterManage = isManageSubscriptionAvailable() && serverEntitlement?.status !== BILLING_ISSUE;
   const billing = isBillingEnabled();
 
   const { t } = useTranslation();
@@ -109,7 +112,7 @@ export default function SubscriptionScreen() {
       footer={
         <View style={{ gap: space.sm }}>
           {effectiveEntitled ? (
-            isManageSubscriptionAvailable() ? (
+            showFooterManage ? (
               <Button
                 title={t('subscription.manage')}
                 variant="secondary"
