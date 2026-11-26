@@ -11688,3 +11688,8 @@
 - 2026-11-26 11:09 Jev suggested ask; ask is not allowed, so ran the smallest open task.
 - 2026-11-26 11:09 Full suite checkpoint deferred to the loop's call, because this round only touches one component and its test.
 - 2026-11-26 11:09 Notes condensed to keep the file near the 600 word limit. Decisions kept in full.
+- 2026-11-26 11:11 Chose the Today mount first because the last report left the banner unmounted and the automatic check flagged Row 8 as partly done; mounting it closes that gap.
+- 2026-11-26 11:11 One screen per prompt (Isa's override 4), so Subscription screen mount waits for the next round.
+- 2026-11-26 11:11 Banner stays on the server record only (past_due via useServerEntitlement), as the last report chose; no wrapper state added.
+- 2026-11-26 11:11 Simulator flow for Row 8 deferred to the end of the row, since the screen change is small and mid-row.
+- 2026-11-26 11:11 English only (Isa's override 1): new strings go in en.json only.

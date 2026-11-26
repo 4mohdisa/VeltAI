@@ -26,6 +26,7 @@ import { EnergyBalanceCard } from '@/components/domain/EnergyBalanceCard';
 import { FloatingHeader } from '@/components/navigation/FloatingHeader';
 import { ProfileAvatarButton } from '@/components/navigation/ProfileAvatarButton';
 import { PendingSyncBanner } from '@/components/display/PendingSyncBanner';
+import { BillingProblemBanner } from '@/components/display/BillingProblemBanner';
 import { Skeleton } from '@/components/display';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { showToast } from '@/components/display/toastStore';
@@ -128,6 +129,9 @@ export default function DashboardScreen() {
             </Pressable>
           )}
         </View>
+
+        {/* Payment problem (store grace period) — renders null for every other state. */}
+        <BillingProblemBanner />
 
         {/* Offline queue indicator — renders null when nothing is pending. */}
         <PendingSyncBanner />

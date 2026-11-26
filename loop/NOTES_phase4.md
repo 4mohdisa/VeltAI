@@ -10,19 +10,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (billing banner component in progress).
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (BillingProblemBanner component built and tested; not mounted yet).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Last full run: tsc 0; Jest 303 suites, 1,835 tests; green. Full suite checkpoint due when the loop calls one.
 
 ## Next
-1. Row 8: BillingProblemBanner component and render test.
-2. Row 8: mount the banner on home for billing issue users.
+1. Row 8: mount banner on Today (home), render test.
+2. Row 8: mount banner on Profile > Subscription, render test.
 3. Row 8: expired state with resubscribe, Manage subscription, win back.
-4. Full suite checkpoint when the loop calls one.
+4. Row 8 simulator flow at end of row.
+5. Full suite checkpoint when the loop calls one.
 
 ## Blocked on Isa (park, do not retry)
 - 7c StoreKit simulator purchase and real offerings: needs iOS public key in env. Blocked twice.
-- es and fr for onboarding.paywall keys and subscription.period.* labels.
+- es and fr for onboarding.paywall keys, subscription.period.* labels, and subscription.billingProblem.* keys.
+- Banner: whether it should also react to on-device billing_issue state before the webhook lands (server record only for now).
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; previous-step back on resumed step; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser flow.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation (68 console.error); gesture-handler worklet warning (21); Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
@@ -47,12 +49,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 - Row 7: wrapper first (7a), paywall screen second (7b). Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when the store says eligible. 7b replaces the hosted paywall on the onboarding route only.
 - Row 7b: restore failure shows 'no previous subscription found' (wrapper reports failure as none).
+- Row 8: banner reads the server record (useServerEntitlement), shows only for past_due, never loads the RevenueCat SDK. Long message wraps rather than truncating.
 
 ## Parked
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
 - About 68 deliberate console warns need scoped spies. Trace the 67 to 68 console.error rise. billing/purchases.ts warns when billing is off.
 - Unused after 7b: onboarding.paywall.seePlans and trialNote (remove with es and fr). Check hosted paywall text in en.json before removing.
+- entitlementFromApi maps only 'no record' to null; unknown server status is shown as is.
+- Subscription screen still uses hosted paywall and old billing calls, not the 7a wrapper.
 - Test render Reanimated mock lacks useReducedMotion; one line in the shared setup would fix it.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
@@ -65,11 +70,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
 - Row 2b: emoji on body-type uses hardcoded fontSize 26 (left alone to keep the look).
 - phase14Regression.test.ts checks source text of targets.tsx; a render test would be sturdier.
+- Row 2b es/fr values of three rewritten keys are out of date; paywall one names RevenueCat.
 
 ## Gotchas
 - zsh --include=*.ts globs fail. Report counts must match the command run. Briefs may name files that do not exist; grep first. Jest name patterns can match more files; pass full paths. Test files end in .render.test.tsx. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes. Use find -newer against /tmp/p4_marker, not git status. Never use jest -u.
+- Redirect output to files; pipes hide exit codes.
+- Every prompt opens with the branch check and the rule to work only on loop/phase4.
+- Last prompt that covered more than one screen was rejected. Keep every prompt to one screen or component.
 
 ## Loop note
 - Round 7b flagged as partly done by the automatic check; key blocker recorded above, not retried.
-- Last prompt rejected for asking about more than one screen or component. Keep every prompt to one screen or component.
-- Every prompt opens with the branch check and the rule to work only on loop/phase4.
+- Round 8 banner flagged as partly done; resolved by mounting it on Today this round.
+- Jev ranked run highest (88%); chose the Today mount, the top candidate, which matches Jev.
