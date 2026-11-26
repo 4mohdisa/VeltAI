@@ -12498,3 +12498,6 @@
 - 2026-11-27 06:56 Round 185: Jev ranks the same next action as run at 91 percent; no change needed.
 - 2026-11-27 06:58 Round 186: Row 16 step 2 moves to gym routes, the largest remaining group with {id} routes; the token helper is copied into tests/gym because the shared helper is still waiting on Isa.
 - 2026-11-27 06:58 Round 186: the profile leak in seedMealLog and seedDay is parked for Row 25 cleanup, since it is test hygiene and does not block the ownership work.
+- 2026-11-27 07:01 Round 187: picked recipes and saved meals (candidate 1), the next user-owned id group, per the Round 186 report. Jev agrees (run 86%).
+- 2026-11-27 07:01 Round 187: the shared helper blocker came back, so the new test reuses the helpers in tests/food and adds no new copy. Not retried as a blocker.
+- 2026-11-27 07:01 Round 187: the chunked body inconsistency in the gym complete handler stays a NEXT item, not a fix, since it is harmless today.
