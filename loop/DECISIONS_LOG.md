@@ -12541,3 +12541,6 @@
 - 2026-11-27 07:20 Kept the sync and connect key-check order as a parked bug in KNOWN_ISSUES.md, not fixed, because handlers are Isa-approved changes only (Override 9).
 - 2026-11-27 07:20 Jev suggested ask at 21 percent; not followed, because no question to Isa is allowed (Round 191 rule).
 - 2026-11-27 07:20 403 vs 404 for another user's id stays parked as Isa's ruling; no route change this round.
+- 2026-11-27 07:21 Round 198: picked the Row 16 gap from the round 197 report (invalid token checked only on the stand in handler) over the checkpoint, because the checkpoint is due at round 199 and the gap is small and inside an active row.
+- 2026-11-27 07:21 Round 198: any protected route that does not return 401 for an invalid token is parked in KNOWN_ISSUES.md, not fixed here, per the Row 16 step 3 rule (Override 9).
+- 2026-11-27 07:21 Round 198: Jev suggested run (66%). Agreed, the choice matches it.

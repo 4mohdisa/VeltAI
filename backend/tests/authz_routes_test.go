@@ -346,18 +346,29 @@ func TestAuthzRoutesRejectUnauthenticated(t *testing.T) {
 		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
 	}
 
+	// call sends one request for a route pattern, with the given Authorization
+	// header ("" sends none). The caller closes the body.
+	call := func(t *testing.T, pattern, authorization string) *http.Response {
+		t.Helper()
+		method, path, _ := strings.Cut(pattern, " ")
+		req, err := http.NewRequest(method, base+pathParam.ReplaceAllString(path, "strava"), strings.NewReader("{}"))
+		if err != nil {
+			t.Fatalf("build request: %v", err)
+		}
+		req.Header.Set("Content-Type", "application/json")
+		if authorization != "" {
+			req.Header.Set("Authorization", authorization)
+		}
+		resp, err := client.Do(req)
+		if err != nil {
+			t.Fatalf("send: %v", err)
+		}
+		return resp
+	}
+
 	for _, r := range authzRoutes {
 		t.Run(r.pattern, func(t *testing.T) {
-			method, path, _ := strings.Cut(r.pattern, " ")
-			req, err := http.NewRequest(method, base+pathParam.ReplaceAllString(path, "strava"), strings.NewReader("{}"))
-			if err != nil {
-				t.Fatalf("build request: %v", err)
-			}
-			req.Header.Set("Content-Type", "application/json")
-			resp, err := client.Do(req)
-			if err != nil {
-				t.Fatalf("send: %v", err)
-			}
+			resp := call(t, r.pattern, "")
 			defer resp.Body.Close()
 
 			if r.class == protected {
@@ -369,6 +380,19 @@ func TestAuthzRoutesRejectUnauthenticated(t *testing.T) {
 			if resp.StatusCode == http.StatusUnauthorized && env.Error != nil && *env.Error == "missing bearer token" {
 				t.Fatalf("PUBLIC route answered as if behind auth.Middleware; it is mounted on the wrong mux")
 			}
+		})
+	}
+
+	// A bearer token that does not verify is refused the same way on every
+	// PROTECTED route, before any handler runs.
+	for _, r := range authzRoutes {
+		if r.class != protected {
+			continue
+		}
+		t.Run(r.pattern+" invalid bearer", func(t *testing.T) {
+			resp := call(t, r.pattern, "Bearer not-a-valid-token")
+			defer resp.Body.Close()
+			assertErrorEnvelope(t, resp, http.StatusUnauthorized, "invalid token")
 		})
 	}
 }
