@@ -188,6 +188,14 @@ export default function MeasurementsScreen() {
     heightUnit === 'cm' ? heightCmText.trim() === '' : feetText.trim() === '' && inchesText.trim() === '';
   const weightEmpty = weightText.trim() === '';
 
+  // Inches are checked on their own (0 to 11) and shown under the inches box;
+  // the overall 100 to 250 cm range stays under feet.
+  const inches = parseFloat(inchesText);
+  const inchesError =
+    heightUnit === 'ftin' && inchesText.trim() !== '' && !(inches >= 0 && inches <= 11)
+      ? t('onboarding.measurements.heightRangeIn', { min: 0, max: 11 })
+      : undefined;
+
   const heightError = (() => {
     if (heightEmpty) return submitted ? t('onboarding.measurements.heightRequired') : undefined;
     if (heightUnit === 'cm') {
@@ -197,7 +205,7 @@ export default function MeasurementsScreen() {
         ? undefined
         : t('onboarding.measurements.heightRangeCm', { min: 100, max: 250 });
     }
-    if (feetText.trim() === '' && inchesText.trim() === '') return undefined;
+    if ((feetText.trim() === '' && inchesText.trim() === '') || inchesError) return undefined;
     return draftHeightCm != null && draftHeightCm >= 100 && draftHeightCm <= 250
       ? undefined
       : t('onboarding.measurements.heightRangeFt', { min: 3, max: 8 });
@@ -229,6 +237,7 @@ export default function MeasurementsScreen() {
     targetEmpty ||
     !!ageError ||
     !!heightError ||
+    !!inchesError ||
     !!weightError ||
     !!targetError;
 
@@ -319,6 +328,7 @@ export default function MeasurementsScreen() {
                   keyboardType="number-pad"
                   placeholder={t('onboarding.measurements.heightInchesPlaceholder')}
                   accessibilityLabel={t('onboarding.measurements.heightInchesA11y')}
+                  error={inchesError}
                 />
               </View>
             </View>

@@ -1232,6 +1232,7 @@
       "heightRequired": "Enter your height",
       "heightRangeCm": "Enter a height between {{min}} and {{max}} cm",
       "heightRangeFt": "Enter a height between {{min}} and {{max}} ft",
+      "heightRangeIn": "Enter inches between {{min}} and {{max}}",
       "weightLabel": "Current weight",
       "unitKg": "kg",
       "unitLb": "lb",

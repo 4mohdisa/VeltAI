@@ -11638,3 +11638,8 @@
 - 2026-11-26 10:43 Kept Row 2b on measurements.tsx first, as the last report recommended; body-type.tsx waits for the next round.
 - 2026-11-26 10:43 Kept the Row 2b status PARTIAL until both sweeps are done and owner checks are written.
 - 2026-11-26 10:43 Jev suggested run at 98%, so I kept the run action. Its advice to prefer small tasks matches the one-screen prompt.
+- 2026-11-26 10:45 Chose candidate 1 over Jev's body-type pick. Reason Jev cannot see: the loop check flagged the last report as only partly done, and that same report lists an unfixed input gap on measurements.tsx (inches accepts 5 ft 15 in as 75 in, and height errors appear only under feet). Finishing the screen first avoids closing 2b with a known data bug.
+- 2026-11-26 10:45 Body-type sweep and closing 2b move to the next round, after the height fix passes.
+- 2026-11-26 10:45 Profile > Goals setCustomGoals clamp check stays in Next as a separate row-independent task.
+- 2026-11-26 10:45 Prompt kept to 5 steps, with full file paths and redirected output so exit codes are real.
+- 2026-11-26 10:45 Status of Row 2b stays PARTIAL until body-type.tsx is swept and owner checks are recorded.
