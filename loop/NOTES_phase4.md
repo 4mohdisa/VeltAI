@@ -12,14 +12,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend built; leaving screen built in round 28).
+- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend built; leaving screen built; Settings row linked in round 29).
 - Round 27 checkpoint green: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots; 68 console.error, 163 console.warn.
-- Round 28: leaving.tsx built with 7 render tests. Its locale parity run was not done.
+- Round 29: Settings row 'Thinking of leaving' opens /profile/leaving. Parity and render tests pass. Full suite not run.
+- Round 30 (in progress): one follow-up on Row 9. Full Jest run and tsc; fix only Row 9 failures.
 
 ## Next
-1. Round 29 (in progress): tsc, parity and leaving tests; then Settings row to /profile/leaving via navigate() with a render test. One screen per prompt.
+1. Round 30 follow-up: full suite counts; fix Row 9 failures if any.
 2. Row 10 notifications (pure scheduling logic, fake clock, DST).
-3. Full suite checkpoint at round 30.
+3. Round 30 checkpoint counts go into this file.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving screen: where reason and note go (analytics allow-list, feedback endpoint, or nowhere).
@@ -50,7 +51,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default.
 - Row 9: retention flag default off; message keys only; fixtures only until owner access; summary gated like paid routes; leaving screen sends no food, body or workout values to analytics.
-- Round 29: Settings link chosen over notifications because Jev ranked it first (82%). Prompt rewritten to one screen after rejection.
+- Round 29: Settings link chosen over notifications because Jev ranked it first (82%).
+- Round 30: follow-up kept over Jev's Row 10 pick (86%) because the one-follow-up rule applies; Jev cannot see it.
 - Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked

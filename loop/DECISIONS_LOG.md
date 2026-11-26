@@ -11805,3 +11805,7 @@
 - 2026-11-27 00:24 Rejected prompt rewritten to one screen (Settings). Tsc and parity run moved into step 1 as checks, not as a second screen.
 - 2026-11-27 00:24 Chose the Settings link first, as Jev ranked it highest (82%) and the parity run is required before new work.
 - 2026-11-27 00:24 Leaving screen reason and note still sent nowhere; the owner choice stays parked in OWNER_CHECKS_phase4.md.
+- 2026-11-27 00:26 Kept the Row 9 follow-up over Jev's Row 10 pick: the loop rule gives a partly done flag one follow-up round before moving on, and Jev cannot see that rule.
+- 2026-11-27 00:26 Full suite run because the last report skipped it; the console counts are needed before the round 30 checkpoint.
+- 2026-11-27 00:26 Row 9 status stays PARTIAL until the leaving screen's reason and note destination is decided by Isa.
+- 2026-11-27 00:26 Row 10 starts next round if the full suite is green.
