@@ -12506,3 +12506,7 @@
 - 2026-11-27 07:03 Recipe PATCH validation is parked as a known issue, not added as a new task, because its fix needs approval.
 - 2026-11-27 07:03 Flagged work check: the recipe and saved meal test from Round 187 passed in the report. Its package is rerun in the Round 189 checkpoint, so no separate run now.
 - 2026-11-27 07:03 Round 189 is the checkpoint (tsc, full Jest, go vet, no edits) as set in the overrides.
+- 2026-11-27 07:05 Round 189 is the scheduled checkpoint (notes say every 5 rounds); read-only so failures are recorded before any fix.
+- 2026-11-27 07:05 Gates that go red are fixed in the next round, not in the checkpoint, so the checkpoint stays read-only as its rule says.
+- 2026-11-27 07:05 Row 16 insights dismiss test stays the next task after the checkpoint, since it is the last protected id route left in step 2.
+- 2026-11-27 07:05 Notes trimmed under 600 words: round log and duplicate lines removed, no open items dropped.
