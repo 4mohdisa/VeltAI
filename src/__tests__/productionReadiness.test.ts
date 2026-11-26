@@ -84,7 +84,9 @@ test('a timed-out request is transient → queued for replay, never dropped', as
 });
 
 test('the scan upload path gets its own, longer bound', async () => {
-  setFetch(jest.fn(() => new Promise(() => {})));
+  // Held, not hung forever: answered at the end so the 4s upload timer is cleared.
+  const held: Array<(res: unknown) => void> = [];
+  setFetch(jest.fn(() => new Promise((resolve) => held.push(resolve))));
   await withApiEnv(
     { EXPO_PUBLIC_API_TIMEOUT_MS: '40', EXPO_PUBLIC_API_UPLOAD_TIMEOUT_MS: '4000', EXPO_PUBLIC_API_RETRIES: '0' },
     async (mod) => {
@@ -94,6 +96,8 @@ test('the scan upload path gets its own, longer bound', async () => {
       expect(winner).toBe('still-uploading');
       // ...and a normal request on the same client is already dead.
       await expect(mod.api.goals.get()).rejects.toThrow(/timed out after 40ms/);
+      held.forEach((resolve) => resolve(jsonErr(500, 'test over')));
+      expect(await scan).toBe('settled');
     },
   );
 });

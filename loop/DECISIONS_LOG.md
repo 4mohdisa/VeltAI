@@ -12395,3 +12395,8 @@
 - 2026-11-27 05:46 Round 160 checkpoint accepted: tsc 0 errors, Jest 350 of 350 suites, 2,190 tests, no open handle warnings.
 - 2026-11-27 05:46 Chose the Week copy fix: smallest open Row 14b item with a visible user fault, one screen, under 5 steps.
 - 2026-11-27 05:46 Chose not to ask Isa about gym.freeze.confirm_one translation: English only is the standing ruling, so it stays parked.
+- 2026-11-27 05:47 Jev says ask 67%, but ask is banned by Isa. Chose run because the task is small, safe and cleans up the flagged test gap.
+- 2026-11-27 05:47 Round 161 report made no edits, so no new code is untested. The automatic flag is handled by running tsc first and the affected test file in this round.
+- 2026-11-27 05:47 Week 'No net yet' and energyAddBodyStats copy stays parked under the body stats hint (Isa sign-off). The 'in onboarding' wording is wrong, so it must change once Isa rules.
+- 2026-11-27 05:47 Notes rewritten under 600 words. Finished work deleted, repeats merged.
+- 2026-11-27 05:47 gym.freeze.confirm_one stays English only per Isa's ruling; not reopened.
