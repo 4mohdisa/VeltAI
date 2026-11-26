@@ -12293,3 +12293,7 @@
 - 2026-11-27 04:58 Round 138: last prompt rejected for naming two screens, so Fix 20 is split: helper plus summaryCards first, training.tsx second. Reason: one screen per prompt.
 - 2026-11-27 04:58 Round 138: notes rewritten under 600 words, finished items removed, repeats merged. Reason: loop note asked for it.
 - 2026-11-27 04:58 Round 138: Jev ranking agrees with the recommended Fix 20 task. No override.
+- 2026-11-27 05:00 Round 139 is a checkpoint, not Fix 20 second half: the loop note requires a full type check and full app suite after the flagged round 138, and Rule 8 says untested flagged work comes before new tasks.
+- 2026-11-27 05:00 Kept the checkpoint over Jev's 95% pick for Fix 20 second half. Reason Jev cannot see: round 138 was flagged as partly done and its only new test file (weekRange.test.ts) has not been through the full suite.
+- 2026-11-27 05:00 Notes rewritten under 600 words: finished work deleted, repeated items merged, the stale 'Barcode, Scan and label scan still open' item marked for removal at closure.
+- 2026-11-27 05:00 Round 138 decision recorded: weekOf in foodDays.ts is the shared week helper, so no weekRange.ts file was created.

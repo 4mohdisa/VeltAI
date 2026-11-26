@@ -13,25 +13,27 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State
+## State (Round 139)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
-- Last green full suite: Round 135 (347 suites, 2,134 tests). Checkpoint: Round 145.
-- Untested flagged: none (Round 136 Training empty state tests ran green).
+- Last green full suite: Round 135 (347 suites, 2,134 tests). Next checkpoint: Round 145.
+- Round 138 flagged as partly done. weekOf (foodDays.ts) is the shared week helper; weekRange.ts was not created. weekRange.test.ts (3 suites, 73 tests) passed, but not yet in a full run.
+- Round 139: forced checkpoint (full tsc and full app Jest, no file changes).
 
 ## Blocked on Isa (park, do not retry)
 - Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
-- Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier; Energy body stats hint (option 3: unlinked, wording pending).
+- Row 12a: Email, Name, User ID labels; push token manifest type.
+- Row 13: age rating, production demo account, lume.fit URLs.
+- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 24 (training-days step); Fix 25 (duplicate Profile rows); Terms describe a free tier; Energy body stats hint (unlinked, wording pending).
 - Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit.
 - Tests rendering Welcome must mock @clerk/clerk-expo. en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
 - DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-19.
-- Fix 20 in progress: one-week rule. Round 138: helper src/lib/data/weekRange.ts plus summaryCards.ts:58 first. Next: training.tsx:114-117 uses the same helper.
+- Fix 20 half done: summaryCards.ts:58 uses weekOf. Next: training.tsx:114-117 (dates.slice(-7) to weekOf(today)).
 - Then: Energy 'not enough days' chart state needs an action.
 - Unfixed (fold in or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
 - Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify later. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1 (protected, left alone).
@@ -85,6 +87,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line. Round 135: Energy hint stays unlinked. Round 136: Training empty state links to /gym/log-session.
 - Round 138: Fix 20 split into two prompts (one screen per prompt).
+- Round 139: checkpoint chosen over Jev's Fix 20 second half pick, because the loop flagged round 138 and the full gates must run before new work.
 - Food focus re-check parked.
 
 ## Gotchas
@@ -97,4 +100,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
 - 128-136: Fixes 16 to 19 done.
 - 137: Fix 20 started, prompt rejected for two screens.
-- 138: Fix 20 part one (helper, summaryCards) issued.
+- 138: Fix 20 part one (helper, summaryCards) issued; report partly done, weekRange.ts not created.
+- 139: checkpoint (full tsc and full app Jest, no changes).
