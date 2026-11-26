@@ -12249,3 +12249,7 @@
 - 2026-11-27 04:22 Round 127: shared goBackOrHome Today fallback parked. It changes every screen and is outside 14b's scope; revisit at 14b closure.
 - 2026-11-27 04:22 Round 127: notes rewritten under 600 words as the loop note asked. Done work deleted, decisions kept.
 - 2026-11-27 04:22 Round 126 (kept): consent Back and Not now go back, not to the origin, to avoid a loop back into the consent prompt.
+- 2026-11-27 04:24 Round 127: Fix 15b accepted. ai-query keeps its own header, so Screen onBack was not used; the Back fallback changed in place. Tests run, 23 passed.
+- 2026-11-27 04:24 Round 128: Fix 16 chosen (Jev runs 96% on the next action). It is the smallest visible flaw on a read path and is one screen.
+- 2026-11-27 04:24 Notes rewritten under 600 words as the loop note asked. Done items removed; open items, decisions and parked work kept in condensed form.
+- 2026-11-27 04:24 Shared backOrFood helper deferred to a later round; it touches two screens and a shared nav file, so it gets its own prompt.

@@ -1,7 +1,8 @@
 // AI hub screen — a full-screen push route (auto-registered by expo-router).
 // Top: the learned brain profile, then a standalone "Ask Lume" entry, then the
-// combined insights + anomalies feed (newest first). Degrades to a
-// not-enough-data / no-insights empty state without ever crashing.
+// combined insights + anomalies feed (newest first). A failed read shows the
+// shared error state with Retry; an empty one, the not-enough-data /
+// no-insights state.
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { router, type Href } from 'expo-router';
@@ -9,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
-import { EmptyState, Skeleton } from '@/components/display';
+import { EmptyState, ErrorState, Skeleton } from '@/components/display';
 import { Icon } from '@/components/primitives/Icon';
 import { Text } from '@/components/primitives/Text';
 import { BrainProfileCard, InsightCard, AnomalyCard } from '@/components/ai';
@@ -49,7 +50,7 @@ export default function InsightsScreen() {
 
 function InsightsInner() {
   const { t } = useTranslation();
-  const { insights, anomalies, loading, dismiss } = useInsights();
+  const { insights, anomalies, loading, isError, dismiss, refetch } = useInsights();
   const { notEnoughData } = useBrainProfile();
 
   // One tagged, newest-first list so insights and anomalies interleave by time.
@@ -80,13 +81,16 @@ function InsightsInner() {
         </View>
       </Card>
 
-      {/* Feed area: loading → skeletons; empty → learning / no-insights state. */}
+      {/* Feed area: loading → skeletons; failed → error with Retry; empty →
+          learning / no-insights state. */}
       {loading ? (
         <View style={{ gap: space.md }}>
           <Skeleton height={96} rounded={radius.xl} />
           <Skeleton height={96} rounded={radius.xl} />
           <Skeleton height={96} rounded={radius.xl} />
         </View>
+      ) : isError ? (
+        <ErrorState onRetry={refetch} />
       ) : isEmpty ? (
         notEnoughData ? (
           <EmptyState

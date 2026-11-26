@@ -15,21 +15,19 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
-- Last green full suite: Round 124 (346 suites, 2,108 tests).
-- Next checkpoint: Round 135 (handover).
-- Untested flagged work: none (Fix 15a tests run in round 126).
+- Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135 (handover).
+- Untested flagged work: none.
 
 ## Row 14b (open)
-- Done: Fixes 1-14, Fix 15a (consent returns to asker, round 126, Screen onBack prop). Fix 12 option A. Fix 14: saved dish logs at on-screen portion.
-- Next: Fix 15b ai-query.tsx Back fallback to Food tab (round 127).
-- Unfixed (pick into a fix or park at closure):
+- Done: Fixes 1-15b. Fix 12 option A. Fix 15a: consent returns to asker. Fix 15b: ai-query Back falls back to Food (round 127, 23 tests green).
+- Next: Fix 16, insights error state with Retry (insights.tsx:51), round 128.
+- Unfixed (fold into a fix or park at closure):
   - Targets reuses an earlier saved calorie target.
-  - Units copied to Settings only on Continue.
   - Food quantity and energy units not asked in onboarding.
   - measurements.tsx:280 Back goes to preview.
   - Welcome shows Sign in to a signed-in user with no record.
   - delete-account.tsx:101 white on white (device check).
-  - index.tsx:101-106: failed backend call sends signed-in user to onboarding.
+  - index.tsx:101-106: failed backend call sends a signed-in user to onboarding.
   - Paywall non-401 record-check failure re-posts answers.
   - Gym tab has no logged pill (look change, parked).
   - history.tsx isoDaysAgo repeats isoDate in foodDays.ts.
@@ -67,7 +65,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate.
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated in ai-consent and ai-query (shared helper in nav.ts).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -100,9 +98,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
-- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 123: Fix 13 chosen.
-- Round 124: checkpoint green (346 suites, 2,108 tests). Round 125: Fix 14 done.
+- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 123: Fix 13 chosen. Round 124: checkpoint green.
 - Round 126: Fix 15a. Consent Back and Not now go back, not to the origin, to avoid a loop.
+- Round 127: Fix 15b. ai-query keeps its own header; Back fallback changed in place.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -112,6 +110,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110-121: Fixes 5-11. 122: Fix 12. 123: Fix 13.
-- 124: checkpoint green. 125: Fix 14 done. 126: Fix 15a done.
-- 127: Fix 15b (running).
+- 109-124: Fixes 5-13; checkpoint green at 124.
+- 125-126: Fix 14, Fix 15a done.
+- 127: Fix 15b done.
+- 128: Fix 16 (running).

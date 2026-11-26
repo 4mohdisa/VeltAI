@@ -49,18 +49,22 @@ export function useMorningBrief(): { brief: MorningBrief | null; loading: boolea
 
 type DismissType = 'insight' | 'anomaly';
 
-/** The combined insights + anomalies feed with optimistic dismissal. */
+/** The combined insights + anomalies feed with optimistic dismissal.
+ *  `refetch` reads the feed again, e.g. from a failed read's Retry. */
 export function useInsights(): {
   insights: AIInsight[];
   anomalies: AIAnomaly[];
   loading: boolean;
   isError: boolean;
   dismiss: (id: string, type: DismissType) => void;
+  refetch: () => void;
 } {
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [anomalies, setAnomalies] = useState<AIAnomaly[]>([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  // Bumped by refetch to run the read again.
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -82,6 +86,11 @@ export function useInsights(): {
     return () => {
       active = false;
     };
+  }, [attempt]);
+
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setAttempt((n) => n + 1);
   }, []);
 
   const dismiss = useCallback((id: string, type: DismissType) => {
@@ -95,7 +104,7 @@ export function useInsights(): {
     }
   }, []);
 
-  return { insights, anomalies, loading, isError, dismiss };
+  return { insights, anomalies, loading, isError, dismiss, refetch };
 }
 
 /** The learned brain profile, with an explicit not-enough-data flag. */
