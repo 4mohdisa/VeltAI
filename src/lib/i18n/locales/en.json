@@ -865,7 +865,9 @@
     "weekCardLoadFailed": "Couldn't load this week. Pull down to try again.",
     "weekCardNoDays": "No days to show yet this week.",
     "unitInPerDay": "{{unit}} in per day",
-    "unitNetPerDay": "{{unit}} net per day"
+    "unitNetPerDay": "{{unit}} net per day",
+    "weekPickedNet": "{{day}}: {{value}} {{unit}} net",
+    "weekPickedNoNet": "{{day}}: no net computed"
   },
   "nutrition": {
     "title": "Nutrition",

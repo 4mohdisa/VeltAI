@@ -115,6 +115,19 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
     bars: [{ h: (d.calories_in / heroScale) * HERO_H, tint: i === days.length - 1 ? accent.blue : color.light3 }],
   }));
   const avgY = ((avgIn14 ?? 0) / heroScale) * HERO_H;
+  const netTint = (net: number) => (net < 0 ? accent.blue : categoryAccent.calories);
+
+  // Hero in Net mode: fourteen days of net, magnitude from zero with direction in the colour.
+  const nets14 = days.map(netOf).filter((n): n is number => n != null);
+  const netScale = Math.max(1, ...nets14.map((n) => Math.abs(n))) * 1.16;
+  const heroNetCols: Col[] = days.map((d, i) => {
+    const net = netOf(d);
+    return {
+      key: d.date,
+      dim: i !== days.length - 1,
+      bars: net == null ? [] : [{ h: (Math.abs(net) / netScale) * HERO_H, tint: netTint(net) }],
+    };
+  });
 
   // Secondary: this week's net, drawn as magnitude with direction in the colour
   // (and named in the readout, so colour is never the only encoding).
@@ -125,16 +138,20 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
       key: d.date,
       dim: d.date !== picked,
       // No net → no bar. This is the gap the server asked for, not a zero.
-      bars: net == null ? [] : [{ h: (Math.abs(net) / secScale) * SEC_H, w: NET_BAR_W, tint: net < 0 ? accent.blue : categoryAccent.calories }],
+      bars: net == null ? [] : [{ h: (Math.abs(net) / secScale) * SEC_H, w: NET_BAR_W, tint: netTint(net) }],
     };
   });
 
   const rowMax = Math.max(1, ...weekNets.map((n) => Math.abs(n)));
   const target = week.length > 0 ? week[week.length - 1].target : null;
+  // Only a tapped bar names its day: the opening state stays the design's.
+  const tapped = week.find((d) => d.date === pickedDate);
+  const tappedNet = tapped ? netOf(tapped) : null;
+  const tappedDay = tapped ? formatRelativeDate(new Date(`${tapped.date}T00:00:00`)) : '';
 
   return (
     <>
-      {/* Hero — the headline average, then fourteen days of intake. */}
+      {/* Hero — the headline average, then fourteen days of intake, or of net in Net mode. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
           <SegmentedField
@@ -165,47 +182,68 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
               tight
             />
           )}
-          <View style={{ gap: space.sm }}>
-            <ChartHeader title={t('dashboard.caloriesEaten')} note={t('dashboard.lastDays', { count: days.length })} hero />
-            <View>
-              <Plot
-                cols={heroCols}
-                height={HERO_H}
-                ceiling={amount(heroScale)}
-                barWidthRatio={HERO_BAR_RATIO}
-                dimOpacity={HERO_DIM_OPACITY}
-                gutterWidth={CHART_GUTTER_W}
-                scaleLabelWidth={SCALE_LABEL_W}
-                summary={t('dashboard.weekEatenSummary', { count: days.length, value: formatEnergy(heroScale, unit) })}
-              />
-              {avgIn14 != null ? (
-                <>
-                  {/* Stops where Plot's columns stop: its gutter is CHART_GUTTER_W. */}
-                  <View
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      right: CHART_GUTTER_W,
-                      top: HERO_H - avgY,
-                      borderTopWidth: 2,
-                      borderTopColor: accent.blue,
-                      borderRadius: 2,
-                    }}
-                  />
-                  <Text
-                    variant="label"
-                    color={accent.blue}
-                    numberOfLines={1}
-                    style={{ position: 'absolute', left: 0, bottom: avgY, paddingBottom: 2, fontSize: 12 }}
-                  >
-                    {t('dashboard.weekAverageLine', { value: formatEnergy(avgIn14, unit) })}
-                  </Text>
-                </>
-              ) : null}
+          {mode === 'net' ? (
+            nets14.length === 0 ? (
+              <EmptyState icon="chart.bar.xaxis" title={t('dashboard.weekNoNetTitle')} message={t('dashboard.weekNoNetMessage')} />
+            ) : (
+              <View style={{ gap: space.sm }}>
+                <ChartHeader title={t('dashboard.dailyNet')} note={t('dashboard.lastDays', { count: days.length })} hero />
+                <Plot
+                  cols={heroNetCols}
+                  height={HERO_H}
+                  ceiling={amount(netScale)}
+                  barWidthRatio={HERO_BAR_RATIO}
+                  dimOpacity={HERO_DIM_OPACITY}
+                  gutterWidth={CHART_GUTTER_W}
+                  scaleLabelWidth={SCALE_LABEL_W}
+                  summary={t('dashboard.weekNetSummary', { value: nets14.length, total: days.length, largest: formatEnergy(netScale, unit) })}
+                />
+                <Axis labels={heroLabels(days.map((d) => d.date))} gutterWidth={CHART_GUTTER_W} />
+              </View>
+            )
+          ) : (
+            <View style={{ gap: space.sm }}>
+              <ChartHeader title={t('dashboard.caloriesEaten')} note={t('dashboard.lastDays', { count: days.length })} hero />
+              <View>
+                <Plot
+                  cols={heroCols}
+                  height={HERO_H}
+                  ceiling={amount(heroScale)}
+                  barWidthRatio={HERO_BAR_RATIO}
+                  dimOpacity={HERO_DIM_OPACITY}
+                  gutterWidth={CHART_GUTTER_W}
+                  scaleLabelWidth={SCALE_LABEL_W}
+                  summary={t('dashboard.weekEatenSummary', { count: days.length, value: formatEnergy(heroScale, unit) })}
+                />
+                {avgIn14 != null ? (
+                  <>
+                    {/* Stops where Plot's columns stop: its gutter is CHART_GUTTER_W. */}
+                    <View
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: CHART_GUTTER_W,
+                        top: HERO_H - avgY,
+                        borderTopWidth: 2,
+                        borderTopColor: accent.blue,
+                        borderRadius: 2,
+                      }}
+                    />
+                    <Text
+                      variant="label"
+                      color={accent.blue}
+                      numberOfLines={1}
+                      style={{ position: 'absolute', left: 0, bottom: avgY, paddingBottom: 2, fontSize: 12 }}
+                    >
+                      {t('dashboard.weekAverageLine', { value: formatEnergy(avgIn14, unit) })}
+                    </Text>
+                  </>
+                ) : null}
+              </View>
+              <Axis labels={heroLabels(days.map((d) => d.date))} gutterWidth={CHART_GUTTER_W} />
             </View>
-            <Axis labels={heroLabels(days.map((d) => d.date))} gutterWidth={CHART_GUTTER_W} />
-          </View>
-          {avgIn14 != null ? (
+          )}
+          {mode === 'balance' && avgIn14 != null ? (
             <Text variant="footnote" color={color.secondaryLabel}>
               {`${t('dashboard.weekEatenAverage', { count: days.length, value: formatEnergy(avgIn14, unit) })}${
                 target != null ? ` ${t('dashboard.energyTarget', { value: formatEnergy(target, unit) })}` : ''
@@ -272,6 +310,13 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
                   ))}
                 </View>
               </View>
+              {tapped ? (
+                <Text variant="footnote" color={color.label}>
+                  {tappedNet == null
+                    ? t('dashboard.weekPickedNoNet', { day: tappedDay })
+                    : t('dashboard.weekPickedNet', { day: tappedDay, value: signedAmount(tappedNet), unit })}
+                </Text>
+              ) : null}
               {avgNetWeek != null ? (
                 <Text variant="footnote" color={color.secondaryLabel}>
                   {t('dashboard.weekNetAverage', { value: signedAmount(avgNetWeek), unit, deficits, total: weekNets.length })}
@@ -294,7 +339,7 @@ function Body({ days }: { days: EnergyBalance[] }): JSX.Element {
             return (
               <BreakdownRow
                 key={d.date}
-                tint={net == null ? color.light3 : net < 0 ? accent.blue : categoryAccent.calories}
+                tint={net == null ? color.light3 : netTint(net)}
                 label={formatRelativeDate(new Date(`${d.date}T00:00:00`))}
                 sub={
                   burn != null

@@ -12311,3 +12311,8 @@
 - 2026-11-27 05:06 Snapshot rule kept: no jest -u. A hand edit is allowed only when the figure matches what the screen computes; otherwise revert and report.
 - 2026-11-27 05:06 Fix 24, Fix 25, Fix 12 option B and the body stats hint stay parked until Isa rules on them.
 - 2026-11-27 05:06 Stale PHASE4_ROWS.md note is removed at closure, not now, so it is not forgotten.
+- 2026-11-27 05:09 Round 143 chose Fix 22 (candidate 1): next in DESIGN_INTENT order, named in the last report's NEXT. Jev agreed (run 96%).
+- 2026-11-27 05:09 Fix 22 is a flow fix only (switch and tap value), no restyle, so it stays inside the parked-look rule.
+- 2026-11-27 05:09 English only per Isa override 1; es and fr are not added even though CLAUDE.md asks for them.
+- 2026-11-27 05:09 Untested flagged work: Fix 21 tests were run in round 142 (5 plus 5 files green), so no backlog test is needed before Fix 22.
+- 2026-11-27 05:09 Ask is not used (Isa's no-questions rule); the path of week.tsx is left for Claude Code to confirm and report.

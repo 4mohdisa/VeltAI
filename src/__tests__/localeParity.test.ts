@@ -178,6 +178,9 @@ const ENGLISH_ONLY = new Set([
   'gymStreak.noFreezes',
   // Fix 18 follow-up: the freeze sheet's 0-freezes headline.
   'gym.freeze.noneLeft',
+  // Fix 22: the Week detail's tapped-day readout.
+  'dashboard.weekPickedNet',
+  'dashboard.weekPickedNoNet',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();
