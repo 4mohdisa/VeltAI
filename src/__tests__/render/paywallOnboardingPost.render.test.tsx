@@ -7,8 +7,10 @@
 // possible either.
 import PaywallScreen from '@/app/onboarding/paywall';
 import { showToast } from '@/components/display/toastStore';
+import { router } from 'expo-router';
 import { purchasePackage } from '@/lib/purchases/revenuecat';
 import i18n from '@/lib/i18n';
+import { WINBACK_REASON } from '@/lib/nav';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
 import fr from '@/lib/i18n/locales/fr.json';
@@ -38,12 +40,13 @@ jest.mock('@/lib/purchases/revenuecat', () => ({
 jest.mock('@/components/display/LoadingSkeleton', () => ({ SkeletonList: () => null }));
 
 const mockPost = jest.fn().mockResolvedValue({ completed: true });
+const mockOnboardingGet = jest.fn();
 const mockSubscription = jest.fn();
 const mockSleep = jest.fn().mockResolvedValue(undefined);
 jest.mock('@/lib/api', () => ({
   sleep: (ms: number) => mockSleep(ms),
   api: {
-    onboarding: { post: (...args: unknown[]) => mockPost(...args) },
+    onboarding: { get: () => mockOnboardingGet(), post: (...args: unknown[]) => mockPost(...args) },
     subscription: { get: () => mockSubscription() },
   },
   ApiError: class ApiError extends Error {
@@ -296,4 +299,23 @@ test('a confirmed purchase refreshes the stored entitlement once', async () => {
   expect(setEntitlement).toHaveBeenCalledTimes(1);
   expect(useSettingsStore.getState().serverEntitlement).toEqual(expect.objectContaining({ isActive: true }));
   setEntitlement.mockRestore();
+});
+
+// --- Resubscribe while still signed in (Row 14b Fix 5 follow-up) -------------
+// The device still holds the finished onboarding answers. The server already has
+// them, so the win back purchase enters the app without posting them again.
+
+test('a signed-in user who resubscribes from win back enters the app without re-posting the answers', async () => {
+  useOnboardingStore.getState().markCompleted();
+  mockOnboardingGet.mockResolvedValue({ completed: true });
+  const params = jest
+    .spyOn(jest.requireMock<typeof import('expo-router')>('expo-router'), 'useLocalSearchParams')
+    .mockReturnValue({ reason: WINBACK_REASON });
+  jest.mocked(router.push).mockClear();
+  await pressContinue();
+  params.mockRestore();
+
+  expect(mockPost).not.toHaveBeenCalled();
+  expect(router.push).not.toHaveBeenCalledWith('/onboarding/done');
+  expect(router.replace).toHaveBeenCalledWith('/(tabs)');
 });

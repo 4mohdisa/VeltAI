@@ -12173,3 +12173,12 @@
 - 2026-11-27 03:40 Kept Fix 5 follow-ups open for a later round; they need their own test first.
 - 2026-11-27 03:40 Rewrote the notes under 600 words: merged repeats, removed finished Round 60 to 101 detail, kept open items.
 - 2026-11-27 03:40 Round 109 checkpoint recorded as green; no edits were made that round.
+- 2026-11-27 03:43 Chose the Fix 5 follow-up over Fix 7 because re-posting old answers writes user data twice, which is a correctness and data integrity bug; Fix 7 is a UI gap.
+- 2026-11-27 03:43 Kept to one screen cluster (paywall and resetRegistry) and max 5 steps, per the one-screen-per-prompt override.
+- 2026-11-27 03:43 Required failing tests first, so a fix cannot pass without showing the bug.
+- 2026-11-27 03:43 Did not run the full suite: Round 109 was the last checkpoint and the next falls around Round 123. Only changed and related suites run this round.
+- 2026-11-27 03:43 Stale Row 14b note ('Barcode, Scan and label scan still open') is left for the 14b closing round, not this prompt.
+- 2026-11-27 03:44 Chose the Fix 5 follow-up as one paywall.tsx task. The Round 111 prompt was rejected for covering two screens, so this one is limited to paywall.tsx with five steps.
+- 2026-11-27 03:44 Kept Fix 7 next, after the follow-up, because the follow-up was already in progress and the rejected attempt counts as the first failure.
+- 2026-11-27 03:44 Told the worker not to edit resetRegistry.ts. If the cause sits there, it is reported as BLOCKED and parked, not widened into a second screen.
+- 2026-11-27 03:44 Shortened the notes to under 600 words by merging repeated parked items and dropping finished round logs. No decision or protected file was removed.

@@ -50,10 +50,11 @@ jest.mock('@/lib/purchases/revenuecat', () => ({
 }));
 
 const mockPost = jest.fn();
+const mockOnboardingGet = jest.fn();
 const mockSubscriptionGet = jest.fn();
 jest.mock('@/lib/api', () => ({
   api: {
-    onboarding: { post: (...args: unknown[]) => mockPost(...args) },
+    onboarding: { get: () => mockOnboardingGet(), post: (...args: unknown[]) => mockPost(...args) },
     subscription: { get: () => mockSubscriptionGet() },
   },
   sleep: () => Promise.resolve(),
@@ -191,4 +192,17 @@ test.each([
   expect(locale.onboarding.sessionExpired).not.toBe(en.onboarding.sessionExpired);
   expect(showToast).toHaveBeenCalledWith({ message: locale.onboarding.sessionExpired, tone: 'info' });
   expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: en.onboarding.sessionExpired }));
+});
+
+// Row 14b Fix 5 follow-up: with no answers on the device the paywall asks the
+// server for the record. A 401 there is an expired session, not a missing answer.
+test('a 401 on the onboarding record check shows the expired-session message, not a missing answer', async () => {
+  useOnboardingStore.getState().reset();
+  mockOnboardingGet.mockRejectedValueOnce(new ApiError(401, 'invalid token'));
+  await pressContinue();
+
+  expect(mockSignOut).toHaveBeenCalledTimes(1);
+  expect(showToast).toHaveBeenCalledWith({ message: en.onboarding.sessionExpired, tone: 'info' });
+  expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: en.onboarding.validation.ageMissing }));
+  expect(mockPost).not.toHaveBeenCalled();
 });

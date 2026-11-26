@@ -54,14 +54,16 @@ import { classifyConnectivity } from '@/lib/auth/machine';
 const CONFIRM_ATTEMPTS = 4;
 const CONFIRM_DELAY_MS = 1500;
 
+// A failed read is "not known yet", except an expired session: the caller ends it.
+function nullUnlessExpired(e: unknown): null {
+  if (classifyConnectivity(e) === 'sessionExpired') throw e;
+  return null;
+}
+
 async function subscriptionConfirmed(): Promise<boolean> {
   for (let attempt = 0; attempt < CONFIRM_ATTEMPTS; attempt++) {
     if (attempt > 0) await sleep(CONFIRM_DELAY_MS);
-    const sub = await api.subscription.get().catch((e: unknown) => {
-      // An expired session is not "not confirmed yet": the caller ends it.
-      if (classifyConnectivity(e) === 'sessionExpired') throw e;
-      return null;
-    });
+    const sub = await api.subscription.get().catch(nullUnlessExpired);
     if (sub?.is_active) {
       useSettingsStore.getState().setServerEntitlement(entitlementFromApi(sub));
       return true;
@@ -158,21 +160,22 @@ export default function PaywallScreen() {
     // Check the contract BEFORE spending a request, so a missing answer is
     // named here rather than coming back as an opaque 400 (audit 2026-08-08).
     const problem = validateOnboardingPayload(session);
-    if (problem) {
-      // Sign-out empties the answers on this device. A returning user who
-      // resubscribes already has them on the server, so enter the app on that.
-      if ((await api.onboarding.get().catch(() => null))?.completed) {
+    try {
+      // A returning user who resubscribes already has a server record: sign-out
+      // emptied the answers here, or they are the ones the server already holds.
+      // Enter the app on that record rather than posting again.
+      if ((problem || session.completed) && (await api.onboarding.get().catch(nullUnlessExpired))?.completed) {
         markCompleted();
         await setHasCompletedOnboarding(true);
         router.replace('/(tabs)');
         return;
       }
-      showToast({ message: problem, tone: 'error' });
-      setSubmitting(false);
-      return;
-    }
-    const payload = onboardingPayload(session);
-    try {
+      if (problem) {
+        showToast({ message: problem, tone: 'error' });
+        setSubmitting(false);
+        return;
+      }
+      const payload = onboardingPayload(session);
       await api.onboarding.post(payload);
       // Write the answers into the user store immediately. hydrateProfile picks
       // them up from the server on later launches, but without this the user
