@@ -12203,3 +12203,6 @@
 - 2026-11-27 03:55 Kept Round 116's flagged check result (tsc 0, 30 suites, eslint clean) as passed, so no extra re-check is needed before Fix 9.
 - 2026-11-27 03:55 Split Fix 9 into five steps with a failing test first, per rule 4 and the test first habit in the notes.
 - 2026-11-27 03:55 Dropped the handover's stale 'Fix 5 next' instruction; Fix 5 was closed in Round 112.
+- 2026-11-27 03:59 Round 118 picks the scope check over Fix 10: the loop flagged changed files outside the named task, and the brief requires untested flagged work to be tested before any new task.
+- 2026-11-27 03:59 Keep the Fix 9 backend change (derive.go, pg.go, goals_test.go): it fixes the same macro mismatch on the server, is one shared helper, and was asked for by no one but matches the row intent. Reverted only if the scope check finds it unrelated.
+- 2026-11-27 03:59 Added override 9: changes outside a prompt's named files are checked for scope, then kept with a decision or reverted.

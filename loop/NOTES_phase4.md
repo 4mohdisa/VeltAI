@@ -10,32 +10,33 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with branch rule. Every round runs tsc first.
 8. Untested flagged work: run its tests before any new task.
+9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29; Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
-- Green checkpoints: Rounds 66, 80, 95, 109, 114. Next checkpoint about Round 123.
+- Green checkpoints: 66, 80, 95, 109, 114. Next about Round 123.
 
 ## Row 14b (current)
-- Done: Fixes 1-8. Fix 8 re-checked Round 116 (tsc 0, 30 suites, 222 tests, eslint clean).
-- Now (Round 117): Fix 9, Targets Adjust macros match kcal (targets.tsx:85).
-- Then: Fixes 10-13 (see DESIGN_INTENT.md).
-- Follow-ups: units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; gym tab shows no logged pill once logged (look change, parked).
+- Done: Fixes 1-9. Fix 8 re-checked R116. Fix 9 done R117 (macros follow adjusted kcal; backend part in goals derive.go and pg.go).
+- Now (R118): scope check of Fix 9 file set, run its tests, pg.go save test if feasible.
+- Then: Fix 10 (leaving.tsx:70,89-103), Fixes 11-13 (DESIGN_INTENT.md).
+- Follow-ups: Targets reuses an earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; gym tab shows no logged pill (look change, parked).
 - Drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
-- Parked: saved.tsx:48 slot check; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
+- Parked: saved.tsx:48; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
-- Owner decisions pending: Terms describe a free tier that does not exist; per-set gym history needs a backend change (Isa).
+- Owner decisions pending: Terms describe a free tier; per-set gym history needs backend change.
 - Tooling: en.json fails Prettier; never --write.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
-- Parked: chip wiring, feature_rated analytics, Settings feedback screen, Ask me for feedback switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md. Wire or delete the chip before Row 31.
+- Parked: chip wiring, feature_rated analytics, Settings feedback screen, Ask me for feedback switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md. Wire or delete chip before Row 31.
 
 ## Parked: legal
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Blocked on Isa (park)
-- Rows 5, 8, 9: consent copy, win back and leaving copy, Apple Retention access, sandbox URL, expired, cancelled and past_due runs, 7c iOS public key.
+- Rows 5, 8, 9: consent copy, win back and leaving copy, Apple Retention access, sandbox URL, expired, cancelled, past_due runs, 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
@@ -60,7 +61,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
 - Fix 6: no record and no answers goes to /onboarding/goal; with answers goes to measurements.
 - Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Paywall checks server record first; 401 ends session.
-- Fix 8: units saved to settings store on measurements Continue via existing setUnit; no second units row.
+- Fix 8: units saved to settings store on measurements Continue via setUnit; no second units row.
+- Fix 9: macros split from the adjusted calorie target on both client and server (one shared helper each); backend part kept, scope confirmed in R118.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
@@ -89,8 +91,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110: Fix 6. 111: Fix 5 follow-up rejected. 112: Fix 5 follow-up done.
-- 113: Fix 7 done. 114: Fix 7 re-check clean. 115: Fix 8 done.
-- 116: flagged check on Fix 8 passed (tsc 0, 30 suites, 222 tests, eslint clean).
-- 117: Fix 9 prompt issued.
+- 109: checkpoint green. 110-115: Fixes 6, 5 (follow-up), 7, 8.
+- 116: Fix 8 flagged check passed.
+- 117: Fix 9 done; backend part changed outside named files (flagged).
+- 118: scope check and goals tests issued.
 - Last handover Round 107; next after Round 120.
