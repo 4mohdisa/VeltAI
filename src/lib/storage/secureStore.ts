@@ -22,6 +22,9 @@ export const STORAGE_KEYS = {
   // The registered device push token and platform (JSON). Not in the sign-out
   // key list: removePushToken deletes it only after the server removed the token.
   pushToken: 'lume.pushToken',
+  // The feature feedback prompt state (JSON): session count, switch, last prompt
+  // times and don't ask again. Kept across sign-outs, like the priming answer.
+  feedbackPrompt: 'lume.feedbackPrompt',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

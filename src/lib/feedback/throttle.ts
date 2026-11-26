@@ -60,5 +60,6 @@ export function recordPrompt(state: FeedbackPromptState, feature: FeatureKey, no
     ...state,
     lastPromptAt: now,
     lastPromptByFeature: { ...state.lastPromptByFeature, [feature]: now },
+    dontAskAgain: [...state.dontAskAgain],
   };
 }

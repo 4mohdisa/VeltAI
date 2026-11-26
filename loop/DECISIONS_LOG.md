@@ -12044,3 +12044,7 @@
 - 2026-11-27 02:25 Console warn rise (82 to 164) is recorded for the next checkpoint, not treated as a blocker, because the count method is unclear.
 - 2026-11-27 02:25 Split Row 14a into five single step prompts, per Override 4, so each round stays small.
 - 2026-11-27 02:25 Paywall and trial feedback kept in a separate constant, since they are only asked after a purchase or cancel.
+- 2026-11-27 02:27 Chose persistence before the chip component: the chip reads throttle state, so storage must exist first. Smaller task, lower risk (Jev confidence is high but the prompt order in the notes is a plan, not a rule).
+- 2026-11-27 02:27 Include the recordPrompt array-copy fix in this round because it touches the same module and is a known defect.
+- 2026-11-27 02:27 Settings switch deferred to a later step so this prompt stays within one component and five steps.
+- 2026-11-27 02:27 Parked the handover stale line (two push token test files) and the console.warn count for the checkpoint round; not in scope here.
