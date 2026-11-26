@@ -12086,3 +12086,6 @@
 - 2026-11-27 03:03 Round 90 report was flagged as partly done; this is the one allowed follow-up (Override 5) on the same barcode item, so no new task is started.
 - 2026-11-27 03:03 Route param rejected again because foodDetail.test.ts forbids params on /food/detail; the slot goes through the subject store.
 - 2026-11-27 03:03 Scan again, label scan meal passing and detail sheet ?slot clearing stay open in DESIGN_INTENT.md; they are separate small fixes for later rounds, not part of this follow-up.
+- 2026-11-27 03:05 Chose candidate 1: it is the next Fix 1 item and it touches one screen, which matches the one-screen rule. Candidate 2 needs two screens, so it waits.
+- 2026-11-27 03:05 Scan again uses the existing ?slot param on barcode-scan, which is not a /food/detail route param, so foodDetail.test.ts stays green.
+- 2026-11-27 03:05 Round 91 follow-up is complete for the barcode detail meal. Its remaining items move to the Fix 1 list, not a new follow-up.

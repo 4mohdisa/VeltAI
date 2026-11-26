@@ -17,9 +17,9 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (current)
 - DESIGN_INTENT.md done: nav map, four answers per screen, key numbers, Fix list (28 SMALL, 6 POST LAUNCH).
-- Fix 1 (meal slot): Search DONE (R88). Barcode scanner DONE (R90). Barcode detail sheet: follow-up in Round 91 (detail.tsx ~247). Then Scan again, label scan meal pass-through.
+- Fix 1 (meal slot): Search DONE (R88). Barcode scanner DONE (R90). Barcode detail sheet DONE (R91). Open: Scan again (R92, in progress), label scan pass-through (label-scan.tsx:74 uses slotForNow), detail-sheet log does not clear ?slot.
 - Fix order after Fix 1: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
-- Open: detail sheet log does not clear ?slot; quick-add, add, saved repeat the slot check inline (switch to slotFromParam when touched); food.tsx keeps its own SLOTS list (mappers.ts has one too).
+- Repeated inline slot check in quick-add, add, saved: switch to slotFromParam when touched. food.tsx keeps its own SLOTS list (mappers.ts has one too).
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -73,8 +73,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Legal: copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease and common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
-- Round 89 prompt rejected (two screens). Round 90 done for barcode-scan.tsx only; route params banned by foodDetail.test.ts, so slot goes via detailSubject store.
-- Round 90 flagged partly done. Follow-up 1 (Round 91): detail.tsx barcode meal. If flagged again, park the leftover and move on.
+- Meal reaches the detail sheet through the subject store, never a route param (foodDetail.test.ts privacy guard).
+- Round 90 flagged partly done; Round 91 follow-up completed the barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -82,10 +82,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Skeleton screens need per-file LoadingSkeleton mock. Use navigate() for /profile/winback and /profile/leaving.
 - expo-notifications is native: mock in tabs layout tests. Render tests are *.render.test.tsx.
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
+- Mocking Clerk avoids a MessagePort that stops Jest exiting. SafeAreaProvider hides children without initialMetrics.
+- macOS has no timeout command: wrap Jest in perl -e 'alarm N; exec @ARGV'.
 
 ## Round log
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written (Round 86 had no tsc, flagged).
-- 87: prompt rejected (four screens). 88: Fix 1, Search screen only (done, tsc 0, 6 suites pass).
-- 89: prompt rejected (two screens). 90: Fix 1 Barcode scanner only (done, tsc 0, 6 suites pass). Flagged partly done (detail sheet open).
-- 91 (this round): follow-up, detail.tsx barcode meal line, with render test.
+- 87-89: prompts rejected (multi-screen). 88: Fix 1 Search. 90: Fix 1 barcode scanner (flagged partly done).
+- 91: follow-up done, barcode detail sheet meal (tsc 0, 4 suites pass).
+- 92 (this round): Fix 1 Scan again keeps the meal, detail.tsx only.

@@ -232,7 +232,13 @@ export default function FoodDetailScreen() {
             <Text variant="body" color={color.label} style={{ textAlign: 'center' }}>
               {t('food.productNotFoundMessage')}
             </Text>
-            <Button title={t('food.scanAgain')} variant="secondary" onPress={() => router.replace('/food/barcode-scan')} />
+            <Button
+              title={t('food.scanAgain')}
+              variant="secondary"
+              onPress={() =>
+                subject.slot ? router.replace(`/food/barcode-scan?slot=${subject.slot}`) : router.replace('/food/barcode-scan')
+              }
+            />
           </View>
         </SheetContent>
       );
