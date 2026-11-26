@@ -12099,3 +12099,8 @@
 - 2026-11-27 03:07 Kept detail.tsx 'Scan again' as the no-meal path and did not edit foodDetail.test.ts, to respect its exact-text check.
 - 2026-11-27 03:07 Rewrote the notes under 600 words by merging repeated items and deleting finished rounds.
 - 2026-11-27 03:07 Used the Round 93 Jev signal (run, risk 1.1, advisory) as support for a small, single-file task.
+- 2026-11-27 03:09 Round 95 is a checkpoint: the loop note fixed this round as a checkpoint with one task, so the full tsc and full app Jest run goes first.
+- 2026-11-27 03:09 Jev put the barcode-scan.tsx:182 follow-up first at 92%. Kept the checkpoint because the loop note sets this round as a checkpoint. Jev cannot see that schedule. The follow-up is first in Round 96.
+- 2026-11-27 03:09 Round 95 changes no files. Mixing the follow-up in would break the one task rule for a checkpoint round.
+- 2026-11-27 03:09 Notes rewritten under 600 words: finished work deleted, repeated items merged, Round 94 follow-up kept as the first open item.
+- 2026-11-27 03:09 Protected files, Isa's rulings and owner checks kept unchanged.
