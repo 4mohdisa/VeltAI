@@ -218,6 +218,7 @@
     },
     "leaving": {
       "title": "Thinking of leaving?",
+      "settingsRow": "Thinking of leaving",
       "usageTitle": "Your last 30 days",
       "meals": "Meals logged",
       "workouts": "Workouts",

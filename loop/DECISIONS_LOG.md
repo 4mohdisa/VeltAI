@@ -11798,3 +11798,10 @@
 - 2026-11-27 00:19 The Settings link to the leaving screen moves to the next round so each prompt keeps to one screen or component. The flagged Settings gap stays open until then.
 - 2026-11-27 00:19 Reason survey uses fixed keys mapped to English labels; no free text or body, food or workout values go to analytics.
 - 2026-11-27 00:19 No analytics event is added for the leaving screen this round, to keep it minimal.
+- 2026-11-27 00:24 Jev ranked the Settings link first (82%). I kept that choice but made step 1 and 2 the check the loop note asked for: the last report ran only tsc and the leaving test, not the locale parity test, after the en.json change. The check comes first in the same round, so nothing moves on unverified.
+- 2026-11-27 00:24 The check bundles into one prompt only because it is part of the same round's gate. The Settings row is one row, one screen change.
+- 2026-11-27 00:24 Settings screen file path is unknown from the notes, so the prompt says to find it by grep rather than guess a path.
+- 2026-11-27 00:24 Jev's risk score is 1.2 with confidence 0.43. That is a small, reversible UI link, so continuing is acceptable.
+- 2026-11-27 00:24 Rejected prompt rewritten to one screen (Settings). Tsc and parity run moved into step 1 as checks, not as a second screen.
+- 2026-11-27 00:24 Chose the Settings link first, as Jev ranked it highest (82%) and the parity run is required before new work.
+- 2026-11-27 00:24 Leaving screen reason and note still sent nowhere; the owner choice stays parked in OWNER_CHECKS_phase4.md.

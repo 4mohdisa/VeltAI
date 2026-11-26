@@ -52,6 +52,7 @@ const ENGLISH_ONLY = new Set([
   'subscription.winback.price',
   'subscription.winback.notNow',
   'subscription.leaving.title',
+  'subscription.leaving.settingsRow',
   'subscription.leaving.usageTitle',
   'subscription.leaving.meals',
   'subscription.leaving.workouts',

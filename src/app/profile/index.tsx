@@ -34,6 +34,7 @@ import { api } from '@/lib/api';
 import { hasProEntitlement, isBillingEnabled, restorePurchases } from '@/lib/billing/purchases';
 import { useAppState } from '@/lib/auth/appState';
 import { isDevBuild } from '@/lib/env';
+import { navigate } from '@/lib/nav';
 import { accent, categoryAccent, color, layout, radius, space, surface } from '@/lib/design/tokens';
 import { useUserProfile, useGym } from '@/lib/data';
 
@@ -174,6 +175,7 @@ export default function ProfileScreen() {
           rows={[
             { icon: 'person-outline', label: t('settings.account'), onPress: () => router.push('/profile/account') },
             { icon: 'card-outline', tint: accent.purple, label: t('settings.subscription'), onPress: () => router.push('/profile/subscription') },
+            { icon: 'heart-outline', label: t('subscription.leaving.settingsRow'), onPress: () => navigate('/profile/leaving') },
             { icon: 'refresh-outline', label: t('profile.restorePurchases'), onPress: () => void restore(t) },
             { icon: 'flag-outline', tint: categoryAccent.calories, label: t('settings.goals'), onPress: () => router.push('/profile/goals') },
             { icon: 'options-outline', tint: categoryAccent.positive, label: t('settings.scanAccuracy'), onPress: () => router.push('/profile/scan-calibration' as Href) },
