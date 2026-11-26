@@ -12338,3 +12338,8 @@
 - 2026-11-27 05:22 Jev ranked run at 75%. Its top pick matches mine, so no second look was needed.
 - 2026-11-27 05:22 Kept the rule that a red gate is never a reason to stop. The prompt parks protected-file and production causes instead of editing them.
 - 2026-11-27 05:22 Rewrote the notes under 600 words: merged repeated parked items, deleted finished Fix lists, and kept only open items and rulings.
+- 2026-11-27 05:26 Chose candidate 1: PHASE4_ROWS.md is stale and the loop counts progress from it; a doc refresh is the smallest safe step.
+- 2026-11-27 05:26 Jev said run 63%, ask 26%. Ask is banned, so ran the chosen task.
+- 2026-11-27 05:26 Treated Fixes 1 to 23 as done, from the round log (fixes 16 to 23 done) and the latest report (Fixes 19 to 23). The older state line saying Fixes 1 to 20 is out of date.
+- 2026-11-27 05:26 Fix 24, Fix 25, Fix 12 option B and the body stats hint stay parked for Isa's ruling; the loop does not wait for them.
+- 2026-11-27 05:26 Rows 15 to 28 and 30 are DIFFERENT: they are not in the BUILT or PARTIAL lists.
