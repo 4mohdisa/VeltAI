@@ -138,7 +138,8 @@ export function scheduleNotifications(
   logs: MealLogTimes,
 ): ScheduledNotification[] {
   const today = wallClock(now.getTime(), timeZone);
-  return [today, addDays(today, 1)]
+  // Yesterday too: quiet hours past midnight can move its reminders into today.
+  return [addDays(today, -1), today, addDays(today, 1)]
     .flatMap((date) => candidatesFor(date, settings, logs))
     .map((c) => applyQuietHours(c, settings.quietHours))
     .filter((c): c is Candidate => c !== null)

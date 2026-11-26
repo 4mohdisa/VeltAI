@@ -106,7 +106,20 @@ describe('quiet hours', () => {
   });
 
   test('a window past midnight moves the reminder to the next morning', () => {
-    expect(workouts({ start: 16 * 60 + 30, end: 7 * 60 })).toEqual(['2026-06-14 07:00', '2026-06-15 07:00']);
+    const late = new Date('2026-06-13T06:00:00Z'); // 08:00 Paris, after this morning's quiet end
+    expect(times(of(run(settings({ quietHours: { start: 16 * 60 + 30, end: 7 * 60 } }), {}, late), 'workout_reminder'))).toEqual([
+      '2026-06-14 07:00',
+      '2026-06-15 07:00',
+    ]);
+  });
+
+  test("before the quiet end, yesterday's moved reminder is still scheduled for this morning", () => {
+    // SAT_PARIS is 06:00, inside 16:30 to 07:00: Friday's 17:00 reminder moved to Saturday 07:00.
+    expect(workouts({ start: 16 * 60 + 30, end: 7 * 60 })).toEqual([
+      '2026-06-13 07:00',
+      '2026-06-14 07:00',
+      '2026-06-15 07:00',
+    ]);
   });
 
   test('an empty window changes nothing', () => {

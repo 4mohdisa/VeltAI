@@ -11813,3 +11813,8 @@
 - 2026-11-27 00:27 Chose Row 10a (pure scheduling logic) over the console recount because Row 10 is the next row in order and the recount does not block it. Jev ran 62% for a run.
 - 2026-11-27 00:27 Row 10 split: 10a pure logic first, 10b priming screen, 10c push token endpoint. Sending push stays a hosted owner step.
 - 2026-11-27 00:27 The round 30 report used --silent, so its console counts (0 and 0) are not comparable to the earlier 68 and 163. A non-silent run is queued as a small check.
+- 2026-11-27 00:31 Round 32 is the one follow-up for Row 10a, because the loop note flagged it as partly done and the one-follow-up rule applies. Chosen over Row 10b.
+- 2026-11-27 00:31 Notification defaults from the 10a report stay as built. Isa's approval is requested in OWNER_CHECKS_phase4.md, but it does not block Row 10b.
+- 2026-11-27 00:31 Workout reminder and streak at risk fire every day until training days are wired in Row 10b. Recorded as a known limit, not a blocker.
+- 2026-11-27 00:31 The full-suite console recount is done inside the follow-up round, so the earlier unverified count is settled before Row 10b.
+- 2026-11-27 00:31 Parked leftovers from earlier rounds stay parked. None of them is in Row 10a's scope.

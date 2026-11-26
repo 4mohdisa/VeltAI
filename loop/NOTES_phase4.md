@@ -5,28 +5,28 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 1. English only; es and fr deferred. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken).
 3. Order: 3 to 14b, 15 to 30, 31.
-4. One screen or component per prompt. Rejected prompts get rewritten; never bundle.
+4. One screen or component per prompt. Never bundle.
 5. Prompts have at most 5 numbered steps.
 6. A 'partly done' flag gets ONE follow-up round. Flagged again: park leftover, move on.
 7. No simulator flow after each row. Simulator and Maestro only in row 23 and soak rows.
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend and leaving screen built; round 30 follow-up done; flagged again in round 31, leftover parked).
-- Round 30 full Jest with --silent: 311 suites, 1,902 tests, 4 snapshots pass; tsc 0. Console counts not comparable (--silent). Earlier runs: 68 console.error, 163 console.warn.
+- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend and leaving screen built; leftover parked); 10 (10a built in round 31, flagged, follow-up in round 32).
+- Round 30 full Jest --silent: 311 suites, 1,902 tests, 4 snapshots pass; tsc 0. Console counts not comparable under --silent. Earlier runs: 68 console.error, 163 console.warn.
 
 ## Next
-1. Row 10a: pure notification scheduling logic, injected clock, DST and time zone tests.
-2. Row 10b: notification priming screen after first value moment.
+1. Round 32: Row 10a follow-up (full Jest without --silent, console recount, tsc).
+2. Row 10b: notification priming screen after first value, permission prompt, per-category switches in Settings, en.json titles for notifications.<category>.
 3. Row 10c: push token register endpoint (sending is a hosted step).
-4. Small check: Jest without --silent to recount console errors.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving screen: where reason and note go (analytics allow-list, feedback endpoint, or nowhere).
 - Win back: 'weren't charged' toast kept; English copy approved; which package price to show.
 - Cancelled plan: Resubscribe beside Manage subscription, confirm.
 - 7c StoreKit purchase and real offerings: needs iOS public key.
-- Row 8: on-device billing_issue before webhook? Maestro: install; email code sign in (E2E_EMAIL is not +clerk_test); backend database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
+- Row 8: on-device billing_issue before webhook? Maestro install; email code sign in (E2E_EMAIL is not +clerk_test); backend database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
+- Notification defaults and training-day workout reminders (OWNER_CHECKS_phase4.md).
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed-step Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Tooling: react-test-renderer deprecation; gesture-handler worklet warning; Prettier; App Store privacy label; push and CI confirm; E2E account needs 250+ gym dates.
@@ -50,13 +50,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default.
 - Row 9: retention flag default off; message keys only; fixtures only until owner access; summary gated like paid routes; leaving screen sends no food, body or workout values to analytics.
+- Row 10a: defaults as built (meal times with median after 3 logs, quiet hours 22:00 to 07:00, promotional needs its own opt in, off by default). Workout and streak fire daily until training days are wired.
 - Round 29: Settings link chosen over notifications because Jev ranked it first (82%).
 - Round 30: follow-up kept over Jev's Row 10 pick (86%) because the one-follow-up rule applies.
-- Round 31: Row 9 flagged again after its follow-up; leftover parked, Row 9 stays PARTIAL. Chose Row 10a over the console recount (Jev 62%). Row 10 split into 10a, 10b, 10c.
+- Round 31: Row 9 flagged again; leftover parked, Row 9 stays PARTIAL. Row 10a chosen over console recount (Jev 62%). Row 10 split into 10a, 10b, 10c.
+- Round 32: Row 10a follow-up chosen over Row 10b (Jev run 60%) because of the one-follow-up rule.
 - Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked
-- Row 9 leftover: leaving screen not yet in a non-silent full run; console counts unverified.
+- Row 9 leftover: leaving screen not yet in a non-silent full run.
 - Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
 - paywallSessionExpired prints unscoped devWarn. Paywall imports constants from a profile route file; move to src/lib.
 - Body type emoji fontSize 26 hardcoded. Goals may clamp calories silently. Ask Lume, label scan, photo capture need a second tap after consent.
@@ -82,4 +84,3 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Go entitlement tests need LUME_TEST_DATABASE_URL pointed at lume_test_local.
 - Render tests can wrap the screen in SafeAreaProvider, so toJSON() is not null even when empty.
 - English only: new keys go in en.json and on ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
-- Round 25 log line stays at the end of PHASE4_ROWS.md.
