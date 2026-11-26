@@ -12134,3 +12134,8 @@
 - 2026-11-27 03:21 Saved screen parked to the Fix list as a leftover, since the single follow-up is used on the add screen.
 - 2026-11-27 03:21 Round 100 report mislabelled Fix 2 as quick-add; the quick-add line moves under a quick-add entry in DESIGN_INTENT.md so the Fix list matches the file.
 - 2026-11-27 03:21 Summary Today stays the next real Fix 2 task after this follow-up, per the notes order.
+- 2026-11-27 03:22 Chose the verification task first because the loop flagged Round 101 as untested; it is the smallest safe step.
+- 2026-11-27 03:22 Kept add.tsx's no-meal title check as recommended in the Round 101 report; global '+' stays generic. Logged as a decision, not a design change.
+- 2026-11-27 03:22 Notes rewritten under 600 words: finished items merged, repeats removed, Round 101 open item moved to the next round.
+- 2026-11-27 03:22 Jev advisory (run 70%, risk 1.2): followed the smaller-task advice. Did not ask Isa anything.
+- 2026-11-27 03:22 Added Override 8: run changed tests before moving on when a round flags untested work.
