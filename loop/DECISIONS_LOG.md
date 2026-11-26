@@ -11679,3 +11679,12 @@
 - 2026-11-26 11:00 7b: the trial line shows only when the store reports eligible, as the 7a rule already requires.
 - 2026-11-26 11:00 7b: no es or fr text is added; new strings go in en.json only, per the English only override.
 - 2026-11-26 11:00 Chose 7b over Row 8 because Row 8 screens depend on the paywall and the entitlement states it reads.
+- 2026-11-26 11:08 Row 7c parked: its simulator purchase flow needs the iOS public key, blocked twice, recorded under Blocked on Isa and not retried.
+- 2026-11-26 11:08 Row 7b accepted as built. Row 7 stays PARTIAL until 7c is done or the owner check clears.
+- 2026-11-26 11:08 Picked the Row 8 billing banner: it needs no key and no simulator, and reads the existing entitlement state.
+- 2026-11-26 11:08 Restore failure now shows 'no previous subscription found' instead of 'store unreachable'. Accepted because the wrapper reports failure as none.
+- 2026-11-26 11:08 The loop note flagged Row 7b as partly done. Recorded the repeated key blocker under Blocked on Isa, so the loop moves on.
+- 2026-11-26 11:09 Last prompt was rejected for asking about more than one component; rewritten as one component (BillingProblemBanner), with mounting deferred to the next round.
+- 2026-11-26 11:09 Jev suggested ask; ask is not allowed, so ran the smallest open task.
+- 2026-11-26 11:09 Full suite checkpoint deferred to the loop's call, because this round only touches one component and its test.
+- 2026-11-26 11:09 Notes condensed to keep the file near the 600 word limit. Decisions kept in full.

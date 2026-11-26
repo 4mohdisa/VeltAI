@@ -199,6 +199,11 @@
       "year_one": "Yearly",
       "year_other": "Every {{count}} years",
       "oneTime": "One-time purchase"
+    },
+    "billingProblem": {
+      "message": "Your payment did not go through. Update it in your Apple settings to keep your access.",
+      "manage": "Manage subscription",
+      "tryAgain": "Try again"
     }
   },
   "preferences": {
