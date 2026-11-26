@@ -23,17 +23,17 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 | `internal/energy` | 0.0% | 75.4% | No |
 | `internal/entitlement` | 0.0% | 93.1% | No |
 | `internal/feedback` | 94.7% | 94.7% | No |
-| `internal/food` | 0.0% | 68.9% | Yes |
+| `internal/food` | 0.0% | 84.0% (Round 176, was 68.9%) | No |
 | `internal/goals` | 0.0% | 70.1% | No |
 | `internal/gym` | 44.9% | 77.9% | No |
 | `internal/httpx` | 0.0% | 100.0% | No |
-| `internal/integrations` | 10.5% | 39.1% | Yes |
+| `internal/integrations` | 10.5% | 88.4% (Round 174, was 39.1%) | No |
 | `internal/localdb` | 94.7% | 94.7% | No |
 | `internal/push` | 90.2% | 90.2% | No |
 | `internal/ratelimit` | 29.3% | 93.9% | No |
-| `internal/recipes` | 0.0% | 26.8% | Yes |
+| `internal/recipes` | 82.1% | 82.1% (Round 173, was 0.0% and 26.8%) | No |
 | `internal/retention` | 86.4% | 86.4% | No |
-| `internal/scan` | 13.6% | 57.3% | Yes |
+| `internal/scan` | 13.6% | 79.3% (Round 175, was 57.3%) | No |
 | `internal/scan/pipeline` | 77.2% | 82.3% | No |
 | `internal/subscription` | 0.0% | 75.2% | No |
 | `scripts` | 2.5% | 2.5% | Yes |

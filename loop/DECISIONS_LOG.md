@@ -12477,3 +12477,8 @@
 - 2026-11-27 06:45 The explicit null context bug in debugreports.go:61 is parked for Row 15 and is not in scope for a test row. Fix needs Isa's approval for a production change, or a later step in its row.
 - 2026-11-27 06:45 The debugreports retry that keeps captured_at, trigger, route, app_version and build_number unchanged is recorded as a question to check, not a bug.
 - 2026-11-27 06:45 Checkpoint stays due at Round 182 (full tsc and Jest, read only).
+- 2026-11-27 06:48 Row 15 marked BUILT with owner check pending: every in-app internal package is at 70 or more, and the scope question for cmd/server, scripts, tools/* and internal/db is Isa's ruling (park what only he can finish).
+- 2026-11-27 06:48 Stale BACKEND_COVERAGE.md main table fixed first, because it misstates which packages are under 70.
+- 2026-11-27 06:48 Override 3 order now 16-30 then 31, since Row 15 closes this round.
+- 2026-11-27 06:48 Round 181 is a docs only round. Round 182 stays the read only checkpoint.
+- 2026-11-27 06:48 Row 16 is the next real build task after this round.

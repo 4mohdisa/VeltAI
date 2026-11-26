@@ -140,6 +140,10 @@ Only the read only provider interface and the mock provider exist so far (`src/l
 - [ ] **Sign out.** Sign out and sign in as a different test account: no Health values from the first account may show until the switch is turned on again.
 - [ ] **Row 12a account data on the App Store privacy label.** In App Store Connect > App Privacy > Data Types, add Contact Info > Email Address, Contact Info > Name and Identifiers > User ID. For each one answer: used for App Functionality only; linked to the user's identity: yes; used for tracking: no. This matches `PRIVACY_DATA.md` (Account data) and `app.json` `ios.privacyManifests`.
 
+## Row 15: backend coverage scope (owner check pending)
+
+- [ ] **Scope ruling for the 70 percent target.** Every in-app `internal/` package is at 70 percent or more with all tests counted (`BACKEND_COVERAGE.md`). Decide whether `cmd/server` (7.6%), `scripts` (2.5%), `tools/afcd` (0.0%), `tools/retention` (0.0%), `tools/seed` (21.5%) and `internal/db` (0.0%) must also reach 70 percent, or are out of scope.
+
 ## Post launch UI
 
 From the Row 14b design intent audit (DESIGN_INTENT.md, Fix list). Major visual changes, parked until after launch.
