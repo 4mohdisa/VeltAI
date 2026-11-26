@@ -1,6 +1,6 @@
-// Measurements step, ft/in height: inches must be 0 to 11 and their error shows
-// under the inches box; the overall height range error shows under feet. An
-// invalid height blocks Continue. EXECUTES the screen.
+// Measurements step, ft/in height: inches must be a whole number 0 to 11 and
+// their error shows under the inches box; the overall height range error shows
+// under feet. An invalid height blocks Continue. EXECUTES the screen.
 import MeasurementsScreen from '@/app/onboarding/measurements';
 import { router } from 'expo-router';
 import en from '@/lib/i18n/locales/en.json';
@@ -39,8 +39,17 @@ test('5 ft 15 in shows the inches error under inches and does not continue', () 
   expect(router.push).not.toHaveBeenCalled();
 });
 
+test('5 ft 5.5 in shows the inches error under inches and does not continue', () => {
+  const { tree, feetError, inchesError } = render('5', '5.5');
+  expect(screenTitle(tree)).toBe(m.title);
+  expect(inchesError).toBe(IN_RANGE);
+  expect(feetError).toBeUndefined();
+  expect(router.push).not.toHaveBeenCalled();
+});
+
 test('5 ft 11 in is accepted', () => {
-  const { feetError, inchesError } = render('5', '11');
+  const { tree, feetError, inchesError } = render('5', '11');
+  expect(screenTitle(tree)).toBe(m.title);
   expect(feetError).toBeUndefined();
   expect(inchesError).toBeUndefined();
   expect(router.push).toHaveBeenCalledWith('/onboarding/body-type');

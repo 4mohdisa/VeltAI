@@ -188,11 +188,11 @@ export default function MeasurementsScreen() {
     heightUnit === 'cm' ? heightCmText.trim() === '' : feetText.trim() === '' && inchesText.trim() === '';
   const weightEmpty = weightText.trim() === '';
 
-  // Inches are checked on their own (0 to 11) and shown under the inches box;
-  // the overall 100 to 250 cm range stays under feet.
-  const inches = parseFloat(inchesText);
+  // Inches are checked on their own (whole numbers 0 to 11) and shown under the
+  // inches box; the overall 100 to 250 cm range stays under feet.
+  const inches = Number(inchesText);
   const inchesError =
-    heightUnit === 'ftin' && inchesText.trim() !== '' && !(inches >= 0 && inches <= 11)
+    heightUnit === 'ftin' && inchesText.trim() !== '' && !(Number.isInteger(inches) && inches >= 0 && inches <= 11)
       ? t('onboarding.measurements.heightRangeIn', { min: 0, max: 11 })
       : undefined;
 

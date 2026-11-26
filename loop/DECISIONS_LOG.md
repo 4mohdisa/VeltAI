@@ -11643,3 +11643,7 @@
 - 2026-11-26 10:45 Profile > Goals setCustomGoals clamp check stays in Next as a separate row-independent task.
 - 2026-11-26 10:45 Prompt kept to 5 steps, with full file paths and redirected output so exit codes are real.
 - 2026-11-26 10:45 Status of Row 2b stays PARTIAL until body-type.tsx is swept and owner checks are recorded.
+- 2026-11-26 10:47 Chose the decimal inches fix over the body-type sweep: it is a concrete open bug on the same screen, and it does not depend on any blocked item.
+- 2026-11-26 10:47 Treated the repeated loop blocker (target weight required and dead end 7 copy sign off) as Blocked on Isa. Not retried.
+- 2026-11-26 10:47 es and fr text stays deferred under the English only override, so it is not counted as a blocker for this task.
+- 2026-11-26 10:47 Kept Row 2b at PARTIAL until the body-type sweep and the open flaws are closed.
