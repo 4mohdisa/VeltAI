@@ -14,20 +14,20 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits, report failures.
 
-## State (Round 157)
+## State (Round 158)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31.
 - DIFFERENT: 15-28, 30.
-- Last full green: round 154 (350 suites, 2,189 tests, tsc 0).
+- Last full green: round 154 (350 suites, 2,189 tests, tsc 0). Rounds 155-157 not yet covered by a full run.
 - DESIGN_INTENT.md Done lines are authoritative for Fix numbers.
 
 ## Row 14b (open)
-- Done: Fixes 1-20, 26a, 27, 28.
-- Next: Fix 26b (detail.tsx uses subject.product; lookup only when absent or on Retry). Round 157 is the one follow-up for 26a.
-- Parked: Fix 24 (drop training-days step), Fix 25 (remove repeated Profile rows), Fix 12 option B, body stats hint.
+- Done: Fixes 1-20, 26a, 26b, 27, 28.
+- Round 158: checkpoint (full tsc and Jest) after 26b touched shared detail.tsx.
+- Parked: Fix 24, Fix 25, Fix 12 option B, body stats hint.
 - Small open: gym.freeze.confirm '1 freezes' (add _one); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Week 'No net yet' says 'in onboarding'; Training axisLetters uses fixed September fixture.
 - Spotted: Food tab checks consent on mount only; Gym tab reads this month twice; saved list does not pass meal slot to detail sheet.
-- English only (override 1): dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle.
+- English only: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip render tests.
@@ -48,11 +48,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Docs: PHASE4_ROWS.md round log stops at Round 61; Round 145 and Fix 20 Done lines overlap in DESIGN_INTENT.md.
 
 ## Blocked on Isa (park, do not retry)
-- Rows 5, 8, 9: consent copy; win back and leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
-- Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
-- Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
-- Row 12a: Email, Name, User ID labels; push token manifest type.
-- Row 13: age rating, production demo account, lume.fit URLs.
+- Consent, win back, leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
+- Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
+- HealthKit: Settings switch, purpose strings, provider, device steps.
+- Labels: Email, Name, User ID; push token manifest type.
+- Store: age rating, production demo account, lume.fit URLs.
 - Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 12 option B; body stats hint; Fix 24; Fix 25; Terms describe a free tier.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications).
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
@@ -83,10 +83,11 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
 - Fix 12 option A; option B parked. Training energy card: Monday to today via weekOf (shared helper in foodDays.ts).
 - Fix 26a scope widened to detailSubject.ts (round 154): kept, needed for the type.
+- Snapshots edited by hand, never with -u.
 - Ask banned. Chosen task run each round.
 
 ## Gotchas
-- Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
+- Full Jest paths or full run with --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
 - Mock Clerk in any test rendering welcome (Jest hangs). expo-notifications is native: mock in tabs layout tests.
 - jest.useFakeTimers({ now, doNotFake: [...] }) pins dates and keeps setImmediate.
 - Held fetch promises need an afterEach that answers them (API client arms a 15 s timer).
@@ -96,9 +97,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b done.
-- 128-148: Fixes 16-23 done; training energy card; force-exit leak fixed; checkpoint green.
-- 149-152: Fixes 20, 27, 28 done; 24 and 25 parked.
-- 153-155: Fix 26a prompts failed (scope too narrow, then two screens). No edits.
-- 154: checkpoint green.
-- 156: Fix 26a built on barcode-scan.tsx plus detailSubject.ts; 7 test files pass.
-- 157: Fix 26b prompt issued (detail.tsx, barcodeScan.render.test.tsx).
+- 128-152: Fixes 16-28 done except 24, 25 (parked); training energy card; leak fixed.
+- 153-155: Fix 26a prompts failed (scope, then two screens).
+- 154: last full checkpoint green.
+- 156: Fix 26a built on barcode-scan.tsx plus detailSubject.ts.
+- 157: Fix 26b built in detail.tsx; 5 files, 45 tests pass.
+- 158: checkpoint (full tsc and Jest), no edits.

@@ -12381,3 +12381,6 @@
 - 2026-11-27 05:39 Jev signals say run (100%) and the last task is 94% clean. Agreed with run. Risk score noted, no change to the plan.
 - 2026-11-27 05:39 Notes rewritten under 600 words: repeats merged, finished work deleted (Row 14a list, Fix 1-23 range, old round log).
 - 2026-11-27 05:39 Prompt limited to one screen (detail.tsx) plus its test, five steps, per override 4.
+- 2026-11-27 05:40 Round 158 is a checkpoint (chosen task 1) because Fix 26b edited the shared detail.tsx and three rounds (155 to 157) ran without a full suite. Jev ranked run highest; this matches it.
+- 2026-11-27 05:40 Risk noted from Jev (0.9): this round makes no edits, touches no hosted service and no keys, so continuing is safe.
+- 2026-11-27 05:40 Notes rewritten under 600 words: finished items merged, round log condensed, blocked list grouped.
