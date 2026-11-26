@@ -14,12 +14,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 194.
 
-## State (Round 189)
+## State (Round 190)
 - BUILT (18 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 16-28, 30.
-- Row 16: step 1 done (102 routes). Step 2 done for food, gym, recipes, saved meals, body weight. Left: POST /api/ai/insights/{id}/dismiss (insert row directly). Then step 2 complete.
+- Row 16: step 1 done (102 routes). Step 2 done for food, gym, recipes, saved meals, body weight. Round 190 adds insights dismiss; step 2 then complete.
 - Row 15 owner check pending: coverage scope ruling.
-- Round 189: checkpoint, read only.
 
 ## Parked (fix only in its row)
 - Debug reports: context null saved as null (debugreports.go:61); retry skips captured_at, trigger, route, versions.
@@ -36,7 +35,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Backend: 49 queries use id::text; schedule_pg.go sorts then LIMIT 30; errors swallowed in getMorningBrief, getProfile, getAnomalies; gym patchSession, patchExercise, lastLogged, listTemplates barely covered.
 - Server loads .env from working folder; PORT without LUME_ENV counts as production (document in Row 30).
 - tests/smoke has hand written route copy: replace with Row 16 table.
-- Code: hardcoded strings; 158 console warn and error in Jest; two useApi copies; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
+- Code: hardcoded strings; 158 console warn and error calls in Jest (count per call, not per log line); two useApi copies; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent.
 - Docs: README and HOSTING_CHECKLIST need LUME_TEST_DATABASE_URL before npm run verify.
 
@@ -80,4 +79,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 182-186: Row 16 step 1 done; food and gym ownership green.
 - 187: recipe and saved meal ownership, safe.
 - 188: body weight ownership in goals, safe. No leaks found.
-- 189: checkpoint, read only. Next: insights dismiss test.
+- 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean). No edits.
+- 190: insights dismiss ownership test (chosen from 3 candidates).

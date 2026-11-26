@@ -12510,3 +12510,6 @@
 - 2026-11-27 07:05 Gates that go red are fixed in the next round, not in the checkpoint, so the checkpoint stays read-only as its rule says.
 - 2026-11-27 07:05 Row 16 insights dismiss test stays the next task after the checkpoint, since it is the last protected id route left in step 2.
 - 2026-11-27 07:05 Notes trimmed under 600 words: round log and duplicate lines removed, no open items dropped.
+- 2026-11-27 07:06 Round 190 picks the insights dismiss ownership test: it is the last protected id route in Row 16 step 2 and the Jev run score is 96%.
+- 2026-11-27 07:06 Insights dismiss is a database insert with no fix in scope; a leak is reported, not fixed, because bug fixes need Isa's approval.
+- 2026-11-27 07:06 No full suites this round; the next checkpoint is Round 194 as set in Override 11.
