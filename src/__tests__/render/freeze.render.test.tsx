@@ -80,8 +80,11 @@ test('renders zero freezes available once this streak has already used its freez
   const tree = renderWithInsets();
   await settle();
 
+  // The headline no longer offers a freeze it cannot give; the reason line says why.
   const text = allText(tree);
-  expect(text).toContain('Use 1 of your 0 freezes for today?');
+  expect(text).toContain(en.gym.freeze.noneLeft);
+  expect(text).not.toContain('Use');
+  expect(text).toContain(en.gymStreak.noFreezes);
   expect(text).toContain('A freeze protects your 5-day streak on a planned rest day — it just keeps the streak alive.');
 });
 

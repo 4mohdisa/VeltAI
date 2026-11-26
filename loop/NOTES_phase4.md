@@ -14,7 +14,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
+- PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
 - Last green full suite: Round 124 (346 suites, 2,108 tests). Next checkpoint: Round 135.
 - Untested flagged: none.
 
@@ -28,10 +28,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Done: Fixes 1-15b, 16, 17, 18 part one (streak.tsx Freezes opens the sheet; 0 shows reason).
-- Next: Fix 18 part two: freeze.tsx explains Done is off at 0 freezes, reusing gymStreak.noFreezes.
+- DESIGN_INTENT.md authoritative for numbering. Done: Fixes 1-18 (Fix 18 both halves: streak Freezes opens sheet; freeze.tsx shows reason at 0 freezes).
+- Round 134: freeze headline at 0 freezes fixed to match reason line; stale comment removed.
+- Next: Fix 19 (energy hint to /profile/goals; Training and Energy empty states link to Log gym: energy.tsx:185, training.tsx:78-82).
 - Unfixed (fold into a fix or park at closure): targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 record failure re-posts answers; gym tab no logged pill (look change, parked); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; saved.tsx meal from + not passed; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked).
-- Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify, comment-only fix later. src/lib/mock/data.ts:27 says '2 freezes' but the real cap is 1 (protected, left alone).
+- Spotted: Food tab checks consent on mount only (re-check on focus parked). insights.tsx comment about feed GET triggering AI: verify, comment-only fix later. src/lib/mock/data.ts:27 says 2 freezes but the real cap is 1 (protected, left alone).
 - At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
 
 ## Row 14a: parked
@@ -79,8 +80,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
-- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green.
-- Round 131: Fix 18 split: streak.tsx first, freeze.tsx next. Round 133: freeze.tsx reuses gymStreak.noFreezes.
+- Round 120: stale handover Next ignored. Round 122: Fix 12 option A; option B parked post-launch. Round 124: checkpoint green. Round 131: Fix 18 split. Round 133: freeze.tsx reuses gymStreak.noFreezes. Round 134: headline at 0 freezes follows the reason line.
 - Food focus re-check parked.
 
 ## Gotchas
@@ -91,6 +91,4 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done; checkpoint green at 124.
-- 128-130: Fix 16 done and rechecked; Welcome done under Fix 6; Food consent gate done.
-- 131-132: Fix 18 split decided; streak.tsx done.
-- 133: freeze.tsx (Fix 18 part two) in progress.
+- 128-133: Fixes 16 to 18 done. 134: freeze headline fix (in progress).

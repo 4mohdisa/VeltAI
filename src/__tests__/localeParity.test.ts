@@ -176,6 +176,8 @@ const ENGLISH_ONLY = new Set([
   'onboarding.paywall.notConfirmed',
   // Fix 18: the streak screen's 0-freezes reason.
   'gymStreak.noFreezes',
+  // Fix 18 follow-up: the freeze sheet's 0-freezes headline.
+  'gym.freeze.noneLeft',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

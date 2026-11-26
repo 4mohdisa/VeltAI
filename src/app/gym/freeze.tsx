@@ -32,8 +32,6 @@ export default function FreezeScreen() {
   // This sheet used to default to tomorrow, and to pass through an `offset` from
   // the streak screen's 7-day list — both wrote a local freeze on a day the
   // server never froze, so the calendar drew a freeze that no server row backed.
-  // The parked streak screen still pushes label/offset params; they are ignored,
-  // because today is the only day the endpoint can protect.
   const close = () => {
     if (router.canGoBack()) router.back();
   };
@@ -64,7 +62,9 @@ export default function FreezeScreen() {
           <View style={{ alignItems: 'center', gap: space.sm, paddingVertical: space.md }}>
             <Icon name="snow" size={44} color={color.gray500} />
             <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
-              {t('gym.freeze.confirm', { available: streak.freezesAvailable })}
+              {streak.freezesAvailable === 0
+                ? t('gym.freeze.noneLeft')
+                : t('gym.freeze.confirm', { available: streak.freezesAvailable })}
             </Text>
             <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
               {t('gym.freeze.explainer', { days: streak.current })}

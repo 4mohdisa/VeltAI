@@ -12275,3 +12275,6 @@
 - 2026-11-27 04:48 Round 133: src/lib/mock/data.ts:27 comment ('2 freezes') is protected and left alone; it is logged as a spotted issue.
 - 2026-11-27 04:48 Round 133: Jev 'ask 43%' signal ignored, since the loop never asks Isa. Jev's risk score (1.2) is low for a local UI change, so I kept the normal task size.
 - 2026-11-27 04:48 Round 133: the notes file is rewritten under 600 words, with finished work merged.
+- 2026-11-27 04:49 Chose the freeze headline fix first: the contradiction is visible to the user, the change is one string and one comment, and the report flagged it as a follow-up to Fix 18. Fix 19 goes next round.
+- 2026-11-27 04:49 Kept the rule that new strings use en.json only (Isa override: English only, es and fr deferred).
+- 2026-11-27 04:49 Jev signal (run 98%, last task clean 93%) agrees with a small task; no override.
