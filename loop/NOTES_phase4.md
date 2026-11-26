@@ -14,20 +14,21 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 189.
 
-## State (Round 187)
+## State (Round 188)
 - BUILT (18 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 16-28, 30.
-- Row 16 in progress: step 1 done (route table, 102 routes). Step 2: food and gym routes done (403 other user, 404 unknown, owner rows unchanged). Recipes and saved meals in Round 187.
-- Row 15 owner check pending: coverage scope ruling for cmd/server, scripts, tools/*, internal/db.
+- Row 16: step 1 done (route list, 102 routes). Step 2 done for food, gym, recipes, saved meals. Next: next id route group (scan or debug reports).
+- Row 15 owner check pending: coverage scope ruling (cmd/server, scripts, tools/*, internal/db).
 
 ## Parked (fix only in its row)
 - Debug reports: 'context' null saved as null (debugreports.go:61). Retry skips captured_at, trigger, route, versions.
 - Scanned food log delete fails (scan_sessions FK). Migration needed.
-- Recipe and saved meal ORDER BY random UUID. meal_type not validated.
+- Recipe and saved meal ORDER BY random UUID. Recipe PATCH skips ingredient and number checks (recipes.go:187). meal_type not validated.
 - Integrations: sync stops at 50 Strava or 25 WHOOP items; expired token gives 502.
 - Food: UpsertPortionPref with empty meal type can wipe typical_meal_type.
-- Gym complete handler reads body only when ContentLength != 0. Harmless; fix in Row 16 or 18.
-- Test helpers: seedMealLog and seedDay never delete profiles (Row 25). signedTokens and seedOwner copied in tests/food and tests/gym until shared helper approved.
+- Gym complete handler reads body only when ContentLength != 0. Fix in Row 16 or 18.
+- Test helpers: seedMealLog and seedDay never delete profiles (Row 25). signedTokens and seedOwner copied in tests/food, tests/gym and others until shared helper approved. DB pool helper has 7 copies.
+- recipes.authorize copies food.authorize. Fix in Row 18.
 - Feedback 14a: wire or delete chip before Row 31; feature_rated analytics, Settings screen, Ask me switch, npm run feedback, PRIVACY_DATA.md.
 - Legal: web/lib/legal.ts lacks push, Sentry, PostHog; LegalScreen hardcodes dates and PENDING text.
 - Measurements Back: postAuth.ts:28 resume path. Check in row 23.
@@ -35,16 +36,15 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: meal median across midnight; quiet hours do not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text; schedule_pg.go sorts then LIMIT 30; errors swallowed in getMorningBrief, getProfile, getAnomalies. Gym patchSession, patchExercise, lastLogged, listTemplates barely covered.
-- Server loads .env from its working folder. Fix in Row 16 or 18.
-- Server treats PORT as production when LUME_ENV unset. Document in Row 30.
-- tests/smoke/smoke_test.go has a hand written route copy. Replace with Row 16 route table.
+- Server loads .env from its working folder. Fix in Row 16 or 18. Server treats PORT as production when LUME_ENV unset. Document in Row 30.
+- tests/smoke has a hand written route copy. Replace with Row 16 route table.
 - Food UI: search 'Add custom food' does not log; goBackOrHome falls back to Today; delete-account.tsx:101 white on white (device).
 - Code: hardcoded strings; 158 console warn/error in Jest output; two useApi copies; mutations and hooks cycle; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent.
 - Docs: README and HOSTING_CHECKLIST say export LUME_TEST_DATABASE_URL before npm run verify.
 
 ## Blocked on Isa (park, do not retry)
-- Approvals: food log delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper (copies in tests/food, tests/gym, others); Gym TestPG skip ruling; coverage scope.
+- Approvals: food log delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper; Gym TestPG skip ruling; coverage scope; bug fixes listed above.
 - Copy: consent, win back, leaving; target weight; resend cooldown; paywall terms; Terms free tier; gym.freeze.confirm_one (es, fr); dashboard.weekNoNetMessage; dashboard.energyAddBodyStats; body stats hint; Fixes 24, 25, 12 option B; dashboardNutrition.render.test.tsx:102.
 - Apple and RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention. HealthKit: Settings switch, purpose strings, device steps.
@@ -53,7 +53,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Protected (do not edit)
-src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts. foodDays.test.ts: add branches only. loop/DECISIONS_LOG.md and loop/NOTES_phase4.md are loop files.
+src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, backend/tests/scan/learning_store_pg_test.go. foodDays.test.ts: add branches only. loop/DECISIONS_LOG.md and loop/NOTES_phase4.md are loop files.
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
@@ -71,10 +71,11 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle English only.
 - Round 169: measurements Back unchanged. Round 171: verify:go fails when LUME_TEST_DATABASE_URL unset.
 - Round 181: Row 15 BUILT with owner check pending.
-- Round 183: Row 16 step 1 route list read from source; 401 test runs real cmd/server from a temp folder.
-- Round 185: Row 16 step 2 limited to food routes (prompt size).
-- Round 186: gym routes done; token helper copied into tests/gym until shared helper approved.
-- Round 187: recipes and saved meals next (Row 16 step 2). Reuse tests/food helpers, no new copy.
+- Round 183: Row 16 route list read from source; 401 test runs real cmd/server from a temp folder.
+- Round 185: Row 16 step 2 limited to one package group per round (prompt size).
+- Round 186: token helper copied into tests/gym until shared helper approved.
+- Round 187: recipes and saved meals done; reuse tests/food helpers.
+- Round 188: next group is scan or debug reports. Leaks found are reported under BLOCKED, not fixed.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -86,7 +87,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 60-157: rows 10-14, 14b, Fixes 1-28 (except 24, 25).
 - 158-181: checkpoints green; Row 15 closed.
-- 182: checkpoint green. 183: Row 16 step 1 done. 184: checkpoint green.
-- 185: Row 16 step 2 food ownership tests, all safe.
-- 186: Row 16 step 2 gym ownership tests, all safe. Next checkpoint 189.
-- 187: Row 16 step 2 recipes and saved meals (prompted).
+- 182-186: checkpoint 184 green; Row 16 step 1 done; food and gym ownership tests safe.
+- 187: recipe and saved meal ownership tests, safe.
+- 188: next scan or debug report ownership group (prompted). Checkpoint 189.

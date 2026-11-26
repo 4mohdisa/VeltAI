@@ -12501,3 +12501,8 @@
 - 2026-11-27 07:01 Round 187: picked recipes and saved meals (candidate 1), the next user-owned id group, per the Round 186 report. Jev agrees (run 86%).
 - 2026-11-27 07:01 Round 187: the shared helper blocker came back, so the new test reuses the helpers in tests/food and adds no new copy. Not retried as a blocker.
 - 2026-11-27 07:01 Round 187: the chunked body inconsistency in the gym complete handler stays a NEXT item, not a fix, since it is harmless today.
+- 2026-11-27 07:03 Round 188 is row 16 step 2 again: the next id route group, one package per round, to keep the prompt small (Round 185 rule).
+- 2026-11-27 07:03 Bug fixes stay out of this round because Isa has not approved them. A leak is reported under BLOCKED, not fixed.
+- 2026-11-27 07:03 Recipe PATCH validation is parked as a known issue, not added as a new task, because its fix needs approval.
+- 2026-11-27 07:03 Flagged work check: the recipe and saved meal test from Round 187 passed in the report. Its package is rerun in the Round 189 checkpoint, so no separate run now.
+- 2026-11-27 07:03 Round 189 is the checkpoint (tsc, full Jest, go vet, no edits) as set in the overrides.
