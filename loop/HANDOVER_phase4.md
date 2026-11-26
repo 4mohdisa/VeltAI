@@ -1,42 +1,41 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. The only git command allowed is git branch --show-current.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, or src/__tests__/foodDays.test.ts. English only: new keys go in en.json and on ENGLISH_ONLY in localeParity.test.ts. Never write "verified".
-- Go DB tests: LUME_TEST_DATABASE_URL=postgres://mohammedisa@127.0.0.1:5432/lume_test_local?sslmode=disable. The six seed users are loaded there.
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. The only allowed git command is git branch --show-current.
+- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
+- Strings are English only: en.json plus ENGLISH_ONLY in localeParity.test.ts. Never write "verified". Use --ci and never -u.
+- Go tests: LUME_TEST_DATABASE_URL=postgres://mohammedisa@127.0.0.1:5432/lume_test_local?sslmode=disable.
 
 Rows
-- Built: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 12, 12b, 29. No row was closed this session.
-- Partial: 6b, 7, 8, 9 and 10.
-- Last full run: tsc 0 errors; Jest 315 of 315 suites, 1,954 tests, 4 snapshots; 68 console.error, 163 console.warn.
+- No row was closed this session. Row 10 is still PARTIAL, and the rows listed as built at the start are unchanged.
+- Last full run (Round 54): tsc 0 errors; Jest 320 of 320 suites, 1,992 tests, 4 snapshots; 68 console.error, 164 console.warn matches (82 real warning blocks).
 
-In progress
-- Row 10: wire NotificationSettingsList to device.ts. After a switch saves, check notificationPermission(). If granted, call applySchedule(scheduleNotifications(new Date(), timeZone, settings, mealLogTimes)). If not, only save, and never prompt.
-
-Files
-- Row 9 backend: backend/internal/retention/ (summary.go, handler.go, apple.go and tests), backend/tools/retention/main.go, routes in cmd/server/main.go. RETENTION_MESSAGING_ENABLED is off by default. GET /api/retention/summary is Pro gated.
-- Row 9 app: src/app/profile/leaving.tsx, linked from src/app/profile/index.tsx with navigate().
-- Row 10: src/lib/notifications/ holds types.ts, schedule.ts (pure), permissions.ts (prompts) and device.ts (permission read, applySchedule, REMINDER_PREFIX).
-- Row 10 UI: src/components/domain/NotificationPriming.tsx, mounted in src/app/(tabs)/_layout.tsx, and NotificationSettingsList.tsx, mounted in Settings.
-- Settings store: src/lib/settings/store.ts now holds notifications, setNotifications and hydrateNotificationSettings. The old NotificationPrefs was removed.
+Row 10 built
+- Settings switches and quiet hours editing: src/components/domain/NotificationSettingsList.tsx. Quiet hours use a Stepper (15 minutes a step) in a BottomSheet; an equal start and end shows an error and isn't saved.
+- Daily reschedule at app start and on foreground: src/lib/notifications/daily.ts, called from src/app/_layout.tsx. The day key is cleared on sign-out.
+- Meal reminders use the user's real meal times: src/lib/notifications/mealTimes.ts, fed by fetchWeekLogs in src/lib/data/hooks.ts.
+- Sign-out (src/lib/auth/resetRegistry.ts) clears reminders (clearReminders in device.ts) and removes the push token (pushToken.ts).
+- A grant on NotificationPriming.tsx reschedules today and registers the push token.
+- Backend 10c: backend/internal/push, POST and DELETE /api/push/token, migration 20261127000001_push_tokens.sql (applied to lume_test_local), and push_tokens added to account deletion and the export.
 
 Decisions
 - Only permissions.ts and device.ts import expo-notifications.
-- The priming answer is kept across sign-outs, like the system permission. The notification settings are cleared on sign-out (resetRegistry), so a promotional opt-in never carries to the next account.
-- Quiet hours: meal and streak reminders are dropped, workout and weekly reminders move to the quiet end. Yesterday is planned too, so a moved reminder isn't lost.
-- The webhook does not check Apple's signature, because its reply is the same public message id for everyone.
+- Every reschedule goes through rescheduleToday or runDailySchedule. Neither ever prompts.
+- Meals inside quiet hours are dropped (decided).
+- DELETE /api/push/token is public, so a lapsed account can stop push. A token moves to whichever account registers it last. The export omits the token itself.
+- The shared API client accepts a 204 with no body.
+- The node Jest project maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (in package.json), and src/__tests__/render/setup.ts mocks it for render tests.
 
 Open for Isa
-- Notification defaults, priming copy, and the quiet hours and label strings.
-- Whether the switches can ship before scheduling works (App Store 2.1).
-- Where the leaving reason and note go.
-- The Apple retention owner steps.
+- The UTC fallback when the device time zone can't be read.
+- Whether to reschedule the same day once permission is granted later.
+- The quiet hours step and wording, and that quiet hours can't be turned off.
+- The push token retention period, and whether DELETE should stay public.
 
 Not fixed
-- DECISIONS.md still names only permissions.ts as importing expo-notifications.
-- Nothing derives per-slot meal logging times, nothing reschedules at app start or each day, and settings reload only when Settings opens. Quiet hours can't be edited.
-- Skeleton render tests need a stand-in, because the test setup lacks reanimated's useReducedMotion.
-- The route checks only see literal route strings.
-- The paywall imports constants from a profile route file.
-- entitlementFromApi stores an unknown status as it arrives.
-- Today's pull-to-refresh doesn't refetch the subscription state.
+- The push token is kept in memory only, so after a relaunch sign-out can't remove it. This is the recommended next task.
+- A DELETE sent after the session has ended gets a 401 and leaves the server row.
+- The node expo-notifications mock lacks getDevicePushTokenAsync.
+- The quiet hours stepper doesn't wrap past midnight, and late snacks around midnight don't wrap either.
+- Stepper's "Decrease" and "Increase" screen-reader labels are hardcoded English.
+- src/__tests__/render/notificationSettingsList.wiring.render.test.tsx changed on disk after its last run. Rerun it before trusting the Round 55 result.
