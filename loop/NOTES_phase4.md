@@ -12,28 +12,29 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12 (incl. 12a), 13, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (privacy screen in progress).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14 (privacy screen done, Settings link pending).
 - Row 13: full gate re-run pending.
 - Last full checkpoint: Round 66. tsc 0; Jest 323 suites, 2,015 tests.
-- Round 67: Row 12a done. Account data (email, name, user ID) in PRIVACY_DATA.md and app.json. Manifest check OK.
+- Round 70: privacy screen finished (src/app/legal/privacy.tsx), render test 4 of 4. Flagged partly done: follow-up round 71.
 
 ## Next
-1. Round 70: Row 14 privacy policy screen, one screen only (rewrite of the rejected multi-screen prompt).
-2. Then one screen per round: Settings link to privacy, terms, health disclaimer, paywall terms.
+1. Round 71 (last follow-up): Settings link to privacy screen.
+2. Then one per round: terms link, health disclaimer link, paywall terms text.
 3. Row 14a feedback, then 14b design intent audit.
-4. PRIVACY_DATA.md line 215 uses a banned word ('unverified'). Small text fix.
-5. APP_STORE_METADATA.md account data answers still say owner to decide. Update.
-6. Merge push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
-7. Confirm each row's status in PHASE4_ROWS.md before starting it.
+4. Park web/lib/legal.ts copy update (push token, Sentry, PostHog) unless small.
+5. PRIVACY_DATA.md line 215 uses a banned word; small text fix.
+6. APP_STORE_METADATA.md account data answers still say not declared. Update.
+7. Merge push token test files (src/__tests__/pushToken.test.ts, src/lib/notifications/pushToken.test.ts).
+8. Confirm each row's status in PHASE4_ROWS.md before starting it.
 
 ## Blocked on Isa (park, do not retry)
-- Leaving and retention: destination; reason and priming copy; win back copy and price; resubscribe on cancelled; Apple Retention access; App Store Connect key; approve two messages; sandbox URL and 700 ms test.
-- 7c: StoreKit purchase needs iOS public key. Row 8: Maestro install; email code sign in; lume DB on 127.0.0.1:55432; expired, cancelled, past_due runs.
-- Row 10: category strings; notification defaults; training-day reminders; quiet hours wording and off switch; UTC fallback; same-day reschedule after grant; push token retention; DELETE public or gated; re-register rate.
-- Row 11: Settings switch and purpose strings; real HealthKit provider (native package, entitlement, pod install); device steps.
-- Row 12a: declare Email, Name, User ID on App Store label (in OWNER_CHECKS). Push token manifest type: owner decides.
+- Leaving and retention: destination, reason and priming copy, win back copy and price, resubscribe on cancelled, Apple Retention access, App Store Connect key, approve two messages, sandbox URL and 700 ms test.
+- Billing: 7c StoreKit purchase needs iOS public key. Row 8: Maestro install, email code sign in, lume DB on 127.0.0.1:55432, expired, cancelled, past_due runs.
+- Row 10: category strings, notification defaults, training-day reminders, quiet hours wording and off switch, UTC fallback, same-day reschedule after grant, push token retention, DELETE public or gated, re-register rate.
+- Row 11: Settings switch and purpose strings; real HealthKit provider (package, entitlement, pod install); device steps.
+- Row 12a: declare Email, Name, User ID on App Store label. Push token manifest type: owner decides.
 - Row 13: age rating answers; production demo account; confirm lume.fit support and privacy URLs live.
-- Row 5 copy: Who receives it; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
+- Row 5 copy: who receives it, consent version, 500 vs 403, AI limit copy, label scan exit, scan.ts vs photo capture.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
@@ -67,6 +68,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription.
 - Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
+- LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Web legal copy lacks push, Sentry, PostHog lines.
 - About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
@@ -82,8 +84,9 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 
 ## Round log
-- Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed (see state).
-- Round 67: Row 12a done (manifest OK; 5 suites, 67 tests pass).
+- Rounds 60 to 66: checkpoints clean; rows 10, 11, 13 closed.
+- Round 67: Row 12a done (manifest OK).
 - Round 68: prompt rejected for multiple screens.
 - Round 69: privacy policy screen started; rewritten as one screen.
-- Round 70: one-screen privacy policy prompt issued (see Next 1).
+- Round 70: privacy screen finished; flagged partly done (Settings link missing).
+- Round 71: follow-up prompt issued (Settings link to privacy).

@@ -11996,3 +11996,6 @@
 - 2026-11-27 02:04 Jev ranks run at 69 percent and the last task was 10 percent clean; I kept a small single screen task and did not take on the larger Row 14 legal bundle.
 - 2026-11-27 02:04 The banned word in PRIVACY_DATA.md line 215 is a separate small task, queued as the next candidate.
 - 2026-11-27 02:04 Strings stay English only, per Isa's override; es and fr keys are deferred.
+- 2026-11-27 02:08 Chose the Settings link: the last report left it as the open Row 14 leftover, and the loop flagged the round as partly done, so this is the one allowed follow-up round.
+- 2026-11-27 02:08 Parked the web/lib/legal.ts copy update (push token, Sentry, PostHog lines) until after the follow-up; it is not part of this screen.
+- 2026-11-27 02:08 Kept the notes under 600 words by merging repeated blocked and parked items and removing finished work.
