@@ -12403,3 +12403,8 @@
 - 2026-11-27 05:48 Round 163 is a checkpoint: the Round 162 report recommended a full Jest run with --detectOpenHandles, and the last full run was Round 160, so this checks for other leaked timers.
 - 2026-11-27 05:48 Jev 81% run agrees with the checkpoint choice; no reason to override.
 - 2026-11-27 05:48 Notes rewritten under 600 words: finished work removed, repeated items merged, Round 162 status recorded.
+- 2026-11-27 05:50 Chose docs cleanup: the smallest safe step, no code, and it clears the doc problems the last report flagged.
+- 2026-11-27 05:50 Jev's 57 percent run signal agrees with continuing. No stop, because rows are still open.
+- 2026-11-27 05:50 Week copy and gym.freeze.confirm stay parked under Isa's blocked list. Not asked.
+- 2026-11-27 05:50 Unused nutrition keys and the English-only keys stay open for a later round.
+- 2026-11-27 05:50 Checkpoint of Round 163 is green, so there is no untested flagged work to run first.
