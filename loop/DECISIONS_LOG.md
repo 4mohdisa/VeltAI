@@ -11914,3 +11914,7 @@
 - 2026-11-27 01:23 Row 10c stays PARTIAL until the app registers the token. The backend routes alone do not close it.
 - 2026-11-27 01:23 Expo's native device push token is used for registration, since the backend stores platform ios or android and the APNs token is what a later push sender needs.
 - 2026-11-27 01:23 The DECISIONS.md line about expo-notifications is stale and was corrected to name permissions.ts and device.ts.
+- 2026-11-27 01:26 Round 52 is the checkpoint the loop note asked for: full tsc and full Jest, no file changes, because Round 51 was flagged as partly done.
+- 2026-11-27 01:26 Chose run over ask and stop: Jev gives run 59%, and the task needs no Isa input.
+- 2026-11-27 01:26 Under Override 5, the 10c leftover (token kept in memory only, so a relaunch loses the DELETE) is parked after Round 51 was flagged again. 10c counts as done for the loop.
+- 2026-11-27 01:26 Full Jest run uses --ci so no snapshot is written and nothing is updated by accident.

@@ -11,13 +11,13 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 7. Every prompt states the branch rule first and forbids switching, pushing, merging.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (switches, runs, per-slot times, sign-out clearing; app push registration pending).
-- 10c: backend done (POST gated to trial or active; DELETE public). Round 50 flagged partly done.
-- Round 51: the one allowed follow-up. App registers token after grant, deletes at sign-out.
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (switches, runs, per-slot times, sign-out clearing; quiet hours not editable).
+- 10c: backend done (POST gated to trial or active; DELETE public). App registers token after grant and removes at sign-out. Round 51 flagged again: leftover parked.
+- Round 52: checkpoint. Full tsc and full Jest, no file changes.
 
 ## Next
-1. Round 51: 10c app push token registration.
+1. Round 52: checkpoint (full tsc and full Jest, no edits). Report failures.
 2. Then Row 10: quiet hours editing.
 
 ## Blocked on Isa (park, do not retry)
@@ -45,16 +45,17 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
 - Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; notification settings cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Start and foreground share one run. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
+- Push token: registered after grant on priming sheet (registerPushToken, next to rescheduleToday); removed first in resetAllStores; not awaited; API client treats 204 as success with no data.
 - Analytics off by default. Retry label 'Try again'.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
-- Round 50: Row 10c chosen. Push token route gated to trial or active.
-- Round 51: follow-up on 10c. Jev asked 60%; run kept under Override 5 (no Isa input needed).
 
 ## Parked
+- Token kept in memory only: after relaunch, sign-out cannot DELETE until next grant (Round 51 leftover, flagged again). Plan: secure storage and re-register at start.
+- DELETE after session ends gets 401; stale row stays on server.
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks wrap at midnight.
 - A switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground.
 - console.warn from expo-notifications in render tests (sign-out in appState.tsx). Needs shared setup or sign-out change.
-- Stale push tokens never removed (nothing sends push yet). ROUTE_COVERAGE shows two orphaned push routes until app client exists.
+- Stale push tokens never removed (nothing sends push yet). ROUTE_COVERAGE shows no orphaned routes now.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message.
 - About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts. Skeleton render tests need a reanimated useReducedMotion stand-in.
@@ -65,9 +66,11 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. AI limit: parallel requests slip past; old counts never deleted.
 - Quiet hours can't be edited. App-start run before sign-in can plan at default meal times if the food log read fails. deviceTimeZone() ?? 'UTC' fallback in two places.
+- DECISIONS.md still names only permissions.ts as importing expo-notifications.
+- Skeleton render tests need a stand-in (reanimated useReducedMotion missing from test setup).
 
 ## Gotchas
-- Branch check first (git branch --show-current only). Full Jest paths; never jest -u; redirect output to files.
+- Branch check first (git branch --show-current only). Full Jest paths for single files; never jest -u; use --ci; redirect output to files.
 - Lint: no setState in effect body; use guarded .then.
 - Skeleton screens need per-file LoadingSkeleton mock. Typed routes lack /profile/winback and /profile/leaving: use navigate().
 - Spy useLocalSearchParams via jest.requireMock('expo-router').
