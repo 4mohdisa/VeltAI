@@ -12,12 +12,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Out of scope changes: check, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next: Round 194.
+11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Round 194 is a checkpoint.
 
-## State (Round 193)
+## State (Round 194)
 - BUILT 18 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
-- Row 16: steps 1 and 2 done (102 routes; ownership for food, gym, recipes, saved meals, goals, body weight, insights). Step 3 (validation and error envelope): food, gym, recipes, saved meals done. Goals and body weight: verify in Round 193 (not in the 192 report).
+- Row 16: steps 1 and 2 done (102 routes). Step 3 done for food, gym, recipes, saved meals, goals, body weight (21 new cases green in Round 193). Next: AI routes in tests/ai (query, consent, insight dismiss), then integrations.
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
@@ -25,6 +25,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Food: scanned log delete fails (scan_sessions FK, needs migration); UpsertPortionPref can wipe meal type; search 'Add custom food' does not log; goBackOrHome falls back to Today; delete-account.tsx:101 white on white (device).
 - Food validation: POST /api/food/saved skips nutrition checks (handlers.go:399).
 - Gym validation: POST exercises returns 200 not 201 (gym.go:396); PATCH session accepts future date and any duration (gym.go:316).
+- Goals validation: PUT /api/goals stores any weight_goal, activity_level, source (goals.go:371); onboarding does not check sex, activity_level, goal, units (goals.go:230).
+- 404 wording differs by package (food and recipes 'not found', body weight 'body weight entry not found', insights 'insight not found').
 - Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated; POST accepts negative or huge macros. Row 18: recipes.authorize copies food.authorize.
 - Insights: DismissInsight updates by id only (safe via handler owner check).
 - Integrations: sync stops at 50 Strava or 25 WHOOP items; expired token gives 502.
@@ -87,4 +89,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean).
 - 191: Row 16 step 3 started; food and gym validation done and green.
 - 192: recipes and saved meal validation (26 cases, green).
-- 193: goals and body weight validation (this round).
+- 193: goals and body weight validation (21 cases, green).
+- 194: checkpoint round (gates only, no edits).

@@ -12525,3 +12525,7 @@
 - 2026-11-27 07:13 Kept the Jev next action (run 68%) and rejected its ask signal, per the Round 191 decision that no Isa blocker stops the loop.
 - 2026-11-27 07:13 Handler gaps found in this round are recorded and not fixed, per Override 9 and the Round 192 rule.
 - 2026-11-27 07:13 Notes trimmed to fit the 600 word limit; all parked items kept in short form, no item removed.
+- 2026-11-27 07:15 Round 194 is the checkpoint round set by Override 11, so this round runs gates only with no edits; the AI route step moves to Round 195.
+- 2026-11-27 07:15 Row 16 gaps found in goals (PUT weight_goal, activity_level, source; onboarding sex, activity, goal, units) are parked, not fixed, under Override 9 and the Round 192 precedent.
+- 2026-11-27 07:15 Jev's ask and stop signals were not followed: the Round 191 rule holds and no Isa blocker stops the loop.
+- 2026-11-27 07:15 Row 16 stays DIFFERENT until step 3 covers AI routes and integrations.
