@@ -42,11 +42,10 @@ jest.mock('@/lib/storage/secureStore', () => ({
 
 jest.mock('@/lib/billing/purchases', () => ({
   isBillingEnabled: () => true,
-  presentPaywall: jest.fn().mockResolvedValue('cancelled'),
-  restorePurchases: jest.fn().mockResolvedValue(null),
-  hasProEntitlement: () => false,
   TRIAL_DAYS: 7,
 }));
+jest.mock('@/lib/purchases/revenuecat', () => ({ getOfferings: () => Promise.resolve([]) }));
+jest.mock('@/components/display/LoadingSkeleton', () => ({ SkeletonList: () => null }));
 
 const mockGet = jest.fn();
 jest.mock('@/lib/api', () => ({

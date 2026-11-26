@@ -7,7 +7,7 @@
 // possible either.
 import PaywallScreen from '@/app/onboarding/paywall';
 import { showToast } from '@/components/display/toastStore';
-import { presentPaywall } from '@/lib/billing/purchases';
+import { purchasePackage } from '@/lib/purchases/revenuecat';
 import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import es from '@/lib/i18n/locales/es.json';
@@ -18,11 +18,24 @@ import { act, allText, buttonWithTitle, renderScreen } from './helpers';
 
 jest.mock('@/lib/billing/purchases', () => ({
   isBillingEnabled: () => true,
-  presentPaywall: jest.fn().mockResolvedValue('purchased'),
-  restorePurchases: jest.fn().mockResolvedValue(null),
-  hasProEntitlement: () => false,
   TRIAL_DAYS: 7,
 }));
+jest.mock('@/lib/purchases/revenuecat', () => ({
+  getOfferings: () =>
+    Promise.resolve([
+      {
+        identifier: 'default',
+        packages: [
+          { identifier: '$rc_monthly', productId: 'monthly', priceString: '$9.99', periodLabel: 'Monthly', trialEligible: false },
+        ],
+      },
+    ]),
+  purchasePackage: jest.fn(),
+  getEntitlementState: () => Promise.resolve('active'),
+  restorePurchases: jest.fn(),
+  isEntitledState: jest.requireActual('@/lib/purchases/revenuecat').isEntitledState,
+}));
+jest.mock('@/components/display/LoadingSkeleton', () => ({ SkeletonList: () => null }));
 
 const mockPost = jest.fn().mockResolvedValue({ completed: true });
 const mockSubscription = jest.fn();
@@ -51,7 +64,12 @@ jest.mock('@/components/display/toastStore', () => ({ showToast: jest.fn() }));
 
 type Locale = typeof es; // en also has English-only keys, so es is the shape every locale shares
 
-async function pressContinue(title = en.onboarding.paywall.seePlans, tree = renderScreen(<PaywallScreen />)): Promise<void> {
+const plansLoaded = () => act(async () => new Promise((r) => setImmediate(r)));
+
+// The purchase button shows once the plans have loaded. Its label is English
+// only for now, so it is the same in every locale.
+async function pressContinue(title = en.onboarding.paywall.subscribe, tree = renderScreen(<PaywallScreen />)): Promise<void> {
+  await plansLoaded();
   const cta = buttonWithTitle(tree, title)!;
   await act(async () => {
     (cta.props.onPress as () => void)();
@@ -72,7 +90,6 @@ function screenStrings(l: Locale): string[] {
     p.features.cuisineDatabase.replace('{{cuisines}}', cuisines),
     p.features.gym,
     p.features.halal,
-    p.trialNote.replace('{{days}}', '7'),
     p.restore,
     l.signup.legalTerms,
     l.signup.legalPrivacy,
@@ -84,7 +101,7 @@ beforeEach(() => {
   mockPost.mockClear();
   mockSubscription.mockReset().mockResolvedValue(activeSubscription);
   mockSleep.mockClear();
-  (presentPaywall as jest.Mock).mockReset().mockResolvedValue('purchased');
+  (purchasePackage as jest.Mock).mockReset().mockResolvedValue({ kind: 'purchased' });
   (showToast as jest.Mock).mockClear();
   useOnboardingStore.getState().setMeasurements({ age: 30, sex: 'male', height_cm: 180, weight_kg: 80 });
   useOnboardingStore.getState().setActivity('moderate');
@@ -108,18 +125,18 @@ test.each([
   useOnboardingStore.getState().setCuisines(['south_asian', 'mediterranean']);
   useOnboardingStore.getState().setDietaryReqs(['halal']);
   const tree = renderScreen(<PaywallScreen />);
+  await plansLoaded();
   const text = allText(tree);
 
   for (const s of screenStrings(locale)) expect(text).toContain(s);
-  expect(buttonWithTitle(tree, locale.onboarding.paywall.seePlans)).toBeDefined();
+  expect(buttonWithTitle(tree, en.onboarding.paywall.subscribe)).toBeDefined();
 
-  await pressContinue(locale.onboarding.paywall.seePlans);
+  await pressContinue();
   expect(showToast).toHaveBeenCalledWith({ message: locale.subscription.welcomePro, tone: 'success' });
 
   if (lng !== 'en') {
     const translated = screenStrings(locale);
     for (const s of screenStrings(en).filter((e) => !translated.includes(e))) expect(text).not.toContain(s);
-    expect(buttonWithTitle(tree, en.onboarding.paywall.seePlans)).toBeUndefined();
     expect(showToast).not.toHaveBeenCalledWith(expect.objectContaining({ message: en.subscription.welcomePro }));
   }
 });
@@ -135,7 +152,7 @@ test('es: a failed submit shows the translated setup error', async () => {
     await i18n.changeLanguage('es');
   });
   mockPost.mockRejectedValueOnce(new Error('network'));
-  await pressContinue(es.onboarding.paywall.seePlans);
+  await pressContinue();
   expect(showToast).toHaveBeenCalledWith({ message: es.onboarding.paywall.submitFailed, tone: 'error' });
 });
 
@@ -170,7 +187,7 @@ test('a confirmed purchase saves the answers once and completes onboarding', asy
 });
 
 test('dismissing the paywall never saves and keeps the answers on the device', async () => {
-  (presentPaywall as jest.Mock).mockResolvedValue('cancelled');
+  (purchasePackage as jest.Mock).mockResolvedValue({ kind: 'cancelled' });
   await pressContinue();
   expect(mockPost).not.toHaveBeenCalled();
   expect(mockSubscription).not.toHaveBeenCalled();
@@ -181,11 +198,11 @@ test('dismissing the paywall never saves and keeps the answers on the device', a
 });
 
 test('dismissing, then purchasing later, saves the kept answers once', async () => {
-  (presentPaywall as jest.Mock).mockResolvedValueOnce('cancelled').mockResolvedValueOnce('purchased');
+  (purchasePackage as jest.Mock).mockResolvedValueOnce({ kind: 'cancelled' }).mockResolvedValueOnce({ kind: 'purchased' });
   const tree = renderScreen(<PaywallScreen />);
-  await pressContinue(en.onboarding.paywall.seePlans, tree);
+  await pressContinue(en.onboarding.paywall.subscribe, tree);
   expect(mockPost).not.toHaveBeenCalled();
-  await pressContinue(en.onboarding.paywall.seePlans, tree);
+  await pressContinue(en.onboarding.paywall.subscribe, tree);
   expect(mockPost).toHaveBeenCalledTimes(1);
   expect(mockPost).toHaveBeenCalledWith(expect.objectContaining({ goal: 'lose', activity_level: 'moderate', age: 30 }));
 });
@@ -225,7 +242,7 @@ test('a purchase no check confirms saves nothing and shows the message', async (
 });
 
 test('a dismissal makes no subscription check and never waits', async () => {
-  (presentPaywall as jest.Mock).mockResolvedValue('cancelled');
+  (purchasePackage as jest.Mock).mockResolvedValue({ kind: 'cancelled' });
   await pressContinue();
   expect(mockSubscription).not.toHaveBeenCalled();
   expect(mockSleep).not.toHaveBeenCalled();

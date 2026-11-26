@@ -120,6 +120,11 @@ export async function getEntitlementState(): Promise<EntitlementState> {
   }
 }
 
+/** True for every state in which the user currently has pro access. */
+export function isEntitledState(state: EntitlementState): boolean {
+  return state === 'trial' || state === 'active' || state === 'billing_issue' || state === 'cancelled_active';
+}
+
 function entitlementStateOf(info: CustomerInfo | null): EntitlementState {
   const pro = info?.entitlements.all?.[PRO_ENTITLEMENT];
   if (!pro) return 'none';

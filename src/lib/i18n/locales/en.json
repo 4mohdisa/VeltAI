@@ -1353,6 +1353,10 @@
         "not_subscribed": "We couldn't find an active subscription. Choose a plan to keep using Lume."
       },
       "trialNote": "Plans and pricing are shown on the next screen. {{days}}-day free trial, auto-renews, cancel anytime in Settings.",
+      "subscribe": "Subscribe",
+      "startTrial": "Start free trial",
+      "packageLabel": "{{period}} · {{price}}",
+      "trialLine": "{{days}}-day free trial, then auto-renews. Cancel anytime in Settings.",
       "features": {
         "unlimitedLogging": "Unlimited food logging",
         "scanning": "Barcode + photo scanning",

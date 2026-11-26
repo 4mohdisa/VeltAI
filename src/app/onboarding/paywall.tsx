@@ -1,15 +1,16 @@
-// Paywall step — RevenueCat's HOSTED paywall (react-native-purchases-ui), not a
-// custom one: pricing, plans and the purchase CTA render from the dashboard
-// configuration. The custom PlanCards/CTA from earlier phases are gone.
+// Paywall step — the app's own paywall on src/lib/purchases/revenuecat.ts:
+// each package from the current offering with the store's own price and period,
+// a trial line only when the store says that package is trial eligible, then
+// purchase or restore.
 //
-// Flow: "See plans" presents the RC paywall. There is no free tier, so the
-// onboarding answers POST to /api/onboarding only once the backend's
-// subscription status confirms a trial or an active plan (the same record the
-// entitlement gate reads). A dismissed paywall saves nothing: the answers stay
-// in the onboarding store on the device until a later purchase or restore.
+// There is no free tier, so the onboarding answers POST to /api/onboarding only
+// once the backend's subscription status confirms a trial or an active plan
+// (the same record the entitlement gate reads). A cancelled or failed purchase
+// saves nothing: the answers stay in the onboarding store on the device.
 //
-// Billing-disabled dev mode (no key / Expo Go): a "Billing not configured (dev)"
-// note replaces the paywall and Continue proceeds — the app stays fully usable.
+// Billing not configured: a release build shows plans unavailable; a dev build
+// (no key / Expo Go) shows the dev note and Continue proceeds, so the app stays
+// fully usable.
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -17,7 +18,9 @@ import { router, useLocalSearchParams, type Href } from 'expo-router';
 
 import { OnbScaffold } from '@/components/onboarding/OnbScaffold';
 import { Button } from '@/components/forms';
-import { showToast } from '@/components/display';
+import { LoadFailedNotice, showToast } from '@/components/display';
+import { SkeletonList } from '@/components/display/LoadingSkeleton';
+import { OptionCard } from '@/components/onboarding/OptionCard';
 import { Icon } from '@/components/primitives/Icon';
 import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
@@ -28,7 +31,15 @@ import { useSettingsStore } from '@/lib/settings/store';
 import { useUserStore } from '@/lib/data/userStore';
 import { track } from '@/lib/analytics';
 import { navigate } from '@/lib/nav';
-import { isBillingEnabled, presentPaywall, restorePurchases, hasProEntitlement, TRIAL_DAYS } from '@/lib/billing/purchases';
+import { isBillingEnabled, TRIAL_DAYS } from '@/lib/billing/purchases';
+import {
+  getEntitlementState,
+  getOfferings,
+  isEntitledState,
+  purchasePackage,
+  restorePurchases,
+} from '@/lib/purchases/revenuecat';
+import type { Offering, PurchasablePackage } from '@/lib/purchases/types';
 import { setHasCompletedOnboarding } from '@/lib/storage/secureStore';
 import { onboardingPayload, useOnboardingStore, validateOnboardingPayload } from '@/lib/stores/onboarding';
 import { color, space } from '@/lib/design/tokens';
@@ -68,6 +79,14 @@ function refusalKey(reason: string | undefined): string {
     : 'onboarding.paywall.storeError';
 }
 
+type Plans = { status: 'loading' } | { status: 'error' } | { status: 'ready'; packages: PurchasablePackage[] };
+
+/** The current offering's packages; none (or a failed read) is the error state. */
+function plansFrom(offerings: Offering[]): Plans {
+  const packages = offerings[0]?.packages ?? [];
+  return packages.length > 0 ? { status: 'ready', packages } : { status: 'error' };
+}
+
 export default function PaywallScreen() {
   const { dispatch } = useAppState();
   const { t } = useTranslation();
@@ -77,12 +96,34 @@ export default function PaywallScreen() {
 
   const [submitting, setSubmitting] = useState(false);
   const [restoring, setRestoring] = useState(false);
+  const billing = isBillingEnabled();
+  const [plans, setPlans] = useState<Plans>({ status: 'loading' });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   // Set by the launch gate when GET /api/onboarding is refused with a 402.
   const { reason } = useLocalSearchParams<{ reason?: string }>();
 
   useEffect(() => {
     track('paywall_viewed');
   }, []);
+
+  useEffect(() => {
+    if (!billing) return;
+    let alive = true;
+    void getOfferings().then((offerings) => {
+      if (alive) setPlans(plansFrom(offerings));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [billing]);
+
+  const retryPlans = () => {
+    setPlans({ status: 'loading' });
+    void getOfferings().then((offerings) => setPlans(plansFrom(offerings)));
+  };
+
+  const selected =
+    plans.status === 'ready' ? (plans.packages.find((p) => p.productId === selectedId) ?? plans.packages[0]) : undefined;
 
   useEffect(() => {
     if (reason) showToast({ message: t(refusalKey(reason)), tone: 'error' });
@@ -167,67 +208,54 @@ export default function PaywallScreen() {
     await completeOnboarding();
   };
 
-  // Present RevenueCat's paywall; only a purchase or restore goes on to save.
+  // Buy the selected package; only a purchase goes on to save. Cancelling is a
+  // choice, not a fault: the screen stays as it was, with no message.
   const handleContinue = async () => {
     setSubmitting(true);
-    if (isBillingEnabled()) {
-      const outcome = await presentPaywall();
-      // EVERY outcome is answered. 'unavailable' — the paywall UI module
-      // failing to load, or no offering/paywall configured in the RevenueCat
-      // dashboard — used to fall through this chain silently: the tester taps
-      // "See plans", nothing whatsoever happens, and onboarding completes as
-      // if they had declined. That was the open FINAL_AUDIT item and it is
-      // exactly what a sandbox build exercises first (audit 2026-08-09).
-      switch (outcome) {
-        case 'purchased':
-        case 'restored':
-          showToast({ message: t('subscription.welcomePro'), tone: 'success' });
-          break;
-        case 'unavailable':
-          showToast({
-            message: t('onboarding.paywall.plansUnavailable'),
-            tone: 'error',
-          });
-          break;
-        case 'error':
-          showToast({ message: t('onboarding.paywall.storeError'), tone: 'info' });
-          break;
-        case 'cancelled':
-          break; // deliberate: dismissing the sheet is a choice, not a fault
-      }
-      if (outcome !== 'purchased' && outcome !== 'restored') {
-        setSubmitting(false);
-        return;
-      }
-      await completeIfSubscribed();
+    if (!billing) {
+      await completeOnboarding();
       return;
     }
-    await completeOnboarding();
+    if (!selected) {
+      setSubmitting(false);
+      return;
+    }
+    const result = await purchasePackage(selected);
+    if (result.kind !== 'purchased') {
+      if (result.kind === 'error') showToast({ message: t('onboarding.paywall.storeError'), tone: 'info' });
+      setSubmitting(false);
+      return;
+    }
+    if (isEntitledState(await getEntitlementState())) {
+      showToast({ message: t('subscription.welcomePro'), tone: 'success' });
+    }
+    await completeIfSubscribed();
   };
 
   const restore = async () => {
-    if (!isBillingEnabled()) {
+    if (!billing) {
       showToast({ message: t('profile.billingNotConfigured'), tone: 'info' });
       return;
     }
     setRestoring(true);
-    let restored = false;
-    try {
-      restored = hasProEntitlement(await restorePurchases());
-      showToast({
-        message: restored ? t('profile.subscriptionRestored') : t('onboarding.paywall.noSubscription'),
-        tone: restored ? 'success' : 'info',
-      });
-    } catch {
-      showToast({ message: t('profile.storeUnreachable'), tone: 'error' });
-    } finally {
-      setRestoring(false);
-    }
+    const restored = isEntitledState(await restorePurchases());
+    setRestoring(false);
+    showToast({
+      message: restored ? t('profile.subscriptionRestored') : t('onboarding.paywall.noSubscription'),
+      tone: restored ? 'success' : 'info',
+    });
     if (restored) {
       setSubmitting(true);
       await completeIfSubscribed();
     }
   };
+
+  const showCta = billing ? plans.status === 'ready' : isDevBuild();
+  const ctaTitle = !billing
+    ? t('onboarding.measurements.continue')
+    : selected?.trialEligible
+      ? t('onboarding.paywall.startTrial')
+      : t('onboarding.paywall.subscribe');
 
   return (
     <OnbScaffold
@@ -236,12 +264,8 @@ export default function PaywallScreen() {
       title={t('onboarding.paywall.title')}
       footer={
         <View style={{ gap: space.sm }}>
-          <Button
-            title={isBillingEnabled() ? t('onboarding.paywall.seePlans') : t('onboarding.measurements.continue')}
-            loading={submitting}
-            onPress={() => void handleContinue()}
-          />
-          {!isBillingEnabled() && isDevBuild() ? (
+          {showCta ? <Button title={ctaTitle} loading={submitting} onPress={() => void handleContinue()} /> : null}
+          {!billing && isDevBuild() ? (
             <Text variant="footnote" color={color.secondaryLabel} style={{ textAlign: 'center' }}>
               {t('onboarding.paywall.devBillingNote')}
             </Text>
@@ -255,9 +279,9 @@ export default function PaywallScreen() {
               {restoring ? t('onboarding.paywall.restoring') : t('onboarding.paywall.restore')}
             </Text>
           </Pressable>
-          {/* 3.1.2 — Terms + Privacy stay reachable at the paywall entry (the
-              hosted paywall renders pricing; these links frame it). Footnote
-              text is ~18pt tall; 14pt vertical hitSlop makes each link ≥44pt. */}
+          {/* 3.1.2 — Terms + Privacy stay reachable next to the purchase.
+              Footnote text is ~18pt tall; 14pt vertical hitSlop makes each
+              link ≥44pt. */}
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: space.md }}>
             <Pressable
               accessibilityRole="link"
@@ -295,9 +319,34 @@ export default function PaywallScreen() {
             </Text>
           </View>
         ))}
-        <Text variant="footnote" color={color.secondaryLabel} style={{ marginTop: space.md }}>
-          {t('onboarding.paywall.trialNote', { days: TRIAL_DAYS })}
-        </Text>
+        <View style={{ gap: space.sm, marginTop: space.md }}>
+          {!billing ? (
+            isDevBuild() ? null : (
+              <Text variant="footnote" color={color.secondaryLabel}>
+                {t('onboarding.paywall.plansUnavailable')}
+              </Text>
+            )
+          ) : plans.status === 'loading' ? (
+            <SkeletonList rows={2} />
+          ) : plans.status === 'error' ? (
+            <LoadFailedNotice message={t('onboarding.paywall.plansUnavailable')} onRetry={retryPlans} />
+          ) : (
+            plans.packages.map((p) => (
+              <View key={p.productId} style={{ gap: space.xs }}>
+                <OptionCard
+                  label={t('onboarding.paywall.packageLabel', { period: p.periodLabel, price: p.priceString })}
+                  selected={p.productId === selected?.productId}
+                  onPress={() => setSelectedId(p.productId)}
+                />
+                {p.trialEligible ? (
+                  <Text variant="footnote" color={color.secondaryLabel}>
+                    {t('onboarding.paywall.trialLine', { days: TRIAL_DAYS })}
+                  </Text>
+                ) : null}
+              </View>
+            ))
+          )}
+        </View>
       </View>
     </OnbScaffold>
   );

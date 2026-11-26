@@ -11675,3 +11675,7 @@
 - 2026-11-26 10:56 Wrapper is the only module that imports react-native-purchases; screens will use it through the interface.
 - 2026-11-26 10:56 Trial eligibility is read from the store on every purchase path; no trial text unless the store says eligible.
 - 2026-11-26 10:56 Missing RevenueCat key means a not configured state, not a crash, so simulator and CI runs stay safe.
+- 2026-11-26 11:00 7b: the new paywall screen replaces the hosted react-native-purchases-ui paywall on the onboarding paywall route only, because the 7a wrapper is the only SDK path and the hosted UI would bypass it.
+- 2026-11-26 11:00 7b: the trial line shows only when the store reports eligible, as the 7a rule already requires.
+- 2026-11-26 11:00 7b: no es or fr text is added; new strings go in en.json only, per the English only override.
+- 2026-11-26 11:00 Chose 7b over Row 8 because Row 8 screens depend on the paywall and the entitlement states it reads.

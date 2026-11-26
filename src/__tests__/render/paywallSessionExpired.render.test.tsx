@@ -26,15 +26,27 @@ jest.mock('@/components/display', () => ({
   ...jest.requireActual('@/components/display'),
   Skeleton: () => null,
 }));
+jest.mock('@/components/display/LoadingSkeleton', () => ({ SkeletonList: () => null }));
 
 const mockBillingEnabled = jest.fn(() => false);
-const mockPresentPaywall = jest.fn();
 jest.mock('@/lib/billing/purchases', () => ({
   isBillingEnabled: () => mockBillingEnabled(),
-  presentPaywall: () => mockPresentPaywall(),
-  restorePurchases: jest.fn(),
-  hasProEntitlement: () => false,
   TRIAL_DAYS: 7,
+}));
+jest.mock('@/lib/purchases/revenuecat', () => ({
+  getOfferings: () =>
+    Promise.resolve([
+      {
+        identifier: 'default',
+        packages: [
+          { identifier: '$rc_monthly', productId: 'monthly', priceString: '$9.99', periodLabel: 'Monthly', trialEligible: false },
+        ],
+      },
+    ]),
+  purchasePackage: () => Promise.resolve({ kind: 'purchased' }),
+  getEntitlementState: () => Promise.resolve('active'),
+  restorePurchases: jest.fn(),
+  isEntitledState: jest.requireActual('@/lib/purchases/revenuecat').isEntitledState,
 }));
 
 const mockPost = jest.fn();
@@ -60,6 +72,8 @@ const CONNECTION_MESSAGE = en.onboarding.paywall.submitFailed;
 
 async function pressContinue(title = 'Continue'): Promise<void> {
   const tree = renderScreen(<PaywallScreen />);
+  // With billing on, the purchase button shows once the plans have loaded.
+  await act(async () => new Promise((r) => setImmediate(r)));
   await act(async () => {
     (buttonWithTitle(tree, title)!.props.onPress as () => void)();
     await new Promise((r) => setImmediate(r));
@@ -100,9 +114,8 @@ test('an expired session ends the Clerk session, keeps the answers and opens sig
 
 test('a 401 on the subscription check ends the session and keeps the answers', async () => {
   mockBillingEnabled.mockReturnValue(true);
-  mockPresentPaywall.mockResolvedValueOnce('purchased');
   mockSubscriptionGet.mockRejectedValueOnce(new ApiError(401, 'invalid token'));
-  await pressContinue(en.onboarding.paywall.seePlans);
+  await pressContinue(en.onboarding.paywall.subscribe);
 
   expect(mockSubscriptionGet).toHaveBeenCalledTimes(1);
   expect(mockPost).not.toHaveBeenCalled();
