@@ -11973,3 +11973,7 @@
 - 2026-11-27 01:58 Chose the gate run first because the loop flagged the last report as not verified, and the loop rules say to deal with it before moving on.
 - 2026-11-27 01:58 Kept Row 13 at BUILT. Only markdown changed, so the gate run confirms the status rather than reopening the row.
 - 2026-11-27 01:58 Rerun of the notificationSettingsList wiring render test added because the report says it changed on disk after its last run.
+- 2026-11-27 01:59 Round 66 is a checkpoint, so the loop note takes priority over Jev's ranking. Jev put Row 12a first at 83%; I kept the checkpoint because the last full Jest run was Round 60 and rounds 61 to 65 only ran changed-file gates.
+- 2026-11-27 01:59 Kept the checkpoint prompt to one job with no file changes, as the loop note requires.
+- 2026-11-27 01:59 Notes rewritten under 600 words: repeated items merged, finished work removed, Round 61 to 63 details reduced to state lines.
+- 2026-11-27 01:59 Jev signal on risk (1.3, confidence 0.19) is low confidence, so it does not change the plan.
