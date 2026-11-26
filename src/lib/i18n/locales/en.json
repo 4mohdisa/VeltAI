@@ -897,7 +897,8 @@
     "gramsShort": "g",
     "percentValue": "{{value}}%",
     "macroPercentFootnote": "Protein {{protein}} · Carbs {{carbs}} · Fat {{fat}} · Fibre {{fibre}}",
-    "mealLine": "{{time}} · {{energy}}"
+    "mealLine": "{{time}} · {{energy}}",
+    "weekGramsTitle": "Grams per day"
   },
   "plan": {
     "suggested": "Suggested:",

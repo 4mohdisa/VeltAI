@@ -181,6 +181,8 @@ const ENGLISH_ONLY = new Set([
   // Fix 22: the Week detail's tapped-day readout.
   'dashboard.weekPickedNet',
   'dashboard.weekPickedNoNet',
+  // Fix 23: the Macros detail's 7-day chart title.
+  'nutrition.weekGramsTitle',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

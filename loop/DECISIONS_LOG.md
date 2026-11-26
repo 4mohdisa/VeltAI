@@ -12316,3 +12316,8 @@
 - 2026-11-27 05:09 English only per Isa override 1; es and fr are not added even though CLAUDE.md asks for them.
 - 2026-11-27 05:09 Untested flagged work: Fix 21 tests were run in round 142 (5 plus 5 files green), so no backlog test is needed before Fix 22.
 - 2026-11-27 05:09 Ask is not used (Isa's no-questions rule); the path of week.tsx is left for Claude Code to confirm and report.
+- 2026-11-27 05:14 Chose candidate 1 (Fix 23), matching Jev's top pick (91%) and the report's NEXT. Reason: it is small, in DESIGN_INTENT order, and touches one screen.
+- 2026-11-27 05:14 Added step 1 to re-run the untested Fix 20 training test and snapshot first, per the untested flagged work rule. No -u: a failing snapshot is parked, not refreshed.
+- 2026-11-27 05:14 Kept the English-only rule for the new string per Isa's override, despite CLAUDE.md asking for en, es and fr. Isa to confirm later.
+- 2026-11-27 05:14 Did not run the full suite: this is not a checkpoint round (next checkpoint Round 145).
+- 2026-11-27 05:14 Trimmed the notes to under 600 words, merging repeated open items. Finished work removed.

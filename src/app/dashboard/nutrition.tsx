@@ -141,7 +141,7 @@ export default function NutritionDetailScreen(): JSX.Element {
       {/* Secondary — the last 7 days, each day's macros stacked. */}
       <Card variant="elevated">
         <View style={{ gap: space.lg }}>
-          <ChartHeader title={t('nutrition.todayAgainstTargets')} note={t('nutrition.percentOfTarget')} />
+          <ChartHeader title={t('nutrition.weekGramsTitle')} note={t('dashboard.lastDays', { count: week.data.length })} />
           {loading || week.isLoading ? (
             <Skeleton height={SEC_H} rounded={radius.xl} />
           ) : (

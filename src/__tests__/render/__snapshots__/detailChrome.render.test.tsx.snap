@@ -3269,7 +3269,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  Today against targets
+                  Grams per day
                 </Text>
                 <Text
                   style={
@@ -3286,7 +3286,7 @@ exports[`the four Summary detail views render identically across the chrome extr
                     ]
                   }
                 >
-                  Percent of target
+                  Last 7 days
                 </Text>
               </View>
               <View

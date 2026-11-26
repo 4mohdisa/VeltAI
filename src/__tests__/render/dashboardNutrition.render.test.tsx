@@ -10,6 +10,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import NutritionDetailScreen from '@/app/dashboard/nutrition';
 import { useFoodStore } from '@/lib/data/foodStore';
 import { addDays, isoDate } from '@/lib/data/foodDays';
+import en from '@/lib/i18n/locales/en.json';
 import { act, allText, renderScreen } from './helpers';
 
 const mockList = jest.fn();
@@ -83,4 +84,20 @@ test('the secondary chart renders 7 day columns, and the day with the most logge
   // 100+150+50+0 = 300, ×1.1 headroom = 330g) — real logged macros, not a
   // fabricated or all-zero scale, so that day's bars are real, non-zero height.
   expect(allText(tree)).toContain('330g');
+});
+
+// Fix 23: the chart's title names what it draws, seven days of grams.
+test('the secondary chart is titled as the last 7 days of grams', async () => {
+  const tree = renderScreen(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <NutritionDetailScreen />
+    </SafeAreaProvider>,
+  );
+  await settle();
+  await settle();
+
+  const text = allText(tree);
+  expect(text).toContain(en.nutrition.weekGramsTitle);
+  expect(text).toContain('Last 7 days');
+  expect(text).not.toContain(en.nutrition.todayAgainstTargets);
 });
