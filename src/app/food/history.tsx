@@ -1,6 +1,6 @@
 // C12 · Meal history
 // List by date, descending. Each day shows date, total calories, and gym status
-// (checkmark or dash). Plain rows — no per-day drill-down view exists yet.
+// (checkmark or dash). A row opens that day on the Food tab, as the calendar does.
 //
 // This screen used to render a module-level literal array of six days
 // ('Today 1240 kcal', 'Yesterday 2080 kcal', …) as the user's own history, with
@@ -9,9 +9,11 @@
 // /api/food/summary and the real sessions from the gym store.
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import { Icon } from '@/components/primitives/Icon';
+import { Pressable } from '@/components/primitives/Pressable';
 
 import { Screen } from '@/components/navigation/Screen';
 import { Card } from '@/components/display/Card';
@@ -23,6 +25,7 @@ import { color, layout, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { dateLocale, formatCalories } from '@/lib/formatting';
 import { api } from '@/lib/api';
+import { useFoodStore } from '@/lib/data/foodStore';
 import { GYM_SESSION_HYDRATE_LIMIT } from '@/lib/data/hooks';
 
 const DAYS = 7;
@@ -58,6 +61,12 @@ export default function MealHistoryScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [rows, setRows] = useState<DayRow[]>([]);
+  const setSelectedDate = useFoodStore((s) => s.setSelectedDate);
+
+  const openDay = (iso: string) => {
+    setSelectedDate(iso);
+    router.back();
+  };
 
   const load = useCallback(async () => {
     const days = Array.from({ length: DAYS }, (_, i) => ({ offset: i, iso: isoDaysAgo(i) }));
@@ -147,9 +156,9 @@ export default function MealHistoryScreen() {
           {rows.map((day, i) => {
             const label = labelFor(day.offset, day.iso, t, i18n.language);
             return (
-              <View
+              <Pressable
                 key={day.iso}
-                accessible
+                onPress={() => openDay(day.iso)}
                 accessibilityLabel={t(day.gym ? 'history.rowGymDone' : 'history.rowGymMissed', {
                   day: label,
                   energy: formatCalories(day.kcal),
@@ -176,7 +185,7 @@ export default function MealHistoryScreen() {
                   size={20}
                   color={day.gym ? color.black : color.gray400}
                 />
-              </View>
+              </Pressable>
             );
           })}
         </Card>

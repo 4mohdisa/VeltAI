@@ -142,6 +142,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
 10. **Thinking of leaving: link Manage subscription and send the reason** through the existing feedback API, or drop the unsent survey (`leaving.tsx:70,89-103`).
    - Done (Round 119): a "Send reason" button posts the chosen reason through `api.feedback.post` as `{ category: 'account', message: 'leaving_reason:<key>' }` (an existing kind; the table's check constraint allows only bug, idea, account, other, so no backend change). It is disabled until a reason is picked and after a send, shows loading while sending, and toasts on success or failure. The optional note, which was never sent, is removed. Manage subscription (iOS) opens Apple's page through `openManageSubscription`. No analytics. Tests: `leavingSendReason.render.test.tsx` (idle, submitting, success, error, Manage subscription; analytics never called) and the existing leaving and locale parity suites, 4 suites / 15 tests pass; tsc 0; eslint clean.
 11. **Food history day rows open that day** with `setSelectedDate`, the same way the calendar does (`history.tsx:150`).
+   - Done (Round 120): food history day rows open that day.
 12. **Food calorie card opens `/dashboard/nutrition`** (`food.tsx:709-752`).
 13. **Custom food: save fibre, and log it when the user came from "no matches"** (`custom-food.tsx:38-47`).
 14. **Saved dish: allow a portion change, then log** from the detail sheet (`detail.tsx:276-309`).

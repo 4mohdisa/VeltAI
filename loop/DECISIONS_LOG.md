@@ -12210,3 +12210,8 @@
 - 2026-11-27 04:01 Next task is Fix 10, not the handover's 'Fix 5' line: the latest report and notes show Fix 5 already BUILT.
 - 2026-11-27 04:01 Jev and the latest report agree on the next action; chose the smallest concrete task (one screen, max 5 steps).
 - 2026-11-27 04:01 Notes file rewritten under 600 words; finished work deleted, repeats merged. Row 14a chip wiring stays parked until before Row 31.
+- 2026-11-27 04:05 Fix 10 flagged-work check: its four suites were run and pass. The report had no red run, which I accept because the old screen had no Send or Manage buttons.
+- 2026-11-27 04:05 The stale handover 'Next: Fix 5' is ignored. Fix 5 was closed earlier and the latest report names Fix 11.
+- 2026-11-27 04:05 Jev risk 0.9 (advisory) noted. Kept the task small (one handler, one test) instead of asking Isa.
+- 2026-11-27 04:05 Leaving reason goes through the existing feedback category 'account' with a 'leaving_reason:' prefix. No migration. Accepted.
+- 2026-11-27 04:05 Note field on the leaving screen stays removed: the brief bans free text and the field discarded what people typed.

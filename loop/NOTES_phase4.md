@@ -17,13 +17,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (Maestro not run); 9 (leaving reason parked); 14a (chip unwired); 14b (open).
 - Green checkpoints: 66, 80, 95, 109, 114. Next about Round 123.
 
-## Row 14b (current)
-- Done: Fixes 1-9 (Fix 9 scope confirmed R118, DB test added).
-- Now (R119): Fix 10, leaving.tsx:70,89-103: wire survey via feedback API, link Manage subscription.
-- Then: Fixes 11-13 (DESIGN_INTENT.md).
-- Follow-ups: Targets reuses an earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; gym tab shows no logged pill (look change, parked).
+## Row 14b (open)
+- Done: Fixes 1-10. Fix 10: leaving screen sends reason via feedback API (category account, message leaving_reason:key); Manage subscription button; note field removed.
+- Next: Fix 11 (food history day rows call setSelectedDate, history.tsx ~150; Round 120). Then Fixes 12-13 (DESIGN_INTENT.md).
+- Unfixed items: pick into Fixes 12-13 or park at closure: targets reuses earlier saved calorie target; units copied to Settings only on Continue; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; gym tab no logged pill (look change, parked).
 - Drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
-- Parked: saved.tsx:48; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decisions pending: Terms describe a free tier; per-set gym history needs backend change.
 - Tooling: en.json fails Prettier; never --write.
@@ -45,11 +43,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
+- Shared helper for 'open Apple's page, else failure toast': three copies (subscription.tsx, delete-account.tsx, leaving.tsx). One helper in a later code pass.
+- Leaving feedback rows grouped only by the leaving_reason: prefix inside account.
 - Push: DELETE after session 401; stale tokens never removed; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper no wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings (body emoji, A$, Your data, server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion.
+- Code: hardcoded strings (body emoji, A$, Your data, server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -59,30 +59,30 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
-- Fix 6: no record and no answers goes to /onboarding/goal; with answers goes to measurements.
-- Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Paywall checks server record first; 401 ends session.
-- Fix 8: units saved to settings store on measurements Continue via setUnit; no second units row.
-- Fix 9: macros split from the adjusted calorie target on client and server (one shared helper each).
-- Fix 10: survey sent via existing feedback API (reason key only); Manage subscription via existing helper.
+- Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
+- Fix 5 follow-up over Fix 7. Paywall checks server record first. Fix 6: no record and no answers goes to /onboarding/goal.
+- Fix 8: units saved to settings store on measurements Continue via setUnit.
+- Fix 9: macros split from adjusted calorie target on client and server (one shared helper each).
+- Fix 10: survey via existing feedback API (category account, leaving_reason: key, no note, no migration); Manage subscription via existing helper; note field removed.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
 - AI consent: server gate first; profiles.ai_consent_at; 429 queueable; only ai_daily_limit_reached non-retryable. Insights to Gemini; Anthropic only when LLM_PROVIDER=claude.
 - Row 6: hydrateGym limit 200, backend LIMIT kept. 6b: answers stay on device until trial or purchase; GET /api/subscription retried 4 times, 1.5 s apart.
-- Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
 - Billing: only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial, no free tier. REFUND_REVERSED restores from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
 - Expired: Subscription, then win back, then paywall. No price text in Apple messages. WINBACK_REASON in nav.ts.
 - Retention: flag off by default; message keys only; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00-07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; all off by default; permission only after priming says yes.
+- Notifications: median meal times after 3 logs per slot; 7 day window; quiet hours 22:00-07:00; all off by default; permission only after priming says yes.
 - Push token: secure storage after 204 (STORAGE_KEYS.pushToken); sign-out deletes saved copy only after DELETE succeeds.
 - Health: no denied state for reads; null when not granted or no data.
 - Legal: copy in en.json; UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease, common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
-- Meal reaches detail sheet through subject store, never a route param. Clearing Food search drops ?slot; log from detail sheet also drops ?slot. Summary Today always shows today.
+- Meal reaches detail sheet through subject store, never a route param. Summary Today always shows today.
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks exercise.
 - Prettier on en.json: not reformatted.
+- Round 120: stale handover Next (Fix 5) ignored; Fix 5 done. Jev risk 0.9 advisory: kept the round small.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -92,9 +92,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110-115: Fixes 6, 5 (follow-up), 7, 8.
-- 116: Fix 8 flagged check passed.
-- 117: Fix 9 done; backend part changed outside named files (flagged, kept).
-- 118: Fix 9 scope check; DB test for onboarding macros added; passes.
-- 119: Fix 10 issued.
-- Last handover Round 107; next after Round 120.
+- 109: checkpoint green. 110-115: Fixes 5-8 (Fix 5 follow-up).
+- 117-118: Fix 9 done; backend change outside named files kept.
+- 119: Fix 10 issued. 120: Fix 10 done (4 suites pass, no red run); Fix 11 issued.
+- Last handover Round 107; next after Round 123 (checkpoint).
