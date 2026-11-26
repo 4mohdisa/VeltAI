@@ -10,6 +10,9 @@ export const STORAGE_KEYS = {
   // Analytics opt-out ('0' = opted out). Persisted so the privacy choice
   // survives restarts AND sign-outs — the in-memory settings store does not.
   analyticsEnabled: 'lume.analyticsEnabled',
+  // Reminders priming sheet: the answer ('granted', 'denied' or 'not_now'). Kept
+  // across sign-outs, like the system permission it stands in front of.
+  notificationPrimingAnswer: 'lume.notificationPrimingAnswer',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

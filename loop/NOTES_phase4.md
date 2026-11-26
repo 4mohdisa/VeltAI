@@ -11,13 +11,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 7. No simulator flow after each row. Simulator and Maestro only in row 23 and soak rows.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (Maestro flow written, not run); 9 (backend and leaving screen built; leftover parked); 10 (10a built in round 31, flagged, follow-up in round 32).
-- Round 30 full Jest --silent: 311 suites, 1,902 tests, 4 snapshots pass; tsc 0. Console counts not comparable under --silent. Earlier runs: 68 console.error, 163 console.warn.
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
+- PARTIAL: 6b (step f blocked); 7 (7a, 7b built; 7c parked); 8 (code done, Maestro flow written, not run); 9 (backend and leaving screen built; leftover parked); 10 (10a BUILT; 10b and 10c open).
+- Round 32 full Jest without --silent: 312 suites, 1,927 tests, 4 snapshots pass; tsc 0; console.error 68, console.warn 163.
 
 ## Next
-1. Round 32: Row 10a follow-up (full Jest without --silent, console recount, tsc).
-2. Row 10b: notification priming screen after first value, permission prompt, per-category switches in Settings, en.json titles for notifications.<category>.
+1. Row 10b: notification priming screen after first logged meal (one component, en).
+2. Row 10b: per-category switches in Settings, en.json titles for notifications.<category>.
 3. Row 10c: push token register endpoint (sending is a hosted step).
 
 ## Blocked on Isa (park, do not retry)
@@ -53,17 +53,19 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 10a: defaults as built (meal times with median after 3 logs, quiet hours 22:00 to 07:00, promotional needs its own opt in, off by default). Workout and streak fire daily until training days are wired.
 - Round 29: Settings link chosen over notifications because Jev ranked it first (82%).
 - Round 30: follow-up kept over Jev's Row 10 pick (86%) because the one-follow-up rule applies.
-- Round 31: Row 9 flagged again; leftover parked, Row 9 stays PARTIAL. Row 10a chosen over console recount (Jev 62%). Row 10 split into 10a, 10b, 10c.
+- Round 31: Row 9 flagged again; leftover parked, Row 9 stays PARTIAL. Row 10 split into 10a, 10b, 10c.
 - Round 32: Row 10a follow-up chosen over Row 10b (Jev run 60%) because of the one-follow-up rule.
+- Round 33: Row 10a flagged a second time; leftover parked, 10a marked BUILT. Row 10b priming screen chosen over Settings switches (Jev 72%). Permission prompt only after priming says yes.
 - Round 25 log line stays at the end of PHASE4_ROWS.md.
 
 ## Parked
 - Row 9 leftover: leaving screen not yet in a non-silent full run.
+- Row 10a leftover: meal median across midnight averages to midday (late snacks only); skeleton needs a stand-in in render tests (reanimated mock lacks useReducedMotion).
 - Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
 - paywallSessionExpired prints unscoped devWarn. Paywall imports constants from a profile route file; move to src/lib.
 - Body type emoji fontSize 26 hardcoded. Goals may clamp calories silently. Ask Lume, label scan, photo capture need a second tap after consent.
 - Server limit message English only; aiBrain not-enough-data and 'Your data' hardcoded English.
-- About 68 console warns and errors need scoped spies. Reanimated mock lacks useReducedMotion.
+- About 68 console warns and errors need scoped spies.
 - Two private useApi copies; import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; AI sweep skipping no-consent users.
 - formatCurrency hard-codes A$. Nothing dispatches SIGNED_IN. Unused onboarding.paywall.seePlans and trialNote.

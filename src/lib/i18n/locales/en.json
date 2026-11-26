@@ -898,6 +898,14 @@
     "add": "Add",
     "addHint": "Log a gym session or log food"
   },
+  "notifications": {
+    "priming": {
+      "title": "Want a nudge to log?",
+      "body": "Lume can remind you around the times you usually eat, before a streak runs out, and with a weekly summary. You can turn them off anytime in your iPhone Settings.",
+      "turnOn": "Turn on reminders",
+      "notNow": "Not now"
+    }
+  },
   "errorState": {
     "title": "Something went wrong",
     "message": "We hit a snag loading this. Please try again.",

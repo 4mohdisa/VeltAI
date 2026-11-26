@@ -15,24 +15,29 @@
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { NotificationPriming } from '@/components/domain/NotificationPriming';
 import { LumeTabBar } from '@/components/navigation/LumeTabBar';
 import { surface } from '@/lib/design/tokens';
 
 export default function TabsLayout() {
   const { t } = useTranslation();
   return (
-    <Tabs
-      // The bar floats above the scene, so the scene fills the whole screen and
-      // each tab screen pads itself with TAB_BAR_CLEARANCE.
-      tabBar={(props) => <LumeTabBar {...props} />}
-      screenOptions={{
-        headerShown: false,
-        sceneStyle: { backgroundColor: surface.backgroundAlt },
-      }}
-    >
-      <Tabs.Screen name="index" options={{ title: t('dashboard.summaryTitle') }} />
-      <Tabs.Screen name="food" options={{ title: t('food.title') }} />
-      <Tabs.Screen name="gym" options={{ title: t('gym.title') }} />
-    </Tabs>
+    <>
+      <Tabs
+        // The bar floats above the scene, so the scene fills the whole screen and
+        // each tab screen pads itself with TAB_BAR_CLEARANCE.
+        tabBar={(props) => <LumeTabBar {...props} />}
+        screenOptions={{
+          headerShown: false,
+          sceneStyle: { backgroundColor: surface.backgroundAlt },
+        }}
+      >
+        <Tabs.Screen name="index" options={{ title: t('dashboard.summaryTitle') }} />
+        <Tabs.Screen name="food" options={{ title: t('food.title') }} />
+        <Tabs.Screen name="gym" options={{ title: t('gym.title') }} />
+      </Tabs>
+      {/* Over the tabs, so it appears when the user is back from logging their first meal. */}
+      <NotificationPriming />
+    </>
   );
 }

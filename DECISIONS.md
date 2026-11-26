@@ -1204,3 +1204,8 @@ remaining risk.
    as the recommended approach, not as work in progress.
 
 No code changed for this decision.
+
+## Notifications (Row 10)
+
+- `expo-notifications` (~56.0.26) was added with `npx expo install` on 27 Nov 2026. `src/lib/notifications/permissions.ts` is the only file that asks for permission, and only the reminders priming sheet (`src/components/domain/NotificationPriming.tsx`) calls it, so the system prompt never appears before the user has seen the sheet.
+- The priming sheet shows once, after the first logged meal. Its answer (`granted`, `denied` or `not_now`; closing the sheet counts as `not_now`) stays on the device across sign-outs, because the system permission it stands in front of does too.

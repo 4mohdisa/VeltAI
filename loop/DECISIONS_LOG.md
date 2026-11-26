@@ -11818,3 +11818,6 @@
 - 2026-11-27 00:31 Workout reminder and streak at risk fire every day until training days are wired in Row 10b. Recorded as a known limit, not a blocker.
 - 2026-11-27 00:31 The full-suite console recount is done inside the follow-up round, so the earlier unverified count is settled before Row 10b.
 - 2026-11-27 00:31 Parked leftovers from earlier rounds stay parked. None of them is in Row 10a's scope.
+- 2026-11-27 00:33 Round 33: Row 10a was flagged a second time after its one follow-up (round 32). Rule 6 applies: leftover parked in Parked, Row 10a marked BUILT.
+- 2026-11-27 00:33 Round 33: Row 10b priming screen chosen over Settings switches (Jev run 72%, ask 25%). Priming is the first user facing step and must come before the switches.
+- 2026-11-27 00:33 Round 33: the system permission prompt is only called after the priming screen says yes, through one wrapper module.
