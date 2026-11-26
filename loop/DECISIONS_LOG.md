@@ -11755,3 +11755,7 @@
 - 2026-11-26 11:34 Jev ranked Run first at 66% and recommended a smaller task. Chosen task is a verification step, the smallest option. Ask was not used: Isa chose park and carry on.
 - 2026-11-26 11:34 Round 21 is now the console.error trace, and Round 22 remains the full-suite checkpoint.
 - 2026-11-26 11:34 Shared status constants stay where they are for now. Moving them into src/lib is parked, not done in this round, to keep the change small.
+- 2026-11-26 11:35 Chose the closing check first because the automatic check flagged Round 21 as partly done, and the loop rule says to deal with a flag before moving on.
+- 2026-11-26 11:35 Jev ranked Run at 43 percent and Ask at 49 percent. Ask is not allowed under the no questions rule, so Run stays. The closing check is the smallest safe step.
+- 2026-11-26 11:35 No simulator flow this round. The Row 8 simulator flow waits until the per-screen checks pass.
+- 2026-11-26 11:35 Round 22 is a closing check only, with no new features and no display text changes.
