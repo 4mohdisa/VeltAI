@@ -11,25 +11,26 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b (priming), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches and quiet hours display built; 10c open).
-- Round 40 checkpoint passed: tsc 0 errors, 315 suites, 1,954 tests, 4 snapshots, 68 console.error, 163 console.warn. No code change.
-- Round 41: follow-up on partly done wiring (device.ts built, not wired).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches wired to device.ts when permission granted; quiet hours display built; 10c open).
+- Round 40 checkpoint passed: tsc 0 errors, 315 suites, 1,954 tests, 4 snapshots, 68 console.error, 163 console.warn.
+- Round 41: NotificationSettingsList wired to device.ts. Save first, then if permission granted applySchedule(scheduleNotifications(...)) with empty meal times. Test is in src/__tests__/render/ (render tests must be *.render.test.tsx). Tests pass.
+- Round 42: DECISIONS.md expo-notifications line fixed; scoped mock added to the wiring render test to silence the new console.warn.
 
 ## Next
-1. Round 41: wire NotificationSettingsList to device.ts (save; if granted applySchedule(scheduleNotifications(...)); else save only). Two tests in src/__tests__/notificationSettingsList.wiring.test.ts.
-2. Update DECISIONS.md: device.ts also imports expo-notifications.
-3. Settings notification reload moves from Settings open to app start.
-4. Row 10c: push token endpoint (sending is hosted).
-5. Quiet hours editing (later).
+1. Round 43 checkpoint (full run) after round 42 passes. Expect console.warn to drop slightly from 163+.
+2. Reschedule at app start and once a day; derive per-slot meal logging times after 3 logs (median).
+3. Row 10c: push token endpoint (sending is hosted).
+4. Quiet hours editing (later).
+5. Settings notification reload moves from Settings open to app start.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving screen destination; priming copy; win back copy and price package; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase and offerings need iOS public key.
 - Row 8: Maestro install; email code sign in (E2E_EMAIL not +clerk_test); database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: approve quiet hours strings and category labels; permission after Not now; notification defaults; training-day reminders; whether switches ship before device wiring.
+- Row 10: approve quiet hours strings and category labels; permission after Not now; notification defaults; training-day reminders; whether switches ship before scheduling works (App Store 2.1); UTC fallback when device time zone is unreadable.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
-- Row 9: Apple Retention Messaging access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test.
+- Row 9: Apple Retention Messaging access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where the leaving reason and note go.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; privacy label; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b items.
@@ -45,7 +46,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. Webhook does not check Apple signature (reply is same public id for everyone).
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak reminders dropped in quiet hours, workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, reload on Settings open, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts.
+- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak reminders dropped in quiet hours, workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, reload on Settings open, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts (DECISIONS.md fixed round 42). Round 42: mock for expo-notifications scoped to the wiring render test file only.
 - Analytics off by default. Retry label 'Try again'.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
@@ -53,7 +54,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours display only. Default meal times until per-slot times derived. Nothing reschedules at app start or each day.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. paywallSessionExpired has unscoped devWarn. Hardcoded: body emoji 26, A$, 'Your data', server limit message.
-- About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts.
+- About 68 console errors need scoped spies. Settings tests still print the expo-notifications warning. Two useApi copies; import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users. Skeleton render tests need a stand-in (no reanimated useReducedMotion).
 - Unused: onboarding.paywall.seePlans, trialNote. Nothing dispatches SIGNED_IN.
 - Root config and backend JS unlinted; verify:go lacks -count=1; route checks see literal strings only.
@@ -63,10 +64,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 
 ## Gotchas
 - Branch check first (git branch --show-current only). Full Jest paths; never jest -u; redirect output to files.
+- Render tests must be *.render.test.tsx; a .ts file in src/__tests__ runs in the node project and cannot render.
 - Lint: no setState in effect body; use guarded .then.
 - Skeleton screens need per-file LoadingSkeleton mock. Typed routes lack /profile/winback and /profile/leaving: use navigate().
 - Spy useLocalSearchParams via jest.requireMock('expo-router').
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
-- expo-notifications is native: mock in tabs layout tests.
+- expo-notifications is native: mock in tabs layout tests and in the wiring render test.
 - Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
 - Round 25 log line stays at end of PHASE4_ROWS.md.

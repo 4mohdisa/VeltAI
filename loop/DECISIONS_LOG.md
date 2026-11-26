@@ -11857,3 +11857,7 @@
 - 2026-11-27 00:50 Kept the wiring to one component and two tests, so the change stays small.
 - 2026-11-27 00:50 If the component has no meal log times, pass an empty array rather than adding new data plumbing this round.
 - 2026-11-27 00:50 DECISIONS.md fix is left for the next round so this prompt stays at five steps.
+- 2026-11-27 00:53 Chose the Jev pick over per-slot rescheduling. The wiring follow-up is already done, DECISIONS.md now contradicts the import rule the notes depend on, and the fix is small and low risk. It also cuts console.warn before the next checkpoint. Rescheduling at app start waits one round.
+- 2026-11-27 00:53 The expo-notifications mock lives only in the wiring render test file, not in global setup, so other Settings tests keep their warning until a checkpoint.
+- 2026-11-27 00:53 The UTC fallback for an unreadable device time zone is kept as is and parked for Isa, because it was flagged as a choice for him.
+- 2026-11-27 00:53 Still parked: quiet hours editing, the push token endpoint sending (hosted), and the leaving screen destination.
