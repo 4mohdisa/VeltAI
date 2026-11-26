@@ -12408,3 +12408,7 @@
 - 2026-11-27 05:50 Week copy and gym.freeze.confirm stay parked under Isa's blocked list. Not asked.
 - 2026-11-27 05:50 Unused nutrition keys and the English-only keys stay open for a later round.
 - 2026-11-27 05:50 Checkpoint of Round 163 is green, so there is no untested flagged work to run first.
+- 2026-11-27 05:52 Round 165: Round 164 was flagged because Jest did not run, so this round runs the affected tests (rule 8) before any new edit.
+- 2026-11-27 05:52 Round 165: chose the unused key removal, which is the smallest safe step. Jev's 81% run choice agrees.
+- 2026-11-27 05:52 Round 165: removing unused keys from es and fr too, since they are unused in all locales and English only is the rule for new strings.
+- 2026-11-27 05:52 Round 165: fixing the tally line in PHASE4_ROWS.md, since it contradicts the table.
