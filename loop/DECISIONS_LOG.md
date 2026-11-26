@@ -12461,3 +12461,6 @@
 - 2026-11-27 06:32 Round 176: food chosen over auth. It is the next package in the Row 15 order and the gap is small. Jev's ask and stop advice not followed: the loop never asks, and the risky scan delete fix is parked rather than attempted.
 - 2026-11-27 06:32 Round 176: scanned food log delete bug parked for Isa approval (needs a migration). No test covers that path until it is approved.
 - 2026-11-27 06:32 Round 176: Jev's risk score of 1.4 accepted as a reason to keep Row 15 tests small and avoid schema changes.
+- 2026-11-27 06:37 Round 177 is the scheduled checkpoint (override 11, notes say next checkpoint is Round 177). Read only, no edits, so the scheduled gate runs before any new feature work.
+- 2026-11-27 06:37 Jev ranked Row 15 auth first (91 percent). Kept the checkpoint for this round for a concrete reason Jev cannot see: the scheduled checkpoint. Auth moves to Round 178, where Jev's pick is accepted.
+- 2026-11-27 06:37 Food coverage (84.0 percent) accepted as done. Its tests pass under race with none skipped. The scanned food log delete path stays untested on purpose and is parked.
