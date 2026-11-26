@@ -12,6 +12,7 @@ import { resetAnalytics } from '@/lib/analytics';
 import { AI_CONSENT_KEY, __resetAiConsentCache } from '@/lib/ai/consent';
 import { __resetForTests as resetOfflineQueue } from '@/lib/offline/queue';
 import { clearReminders } from '@/lib/notifications/device';
+import { removePushToken } from '@/lib/notifications/pushToken';
 
 // Persisted secure-store keys owned by the app (beyond the zustand-persist ones).
 //
@@ -39,6 +40,10 @@ const SECURE_KEYS = [
  *  keepOnboarding (an expired session, not a sign-out) leaves the in-progress
  *  onboarding answers and saved step, which exist only on this device. */
 export async function resetAllStores({ keepOnboarding = false }: { keepOnboarding?: boolean } = {}): Promise<void> {
+  // Started first, while the session can still sign the request, and not
+  // awaited: removing the push token never holds up the rest of sign-out.
+  void removePushToken();
+
   // Zustand stores — every one has a reset (asserted by test).
   useFoodStore.getState().reset();
   useGymStore.getState().reset();

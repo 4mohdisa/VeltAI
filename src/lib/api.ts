@@ -263,6 +263,8 @@ async function requestInner<T>(method: string, path: string, body?: unknown, ext
       await sleep(RETRY_BASE_MS * 3 ** attempt);
       continue;
     }
+    // 204 No Content has no envelope by definition (POST and DELETE /api/push/token).
+    if (res.status === 204) return { data: undefined as T, status: res.status };
 
     let envelope: { data: T; error: unknown } | undefined;
     try {
@@ -283,7 +285,7 @@ const req = {
   post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
   put: <T>(path: string, body?: unknown) => request<T>('PUT', path, body),
   patch: <T>(path: string, body?: unknown) => request<T>('PATCH', path, body),
-  del: <T>(path: string) => request<T>('DELETE', path),
+  del: <T>(path: string, body?: unknown) => request<T>('DELETE', path, body),
 };
 
 // Replay a queued write with its idempotency key (offline queue). The backend's
@@ -1057,6 +1059,8 @@ function mapBrainToProfile(b: AiBrain): AIBrainProfile {
 // POST /api/feedback — category and message, plus app_version and device_model
 // only when the user opts in. Limits match backend/internal/feedback/validate.go.
 export type FeedbackCategory = 'bug' | 'idea' | 'account' | 'other';
+export type PushTokenInput = { token: string; platform: 'ios' | 'android' };
+
 export type FeedbackInput = {
   category: FeedbackCategory;
   message: string;
@@ -1255,6 +1259,13 @@ export const api = {
   // device fields are present only when the user turned the switch on.
   feedback: {
     post: (input: FeedbackInput) => req.post<{ id: string }>('/api/feedback', input),
+  },
+
+  // The device's push token, owned by the caller. Both answer 204. POST needs a
+  // trial or subscription; DELETE is public so a lapsed account can stop push.
+  push: {
+    register: (input: PushTokenInput) => req.post<void>('/api/push/token', input),
+    remove: (token: string) => req.del<void>('/api/push/token', { token }),
   },
 
   retention: {

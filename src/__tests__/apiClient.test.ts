@@ -45,6 +45,21 @@ describe('api client envelope', () => {
     }));
     await expect(api.goals.get()).rejects.toThrow('invalid response envelope');
   });
+
+  test('a 204 with no body resolves, and DELETE sends its JSON body', async () => {
+    const fetchFn = mockFetch(() => ({
+      ok: true,
+      status: 204,
+      json: async () => {
+        throw new Error('no body');
+      },
+    }));
+    await expect(api.push.register({ token: 'abc', platform: 'ios' })).resolves.toBeUndefined();
+    await expect(api.push.remove('abc')).resolves.toBeUndefined();
+    const [url, init] = fetchFn.mock.calls[1];
+    expect(url).toContain('/api/push/token');
+    expect(init).toMatchObject({ method: 'DELETE', body: JSON.stringify({ token: 'abc' }) });
+  });
 });
 
 describe('api client 401 handling', () => {

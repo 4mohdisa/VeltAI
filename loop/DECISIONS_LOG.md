@@ -11909,3 +11909,8 @@
 - 2026-11-27 01:17 Round 50: push token route gated to trial or active, because nothing is free. Reason: Phase 4 rule that every paid feature is gated.
 - 2026-11-27 01:17 Round 50: Jev said ask 34%, run 46%, stop 20%. Run kept: Isa forbids questions and nothing is dangerous or hosted.
 - 2026-11-27 01:17 Round 49 leftover (Round 48 console.warn in render tests) stays parked per Override 5. The fix needs a shared setup or sign-out change, both off-list.
+- 2026-11-27 01:23 Round 50 was flagged partly done. Override 5 allows one follow-up round, so Round 51 finishes the app side of 10c.
+- 2026-11-27 01:23 Jev asked 60%, but Override 5 applies and no input from Isa is needed, so the run was kept.
+- 2026-11-27 01:23 Row 10c stays PARTIAL until the app registers the token. The backend routes alone do not close it.
+- 2026-11-27 01:23 Expo's native device push token is used for registration, since the backend stores platform ios or android and the APNs token is what a later push sender needs.
+- 2026-11-27 01:23 The DECISIONS.md line about expo-notifications is stale and was corrected to name permissions.ts and device.ts.

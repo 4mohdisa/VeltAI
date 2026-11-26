@@ -1,7 +1,8 @@
 // Row 10b · Reminders priming sheet. Explains reminders once, after the first
 // meal is logged, before the system prompt is ever shown. Either answer (or
 // closing the sheet, which counts as Not now) is stored, so it never returns.
-// A grant reschedules today's reminders at once instead of at the next day.
+// A grant reschedules today's reminders at once instead of at the next day, and
+// registers the device's push token.
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -13,6 +14,7 @@ import { useFoodStore } from '@/lib/data/foodStore';
 import { color, space } from '@/lib/design/tokens';
 import { rescheduleToday } from '@/lib/notifications/daily';
 import { requestNotificationPermission, type PermissionResult } from '@/lib/notifications/permissions';
+import { registerPushToken } from '@/lib/notifications/pushToken';
 import { getItem, setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 
 type Answer = PermissionResult | 'not_now';
@@ -45,7 +47,9 @@ export function NotificationPriming() {
     setAnswered(true);
     const result = await requestNotificationPermission();
     save(result);
-    if (result === 'granted') await rescheduleToday().catch(() => undefined);
+    if (result !== 'granted') return;
+    void registerPushToken();
+    await rescheduleToday().catch(() => undefined);
   };
 
   return (

@@ -5,6 +5,7 @@
 // own and leaves anything else scheduled on the device alone.
 import * as Notifications from 'expo-notifications';
 
+import type { PushTokenInput } from '@/lib/api';
 import i18n from '@/lib/i18n';
 import type { ScheduledNotification } from './types';
 
@@ -17,6 +18,18 @@ export async function notificationPermission(): Promise<boolean> {
     return status === Notifications.PermissionStatus.GRANTED;
   } catch {
     return false;
+  }
+}
+
+/** The native device push token and its platform, only when permission is
+ *  already granted. Null otherwise, on another platform, or on failure. Never prompts. */
+export async function getPushToken(): Promise<PushTokenInput | null> {
+  try {
+    if (!(await notificationPermission())) return null;
+    const { type, data } = await Notifications.getDevicePushTokenAsync();
+    return (type === 'ios' || type === 'android') && typeof data === 'string' ? { token: data, platform: type } : null;
+  } catch {
+    return null;
   }
 }
 
