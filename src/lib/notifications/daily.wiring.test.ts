@@ -2,8 +2,8 @@
 // app start and when the app becomes active, schedules at most once per local
 // day, keeps the day key in secure storage (cleared on sign-out), retries after
 // a failed schedule, never asks for permission and plans meal reminders from
-// the week's food logs, and re-registers the push token. Fake clock, mocked AppState,
-// device.ts, pushToken.ts, expo-notifications and the food log read; secure storage is the in-memory mock.
+// the week's food logs. The push token is left to ClerkBridge, after sign-in.
+// Fake clock, mocked AppState, device.ts, pushToken.ts, expo-notifications and the food log read; secure storage is the in-memory mock.
 import { AppState } from 'react-native';
 
 import type { FoodLog } from '@/lib/api';
@@ -77,10 +77,10 @@ test('app start schedules once and saves the day key', async () => {
   expect(AppState.addEventListener).toHaveBeenCalledTimes(1);
 });
 
-test('every run re-registers the push token, the same day included', async () => {
+test('a daily run never re-registers the push token', async () => {
   await start('2026-11-27T09:00:00Z');
-  await foreground('2026-11-27T18:00:00Z');
-  expect(restorePushToken).toHaveBeenCalledTimes(2);
+  await foreground('2026-11-28T09:00:00Z');
+  expect(restorePushToken).not.toHaveBeenCalled();
 });
 
 test('a second foreground on the same day does nothing', async () => {

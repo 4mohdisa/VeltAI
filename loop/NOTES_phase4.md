@@ -12,19 +12,19 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (Settings switches and quiet hours editing done; wiring test rerun passed 8/8 in Round 56; push token in memory only).
-- Round 54 checkpoint: tsc 0 errors; Jest 320 suites, 1,992 tests, 4 snapshots pass.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (Settings switches, quiet hours editing, push token saved and restored; sign-in gating in progress).
+- Round 54 checkpoint: tsc 0; Jest 320 suites, 1,992 tests, 4 snapshots pass. Round 57: Jest 321 suites, 2,006 tests pass.
 
 ## Next
-1. Round 57: save push token in secure storage, re-register at app start (Row 10).
-2. DELETE after session ends gets 401 (Row 10, after 1).
-3. Stepper 'Decrease' and 'Increase' labels into en.json.
+1. Round 58 (follow-up): re-register push token only after sign-in, from ClerkBridge (Row 10).
+2. Stepper 'Decrease' and 'Increase' labels into en.json.
+3. DELETE after session ends gets 401 (Row 10).
 
 ## Blocked on Isa (park, do not retry)
-- Leaving destination; priming copy; win back copy and price; es/fr text; Resubscribe beside Manage on cancelled.
+- Leaving destination; priming copy; win back copy and price; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase needs iOS public key.
 - Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours step and wording, no off switch; UTC fallback when device time zone unreadable; reschedule same day after later grant; push token retention; DELETE public or gated.
+- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours wording, no off switch; UTC fallback when device time zone unreadable; reschedule same day after later grant; push token retention period; DELETE public or gated; push token re-register rate.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -43,18 +43,18 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00 (editable in 15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Start and foreground share one run. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
-- Push token: registered after grant on priming sheet (registerPushToken, next to rescheduleToday); removed first in resetAllStores; not awaited; API client treats 204 as success with no data.
+- Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00 (editable in 15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
+- Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); sign-out uses memory or saved copy and deletes saved copy only after DELETE succeeds; not awaited; API client treats 204 as success with no data.
 - Analytics off by default. Retry label 'Try again'. English only for new keys (en.json plus ENGLISH_ONLY in localeParity.test.ts).
 - Render test expo-notifications stub lives in src/__tests__/render/setup.ts, not the shared root config.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
 ## Parked
-- Token in memory only (being fixed in Round 57). DELETE after session ends gets 401; stale row stays on server.
-- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks wrap at midnight. Stepper stops at 00:00 and 23:45.
+- DELETE after session ends gets 401; stale row stays on server. Stale push tokens never removed.
+- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks and quiet hours stepper do not wrap at midnight. Stepper stops at 00:00 and 23:45.
 - A switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground.
 - Nothing derives per-slot meal times at app start; settings reload only when Settings opens.
-- Stale push tokens never removed. node Jest expo-notifications mock lacks getDevicePushTokenAsync.
+- Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
 - About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts. Skeleton render tests need a reanimated useReducedMotion stand-in.
@@ -79,5 +79,6 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## Round log
 - Round 55: quiet hours editable (Stepper, 15 min steps, BottomSheet). Flagged partly done.
-- Round 56: follow-up on Round 55. Wiring test rerun passed 8/8; tsc 0 errors. Flagged partly done again; leftovers parked, moved on.
-- Round 57 (running): push token kept across relaunch (Row 10).
+- Round 56: follow-up. Wiring test 8/8; tsc 0. Flagged again; leftovers parked.
+- Round 57: push token saved in secure storage and restored on relaunch. Flagged partly done; follow-up is Round 58.
+- Round 58 (running): re-register push token only after sign-in.

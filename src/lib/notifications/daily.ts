@@ -10,7 +10,6 @@ import { hydrateNotificationSettings, useSettingsStore } from '@/lib/settings/st
 import { deleteItem, getItem, setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { applySchedule, notificationPermission } from './device';
 import { localMealTimes } from './mealTimes';
-import { restorePushToken } from './pushToken';
 import { scheduleNotifications } from './schedule';
 import type { MealLogTimes, NotificationSettings } from './types';
 
@@ -43,11 +42,9 @@ let running: Promise<void> | null = null;
 
 /** Loads the saved settings and day key, then runs ensureDailySchedule. The day
  *  key is saved only after a successful run, so a failed schedule retries on the
- *  next call. Also re-registers the push token. Overlapping calls share one run. Never throws. */
+ *  next call. Overlapping calls share one run. Never throws. */
 export function runDailySchedule(): Promise<void> {
   running ??= (async () => {
-    // Not awaited: re-registering the push token never holds up the schedule.
-    void restorePushToken();
     await hydrateNotificationSettings();
     const timeZone = notificationTimeZone();
     // A failed read (offline, signed out) falls back to the default meal times.
