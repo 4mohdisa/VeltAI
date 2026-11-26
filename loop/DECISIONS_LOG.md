@@ -11865,3 +11865,12 @@
 - 2026-11-27 00:55 Did not add the expo-notifications mock to notificationSettings.render.test.tsx: the file is off the allowed-edit list, and the warning does not fail a gate. Parked.
 - 2026-11-27 00:55 Corrected the round 42 note: no mock was added, because the wiring test already mocks device.ts and permissions.ts and is clean.
 - 2026-11-27 00:55 Kept the Jev signal (run 77%, low risk) as a second opinion that agrees with the choice.
+- 2026-11-27 00:56 Round 44 picks candidate 1 (reschedule at start and daily): it closes the last gap in the switch wiring and the latest report names it as NEXT. Jev ranked the same action first (run 69%), so no second look.
+- 2026-11-27 00:56 Reschedule never prompts for permission; it only applies a schedule when permission is already granted (App Store 2.1 and priming rule).
+- 2026-11-27 00:56 Per-day guard is stored and cleared on sign-out, matching the rule that notification settings are cleared on sign-out.
+- 2026-11-27 00:56 Render tests must mock device.ts and permissions.ts to avoid the parked expo-notifications console.warn; the warn is not fixed in this round.
+- 2026-11-27 00:56 Settings reload on open is superseded by the start-time load, so it is not a separate step.
+- 2026-11-27 00:57 Chose the daily helper first: the last report named it as the next step, and it is one module with no UI change.
+- 2026-11-27 00:57 Kept the helper free of prompts and of expo-notifications imports, so the rule that only permissions.ts and device.ts touch the SDK still holds.
+- 2026-11-27 00:57 Left wiring into app start for a later round, so this prompt stays to one module.
+- 2026-11-27 00:57 Trimmed the notes to under 600 words. Finished items and duplicate lines were merged or removed, and every open decision and owner step is kept.

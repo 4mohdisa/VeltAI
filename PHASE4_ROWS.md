@@ -45,5 +45,6 @@
 BUILT or EXACT: 9 of 38
 
 Checkpoint 27 Nov 2026 (row 31 soak, round 43): tsc 0 errors; Jest 316 of 316 suites, 0 failed, 1,956 tests, 4 snapshots, 68 console.error, 168 console.warn; go test -race 38 packages ok, 0 failed, 16 with no test files, on lume_test_local. All gates green.
+Row 10 (round 44): daily reschedule helper src/lib/notifications/daily.ts (ensureDailySchedule: once per local day, permission read only, never prompts) with 5 tests in daily.test.ts; wiring into app start is open.
 Round 25: removed unused onboarding.paywall.seePlans and onboarding.paywall.trialNote from en, es and fr; tsc 0 errors, Jest 309 of 309 suites, 1,894 tests, 4 snapshots, 68 console.error.
 Round 26: Row 9 backend half: GET /api/retention/summary (counts only, Pro gated), Apple Retention Messaging webhook and upload tool behind RETENTION_MESSAGING_ENABLED (off), app client api.retention.summary; go test -race 3 packages ok on lume_test_local, p95 0.40 ms on seed_heavy.
