@@ -15,7 +15,8 @@ import { mockUser } from '@/lib/mock/data';
 import { useUserStore } from '@/lib/data/userStore';
 import { deriveGoals } from '@/lib/goals/derive';
 import { calorieFloor } from '@/lib/onboarding/deriveTargets';
-import { setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
+import { DEFAULT_NOTIFICATION_SETTINGS, type NotificationSettings } from '@/lib/notifications/types';
+import { getItem, setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 import type { Sex } from '@/lib/types';
 
 // --- Goals ------------------------------------------------------------------
@@ -35,34 +36,6 @@ export function aiGoals(): MacroGoals {
   return deriveGoals(useUserStore.getState().profile);
 }
 
-// --- Notifications ----------------------------------------------------------
-export type NotificationPrefs = {
-  gymReminder: boolean;
-  mealReminders: boolean;
-  streakAtRisk: boolean;
-  aiNudges: boolean;
-  weeklyRecap: boolean;
-  quietFrom: Date;
-  quietTo: Date;
-};
-
-// Today at the given hour/minute (quiet-hours default seed).
-function timeToday(hours: number, minutes: number): Date {
-  const d = new Date();
-  d.setHours(hours, minutes, 0, 0);
-  return d;
-}
-
-const defaultNotificationPrefs = (): NotificationPrefs => ({
-  gymReminder: true,
-  mealReminders: true,
-  streakAtRisk: true,
-  aiNudges: true,
-  weeklyRecap: false,
-  quietFrom: timeToday(22, 0),
-  quietTo: timeToday(7, 0),
-});
-
 const seedUnits: UnitPreferences =
   mockUser.units === 'imperial' ? IMPERIAL_PREFERENCES : mockUser.units === 'metric' ? METRIC_PREFERENCES : DEFAULT_UNIT_PREFERENCES;
 
@@ -81,7 +54,7 @@ type SettingsState = {
    *  no row yet — the Subscription screen then keeps RevenueCat's own view. */
   serverEntitlement: ServerEntitlement;
   macroSplitBy: MacroSplitBy;
-  notificationPrefs: NotificationPrefs;
+  notifications: NotificationSettings;
   // First-party product analytics (OPT-IN as of 2026-08-09 — DECISIONS.md).
   // Defaults to false: nothing is collected until the user answers the
   // consolidated disclosure in src/lib/ai/consent.ts. Off → track() no-ops and
@@ -97,14 +70,15 @@ type SettingsState = {
   setServerGoals: (goals: MacroGoals | null) => void;
   setServerEntitlement: (entitlement: ServerEntitlement) => void;
   setMacroSplitBy: (by: MacroSplitBy) => void;
-  setNotificationPrefs: (patch: Partial<NotificationPrefs>) => void;
+  /** Saved on the device at once; re-read by hydrateNotificationSettings. */
+  setNotifications: (patch: Partial<NotificationSettings>) => void;
   resetGoalsToAi: () => void;
   setAnalyticsEnabled: (enabled: boolean) => void;
   /** Sign-out: back to defaults. */
   reset: () => void;
 };
 
-export const useSettingsStore = create<SettingsState>((set) => ({
+export const useSettingsStore = create<SettingsState>((set, get) => ({
   units: seedUnits,
   languageOverride: null,
   goalMode: 'ai',
@@ -112,7 +86,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   serverGoals: null,
   serverEntitlement: null,
   macroSplitBy: 'grams',
-  notificationPrefs: defaultNotificationPrefs(),
+  notifications: DEFAULT_NOTIFICATION_SETTINGS,
   analyticsEnabled: false,
 
   setSystem: (system) => set({ units: system === 'imperial' ? IMPERIAL_PREFERENCES : METRIC_PREFERENCES }),
@@ -136,8 +110,11 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setServerGoals: (serverGoals) => set({ serverGoals }),
   setServerEntitlement: (serverEntitlement) => set({ serverEntitlement }),
   setMacroSplitBy: (macroSplitBy) => set({ macroSplitBy }),
-  setNotificationPrefs: (patch) =>
-    set((s) => ({ notificationPrefs: { ...s.notificationPrefs, ...patch } })),
+  setNotifications: (patch) => {
+    const notifications = { ...get().notifications, ...patch };
+    set({ notifications });
+    void setItem(STORAGE_KEYS.notificationSettings, JSON.stringify(notifications));
+  },
   resetGoalsToAi: () => set({ customGoals: aiGoals() }),
   setAnalyticsEnabled: (analyticsEnabled) => {
     set({ analyticsEnabled });
@@ -160,10 +137,30 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       serverGoals: null,
       serverEntitlement: null,
       macroSplitBy: 'grams',
-      notificationPrefs: defaultNotificationPrefs(),
+      notifications: DEFAULT_NOTIFICATION_SETTINGS,
       analyticsEnabled: false,
     }),
 }));
+
+/** Re-applies the saved notification settings (the store re-seeds to defaults on
+ *  every launch). Anything missing or unreadable falls back to the defaults, so
+ *  promotional stays off unless the user opted in. */
+export async function hydrateNotificationSettings(): Promise<void> {
+  const raw = await getItem(STORAGE_KEYS.notificationSettings);
+  if (!raw) return;
+  try {
+    const saved = JSON.parse(raw) as Partial<NotificationSettings>;
+    useSettingsStore.setState({
+      notifications: {
+        enabled: { ...DEFAULT_NOTIFICATION_SETTINGS.enabled, ...saved.enabled },
+        quietHours: saved.quietHours === undefined ? DEFAULT_NOTIFICATION_SETTINGS.quietHours : saved.quietHours,
+        promotionalOptIn: saved.promotionalOptIn === true,
+      },
+    });
+  } catch {
+    // unreadable → keep the defaults
+  }
+}
 
 /** Safety band for a daily calorie target (see PUT /api/goals server-side). */
 export const CALORIE_TARGET_MIN = 1200;

@@ -13,6 +13,9 @@ export const STORAGE_KEYS = {
   // Reminders priming sheet: the answer ('granted', 'denied' or 'not_now'). Kept
   // across sign-outs, like the system permission it stands in front of.
   notificationPrimingAnswer: 'lume.notificationPrimingAnswer',
+  // Per-category notification switches, quiet hours and the promotional opt in
+  // (JSON). Cleared on sign-out so one account's opt in never carries over.
+  notificationSettings: 'lume.notificationSettings',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

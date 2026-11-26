@@ -11824,3 +11824,8 @@
 - 2026-11-27 00:38 Round 34: Row 10b flagged as partly done, the first flag on this row. One follow-up round applies, so the full suite run is the follow-up. It closes the gap without Isa.
 - 2026-11-27 00:38 Round 34: Jev ranked ask 57% and run 35%. Ask is not allowed, so run was chosen. Settings switches wait one round so the flagged task closes first.
 - 2026-11-27 00:38 Round 34: the full suite run is the only way to confirm the new native module does not break other tests. It is run here, not at a later checkpoint, because the flag was about exactly that.
+- 2026-11-27 00:40 Round 35: the loop flag on round 34 is resolved. The full suite passed (313 suites, 1,936 tests, tsc 0), so the Row 10b priming sheet is BUILT.
+- 2026-11-27 00:40 Row 10b part 2 (Settings switches and quiet hours) stays open. It was deferred one round as planned, and it is now the next task.
+- 2026-11-27 00:40 Chosen Settings switches over 10c because the one round wait is over and the 10b Settings work is the open dependency for 10c's token flow.
+- 2026-11-27 00:40 Jev ranked run at 82%, so the next action is run, not ask or stop.
+- 2026-11-27 00:40 No question to Isa. The priming copy, defaults and leaving survey destination stay parked in OWNER_CHECKS_phase4.md.

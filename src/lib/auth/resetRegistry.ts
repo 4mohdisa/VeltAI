@@ -30,6 +30,7 @@ const SECURE_KEYS = [
   'labelPromptDismissed',
   AI_CONSENT_KEY,
   STORAGE_KEYS.analyticsEnabled,
+  STORAGE_KEYS.notificationSettings,
 ];
 
 /** Clear every store, persisted key, and the offline queue. Never throws.

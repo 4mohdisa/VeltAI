@@ -22,6 +22,7 @@ import { Avatar } from '@/components/display/Avatar';
 import { Card } from '@/components/display/Card';
 import { CardHeaderRow } from '@/components/display/CardHeaderRow';
 import { SettingsList } from '@/components/display/SettingsList';
+import { NotificationSettingsList } from '@/components/domain/NotificationSettingsList';
 import { Stat } from '@/components/display/Stat';
 import { LoadFailedNotice } from '@/components/display/LoadFailedNotice';
 import { Skeleton } from '@/components/display/LoadingSkeleton';
@@ -186,14 +187,10 @@ export default function ProfileScreen() {
           title={t('settings.groupApp')}
           rows={[
             { icon: 'options-outline', label: t('settings.preferences'), onPress: () => router.push('/profile/preferences') },
-            // Notifications row removed (audit 2026-08-06): the preferences
-            // screen offered "What we send" toggles + quiet hours for a
-            // notification system that does not exist in the build — dead UI
-            // masquerading as a feature (App Store 2.1). Restore the row when
-            // something actually sends notifications.
             { icon: 'link-outline', tint: accent.turquoise, label: t('profile.connectedApps'), onPress: () => router.push('/profile/integrations' as Href) },
           ]}
         />
+        <NotificationSettingsList />
         <SettingsList
           title={t('settings.groupAbout')}
           rows={[

@@ -899,6 +899,30 @@
     "addHint": "Log a gym session or log food"
   },
   "notifications": {
+    "meal_reminder": {
+      "title": "Time to log your meal",
+      "label": "Meal reminders"
+    },
+    "workout_reminder": {
+      "title": "Time to train",
+      "label": "Workout reminder"
+    },
+    "streak_at_risk": {
+      "title": "Your streak ends tonight",
+      "label": "Streak at risk"
+    },
+    "weekly_summary": {
+      "title": "Your week in Lume",
+      "label": "Weekly summary"
+    },
+    "promotional": {
+      "title": "News from Lume",
+      "label": "News and tips from Lume"
+    },
+    "quietHours": {
+      "label": "Quiet hours",
+      "value": "{{start}} to {{end}}"
+    },
     "priming": {
       "title": "Want a nudge to log?",
       "body": "Lume can remind you around the times you usually eat, before a streak runs out, and with a weekly summary. You can turn them off anytime in your iPhone Settings.",
