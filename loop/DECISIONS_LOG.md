@@ -11662,3 +11662,7 @@
 - 2026-11-26 10:51 Row 2b closes as BUILT with owner check pending. This is the parked decision from the Blocked list, which was already repeated twice, so it is not retried again.
 - 2026-11-26 10:51 Open Isa decisions (target weight, dead end 7, es and fr text, plan-ready summary) go to OWNER_CHECKS_phase4.md and do not block the row.
 - 2026-11-26 10:51 The body-type emoji hardcoded size 26 stays as is, to keep the Phase 1 look.
+- 2026-11-26 10:52 Chose the checkpoint first: Row 2b changed measurements, targets and body type after the last full run, and the Phase 4 loop asks for a full run after closing a row. Row 7 is next round.
+- 2026-11-26 10:52 Repeated blocker: the Profile > Goals setCustomGoals calorie clamp check came back as the next item without a result twice, so it is recorded under Blocked on Isa as not retried. It is a Parked setting item, not an owner step; it can be picked up after Row 7.
+- 2026-11-26 10:52 Jev suggests run at 79%. Kept run. Consistent with the Next list order.
+- 2026-11-26 10:52 Did not add ROUTE_COVERAGE or Maestro work this round; both wait for their rows.

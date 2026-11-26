@@ -11,10 +11,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT. Row 3 BUILT (owner check pending).
 - PARTIAL: 6b (step f blocked).
 - Not started: 7 to 11, 13, 14, 14a, 14b, 15 to 31.
-- Last checkpoint: tsc 0; Jest 299/299 suites, 1,816/1,816 tests; 67 console.error, 165 console.warn.
+- Last checkpoint: tsc 0; Jest 299/299 suites, 1,816/1,816 tests; 67 console.error, 165 console.warn. Row 2b closed since then: a full checkpoint run is pending (this round).
 
 ## Next
-1. Profile > Goals: check setCustomGoals for a silent calorie clamp.
+1. Phase 4 checkpoint: full tsc and Jest (this round).
 2. Row 7: paywall wrapper (RevenueCat behind one module, mocked in Jest).
 3. Row 8: subscription lifecycle screens.
 4. Maestro flows (2b, 23) once Maestro is confirmed.
@@ -35,7 +35,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Decisions (never delete)
 - Isa (26 Nov): target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie target asks 'Update your calorie target to match?'; sign up email errors inline under field; training days stored on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md and add route check to verify; export, delete account, disconnect integrations and privacy/consent settings work without subscription.
-- Row 2b: measurements Continue never disabled; invalid input shows inline errors. Inches whole 0 to 11. Feet whole 3 to 8. Target weight required when shown (lose or muscle), 30 to 300 kg; server optional up to 1000. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session. Calorie range under field on Save (floor 1500, or 1200 for female). Unit prefill: weight and target weight come back in the saved unit. Dead ends 8 to 11 built. Apple, Google and other code-check errors stay as toasts. Row 2b closed with owner check pending (Isa's open decisions in OWNER_CHECKS_phase4.md).
+- Row 2b: measurements Continue never disabled; invalid input shows inline errors. Inches whole 0 to 11. Feet whole 3 to 8, and an empty feet box with inches filled shows the feet range error. Target weight required when shown (lose or muscle), 30 to 300 kg; server optional up to 1000. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session. Calorie range under field on Save (floor 1500, or 1200 for female). Unit prefill: weight and target weight come back in the saved unit. Apple, Google and other code-check errors stay as toasts.
 - Row 3: browser oauth_apple flow. Apple button hidden on Android.
 - Row 5: consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
 - Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
@@ -53,12 +53,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Blocked on Isa (park, do not retry)
 - Target weight stays required? and dead end 7 copy sign off.
 - Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device. Native Apple sheet vs browser flow.
-- es and fr text for onboarding.measurements.heightRangeIn, onboarding.targets.caloriesRange, and three rewritten keys (subscription.plansUnavailable, subscription.notConfiguredDev, onboarding.paywall.plansUnavailable).
+- es and fr text for onboarding.measurements.heightRangeIn, onboarding.targets.caloriesRange, and three rewritten keys (subscription.plansUnavailable, subscription.notConfiguredDev, onboarding.paywall.plansUnavailable). The paywall one names RevenueCat and is out of date.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
-- Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup; Apple Developer and Clerk Apple setup; iPhone sign in with Apple check.
+- Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup; Apple Developer and Clerk Apple setup; iPhone sign in with Apple check; Row 2b items in OWNER_CHECKS_phase4.md.
+- Repeated (twice, not retried): Profile > Goals setCustomGoals calorie clamp check. Revisit after Row 7.
 
 ## Parked
 - Ask Lume, label scan, photo capture need second tap after consent.
@@ -73,12 +74,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
-- Setting: Profile > Goals setCustomGoals may clamp calories silently (unchecked).
 - Row 2b: emoji on body-type uses hardcoded fontSize 26, no matching token (left alone to keep the look).
-- Row 2b: with feet empty and inches filled, fixed in this round if the step passes; otherwise see Blocked.
-- Row 2b: es and fr values of three rewritten keys are out of date (paywall one names RevenueCat).
-- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. Briefs may name files that do not exist; grep first. The render setup mocks the router without dismissTo. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes.
+- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts must match the command run. Briefs may name files that do not exist; grep first. The render setup mocks the router without dismissTo. Jest name patterns can match more files than intended; pass full paths. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes.
 
 ## Loop note
-- Loop flagged the Row 2b report as partly done. Gap was the empty feet case; this round fixes it and then closes the row.
 - Every prompt opens with the branch check and the rule to work only on loop/phase4.
+- Round 2b closed. Next round after the checkpoint: Row 7.

@@ -71,8 +71,9 @@ export default function TargetsScreen() {
     // onboarding POST carries, so anything else 400s the whole flow.
     // A value outside the band is refused with the range, never silently
     // replaced by the floor or ceiling.
-    const calories = parseInt(draft, 10);
-    if (clampCalories(calories, sex ?? 'other') !== calories) {
+    const typed = parseInt(draft, 10);
+    const calories = clampCalories(typed, sex ?? 'other');
+    if (calories !== typed) {
       setDraftError(
         t('onboarding.targets.caloriesRange', {
           min: formatNumber(calorieFloor(sex ?? 'other')),

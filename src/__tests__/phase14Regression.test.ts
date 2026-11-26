@@ -142,13 +142,15 @@ describe('claim 2 · calorie banding', () => {
 
   test('the onboarding targets sheet clamps the manual value before saving', () => {
     const src = read('app/onboarding/targets.tsx');
-    expect(src).toContain("import { clampCalories } from '@/lib/settings/store'");
+    expect(src).toContain("clampCalories } from '@/lib/settings/store'");
     // The saved value is the clamped one, in both the local state and the store,
     // and the clamp is given the ONBOARDING sex — the profile store still holds
     // its default here, and the server floors this submission on the sex the
     // onboarding POST carries. Without it a male user's 1200 is accepted
     // locally and then 400s the whole flow (found on device, 2026-08-06).
-    expect(src).toContain('clampCalories(parseNum(draft, macros.calories), sex ?? \'other\')');
+    // A typed value the clamp would change is refused with the range instead.
+    expect(src).toContain("clampCalories(typed, sex ?? 'other')");
+    expect(src).toContain('if (calories !== typed)');
     ordered(src, 'const calories = clampCalories(', 'setCalorieTarget(calories)', 'targets sheet');
   });
 });
