@@ -14,12 +14,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 8, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
 - PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (Maestro flow written, not run; parked under rule 6).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
+- Round 24: act() warning fixed in paywallOnboardingPost.render.test.tsx; file has a scoped console.error spy. console.error expected about 68.
 - Last full run (round 17): tsc 0; Jest 309 suites, 1,894 tests; console.error 69 (baseline 67).
 
 ## Next
-1. Round 24: trace console.error rise in paywallOnboardingPost.render.test.tsx (act warning).
-2. Round 25: remove onboarding.paywall.seePlans and trialNote after checking en.json. Full suites on this checkpoint.
-3. Then Row 9.
+1. Round 25 (in progress): remove onboarding.paywall.seePlans and trialNote only if no code uses them. Full suites on this checkpoint (tsc, full Jest). Record counts.
+2. Then Row 9 (cancel and retention endpoint).
 
 ## Blocked on Isa (park, do not retry)
 - Win back: 'weren't charged' toast kept; English copy approved?; which package price to show.
@@ -42,18 +42,19 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 6: hydrateGym limit 200; backend LIMIT kept. 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. GET /api/subscription public. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
 - Row 7: wrapper first, screen second. Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when store says eligible. Restore failure: 'no previous subscription found'.
-- Row 8: banner reads server record (useServerEntitlement), past_due only, never loads the SDK. Past_due and expired hide the Subscription Manage button.
-- Win back: store price via wrapper; promotional offers only; no price text in Apple messages; WINBACK_REASON in nav.ts; EXPIRED and CANCELLED exported once from subscription.tsx.
+- Row 8: banner reads server record (useServerEntitlement), past_due only, never loads the SDK. Past_due and expired hide the Subscription Manage button. Expired goes Subscription, then win back, then paywall.
+- Win back: store price via wrapper; promotional offers only; no price text in Apple messages; WINBACK_REASON in nav.ts; EXPIRED and CANCELLED exported once from subscription.tsx. Wrapper has no promotional offer API, so win back opens the paywall.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset refuses events. Analytics off by default; loop follows Settings switch.
 
 ## Parked
 - Subscription footer may show two Manage buttons on past_due. Pull-to-refresh does not refetch subscription. entitlementFromApi stores unknown status as is.
+- paywallSessionExpired prints unscoped devWarn 'submit failed: invalid token'. Paywall imports constants from a profile route file; move shared status constants to src/lib.
 - Body type emoji fontSize 26 hardcoded. Goals may clamp calories silently.
 - Ask Lume, label scan, photo capture need a second tap after consent.
 - Server limit message English only; aiBrain not-enough-data and 'Your data' hardcoded English.
-- About 69 console warns and errors need scoped spies.
+- About 68 console warns and errors need scoped spies.
 - Reanimated test mock lacks useReducedMotion; skeletons need per-file mock.
 - Two private useApi copies; import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; AI sweep skipping no-consent users.
@@ -62,13 +63,15 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. Row 5: parallel requests can slip past AI limit; old daily counts never deleted.
-- Shared status constants should move to src/lib.
 
 ## Gotchas
 - Pass full paths to Jest. Never jest -u. Redirect output to files. Touch a fresh marker each round.
 - Lint forbids setState inside an effect body; use a guarded .then.
 - Every prompt opens with the branch check. Max 5 numbered steps.
 - Screens with a skeleton need a per-file LoadingSkeleton mock.
+- Typed routes lack /profile/winback; use navigate().
+- Spy on useLocalSearchParams through jest.requireMock('expo-router'), not import *.
+- Go entitlement tests need LUME_TEST_DATABASE_URL pointed at local lume_test_local.
 
 ## Loop note
-- Full suites on the Round 25 checkpoint.
+- Full suites on the Round 25 checkpoint (in progress).

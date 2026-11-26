@@ -1351,7 +1351,6 @@
     },
     "paywall": {
       "title": "Everything's ready for you",
-      "seePlans": "See plans & start free trial",
       "devBillingNote": "Billing not configured (dev) — continuing without a paywall",
       "restore": "Already subscribed? Restore purchases",
       "restoring": "Restoring…",
@@ -1368,7 +1367,6 @@
         "refunded": "Your subscription was refunded, so it's no longer active. Choose a plan to keep using Lume.",
         "not_subscribed": "We couldn't find an active subscription. Choose a plan to keep using Lume."
       },
-      "trialNote": "Plans and pricing are shown on the next screen. {{days}}-day free trial, auto-renews, cancel anytime in Settings.",
       "subscribe": "Subscribe",
       "startTrial": "Start free trial",
       "packageLabel": "{{period}} · {{price}}",

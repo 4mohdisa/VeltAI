@@ -11771,3 +11771,7 @@
 - 2026-11-27 00:01 Chose Round 24 over Jev's ask lean: asking is not allowed, and the task is small and scoped.
 - 2026-11-27 00:01 Kept Round 24 as the next step because the notes place it before the Round 25 checkpoint.
 - 2026-11-27 00:01 Condensed the notes to under 600 words, keeping every decision and blocked item in one line each.
+- 2026-11-27 00:03 Chose the Round 25 checkpoint task because the notes schedule full suites on Round 25, and the unused keys are a clean, small removal.
+- 2026-11-27 00:03 Kept the paywall devWarn and the entitlementFromApi change parked, since they are not in this checkpoint.
+- 2026-11-27 00:03 Told Claude Code to leave a key in place and report it if code still uses it, so a risky removal never happens.
+- 2026-11-27 00:03 Did not use the Jev 'ask' signal: the task is safe to run without Isa, and the risk score is the normal checkpoint risk.
