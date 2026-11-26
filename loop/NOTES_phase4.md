@@ -12,33 +12,37 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Changes outside named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint rounds: full tsc and full Jest, no edits. Next: Round 172.
+11. Checkpoint rounds: full tsc and full Jest, no edits. Every ~5 rounds.
 
-## State (Round 171)
+## State (Round 172)
 - BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 15-28, 30.
-- Last green checkpoint: Round 167 (tsc 0, Jest 350/350). Go race green Round 170 (39 packages).
+- Round 171 done: verify:go needs LUME_TEST_DATABASE_URL (local hosts only), uses -count=1. 38 packages ok, 97 TestPG run.
+- Round 172: checkpoint (tsc + full Jest, no edits). Next checkpoint: Round 177.
+- Last green full checkpoint: Round 167 (tsc 0, Jest 350/350). Go race green Round 170.
 
 ## Row 15 (in progress)
-- Step 1 (169): BACKEND_COVERAGE.md with -coverpkg=./....
-- Step 2 (170): internal/gym 49.8 to 77.9 (own tests only 44.9). Off the list.
-- Still under 70: recipes 26.8, integrations 39.1, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
-- Gym handlers still thin: patchSession 13.6, patchExercise 8.8, lastLogged 0, listTemplates 0.
-- Entry points excluded from the 70 target (Round 170).
-- Next: Round 171 verify:go fix. Then recipes, integrations, scan, debugreports, analytics, auth, food, then gym handlers.
+- Done: step 1 (BACKEND_COVERAGE.md), step 2 (internal/gym 49.8 to 77.9).
+- Under 70: recipes 26.8, integrations 39.1, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
+- Gym handlers thin: patchSession 13.6, patchExercise 8.8, lastLogged 0, listTemplates 0.
+- Order: recipes (Round 173), integrations, scan, debugreports, analytics, auth, food, gym handlers.
+- Measure with -coverpkg=./internal/<pkg> ./... (plain -cover undercounts).
+
+## Row 30 follow-up
+- README and HOSTING_CHECKLIST: export LUME_TEST_DATABASE_URL before npm run verify.
 
 ## Parked (fix only in its row)
-- Feedback 14a: chip wiring, feature_rated analytics, Settings feedback screen, Ask me switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md. Wire or delete the chip before Row 31.
+- Feedback 14a: wire or delete the chip before Row 31. Also feature_rated analytics, Settings feedback screen, Ask me switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
 - Legal: web/lib/legal.ts lacks push, Sentry, PostHog. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment.
 - Measurements Back: postAuth.ts:28 resume path. Row 23 check.
 - Shared helper 'open Apple page, else toast' (subscription, delete-account, leaving).
 - Push: DELETE after 401; stale tokens; failed POST not retried.
-- Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper no wrap.
+- Schedules: leaving screen not in full run; meal median across midnight; quiet hours no wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sort then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
 - Food: energy 'not enough days' no action; index.tsx:101-106; paywall re-posts answers; history isoDaysAgo duplicate; search 'Add custom food' does not log; goBackOrHome falls back to Today; Gym tab reads month twice; saved list drops meal slot; delete-account.tsx:101 white on white (device).
 - Code: hardcoded strings; ~68 console errors; two useApi copies; mutations.ts/hooks.ts cycle; reanimated mock lacks useReducedMotion; SLOTS copies; mappers.ts duplicate.
-- Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent; productionReadiness.test.ts 4 s timer; Training axisLetters fixture.
+- Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent; Training axisLetters fixture.
 - Config: root and backend JS unlinted.
 
 ## Blocked on Isa (park, do not retry)
@@ -53,7 +57,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Protected (do not edit)
-src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
+src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only). loop/DECISIONS_LOG.md and loop/NOTES_phase4.md are loop files.
 
 ## Decisions (never delete)
 - Local Postgres and sandbox keys only. Deploys are Isa's.
@@ -68,22 +72,25 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Health: no denied state for reads; null when not granted.
 - Analytics off by default. Snapshots edited by hand, never with -u.
 - Fix 12 option A. Training energy card: Monday to today via weekOf.
-- New strings: en only; add each key at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
+- New strings: English only; add each key at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 - Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle stay English only.
-- Round 169: measurements Back unchanged (signed in skip is locked by onboardingSignedInBack test).
+- Round 169: measurements Back unchanged (signed in skip locked by onboardingSignedInBack test).
 - Round 170: Row 15 order gym, recipes, integrations, scan, debugreports, analytics, auth, food.
 - Round 171: verify:go fails when LUME_TEST_DATABASE_URL is unset; no silent skip in the gate.
+- Round 172: checkpoint is read only (tsc, full Jest, go vet).
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
 - en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Mock Clerk in any test rendering welcome. expo-notifications is native: mock in tabs layout tests.
-- Pin dates with jest.useFakeTimers({ now, doNotFake: ['setImmediate'] }). Answer held fetch promises in afterEach.
+- Pin dates with jest.useFakeTimers({ now, doNotFake: ['setImmediate'] }).
 - Gym is src/app/(tabs)/gym.tsx; Nutrition is src/app/dashboard/nutrition.tsx; food screens are under src/app/food/.
+- Go TestPG needs LUME_TEST_DATABASE_URL on the command line only, never written to a file.
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b.
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
 - 158, 160, 163, 167: checkpoints green. 164-166: cleanup.
-- 168: Row 14b closed. 169: Row 15 step 1. 170: Row 15 step 2 (gym tests, 77.9%).
-- 171: verify:go fix (in progress).
+- 168: Row 14b closed. 169-170: Row 15 steps 1-2.
+- 171: verify:go requires local TestPG database. Done.
+- 172: checkpoint (in progress).

@@ -12439,3 +12439,7 @@
 - 2026-11-27 06:04 Kept the t.Skip on unset database in the gym tests, as the existing 53 TestPG tests do. Isa's ruling is still pending in OWNER_CHECKS_phase4.md.
 - 2026-11-27 06:04 Round 172 is a checkpoint: full tsc and full Jest, no edits.
 - 2026-11-27 06:04 Notes condensed under 600 words. No item removed; repeats merged and finished work deleted.
+- 2026-11-27 06:06 Round 172 is the scheduled checkpoint (Override 11): full tsc and full Jest, no edits. Round 171 changed package.json, so the last full Jest run (Round 167) is stale.
+- 2026-11-27 06:06 Checkpoint runs go vet only, not the TestPG suite, to keep the round read-only and short.
+- 2026-11-27 06:06 Checkpoints are roughly every 5 rounds. Next checkpoint is Round 177.
+- 2026-11-27 06:06 The LUME_TEST_DATABASE_URL docs gap is parked for Row 30, not fixed in a checkpoint round.
