@@ -12416,3 +12416,7 @@
 - 2026-11-27 05:53 nutrition.todayAgainstTargets stays in the locales because dashboardNutrition.render.test.tsx:102 reads it. Only nutrition.percentOfTarget is removed, since nothing uses it. Isa's ruling on the other key is still open.
 - 2026-11-27 05:53 Removing an unused key from es and fr is allowed, since the key is unused in all three locales (decision from Round 165).
 - 2026-11-27 05:53 The tally line 'Built or exact: 17 of 39' in PHASE4_ROWS.md is correct, as the report counted. No edit needed.
+- 2026-11-27 05:54 Round 167 is a checkpoint: round 166 deleted locale keys and the last full Jest run was round 163, so the full suite must confirm the change.
+- 2026-11-27 05:54 Round 166 reported dashboard.weekPickedNet, dashboard.weekPickedNoNet and nutrition.weekGramsTitle as English only. Override 1 allows English only, so no change.
+- 2026-11-27 05:54 loop/DECISIONS_LOG.md and loop/NOTES_phase4.md show in git diff. They belong to the loop script; left alone.
+- 2026-11-27 05:54 Row 14b parked items stay parked: they need Isa's ruling (Fixes 24, 25, Fix 12 option B, body stats hint).
