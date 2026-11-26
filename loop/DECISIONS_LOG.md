@@ -11809,3 +11809,7 @@
 - 2026-11-27 00:26 Full suite run because the last report skipped it; the console counts are needed before the round 30 checkpoint.
 - 2026-11-27 00:26 Row 9 status stays PARTIAL until the leaving screen's reason and note destination is decided by Isa.
 - 2026-11-27 00:26 Row 10 starts next round if the full suite is green.
+- 2026-11-27 00:27 Round 31: the automatic flag is a second flag on Row 9 after its round 30 follow-up. Per the one follow-up rule, the leftover is parked and Row 9 stays PARTIAL.
+- 2026-11-27 00:27 Chose Row 10a (pure scheduling logic) over the console recount because Row 10 is the next row in order and the recount does not block it. Jev ran 62% for a run.
+- 2026-11-27 00:27 Row 10 split: 10a pure logic first, 10b priming screen, 10c push token endpoint. Sending push stays a hosted owner step.
+- 2026-11-27 00:27 The round 30 report used --silent, so its console counts (0 and 0) are not comparable to the earlier 68 and 163. A non-silent run is queued as a small check.
