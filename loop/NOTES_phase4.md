@@ -11,11 +11,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches wired to device.ts; quiet hours display built; 10c open).
-- Round 43 checkpoint: tsc 0; Jest 316 suites, 1,956 tests, 4 snapshots; 68 console.error; 168 console.warn. Go race: 38 packages ok.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches wired to device.ts; quiet hours display built; daily helper built in round 44, not yet wired).
+- Round 43 checkpoint: tsc 0; Jest 316 suites, 1,956 tests; 68 console.error; 168 console.warn. Go race: 38 packages ok.
 
 ## Next
-1. Round 44: daily.ts helper (in progress). Wire it at app start and once per local day.
+1. Round 45 (follow-up): wire ensureDailySchedule at app start and foreground; store day key; clear on sign-out.
 2. Derive per-slot meal times after 3 logs (median).
 3. Row 10c: push token endpoint (sending is hosted).
 4. Quiet hours editing (later).
@@ -24,7 +24,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Leaving destination; priming copy; win back copy and price package; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase and offerings need iOS public key.
 - Row 8: Maestro install; email code sign in (E2E_EMAIL not +clerk_test); database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: quiet hours and category strings; permission after Not now; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); UTC fallback when device time zone unreadable.
+- Row 10: quiet hours and category strings; permission after Not now; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); UTC fallback when device time zone unreadable; whether to retry same day after permission is granted.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -43,7 +43,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check (reply is same public id for everyone).
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts. Round 44: daily helper in daily.ts; never prompts; day key cleared on sign-out.
+- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key cleared on sign-out.
 - Analytics off by default. Retry label 'Try again'.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
@@ -71,4 +71,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - expo-notifications is native: mock in tabs layout tests. Render tests must be *.render.test.tsx.
 - Never edit the protected files listed above.
 - Round 25 log line stays at end of PHASE4_ROWS.md.
-- Latest checkpoint round 43: the loop rejected a prompt for asking for more than one screen or component. Keep prompts to one unit.
+- Keep prompts to one screen or component.

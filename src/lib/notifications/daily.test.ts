@@ -4,6 +4,7 @@ import { ensureDailySchedule } from './daily';
 import { applySchedule, notificationPermission } from './device';
 import { DEFAULT_NOTIFICATION_SETTINGS } from './types';
 
+jest.mock('react-native', () => ({ AppState: { addEventListener: jest.fn() } }));
 jest.mock('./device', () => ({
   notificationPermission: jest.fn(),
   applySchedule: jest.fn(async () => undefined),

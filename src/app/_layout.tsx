@@ -24,6 +24,7 @@ import { color, motion, sheet } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { flush as flushOfflineQueue, loadQueue } from '@/lib/offline/queue';
 import { flushAnalytics, initAnalytics, track } from '@/lib/analytics';
+import { startDailySchedule } from '@/lib/notifications/daily';
 import '@/lib/i18n'; // initialise i18next before any screen renders
 import { initCrashReporting } from '@/lib/crashReporting';
 import { initAnalyticsSink } from '@/lib/analyticsSink';
@@ -132,7 +133,12 @@ export default function RootLayout() {
     const sub = RNAppState.addEventListener('change', (next) => {
       if (next === 'active') sync();
     });
-    return () => sub.remove();
+    // Reminders: once now and on every foreground, at most once per local day.
+    const stopDailySchedule = startDailySchedule();
+    return () => {
+      sub.remove();
+      stopDailySchedule();
+    };
   }, []);
 
   return (

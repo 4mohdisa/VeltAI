@@ -31,6 +31,7 @@ const SECURE_KEYS = [
   AI_CONSENT_KEY,
   STORAGE_KEYS.analyticsEnabled,
   STORAGE_KEYS.notificationSettings,
+  STORAGE_KEYS.notificationDayKey,
 ];
 
 /** Clear every store, persisted key, and the offline queue. Never throws.

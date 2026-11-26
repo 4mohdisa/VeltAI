@@ -16,6 +16,9 @@ export const STORAGE_KEYS = {
   // Per-category notification switches, quiet hours and the promotional opt in
   // (JSON). Cleared on sign-out so one account's opt in never carries over.
   notificationSettings: 'lume.notificationSettings',
+  // The local day (YYYY-MM-DD) reminders were last scheduled for. Cleared on
+  // sign-out so the next account reschedules.
+  notificationDayKey: 'lume.notificationDayKey',
 } as const;
 
 export async function getItem(key: string): Promise<string | null> {

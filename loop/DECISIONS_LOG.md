@@ -11874,3 +11874,8 @@
 - 2026-11-27 00:57 Kept the helper free of prompts and of expo-notifications imports, so the rule that only permissions.ts and device.ts touch the SDK still holds.
 - 2026-11-27 00:57 Left wiring into app start for a later round, so this prompt stays to one module.
 - 2026-11-27 00:57 Trimmed the notes to under 600 words. Finished items and duplicate lines were merged or removed, and every open decision and owner step is kept.
+- 2026-11-27 00:58 Chose the follow-up wiring task because the loop flagged round 44 as partly done and the rules give one follow-up round.
+- 2026-11-27 00:58 Pass an empty meal log time map at app start until per-slot meal times are derived; the helper's defaults apply meanwhile.
+- 2026-11-27 00:58 Use one shared function for app start and foreground so the logic is not duplicated.
+- 2026-11-27 00:58 Move the Round 25 line to the end of PHASE4_ROWS.md, as the notes require.
+- 2026-11-27 00:58 Keep the 'UTC' fallback and the retry-on-permission-change question parked for Isa; the priming yes path already schedules.
