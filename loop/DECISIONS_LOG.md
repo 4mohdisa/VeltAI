@@ -12434,3 +12434,8 @@
 - 2026-11-27 05:59 Coverage is measured with -coverpkg=./... because plain go test -cover undercounts tests in backend/tests.
 - 2026-11-27 05:59 The local test database URL is set per command only and never written to a file.
 - 2026-11-27 05:59 Round 170 is a regular round; checkpoint stays at Round 172.
+- 2026-11-27 06:04 Chose the verify:go fix over recipes: it is a small parked gate gap that makes the TestPG tests in Row 15 and Row 29 run for real, and it is flagged work.
+- 2026-11-27 06:04 verify:go now fails when LUME_TEST_DATABASE_URL is unset instead of skipping, so the gate cannot pass without the TestPG tests. Revisit only if Isa rules otherwise.
+- 2026-11-27 06:04 Kept the t.Skip on unset database in the gym tests, as the existing 53 TestPG tests do. Isa's ruling is still pending in OWNER_CHECKS_phase4.md.
+- 2026-11-27 06:04 Round 172 is a checkpoint: full tsc and full Jest, no edits.
+- 2026-11-27 06:04 Notes condensed under 600 words. No item removed; repeats merged and finished work deleted.

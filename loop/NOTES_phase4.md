@@ -14,16 +14,18 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits. Next: Round 172.
 
-## State (Round 170)
+## State (Round 171)
 - BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 15-28, 30.
-- Last green checkpoint: Round 167 (tsc 0, Jest 350/350, 2,190 tests). Go race run green Round 169: 39 packages, 53 TestPG run, 0 skipped.
+- Last green checkpoint: Round 167 (tsc 0, Jest 350/350). Go race green Round 170 (39 packages).
 
 ## Row 15 (in progress)
-- Step 1 done (Round 169): BACKEND_COVERAGE.md, measured with -coverpkg=./....
-- Under 70 (logic): gym 49.8, integrations 39.1, recipes 26.8, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
-- Entry points excluded from the 70 target (Round 170 decision).
-- Next, one package per round: gym (Round 170), recipes, integrations, scan, debugreports, analytics, auth, food.
+- Step 1 (169): BACKEND_COVERAGE.md with -coverpkg=./....
+- Step 2 (170): internal/gym 49.8 to 77.9 (own tests only 44.9). Off the list.
+- Still under 70: recipes 26.8, integrations 39.1, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
+- Gym handlers still thin: patchSession 13.6, patchExercise 8.8, lastLogged 0, listTemplates 0.
+- Entry points excluded from the 70 target (Round 170).
+- Next: Round 171 verify:go fix. Then recipes, integrations, scan, debugreports, analytics, auth, food, then gym handlers.
 
 ## Parked (fix only in its row)
 - Feedback 14a: chip wiring, feature_rated analytics, Settings feedback screen, Ask me switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md. Wire or delete the chip before Row 31.
@@ -33,14 +35,15 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Push: DELETE after 401; stale tokens; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper no wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
-- Backend: 49 queries use id::text = $1; schedule_pg.go sort then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly; verify:go lacks LUME_TEST_DATABASE_URL and -count=1.
+- Backend: 49 queries use id::text = $1; schedule_pg.go sort then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
 - Food: energy 'not enough days' no action; index.tsx:101-106; paywall re-posts answers; history isoDaysAgo duplicate; search 'Add custom food' does not log; goBackOrHome falls back to Today; Gym tab reads month twice; saved list drops meal slot; delete-account.tsx:101 white on white (device).
 - Code: hardcoded strings; ~68 console errors; two useApi copies; mutations.ts/hooks.ts cycle; reanimated mock lacks useReducedMotion; SLOTS copies; mappers.ts duplicate.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent; productionReadiness.test.ts 4 s timer; Training axisLetters fixture.
 - Config: root and backend JS unlinted.
 
 ## Blocked on Isa (park, do not retry)
-- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and energyAddBodyStats wording; body stats hint; Week copy; freeze es and fr; Fix 24, 25, 12 option B; dashboardNutrition.render.test.tsx:102.
+- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and energyAddBodyStats wording; body stats hint; Week copy; freeze es and fr; Fixes 24, 25, 12 option B; dashboardNutrition.render.test.tsx:102.
+- Gym TestPG t.Skip when no database (ruling needed). Coverage scope: cmd/server, scripts, tools/*, internal/db.
 - Apple/RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet vs browser; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
 - HealthKit: Settings switch, purpose strings, provider, device steps.
@@ -67,9 +70,9 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Fix 12 option A. Training energy card: Monday to today via weekOf.
 - New strings: en only; add each key at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 - Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle stay English only.
-- Round 169: measurements Back left unchanged (signed in skip is locked by onboardingSignedInBack test).
-- Round 170: Row 15 order is gym, recipes, integrations, scan, debugreports, analytics, auth, food. Entry points excluded from 70 target.
-- loop/DECISIONS_LOG.md and loop/NOTES_phase4.md belong to the loop script; Claude Code does not edit them.
+- Round 169: measurements Back unchanged (signed in skip is locked by onboardingSignedInBack test).
+- Round 170: Row 15 order gym, recipes, integrations, scan, debugreports, analytics, auth, food.
+- Round 171: verify:go fails when LUME_TEST_DATABASE_URL is unset; no silent skip in the gate.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
@@ -81,6 +84,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b.
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
-- 158, 160, 163, 167: checkpoints green. 164-166: flagged or cleanup, percentOfTarget removed.
-- 168: Row 14b closed. 169: Row 15 step 1 (race and coverage).
-- 170: Row 15 step 2 (internal/gym tests).
+- 158, 160, 163, 167: checkpoints green. 164-166: cleanup.
+- 168: Row 14b closed. 169: Row 15 step 1. 170: Row 15 step 2 (gym tests, 77.9%).
+- 171: verify:go fix (in progress).
