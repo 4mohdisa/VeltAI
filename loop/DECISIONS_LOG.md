@@ -11953,3 +11953,8 @@
 - 2026-11-27 01:48 Stepper labels stay English only (common.decrease and common.increase in en.json), per Isa override 1.
 - 2026-11-27 01:48 Notes rewritten under 600 words: finished work and repeats merged, parked items grouped by area. No item removed except finished work.
 - 2026-11-27 01:48 Node expo-notifications mock gap parked until the checkpoint shows whether it causes failures.
+- 2026-11-27 01:49 Row 10 closed as BUILT with its owner items parked, per override 5: it was flagged partly done in rounds 55, 56 and 57, so no further follow-up.
+- 2026-11-27 01:49 Chose candidate 1 over Row 11 because the Jev run/stop split is close and the remaining Row 10 work is documentation and one rerun, which is low risk and finishes the open item.
+- 2026-11-27 01:49 Row 10 push token line corrected to ClerkBridge, as the Round 60 checkpoint report requested.
+- 2026-11-27 01:49 Round 61 is a light round: no full Jest run, since round 60 was a clean full checkpoint.
+- 2026-11-27 01:49 Jev risk 1.5 with confidence 0.24 noted; the chosen task does not touch hosted services, keys or payments, so the risk is limited to the test rerun.

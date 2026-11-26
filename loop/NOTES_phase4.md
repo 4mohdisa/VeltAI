@@ -12,19 +12,20 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (Settings switches, quiet hours editing, push token saved and restored, ClerkBridge re-register once per signed-in user, Stepper labels English keys done in round 59; full Jest pending).
-- Last full counts: round 54 tsc 0, Jest 320 suites, 1,992 tests. Round 57: 321 suites, 2,006 tests.
+- Row 10: BUILT in round 61 (pending Claude Code confirmation of the rerun).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
+- Round 60 checkpoint: tsc 0; Jest --ci 322 suites, 2,008 tests, 4 snapshots.
 
 ## Next
-1. Round 60 (running): full tsc and Jest --ci checkpoint. Record counts here.
-2. Correct the Row 10 line in PHASE4_ROWS.md (push token re-register is ClerkBridge, once per signed-in user, not runDailySchedule).
-3. Then close Row 10 or take one more follow-up round.
+1. Round 61: close Row 10 (confirm rerun result in the report).
+2. Row 11 HealthKit (DIFFERENT).
+3. Then 14, 15 onward in order.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving destination; priming copy; win back copy and price; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase needs iOS public key.
 - Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours wording and no off switch; UTC fallback when device time zone unreadable; reschedule same day after later grant; push token retention; DELETE public or gated; push re-register rate.
+- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours wording and no off switch; UTC fallback when device time zone unreadable; same-day reschedule after later grant; push token retention; DELETE public or gated; push re-register rate; es and fr for English-only keys.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -46,14 +47,14 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00 (editable in 15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
 - Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered from ClerkBridge once per signed-in user; sign-out uses memory or saved copy and deletes saved copy only after DELETE succeeds; not awaited; API client treats 204 as success with no data.
 - Analytics off by default. Retry label 'Try again'. English only for new keys (en.json plus ENGLISH_ONLY in localeParity.test.ts). Stepper labels: common.decrease and common.increase.
-- Render test expo-notifications stub lives in src/__tests__/render/setup.ts, not the shared root config. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (package.json).
+- Render test expo-notifications stub lives in src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (package.json).
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
 
 ## Parked
 - DELETE after session ends gets 401; stale row stays on server. Stale push tokens never removed. Failed POST not retried in the same session. Push re-register only where ClerkBridge renders.
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks and quiet hours stepper do not wrap at midnight. Stepper stops at 00:00 and 23:45.
-- A switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground. Nothing derives per-slot meal times at app start.
+- Switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground. Nothing derives per-slot meal times at app start.
 - Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message.
@@ -61,7 +62,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Unused: onboarding.paywall.seePlans, trialNote. Nothing dispatches SIGNED_IN.
 - Returning user without subscription goes to onboarding. AI limit: parallel requests slip past; old counts never deleted.
-- App-start run before sign-in can plan at default meal times if the food log read fails. deviceTimeZone() ?? 'UTC' fallback in two places.
+- App-start run before sign-in can plan at default meal times if food log read fails. deviceTimeZone() ?? 'UTC' fallback in two places.
 - Root config and backend JS unlinted; verify:go lacks -count=1; route checks see literal strings only.
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
@@ -77,9 +78,10 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Round 26 log line stays at end of PHASE4_ROWS.md.
 
 ## Round log
-- Round 55: quiet hours editable (Stepper, 15 min steps, BottomSheet). Flagged partly done.
-- Round 56: follow-up. Wiring test 8/8; tsc 0. Flagged again; leftovers parked.
+- Round 55: quiet hours editable. Flagged partly done.
+- Round 56: follow-up. Flagged again; leftovers parked.
 - Round 57: push token saved in secure storage and restored on relaunch. Flagged partly done.
-- Round 58: push token re-register moved to ClerkBridge after sign-in, once per user. Tests 29/29 on 5 suites. Full Jest not run.
-- Round 59: Stepper Decrease and Increase labels into en.json (common.decrease, common.increase). Tsc 0; 12/12 tests on 2 suites. Simulator not run.
-- Round 60 (running): full checkpoint, tsc and Jest --ci.
+- Round 58: push token re-register moved to ClerkBridge, once per user.
+- Round 59: Stepper labels into en.json. Tsc 0; 12/12 tests.
+- Round 60: full checkpoint clean. tsc 0; Jest 322 suites, 2,008 tests, 4 snapshots.
+- Round 61: Row 10 closed as BUILT with owner checks; wiring test rerun.
