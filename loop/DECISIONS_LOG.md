@@ -11624,3 +11624,17 @@
 - 2026-11-26 10:39 Chose Row 2b for this round because it is first in the brief order and has one clear remaining step, with a cap: if no open surface is found, the row closes as BUILT with owner checks parked.
 - 2026-11-26 10:39 Row 7 is the next feature row after 2b. Row 6b stays PARTIAL only for the blocked stale-string step (f), which is deferred.
 - 2026-11-26 10:39 Jev suggested run at 96% confidence; agreed, with a smaller task than the Row 7 wrapper because risk is moderate (1.1 of 2).
+- 2026-11-26 10:42 Chose the 2b sweep first because the loop flagged the last report as partly done. Closing the row now clears it.
+- 2026-11-26 10:42 Treated the 2b last surface as the final one: the cap from Isa applies after this round, so the row closes whatever the result.
+- 2026-11-26 10:42 Row 3 status conflicts: notes say BUILT, last handover says PARTIAL. Read-only check this round, no change, reported back for the next round.
+- 2026-11-26 10:42 Goals clamp check deferred to the next round as a separate small task, to keep this round to one row.
+- 2026-11-26 10:42 Jev suggested run at 96%. Agreed: this is a small, bounded step.
+- 2026-11-26 10:42 The rejected prompt asked for two screens and lacked the branch rule. This prompt covers one screen (measurements.tsx) and states the branch rule first.
+- 2026-11-26 10:42 body-type.tsx moves to the next round so each round keeps to one surface. Row 2b closes as BUILT with owner checks after that round, which keeps the last-surface cap.
+- 2026-11-26 10:42 Profile > Goals setCustomGoals clamp check is parked as a later candidate so this round stays on one surface.
+- 2026-11-26 10:42 Jev's 47% clean-finish signal supports a small single-screen task, so I kept the smaller task. Its run recommendation matches my choice.
+- 2026-11-26 10:42 Kept the existing Row 2b decisions (Continue never disabled, inline errors, target weight 30 to 300 kg, Back dismisses to preview) as the rules for the sweep.
+- 2026-11-26 10:43 Rewrote the rejected 7-step prompt as a 5-step prompt on the same task (loop rule: max 5 steps).
+- 2026-11-26 10:43 Kept Row 2b on measurements.tsx first, as the last report recommended; body-type.tsx waits for the next round.
+- 2026-11-26 10:43 Kept the Row 2b status PARTIAL until both sweeps are done and owner checks are written.
+- 2026-11-26 10:43 Jev suggested run at 98%, so I kept the run action. Its advice to prefer small tasks matches the one-screen prompt.

@@ -26,6 +26,11 @@ const SEX_OPTIONS = [
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
+// The store keeps kg; the box shows the unit the user picked. Prefilling the
+// kg digits into an lb box restated 154 lb as 69.9 lb on every remount.
+const kgToText = (kg: number | null | undefined, unit: WeightUnit): string =>
+  kg == null ? '' : String(unit === 'lb' ? round1(kg / 0.453592) : kg);
+
 export default function MeasurementsScreen() {
   const { t } = useTranslation();
   const setMeasurements = useOnboardingStore((s) => s.setMeasurements);
@@ -55,12 +60,12 @@ export default function MeasurementsScreen() {
     () => useOnboardingStore.getState().weight_unit ?? 'kg',
   );
   const [weightText, setWeightText] = useState(() => {
-    const w = useOnboardingStore.getState().weight_kg;
-    return w != null ? String(w) : '';
+    const s = useOnboardingStore.getState();
+    return kgToText(s.weight_kg, s.weight_unit ?? 'kg');
   });
   const [targetText, setTargetText] = useState(() => {
-    const t = useOnboardingStore.getState().target_weight_kg;
-    return t != null ? String(t) : '';
+    const s = useOnboardingStore.getState();
+    return kgToText(s.target_weight_kg, s.weight_unit ?? 'kg');
   });
 
   const heightToCm = (): number | null => {
