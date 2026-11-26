@@ -5,19 +5,19 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 1. English only; es/fr deferred. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core broken).
 3. Order: 14b, 15-30, 31.
-4. One screen or component per prompt, max 5 steps. A rejected prompt counts as a failed attempt.
+4. One screen or component per prompt, max 5 steps. Rejected prompt = failed attempt.
 5. Partly done gets ONE follow-up; flagged again: park the leftover.
 6. Simulator and Maestro only in row 23 and soak rows.
-7. Every prompt starts with the branch rule. Every round runs tsc first.
+7. Every prompt starts with branch rule. Every round runs tsc first.
 8. Untested flagged work: run its tests before any new task.
 9. Changes outside a prompt's named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 146)
+## State (Round 147)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open).
-- Round 145 full run: 350 suites, 2,182 tests, 4 failing (detailChrome training snapshot plus 3 axisLetters, the last now fixed by clock pin, unverified in full run). Round 146 clears the snapshot. Next checkpoint: full run.
-- Jest worker force-exit on full run: unexplained. Own round.
+- Round 146: detailChrome training snapshot hand edited (no -u); 3 files green; tsc 0 errors.
+- Round 147: full run checkpoint to confirm Rounds 145-146 (last full green: Round 139, 348 suites, 2,171 tests).
 - PHASE4_ROWS.md is stale. Update at closure.
 
 ## Blocked on Isa (park, do not retry)
@@ -31,8 +31,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 done (Fix 20 snapshot pending Round 146).
-- Open, fold in or park at closure: Fix 21 onward per DESIGN_INTENT.md; gym.freeze.confirm '1 freezes' (needs plural); Energy 'not enough days' needs an action; targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked); back-or-Food fallback copied in two files; GlassButtons falls back to Today; hero 'No net yet' says 'in onboarding' (body stats hint); nutrition.todayAgainstTargets and percentOfTarget unused (remove in en, es, fr later); training.axisLetters fixed September fixture (now clock pinned).
+- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 done.
+- Open, fold in or park at closure: Fix 21 onward per DESIGN_INTENT.md; gym.freeze.confirm '1 freezes' (needs plural); Energy 'not enough days' needs an action; targets reuses earlier calorie target; food quantity and energy units not asked in onboarding; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; gym tab no logged pill (parked look change); history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; 'no matches' does not prefill name; food calorie card past days (option B, post launch); Manage subscription open-or-toast in three places; goBackOrHome falls back to Today (parked); back-or-Food fallback copied in two files; GlassButtons falls back to Today; hero 'No net yet' says 'in onboarding' (body stats hint); nutrition.todayAgainstTargets and percentOfTarget unused (remove in en, es, fr later); dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle English only (add es, fr).
 - Spotted: Food tab checks consent on mount only. insights.tsx comment about feed GET triggering AI: verify. src/lib/mock/data.ts:27 says 2 freezes; real cap is 1. Gym tab reads this month twice. Saved list does not pass meal slot to detail sheet.
 
 ## Row 14a: parked
@@ -51,6 +51,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; backOrFood duplicated (shared helper in nav.ts).
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
+- Jest worker force-exit on full run: unexplained. Own round after checkpoint.
 
 ## Protected (do not edit)
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, foodDays.test.ts (add branches only).
@@ -81,8 +82,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Fix 12 option A; option B parked post-launch. Fix 18 split. freeze.tsx reuses gymStreak.noFreezes. Headline at 0 freezes follows the reason line. Energy hint stays unlinked. Training empty state links to /gym/log-session. Fix 20 split into two prompts.
-- Round 141, 143, 144, 145: Jev said ask; ask banned by Isa's rule, so run chosen. Round 143: Fix 22 done. Round 144: Fix 23 done. Round 145: Training energy card now Monday to today via weekOf.
-- Round 146: snapshot hand edit (no -u) per precedence of Rounds 141 and 144. Jev risk 1.3 noted; reversible single snapshot edit, continue.
+- Round 141, 143, 144, 145: Jev said ask; ask banned by Isa's rule, so ran chosen.
+- Round 145: Training energy card now Monday to today via weekOf.
+- Round 146: snapshot hand edit (no -u). Jev risk 1.3 noted; reversible single snapshot edit, continued.
+- Round 147: full checkpoint run chosen (rule 8: untested flagged work first). Jev run 58%.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -96,6 +99,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-15b done.
-- 128-136: Fixes 16 to 19 done. 137-141: Fix 20 done. 142: Fix 21. 143: Fix 22. 144: Fix 23.
-- 145: Training energy card (checkpoint, full run: 2 suites red, snapshot plus axis letters fixed).
-- 146: detailChrome training snapshot hand edit, then confirm green.
+- 128-141: Fixes 16 to 20 done. 142: Fix 21. 143: Fix 22. 144: Fix 23.
+- 145: Training energy card. 146: detailChrome training snapshot hand edit, all three files green.
+- 147: full checkpoint run (in progress).

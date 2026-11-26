@@ -12330,3 +12330,7 @@
 - 2026-11-27 05:19 Jev said ask 1% and run 98%. Ask is banned by Isa's rule, so the run went ahead. Jev's risk score of 1.3 was noted: the change is one reversible snapshot edit, so continue.
 - 2026-11-27 05:19 The loop note flagged the Round 145 report as partly done with a failing test. This round is the single follow-up for it, as Override 5 allows. The Jest force-exit goes to its own later round.
 - 2026-11-27 05:19 The notes file was rewritten under 600 words: finished work removed, repeated items merged, Round 145 closed.
+- 2026-11-27 05:21 Round 147: full checkpoint run chosen over the other candidates because Rounds 145 and 146 changes are flagged as unverified in a full run (override 8: run untested flagged work first).
+- 2026-11-27 05:21 Jev suggested run at 58%; no conflict, so kept the run action.
+- 2026-11-27 05:21 Force-exit investigation deferred to its own round after the checkpoint result is known.
+- 2026-11-27 05:21 Notes rewritten under 600 words; finished work deleted, repeated items merged.
