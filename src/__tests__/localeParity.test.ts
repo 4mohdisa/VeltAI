@@ -24,6 +24,12 @@ const others = Object.entries(LOCALES).filter(([lang]) => lang !== 'en');
 const ENGLISH_ONLY = new Set([
   // The in-app Privacy Policy (src/app/legal/privacy.tsx), English only until legal review.
   ...flatten(en.legal.privacy, 'legal.privacy').keys(),
+  // The in-app Terms of Service (src/app/legal/terms.tsx), English only until legal review.
+  // Its health disclaimer stays translated.
+  'legal.terms.title',
+  'legal.terms.intro',
+  'legal.terms.awaiting',
+  ...flatten(en.legal.terms.sections, 'legal.terms.sections').keys(),
   // English only for now: es and fr text waits for Isa.
   'aiQuery.consentNeeded',
   'aiQuery.notEnoughData',

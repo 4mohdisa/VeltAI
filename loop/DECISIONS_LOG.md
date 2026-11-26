@@ -12007,3 +12007,7 @@
 - 2026-11-27 02:13 Terms screen and push token test merge stay next in line; Jev ranked the run action first with high confidence, so no second look was needed.
 - 2026-11-27 02:13 Notes rewritten under 600 words: finished items removed, repeated parked items merged into one line each, decisions kept in short form.
 - 2026-11-27 02:13 Round 72 document edits accepted as done; Row 13 status stays BUILT per the report.
+- 2026-11-27 02:14 Chose the terms move over 14a: it is small, already in Next and the handover, and it closes Row 14 cleanly before feedback work starts.
+- 2026-11-27 02:14 Row 14a starts next round with the FEATURES config and throttle module only, one component per round per override 4.
+- 2026-11-27 02:14 Parked items stay parked: they were already decided in earlier rounds and are not retried here.
+- 2026-11-27 02:14 Kept the notes under 600 words by merging the blocked and parked lists; no decision removed, only shortened.

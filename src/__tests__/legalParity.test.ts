@@ -28,18 +28,16 @@ const manifest = JSON.parse(readFileSync(join(REPO, 'legal/manifest.json'), 'utf
   terms: { sections: { id: string; heading: string }[] };
 };
 
-type PrivacyKey = keyof typeof en.legal.privacy.sections;
+type Doc = 'privacy' | 'terms';
 
-/** Section keys, in order, as privacy.tsx lists them; its copy lives in en.json legal.privacy. */
-const privacyKeys = (src: string) => [...src.matchAll(/^\s{2}\{ key: '(\w+)'/gm)].map((m) => m[1] as PrivacyKey);
+/** Section keys, in order, as the screen lists them. */
+const sectionKeys = (src: string) => [...src.matchAll(/^\s{2}\{ key: '(\w+)'/gm)].map((m) => m[1]);
 
-/** Headings, in order, as the screen declares them (literal, or by key from en.json). */
-function headingsOf(file: string): string[] {
-  const src = readFileSync(join(REPO, 'src/app/legal', file), 'utf8');
-  const literal = [...src.matchAll(/^\s{4}heading: '((?:[^'\\]|\\.)*)',$/gm)].map((m) =>
-    m[1].replace(/\\'/g, "'"),
-  );
-  return literal.length > 0 ? literal : privacyKeys(src).map((k) => en.legal.privacy.sections[k].heading);
+/** Headings, in order, as the screen declares them by key; the copy lives in en.json legal.<doc>. */
+function headingsOf(doc: Doc): string[] {
+  const src = readFileSync(join(REPO, 'src/app/legal', `${doc}.tsx`), 'utf8');
+  const sections: Record<string, { heading: string }> = en.legal[doc].sections;
+  return sectionKeys(src).map((k) => sections[k].heading);
 }
 
 /** Manifest headings are sentence-case; compare case-insensitively so a
@@ -47,12 +45,9 @@ function headingsOf(file: string): string[] {
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
 
 describe('in-app legal screens match the canonical section list', () => {
-  test.each([
-    ['privacy.tsx', 'privacy'],
-    ['terms.tsx', 'terms'],
-  ] as const)('%s implements every manifest section, in order', (file, key) => {
-    const expected = manifest[key].sections.map((s) => norm(s.heading));
-    const actual = headingsOf(file).map(norm);
+  test.each(['privacy', 'terms'] as const)('%s.tsx implements every manifest section, in order', (doc) => {
+    const expected = manifest[doc].sections.map((s) => norm(s.heading));
+    const actual = headingsOf(doc).map(norm);
 
     // Named diffs first — a bare array mismatch is unreadable at 16 entries.
     expect(expected.filter((h) => !actual.includes(h))).toEqual([]); // missing
@@ -69,10 +64,10 @@ describe('in-app legal screens match the canonical section list', () => {
 });
 
 describe('the in-app legal screens make no unsupported claim', () => {
-  // privacy.tsx keeps its copy in en.json, so its body text is that subtree.
-  const sources = ['privacy.tsx', 'terms.tsx'].map((f) => ({
-    f,
-    src: readFileSync(join(REPO, 'src/app/legal', f), 'utf8') + (f === 'privacy.tsx' ? JSON.stringify(en.legal.privacy) : ''),
+  // Both screens keep their copy in en.json, so their body text is that subtree.
+  const sources = (['privacy', 'terms'] as const).map((doc) => ({
+    f: `${doc}.tsx`,
+    src: readFileSync(join(REPO, 'src/app/legal', `${doc}.tsx`), 'utf8') + JSON.stringify(en.legal[doc]),
   }));
 
   // Body strings only — the file header comments explain why these are banned
@@ -115,8 +110,10 @@ describe('the in-app legal screens make no unsupported claim', () => {
 
   test('the trial length derives from TRIAL_DAYS, never a hardcoded number', () => {
     const terms = readFileSync(join(REPO, 'src/app/legal/terms.tsx'), 'utf8');
-    expect(terms).toContain('TRIAL_DAYS');
-    expect(bodyOf(terms)).not.toMatch(/\b\d+-day free trial\b/);
+    const copy = JSON.stringify(en.legal.terms);
+    expect(terms).toContain('trialDays: TRIAL_DAYS');
+    expect(copy).toContain('{{trialDays}}-day free trial');
+    expect(bodyOf(terms) + copy).not.toMatch(/\b\d+-day free trial\b/);
   });
 });
 
