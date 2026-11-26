@@ -106,3 +106,12 @@ Steps only Isa can do. Each says what, where and why.
 - [ ] Row 2b: run the sign up and onboarding Maestro flow, shared with Row 23.
 - [ ] Row 7: set the RevenueCat iOS public key in the environment (EXPO_PUBLIC_REVENUECAT_IOS_KEY, never in the repo) for device and simulator runs; without it the purchases wrapper reports not configured.
 - [ ] Row 7: a StoreKit configuration file is needed later so Simulator purchases can run (step 7b or later).
+- [ ] Row 8 simulator flow, `.maestro/row8_subscription_states.yaml` (written, not run):
+  1. Install Maestro: `curl -fsSL "https://get.maestro.mobile.dev" | bash` (it is not installed on this Mac).
+  2. Sign in by hand on the iPhone 17 Pro (iOS 26.5) simulator with the E2E test account. Sign in is a one-time email code, so the flow cannot enter it; an E2E address with `+clerk_test` in it would let a flow use Clerk's development test code.
+  3. Point the local backend at `lume_test_local` or `lume_local`. The running backend uses the database `lume` on 127.0.0.1:55432, which is not one of those names, so no state was set this round.
+  4. Before each run, set the test user's row in that local database only, then run the flow with the matching `-e STATE=`:
+     - expired: `UPDATE subscriptions SET status = 'expired', expires_at = now() - interval '1 day' WHERE user_id = '<clerk user id>';`
+     - cancelled: `UPDATE subscriptions SET status = 'cancelled', expires_at = now() + interval '7 days' WHERE user_id = '<clerk user id>';`
+     - past_due: `UPDATE subscriptions SET status = 'past_due', expires_at = now() + interval '7 days' WHERE user_id = '<clerk user id>';`
+  5. Screenshots land in /tmp/lume_r23/.

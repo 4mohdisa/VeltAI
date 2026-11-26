@@ -11759,3 +11759,7 @@
 - 2026-11-26 11:35 Jev ranked Run at 43 percent and Ask at 49 percent. Ask is not allowed under the no questions rule, so Run stays. The closing check is the smallest safe step.
 - 2026-11-26 11:35 No simulator flow this round. The Row 8 simulator flow waits until the per-screen checks pass.
 - 2026-11-26 11:35 Round 22 is a closing check only, with no new features and no display text changes.
+- 2026-11-26 11:36 Chose the Row 8 simulator flow over the console trace, because the automatic flag on Round 22 names Row 8 as only partly done and the flag must be cleared first.
+- 2026-11-26 11:36 Jev ranked Run first at 78%, so I kept Run and did not use the Ask option, which is not allowed.
+- 2026-11-26 11:36 Kept the step count at five and one screen per prompt, per Isa's override.
+- 2026-11-26 11:36 Left the console warning count out of this round to keep the scope to one screen.

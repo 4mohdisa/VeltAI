@@ -1,0 +1,44 @@
+# Row 8: Profile > Subscription for one server subscription state per run.
+# Run once per state, with the signed-in test user's subscriptions row set to
+# that state in the local database first (OWNER_CHECKS_phase4.md, Row 8):
+#   maestro test -e STATE=expired   .maestro/row8_subscription_states.yaml
+#   maestro test -e STATE=cancelled .maestro/row8_subscription_states.yaml
+#   maestro test -e STATE=past_due  .maestro/row8_subscription_states.yaml
+# The app must already be signed in: sign in is a one-time email code.
+# Screenshots go to /tmp/lume_r23/, never into the repo.
+appId: fit.lume.app
+---
+- launchApp
+- tapOn: "Profile and settings"
+- tapOn: "Subscription"
+- takeScreenshot: /tmp/lume_r23/row8_${STATE}
+
+# Expired: Resubscribe, and no Manage subscription (Apple's page cannot restart it).
+- runFlow:
+    when:
+      true: ${STATE == 'expired'}
+    commands:
+      - assertVisible: "Expired"
+      - assertVisible: "Resubscribe"
+      - assertNotVisible: "Manage subscription"
+
+# Past due: the billing banner, and Manage subscription once at most (the banner's).
+- runFlow:
+    when:
+      true: ${STATE == 'past_due'}
+    commands:
+      - assertVisible: "Your payment did not go through.*"
+      - assertNotVisible:
+          text: "Manage subscription"
+          index: 1
+      - assertNotVisible: "Resubscribe"
+
+# Cancelled: Manage subscription and the win back entry, which opens the win back screen.
+- runFlow:
+    when:
+      true: ${STATE == 'cancelled'}
+    commands:
+      - assertVisible: "Manage subscription"
+      - tapOn: "Resubscribe"
+      - assertVisible: "Come back to Lume Pro"
+      - takeScreenshot: /tmp/lume_r23/row8_cancelled_winback
