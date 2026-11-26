@@ -12400,3 +12400,6 @@
 - 2026-11-27 05:47 Week 'No net yet' and energyAddBodyStats copy stays parked under the body stats hint (Isa sign-off). The 'in onboarding' wording is wrong, so it must change once Isa rules.
 - 2026-11-27 05:47 Notes rewritten under 600 words. Finished work deleted, repeats merged.
 - 2026-11-27 05:47 gym.freeze.confirm_one stays English only per Isa's ruling; not reopened.
+- 2026-11-27 05:48 Round 163 is a checkpoint: the Round 162 report recommended a full Jest run with --detectOpenHandles, and the last full run was Round 160, so this checks for other leaked timers.
+- 2026-11-27 05:48 Jev 81% run agrees with the checkpoint choice; no reason to override.
+- 2026-11-27 05:48 Notes rewritten under 600 words: finished work removed, repeated items merged, Round 162 status recorded.
