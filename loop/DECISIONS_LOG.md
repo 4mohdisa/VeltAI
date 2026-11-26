@@ -12215,3 +12215,8 @@
 - 2026-11-27 04:05 Jev risk 0.9 (advisory) noted. Kept the task small (one handler, one test) instead of asking Isa.
 - 2026-11-27 04:05 Leaving reason goes through the existing feedback category 'account' with a 'leaving_reason:' prefix. No migration. Accepted.
 - 2026-11-27 04:05 Note field on the leaving screen stays removed: the brief bans free text and the field discarded what people typed.
+- 2026-11-27 04:07 Fix 12 is next per the handover and the latest report. Its route is inferred from code, so a failing test comes first.
+- 2026-11-27 04:07 Round 121 stays small (one screen, 5 steps) because the Jev risk is 0.9. This is advisory, and the choice is written here.
+- 2026-11-27 04:07 food.tsx is named explicitly for Fix 12. The latest report said it was off limits last round, and that no longer applies.
+- 2026-11-27 04:07 The stale handover Next (Fix 5) is ignored because Fix 5 is done (Round 120).
+- 2026-11-27 04:07 The loop note rewrite was done here: the notes were cut to under 600 words by merging repeated items.
