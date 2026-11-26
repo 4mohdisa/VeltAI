@@ -11949,3 +11949,7 @@
 - 2026-11-27 01:46 Round 59 prompt cut to the Stepper labels only, because the loop rejected the previous prompt for covering more than one component.
 - 2026-11-27 01:46 Row 10 doc correction and the full Jest checkpoint move to the next rounds, one task each, to keep prompts small.
 - 2026-11-27 01:46 Jev ranks run at 94 percent; no override needed.
+- 2026-11-27 01:48 Chose the full Jest checkpoint: the suite has not run since round 54 and rounds 55 to 59 changed shared components, so it is the main risk; the Row 10 doc fix is quick and follows next.
+- 2026-11-27 01:48 Stepper labels stay English only (common.decrease and common.increase in en.json), per Isa override 1.
+- 2026-11-27 01:48 Notes rewritten under 600 words: finished work and repeats merged, parked items grouped by area. No item removed except finished work.
+- 2026-11-27 01:48 Node expo-notifications mock gap parked until the checkpoint shows whether it causes failures.
