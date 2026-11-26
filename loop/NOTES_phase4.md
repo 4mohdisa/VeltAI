@@ -14,17 +14,16 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits, report failures.
 
-## State (Round 160)
+## State (Round 161)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31.
 - DIFFERENT: 15-28, 30.
-- Last full green: round 158 (350 suites, 2,189 tests, tsc 0). Round 159 ran 7 files only; full run in round 160.
-- DESIGN_INTENT.md Done lines are authoritative for Fix numbers.
+- Round 160 checkpoint green: tsc 0, Jest 350/350 suites, 2,190 tests.
 
 ## Row 14b (open)
-- Done: Fixes 1-20, 26a, 26b, 27, 28, 29 (gym freeze singular).
+- Done: Fixes 1-20, 26a, 26b, 27, 28, 29.
 - Parked: Fix 24, Fix 25, Fix 12 option B, body stats hint.
-- Open: nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Week 'No net yet' says 'in onboarding'; Training axisLetters uses fixed September fixture; Fix 20 duplicate Done line; Row 14b lacks Fix 26a entry.
+- Open: Week 'No net yet' says 'in onboarding' (round 161 target); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Training axisLetters uses fixed September fixture; Fix 20 duplicate Done line; Row 14b lacks Fix 26a entry.
 - Spotted: Food tab checks consent on mount only; Gym tab reads this month twice; saved list does not pass meal slot to detail sheet.
 - English only: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle, gym.freeze.confirm_one.
 
@@ -42,17 +41,17 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
 - Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate.
-- Tests: productionReadiness.test.ts scan upload leaves a 4 s timer pending; useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
+- Tests: productionReadiness.test.ts scan upload 4 s timer pending; useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 - Docs: PHASE4_ROWS.md round log stops at Round 61; DESIGN_INTENT.md has two Fix 20 Done lines; Row 14b lacks Fix 26a entry.
 
 ## Blocked on Isa (park, do not retry)
-- Consent, win back, leaving copy; Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key.
+- Copy and sign-offs: consent, win back, leaving copy; target weight required; resend cooldown; paywall terms wording; Terms describe a free tier; Fix 12 option B; body stats hint; Fix 24; Fix 25; gym.freeze.confirm_one translation.
+- Apple and RevenueCat: Apple Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key; native Apple sheet vs browser; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
 - HealthKit: Settings switch, purpose strings, provider, device steps.
 - Labels: Email, Name, User ID; push token manifest type.
 - Store: age rating, production demo account, lume.fit URLs.
-- Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording; Fix 12 option B; body stats hint; Fix 24; Fix 25; Terms describe a free tier.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications).
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
@@ -85,6 +84,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Snapshots edited by hand, never with -u.
 - Ask banned. Chosen task run each round.
 - English only for new strings (Isa). Missing es/fr keys fall back to English; gym.freeze.confirm_one accepted as English only.
+- Round 161: Week copy fix chosen as the next 14b item.
 
 ## Gotchas
 - Full Jest paths with --ci, redirect output, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
@@ -102,4 +102,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 153-157: Fix 26a and 26b built.
 - 158: checkpoint green (tsc 0, Jest 350/350, 2,189 tests).
 - 159: gym.freeze.confirm plural fix (confirm_one, confirm_other).
-- 160: checkpoint due (full tsc and Jest after 159).
+- 160: checkpoint green (tsc 0, Jest 350/350, 2,190 tests). No edits.
+- 161: Week 'No net yet' copy fix (14b).

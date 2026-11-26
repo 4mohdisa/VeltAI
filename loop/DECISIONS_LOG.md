@@ -12392,3 +12392,6 @@
 - 2026-11-27 05:44 Round 160 is a checkpoint: round 159 ran only 7 files after a locale key rename that touched en, es and fr, so a full tsc and full Jest run comes first (override 11).
 - 2026-11-27 05:44 gym.freeze.confirm_one is English only. Spanish and French users with 1 freeze see the English singular. Isa ruled English only, so this is accepted and not parked.
 - 2026-11-27 05:44 Round 159 report had no full Jest run, so it counts as untested flagged work (override 8). The checkpoint covers it.
+- 2026-11-27 05:46 Round 160 checkpoint accepted: tsc 0 errors, Jest 350 of 350 suites, 2,190 tests, no open handle warnings.
+- 2026-11-27 05:46 Chose the Week copy fix: smallest open Row 14b item with a visible user fault, one screen, under 5 steps.
+- 2026-11-27 05:46 Chose not to ask Isa about gym.freeze.confirm_one translation: English only is the standing ruling, so it stays parked.
