@@ -10,14 +10,14 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; footer Manage hidden on past_due, red run not yet shown).
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; past_due footer proof done in round 11).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Last full run: tsc 0; Jest 303 suites, 1,835 tests (before 7a, 7b, Row 8). Full suite checkpoint due.
 
 ## Next
-1. Row 8: prove past_due footer test fails without fix; trace 2 console blocks (round 11).
-2. Row 8: expired state with Resubscribe on Profile > Subscription.
-3. Row 8: win back offer screen.
+1. Row 8: expired state with Resubscribe on Profile > Subscription (round 12).
+2. Row 8: win back offer screen.
+3. Row 8: remove BILLING_ISSUE export if unused; check the BillingProblemBanner export.
 4. Row 8 simulator flow at end of row.
 5. Full suite checkpoint when the loop calls one.
 
@@ -50,7 +50,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 7b: restore failure shows 'no previous subscription found'.
 - Row 8: banner reads the server record (useServerEntitlement), shows only for past_due, never loads the RevenueCat SDK. Long message wraps. Mounted on Today and Profile > Subscription.
 - Rounds 9 to 10: on past_due the Subscription footer Manage button hides; the banner owns that action.
-- Round 11: automatic check flagged round 10 as partly done; proof step first.
+- Round 11: proof done. Test fails without footer fix, passes with it. Console block in banner tests scoped to the expected RevenueCat warning.
+- Round 12: expired state hides Manage (same as past_due) and shows Resubscribe via paywallHref.
 
 ## Parked
 - Today pull-to-refresh does not refetch subscription state.
@@ -70,9 +71,10 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s with no paywall.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
 - Row 2b: body-type emoji uses hardcoded fontSize 26 (left alone to keep the look).
+- Subscription footer shows two Manage buttons on past_due in some paths: confirm after round 12.
 
 ## Gotchas
-- zsh --include=*.ts globs fail. Report counts must match the command run. Jest name patterns can match more files; pass full paths. Test files end in .render.test.tsx. PHASE4_ROWS.md Row 2b is line 8; keep 8 pipes. Use find -newer against a fresh marker, not git status. Never use jest -u. Never write 'verified'.
+- zsh --include=*.ts globs fail. Report counts must match the command run. Jest name patterns can match more files; pass full paths. Test files end in .render.test.tsx. PHASE4_ROWS.md Row 8 line must keep 8 pipes. Use find -newer against a fresh marker, not git status. Never use jest -u. Never write 'verified'.
 - Redirect output to files; pipes hide exit codes.
 - Lint forbids setState inside an effect body; use a guarded .then.
 - Every prompt opens with the branch check and the rule to work only on loop/phase4.
@@ -81,4 +83,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 ## Loop note
 - Round 9: handover happened; prompt names files in full.
 - Round 10: previous prompt rejected (too many screens). Rewritten as one screen plus its test file.
-- Round 11: flag from automatic check on round 10 report. Proof and console trace before Row 8 expired state.
+- Round 11: flag from automatic check on round 10 report. Proof and console trace done.
+- Round 12: Row 8 expired state, one screen and its test file.

@@ -3,7 +3,8 @@
 // Active + manage/restore; not entitled → See plans + restore; billing-disabled
 // dev build → an honest "not configured" note. No fabricated dates or prices —
 // pricing lives on the RevenueCat paywall and in App Store subscription
-// management, both reachable from here.
+// management, both reachable from here. An expired plan says what ended and
+// what stays, and Resubscribe opens the paywall: Apple's page cannot restart it.
 import { View } from 'react-native';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -18,9 +19,14 @@ import { useEntitlement } from '@/lib/billing/entitlement';
 import { isManageSubscriptionAvailable, openManageSubscription } from '@/lib/billing/subscriptionLinks';
 import { hasProEntitlement, isBillingEnabled, presentPaywall, restorePurchases } from '@/lib/billing/purchases';
 import { useServerEntitlement } from '@/lib/data';
+import { paywallHref } from '@/lib/nav';
 import { isDevBuild } from '@/lib/env';
+import { router, type Href } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+/** subscriptions.status and the 402 reason for an ended plan (backend/internal/entitlement/state.go). */
+const EXPIRED = 'expired';
 
 export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
@@ -29,6 +35,7 @@ export default function SubscriptionScreen() {
   // about yet still shows correctly. No server row yet → RevenueCat's own read.
   const serverEntitlement = useServerEntitlement();
   const effectiveEntitled = serverEntitlement ? serverEntitlement.isActive : isEntitled;
+  const expired = serverEntitlement?.status === EXPIRED;
   // The billing problem banner carries Manage subscription while payment is
   // failing, so the footer drops its copy rather than offer Apple's page twice.
   const showFooterManage = isManageSubscriptionAvailable() && serverEntitlement?.status !== BILLING_ISSUE;
@@ -111,7 +118,9 @@ export default function SubscriptionScreen() {
       showBack contentStyle={{ gap: space.xl }}
       footer={
         <View style={{ gap: space.sm }}>
-          {effectiveEntitled ? (
+          {expired ? (
+            <Button title={t('subscription.expired.resubscribe')} onPress={() => router.push(paywallHref(EXPIRED) as Href)} />
+          ) : effectiveEntitled ? (
             showFooterManage ? (
               <Button
                 title={t('subscription.manage')}
@@ -140,12 +149,24 @@ export default function SubscriptionScreen() {
               Lume Pro
             </Text>
             <Badge
-              label={loading ? t('subscription.checking') : effectiveEntitled ? t('subscription.active') : t('subscription.notSubscribed')}
+              label={
+                loading
+                  ? t('subscription.checking')
+                  : expired
+                    ? t('subscription.expired.badge')
+                    : effectiveEntitled
+                      ? t('subscription.active')
+                      : t('subscription.notSubscribed')
+              }
               icon={loading ? undefined : effectiveEntitled ? 'checkmark-circle' : 'close-circle'}
             />
           </View>
           <Text variant="body" color={color.secondaryLabel}>
-            {effectiveEntitled ? t('subscription.activeBody') : t('subscription.inactiveBody')}
+            {expired
+              ? t('subscription.expired.body')
+              : effectiveEntitled
+                ? t('subscription.activeBody')
+                : t('subscription.inactiveBody')}
           </Text>
         </View>
       </Card>

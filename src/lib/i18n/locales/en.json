@@ -204,6 +204,11 @@
       "message": "Your payment did not go through. Update it in your Apple settings to keep your access.",
       "manage": "Manage subscription",
       "tryAgain": "Try again"
+    },
+    "expired": {
+      "badge": "Expired",
+      "body": "Your subscription has ended. Everything you logged stays in your account. Resubscribe to pick up where you left off.",
+      "resubscribe": "Resubscribe"
     }
   },
   "preferences": {

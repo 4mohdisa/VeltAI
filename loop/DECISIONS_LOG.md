@@ -11709,3 +11709,8 @@
 - 2026-11-26 11:17 Round 11: an automatic check flagged round 10 as only partly done (the red run was not shown and the 2 console blocks were not traced), so the next task closes that gap before Row 8 expired state. Jev ranked run highest, but the flag comes first.
 - 2026-11-26 11:17 The Row 8 footer change stays PARTIAL until the past_due test is shown to fail without it.
 - 2026-11-26 11:17 Console blocks in the banner tests get a scoped spy if deliberate, or a component fix if real. No global mocks.
+- 2026-11-26 11:18 Chose the expired state because Row 8 needs it next and the banner and past_due work is proven (round 11 check passed).
+- 2026-11-26 11:18 Kept the console block trace inside this round only for subscription.render.test.tsx, because the unverified second block sits in the same screen's test file.
+- 2026-11-26 11:18 Left BillingProblemBanner export alone unless it is unused, to avoid touching a second screen.
+- 2026-11-26 11:18 Manage button hidden on expired, matching past_due, because Apple's page cannot restart an expired plan.
+- 2026-11-26 11:18 Used the existing paywallHref helper so there is one paywall link builder.
