@@ -11582,3 +11582,13 @@
 - 2026-11-26 05:53 Chose the checkpoint first because the notes list it as Next 1 and the last change touched shared onboarding code. Jev also favours a run, and a checkpoint is the smallest safe run.
 - 2026-11-26 05:53 Kept dead end 8 out of the rewrite: it is already recorded in the Row 2b notes and DESIGN_REFERENCES.md, so the notes only say it is built and awaiting checkpoint.
 - 2026-11-26 05:53 Trimmed the notes to fit the 600 word limit. Decisions, approvals and owner items are kept in full meaning; repeated gotchas and minor parked lines are merged.
+- 2026-11-26 10:29 Chose the sign in surface pass because it is the next step in the notes and the checkpoint was clean.
+- 2026-11-26 10:29 Kept the run small: one surface, at most 3 fixes, English only, per the English only override.
+- 2026-11-26 10:29 Ran against Jev's stop suggestion (47%). Stop is only allowed when every row is BUILT or EXACT, which is not true yet. Jev's risk score is 1.0 for continuing without Isa, so the task avoids owner steps, keys and hosted services, and runs locally only.
+- 2026-11-26 10:29 Did not use the latest report's suggestion to translate es and fr strings, because es and fr are deferred under the English only override.
+- 2026-11-26 10:29 Folded the unfinished dead end 8 bookkeeping from the handover into step 1 of this task, since it is a one line change.
+- 2026-11-26 10:29 Chose candidate 1: smallest task, English only, keeps Jev's risk score low. Stop is not allowed because rows are not all BUILT or EXACT.
+- 2026-11-26 10:29 Prompt now names loop/phase4 as the only branch and bans every other git command, which fixes the rejected prompt.
+- 2026-11-26 10:29 No new keys added, so ENGLISH_ONLY does not change.
+- 2026-11-26 10:29 Dead end 7 stays open for Isa. This round only changes wording, not sign off.
+- 2026-11-26 10:29 Inline email errors (Isa's 26 Nov answer) left for the next round to avoid mixing two surfaces.

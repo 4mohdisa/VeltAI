@@ -1,6 +1,6 @@
 # Lume Loop Notes: Phase 4
 
-Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Park owner steps.
+Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Park owner steps. Work only on branch loop/phase4.
 
 ## Overrides (Isa)
 1. English only. es and fr deferred; missing keys fall back to English.
@@ -9,64 +9,58 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b, 3, 6b.
-- 2b: dead ends 1 to 6, 8, 9 built with tests. Dead end 7 pending Isa sign off.
-- Sign up flaw 3 (clerkMessage generic fallback) built, 5 test files pass. Not yet in a full run.
-- Last full checkpoint (before dead end 8): tsc 0; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn.
+- PARTIAL: 2b (dead ends 1 to 6, 8, 9 built; 7 waits on Isa), 3 (waits on Apple owner steps), 6b.
+- Last checkpoint clean: tsc 0; Jest 298/298 suites, 1,814/1,814 tests, 4 snapshots. Lint clean on touched files. 67 console.error, 165 console.warn.
 
 ## Next
-1. Full checkpoint: tsc and full Jest, covering clerkMessage and dead end 8.
-2. Row 2b sign in surface pass.
-3. Row 3 after Isa signs off the Apple steps (owner).
-4. Maestro flows (2b, 23) once Maestro is confirmed.
+1. Row 2b: user copy for plans-unavailable and notConfiguredDev (en).
+2. Row 2b: sign up email errors inline under the field (Isa 26 Nov).
+3. Checkpoint after 3 to 5 more rounds of changes: tsc and full Jest.
+4. Row 3 after Isa signs off Apple steps (owner).
+5. Maestro flows (2b, 23) once Maestro is confirmed.
 
 ## Rules
-- Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge or switch.
-- One task and one surface per prompt. Max 5 steps. Name files fully. Grep paths first.
-- Wording: 'built' or 'checked by a test'. Never 'verified'. Skipped checks are flagged and verified next round.
+- Branch loop/phase4 only. Only git command: git branch --show-current. Never push, merge, switch or delete branches.
+- One task per prompt, max 5 steps, files named in full, grep paths first.
+- Wording: 'built' or 'checked by a test'. Never 'verified'.
 - Lint: npx expo lint <files> --max-warnings 0. No new eslint-disable.
 - Jest --ci, one file per command, never -u. Full suite only on checkpoints.
-- Checkpoint round: read only, except fixing reds caused by the last change.
-- TestPG: localhost:5432, lume_test_local, no password. URL on one command only, never printed.
-- PHASE4_ROWS.md rows keep 7 columns: notes after <br>, before ' |'. OWNER_CHECKS_phase4.md is append only.
-- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, foodDays.test.ts or listSessions defaults.
-- Lint ignores JSON: check locale files with JSON.parse. zsh: use plain grep -rn; redirect lint and test output to files.
+- Redirect lint and test output to files. Pipes hide exit codes.
+- TestPG: localhost:5432, lume_test_local, URL on one command only, never printed.
+- PHASE4_ROWS.md rows keep 7 columns: notes after <br>, before ' |'. OWNER_CHECKS_phase4.md append only.
+- Never edit src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, foodDays.test.ts, listSessions defaults.
+- New English strings: en.json and ENGLISH_ONLY in localeParity.test.ts.
 - A blocker that repeats twice goes to Blocked and is not retried.
 
 ## Decisions (never delete)
-- Approved: plan-ready summary; training days and gain or maintain in onboarding; no trial or active sees paywall on morning brief; 'Sep' not 'Sept'; renderScreen wrapped in AppStateProvider; 401 dispatches SESSION_ENDED.
-- Row 5: limit handled where errors are caught; consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
-- Row 2b: dead end 5 back from measurements dismisses to preview, session_exists continues. Dead end 6 401 on subscription check or save ends session. Dead end 8 target weight required when shown (lose or muscle), 30 to 300 kg, inline bodyWeightError, Continue never disabled, server optional up to 1000. Dead end 9 sign in toggle keeps email.
-- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart (a guess).
-- Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs if completion flag set. GET /api/subscription public.
-- paywallHref(reason?) in src/lib/nav.ts is the only place the paywall link is built.
+- Isa (26 Nov): target weight optional server side; resumed onboarding Back goes to previous step; goal change with hand-set calorie target asks 'Update your calorie target to match?'; sign up email errors inline under field; training days stored on backend; may delete lookupBarcodeAsync and its test line, edit foodDays.test.ts, rename gym.monthSessions and gym.monthFreezes, commit ROUTE_COVERAGE.md and add route check to verify; export, delete account, disconnect integrations and privacy/consent settings work without subscription.
+- Row 2b: measurements Continue never disabled; invalid input shows inline errors. Target weight required when shown (lose or muscle), 30 to 300 kg. Back from measurements dismisses to preview; session_exists continues. 401 on subscription check or save ends session.
+- Row 5: consent gate on server first; consent on profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable; background rebuilds count against allowance.
+- Row 6b: answers stay on device until trial or purchase confirmed; dismissed paywall never saves; GET /api/subscription retried 4 times, 1.5 s apart.
+- Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. GET /api/subscription public. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - Row 4: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Row 3: browser oauth_apple flow. Apple hidden on Android (pending Isa).
 - Phase 3 row 6: hydrateGym limit 200; backend LIMIT kept.
-- Retry label 'Try again' (common.tryAgain). Webhook secret from env only; unset means refuse events.
+- Retry label 'Try again'. Webhook secret from env only; unset means refuse events.
+- Legal text follows no-free-tier decision. Privacy wording matches AI consent withdraw switch.
+- Analytics off by default; loop follows the Settings switch.
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
-- Asking is not allowed: run the smallest task.
+- Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
 
 ## Blocked on Isa (park, do not retry)
-- Dead end 7 sign off. Sign up flaw 2: email errors inline or toasts (changes two tests).
-- Target weight stays required for lose and muscle?
-- Resumed onboarding Back: Welcome or previous step. Back to preview after sign in. Clerk session_exists on device. Resend cooldown.
-- legal/terms.tsx:71 describes a free tier. legal/privacy.tsx says 'Turn off AI processing'.
-- Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; plain 429 queueable; label scan exit; scan.ts vs photo capture.
-- Row 6b step (f) stale strings and es/fr text: deferred under English only.
-- Approvals: remove lookupBarcodeAsync and scanSeam.test.ts:521; foodDays.test.ts edit; rename gym.monthSessions and gym.monthFreezes; goal change replaces hand-set calorie target; training days device or backend; commit ROUTE_COVERAGE.md; route audit in verify; integration revoke public; analytics gating.
-- react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21): needs device check before BottomSheet change.
+- Dead end 7 sign off. Target weight stays required? Resend cooldown. Back to preview after sign in. Clerk session_exists on device.
+- Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
+- Row 6b step (f) stale strings.
+- react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
 - E2E account needs 250+ gym dates. Prettier. App Store privacy label. Push and confirm CI.
-- Restore purchases runs subscription check, so a 401 ends session. Confirm. A 402 while app is open is not routed to paywall.
 - Simulator checks: 401 after Clerk expiry, signup, launch, paywall; Total tile; Row 6 numbers; Row 14 gym month line with backend stopped.
 - Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup.
 
 ## Parked
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
-- subscription.notConfiguredDev reads like a developer message. subscription.plansUnavailable and onboarding.paywall.plansUnavailable es/fr out of date; paywall one names RevenueCat.
 - About 67 deliberate console warns need scoped spies.
 - Two private useApi copies (energy.ts, gymSchedule.ts). Import cycle mutations.ts and hooks.ts.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard weight refetch; background AI sweep skipping no-consent users.
@@ -77,4 +71,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Returning user without subscription goes to onboarding. Plan ending while open meets 402s with no paywall.
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
-- Gotchas: each hook test prints one react-test-renderer deprecation; zsh --include=*.ts globs fail.
+- Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation.
