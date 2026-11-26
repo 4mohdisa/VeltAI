@@ -12493,3 +12493,6 @@
 - 2026-11-27 06:55 Row 16 step 1 accepted: route list comes from scanning Handle and HandleFunc calls in source, because ServeMux cannot list routes and package main cannot be imported. The 401 test runs the real cmd/server from a temp folder. Recorded here because DECISIONS_LOG is a loop file.
 - 2026-11-27 06:55 Row 16 step 2 (ownership tests) waits until the checkpoint is green.
 - 2026-11-27 06:55 Smoke test route copy (tests/smoke/smoke_test.go) is parked for replacement by the Row 16 route table, not fixed separately.
+- 2026-11-27 06:56 Round 185: Row 16 step 2 limited to food routes to fit the 5 step prompt limit; other route groups follow in later rounds.
+- 2026-11-27 06:56 Round 185: Chose candidate 1 over the smoke test cleanup, since ownership is the next step in the notes and the smoke list is a cleanup of the same table.
+- 2026-11-27 06:56 Round 185: Jev ranks the same next action as run at 91 percent; no change needed.
