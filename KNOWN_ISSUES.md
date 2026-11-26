@@ -41,6 +41,7 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - getMorningBrief and getProfile now reject on a failed read and useMorningBrief and useBrainProfile report it through isError (src/__tests__/aiBrain.briefProfile.test.ts), but there is still no anomalies endpoint, so getAnomalies and dismissAnomaly degrade to empty. Tracked in Phase 4.
 - npm audit reports 48 vulnerabilities. Dependency upgrades are not in Phase 3.
 - The authenticated role is missing in local Postgres 17. Phase 4.
+- Recipe ingredients and saved meal items come back in random order, because they are sorted by a random UUID id (ORDER BY id in backend/internal/recipes/pg.go:126 and :292). Found in Round 173 and not fixed, since fixing it changes behaviour.
 
 ## Docs
 - Row 14's older notes still say 'status stays partial' while the row is BUILT. The notes are history and are not rewritten.

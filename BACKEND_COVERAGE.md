@@ -60,3 +60,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 170
 
 - `internal/gym`: 49.8% to 77.9% with all tests counted (938 of 1,204 statements), and 5.5% to 44.9% from its own tests. New in-package TestPG tests: `internal/gym/pg_internal_test.go` (PGStore, ParamEngine) and `internal/gym/schedule_pg_internal_test.go` (SchedulePGStore). Still uncovered: the `patchSession`, `patchExercise`, `lastLogged` and `listTemplates` handlers.
+
+## Round 173
+
+- `internal/recipes`: 26.8% to 82.1% with all tests counted, and 0.0% to 82.1% from its own tests. New in-package TestPG tests: `internal/recipes/pg_internal_test.go` (handlers on top of PGStore). Still uncovered: the store failure (500) branches. Found the random ingredient order bug, recorded in KNOWN_ISSUES.md.

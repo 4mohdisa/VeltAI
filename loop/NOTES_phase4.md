@@ -14,22 +14,22 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint rounds: full tsc and full Jest, no edits. Every ~5 rounds.
 
-## State (Round 172)
+## State (Round 173)
 - BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 15-28, 30.
-- Round 171 done: verify:go needs LUME_TEST_DATABASE_URL (local hosts only), uses -count=1. 38 packages ok, 97 TestPG run.
-- Round 172: checkpoint (tsc + full Jest, no edits). Next checkpoint: Round 177.
-- Last green full checkpoint: Round 167 (tsc 0, Jest 350/350). Go race green Round 170.
+- Round 172 checkpoint green: tsc 0, Jest 350/350 suites, 2,190 tests. go vet clean.
+- Next checkpoint: Round 177.
 
 ## Row 15 (in progress)
 - Done: step 1 (BACKEND_COVERAGE.md), step 2 (internal/gym 49.8 to 77.9).
-- Under 70: recipes 26.8, integrations 39.1, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
+- Under 70: recipes 26.8 (Round 173), integrations 39.1, scan 57.3, analytics 63.4, auth 69.5, food 68.9, debugreports 0.
 - Gym handlers thin: patchSession 13.6, patchExercise 8.8, lastLogged 0, listTemplates 0.
-- Order: recipes (Round 173), integrations, scan, debugreports, analytics, auth, food, gym handlers.
+- Order: recipes, integrations, scan, debugreports, analytics, auth, food, gym handlers.
 - Measure with -coverpkg=./internal/<pkg> ./... (plain -cover undercounts).
 
 ## Row 30 follow-up
 - README and HOSTING_CHECKLIST: export LUME_TEST_DATABASE_URL before npm run verify.
+- Console noise: about 73 console.error and 85 console.warn in Jest output. Track down later.
 
 ## Parked (fix only in its row)
 - Feedback 14a: wire or delete the chip before Row 31. Also feature_rated analytics, Settings feedback screen, Ask me switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
@@ -78,9 +78,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 170: Row 15 order gym, recipes, integrations, scan, debugreports, analytics, auth, food.
 - Round 171: verify:go fails when LUME_TEST_DATABASE_URL is unset; no silent skip in the gate.
 - Round 172: checkpoint is read only (tsc, full Jest, go vet).
+- Round 173: recipes chosen over Jev's advisory view (smaller task under high risk score).
 
 ## Gotchas
-- Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
+- Jest: full paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'. zsh needs xargs -0 for 350 paths.
 - en.json and detail.tsx fail Prettier at HEAD: never --write.
 - Mock Clerk in any test rendering welcome. expo-notifications is native: mock in tabs layout tests.
 - Pin dates with jest.useFakeTimers({ now, doNotFake: ['setImmediate'] }).
@@ -90,7 +91,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b.
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
-- 158, 160, 163, 167: checkpoints green. 164-166: cleanup.
+- 158, 160, 163, 167, 172: checkpoints green. 164-166: cleanup.
 - 168: Row 14b closed. 169-170: Row 15 steps 1-2.
 - 171: verify:go requires local TestPG database. Done.
-- 172: checkpoint (in progress).
+- 173: Row 15 step 3 (recipes) prompted.

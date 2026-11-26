@@ -12443,3 +12443,7 @@
 - 2026-11-27 06:06 Checkpoint runs go vet only, not the TestPG suite, to keep the round read-only and short.
 - 2026-11-27 06:06 Checkpoints are roughly every 5 rounds. Next checkpoint is Round 177.
 - 2026-11-27 06:06 The LUME_TEST_DATABASE_URL docs gap is parked for Row 30, not fixed in a checkpoint round.
+- 2026-11-27 06:08 Round 173 picks recipes, as set in the Round 170 Row 15 order, because the Jev score is advisory and a smaller task fits the high risk score.
+- 2026-11-27 06:08 Round 173 is a normal run round, not a checkpoint; the next checkpoint stays at Round 177.
+- 2026-11-27 06:08 The recipes prompt limits edits to one package plus two doc lines, so any scope creep is easy to see.
+- 2026-11-27 06:08 Jev suggested asking (7 percent). Not used: Isa cannot be reached and the loop never asks.
