@@ -11,20 +11,21 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches wired to device.ts; quiet hours display built; daily helper built in round 44, not yet wired).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving screen leftover parked); 10 (switches wired; daily start and foreground wiring done round 45; per-slot meal times in progress round 46).
 - Round 43 checkpoint: tsc 0; Jest 316 suites, 1,956 tests; 68 console.error; 168 console.warn. Go race: 38 packages ok.
 
 ## Next
-1. Round 45 (follow-up): wire ensureDailySchedule at app start and foreground; store day key; clear on sign-out.
-2. Derive per-slot meal times after 3 logs (median).
+1. Round 46: per-slot meal times from median of 3+ logs (mealTimes.ts, wired in daily.ts).
+2. Sign-out clears previous account's reminders from the device.
 3. Row 10c: push token endpoint (sending is hosted).
-4. Quiet hours editing (later).
+4. Granting permission on priming should schedule straight away.
+5. Quiet hours editing (later).
 
 ## Blocked on Isa (park, do not retry)
 - Leaving destination; priming copy; win back copy and price package; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase and offerings need iOS public key.
 - Row 8: Maestro install; email code sign in (E2E_EMAIL not +clerk_test); database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: quiet hours and category strings; permission after Not now; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); UTC fallback when device time zone unreadable; whether to retry same day after permission is granted.
+- Row 10: quiet hours and category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); UTC fallback when device time zone unreadable; retry same day after permission is granted.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
@@ -43,12 +44,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check (reply is same public id for everyone).
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key cleared on sign-out.
+- Notifications: median meal times after 3 logs; quiet hours 22:00 to 07:00; meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change, cleared on sign-out. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; day key cleared on sign-out. Start and foreground share one run.
 - Analytics off by default. Retry label 'Try again'.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
 ## Parked
-- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours display only. Default meal times until per-slot times derived.
+- Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Quiet hours display only.
 - console.warn from expo-notifications in five Settings test files (needs device.ts mock in src/__tests__/render/setup.ts, off-list).
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
 - Paywall imports constants from a profile route file. paywallSessionExpired has unscoped devWarn. Hardcoded: body emoji 26, A$, 'Your data', server limit message.
@@ -59,8 +60,9 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. AI limit: parallel requests slip past; old counts never deleted.
-- Nothing derives per-slot meal times; quiet hours can't be edited; DECISIONS.md names only permissions.ts as importing expo-notifications.
-- Notification settings reload only when Settings opens.
+- Nothing derives per-slot meal times yet (in progress round 46); quiet hours can't be edited; DECISIONS.md names only permissions.ts as importing expo-notifications.
+- Notification settings reload only when Settings opens. deviceTimeZone() ?? 'UTC' fallback in two places.
+- Settings render tests show expo-notifications warning.
 
 ## Gotchas
 - Branch check first (git branch --show-current only). Full Jest paths; never jest -u; redirect output to files.
@@ -70,5 +72,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit met. Never ask. Park own
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 - expo-notifications is native: mock in tabs layout tests. Render tests must be *.render.test.tsx.
 - Never edit the protected files listed above.
-- Round 25 log line stays at end of PHASE4_ROWS.md.
+- Round 26 log line stays at end of PHASE4_ROWS.md.
 - Keep prompts to one screen or component.

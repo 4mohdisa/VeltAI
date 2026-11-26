@@ -57,7 +57,7 @@ function formatter(timeZone: string): Intl.DateTimeFormat {
 }
 
 /** The zone's wall clock date and minutes at an instant. */
-function wallClock(instant: number, timeZone: string): LocalDate & { min: LocalMinutes } {
+export function wallClock(instant: number, timeZone: string): LocalDate & { min: LocalMinutes } {
   const p: Record<string, number> = {};
   for (const part of formatter(timeZone).formatToParts(instant)) p[part.type] = Number(part.value);
   return { y: p.year, m: p.month, d: p.day, min: p.hour * 60 + p.minute };

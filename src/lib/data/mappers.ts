@@ -31,7 +31,7 @@ export const isServerId = (id: string): boolean => /^[0-9a-f]{8}-[0-9a-f]{4}-/.t
 
 export const SLOTS: MealSlot[] = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
-const slotOf = (mealType: string | null): MealSlot =>
+export const slotOf = (mealType: string | null): MealSlot =>
   SLOTS.find((s) => s.toLowerCase() === mealType?.toLowerCase()) ?? 'Snacks';
 
 const methodOf = (source: string | null): EntryMethod => {

@@ -7,7 +7,7 @@
 // that update the store optimistically and fire the API call in the background.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { api, ApiError, type Goals, type Onboarding, type SubscriptionStatus } from '@/lib/api';
+import { api, ApiError, type FoodLog, type Goals, type Onboarding, type SubscriptionStatus } from '@/lib/api';
 import { goalTypeOf } from '@/lib/goals/derive';
 import {
   entitlementFromApi,
@@ -370,13 +370,19 @@ function zeroWeek(): WeeklyMacroDay[] {
   return lastSevenDays().map((date) => ({ date, protein: 0, carbs: 0, fat: 0, fibre: 0 }));
 }
 
-/** One list() call per day (the endpoint takes a single exact date, same
- *  constraint noted on hydrateFoodLog above), summed into that day's totals. A
- *  day with no rows sums to zero rather than being omitted. Exported so it can
- *  be tested directly, the same way hydrateFoodLog/hydrateGym are. */
+/** The last 7 days' food log rows, one list() call per day (the endpoint takes
+ *  a single exact date, same constraint noted on hydrateFoodLog above), in the
+ *  order of lastSevenDays(). Also read by the meal reminder times. */
+export function fetchWeekLogs(dates: string[] = lastSevenDays()): Promise<FoodLog[][]> {
+  return Promise.all(dates.map((date) => api.foodLogs.list({ date })));
+}
+
+/** Each day's rows summed into that day's totals. A day with no rows sums to
+ *  zero rather than being omitted. Exported so it can be tested directly, the
+ *  same way hydrateFoodLog/hydrateGym are. */
 export async function fetchWeeklyMacros(): Promise<WeeklyMacroDay[]> {
   const dates = lastSevenDays();
-  const rowsByDay = await Promise.all(dates.map((date) => api.foodLogs.list({ date })));
+  const rowsByDay = await fetchWeekLogs(dates);
   return dates.map((date, i) => ({
     date,
     ...rowsByDay[i].reduce(

@@ -11879,3 +11879,8 @@
 - 2026-11-27 00:58 Use one shared function for app start and foreground so the logic is not duplicated.
 - 2026-11-27 00:58 Move the Round 25 line to the end of PHASE4_ROWS.md, as the notes require.
 - 2026-11-27 00:58 Keep the 'UTC' fallback and the retry-on-permission-change question parked for Isa; the priming yes path already schedules.
+- 2026-11-27 01:01 Round 45 follow-up is closed: daily reminders wired at start and on foreground, per the Round 45 report.
+- 2026-11-27 01:01 Chose per-slot meal times as the next task because it is item 2 in the notes and it changes what the user sees most.
+- 2026-11-27 01:01 Sign-out clearing of old reminders is queued next, not this round, to keep the task to one change.
+- 2026-11-27 01:01 Midnight wrap-around in the median stays parked, as the notes already say.
+- 2026-11-27 01:01 Permission-granted-same-day retry stays an Isa question in Blocked; not changed.

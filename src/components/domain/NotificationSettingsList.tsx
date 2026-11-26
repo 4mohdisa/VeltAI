@@ -6,10 +6,8 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { SettingsList, type SettingsRowProps } from '@/components/display/SettingsList';
-import { deviceTimeZone } from '@/lib/api';
 import { formatTime } from '@/lib/formatting';
-import { applySchedule, notificationPermission } from '@/lib/notifications/device';
-import { scheduleNotifications } from '@/lib/notifications/schedule';
+import { rescheduleToday } from '@/lib/notifications/daily';
 import type { LocalMinutes, NotificationCategory } from '@/lib/notifications/types';
 import { hydrateNotificationSettings, useSettingsStore } from '@/lib/settings/store';
 
@@ -32,16 +30,12 @@ export function NotificationSettingsList() {
     void hydrateNotificationSettings();
   }, []);
 
-  const toggle = async (category: NotificationCategory, on: boolean) => {
+  // The daily schedule reschedules only when permission is already granted and never prompts.
+  const toggle = (category: NotificationCategory, on: boolean) => {
     setNotifications(
       category === 'promotional' ? { promotionalOptIn: on } : { enabled: { ...settings.enabled, [category]: on } },
     );
-    // Reschedules only when permission is already granted; this screen never prompts.
-    if (!(await notificationPermission())) return;
-    const saved = useSettingsStore.getState().notifications;
-    // ponytail: no per-slot meal logging times exist yet, so meal reminders use the default times.
-    // A failed schedule keeps the saved switch; the next change schedules again.
-    await applySchedule(scheduleNotifications(new Date(), deviceTimeZone() ?? 'UTC', saved, {})).catch(() => undefined);
+    void rescheduleToday();
   };
 
   const rows: SettingsRowProps[] = CATEGORIES.map(({ category, icon }) => ({
@@ -49,7 +43,7 @@ export function NotificationSettingsList() {
     label: t(`notifications.${category}.label`),
     kind: 'toggle',
     switchValue: category === 'promotional' ? settings.promotionalOptIn : settings.enabled[category],
-    onToggle: (on) => void toggle(category, on),
+    onToggle: (on) => toggle(category, on),
   }));
   const quiet = settings.quietHours;
   rows.push({

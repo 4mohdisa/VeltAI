@@ -15,6 +15,7 @@ jest.mock('@/lib/notifications/device', () => ({
   applySchedule: jest.fn(async () => undefined),
 }));
 jest.mock('@/lib/notifications/permissions', () => ({ requestNotificationPermission: jest.fn() }));
+jest.mock('@/lib/data/hooks', () => ({ fetchWeekLogs: async () => [] }));
 
 const mockStored = new Map<string, string>();
 jest.mock('@/lib/storage/secureStore', () => ({
