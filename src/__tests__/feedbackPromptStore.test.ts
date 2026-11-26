@@ -4,7 +4,7 @@
 import { loadFeedbackPromptState, recordLaunch, saveFeedbackPromptState } from '@/lib/feedback/promptStore';
 import { INITIAL_FEEDBACK_PROMPT_STATE, recordPrompt, type FeedbackPromptState } from '@/lib/feedback/throttle';
 import { setItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
-import { __reset as resetSecureStore } from './mocks/expoSecureStore';
+import * as secureStoreMock from './mocks/expoSecureStore';
 
 const T0 = Date.UTC(2026, 10, 1, 9, 0, 0);
 
@@ -28,7 +28,7 @@ const relaunch = () => {
 };
 
 beforeEach(() => {
-  resetSecureStore();
+  secureStoreMock.__reset();
 });
 
 test('nothing saved reads as the initial state', async () => {
@@ -51,6 +51,29 @@ test.each([
 ])('%s reads as the initial state without throwing', async (_label, raw) => {
   await setItem(STORAGE_KEYS.feedbackPrompt, raw);
   await expect(loadFeedbackPromptState()).resolves.toEqual(INITIAL_FEEDBACK_PROMPT_STATE);
+});
+
+test('a feature key this build does not know is dropped on load', async () => {
+  await setItem(
+    STORAGE_KEYS.feedbackPrompt,
+    JSON.stringify({
+      ...SAVED,
+      lastPromptByFeature: { barcode_scan: T0, retired_feature: T0 },
+      dontAskAgain: ['streaks', 'retired_feature'],
+    }),
+  );
+  await expect(loadFeedbackPromptState()).resolves.toEqual(SAVED);
+});
+
+test('save reports true when the write lands', async () => {
+  await expect(saveFeedbackPromptState(SAVED)).resolves.toBe(true);
+});
+
+test('a write that does not land resolves false without throwing', async () => {
+  const write = jest.spyOn(secureStoreMock, 'setItemAsync').mockRejectedValueOnce(new Error('keychain locked'));
+  await expect(saveFeedbackPromptState(SAVED)).resolves.toBe(false);
+  await expect(loadFeedbackPromptState()).resolves.toEqual(INITIAL_FEEDBACK_PROMPT_STATE);
+  write.mockRestore();
 });
 
 test('recordLaunch adds one session per call and saves it', async () => {

@@ -12057,3 +12057,7 @@
 - 2026-11-27 02:46 Round 84: followed Jev's 100% run signal; no reason to override.
 - 2026-11-27 02:46 Round 84: notes rewritten under 600 words as the loop note asked; finished work removed, repeats merged.
 - 2026-11-27 02:46 Round 84: the 14a small fixes stay queued after step 6, since they do not block the chip.
+- 2026-11-27 02:48 Treated the flagged step 4 report as the one allowed follow-up: the chip's store dependency has known gaps, so fixing them first keeps step 5 clean.
+- 2026-11-27 02:48 Kept the chip unwired until step 5, as decided in Round 84, to avoid dead code.
+- 2026-11-27 02:48 Deferred the sticky state and fast refresh launch issues to later rows; they do not block step 5.
+- 2026-11-27 02:48 Rewrote the notes under 600 words, merging repeated items and removing finished work.

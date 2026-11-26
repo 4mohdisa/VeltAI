@@ -54,7 +54,7 @@ const savedPrompt = expect.objectContaining({
 
 beforeEach(() => {
   jest.spyOn(Date, 'now').mockReturnValue(NOW);
-  save.mockReset().mockResolvedValue(undefined);
+  save.mockReset().mockResolvedValue(true);
   onRate.mockClear();
 });
 

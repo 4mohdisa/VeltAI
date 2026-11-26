@@ -12,14 +12,15 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a.
 - Checkpoints: Round 66 and Round 80 green (325 suites, 2,018 tests).
 
 ## Row 14a (feedback), in progress
-- Done: features.ts (11 keys); throttle.ts; feedbackThrottle test (12); promptStore.ts (load, save, recordLaunch, never throws) with 7 tests; recordLaunch once at start-up in root layout (2 render tests).
-- Step 4 (Round 84): FeatureFeedbackChip component and render test. Not wired until step 5.
-- Then: step 5 wire chip on barcode scan with sheet (reasons, free text, what do you like); Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback; delete and export coverage; PRIVACY_DATA.md.
-- Small fixes later: promptStore shape check must filter feature keys in lastPromptByFeature and dontAskAgain; saveFeedbackPromptState must handle setItem false.
+- Done: features.ts (11 keys); throttle.ts; throttle test (12); promptStore.ts with 7 tests; recordLaunch once at start-up in root layout (2 tests); FeatureFeedbackChip and 7 render tests (Round 84, not wired).
+- Round 85 (follow-up, ONE allowed): promptStore shape check filters feature keys; saveFeedbackPromptState handles setItem false.
+- Step 5 next: wire chip on barcode scan with sheet (reasons, free text, what do you like); feature_rated analytics (key and rating only).
+- Then: Settings feedback screen plus backend route with rate limit; Settings switch 'Ask me for feedback'; npm run feedback; delete and export coverage; PRIVACY_DATA.md.
+- Known, not fixed: chip reads state once on mount (two chips on screen go stale); fast refresh counts an extra launch (dev only).
 
 ## Row 14b
 - Write DESIGN_INTENT.md (four questions per screen), then small fixes: smart defaults, contextual links, remove what does not earn its place.
@@ -52,8 +53,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## Parked (other)
 - DELETE after session gets 401; stale push tokens never removed; failed POST not retried; sign-out cannot remove token after relaunch.
 - Leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap; expired session clears reminders until foreground.
-- Fast refresh resets launch flag (dev only). Other render tests may leave Clerk MessagePort open; check.
-- Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
+- Other render tests may leave Clerk MessagePort open. Node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons; pull-to-refresh skips subscription.
 - Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
 - About 68 console errors need scoped spies; two useApi copies; import cycle mutations.ts and hooks.ts.
@@ -85,8 +85,8 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Render test stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
 - Round 82: persistence before chip; recordPrompt copies dontAskAgain.
-- Round 83: 14a step 3 chosen over shape and write fixes (smallest, unblocks chip).
-- Round 84: step 4 chosen; chip not wired until step 5 to avoid dead code.
+- Round 84: chip not wired until step 5 to avoid dead code.
+- Round 85: one follow-up on step 4 (store shape and setItem fixes) before step 5.
 
 ## Gotchas
 - Branch check first. Full Jest paths; never jest -u; use --ci; redirect output.
@@ -101,4 +101,5 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Round 81: features.ts and throttle.ts with 12 tests.
 - Round 82: promptStore and persistence done.
 - Round 83: 14a step 3 done (launch recorded once).
-- Round 84: 14a step 4 issued.
+- Round 84: 14a step 4 done (chip built, unwired).
+- Round 85: 14a follow-up issued.
