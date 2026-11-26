@@ -14,10 +14,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next: round 199.
 
-## State (Round 195)
+## State (Round 196)
 - BUILT 18 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
-- Row 16: step 1 done (102 routes). Step 2 done for food, gym, recipes, saved meals, goals, body weight, insights. Step 3 done for food, gym, recipes, saved meals, goals, body weight. Round 195: AI routes in tests/ai. Then integrations.
+- Row 16: step 1 done (102 routes). Step 2 done for all groups. Step 3 done for food, gym, recipes, saved meals, goals, body weight, AI (tests/ai/validation_pg_test.go). Round 196: integrations (prompt issued).
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
@@ -27,11 +27,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Gym validation: POST exercises returns 200 not 201 (gym.go:396); PATCH session accepts future date and any duration (gym.go:316).
 - Goals validation: PUT /api/goals stores any weight_goal, activity_level, source (goals.go:371); onboarding does not check sex, activity_level, goal, units (goals.go:230).
 - 404 wording differs by package (food and recipes 'not found', body weight 'body weight entry not found', insights 'insight not found').
-- Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated; POST accepts negative or huge macros. Row 18: recipes.authorize copies food.authorize.
+- Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated; POST accepts negative or huge macros.
 - Insights: DismissInsight updates by id only (safe via handler owner check).
 - Integrations: sync stops at 50 Strava or 25 WHOOP items; expired token gives 502.
 - Gym complete handler reads body only when ContentLength != 0.
-- Test helpers: seedMealLog and seedDay leave profiles (Row 25); signedTokens and seedOwner copied per package; DB pool helper has 8 copies.
+- Test helpers: seedMealLog and seedDay leave profiles (Row 25); signedTokens and seedOwner copied per package; DB pool helper has 8 copies; wantErrorEnvelope 4 copies.
 - Feedback 14a: wire or delete chip before Row 31; feature_rated analytics, Settings screen, Ask me switch, npm run feedback, PRIVACY_DATA.md.
 - Legal: web/lib/legal.ts lacks push, Sentry, PostHog; LegalScreen hardcodes dates and PENDING text.
 - Measurements Back: postAuth.ts:28 resume path (check in row 23).
@@ -46,6 +46,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Blocked on Isa (park, do not retry)
 - Approvals: food delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper; Gym TestPG skip ruling; coverage scope; bug fixes above; insights user_id hardening.
+- Ownership status code: another user's insight returns 403 (ai.go:364), brief says 404. Kept 403 (no leak). Changing it touches every ownership route.
 - Copy: consent, win back, leaving; target weight; resend cooldown; paywall terms; Terms free tier; gym.freeze.confirm_one; dashboard.weekNoNetMessage; dashboard.energyAddBodyStats; body stats hint; Fixes 24, 25, 12 option B.
 - Apple and RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS key; native Apple sheet; Clerk session_exists on device.
 - Push and HealthKit: category strings, defaults, quiet hours wording, token retention; HealthKit Settings switch, purpose strings, device steps.
@@ -86,7 +87,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 182-186: Row 16 step 1 done; food and gym ownership green.
 - 187-190: recipes, saved meals, body weight, insights ownership safe. Step 2 complete.
-- 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean).
+- 189, 194: checkpoints green (tsc 0, Jest 350/350, 2190 tests, go vet clean).
 - 191-193: Row 16 step 3 for food, gym, recipes, saved meals, goals, body weight (green).
-- 194: checkpoint green (tsc 0, Jest 350/350, 2190 tests, go vet clean, no edits).
-- 195: Row 16 step 3 for AI routes in tests/ai (prompt issued).
+- 195: Row 16 step 3 for AI routes (12 validation cases green, 0 skips; 403 kept).
+- 196: Row 16 step 3 for integrations (prompt issued).

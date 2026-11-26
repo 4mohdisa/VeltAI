@@ -12534,3 +12534,6 @@
 - 2026-11-27 07:16 Mocks only for AI providers in this round, consistent with the live call budget rule.
 - 2026-11-27 07:16 Next checkpoint is round 199 (every 5 rounds after 194).
 - 2026-11-27 07:16 Notes compressed to fit the 600 word limit. Parked items, blocked items and decisions are kept in short form.
+- 2026-11-27 07:18 Round 196: 403 kept for another user's insight (never 200, no leak). Changing to 404 touches every ownership route; parked for Isa in Blocked.
+- 2026-11-27 07:18 Round 196: Row 16 line in PHASE4_ROWS.md added in this prompt, as the last round asked.
+- 2026-11-27 07:18 Round 196: integrations next, since it is the only Row 16 group left before the checkpoint at 199.
