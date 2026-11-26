@@ -12089,3 +12089,13 @@
 - 2026-11-27 03:05 Chose candidate 1: it is the next Fix 1 item and it touches one screen, which matches the one-screen rule. Candidate 2 needs two screens, so it waits.
 - 2026-11-27 03:05 Scan again uses the existing ?slot param on barcode-scan, which is not a /food/detail route param, so foodDetail.test.ts stays green.
 - 2026-11-27 03:05 Round 91 follow-up is complete for the barcode detail meal. Its remaining items move to the Fix 1 list, not a new follow-up.
+- 2026-11-27 03:07 Chose candidate 1 because it is the Claude Code recommended NEXT and the smallest step on Row 14b Fix 1. Jev ranks run at 97%, so no reason to override.
+- 2026-11-27 03:07 Kept foodDetail.test.ts unchanged. The exact-text check stays; the label scan change adds a branch instead of rewriting the pinned call.
+- 2026-11-27 03:07 Jev risk score 1.1 with confidence 0.44 is not enough to stop or split. Continuing with a one-screen prompt, which already limits exposure.
+- 2026-11-27 03:07 Jev says the last task was 64% clean. The Round 92 report was clean, so no follow-up is needed. If Round 93 is flagged partly done, the leftover goes to the Fix list, not a new follow-up.
+- 2026-11-27 03:07 Quick-add, add and saved duplicate slot checks, food.tsx SLOTS duplicate and the detail-sheet ?slot clear stay in the Fix list for later rounds, one screen per prompt.
+- 2026-11-27 03:07 Rewrote the rejected prompt to touch one screen only (label-scan.tsx) with five numbered steps, because Isa's rule is one screen or component per prompt.
+- 2026-11-27 03:07 Left the food.tsx link change for the next round so this prompt stays on one screen; without it the fix only takes effect once the link passes ?slot.
+- 2026-11-27 03:07 Kept detail.tsx 'Scan again' as the no-meal path and did not edit foodDetail.test.ts, to respect its exact-text check.
+- 2026-11-27 03:07 Rewrote the notes under 600 words by merging repeated items and deleting finished rounds.
+- 2026-11-27 03:07 Used the Round 93 Jev signal (run, risk 1.1, advisory) as support for a small, single-file task.

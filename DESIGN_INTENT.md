@@ -113,6 +113,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
    - Barcode scanner: done. `barcode-scan.tsx` reads `?slot` through `slotFromParam` and puts it in the barcode detail subject (`slot`), never in the route. Test: `src/__tests__/render/barcodeScanSlot.render.test.tsx`.
    - Barcode detail sheet: done. Barcode mode uses `subject.slot ?? slotForNow()` (`detail.tsx:247`). Test: `src/__tests__/render/barcodeDetailSlot.render.test.tsx`.
    - Done (Round 92): "Scan again" on the not-found sheet keeps the meal; it reopens the scanner with `?slot` set from the subject's slot.
+   - Done (Round 94): label scan reads `?slot` through `slotFromParam`, falling back to the meal for the time of day. Test: `src/__tests__/render/labelScanSlot.render.test.tsx`.
    - Still open: the scanner's "Photograph label" button does not pass the meal to label scan; a log from the detail sheet does not clear the Food tab's `?slot`.
    - Scan and label scan: open.
 2. **Summary "Today" shows today.** The Summary macros card and Nutrition read the Food tab's selected day (`hooks.ts:320-321`). After the user looks at yesterday, Summary is wrong.

@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { Linking, ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { track } from '@/lib/analytics';
@@ -27,7 +27,7 @@ import { CaptureGuidanceOverlay } from '@/components/food/CaptureGuidanceOverlay
 import { showToast } from '@/components/display/toastStore';
 import { color, radius, space, surface } from '@/lib/design/tokens';
 import { STORAGE_KEYS } from '@/lib/storage/secureStore';
-import { slotForNow } from '@/lib/data';
+import { slotFromParam } from '@/lib/data';
 import { api, ApiError, isTransient, type ScanLabelResult } from '@/lib/api';
 import { runOrQueue } from '@/lib/offline/queue';
 import { selectedFoodDate, useFoodStore } from '@/lib/data/foodStore';
@@ -71,7 +71,9 @@ export default function LabelScanScreen() {
   const [fibre, setFibre] = useState('0');
   const [servings, setServings] = useState(1);
   const [band, setBand] = useState<Band>('Low');
-  const [mealType, setMealType] = useState<MealSlot>(slotForNow());
+  // A meal's "Add to dinner" passes ?slot; with none, the meal for the time of day.
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
+  const [mealType, setMealType] = useState<MealSlot>(() => slotFromParam(slot));
   const [submitting, setSubmitting] = useState(false);
 
   // Convert the API's per-100g values back to PER SERVING (serving_size_g<=0 → 100).
