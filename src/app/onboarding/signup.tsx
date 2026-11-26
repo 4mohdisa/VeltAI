@@ -259,8 +259,10 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
       setStage('code');
       showToast({ message: t('signup.toastCodeSent', { email: addr }), tone: 'info' });
     } catch (e) {
+      // Inline under the email field, like the format check: a toast vanished
+      // before "try signing in instead" could be read. Typing clears it.
       if (isSessionExists(e)) await continueAfterAuth(dispatch);
-      else showToast({ message: clerkMessage(e), tone: 'error' });
+      else setEmailError(clerkMessage(e));
     } finally {
       setBusy(null);
     }
@@ -399,6 +401,7 @@ function ClerkSignup({ mode, setMode }: { mode: Mode; setMode: (next: Mode) => v
           setStage((s) => (s === 'buttons' ? s : 'email'));
           setCode('');
           setCodeError(undefined);
+          setEmailError(undefined);
         }}
       >
         <Text variant="footnote" color={color.label} style={{ textAlign: 'center' }}>

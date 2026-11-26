@@ -11592,3 +11592,8 @@
 - 2026-11-26 10:29 No new keys added, so ENGLISH_ONLY does not change.
 - 2026-11-26 10:29 Dead end 7 stays open for Isa. This round only changes wording, not sign off.
 - 2026-11-26 10:29 Inline email errors (Isa's 26 Nov answer) left for the next round to avoid mixing two surfaces.
+- 2026-11-26 10:31 The flagged report is treated as done for the English part. Its NEXT item (translate es and fr) conflicts with Isa's override 1 (English only, es and fr deferred), so it is dropped, not parked as a blocker.
+- 2026-11-26 10:31 Dead end 7 (plansUnavailable wording) is closed in English. Isa's sign off on the copy stays open only as a note, because es and fr are deferred.
+- 2026-11-26 10:31 Chose the sign up inline error task because it is the next item in the Row 2b list, is a small change, and Isa has already decided it. Jev's 0.9 risk score and low confidence point to a smaller task, so no full suite this round.
+- 2026-11-26 10:31 The dead end 8 notes line is folded into this prompt, since the handover said it was still pending and it costs one line.
+- 2026-11-26 10:31 The checkpoint (tsc and full Jest) is deferred to the round after this one, once three to five changed rounds have passed since the last checkpoint.

@@ -63,6 +63,9 @@ function enterEmailAndSendCode(tree: ReturnType<typeof renderScreen>, email: str
   act(() => (buttonWithTitle(tree, 'Send code')!.props.onPress as () => void)());
 }
 
+const emailFieldError = (tree: ReturnType<typeof renderScreen>) =>
+  findAll(tree, (p) => p.label === 'Email')[0].props.error;
+
 beforeEach(() => {
   mockSignUpCreate.mockReset().mockResolvedValue(undefined);
   mockPrepareEmail.mockReset().mockResolvedValue(undefined);
@@ -80,10 +83,7 @@ test('form_identifier_exists shows "That email already has an account — try si
   enterEmailAndSendCode(tree, 'exists@example.com');
   await settle();
 
-  expect(useToastStore.getState().current).toMatchObject({
-    message: 'That email already has an account — try signing in instead.',
-    tone: 'error',
-  });
+  expect(emailFieldError(tree)).toBe('That email already has an account — try signing in instead.');
 });
 
 test('form_identifier_not_found shows "No account with that email — try signing up instead."', async () => {
@@ -94,10 +94,7 @@ test('form_identifier_not_found shows "No account with that email — try signin
   enterEmailAndSendCode(tree, 'missing@example.com');
   await settle();
 
-  expect(useToastStore.getState().current).toMatchObject({
-    message: 'No account with that email — try signing up instead.',
-    tone: 'error',
-  });
+  expect(emailFieldError(tree)).toBe('No account with that email — try signing up instead.');
 });
 
 test('form_code_incorrect shows "That code isn\'t right — check it and try again."', async () => {
@@ -127,10 +124,7 @@ test("an unmapped error code with Clerk's own message shows the generic message,
   enterEmailAndSendCode(tree, 'limited@example.com');
   await settle();
 
-  expect(useToastStore.getState().current).toMatchObject({
-    message: 'Something went wrong. Check your connection and try again.',
-    tone: 'error',
-  });
+  expect(emailFieldError(tree)).toBe('Something went wrong. Check your connection and try again.');
 });
 
 test('an unmapped error code with no message falls back to the generic message', async () => {
@@ -140,8 +134,21 @@ test('an unmapped error code with no message falls back to the generic message',
   enterEmailAndSendCode(tree, 'unknown@example.com');
   await settle();
 
-  expect(useToastStore.getState().current).toMatchObject({
-    message: 'Something went wrong. Check your connection and try again.',
-    tone: 'error',
-  });
+  expect(emailFieldError(tree)).toBe('Something went wrong. Check your connection and try again.');
+});
+
+test('a rejected email shows its message under the email field, not as a toast, and correcting the email clears it', async () => {
+  mockSignUpCreate.mockRejectedValueOnce({ errors: [{ code: 'form_identifier_exists', message: 'Email taken' }] });
+
+  const tree = renderScreen(<SignupScreen />);
+  enterEmailAndSendCode(tree, 'exists@example.com');
+  await settle();
+
+  expect(emailFieldError(tree)).toBe('That email already has an account — try signing in instead.');
+  expect(useToastStore.getState().current).toBeNull();
+
+  const emailField = findAll(tree, (p) => p.label === 'Email')[0];
+  act(() => (emailField.props.onChangeText as (t: string) => void)('new@example.com'));
+
+  expect(emailFieldError(tree)).toBeUndefined();
 });

@@ -70,6 +70,7 @@ test('switching to sign in after "email already has an account" keeps the email 
 
   expect(screenTitle(tree)).toBe('Sign in');
   expect(emailField(tree).props.value).toBe('exists@example.com');
+  expect(emailField(tree).props.error).toBeUndefined();
 
   act(() => (buttonWithTitle(tree, 'Send code')!.props.onPress as () => void)());
   await settle();
