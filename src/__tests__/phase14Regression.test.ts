@@ -198,7 +198,7 @@ describe('claim 3 · third-party-AI consent', () => {
 
   test('the insights screen renders nothing (and fetches nothing) before consent', () => {
     const src = read('app/insights.tsx');
-    ordered(src, 'void hasAiConsent().then', "replace('/ai-consent');", 'insights');
+    ordered(src, 'void hasAiConsent().then', "replace(aiConsentHref('/insights'));", 'insights');
     // The fetching component is only mounted once consent is granted.
     expect(src).toContain('if (!granted)');
     ordered(src, 'if (!granted)', '<InsightsInner />', 'insights');

@@ -1,10 +1,11 @@
 // AI consent (guideline 5.1.2(i)): what is sent to which AI provider and why,
 // before the first scan or insight. Allow records the server consent first and
-// then the device flag (acceptAiConsent), then goes back; Not now records
-// nothing. The two choices carry equal weight, as consent must be freely given.
+// then the device flag (acceptAiConsent), then returns to the screen that asked;
+// Not now records nothing. The two choices carry equal weight, as consent must
+// be freely given.
 import { useState } from 'react';
 import { View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 import { Screen } from '@/components/navigation/Screen';
@@ -13,6 +14,7 @@ import { ErrorState } from '@/components/display/ErrorState';
 import { Text } from '@/components/primitives/Text';
 import { color, space } from '@/lib/design/tokens';
 import { acceptAiConsent } from '@/lib/ai/consent';
+import { replace } from '@/lib/nav';
 
 const SECTIONS = ['what', 'who', 'why'] as const;
 
@@ -21,12 +23,20 @@ type Status = 'idle' | 'saving' | 'error';
 export default function AiConsentScreen() {
   const { t } = useTranslation();
   const [status, setStatus] = useState<Status>('idle');
+  // The screen that replaced itself with this one (aiConsentHref). An app path
+  // only: a deep link must not be able to send the user anywhere else.
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const origin = from?.startsWith('/') && !from.startsWith('//') ? from : undefined;
+
+  // Back to whoever pushed this screen; with no history, the Food tab.
+  const leave = () => (router.canGoBack() ? router.back() : router.replace('/(tabs)/food'));
 
   const accept = async () => {
     setStatus('saving');
     try {
       await acceptAiConsent();
-      router.back();
+      if (origin) replace(origin);
+      else leave();
     } catch {
       setStatus('error');
     }
@@ -40,6 +50,7 @@ export default function AiConsentScreen() {
       eyebrow={t('aiConsent.screen.eyebrow')}
       title={t('aiConsent.screen.title')}
       showBack
+      onBack={leave}
       contentStyle={{ gap: space.lg }}
       footer={
         <View style={{ gap: space.md / 2 }}>
@@ -54,7 +65,7 @@ export default function AiConsentScreen() {
             title={t('aiConsent.screen.decline')}
             variant="secondary"
             disabled={saving}
-            onPress={() => router.back()}
+            onPress={leave}
           />
         </View>
       }

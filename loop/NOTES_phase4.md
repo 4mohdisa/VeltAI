@@ -2,11 +2,11 @@
 Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branch loop/phase4 only.
 
 ## Overrides (Isa)
-1. English only. es/fr deferred. Missing keys fall back to English.
-2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken).
+1. English only; es/fr deferred. Missing keys fall back to English.
+2. About 15 rounds per row, then BUILT (PARTIAL only if core broken).
 3. Order: 14b, 15-30, 31.
 4. One screen or component per prompt, max 5 steps. A rejected prompt counts as a failed attempt.
-5. Partly done gets ONE follow-up. Flagged again: park the leftover.
+5. Partly done gets ONE follow-up; flagged again: park the leftover.
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with the branch rule. Every round runs tsc first.
 8. Untested flagged work: run its tests before any new task.
@@ -15,16 +15,17 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked), 7 (7c parked), 8 (Maestro not run), 9 (leaving reason parked), 14a (chip unwired), 14b (open).
-- Green full suite: Round 124 (346 suites, 2,108 tests). Earlier green: 109, 95, 80, 66.
-- Jest worker force-exited at end of full run. Investigate with --detectOpenHandles later (parked).
+- Last green full suite: Round 124 (346 suites, 2,108 tests).
+- Jest worker force-exits at end of full run (parked: --detectOpenHandles later).
 - Loop files loop/DECISIONS_LOG.md and loop/NOTES_phase4.md: Claude Code never edits them.
-- Next handover after Round 135.
+- Next checkpoint: Round 135 (handover).
 - Untested flagged work: none.
 
 ## Row 14b (open)
-- Done: Fixes 1-13. Fix 12 option A. Fix 13 saves fibre; 'no matches' passes ?slot and logs.
-- Round 125: Fix 14, saved dish portion change then log (detail.tsx 276-309). Keep router.replace('/food/barcode-scan') pin in foodDetail.test.ts.
-- Unfixed, pick into a fix or park at closure:
+- Done: Fixes 1-14. Fix 12 option A. Fix 14: saved dish logs at on-screen portion, meal switch, Save changes secondary.
+- Fix 14 Done line missing in DESIGN_INTENT.md: added in round 126.
+- Next: Fix 15a ai-consent.tsx return to asker (round 126); Fix 15b ai-query.tsx Back fallback (round 127).
+- Unfixed (pick into a fix or park at closure):
   - Targets reuses an earlier saved calorie target.
   - Units copied to Settings only on Continue.
   - Food quantity and energy units not asked in onboarding.
@@ -37,12 +38,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
   - history.tsx isoDaysAgo repeats isoDate in foodDays.ts.
   - 'Add custom food' under search results does not log.
   - 'no matches' does not prefill name.
+  - saved.tsx does not pass the meal from a meal's + (meal switch defaults to now).
   - Food tab calorie card on past days (option B, post launch).
   - Manage subscription open-or-toast in three places.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decisions pending: Terms describe a free tier; per-set gym history needs a backend change.
-- At closure: drop the stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
-- Tooling: en.json fails Prettier. Never --write.
+- At closure: drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md.
+- Tooling: en.json fails Prettier; detail.tsx and foodDetailLogged test fail Prettier at HEAD. Never --write.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts with tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
@@ -61,13 +63,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
-- Shared helper for 'open Apple's page, else failure toast' (subscription.tsx, delete-account.tsx, leaving.tsx). Later code pass.
+- Shared helper for 'open Apple's page, else failure toast' (subscription.tsx, delete-account.tsx, leaving.tsx).
 - Leaving feedback rows grouped only by the leaving_reason: prefix.
 - Push: DELETE after session 401; stale tokens never removed; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings (body emoji, A$, Your data, server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -100,10 +102,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Throttle never reads the clock; callers pass now. Launch counter uses module-level flag.
 - Gym prefill: top set only, last 90 days; removing every set unticks the exercise.
 - Prettier on en.json: not reformatted.
-- Round 120: stale handover Next (Fix 5) ignored; Fix 5 done.
+- Round 120: stale handover Next ignored; Fix 5 done.
 - Round 122: Fix 12 option A chosen. Option B parked as post-launch.
-- Round 123: Fix 13 chosen.
-- Round 124: checkpoint green (346 suites, 2,108 tests). Jev ranked Fix 14 first; Fix 14 now runs in Round 125.
+- Round 123: Fix 13 chosen. Round 124: checkpoint green (346 suites, 2,108 tests).
+- Round 125: Fix 14 done (saved dish portion logs at on-screen portion).
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
@@ -115,4 +117,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
 - 109: checkpoint green. 110-121: Fixes 5-11. 122: Fix 12. 123: Fix 13.
 - 124: checkpoint green (346 suites, 2,108 tests, tsc 0).
-- 125: Fix 14 (running).
+- 125: Fix 14 done.
+- 126: Fix 15a (running).

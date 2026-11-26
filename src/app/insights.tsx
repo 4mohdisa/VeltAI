@@ -15,7 +15,7 @@ import { Text } from '@/components/primitives/Text';
 import { BrainProfileCard, InsightCard, AnomalyCard } from '@/components/ai';
 import { useInsights, useBrainProfile } from '@/lib/data/aiBrain';
 import { hasAiConsent } from '@/lib/ai/consent';
-import { replace } from '@/lib/nav';
+import { aiConsentHref, replace } from '@/lib/nav';
 import { color, space, radius, categoryAccent } from '@/lib/design/tokens';
 import type { AIAnomaly, AIInsight } from '@/lib/types';
 
@@ -25,15 +25,16 @@ type FeedItem =
 
 // 5.1.2(i): the feed's GET can trigger AI generation server-side, so the
 // inner screen (whose hooks fetch on mount) renders only after AI consent.
-// Without it the consent screen replaces this one, so Decline or Done returns
-// to the previous screen rather than to an empty insights screen.
+// Without it the consent screen replaces this one, so Decline returns to the
+// previous screen rather than to an empty insights screen, and Allow lands back
+// here through the consent screen's `from`.
 export default function InsightsScreen() {
   const { t } = useTranslation();
   const [granted, setGranted] = useState(false);
   useEffect(() => {
     void hasAiConsent().then((ok) => {
       if (ok) setGranted(true);
-      else replace('/ai-consent');
+      else replace(aiConsentHref('/insights'));
     });
   }, []);
   if (!granted) {

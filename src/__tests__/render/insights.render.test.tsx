@@ -52,7 +52,7 @@ test('without consent, the consent screen replaces this one and no feed request 
   );
   await settle();
 
-  expect(router.replace).toHaveBeenCalledWith('/ai-consent');
+  expect(router.replace).toHaveBeenCalledWith('/ai-consent?from=%2Finsights');
   expect(useInsights).not.toHaveBeenCalled();
   expect(allText(tree)).not.toContain('Lume is learning');
 });

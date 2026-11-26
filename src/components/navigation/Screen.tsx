@@ -36,6 +36,8 @@ export type ScreenProps = {
   showBack?: boolean;
   /** Names the previous screen on the back control (HIG §4.2). */
   backLabel?: string;
+  /** Replaces the back control's default (back, or home with no history). */
+  onBack?: () => void;
   headerRight?: ReactNode;
   borderlessHeader?: boolean;
   scroll?: boolean;
@@ -60,6 +62,7 @@ export function Screen({
   title,
   showBack = false,
   backLabel,
+  onBack,
   headerRight,
   borderlessHeader,
   scroll = true,
@@ -174,7 +177,7 @@ export function Screen({
         <FloatingHeader height={insets.top + space.xl} />
         {showBack ? (
           <View style={{ position: 'absolute', top: backTop, left: space.lg }}>
-            <GlassBackButton label={backLabel} />
+            <GlassBackButton onPress={onBack} label={backLabel} />
           </View>
         ) : null}
         {headerRight ? (
@@ -187,7 +190,7 @@ export function Screen({
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: bg }} edges={['top']}>
       {hasHeader ? (
-        <NavBar title={title} showBack={showBack} backLabel={backLabel} right={headerRight} borderless={borderlessHeader} />
+        <NavBar title={title} showBack={showBack} onBack={onBack} backLabel={backLabel} right={headerRight} borderless={borderlessHeader} />
       ) : null}
       {body}
     </SafeAreaView>

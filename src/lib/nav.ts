@@ -23,3 +23,10 @@ export const WINBACK_REASON = 'winback';
 export function paywallHref(reason?: string): string {
   return reason ? `/onboarding/paywall?reason=${encodeURIComponent(reason)}` : '/onboarding/paywall';
 }
+
+// AI consent, told which screen sent the user there, so a granted consent lands
+// back on it. Only a screen that replaced itself with consent needs to pass one;
+// a pushed consent screen returns by going back.
+export function aiConsentHref(from?: string): string {
+  return from ? `/ai-consent?from=${encodeURIComponent(from)}` : '/ai-consent';
+}

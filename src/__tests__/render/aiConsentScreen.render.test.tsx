@@ -1,9 +1,10 @@
 // PHASE4_ROWS.md row 5b: the AI consent screen (src/app/ai-consent.tsx).
 // Allow records the server consent through api.ai.setConsent, then the device
-// flag, then goes back; Not now records nothing and goes back; a failed save
-// shows ErrorState with Try again. The api and the secure store are mocked; no
-// network.
-import { router } from 'expo-router';
+// flag, then returns to the screen that asked (`from`, else back); Not now and
+// Back record nothing and go back, or to the Food tab with no history; a failed
+// save shows ErrorState with Try again. The api and the secure store are
+// mocked; no network.
+import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import AiConsentScreen from '@/app/ai-consent';
@@ -11,9 +12,15 @@ import { __resetAiConsentCache, AI_CONSENT_KEY } from '@/lib/ai/consent';
 import { api } from '@/lib/api';
 import en from '@/lib/i18n/locales/en.json';
 import { setItem } from '@/lib/storage/secureStore';
-import { act, allText, buttonWithTitle, renderScreen } from './helpers';
+import { act, allText, buttonWithTitle, findAll, renderScreen } from './helpers';
 
 jest.mock('@/lib/api', () => ({ api: { ai: { setConsent: jest.fn() } } }));
+
+const mockCanGoBack = jest.fn(() => true);
+jest.mock('expo-router', () => ({
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => mockCanGoBack() },
+  useLocalSearchParams: jest.fn(() => ({})),
+}));
 
 jest.mock('@/lib/storage/secureStore', () => ({
   ...jest.requireActual('@/lib/storage/secureStore'),
@@ -41,6 +48,9 @@ beforeEach(() => {
   setConsent.mockReset();
   (setItem as jest.Mock).mockClear();
   (router.back as jest.Mock).mockClear();
+  (router.replace as jest.Mock).mockClear();
+  mockCanGoBack.mockReturnValue(true);
+  jest.mocked(useLocalSearchParams).mockReturnValue({});
 });
 
 type Tree = ReturnType<typeof renderScreen>;
@@ -102,4 +112,58 @@ test('Not now stores nothing and goes back', async () => {
   expect(setConsent).not.toHaveBeenCalled();
   expect(setItem).not.toHaveBeenCalled();
   expect(router.back).toHaveBeenCalledTimes(1);
+});
+
+describe('Fix 15a: consent returns to the screen that asked', () => {
+  test('granted with an origin lands on that screen, not the one before it', async () => {
+    jest.mocked(useLocalSearchParams).mockReturnValue({ from: '/insights' });
+    setConsent.mockResolvedValue({ consented: true });
+    const tree = render();
+    await press(tree, copy.accept);
+    expect(router.replace).toHaveBeenCalledWith('/insights');
+    expect(router.back).not.toHaveBeenCalled();
+  });
+
+  test('granted with no origin and no history falls back to the Food tab', async () => {
+    mockCanGoBack.mockReturnValue(false);
+    setConsent.mockResolvedValue({ consented: true });
+    const tree = render();
+    await press(tree, copy.accept);
+    expect(router.replace).toHaveBeenCalledWith('/(tabs)/food');
+    expect(router.back).not.toHaveBeenCalled();
+  });
+
+  test('declined with an origin goes back, so the asking screen cannot ask again', async () => {
+    jest.mocked(useLocalSearchParams).mockReturnValue({ from: '/insights' });
+    const tree = render();
+    await press(tree, copy.decline);
+    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  test('declined with no history falls back to the Food tab', async () => {
+    mockCanGoBack.mockReturnValue(false);
+    const tree = render();
+    await press(tree, copy.decline);
+    expect(router.replace).toHaveBeenCalledWith('/(tabs)/food');
+  });
+
+  test('Back with no history falls back to the Food tab', async () => {
+    mockCanGoBack.mockReturnValue(false);
+    const tree = render();
+    await act(async () => {
+      (findAll(tree, (p) => p.accessibilityLabel === en.common.goBack && typeof p.onPress === 'function')[0].props
+        .onPress as () => void)();
+    });
+    expect(router.replace).toHaveBeenCalledWith('/(tabs)/food');
+  });
+
+  test('an origin that is not an app path is ignored', async () => {
+    jest.mocked(useLocalSearchParams).mockReturnValue({ from: '//evil.example' });
+    setConsent.mockResolvedValue({ consented: true });
+    const tree = render();
+    await press(tree, copy.accept);
+    expect(router.replace).not.toHaveBeenCalled();
+    expect(router.back).toHaveBeenCalledTimes(1);
+  });
 });

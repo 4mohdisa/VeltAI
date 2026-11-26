@@ -12239,3 +12239,8 @@
 - 2026-11-27 04:16 Round 124 checkpoint accepted as green: 346 suites, 2,108 tests, tsc 0 errors. The count rose from Round 109 because of later fixes.
 - 2026-11-27 04:16 Loop-managed files (loop/DECISIONS_LOG.md, loop/NOTES_phase4.md) are never edited by Claude Code. The unsaved edits found in Round 124 are left alone.
 - 2026-11-27 04:16 Notes rewritten under 600 words, as the loop note asked. Finished work removed; repeated items merged.
+- 2026-11-27 04:19 Fix 14 accepted as done (round 125); its missing Done line in DESIGN_INTENT.md is added in this round.
+- 2026-11-27 04:19 Fix 15 split: 15a (ai-consent.tsx) this round, 15b (ai-query.tsx Back fallback) next round, to keep one screen per prompt.
+- 2026-11-27 04:19 Jev ranked the same top task (run 83%); no reason to override.
+- 2026-11-27 04:19 saved.tsx meal pass (opened from a meal's + loses the meal) parked as a 14b unfixed item, not in this prompt.
+- 2026-11-27 04:19 Prettier failures on detail.tsx and foodDetailLogged test are at HEAD; not fixed here.
