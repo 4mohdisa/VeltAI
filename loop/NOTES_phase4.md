@@ -5,7 +5,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 1. English only; es/fr deferred; missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core broken).
 3. Order: 14b, 15 to 30, 31.
-4. One screen or component per prompt, max 5 numbered steps. Rejected prompt = failed attempt.
+4. One screen or component per prompt, max 5 steps. Rejected prompt = failed attempt.
 5. Partly done gets ONE follow-up; flagged again: park leftover, move on.
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with branch rule. Every round runs tsc first.
@@ -13,12 +13,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
-- Checkpoints green at Rounds 66, 80 (325 suites, 2,018 tests).
+- Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
 
 ## Row 14b (current)
-- DESIGN_INTENT.md done. Fix list: 28 SMALL, 6 POST LAUNCH.
-- Fix 1 meal slot done: Search, barcode scanner, barcode detail sheet, Scan again, label scan (reads slot param).
-- Open, in order: (a) barcode-scan.tsx:182 Photograph label must pass slot to /food/label-scan (Round 94 follow-up, first task of Round 96); (b) detail-sheet log does not clear ?slot; (c) quick-add, add, saved repeat: switch inline slot check to slotFromParam; (d) food.tsx and label-scan.tsx keep duplicate SLOTS lists (mappers.ts too).
+- Fix list in DESIGN_INTENT.md. Fix 1 (meal slot) done for Search, barcode scanner, barcode detail sheet, Scan again, label scan.
+- Open, in order: (a) barcode-scan.tsx:182 Photograph label must pass slot (Round 96); (b) detail-sheet log does not clear ?slot; (c) quick-add, add, saved repeat use slotFromParam; (d) duplicate SLOTS lists in food.tsx, label-scan.tsx:42, mappers.ts.
 - Then: Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
@@ -27,16 +26,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, FeatureFeedbackChip with render tests.
 - Parked: chip wiring, feature_rated analytics, Settings feedback screen and route, 'Ask me for feedback' switch, npm run feedback, delete and export coverage, PRIVACY_DATA.md.
-- Known: chip unwired (wire or delete before Row 31); reads state once on mount; save result ignored.
-
-## Round 95: checkpoint
-- Full tsc and full app Jest, no file changes. Result goes in the next round's notes.
-- Jev ranked the barcode follow-up first (92%). Kept the checkpoint: the loop note fixes this round as a checkpoint with one task. Follow-up moves to Round 96.
+- Chip unwired: wire or delete before Row 31. Reads state once on mount; save result ignored.
 
 ## Next
-- Round 96: barcode-scan.tsx:182 follow-up, then re-run labelScan.render.test.tsx.
+- Round 96: barcode-scan.tsx:182 follow-up, then labelScan render test.
 - Then: terms.tsx onto legal.terms keys; health disclaimer; paywall subscription terms.
-- Checkpoint: count console.warn suites (164 now, 82 at Round 66).
+- Checkpoint: count console.warn suites (26 suites, 82 blocks at Round 95).
 
 ## Parked: legal
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
@@ -48,7 +43,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Row 12a: Email, Name, User ID label; push token manifest type.
 - Row 13: age rating; production demo account; confirm lume.fit URLs live.
 - Sign-offs: target weight required; resend cooldown; Clerk session_exists on device; native Apple sheet vs browser; paywall terms wording.
-- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications).
+- Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); Jest worker force-exit at end of run (run --detectOpenHandles later).
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b; HealthKit device steps.
 
 ## Parked: other (fix only in its row)
@@ -86,8 +81,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Clearing the Food tab search drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
 - Round 90 flagged partly done; Round 91 completed the barcode detail meal. Further leftovers go to the Fix list, not new follow-ups.
-- Jev: advisory only. Round 93 run chosen; risk 1.1.
-- Round 94: prompt rewritten to one screen (label-scan.tsx) after rejection.
+- Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -98,10 +92,9 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Mocking Clerk avoids a MessagePort that stops Jest exiting. SafeAreaProvider hides children without initialMetrics.
 - macOS has no timeout command: wrap Jest in perl -e 'alarm N; exec @ARGV'.
 
-## Round log
+## Round log (condensed)
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-89: prompts rejected (multi-screen). 88: Fix 1 Search. 90: barcode scanner. 91: barcode detail sheet meal.
-- 92: Fix 1 Scan again keeps the meal. 93: label scan takes the meal from its param (planned R94).
-- 94: label-scan.tsx reads slot param; render test added. Photograph label link still open.
-- 95: checkpoint run (tsc and full app Jest).
+- 87-94: prompts rejected when multi-screen; meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan.
+- 95: checkpoint green (tsc 0 errors, 334 suites, 2,062 tests).
+- 96: barcode Photograph label slot (in progress).

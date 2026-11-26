@@ -6,6 +6,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 
 import BarcodeScanScreen from '@/app/food/barcode-scan';
+import { lookupBarcodeResult } from '@/lib/data';
 import { useDetailSubject } from '@/lib/food/detailSubject';
 import { act, buttonWithTitle, renderScreen } from './helpers';
 
@@ -46,6 +47,7 @@ async function scan(params: { slot?: string }) {
     (buttonWithTitle(tree, 'Simulate scan')!.props.onPress as () => void)();
     await new Promise((r) => setImmediate(r));
   });
+  return tree;
 }
 
 test.each([
@@ -56,4 +58,14 @@ test.each([
   await scan(params);
   expect(useDetailSubject.getState().subject).toEqual({ mode: 'barcode', code: '9300605000000', slot: expected });
   expect(router.replace).toHaveBeenCalledWith('/food/detail');
+});
+
+test.each([
+  ['a dinner slot goes on to the label scan', { slot: 'Dinner' }, 'Dinner'],
+  ['no slot sends the meal for the time of day', {}, 'Breakfast'],
+])('product not found, Photograph label: %s', async (_label, params, expected) => {
+  jest.mocked(lookupBarcodeResult).mockResolvedValueOnce({ status: 'notFound' });
+  const tree = await scan(params);
+  act(() => (buttonWithTitle(tree, 'Photograph the label')!.props.onPress as () => void)());
+  expect(router.replace).toHaveBeenCalledWith(`/food/label-scan?slot=${expected}`);
 });

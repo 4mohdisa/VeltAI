@@ -179,7 +179,11 @@ export default function BarcodeScanScreen() {
           {/* The label SCANNER, not the meal-photo pipeline — this used to
               route to photo-capture, which runs Gemini food identification on
               a nutrition label (audit 2026-08-06). */}
-          <Button title={t('barcodeScan.photographLabel')} fullWidth={false} onPress={() => router.replace('/food/label-scan')} />
+          <Button
+            title={t('barcodeScan.photographLabel')}
+            fullWidth={false}
+            onPress={() => router.replace(`/food/label-scan?slot=${slotFromParam(slot)}`)}
+          />
           <Button title={t('barcodeScan.tryAnother')} variant="tertiary" fullWidth={false} onPress={retry} />
         </View>
       ) : null}

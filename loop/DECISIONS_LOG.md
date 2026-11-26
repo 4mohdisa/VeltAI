@@ -12104,3 +12104,8 @@
 - 2026-11-27 03:09 Round 95 changes no files. Mixing the follow-up in would break the one task rule for a checkpoint round.
 - 2026-11-27 03:09 Notes rewritten under 600 words: finished work deleted, repeated items merged, Round 94 follow-up kept as the first open item.
 - 2026-11-27 03:09 Protected files, Isa's rulings and owner checks kept unchanged.
+- 2026-11-27 03:11 Chose the barcode Photograph label follow-up (candidate 1): it is the open Round 96 item in the notes and Jev ranked it first too.
+- 2026-11-27 03:11 Handover said 14a step 5 is next, but the notes park the chip wiring behind Row 14b. Followed the notes.
+- 2026-11-27 03:11 Round 95 checkpoint is green (tsc 0 errors, 334 suites, 2,062 tests). No change needed.
+- 2026-11-27 03:11 Jest worker force-exit and 26 console.warn suites are logged as parked tooling, not fixed this round, to keep the one task per round rule.
+- 2026-11-27 03:11 Notes rewritten under 600 words: merged repeated items, deleted finished work, and shortened the round log.
