@@ -9,12 +9,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2c, 2d, 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 2b (dead ends 1 to 6, 8, 9 built; 7 closed in English, sign off open), 3 (waits on Apple owner steps), 6b.
-- Last full checkpoint: tsc 0; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn. Dead end 8 added 1 suite and 6 tests after that.
+- PARTIAL: 2b (dead ends 1 to 6, 8, 9 built; 7 closed in English, sign off open; sign up email errors inline done), 3 (waits on Apple owner steps), 6b.
+- Last full checkpoint: tsc 0; Jest 296/296 suites, 1,804/1,804 tests; 67 console.error, 165 console.warn. Sign up email inline change and dead end 8 are after it. Checkpoint in progress.
 
 ## Next
-1. Row 2b: sign up email errors inline under field (this round).
-2. Checkpoint (tsc and full Jest) after this round.
+1. Checkpoint (tsc, full Jest, lint on changed files). Record the numbers in the report.
+2. Candidate: wrong code error under the code field via codeError (signup.tsx).
 3. Row 3 after Isa signs off Apple steps (owner).
 4. Maestro flows (2b, 23) once Maestro is confirmed.
 
@@ -47,10 +47,11 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Analytics off by default; loop follows the Settings switch.
 - Shared test helper screenTitle in src/__tests__/render/helpers.tsx. i18next showSupportNotice false.
 - Jev stop suggestions are advisory. Stop needs every row BUILT or EXACT. Keep tasks small.
-- Isa override: es and fr deferred. The 'translate es and fr' follow-up is dropped.
+- English only: es and fr deferred. The 'translate es and fr' follow-up is dropped.
+- Dead end 8 (target weight) is recorded in PHASE4_ROWS.md Row 2b and DESIGN_REFERENCES.md.
 
 ## Blocked on Isa (park, do not retry)
-- Dead end 7 copy sign off (English done). Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
+- Dead end 7 copy sign off. Target weight stays required? Resend cooldown. Previous-step back on resumed step. Back to preview after sign in. Clerk session_exists on device.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403 read error; brief and insights at AI limit; label scan exit; scan.ts vs photo capture.
 - Row 6b step (f) stale strings.
 - react-test-renderer deprecation (67 console errors). gesture-handler worklet warning (21).
@@ -59,6 +60,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Owner check pending: launch wait for returning users; RevenueCat sandbox webhook setup.
 
 ## Parked
+- Wrong code still a toast (could go under code field via codeError if Isa wants).
 - Ask Lume, label scan, photo capture need second tap after consent.
 - Server limit message English only. Hardcoded English: aiBrain not-enough-data; 'Your data' in privacy.tsx.
 - About 67 deliberate console warns need scoped spies.
@@ -72,3 +74,4 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Dev builds with billing off need LUME_GATING_ENABLED=false.
 - Row 5: parallel requests can slip extra AI calls past limit. Old daily counts never deleted.
 - Gotchas: zsh --include=*.ts globs fail; each hook test prints one react-test-renderer deprecation. Report counts for test runs must match the command run.
+- Gotchas: PHASE4_ROWS.md rows keep 7 columns. Lint exit codes hidden by pipes. Briefs may name files that do not exist; grep first.

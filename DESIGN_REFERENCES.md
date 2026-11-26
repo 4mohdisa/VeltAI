@@ -69,6 +69,7 @@ Every onboarding screen reads its text through i18n (useTranslation) from src/li
 | 7 | The paywall "unavailable" toast was written for a developer, not a user | Open | onboarding/paywall.tsx, onboarding.paywall.plansUnavailable | None |
 | 8 | Target weight on measurements has no validation; an empty or extreme value is accepted silently | Built | onboarding/measurements.tsx: target weight is required when shown (goal lose or muscle) and uses the same 30 to 300 kg check as weight (bodyWeightError). Whether it stays required is open for Isa | src/__tests__/render/onboardingMeasurementsTargetWeight.render.test.tsx |
 | 9 | "That email already has an account — try signing in instead" sent the user back to the provider buttons when they pressed the sign-in toggle, so they had to choose email again | Built | onboarding/signup.tsx: the toggle keeps the email stage and the typed email; from the code stage it returns to the email stage and clears the code | src/__tests__/render/signupModeSwitchKeepsEmail.render.test.tsx |
+| 10 | Email errors from Send code (already has an account, no account, anything else) showed as a toast that vanished before "try signing in instead" could be read | Built | src/app/onboarding/signup.tsx: the error shows under the email field (Isa, 26 Nov 2026); typing or switching between sign up and sign in clears it. Apple, Google and code check errors stay as toasts | src/__tests__/render/signupClerkMessage.render.test.tsx |
 
 ### Static explainer slides
 

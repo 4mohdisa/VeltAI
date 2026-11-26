@@ -11597,3 +11597,8 @@
 - 2026-11-26 10:31 Chose the sign up inline error task because it is the next item in the Row 2b list, is a small change, and Isa has already decided it. Jev's 0.9 risk score and low confidence point to a smaller task, so no full suite this round.
 - 2026-11-26 10:31 The dead end 8 notes line is folded into this prompt, since the handover said it was still pending and it costs one line.
 - 2026-11-26 10:31 The checkpoint (tsc and full Jest) is deferred to the round after this one, once three to five changed rounds have passed since the last checkpoint.
+- 2026-11-26 10:32 Chose the checkpoint because the last report said the full suite had not run, and the automatic check flagged the round as partly done.
+- 2026-11-26 10:32 Step 1 of the previous prompt was skipped because the dead end 8 line already exists in PHASE4_ROWS.md. The new step checks for the email line instead of re-adding dead end 8.
+- 2026-11-26 10:32 Wrong code toast stays a toast this round. Moving it is a new small task after the checkpoint is green.
+- 2026-11-26 10:32 Stale es and fr strings are not fixed: English only is an Isa override, so they are dropped.
+- 2026-11-26 10:32 Notes trimmed to stay under 600 words. Decisions and Blocked-on-Isa items kept; finished parked items removed.
