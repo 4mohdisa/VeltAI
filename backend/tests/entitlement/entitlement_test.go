@@ -114,6 +114,7 @@ func TestPolicyTable(t *testing.T) {
 		{"PATCH", "/api/profile", entitlement.Pro},
 		{"GET", "/api/energy-balance", entitlement.Pro},
 		{"GET", "/api/retention/summary", entitlement.Pro},
+		{"POST", "/api/push/token", entitlement.Pro},
 		{"GET", "/api/unknown-new-route", entitlement.Pro}, // gated by default
 
 		// NEVER gated — a user can always manage their account and leave.
@@ -124,6 +125,7 @@ func TestPolicyTable(t *testing.T) {
 		{"GET", "/api/export", entitlement.Free},                 // GDPR access
 		{"DELETE", "/api/profile", entitlement.Free},             // account deletion
 		{"POST", "/api/feedback", entitlement.Free},
+		{"DELETE", "/api/push/token", entitlement.Free}, // stop push to a device
 		{"POST", "/api/webhooks/revenuecat", entitlement.Free},
 		{"POST", "/api/webhooks/clerk", entitlement.Free},
 		{"POST", "/api/webhooks/apple/retention", entitlement.Free},

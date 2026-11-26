@@ -11901,3 +11901,11 @@
 - 2026-11-27 01:15 Jev suggested ask at 45%. Kept run: the brief forbids asking, and the item is already decided in the notes.
 - 2026-11-27 01:15 Notes condensed to stay under 600 words. No decision was dropped; repeats were merged.
 - 2026-11-27 01:15 Shared Jest config change (expo-notifications mapping in package.json, Round 48) is listed for Isa to accept. Not reverted, because node tests need it to load the sign-out path.
+- 2026-11-27 01:17 Round 49 flagged partly done again. It was already the follow-up round, so per Override 5 the leftover (expo-notifications console.warn in render tests) is parked, not fixed. Reason: the clean fix touches shared Jest setup or sign-out, both off the allowed list.
+- 2026-11-27 01:17 Chose Row 10c next: it is backend only, small, and does not need a new app dependency.
+- 2026-11-27 01:17 Jev said ask 49%. Run kept because the brief forbids asking; the next step is backend work with no risk to Isa's data.
+- 2026-11-27 01:17 Round 50: Row 10c chosen. Reason: backend only, no simulator, no hosted step; quiet hours need owner copy.
+- 2026-11-27 01:17 Round 50: the loop rejected the previous prompt for missing the branch rule. The new prompt states the loop/phase4 rule first and forbids switching, pushing and merging.
+- 2026-11-27 01:17 Round 50: push token route gated to trial or active, because nothing is free. Reason: Phase 4 rule that every paid feature is gated.
+- 2026-11-27 01:17 Round 50: Jev said ask 34%, run 46%, stop 20%. Run kept: Isa forbids questions and nothing is dangerous or hosted.
+- 2026-11-27 01:17 Round 49 leftover (Round 48 console.warn in render tests) stays parked per Override 5. The fix needs a shared setup or sign-out change, both off-list.

@@ -28,6 +28,7 @@ import (
 	"lume/backend/internal/gym"
 	"lume/backend/internal/httpx"
 	"lume/backend/internal/integrations"
+	"lume/backend/internal/push"
 	"lume/backend/internal/ratelimit"
 	"lume/backend/internal/recipes"
 	"lume/backend/internal/retention"
@@ -159,6 +160,7 @@ func main() {
 	analytics.Register(api, analytics.NewPGStore(pool))
 	feedback.Register(api, feedback.NewPGStore(pool))
 	retention.Register(api, retention.NewPGStore(pool))
+	push.Register(api, push.NewPGStore(pool))
 	// Internal testing capture (secondary copy — the device is the source of
 	// truth). Harmless in production: it only ever stores the caller's own rows.
 	debugreports.Register(api, debugreports.NewPGStore(pool))

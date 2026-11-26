@@ -12,8 +12,8 @@
 // their data out (an Apple requirement and the right thing):
 //
 //	webhooks and the OAuth callback, subscription status, AI consent read and
-//	withdraw, revoking an integration, data export, account deletion and
-//	feedback.
+//	withdraw, revoking an integration, removing a push token, data export,
+//	account deletion and feedback.
 package entitlement
 
 import (
@@ -79,6 +79,9 @@ var publicRoutes = map[string]bool{
 	"GET /api/export":        true,
 	"DELETE /api/profile":    true,
 	"POST /api/feedback":     true,
+	// Removing a push token stops push to that device, so a lapsed subscriber
+	// can always do it. Registering one (POST) stays gated.
+	"DELETE /api/push/token": true,
 }
 
 // PolicyFor maps a request to its requirement. Exported so the policy is

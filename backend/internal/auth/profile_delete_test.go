@@ -162,6 +162,7 @@ func seedRestOfUserTables(t *testing.T, pool *pgxpool.Pool, id string) {
 		  VALUES ($1, $1 || '_report', now(), 'title', 'low', 'bug', 'food', 'button')`,
 		`INSERT INTO feedback (user_id, category, message) VALUES ($1, 'idea', 'message')`,
 		`INSERT INTO ai_daily_usage (user_id, day, count) VALUES ($1, '2026-01-01', 1)`,
+		`INSERT INTO push_tokens (user_id, token, platform) VALUES ($1, $1 || '_device', 'ios')`,
 	} {
 		if _, err := pool.Exec(context.Background(), sql, id); err != nil {
 			t.Fatalf("seed %s: %v\n%s", id, err, sql)

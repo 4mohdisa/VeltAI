@@ -35,6 +35,9 @@ var publicRoutes = map[string]bool{
 	"GET /api/export":     true,
 	"DELETE /api/profile": true,
 	"POST /api/feedback":  true,
+
+	// Removing a push token stops push to that device.
+	"DELETE /api/push/token": true,
 }
 
 var routePattern = regexp.MustCompile(`Handle(?:Func)?\("([A-Z]+) (/api/[^"]*)"`)

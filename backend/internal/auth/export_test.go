@@ -144,6 +144,10 @@ func TestPG_ExportHasOnlyCallerRowsAndNoTokens(t *testing.T) {
 	seedUser(t, pool, a)
 	seedUser(t, pool, b)
 	seedOAuthState(t, pool, a)
+	if _, err := pool.Exec(context.Background(),
+		`INSERT INTO push_tokens (user_id, token, platform) VALUES ($1, $1 || '_push_secret', 'android')`, a); err != nil {
+		t.Fatalf("seed push token: %v", err)
+	}
 
 	rec := getExport(exportServer(pool, 10), a)
 	if rec.Code != http.StatusOK {
@@ -156,7 +160,10 @@ func TestPG_ExportHasOnlyCallerRowsAndNoTokens(t *testing.T) {
 	if strings.Contains(body, b) {
 		t.Errorf("user A's export contains user B data")
 	}
-	for _, secret := range []string{"access_token", "refresh_token", "_access_secret", "_refresh_secret", a + "_state"} {
+	if !strings.Contains(body, `"platform":"android"`) {
+		t.Errorf("export is missing the caller's push token row")
+	}
+	for _, secret := range []string{"access_token", "refresh_token", "_access_secret", "_refresh_secret", a + "_state", a + "_push_secret"} {
 		if strings.Contains(body, secret) {
 			t.Errorf("export contains token material %q", secret)
 		}

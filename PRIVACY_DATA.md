@@ -107,6 +107,28 @@ Extra fields beyond the table:
   (`GET /api/export`) and are deleted with the profile (`on delete cascade`).
 - **Retention**: not defined in code, owner to decide.
 
+## Push tokens
+
+- **Service**: Lume backend only (`POST /api/push/token`, `DELETE
+  /api/push/token`), stored in its own database in the `push_tokens` table.
+  Source of truth: `backend/internal/push/` and
+  `supabase/migrations/20261127000001_push_tokens.sql`. The app does not
+  register a token yet, and nothing sends push yet (a hosted step).
+- **One row per device token**, bound to the account that last registered it.
+  A device that signs in to another account moves its token to that account.
+
+| Field | Required | Sent by default | Stored in | Receiving service | Reason |
+| --- | --- | --- | --- | --- | --- |
+| `token` (device push token, 1 to 512 characters, no whitespace) | Yes | Not sent yet | `push_tokens.token` | Lume backend and its own database | Address push to this device. |
+| `platform` (ios or android) | Yes | Not sent yet | `push_tokens.platform` | Lume backend and its own database | Pick the push service for the device. |
+| user id | Yes | Taken from the sign-in token, not sent in the body | `push_tokens.user_id` | Lume backend and its own database | Send push only to the account's own devices. |
+| `id`, `created_at`, `updated_at` | Not sent | Not sent, set by the database | `push_tokens.id`, `push_tokens.created_at`, `push_tokens.updated_at` | Lume backend and its own database | Identify rows and see when a token was last registered. |
+
+- **Access and deletion**: push token rows are included in Export my data
+  (`GET /api/export`) without the token itself, which can send push to the
+  device, and are deleted with the profile (`on delete cascade`).
+- **Retention**: not defined in code, owner to decide.
+
 ## AI providers
 
 AI features send data only after the user accepts the one-time AI disclosure

@@ -57,6 +57,9 @@ var exportSections = []exportSection{
 	{"analytics_events", ownedRows("analytics_events")},
 	{"feedback", ownedRows("feedback")},
 	{"ai_daily_usage", ownedRows("ai_daily_usage")},
+	// The token itself can send push to the device, so it is dropped like the
+	// OAuth tokens above; the platform and dates are kept.
+	{"push_tokens", `select coalesce(jsonb_agg(to_jsonb(t) - 'token'), '[]'::jsonb) from push_tokens t where user_id = $1`},
 	// Internal-testing captures. The screenshot is a large base64 blob and is
 	// the user's own screen, so it is exported as a presence flag rather than
 	// inlined — the rest of the report (notes, route, context) is included.
