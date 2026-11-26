@@ -12,12 +12,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Out of scope changes: check, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next: round 199.
+11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Last: round 199. Next: round 204.
 
-## State (Round 198)
+## State (Round 199)
 - BUILT 18 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
-- Row 16: smoke route list removed (197). Round 198: real server invalid bearer token check on all PROTECTED routes.
+- Row 16: authz table (102 routes, PROTECTED or PUBLIC) runs on the real server: no token gives 401 "missing bearer token", invalid token gives 401 "invalid token" (198).
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
@@ -37,6 +37,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent.
 - Test helpers: signedTokens and seedOwner copied per package (6 copies); wantErrorEnvelope (5 copies); DB pool helper (7 copies); seedMealLog and seedDay leave profiles (Row 25).
 - Docs: README and HOSTING_CHECKLIST need LUME_TEST_DATABASE_URL before npm run verify.
+- Row 16: a wrongly signed or expired JWT on the real server is covered only by internal/auth/clerk_verifier_test.go.
 
 ## Blocked on Isa (park, do not retry)
 - Approvals: food delete migration; recipe order migration; integration paging; null context fix; tests/scan/learning_store_pg_test.go; shared test helper; Gym TestPG skip ruling; coverage scope; bug fixes above; insights user_id hardening; 403 vs 404 for another user's id (403 kept, no leak).
@@ -64,12 +65,12 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Snapshots edited by hand, never -u. Fix 12 option A.
 - New strings English only; add key at end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 - Row 16: route list read from source; 401 test runs real cmd/server from a temp folder with LUME_ENV=test; one package group per round; token helper copied until shared helper approved.
-- Row 15 BUILT with owner check pending (round 181). Measurements Back unchanged (169). verify:go fails when LUME_TEST_DATABASE_URL unset (171).
+- Row 15 BUILT with owner check pending (181). Measurements Back unchanged (169). verify:go fails when LUME_TEST_DATABASE_URL unset (171).
 - Body weight DELETE is the last id route in goals; integration routes take a provider name, not an id (188).
 - Jev ask and stop signals not followed; no Isa blocker stops the loop (191).
 - Row 16 step 3 gaps parked, not fixed (192, Override 9).
 - Smoke route list replaced by the authz table (197).
-- Round 198: invalid-token gap from 197 closed on the real server; any route failing it is parked.
+- Invalid-token gap closed on the real server (198); any route failing it is parked.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -80,9 +81,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - cmd/server loads .env from its working folder; PORT without LUME_ENV counts as production.
 
 ## Round log
-- 182-190: Row 16 steps 1-2 done for all route groups.
-- 189, 194: checkpoints green (tsc 0, Jest 350/350, 2190 tests, go vet clean).
-- 191-196: Row 16 step 3 for all route groups (green, 0 skips).
-- 197: smoke route list removed; authz table is the only route list.
-- 198: Row 16 invalid bearer token check on the real server (prompt issued).
-- Next: checkpoint at round 199.
+- 182-198: Row 16 steps 1-3 for all route groups; authz table is the only route list; invalid bearer token checked on the real server.
+- Checkpoints green at 184, 189, 194 (tsc 0, Jest 350/350, 2190 tests, go vet clean).
+- 199: checkpoint issued (tsc and full Jest, no edits).
+- Next: read checkpoint result. If green, decide Row 16 status against its full description (go vet and go test -race ./... on the local test database at round 204).

@@ -12544,3 +12544,6 @@
 - 2026-11-27 07:21 Round 198: picked the Row 16 gap from the round 197 report (invalid token checked only on the stand in handler) over the checkpoint, because the checkpoint is due at round 199 and the gap is small and inside an active row.
 - 2026-11-27 07:21 Round 198: any protected route that does not return 401 for an invalid token is parked in KNOWN_ISSUES.md, not fixed here, per the Row 16 step 3 rule (Override 9).
 - 2026-11-27 07:21 Round 198: Jev suggested run (66%). Agreed, the choice matches it.
+- 2026-11-27 07:23 Chose the checkpoint because the loop note says this round is a checkpoint with one task: type check and full app suite, no edits.
+- 2026-11-27 07:23 Left Go vet and Go race tests out of this round, because the loop note asks for one task only. They move to the next checkpoint.
+- 2026-11-27 07:23 Merged the finished round log lines 182 to 198 into one summary line to keep the notes under 600 words. No rule was dropped.
