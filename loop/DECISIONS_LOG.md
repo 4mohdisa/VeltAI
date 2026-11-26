@@ -11829,3 +11829,12 @@
 - 2026-11-27 00:40 Chosen Settings switches over 10c because the one round wait is over and the 10b Settings work is the open dependency for 10c's token flow.
 - 2026-11-27 00:40 Jev ranked run at 82%, so the next action is run, not ask or stop.
 - 2026-11-27 00:40 No question to Isa. The priming copy, defaults and leaving survey destination stay parked in OWNER_CHECKS_phase4.md.
+- 2026-11-27 00:44 Jev said ask 80%. I kept run: Isa's standing rule is never ask, and the report only needs one follow-up round for a partly done flag, which this is.
+- 2026-11-27 00:44 Concrete reason Jev cannot see: the switches are dead UI, which App Store guideline 2.1 already forced us to remove once. Wiring them is the cheapest fix, so it goes first.
+- 2026-11-27 00:44 Release risk answered without asking: switches and device scheduling ship together, in this round. Nothing ships with dead switches.
+- 2026-11-27 00:44 Permission rule kept: a switch never prompts for permission. The priming sheet decides, so the not_now answer is respected.
+- 2026-11-27 00:44 Extra quiet hours strings and category labels stay as written in English only; Isa's approval is parked in OWNER_CHECKS_phase4.md.
+- 2026-11-27 00:45 Rewrote round 36 as one component only, because the last prompt was rejected for bundling more than one screen or component.
+- 2026-11-27 00:45 Chose the switch to scheduling wiring first, because the switches currently do nothing and must not ship dead.
+- 2026-11-27 00:45 Kept the device schedule tied to permission: no permission prompt is added in this round, matching the current answer on Not now.
+- 2026-11-27 00:45 Condensed the notes to stay under 600 words; no open item was dropped, only merged.
