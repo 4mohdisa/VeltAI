@@ -11929,3 +11929,7 @@
 - 2026-11-27 01:31 Treated the quiet hours and category strings as English copy under override 1, so they do not block editing. Isa's copy review stays parked.
 - 2026-11-27 01:31 Deferred push token persistence and the DECISIONS.md fix to later rounds to keep this round to one component.
 - 2026-11-27 01:31 Kept the Mobbin step optional, because quiet hours is a control inside an existing screen and not a new screen.
+- 2026-11-27 01:35 Chose the follow-up on Round 55 first, because the loop flagged it as partly done and the wiring test changed on disk after its last run. The override allows one follow-up round.
+- 2026-11-27 01:35 Kept Row 10 at PARTIAL. The push token storage task waits until the follow-up passes.
+- 2026-11-27 01:35 Named every file in full because the session was just handed over and Claude Code knows only the summary.
+- 2026-11-27 01:35 Did not use Jev's 47% clean-finish signal to change the choice. A small, checkable task fits that signal, so I kept it small.
