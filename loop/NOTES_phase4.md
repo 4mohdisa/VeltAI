@@ -15,11 +15,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
+- Round 102 verified Round 101: 4 suites, 17 tests pass. Flag closed.
 
 ## Row 14b (current)
 - Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture (Round 99), quick-add via slotFromParam (Round 100).
-- Round 101: add.tsx keeps its no-meal check (title only). Decision: keep it; global '+' stays generic. Tests not run: verify in Round 102.
-- Next: Fix 2, Summary 'Today' reads today (hooks.ts:320-321). Then gym set removal; top-set-only save; recipes unreachable; then list order.
+- Round 101: add.tsx keeps its no-meal check (title only). Generic title kept for global '+'. Isa ruling pending.
+- Round 103: Fix 2 (Summary 'Today' follows the Food tab's selected day, hooks.ts:320-321). Tests not run yet: verify in Round 104 if flagged.
+- Next: gym set removal; top-set-only save; recipes unreachable; then list order.
 - Parked: saved.tsx:48 inline slot check (needs a helper that returns 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -77,7 +79,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Meal reaches the detail sheet through the subject store, never a route param.
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
-- Round 100: quick-add done (Fix 2 order choice). Round 101: add screen check kept as is.
+- Round 100: quick-add done. Round 101: add screen check kept as is.
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -94,7 +96,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
 - 87-97: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label.
-- 98-99: Fix 1 photo-capture slot; 3 suites, 47 tests passed.
-- 100: quick-add uses slotFromParam; 2 suites, 13 tests passed.
-- 101: add.tsx check reviewed, no change; tests not run (flagged).
-- 102: verify Round 101 with tsc and Jest (this round).
+- 98-100: photo-capture slot; quick-add uses slotFromParam.
+- 101: add.tsx check reviewed, no change.
+- 102: verified Round 101 (17 tests pass).
+- 103: Fix 2 Summary 'Today' (this round).

@@ -12139,3 +12139,8 @@
 - 2026-11-27 03:22 Notes rewritten under 600 words: finished items merged, repeats removed, Round 101 open item moved to the next round.
 - 2026-11-27 03:22 Jev advisory (run 70%, risk 1.2): followed the smaller-task advice. Did not ask Isa anything.
 - 2026-11-27 03:22 Added Override 8: run changed tests before moving on when a round flags untested work.
+- 2026-11-27 03:23 Round 102 verified Round 101: the 4 suites and 17 tests passed, so the flagged untested work is closed.
+- 2026-11-27 03:23 Chose Fix 2 over gym set removal and the 14a chip: it is the smallest task and is the next item in the agreed Fix order from the handover.
+- 2026-11-27 03:23 Add screen title for the global '+' stays generic (addMenu.title). Recommendation to Isa is to keep it; ruling pending, no change made.
+- 2026-11-27 03:23 Jev risk noted at 1.1 of 2 (moderate). Kept to a one-hook task with a single test file to stay small.
+- 2026-11-27 03:23 Jev next-action signal (run 81%) agrees with the run choice.
