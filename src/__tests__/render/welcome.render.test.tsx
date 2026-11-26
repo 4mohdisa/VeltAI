@@ -2,7 +2,8 @@
 // Welcome and Signup screens: the headline, subline, Get Started button and
 // Sign in link read from the locale file in en, es and fr; the link routes to
 // /onboarding/signup?mode=signin and Signup opens in sign-in mode for that
-// parameter. Get Started still routes to the goal step.
+// parameter. Get Started still routes to the goal step. A signed-in user gets
+// no Sign in link (DESIGN_INTENT.md Row 14b, Welcome).
 import WelcomeScreen from '@/app/onboarding/index';
 import SignupScreen from '@/app/onboarding/signup';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -29,7 +30,9 @@ jest.mock('@/lib/auth/clerkEnv', () => ({
   isClerkEnabled: () => true,
 }));
 
+const mockAuth = { isSignedIn: false };
 jest.mock('@clerk/clerk-expo', () => ({
+  useAuth: () => mockAuth,
   useSSO: () => ({ startSSOFlow: jest.fn() }),
   useSignUp: () => ({ signUp: undefined, setActive: jest.fn(), isLoaded: true }),
   useSignIn: () => ({ signIn: undefined, setActive: jest.fn(), isLoaded: true }),
@@ -42,6 +45,7 @@ function signInLink(tree: ReturnType<typeof renderScreen>) {
 }
 
 afterEach(async () => {
+  mockAuth.isSignedIn = false;
   await act(async () => {
     await i18n.changeLanguage('en');
   });
@@ -91,4 +95,24 @@ test('Get Started still routes to the goal step', () => {
   (buttonWithTitle(tree, 'Get Started')!.props.onPress as () => void)();
   expect(router.push).toHaveBeenCalledWith('/onboarding/goal');
   expect(router.push).not.toHaveBeenCalledWith(SIGN_IN_HREF);
+});
+
+describe('a signed-in user sees no Sign in link', () => {
+  test('signed out: the Sign in link shows', () => {
+    const tree = renderScreen(<WelcomeScreen />);
+    expect(signInLink(tree)).toBeDefined();
+    expect(allText(tree)).toContain(en.onboarding.welcomeSignIn);
+  });
+
+  // A signed-in user WITH a record never reaches Welcome: the launch gate sends
+  // them to the tabs (launchGate401.render.test.tsx, completed: true).
+  test('signed in with no server record: no Sign in link, and Get Started opens the goal step', () => {
+    mockAuth.isSignedIn = true;
+    const tree = renderScreen(<WelcomeScreen />);
+
+    expect(signInLink(tree)).toBeUndefined();
+    expect(allText(tree)).not.toContain(en.onboarding.welcomeSignIn);
+    (buttonWithTitle(tree, en.onboarding.welcomeGetStarted)!.props.onPress as () => void)();
+    expect(router.push).toHaveBeenCalledWith('/onboarding/goal');
+  });
 });

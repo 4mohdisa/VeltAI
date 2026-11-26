@@ -12253,3 +12253,7 @@
 - 2026-11-27 04:24 Round 128: Fix 16 chosen (Jev runs 96% on the next action). It is the smallest visible flaw on a read path and is one screen.
 - 2026-11-27 04:24 Notes rewritten under 600 words as the loop note asked. Done items removed; open items, decisions and parked work kept in condensed form.
 - 2026-11-27 04:24 Shared backOrFood helper deferred to a later round; it touches two screens and a shared nav file, so it gets its own prompt.
+- 2026-11-27 04:27 Jev ranked Fix 18 (Food tab insights before consent) first at 83%. Kept the welcome fix instead: Fix 18 reads through useInsights, the same hook changed in Fix 16 that the automatic check flagged, so it depends on the unverified work. The welcome screen does not depend on it.
+- 2026-11-27 04:27 Fix 16 (round 128) recorded under Blocked on Isa after the second automatic flag. Not retried. Its tsc and Jest results were reported as green but not confirmed by the check; the Round 135 full suite is the recheck.
+- 2026-11-27 04:27 Renumbered: the welcome fix is Fix 17 now; the Food tab insights fix becomes Fix 18.
+- 2026-11-27 04:27 Notes rewritten to under 600 words; finished work merged or deleted. Nothing deleted from the decisions list.
