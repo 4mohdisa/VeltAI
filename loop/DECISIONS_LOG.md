@@ -12357,3 +12357,8 @@
 - 2026-11-27 05:32 If no existing create-workout route exists, park the item instead of inventing a route.
 - 2026-11-27 05:32 Notes rewritten under 600 words: finished work deleted, parked items merged into one line each.
 - 2026-11-27 05:32 Jev's advice (run 92%) agrees with this choice; kept it because it is the next open Fix in the Row 14b order.
+- 2026-11-27 05:33 Chose Fix 26a (barcode-scan.tsx only) over the combined Fix 26, because override 4 allows one screen per prompt and Fix 26 spans two screens.
+- 2026-11-27 05:33 Kept detail.tsx untouched this round so its route params contract stays the same; its change is Fix 26b next round.
+- 2026-11-27 05:33 Fix 28 is treated as done: its Done line is in DESIGN_INTENT.md and its tests passed per the round 152 report, so no follow-up is needed before the next task (override 8).
+- 2026-11-27 05:33 Jev's advice to run (89%) agrees with the choice; no ask or stop needed.
+- 2026-11-27 05:33 Rewrote the notes under 600 words, merging repeated items and removing finished work (Fix 28 and the round 152 detail).

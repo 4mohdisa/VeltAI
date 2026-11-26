@@ -13,19 +13,19 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 9. Changes outside named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
 
-## State (Round 152)
+## State (Round 153)
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 14b (open), 31 (open).
 - DIFFERENT: 15-28, 30.
-- Last full green: round 148 (350 suites, 2,182 tests). Round 151: Fix 27 green, tsc 0.
-- Before picking a Fix, check its Done line in DESIGN_INTENT.md (round 151 picked Fix 21 wrongly).
+- Last full green: round 148 (350 suites, 2,182 tests). Round 152: Fix 28 green, tsc 0.
+- Before picking a Fix, check its Done line in DESIGN_INTENT.md (DESIGN_INTENT.md is authoritative for numbering).
 
 ## Row 14b (open)
-- DESIGN_INTENT.md is authoritative for numbering. Fixes 1-20 and 27 done.
+- Done: Fixes 1-20, 27, 28.
+- Next: Fix 26a (barcode-scan.tsx), then Fix 26b (detail.tsx).
 - Parked: Fix 24 (drop training-days step), Fix 25 (remove repeated Profile rows), Fix 12 option B, body stats hint.
-- Next: Fix 28 (schedule.tsx, Create a workout when no workouts). Then Fix 26 (barcode-scan.tsx and detail.tsx): split into two rounds.
-- Small open items: gym.freeze.confirm '1 freezes' (add _one); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; targets reuses earlier calorie target; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Week 'No net yet' says 'in onboarding'; Training axisLetters uses fixed September fixture; Training 'This week' card uses last 7 days.
-- Spotted: Food tab checks consent on mount only. Gym tab reads this month twice. Saved list does not pass meal slot to detail sheet.
+- Open small items: gym.freeze.confirm '1 freezes' (add _one); nutrition.todayAgainstTargets and percentOfTarget unused; Energy 'not enough days' has no action; targets reuses earlier calorie target; measurements.tsx:280 Back goes to preview; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call sends signed-in user to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Week 'No net yet' says 'in onboarding'; Training axisLetters uses fixed September fixture; Training 'This week' card uses last 7 days.
+- Spotted: Food tab checks consent on mount only; Gym tab reads this month twice; saved list does not pass meal slot to detail sheet.
 - English only (fine under override 1): dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle.
 
 ## Row 14a: parked
@@ -41,7 +41,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; scan upload 4 s timer may leak in productionReadiness.test.ts; Jest worker force exit at end of full run; Energy and Training share a duplicate week range helper (use weekOf). Gym freeze cap in src/lib/mock/data.ts is protected: do not edit.
+- Code: hardcoded strings; about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate; scan upload 4 s timer may leak in productionReadiness.test.ts; Jest worker force exit at end of full run; Energy and Training share a duplicate week range helper (use weekOf). Gym freeze cap in src/lib/mock/data.ts is protected.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 - Docs: PHASE4_ROWS.md round log stops at Round 61; Round 145 and Fix 20 Done lines in DESIGN_INTENT.md overlap (keep both, merge later).
@@ -95,6 +95,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 ## Round log
 - 60-124: rows 10-14 closed; 14a parked; 14b Fixes 1-15b done.
 - 128-148: Fixes 16 to 23 done; training energy card; force-exit leak fixed; checkpoint green.
-- 149: PHASE4_ROWS.md refresh. 150: Fix 20 done.
-- 151: Fix 27 done (muscles Back to Gym tab); Fixes 24 and 25 parked.
-- 152: Fix 28 (schedule.tsx create workout action).
+- 149: PHASE4_ROWS.md refresh. 150: Fix 20 done. 151: Fix 27 done; Fixes 24 and 25 parked.
+- 152: Fix 28 (schedule.tsx create workout row when no workouts), tsc 0.
+- 153: Fix 26a prompt (barcode-scan.tsx single lookup).
