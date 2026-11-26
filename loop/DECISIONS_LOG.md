@@ -11966,3 +11966,7 @@
 - 2026-11-27 01:53 Read denial: iOS hides it, so read kinds drop 'denied' and show no data (null). Reason: an app cannot detect denial, so a denied state would be false.
 - 2026-11-27 01:53 Flagged partial task gets its one follow-up round (override 5). Isa's open question is answered by this decision, not asked (no questions rule).
 - 2026-11-27 01:53 Jev suggested ask. I run because the choice is small, reversible code that Isa can change later. Recorded here as the concrete reason to keep running.
+- 2026-11-27 01:55 Row 11 was flagged again after the round 63 follow-up. Per override 5, parked the leftovers (Settings switch, purpose strings, real provider, device check) in OWNER_CHECKS_phase4.md and marked Row 11 BUILT with owner check pending.
+- 2026-11-27 01:55 Jev advised ask (72%). Chose run: the brief forbids asking, and the rule for a second flag is park and move on.
+- 2026-11-27 01:55 Row 13 is English only (override 1). es and fr are deferred.
+- 2026-11-27 01:55 Kept the 'requested' or 'not_determined' status decision from round 63; Isa confirms it when the Settings switch is built (parked).

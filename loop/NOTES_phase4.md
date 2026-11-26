@@ -4,21 +4,21 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 ## Overrides (Isa)
 1. English only; es/fr deferred; missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core is broken).
-3. Order: 11 to 14b, 15 to 30, 31.
+3. Order: 13, 14, 14a, 14b, 15 to 30, 31.
 4. One screen or component per prompt, max 5 numbered steps.
 5. 'Partly done' gets ONE follow-up round; flagged again: park leftover, move on.
 6. Simulator and Maestro only in row 23 and soak rows.
 7. Every prompt starts with the branch rule and forbids switching, pushing, merging.
 
 ## State
-- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 11 (interface and mock done, follow-up round 63).
+- BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11 (owner check pending), 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked).
 - Last checkpoint round 60: tsc 0; Jest 322 suites, 2,008 tests, 4 snapshots.
 
 ## Next
-1. Row 11 follow-up (round 63): reads drop 'denied'; verify with tsc and the mock provider tests.
-2. Row 11 Settings switch on getHealthProvider(), purpose strings. Real provider later (owner check).
-3. Then 13, 14, 14a, 14b, 15 onward. Confirm each row's status in PHASE4_ROWS.md before starting it.
+1. Row 13 store content drafts (English, APP_STORE_METADATA.md).
+2. Row 14 in-app legal, then 14a, 14b.
+3. Confirm each row's status in PHASE4_ROWS.md before starting it.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving: destination; reason and note destination. Priming copy. Win back copy and price. Resubscribe beside Manage on cancelled.
@@ -28,9 +28,10 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test.
+- Row 11 leftovers: Settings switch and purpose strings (parked after second flag); real HealthKit provider (native package, entitlement, pod install); device steps; confirm 'requested' or 'not_determined' status.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; privacy label; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
-- Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b items; HealthKit device steps (row 11).
+- Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b items; HealthKit device steps.
 
 ## Decisions (never delete)
 - Onboarding: target weight optional server side; resumed Back goes to previous step; goal change with hand-set calories asks to update target; sign up errors inline; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
@@ -46,7 +47,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Notifications: median meal times after 3 logs per slot, once per day; 7 day window; quiet hours 22:00 to 07:00 (15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes. expo-notifications imported only in permissions.ts and device.ts. Every reschedule goes through rescheduleToday or runDailySchedule; neither prompts.
 - Push token: saved in secure storage after 204 (STORAGE_KEYS.pushToken, not wiped at sign-out); re-registered from ClerkBridge once per signed-in user; sign-out deletes saved copy only after DELETE succeeds; API client treats 204 as success.
 - Analytics off by default. Retry label 'Try again'. English only for new keys. Stepper labels: common.decrease and common.increase.
-- Row 11: read denial dropped; reads return null when not granted or no data (round 63). Real provider waits for native package approval and pod install.
+- Row 11: no denied state for reads; reads return null when not granted or no data. Interface and mock provider done. Real provider waits for native package approval and pod install.
 - Render test expo-notifications stub: src/__tests__/render/setup.ts. Node Jest maps expo-notifications to src/__tests__/mocks/expoNotifications.ts (package.json).
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 - Protected: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
@@ -73,8 +74,7 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Go entitlement tests need LUME_TEST_DATABASE_URL on lume_test_local.
 
 ## Round log
-- Round 57: push token saved in secure storage. Round 58: re-register moved to ClerkBridge.
 - Round 60: full checkpoint clean. tsc 0; Jest 322 suites, 2,008 tests, 4 snapshots.
 - Round 61: Row 10 closed as BUILT with owner checks.
-- Round 62: Row 11 step 1 (interface and mock provider) done; flagged partial.
-- Round 63: Row 11 follow-up; read denial decided (no denied state for reads).
+- Round 63: Row 11 follow-up; read denial dropped. Flagged again; leftovers parked, Row 11 BUILT with owner check pending.
+- Round 64: Row 13 store content drafts (English) started.
