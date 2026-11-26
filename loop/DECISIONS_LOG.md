@@ -12343,3 +12343,8 @@
 - 2026-11-27 05:26 Treated Fixes 1 to 23 as done, from the round log (fixes 16 to 23 done) and the latest report (Fixes 19 to 23). The older state line saying Fixes 1 to 20 is out of date.
 - 2026-11-27 05:26 Fix 24, Fix 25, Fix 12 option B and the body stats hint stay parked for Isa's ruling; the loop does not wait for them.
 - 2026-11-27 05:26 Rows 15 to 28 and 30 are DIFFERENT: they are not in the BUILT or PARTIAL lists.
+- 2026-11-27 05:28 Chose the untested Fix 20 work first, per override 8 (run flagged untested work before any new task). The last report said tests were not run.
+- 2026-11-27 05:28 Snapshot refresh is a hand edit, not jest -u, following the round 146 decision. Isa's -u approval request is dropped because the hand edit route is already decided.
+- 2026-11-27 05:28 Rewrote the notes under 600 words, merging the round log and the duplicate open-items lists. Finished work is removed except for the Row 14b Done lines.
+- 2026-11-27 05:28 Jev signal said ask 28%, but ask is banned. Ran the chosen task, which Jev also ranks first at 61%.
+- 2026-11-27 05:28 Reply shows the 'Done' line for Fix 20 as pending until the tests pass, so the row is not closed early.
