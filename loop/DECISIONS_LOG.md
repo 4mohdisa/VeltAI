@@ -12032,3 +12032,7 @@
 - 2026-11-27 02:20 Chose the key path move over the notes' next step, because the last report flagged that the top-level paywall key does not match the onboarding copy layout.
 - 2026-11-27 02:20 Kept the task small because Jev confidence is low (0.13); it prefers a smaller step.
 - 2026-11-27 02:20 Left the paywall footer Simulator check in row 23 and the legal review sign-off with Isa.
+- 2026-11-27 02:22 Row 14 set to BUILT: the Round 78 report shows the paywall terms move is done, tsc is clean and the six test files pass. The simulator footer check belongs to Row 23, so it is not run now.
+- 2026-11-27 02:22 Chose the push token merge over 14a. It is a small cleanup that was already on the Next list and it removes a duplicate test pair before new feedback code lands. Jev ranked run at 66%, so the run choice matches its signal.
+- 2026-11-27 02:22 Kept the notes under 600 words by merging repeated parked items. Nothing still open was dropped.
+- 2026-11-27 02:22 Excluded the simulator check for the paywall footer and the hardcoded LegalScreen strings from this round, per the one-screen rule and override 6.
