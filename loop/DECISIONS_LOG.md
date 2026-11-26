@@ -11734,3 +11734,14 @@
 - 2026-11-26 11:28 Kept Row 8 PARTIAL until its simulator flow runs; the round 16 report did not run it.
 - 2026-11-26 11:28 Did not follow the 25 percent ask weight from Jev; the loop never asks Isa, so the task is run with a no-change constraint.
 - 2026-11-26 11:28 Kept all blocked items parked; none needs a retry this round.
+- 2026-11-26 11:29 Chose the Row 8 simulator flow: it is the open item in the notes, and Row 8 has been PARTIAL through rounds 12 to 17, so it needs its flow closed or parked.
+- 2026-11-26 11:29 Kept Row 8 at PARTIAL until the flow passes, rather than moving it to BUILT on round count, because the override only applies when the core is working and the flow has not run yet.
+- 2026-11-26 11:29 Kept the console.error trace and the constant cleanups for later rounds: small, and none block Row 8.
+- 2026-11-26 11:30 Chose candidate 1: it closes Row 8, the only PARTIAL row left before Row 6b's blocked step. Candidate 2 is a small cleanup and can follow.
+- 2026-11-26 11:30 Kept the prompt to 5 numbered steps after the rejection. Folded the seed and test steps into steps 2 and 5.
+- 2026-11-26 11:30 Jev's 90% run signal agrees. Its low confidence in clean completion (41%) is why the prompt is limited to one flow and one fix list.
+- 2026-11-26 11:30 Simulator screenshots go to /tmp, not the repo, per the screenshot rule.
+- 2026-11-26 11:30 Rewrote round 18 after the rejection: one screen per prompt. The Row 8 simulator flow is split per screen, starting with Profile > Subscription.
+- 2026-11-26 11:30 The winback import of CANCELLED moves to round 19 so each round touches one screen.
+- 2026-11-26 11:30 Simulator flow not claimed this round; it runs once the per-screen checks are done.
+- 2026-11-26 11:30 Chose the smallest task (candidate 1) because the last rejected prompt asked for too much, and Jev's confidence in a clean finish of the last task is only 43%.

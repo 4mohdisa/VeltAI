@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 /** subscriptions.status and the 402 reason for an ended plan (backend/internal/entitlement/state.go). */
 export const EXPIRED = 'expired';
 /** subscriptions.status for a cancelled plan that still runs to its period end. */
-const CANCELLED = 'cancelled';
+export const CANCELLED = 'cancelled';
 
 export default function SubscriptionScreen() {
   const { isEntitled, loading, refresh } = useEntitlement();
