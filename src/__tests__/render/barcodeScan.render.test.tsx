@@ -87,10 +87,12 @@ test('a known barcode calls the lookup with that code and opens the product on t
   });
   expect(router.replace).toHaveBeenCalledWith('/food/detail');
 
-  // The sheet the scan hands off to renders the real product off that same code.
+  // The sheet the scan hands off to renders the product it carried, with no
+  // second lookup (Fix 26b): the scanner's call is still the only one.
   const detailTree = renderScreen(<FoodDetailScreen />);
   await settle();
   expect(allText(detailTree)).toContain('Greek Yoghurt, Plain');
+  expect(mockLookup).toHaveBeenCalledTimes(1);
 });
 
 test('an unknown barcode shows "Product not found" and does not crash', async () => {

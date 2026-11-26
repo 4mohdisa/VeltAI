@@ -12376,3 +12376,8 @@
 - 2026-11-27 05:36 Jev suggested ask. Ask is banned by the brief, so the smallest concrete step runs instead.
 - 2026-11-27 05:36 Notes cut under 600 words: finished work deleted, repeats merged, Fix 20 and checkpoint history condensed.
 - 2026-11-27 05:36 Fix 26b waits for 26a to be done and checked, so only one screen changes per round.
+- 2026-11-27 05:39 Round 157 runs Fix 26b as the one permitted follow-up to 26a (override 5). 26a is partly done by design, and 26b closes it, so it is not parked.
+- 2026-11-27 05:39 Flagged-untested check (override 8): 26a's 7 test files passed in round 156, so no extra test run is needed before 26b.
+- 2026-11-27 05:39 Jev signals say run (100%) and the last task is 94% clean. Agreed with run. Risk score noted, no change to the plan.
+- 2026-11-27 05:39 Notes rewritten under 600 words: repeats merged, finished work deleted (Row 14a list, Fix 1-23 range, old round log).
+- 2026-11-27 05:39 Prompt limited to one screen (detail.tsx) plus its test, five steps, per override 4.

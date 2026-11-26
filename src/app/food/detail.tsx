@@ -86,8 +86,11 @@ export default function FoodDetailScreen() {
   const clearDetail = useDetailSubject((s) => s.clearDetail);
   const finishDetail = useDetailSubject((s) => s.finishDetail);
 
-  const [lookup, setLookup] = useState<BarcodeLookup | null>(null);
-  const [loading, setLoading] = useState(subject?.mode === 'barcode');
+  // The scanner's own lookup rides in on the subject; the sheet looks the code
+  // up itself only without one, or on Retry.
+  const scanned = subject?.mode === 'barcode' ? subject.product : undefined;
+  const [lookup, setLookup] = useState<BarcodeLookup | null>(scanned ? { status: 'found', product: scanned } : null);
+  const [loading, setLoading] = useState(subject?.mode === 'barcode' && !scanned);
   // Bumped by Retry to run the barcode lookup again.
   const [attempt, setAttempt] = useState(0);
 
@@ -104,7 +107,7 @@ export default function FoodDetailScreen() {
   );
 
   useEffect(() => {
-    if (subject?.mode !== 'barcode') return;
+    if (subject?.mode !== 'barcode' || (subject.product && attempt === 0)) return;
     let active = true;
     void lookupBarcodeResult(subject.code).then((result) => {
       if (!active) return;
