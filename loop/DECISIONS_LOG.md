@@ -12521,3 +12521,7 @@
 - 2026-11-27 07:10 Round 192: the three spotted validation gaps from the last report are parked, not fixed. They change API behaviour and sit outside the test only scope of Row 16 (Override 9).
 - 2026-11-27 07:10 Round 192: known recipe PATCH gap is not tested as a failure. Only cases the handler already rejects go into the validation table.
 - 2026-11-27 07:10 Round 192: no Jev signal followed or ignored; the chosen task matches its run recommendation, and the task is small.
+- 2026-11-27 07:13 Chose Row 16 goals and body weight: the Round 193 claim in notes is not in the latest report, so the round first checks for existing tests before writing new ones.
+- 2026-11-27 07:13 Kept the Jev next action (run 68%) and rejected its ask signal, per the Round 191 decision that no Isa blocker stops the loop.
+- 2026-11-27 07:13 Handler gaps found in this round are recorded and not fixed, per Override 9 and the Round 192 rule.
+- 2026-11-27 07:13 Notes trimmed to fit the 600 word limit; all parked items kept in short form, no item removed.

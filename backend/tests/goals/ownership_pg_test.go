@@ -67,24 +67,33 @@ func signedTokens(t *testing.T, h http.Handler) (http.Handler, func(userID strin
 	return auth.Middleware(verifier)(h), sign
 }
 
-func TestPG_BodyWeightRoutesRefuseAnotherUsersIDs(t *testing.T) {
+func ownershipPool(t *testing.T) *pgxpool.Pool {
+	t.Helper()
 	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
 		t.Skip("LUME_TEST_DATABASE_URL not set — skipping real-SQL integration test")
 	}
-	ctx := context.Background()
-	pool, err := pgxpool.New(ctx, dsn)
+	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
 	}
 	t.Cleanup(pool.Close)
-	a := seedOwner(t, pool, fmt.Sprintf("bw_owner_a_%d", os.Getpid()))
-	b := seedOwner(t, pool, fmt.Sprintf("bw_owner_b_%d", os.Getpid()))
+	return pool
+}
+
+// pgMux mounts the goals routes on the real Postgres store.
+func pgMux(pool *pgxpool.Pool) *http.ServeMux {
 	mux := http.NewServeMux()
 	goals.Register(mux, goals.NewPGStore(pool))
-	h, sign := signedTokens(t, mux)
+	return mux
+}
 
-	send := func(method, path, user, body string) *httptest.ResponseRecorder {
+// sender wraps h in signedTokens and returns a function that sends one
+// request as the given user.
+func sender(t *testing.T, h http.Handler) func(method, path, user, body string) *httptest.ResponseRecorder {
+	t.Helper()
+	h, sign := signedTokens(t, h)
+	return func(method, path, user, body string) *httptest.ResponseRecorder {
 		t.Helper()
 		req := httptest.NewRequest(method, path, strings.NewReader(body))
 		req.Header.Set("Authorization", "Bearer "+sign(user))
@@ -92,6 +101,14 @@ func TestPG_BodyWeightRoutesRefuseAnotherUsersIDs(t *testing.T) {
 		h.ServeHTTP(rec, req)
 		return rec
 	}
+}
+
+func TestPG_BodyWeightRoutesRefuseAnotherUsersIDs(t *testing.T) {
+	pool := ownershipPool(t)
+	ctx := context.Background()
+	a := seedOwner(t, pool, fmt.Sprintf("bw_owner_a_%d", os.Getpid()))
+	b := seedOwner(t, pool, fmt.Sprintf("bw_owner_b_%d", os.Getpid()))
+	send := sender(t, pgMux(pool))
 	listIDs := func(user string) []string {
 		t.Helper()
 		rec := send(http.MethodGet, "/api/body-weight", user, "")

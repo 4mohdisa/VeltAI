@@ -14,18 +14,18 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 10. Notes under 600 words. Reply JSON only.
 11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next: Round 194.
 
-## State (Round 192)
+## State (Round 193)
 - BUILT 18 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
-- Row 16: steps 1 and 2 done (102 routes; ownership for food, gym, recipes, saved meals, goals, body weight, insights). Step 3 (validation and error envelope): food and gym done. Recipes and saved meals in Round 192, goals and body weight in Round 193.
+- Row 16: steps 1 and 2 done (102 routes; ownership for food, gym, recipes, saved meals, goals, body weight, insights). Step 3 (validation and error envelope): food, gym, recipes, saved meals done. Goals and body weight: verify in Round 193 (not in the 192 report).
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
 - Debug reports: null context saved as null (debugreports.go:61); retry skips captured_at, trigger, route, versions.
 - Food: scanned log delete fails (scan_sessions FK, needs migration); UpsertPortionPref can wipe meal type; search 'Add custom food' does not log; goBackOrHome falls back to Today; delete-account.tsx:101 white on white (device).
 - Food validation: POST /api/food/saved skips nutrition checks (handlers.go:399).
-- Gym validation: POST exercises returns 200 not 201 (gym.go:396); PATCH session accepts future date and any duration (gym.go:316). Row 16 records, does not fix.
-- Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated. Row 18: recipes.authorize copies food.authorize.
+- Gym validation: POST exercises returns 200 not 201 (gym.go:396); PATCH session accepts future date and any duration (gym.go:316).
+- Recipes: ORDER BY random UUID; PATCH skips ingredient and number checks (recipes.go:187); meal_type not validated; POST accepts negative or huge macros. Row 18: recipes.authorize copies food.authorize.
 - Insights: DismissInsight updates by id only (safe via handler owner check).
 - Integrations: sync stops at 50 Strava or 25 WHOOP items; expired token gives 502.
 - Gym complete handler reads body only when ContentLength != 0.
@@ -71,7 +71,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 181: Row 15 BUILT with owner check pending. Round 169: measurements Back unchanged. Round 171: verify:go fails when LUME_TEST_DATABASE_URL unset.
 - Round 188: body weight DELETE is the last id route in goals; integration routes take a provider name, not an id.
 - Round 191: Jev ask and stop signals not followed; no Isa blocker stops the loop.
-- Round 192: Row 16 step 3 spotted gaps parked, not fixed (Override 9). Known recipe PATCH gap not tested as failure.
+- Round 192: Row 16 step 3 gaps parked, not fixed (Override 9).
+- Round 193: Row 16 goals and body weight checked first; existing tests kept if present.
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -85,4 +86,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 187-190: recipes, saved meals, body weight, insights ownership safe. Step 2 complete.
 - 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean).
 - 191: Row 16 step 3 started; food and gym validation done and green.
-- 192: recipes and saved meal validation (this round).
+- 192: recipes and saved meal validation (26 cases, green).
+- 193: goals and body weight validation (this round).
