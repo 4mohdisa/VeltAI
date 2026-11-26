@@ -14,12 +14,13 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner, expired, cancelled, win back built; simulator flow not run).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Round 17 checkpoint: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots pass. console.error 69, console.warn 163.
-- Round 19 done: CANCELLED defined once in subscription.tsx; winback.tsx imports it. Jest 5 tests pass.
+- Round 19 done: CANCELLED defined once in subscription.tsx; winback.tsx imports it.
+- Round 20 reported done, flagged partly done. Round 21 finishes and checks it.
 
 ## Next
-1. Round 20 (running): paywall.tsx reason list uses EXPIRED constant, not a literal. Confirm Round 19 by grep first.
-2. Round 21: trace console.error rise (67 baseline, 69 now) with a scoped spy.
-3. Round 22: remove onboarding.paywall.seePlans and trialNote after checking en.json. Full suites on this checkpoint.
+1. Round 21 (running): finish Round 20. Confirm EXPIRED import and REFUSAL_REASONS, grep for other 'expired' literals, tsc, lint, four paywall tests. Fresh marker /tmp/p4_marker_r21.
+2. Round 22: trace console.error rise (67 baseline, 69 now) with a scoped spy on paywallOnboardingPost.render.test.tsx and others.
+3. Round 23: remove onboarding.paywall.seePlans and trialNote after checking en.json. Full suites on this checkpoint.
 4. Then: Row 8 simulator flow once per-screen checks pass.
 
 ## Blocked on Isa (park, do not retry)
@@ -46,7 +47,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 8: banner reads server record (useServerEntitlement), shows only for past_due, never loads RevenueCat SDK. On past_due and expired the Subscription footer Manage button hides.
 - Win back: store price via wrapper; promotional offers only; no price text in Apple messages. WINBACK_REASON 'winback' in nav.ts; EXPIRED exported from subscription.tsx. Round 15 toast behaviour kept.
 - Round 19: winback.tsx imports CANCELLED from subscription.tsx; one definition.
-- Round 20: chose over Round 21 pick; Jev ranked it first at 90%, smallest step, Jev confidence low so prefer small task.
+- Round 20: chose over Round 21 pick; Jev ranked it first at 90%, smallest step.
+- Round 21: flagged partial round 20 finished first. Jev ranked Run 66%, smallest task chosen. Shared status constants move to src/lib later, not now.
 - Public routes: auth, webhook, subscription and offers, legal, health, consent, deletion, export, feedback, integration revoke.
 - REFUND_REVERSED restores state from event expiry. Billing issue keeps access through grace. No free tier: 7 day Apple trial gives every feature.
 - Retry label 'Try again'. Webhook secret from env only; unset means refuse events. Analytics off by default; loop follows the Settings switch.
@@ -66,7 +68,7 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Hotspots: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; getMorningBrief, getProfile, getAnomalies, dismissAnomaly swallow errors.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. Row 5: parallel requests can slip past AI limit; old daily counts never deleted.
-- onboarding.paywall.seePlans and trialNote unused (Round 22).
+- onboarding.paywall.seePlans and trialNote unused (Round 23).
 
 ## Gotchas
 - zsh --include=*.ts globs fail. Pass full paths to Jest. Never jest -u. Never write 'verified'.
@@ -76,5 +78,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Screens with a skeleton need a per-file LoadingSkeleton mock (Reanimated mock lacks useReducedMotion).
 
 ## Loop note
-- Round 20 running. Full suites on round 22 checkpoint.
+- Round 21 running: finish Round 20. Full suites on round 23 checkpoint.
 - Last full run: tsc 0; Jest 309 suites, 1,894 tests, 4 snapshots (round 17).

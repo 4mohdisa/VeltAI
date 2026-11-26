@@ -11751,3 +11751,7 @@
 - 2026-11-26 11:33 Chose Round 20 over my earlier pick because Jev ranks it first at 90% and it is the smallest next step (Jev confidence 0.22, risk 1.2 favour small tasks).
 - 2026-11-26 11:33 Round 19 is treated as finished only after a grep confirms a single CANCELLED definition, since the automatic check flagged the report as partly done.
 - 2026-11-26 11:33 Paywall reason list reuses the EXPIRED constant, the same import style winback.tsx uses.
+- 2026-11-26 11:34 The automatic check flagged Round 20 as partly done, so the next round finishes it (grep, lint, paywall tests) before any new task. Reason: Isa's loop note says to deal with the flag before moving on.
+- 2026-11-26 11:34 Jev ranked Run first at 66% and recommended a smaller task. Chosen task is a verification step, the smallest option. Ask was not used: Isa chose park and carry on.
+- 2026-11-26 11:34 Round 21 is now the console.error trace, and Round 22 remains the full-suite checkpoint.
+- 2026-11-26 11:34 Shared status constants stay where they are for now. Moving them into src/lib is parked, not done in this round, to keep the change small.
