@@ -12547,3 +12547,6 @@
 - 2026-11-27 07:23 Chose the checkpoint because the loop note says this round is a checkpoint with one task: type check and full app suite, no edits.
 - 2026-11-27 07:23 Left Go vet and Go race tests out of this round, because the loop note asks for one task only. They move to the next checkpoint.
 - 2026-11-27 07:23 Merged the finished round log lines 182 to 198 into one summary line to keep the notes under 600 words. No rule was dropped.
+- 2026-11-27 07:24 Ran the Go half of the checkpoint now (round 200) instead of waiting for round 204, because the Row 16 status decision depends on it.
+- 2026-11-27 07:24 Kept Row 16 at PARTIAL until the Go checkpoint is green and its full description is compared (Override 9, no new work).
+- 2026-11-27 07:24 Round 200 is report only: no edits, so no out of scope changes can occur.
