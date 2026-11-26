@@ -56,7 +56,7 @@ import {
   discardScannedItem,
   submitScanFeedback,
   logMeal,
-  slotForNow,
+  slotFromParam,
   type StoredMeal,
 } from '@/lib/data';
 import { subscribeToFoodLogStatus } from '@/lib/data/realtime';
@@ -205,7 +205,8 @@ export default function FoodLogScreen() {
   const rowExiting = reduceMotion ? FadeOut.duration(motion.duration.snap) : FadeOutUp.duration(motion.duration.snap);
   // The Add sheet's "Search foods" tile routes here with ?focus=search. The
   // design opens search on a focused input rather than one the user must tap.
-  const { focus } = useLocalSearchParams<{ focus?: string }>();
+  // From a meal's "Add to dinner" it also carries ?slot, the meal a search log goes to.
+  const { focus, slot } = useLocalSearchParams<{ focus?: string; slot?: string }>();
   const searchRef = useRef<TextInput>(null);
 
   // Data seam — reactive meals + first-load slot. Edits go through the mutations.
@@ -378,14 +379,20 @@ export default function FoodLogScreen() {
       carbsPer100: food.carbs,
       fatPer100: food.fat,
       fibrePer100: food.fibre,
+      slot: addSlot,
     });
     router.push('/food/detail');
   };
 
   // The design's one-tap add: the row's trailing + logs the result straight to
-  // the current meal instead of routing through the detail sheet. Seeded exactly
-  // as detail.tsx seeds a search result, so both paths write the same row.
-  const addSlot = slotForNow();
+  // the chosen meal (else the meal for now) instead of routing through the detail
+  // sheet. Seeded exactly as detail.tsx seeds a search result, so both paths write the same row.
+  const addSlot = slotFromParam(slot);
+  // Clearing the search ends it, so the chosen meal does not carry into a later search.
+  const changeQuery = (text: string) => {
+    setQuery(text);
+    if (!text && slot) router.setParams({ slot: undefined });
+  };
   const quickAdd = (food: FoodResult) => {
     logMeal(
       addSlot,
@@ -514,7 +521,7 @@ export default function FoodLogScreen() {
             <TextField
               placeholder={t('foodLog.searchPlaceholder')}
               value={query}
-              onChangeText={setQuery}
+              onChangeText={changeQuery}
               autoCorrect={false}
               accessibilityLabel={t('foodLog.searchPlaceholder')}
               {...({ ref: searchRef } as object)}

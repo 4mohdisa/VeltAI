@@ -40,6 +40,8 @@ export type DetailSubject =
       carbsPer100?: number | null;
       fatPer100?: number | null;
       fibrePer100?: number | null;
+      /** The meal it was searched for; the meal for now when absent. */
+      slot?: MealSlot;
     }
   | { mode: 'barcode'; code: string }
   | { mode: 'saved'; item: DetailItem }

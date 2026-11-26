@@ -5,7 +5,7 @@
 import { api, ApiError, type FoodLog } from '@/lib/api';
 import { track } from '@/lib/analytics';
 import { deleteFoodItem, logMeal, registerMealCreate } from './mutations';
-import { barcodeProductFromApi, isServerId } from './mappers';
+import { barcodeProductFromApi, isServerId, SLOTS } from './mappers';
 import { selectedFoodDate, useFoodStore, type StoredFoodItem } from './foodStore';
 import { startScanPoller } from './scanPoller';
 import { aiDetectedItems, type DetectedItem } from '@/lib/mock/ai';
@@ -117,6 +117,11 @@ export function slotForNow(date = new Date()): MealSlot {
   if (h < 15) return 'Lunch';
   if (h < 17) return 'Snacks';
   return 'Dinner';
+}
+
+/** The meal a route asked for (e.g. ?slot=Dinner from "Add to dinner"), else the meal for now. */
+export function slotFromParam(param: string | undefined, date = new Date()): MealSlot {
+  return SLOTS.includes(param as MealSlot) ? (param as MealSlot) : slotForNow(date);
 }
 
 const toItem = (d: DetectedItem) => ({

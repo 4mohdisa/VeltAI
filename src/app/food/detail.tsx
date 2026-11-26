@@ -175,7 +175,7 @@ export default function FoodDetailScreen() {
       <DetailForm
         key={`search:${subject.name}`}
         title={subject.name}
-        meal={slotForNow()}
+        meal={subject.slot ?? slotForNow()}
         seed={{
           name: subject.name,
           quantityG: 100,

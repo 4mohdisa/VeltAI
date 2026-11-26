@@ -12065,3 +12065,13 @@
 - 2026-11-27 02:50 The feedback chip stays unwired for now; it is listed as dead code to wire or delete before Row 31.
 - 2026-11-27 02:50 Chose 14b over 14a step 5 because it is documentation only, cannot break gates, and the 14a chip is already built.
 - 2026-11-27 02:50 Prompt limited to one step set (documentation) to keep the round small.
+- 2026-11-27 02:56 Round 87 starts with tsc because the automatic check flagged the last report as not type checked.
+- 2026-11-27 02:56 Chose Fix item 1 (lost meal slot) first: it is the highest user benefit item and a small, testable change.
+- 2026-11-27 02:56 Fix items 24 (training-days step) and 25 (duplicated Profile rows) are not removed: they need Isa's ruling, so they stay in the Fix list as pending.
+- 2026-11-27 02:56 Terms free tier contradiction stays an owner decision in OWNER_CHECKS_phase4.md; no legal wording changed by the loop.
+- 2026-11-27 02:56 Follow-ups parked, not fixed now: delete-account.tsx:101 possible white on white button (needs device look); index.tsx:101-106 signed-in user sent to onboarding on backend failure (add to Fix list as a small item after item 1).
+- 2026-11-27 02:57 Round 87 prompt was rejected for covering four screens. Split into one screen per round, Search first (override 4).
+- 2026-11-27 02:57 Round 88 starts with tsc, because Round 86 skipped it.
+- 2026-11-27 02:57 Kept Fix 1 first in the order, since it is the most visible user loss.
+- 2026-11-27 02:57 Agreed with the strong run signal. Chose the smallest task (one screen, five steps) given the low clean finish signal.
+- 2026-11-27 02:57 Fix 24 and 25 stay pending Isa; not removed.
