@@ -12489,3 +12489,7 @@
 - 2026-11-27 06:50 Chose Row 16 (next in the order 16 to 30). Jev suggested ask or run; asking is not allowed, so run the smallest step.
 - 2026-11-27 06:50 Row 16 split into steps of max 5; step 1 is the route table with 401 checks and the completeness guard.
 - 2026-11-27 06:50 Round 183 Jev risk 1.1 noted; mitigated by a backend-only, single-package task with no UI or data edits.
+- 2026-11-27 06:55 Round 184 runs the checkpoint the loop note asks for: tsc, full Jest and go vet, no edits. The notes said next checkpoint was Round 187, but the loop note sets this round, so the following checkpoint moves to Round 189.
+- 2026-11-27 06:55 Row 16 step 1 accepted: route list comes from scanning Handle and HandleFunc calls in source, because ServeMux cannot list routes and package main cannot be imported. The 401 test runs the real cmd/server from a temp folder. Recorded here because DECISIONS_LOG is a loop file.
+- 2026-11-27 06:55 Row 16 step 2 (ownership tests) waits until the checkpoint is green.
+- 2026-11-27 06:55 Smoke test route copy (tests/smoke/smoke_test.go) is parked for replacement by the Row 16 route table, not fixed separately.

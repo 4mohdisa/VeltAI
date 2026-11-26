@@ -12,14 +12,14 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Out of scope changes: check, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 187.
+11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next checkpoint: Round 189.
 
-## State (Round 183)
+## State (Round 184)
 - BUILT (18 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 16-28, 30.
-- Row 16 in progress: step 1 (authz route table) running in Round 183.
+- Row 16 in progress: step 1 done (route table, 102 routes: 96 PROTECTED, 6 PUBLIC; real-server 401 test). Step 2 (ownership tests) next.
 - Row 15 owner check pending: scope ruling for cmd/server, scripts, tools/*, internal/db.
-- Round 182 checkpoint clean: tsc 0, Jest 350/2190, go vet clean.
+- Round 184: checkpoint running (tsc, full Jest, go vet, no edits).
 
 ## Parked (fix only in its row)
 - Debug reports: 'context': null saved as null (debugreports.go:61). Retry skips captured_at, trigger, route, versions.
@@ -34,6 +34,9 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: meal median across midnight; quiet hours do not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text; schedule_pg.go sorts then LIMIT 30; errors swallowed in getMorningBrief, getProfile, getAnomalies. Gym patchSession, patchExercise, lastLogged, listTemplates barely covered.
+- Server reads .env from its working folder; a hand run from backend/ loads real keys. Tests use a temp folder. Fix in Row 16 or 18.
+- Server treats PORT as production when LUME_ENV is unset. Document for developers (Row 30).
+- tests/smoke/smoke_test.go has a hand-written route copy. Replace with the Row 16 route table.
 - Food UI: search 'Add custom food' does not log; goBackOrHome falls back to Today; delete-account.tsx:101 white on white (device).
 - Code: hardcoded strings; 158 console warn/error in Jest output; two useApi copies; mutations and hooks cycle; reanimated mock lacks useReducedMotion; mappers duplicate; root and backend JS unlinted.
 - Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep no-consent.
@@ -68,7 +71,8 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 169: measurements Back unchanged. Round 171: verify:go fails when LUME_TEST_DATABASE_URL unset.
 - Rounds 176-180: food 84.0, auth 87.7, debugreports 96.3, analytics 97.6 closed. Test only.
 - Round 181: Row 15 BUILT with owner check pending.
-- Round 183: Jev ask suggestion not used (asking is not allowed); Row 16 step 1 run, max 5 steps per row step.
+- Round 183: Jev ask suggestion not used (asking is not allowed). Row 16 step 1 route list read from source Handle and HandleFunc calls, since ServeMux cannot list routes and package main cannot be imported. 401 test runs real cmd/server from a temp folder.
+- Round 184: checkpoint run as ordered (no edits).
 
 ## Gotchas
 - Jest: full paths with --ci, output redirected, never jest -u. Wrap with perl -e 'alarm N; exec @ARGV'. Long path lists: xargs -0.
@@ -81,4 +85,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 60-157: rows 10-14, 14b, Fixes 1-28 (except 24, 25).
 - 158-181: checkpoints green; Row 15 closed.
 - 182: checkpoint green. No edits.
-- 183: Row 16 step 1 (authz route table test).
+- 183: Row 16 step 1 (authz route table test), done.
+- 184: checkpoint (tsc, full Jest, go vet). Next: Row 16 step 2.
