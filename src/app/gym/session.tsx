@@ -21,6 +21,7 @@ import { Pressable } from '@/components/primitives/Pressable';
 import { Text } from '@/components/primitives/Text';
 import type { ExerciseLibraryItem, GymExerciseInput, LoggedParameters, ParameterSchema } from '@/lib/api';
 import { track } from '@/lib/analytics';
+import { lastSetsFor, useGymRange, type LastSets } from '@/lib/data/gymRange';
 import { useToday } from '@/lib/data/gymSchedule';
 import { color, motion, radius, ROUNDED_FACE_BY_WEIGHT, space, surface } from '@/lib/design/tokens';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
@@ -33,6 +34,8 @@ type Row = {
   name: string;
   isCardio: boolean;
   planned: PlannedValues;
+  /** How this exercise was last logged; seeds the sets in place of the plan. */
+  last?: LastSets | null;
   isExtra: boolean;
   exerciseId?: string; // library id, for the parameter form preview/last-logged
   schema?: ParameterSchema | null; // cardio parameter schema, when present
@@ -63,6 +66,11 @@ const EMPTY_STATE: RowState = { checked: false, expanded: false, sets: [], durat
 
 /** "Set 1" gutter — every value box lines up on one edge (design §3.2). */
 const SET_LABEL_WIDTH = 46;
+
+// ponytail: sets prefill from the last 90 days of sessions (one read through
+// useGymRange); an exercise last done before that falls back to the plan. Widen
+// the window, or add a per-exercise "last logged" read, if that matters.
+const HISTORY_DAYS = 90;
 
 /** The design's value box: 40pt tall with a 16/20 rounded figure. No token
  *  covers either, and 40 is deliberately below the 44pt tap target because the
@@ -96,8 +104,10 @@ function toNum(s: string): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
-// Prefill the log form with one row per planned set, seeded with planned reps/weight.
-function seedSets(p: PlannedValues): SetEntry[] {
+// Prefill the log form with one row per set, seeded with the reps and weight the
+// exercise was last logged with, else the planned ones.
+function seedSets(row: Row): SetEntry[] {
+  const p = { ...row.planned, ...row.last };
   const count = Math.min(Math.max(p.sets ?? 3, 1), 12);
   const reps = p.reps != null ? String(p.reps) : '';
   const weight = p.weight != null ? String(p.weight) : '';
@@ -113,7 +123,7 @@ function seededState(row: Row): RowState {
       duration: row.planned.duration_minutes != null ? String(row.planned.duration_minutes) : '',
     };
   }
-  return { ...EMPTY_STATE, checked: true, sets: seedSets(row.planned) };
+  return { ...EMPTY_STATE, checked: true, sets: seedSets(row) };
 }
 
 // What an untouched PLANNED row starts as. The chooser's two plan-shaped
@@ -178,6 +188,7 @@ function inputFor(row: Row, st: RowState | undefined): GymExerciseInput | null {
 export default function GymSessionScreen(): JSX.Element {
   const { t } = useTranslation();
   const { today, loading, isError, refetch } = useToday();
+  const { sessions: history } = useGymRange(HISTORY_DAYS);
   const navigation = useNavigation();
   const { mode: modeParam } = useLocalSearchParams<{ mode?: string }>();
   const mode = isSessionMode(modeParam) ? modeParam : undefined;
@@ -208,6 +219,7 @@ export default function GymSessionScreen(): JSX.Element {
       (today?.exercises ?? []).map((te) => ({
         key: te.id,
         name: te.exercise?.name ?? t('gymSession.exerciseFallback'),
+        last: te.exercise ? lastSetsFor(te.exercise.name, history, today?.session_id ?? null) : null,
         isCardio: te.exercise?.exercise_type === 'cardio',
         planned: {
           sets: te.planned_sets ?? undefined,
@@ -221,7 +233,7 @@ export default function GymSessionScreen(): JSX.Element {
         exerciseId: te.exercise?.id,
         schema: te.exercise?.parameter_schema ?? null,
       })),
-    [today, t],
+    [today, history, t],
   );
 
   const rows = useMemo(() => [...plannedRows, ...extras], [plannedRows, extras]);
@@ -253,7 +265,7 @@ export default function GymSessionScreen(): JSX.Element {
           },
         };
       }
-      const sets = cur.sets.length > 0 ? cur.sets : seedSets(row.planned);
+      const sets = cur.sets.length > 0 ? cur.sets : seedSets(row);
       return { ...prev, [row.key]: { ...cur, expanded: true, checked: true, sets } };
     });
 

@@ -21,6 +21,32 @@ export function sessionsOn(sessions: GymSession[], date: string): GymSession[] {
   return sessions.filter((s) => s.date === date);
 }
 
+/** What one exercise was last logged as: the API stores one row per exercise,
+ *  so this is the set count and the top set's reps and weight. */
+export type LastSets = { sets: number; reps?: number; weight?: number };
+
+/**
+ * The sets `name` was logged with in the newest session other than `currentId`
+ * (newest by date, then by id). Null when no such session has the exercise, or
+ * when that newest one logged it without a set count, so the caller keeps the plan.
+ */
+export function lastSetsFor(name: string, sessions: GymSession[], currentId: string | null): LastSets | null {
+  const key = name.trim().toLowerCase();
+  const match = (s: GymSession) => s.exercises?.find((e) => e.name.trim().toLowerCase() === key);
+  const newest = sessions
+    .filter((s) => s.id !== currentId && match(s))
+    .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))[0];
+  const ex = newest && match(newest);
+  if (!ex?.sets) return null;
+  // A value the session did not record is left out, so spreading this over the
+  // plan keeps the planned value.
+  return {
+    sets: ex.sets,
+    ...(ex.reps != null ? { reps: ex.reps } : {}),
+    ...(ex.weight != null ? { weight: ex.weight } : {}),
+  };
+}
+
 /**
  * Minutes trained on each of `dates`.
  *   - no session that day  → 0   (a real rest day: the range read covers it)
