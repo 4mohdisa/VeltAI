@@ -12424,3 +12424,8 @@
 - 2026-11-27 05:55 Chose the measurements Back fix because it is a concrete user-facing dead end that needs one small change and one test.
 - 2026-11-27 05:55 Jev ranks stop highest with low confidence (0.07) and rates risk high. Kept run: nothing here is dangerous, the task is one screen with local tests, and the stop reasons in the brief do not apply.
 - 2026-11-27 05:55 Owner rulings (Week copy, todayAgainstTargets assertion, freeze translations, Fixes 24, 25, 12B, body stats hint) move to one entry in OWNER_CHECKS_phase4.md in a later round. They do not block Row 15.
+- 2026-11-27 05:56 Chose Row 15 step 1 because Order is 14b, then 15 to 30. Row 14b is closed and the backend tests are next.
+- 2026-11-27 05:56 Round 168 report flagged the postAuth resume path to measurements as a possible Back problem. Parked for a code check later, not a simulator check, because simulator work is only in Row 23 (Override 6).
+- 2026-11-27 05:56 Round 169 is measure only with a small fix allowed on failures. Coverage fixes wait for the next round so each round stays small (Override 4).
+- 2026-11-27 05:56 Round 172 is the next checkpoint (last green was 167, checkpoints every 5 rounds).
+- 2026-11-27 05:56 Row 14b closed as BUILT in Round 168 with parked leftovers kept in Parked (Override 2).

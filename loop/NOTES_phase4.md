@@ -4,7 +4,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Overrides (Isa)
 1. English only for new strings. es and fr deferred. Missing keys fall back to English.
 2. About 15 rounds per row, then BUILT (PARTIAL only if core broken).
-3. Order: 14b, 15-30, 31.
+3. Order: 15-30, 31 (14b closed).
 4. One screen or component per prompt, max 5 steps. Rejected prompt = failed attempt.
 5. Partly done gets ONE follow-up. Flagged again: park the leftover.
 6. Simulator and Maestro only in row 23 and soak rows.
@@ -12,19 +12,16 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Changes outside named files: check scope, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint rounds: full tsc and full Jest, no edits, report failures.
+11. Checkpoint rounds: full tsc and full Jest, no edits, report failures. Next: Round 172.
 
-## State (Round 168)
-- BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 29. Phase 3 rows 6, 13, 14, 15.
+## State (Round 169)
+- BUILT (17 of 39): 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-14, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 15-28, 30.
-- Row 14b: closes as BUILT after Round 168 (see Parked).
 - Last green checkpoint: Round 167 (tsc 0, Jest 350/350, 2,190 tests).
 
-## Row 14b (closing in Round 168)
-- Done: Fixes 1-23, 26a, 26b, 27, 28, 29, measurements Back (168).
-- Parked for Isa (one owner entry, next round): Fix 24, Fix 25, Fix 12 option B, body stats hint, Week copy, freeze es and fr, todayAgainstTargets assertion.
-- Parked other: energy 'not enough days' has no action; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Training axisLetters fixed September fixture; Food tab checks consent on mount only; Gym tab reads this month twice; saved list drops meal slot for detail sheet.
-- Kept: nutrition.todayAgainstTargets (read by dashboardNutrition.render.test.tsx:102).
+## Row 15 (in progress, Round 169)
+- Step 1 done in Round 169: race run, per package coverage in BACKEND_COVERAGE.md.
+- Next: table driven tests for packages under 70 percent, one package per round.
 
 ## Row 14a: parked
 - Done: features.ts (11 keys), throttle.ts and tests, promptStore.ts, recordLaunch, chip render tests.
@@ -34,17 +31,19 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Parked: other (fix only in its row)
+- Measurements Back: postAuth.ts:28 can resume straight into measurements with preview not in history. Check dismissTo fallback in code, fix that case only (Row 2b follow-up). Simulator check in Row 23.
 - Shared helper 'open Apple page, else toast' (subscription, delete-account, leaving).
 - Push: DELETE after session 401; stale tokens never removed; failed POST not retried.
 - Schedules: leaving screen not in full run; meal median across midnight; quiet hours stepper does not wrap.
 - RevenueCat ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go sorts oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
+- Food: energy 'not enough days' has no action; index.tsx:101-106 failed call goes to onboarding; paywall non-401 failure re-posts answers; history.tsx isoDaysAgo duplicates isoDate; search-results 'Add custom food' does not log; goBackOrHome and GlassButtons fall back to Today; Food tab checks consent on mount only; Gym tab reads this month twice; saved list drops meal slot for detail sheet; delete-account.tsx:101 white on white (device check).
 - Code: hardcoded strings; ~68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; reanimated mock lacks useReducedMotion; saved.tsx:48, label-scan.tsx:42, food.tsx SLOTS copies; mappers.ts duplicate.
-- Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users; productionReadiness.test.ts 4 s pending timer.
+- Tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users; productionReadiness.test.ts 4 s pending timer; Training axisLetters fixed September fixture; nutrition.todayAgainstTargets kept (read by dashboardNutrition.render.test.tsx:102).
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Blocked on Isa (park, do not retry)
-- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and dashboard.energyAddBodyStats wording; todayAgainstTargets ruling.
+- Copy: consent, win back, leaving; target weight required; resend cooldown; paywall terms; Terms describe free tier; gym.freeze.confirm_one es and fr; dashboard.weekNoNetMessage and dashboard.energyAddBodyStats wording; body stats hint; Week copy; freeze es and fr; Fix 24, Fix 25, Fix 12 option B rulings.
 - Apple/RevenueCat: Retention access; sandbox URL; expired, cancelled, past_due runs; 7c iOS public key; native Apple sheet vs browser; Clerk session_exists on device.
 - Push: category strings, defaults, quiet hours wording, token retention, DELETE gating.
 - HealthKit: Settings switch, purpose strings, provider, device steps.
@@ -72,10 +71,11 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Ask banned. Chosen task runs each round. Jev asks are advisory only.
 - New strings: en only; add each new key at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
 - Unused keys removed from es and fr as well. Round 166 removed nutrition.percentOfTarget.
-- Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle stay English only (Override 1).
-- Round 168: Row 14b closes as BUILT after the measurements Back fix. Leftovers stay in Parked. Reason: Override 2.
+- Round 167: dashboard.weekPickedNet, dashboard.weekPickedNoNet, nutrition.weekGramsTitle stay English only.
+- Round 168: Row 14b closed as BUILT after the measurements Back fix.
+- Round 169: measurements Back left unchanged (signed in skip is locked by onboardingSignedInBack test). Resume path parked.
 - loop/DECISIONS_LOG.md and loop/NOTES_phase4.md changes in git diff belong to the loop script; not edited by Claude Code.
-- Tally 'Built or exact: 17 of 39' checked and correct (Round 165).
+- Tally 'Built or exact: 17 of 39' checked (Round 165).
 
 ## Gotchas
 - Full Jest paths with --ci, output redirected, never jest -u. Wrap: perl -e 'alarm N; exec @ARGV'.
@@ -90,4 +90,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 128-157: Fixes 16-28 except 24, 25; 26a and 26b built.
 - 158, 160, 163, 167: checkpoints green. 159, 161, 162: small fixes or no edit.
 - 164, 165: tsc only; flagged. 166: flagged tests green; percentOfTarget removed.
-- 168: measurements Back fix (one screen, one test). Row 14b closed.
+- 168: measurements Back report, no edit. Row 14b closed.
+- 169: Row 15 step 1 (race and coverage, BACKEND_COVERAGE.md).
