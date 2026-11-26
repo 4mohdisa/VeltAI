@@ -120,6 +120,9 @@ shares no data with data brokers.
 | Customer support | Messages sent from Settings > Help and feedback | App functionality |
 | Product interaction | Analytics events, only when analytics is turned on (off by default) | Analytics |
 | Other diagnostic data | Build labels on analytics events; device model in feedback, only when its switch is on | App functionality, analytics |
+| Email address | Account email, from sign up or from Sign in with Apple or Google | App functionality |
+| Name | Account name, only when Sign in with Apple or Google shares it | App functionality |
+| User ID | Clerk user ID | App functionality |
 
 **Data not linked to you:**
 
@@ -127,9 +130,11 @@ shares no data with data brokers.
 |---|---|---|
 | Crash data | Crash reports with user, request and breadcrumb data removed | App functionality |
 
-**Not yet declared, owner to decide:** account data (email and name through
-the sign-in provider, and the user ID) is not in `PRIVACY_DATA.md` or the
-manifest yet. This is the open Row 12a item in `OWNER_CHECKS_phase4.md`.
+**Account data:** email address, name and user ID are collected, linked to
+the user, not used for tracking and not used for advertising, matching
+`PRIVACY_DATA.md` (Account data) and `app.json` `ios.privacyManifests`. The
+declaration in App Store Connect is pending the owner check (Row 12a in
+`OWNER_CHECKS_phase4.md`); Isa makes it.
 
 **Services that process data for Lume:** sign-in (Clerk), database (Supabase),
 photo analysis, insights and Ask Lume (Google Gemini; Anthropic only if the

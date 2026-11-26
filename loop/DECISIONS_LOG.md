@@ -11999,3 +11999,7 @@
 - 2026-11-27 02:08 Chose the Settings link: the last report left it as the open Row 14 leftover, and the loop flagged the round as partly done, so this is the one allowed follow-up round.
 - 2026-11-27 02:08 Parked the web/lib/legal.ts copy update (push token, Sentry, PostHog lines) until after the follow-up; it is not part of this screen.
 - 2026-11-27 02:08 Kept the notes under 600 words by merging repeated blocked and parked items and removing finished work.
+- 2026-11-27 02:11 Row 14 flagged a second time, so per rule 5 the leftovers are parked and the row is set BUILT: Terms screen, health disclaimer link, paywall subscription terms, web legal copy. Privacy screen is done and linked from Settings.
+- 2026-11-27 02:11 Picked the small text fixes over the Terms screen the last report suggested. Reason: the flag rule says park the leftover and move on, and these two doc fixes are Row 13 items already listed in Next, small and low risk. Jev ranked this first too (83%).
+- 2026-11-27 02:11 Round 71 follow-up was the Settings privacy link. The link already existed; the new render test pins it. Accepted as done.
+- 2026-11-27 02:11 Notes rewritten under 600 words: finished work removed, repeated items merged. Decisions kept, condensed to one line each.

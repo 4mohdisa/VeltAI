@@ -212,7 +212,7 @@ type names. No type is used for tracking. `scripts/checkPrivacyManifest.js`
   its properties are not an object literal, when a key is not on that
   event's list, or when a quoted value is not one of its tags.
 - **Anonymous ID storage**: the brief describes the PostHog anonymous ID as
-  held in memory only for now. That is unverified. PostHog falls back to memory
+  held in memory only for now. Nobody has checked that yet. PostHog falls back to memory
   only when it finds neither `expo-file-system` nor AsyncStorage. Both are in
   `node_modules` through other packages, so on a device the ID may persist
   across launches. Check on a device.
