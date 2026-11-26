@@ -12321,3 +12321,8 @@
 - 2026-11-27 05:14 Kept the English-only rule for the new string per Isa's override, despite CLAUDE.md asking for en, es and fr. Isa to confirm later.
 - 2026-11-27 05:14 Did not run the full suite: this is not a checkpoint round (next checkpoint Round 145).
 - 2026-11-27 05:14 Trimmed the notes to under 600 words, merging repeated open items. Finished work removed.
+- 2026-11-27 05:16 Fix 24 (drop training-days step) is parked: it needs Isa's ruling, which he has not given. Not asked; carried on with the next open item.
+- 2026-11-27 05:16 Chose the Training energy card (candidate 1): small, one screen, mirrors the Fix 20 helper already pinned by tests, and it is the open item from the report's list.
+- 2026-11-27 05:16 Jev ranked ask 78%. Ask is banned by Isa's rule, so run chosen.
+- 2026-11-27 05:16 Round 145 is the checkpoint round, so the prompt includes one full Jest run and a force-exit observation, without fixing it yet.
+- 2026-11-27 05:16 If the detailChrome training snapshot fails, the prompt forbids updating it without Isa's approval. The snapshot is not refreshed by this round.

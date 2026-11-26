@@ -141,8 +141,9 @@ function Body({
   });
 
   // Secondary: the day-level training energy the server computed. Per-session
-  // calories do not exist, so nothing here is attributed to one session.
-  const energyWeek = energyDays.slice(-7);
+  // calories do not exist, so nothing here is attributed to one session. The
+  // same Monday-to-today week as the counts above.
+  const energyWeek = energyDays.filter((d) => weekDates.includes(d.date));
   const secScale = Math.max(1, ...energyWeek.map((d) => d.calories_out_exercise));
   const secCols: Col[] = energyWeek.map((d) => ({
     key: d.date,

@@ -10,6 +10,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 import TrainingDetailScreen from '@/app/dashboard/training';
 import { BreakdownRow } from '@/components/display/DetailChart';
 import type { GymSession } from '@/lib/api';
+import type { EnergyBalance } from '@/lib/types';
 import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
 
@@ -42,10 +43,22 @@ const session = (id: string, date: string): GymSession => ({
 // Sat 21 and Sun 22 Nov 2026 are last week; Mon 23 and Wed 25 are this week.
 const SESSIONS = [session('s1', '2026-11-21'), session('s2', '2026-11-22'), session('s3', '2026-11-23'), session('s4', '2026-11-25')];
 
-const renderOn = async (now: string) => {
+const energyDay = (date: string, exercise: number): EnergyBalance => ({
+  date,
+  calories_in: 2000,
+  calories_out_bmr: 1500,
+  calories_out_exercise: exercise,
+  calories_out_total: 1500 + exercise,
+  net_balance: 500 - exercise,
+  target: 2100,
+  variance: -100,
+  status: 'surplus',
+});
+
+const renderOn = async (now: string, energyDays: EnergyBalance[] = []) => {
   jest.useFakeTimers({ now: new Date(now), doNotFake: ['nextTick', 'setImmediate', 'setTimeout', 'setInterval', 'queueMicrotask'] });
   mockListSessions.mockResolvedValue(SESSIONS);
-  mockGetWeek.mockResolvedValue({ days: [] });
+  mockGetWeek.mockResolvedValue({ days: energyDays });
   const tree = renderScreen(
     <SafeAreaProvider initialMetrics={METRICS}>
       <TrainingDetailScreen />
@@ -76,4 +89,20 @@ test('on a Monday the week is that day alone, even with sessions on the days bef
   expect(hasText(tree, '1')).toBe(true);
   expect(hasText(tree, en.dashboard.sessionsThisWeek_one)).toBe(true);
   expect(breakdownRows(tree)).toHaveLength(1);
+});
+
+test("the 'This week' training energy card sums Monday to today, not the last 7 days", async () => {
+  // Thu 19 to Wed 25 Nov: last weekend carries 900 kcal, this week 300.
+  const days = [
+    energyDay('2026-11-19', 100),
+    energyDay('2026-11-20', 100),
+    energyDay('2026-11-21', 500),
+    energyDay('2026-11-22', 400),
+    energyDay('2026-11-23', 100),
+    energyDay('2026-11-24', 100),
+    energyDay('2026-11-25', 100),
+  ];
+  const tree = await renderOn('2026-11-25T12:00:00', days);
+  expect(hasText(tree, en.dashboard.trainingKcalAttributed.replace('{{value}}', '300'))).toBe(true);
+  expect(findAll(tree, (p) => p.accessibilityLabel === 'Training energy for each of the last 3 days, up to 100 kcal.').length).toBeGreaterThan(0);
 });

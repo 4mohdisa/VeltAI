@@ -48,7 +48,12 @@ const WEEK: WeeklyEnergyBalance = {
   weekly_net: 0,
 };
 
+// The card shows this calendar week, Monday to today: Sunday 13 September makes
+// the fixture's 7 to 13 September the whole week.
+jest.useFakeTimers({ now: new Date(2026, 8, 13, 12, 0, 0), doNotFake: ['setImmediate'] });
+
 afterAll(async () => {
+  jest.useRealTimers();
   await act(async () => {
     await i18n.changeLanguage('en');
   });
