@@ -1,42 +1,49 @@
 Handover: Lume Phase 4, branch loop/phase4
 
 Setup
-- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first, then npx tsc --noEmit (0 errors now).
-- Run Jest as perl -e 'alarm N; exec @ARGV' npx jest --ci <full paths>, with output sent to /tmp. Never use -u, never run Prettier --write.
-- en.json is src/lib/i18n/locales/en.json. Each new key also goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts.
-- Protected files: src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, the listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts.
+- Repo: /Users/mohammedisa/Development/projects-app/LumeAI. Run export PATH=$HOME/.nvm/versions/node/v22.23.5/bin:$PATH first. Last type check: 0 errors.
+- Run Jest as perl -e 'alarm N; exec @ARGV' npx jest --ci <full paths>, output to /tmp. Never use -u or Prettier --write.
+- Last full suite (Round 154): 350 of 350 suites, 2,189 tests, no force exit warning.
 
-Rows
-- PHASE4_ROWS.md was not updated this session. BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10-14, 29. PARTIAL: 6b, 7, 8, 9, 14a.
-- Row 14b (DESIGN_INTENT.md Fix list) is in progress. Fixes 1-18 are done, and each has a Done line.
-- Fix 19: Energy and Training empty states now link to /gym/log-session. The Energy body stats hint is parked: its copy says "in onboarding", and /profile/goals has no weight or height fields.
-- Fix 20: the helper is the existing weekOf in src/lib/data/foodDays.ts, pinned in src/__tests__/weekRange.test.ts. Summary Workouts already used it.
+Rows (PHASE4_ROWS.md, updated Round 149)
+- BUILT (17): 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 12b, 13, 14, 29. Rows 2.2, 2b, 2d, 3, 5, 6, 10, 11, 12 and 13 say "owner check pending".
+- PARTIAL: 6b, 7, 8, 9, 14a, 14b, 31.
+- DIFFERENT: 15 to 28 and 30.
 
-In progress: Fix 20, second half
-- src/app/dashboard/training.tsx now counts the week as weekOf(today), Monday to today. Its test is the new src/__tests__/render/training.render.test.tsx.
-- The detailChrome.render.test.tsx training snapshot fails, as expected. Refreshing it needs Isa's approval for -u on that one file.
-- Once refreshed, add the Fix 20 Done line.
-- Last full green suite: Round 139, 348 suites, 2,171 tests.
+Row 14b (DESIGN_INTENT.md Fix list)
+- Done: Fixes 1 to 23, 27 and 28, plus Fix 26a.
+- Parked for Isa's ruling: Fixes 24 and 25 (both in OWNER_CHECKS_phase4.md under Post launch UI), Fix 12 option B and the body stats hint.
+- In progress: Fix 26b in src/app/food/detail.tsx.
+  - What it does: use subject.product when it is present, and call lookupBarcodeResult only when it is missing or on Retry. Keep the failed and not-found states.
+  - Then: update the found test in src/__tests__/render/barcodeScan.render.test.tsx so the detail render makes no second lookup.
+  - Add a Done line under Fix 26 in DESIGN_INTENT.md and a note in Row 14b of PHASE4_ROWS.md.
+
+Key files
+- src/lib/food/detailSubject.ts: the barcode subject now has an optional product (BarcodeProduct).
+- src/app/food/barcode-scan.tsx
+- Other files changed this session:
+  - src/app/dashboard/training.tsx, week.tsx and nutrition.tsx
+  - src/app/(tabs)/gym.tsx
+  - src/app/gym/muscles.tsx and schedule.tsx
+  - Snapshot: src/__tests__/render/__snapshots__/detailChrome.render.test.tsx.snap, hand edited.
 
 Decisions
-- Fix numbers in prompts ran one ahead of DESIGN_INTENT.md, so Done lines follow the file's numbers:
-  - The Welcome Sign in fix sits under Fix 6.
-  - The Food tab insights consent gate sits under Fix 17.
-- Ask Lume keeps its own header. Its Back falls back inline, the same way ai-consent.tsx does.
-- AI consent: decline and Back go back, because returning to Insights would ask for consent again. Allow goes to the screen that asked (?from=).
-- Screen got an onBack prop.
+- Snapshots are edited by hand, never with -u. Jest's snapshot diff ignores indentation, so rebuild the entry from a --expand diff and check that removed lines match exactly.
+- New strings go in en.json only, and each key goes at the end of ENGLISH_ONLY in src/__tests__/localeParity.test.ts. Isa ruled English only, although CLAUDE.md asks for en, es and fr.
+- The Gym streak strip counts the current calendar month through useGymMonth(today) and monthView, so the same month is read twice. It is marked with a ponytail comment.
+- The force exit was fixed in the goalsPlan and preferencesFood tests: held requests are answered in afterEach.
 
 Gotchas
-- Welcome imports Clerk. Any test that renders it must mock @clerk/clerk-expo, or Jest hangs.
-- Skeleton needs reanimated's useReducedMotion. Tests mock LoadingSkeleton.
-- Use jest.useFakeTimers({ now, doNotFake: [...] }) to pin the date, so setImmediate still runs.
+- Gym is src/app/(tabs)/gym.tsx, Nutrition is src/app/dashboard/nutrition.tsx and the food screens are under src/app/food/.
+- Mock LoadingSkeleton in render tests. To fake no history, use jest.spyOn(router, 'canGoBack'), not replaceProperty.
+- Pin dates with jest.useFakeTimers({ now, doNotFake: ['setImmediate'] }).
+- A fetch mock that never resolves leaks the API client's 15 second timer.
 
-Open problems
-- The Training "This week" energy card still uses the last 7 days. training.axisLetters uses a fixed September fixture.
-- A Jest worker is force-exited at the end of every full run.
-- Energy's "not enough days" empty state has no action.
-- gym.freeze.confirm says "1 freezes" (no plural forms).
-- The back-or-Food fallback is copied in two files. GlassButtons falls back to Today.
-- The Food tab checks consent only once, when it mounts.
-- The saved list does not pass the meal slot to the detail sheet.
-- Isa rulings pending: Fix 24, Fix 25, Fix 12 option B, and the body stats hint.
+Problems spotted, not fixed
+- In productionReadiness.test.ts, the scan upload test leaves a 4 second timer pending.
+- nutrition.todayAgainstTargets and nutrition.percentOfTarget are unused in all three locales.
+- The Week screen's "No net yet" copy says "in onboarding".
+- gym.freeze.confirm says "1 freezes".
+- dashboard.weekPickedNet, dashboard.weekPickedNoNet and nutrition.weekGramsTitle are English only.
+- The PHASE4_ROWS.md round log stops at Round 61.
+- DESIGN_INTENT.md has two Fix 20 Done lines that say the same thing.
