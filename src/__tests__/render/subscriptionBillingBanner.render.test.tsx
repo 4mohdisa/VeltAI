@@ -28,10 +28,20 @@ const METRICS: Metrics = {
 
 const tryAgain = en.subscription.billingProblem.tryAgain;
 
+// No RevenueCat key in tests, so the billing seam warns once that it runs in
+// billing-disabled dev mode. Swallow only that, and fail on any other warning.
+let warn: jest.SpyInstance;
+
 beforeEach(() => {
+  warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
   (globalThis as unknown as { fetch: unknown }).fetch = jest.fn(() =>
     Promise.resolve({ ok: true, status: 200, json: async () => ({ data: {}, error: null }) }),
   );
+});
+
+afterEach(() => {
+  for (const [message] of warn.mock.calls) expect(message).toMatch(/^RevenueCat unavailable/);
+  warn.mockRestore();
 });
 
 async function renderSubscription() {

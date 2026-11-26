@@ -11706,3 +11706,6 @@
 - 2026-11-26 11:15 Round 10 picks the duplicate Manage button fix: it is the open loose end from round 9, it is one screen, and it is small. The expired state comes next.
 - 2026-11-26 11:15 Kept the rejected prompt's scope to one screen plus its own test file, per the one screen or component rule.
 - 2026-11-26 11:15 Jev ranked run highest; kept it. The prompt stays small because the last task was a rejected prompt.
+- 2026-11-26 11:17 Round 11: an automatic check flagged round 10 as only partly done (the red run was not shown and the 2 console blocks were not traced), so the next task closes that gap before Row 8 expired state. Jev ranked run highest, but the flag comes first.
+- 2026-11-26 11:17 The Row 8 footer change stays PARTIAL until the past_due test is shown to fail without it.
+- 2026-11-26 11:17 Console blocks in the banner tests get a scoped spy if deliberate, or a component fix if real. No global mocks.

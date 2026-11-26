@@ -10,12 +10,12 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## State
 - BUILT: 1, 2, 2.2, 2b (owner check pending), 2c, 2d, 3 (owner check pending), 4, 5, 6, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15 BUILT.
-- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription, render tests).
+- PARTIAL: 6b (step f blocked). 7 (7a, 7b built; 7c parked). 8 (banner on Today and Profile > Subscription; footer Manage hidden on past_due, red run not yet shown).
 - Not started: 9 to 11, 13, 14, 14a, 14b, 15 to 31.
 - Last full run: tsc 0; Jest 303 suites, 1,835 tests (before 7a, 7b, Row 8). Full suite checkpoint due.
 
 ## Next
-1. Row 8: hide footer Manage on past_due (round 10, in progress).
+1. Row 8: prove past_due footer test fails without fix; trace 2 console blocks (round 11).
 2. Row 8: expired state with Resubscribe on Profile > Subscription.
 3. Row 8: win back offer screen.
 4. Row 8 simulator flow at end of row.
@@ -49,7 +49,8 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 - Row 7: wrapper first (7a), paywall screen second (7b). Only src/lib/billing/purchases.ts imports the RevenueCat SDK. Trial shown only when the store says eligible. 7b replaces the hosted paywall on the onboarding route only.
 - Row 7b: restore failure shows 'no previous subscription found'.
 - Row 8: banner reads the server record (useServerEntitlement), shows only for past_due, never loads the RevenueCat SDK. Long message wraps. Mounted on Today and Profile > Subscription.
-- Round 9 and 10: on past_due the Subscription footer Manage button hides; the banner owns that action.
+- Rounds 9 to 10: on past_due the Subscription footer Manage button hides; the banner owns that action.
+- Round 11: automatic check flagged round 10 as partly done; proof step first.
 
 ## Parked
 - Today pull-to-refresh does not refetch subscription state.
@@ -79,4 +80,5 @@ Goal: all PHASE4_ROWS.md rows BUILT or EXACT; soak exit rule met. Never ask. Par
 
 ## Loop note
 - Round 9: handover happened; prompt names files in full.
-- Round 10: previous prompt rejected (too many screens). Rewritten as one screen (subscription.tsx) plus its test file. Jev ranked run highest (89%).
+- Round 10: previous prompt rejected (too many screens). Rewritten as one screen plus its test file.
+- Round 11: flag from automatic check on round 10 report. Proof and console trace before Row 8 expired state.
