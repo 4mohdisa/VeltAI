@@ -12187,3 +12187,6 @@
 - 2026-11-27 03:46 Untested work check: the Round 112 paywall fixes have their tests green (25/25 and 56/56), so no rerun is needed before this task.
 - 2026-11-27 03:46 Left the stale 'Barcode, Scan and label scan still open' note in PHASE4_ROWS.md until 14b closes, as recorded in the follow-ups.
 - 2026-11-27 03:46 Kept Fix 24 and Fix 25 untouched until Isa rules on them.
+- 2026-11-27 03:49 Round 114: an automatic check flagged the Round 113 report, so the next task re-runs tsc and the Fix 7 tests before any new work (override 8: run flagged work's tests before a new task).
+- 2026-11-27 03:49 Stale line-number comment in gymStreakStripFootnote test fixed in the same round because it is the only loose end from Fix 7 and it is a one-line change.
+- 2026-11-27 03:49 Fix 8 deferred one round so the verification is not mixed with a new screen change.

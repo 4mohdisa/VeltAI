@@ -17,10 +17,10 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Green checkpoints: Rounds 66, 80, 95, 109 (340 suites, 2,090 tests, tsc 0). Next about Round 123.
 
 ## Row 14b (current)
-- Done: Fix 1 meal slot on all Add paths; Fix 2 Summary and Nutrition read today; Fix 3 remove a set; Fix 4 prefill from last session; Fix 5 paywall server check (incl. follow-up, Round 112); Fix 6 no record and no answers goes to goal step.
-- Now (Round 113): Fix 7 gym log button on every day (gym.tsx:189). One screen, one test file.
-- Next: gym top-set save; recipes unreachable; list order.
-- Follow-ups: measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers (Round 112 note); drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes.
+- Done: Fix 1 meal slot on all Add paths; Fix 2 Summary and Nutrition read today; Fix 3 remove a set; Fix 4 prefill from last session; Fix 5 paywall server check; Fix 6 no record and no answers goes to goal step; Fix 7 gym log button on every day (Round 113).
+- Now (Round 114): re-check Fix 7 (tsc, gym tests, eslint) after automatic flag; fix stale comment in gymStreakStripFootnote test.
+- Next: Fix 8 units into Settings (measurements.tsx:57,68); gym top-set save; recipes unreachable; list order.
+- Follow-ups: measurements.tsx:280 Back goes to preview; Welcome shows Sign in to a signed-in user with no record; delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding; paywall non-401 record-check failure re-posts answers; drop stale 'Barcode, Scan and label scan still open' note from PHASE4_ROWS.md when 14b closes; gym tab shows no logged pill once logged (look change, parked).
 - Parked: saved.tsx:48 slot check; label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Isa rulings pending: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision pending: Terms describe a free tier that does not exist. Per-set gym history needs a backend change (Isa).
@@ -34,7 +34,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - web/lib/legal.ts lacks push, Sentry, PostHog lines. LegalScreen hardcodes 'Last updated' and 'PENDING LEGAL REVIEW'. Banned word in legalParity comment. Paywall footer on small iPhone: Row 23.
 
 ## Blocked on Isa (park)
-- Rows 5, 8, 9: consent copy and recipients, win back and leaving copy, Apple Retention access, sandbox URL, expired, cancelled and past_due runs, 7c iOS public key.
+- Rows 5, 8, 9: consent copy, win back and leaving copy, Apple Retention access, sandbox URL, expired, cancelled and past_due runs, 7c iOS public key.
 - Row 10: category strings, defaults, quiet hours wording, push token retention, DELETE gating.
 - Row 11: Settings switch, purpose strings, HealthKit provider, device steps.
 - Row 12a: Email, Name, User ID labels; push token manifest type. Row 13: age rating, production demo account, lume.fit URLs.
@@ -58,7 +58,7 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Local Postgres and sandbox keys only. Deploys are Isa's.
 - Onboarding: target weight optional server side; resumed Back goes to previous step; training days on backend; Continue never disabled; inches 0-11, feet 3-8; target weight 30-300 kg; calorie floor 1500 (1200 female); 401 ends session.
 - Fix 6: no record and no answers goes to /onboarding/goal; with answers goes to measurements.
-- Round 111: Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Round 112: follow-up done; paywall checks server record first, 401 ends session.
+- Fix 5 follow-up over Fix 7 (data written twice beats UI gap). Paywall checks server record first, 401 ends session.
 - Apple sign in: browser oauth_apple flow; hidden on Android.
 - Deletion: Clerk first, then rows; Clerk failure 502 keeps rows; Clerk 404 counts as deleted.
 - Public routes: auth, webhook, subscription, offers, legal, health, consent, deletion, export, feedback, integration revoke, push DELETE. Push POST gated. Retention summary authenticated, counts only.
@@ -80,13 +80,14 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Prettier on en.json: not reformatted.
 
 ## Gotchas
-- Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'.
+- Full Jest paths, --ci, redirect output, never jest -u. Wrap Jest: perl -e 'alarm N; exec @ARGV'. In zsh pass many paths through xargs.
 - Lint: no setState in effect body; use guarded .then. Render tests: *.render.test.tsx.
 - Mock Clerk to avoid MessagePort that stops Jest exiting. expo-notifications is native: mock in tabs layout tests.
-- Paths: paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
+- Paywall is src/app/onboarding/paywall.tsx; paywall render tests live in src/__tests__/render/.
 
 ## Round log
 - 60-108: rows 10-14 closed; 14a parked at step 4; 14b Fixes 1-4 done.
-- 109: checkpoint green. 110: Fix 6 done. 111: Fix 5 follow-up prompt rejected (two screens). 112: Fix 5 follow-up done (tests green).
-- 113: Fix 7 prompt issued.
+- 109: checkpoint green. 110: Fix 6 done. 111: Fix 5 follow-up rejected (two screens). 112: Fix 5 follow-up done.
+- 113: Fix 7 done (report says tsc and gym tests green; automatic check flagged it).
+- 114: re-check Fix 7 before any new task.
 - Last handover Round 107; next after Round 120.

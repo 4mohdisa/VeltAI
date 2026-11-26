@@ -57,12 +57,9 @@ const STREAK = {
   last_freeze_date: null,
 };
 
-// A planned (not yet logged) workout for "today" — gym.tsx:174 reads this
-// object's own `exercises` array directly. The fallback branch below used to
-// answer /api/gym/today with `json([])`, an empty ARRAY standing in for a
-// TodayWorkout object; `[] && [].exercises.length` threw, a crash this file's
-// fixed clock below used to mask by keeping gymLoggedToday (and so the whole
-// `!gymLoggedToday && …` expression) false every real day it happened to run on.
+// A planned (not yet logged) workout for "today", read by the TodayCard on the
+// tab. The tab's log button shows whenever no session is logged today, with or
+// without a plan, so this fixture only shapes the cards around the strip.
 const TODAY_WORKOUT = {
   day_of_week: 5,
   day_name: 'Friday',
@@ -104,8 +101,8 @@ const settle = async () => {
 // mappers.ts's gymLoggedToday compares STREAK.last_gym_date against the REAL
 // clock (todayISO()) — unpinned, this test's outcome silently depended on
 // which real day it ran. Fixed to the day after last_gym_date, so
-// gymLoggedToday is deterministically false and the GymSessionButton branch
-// at gym.tsx:174 is actually exercised rather than short-circuited away.
+// gymLoggedToday is deterministically false and the log button, shown when no
+// session is logged today, is actually rendered rather than short-circuited away.
 // `setImmediate` stays real: settle() below needs it to flush the mocked
 // fetch's promise chain, which a faked one would never auto-advance.
 jest.useFakeTimers({ doNotFake: ['setImmediate'] }).setSystemTime(new Date(2026, 10, 20, 9, 0, 0));
