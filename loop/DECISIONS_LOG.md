@@ -12384,3 +12384,8 @@
 - 2026-11-27 05:40 Round 158 is a checkpoint (chosen task 1) because Fix 26b edited the shared detail.tsx and three rounds (155 to 157) ran without a full suite. Jev ranked run highest; this matches it.
 - 2026-11-27 05:40 Risk noted from Jev (0.9): this round makes no edits, touches no hosted service and no keys, so continuing is safe.
 - 2026-11-27 05:40 Notes rewritten under 600 words: finished items merged, round log condensed, blocked list grouped.
+- 2026-11-27 05:41 Chose the freeze plural fix: one string, one caller, small and fully testable without a simulator, which matches override 4 (one screen or component per prompt).
+- 2026-11-27 05:41 Did not follow the latest report's suggestion to check the scan to detail flow on the simulator, because override 6 limits simulator and Maestro work to row 23 and the soak rows.
+- 2026-11-27 05:41 Kept the English only rule (override 1); the new key goes into ENGLISH_ONLY so the parity test stays green.
+- 2026-11-27 05:41 Round 158 checkpoint was green (tsc 0, Jest 350/350), so the next round can go back to small tasks.
+- 2026-11-27 05:41 Jev ranked run at 88%, so I followed it. Its 1.1 risk score is advisory; a one string change is low risk.

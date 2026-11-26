@@ -8,6 +8,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import FreezeScreen from '@/app/gym/freeze';
 import { useGymStore } from '@/lib/data/gymStore';
+import i18n from '@/lib/i18n';
 import en from '@/lib/i18n/locales/en.json';
 import { act, findAll, renderScreen } from './helpers';
 
@@ -88,6 +89,12 @@ test('a real streak shows the sheet title and confirm copy from en.json', async 
   );
 
   expect(hasText(tree, en.gym.freeze.title)).toBe(true);
-  expect(hasText(tree, en.gym.freeze.confirm.replace('{{available}}', '1'))).toBe(true);
+  // The backend grants one freeze, so the singular reads "1 freeze", not "1 freezes".
+  expect(hasText(tree, en.gym.freeze.confirm_one.replace('{{count}}', '1'))).toBe(true);
+  expect(hasText(tree, en.gym.freeze.confirm_other.replace('{{count}}', '1'))).toBe(false);
   expect(hasText(tree, en.gymFreeze.emptyTitle)).toBe(false);
+});
+
+test('the confirm copy keeps the plural for two or more freezes', () => {
+  expect(i18n.t('gym.freeze.confirm', { count: 2 })).toBe(en.gym.freeze.confirm_other.replace('{{count}}', '2'));
 });

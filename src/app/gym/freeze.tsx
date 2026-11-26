@@ -64,7 +64,7 @@ export default function FreezeScreen() {
             <Text variant="title3" color={color.black} style={{ textAlign: 'center' }}>
               {streak.freezesAvailable === 0
                 ? t('gym.freeze.noneLeft')
-                : t('gym.freeze.confirm', { available: streak.freezesAvailable })}
+                : t('gym.freeze.confirm', { count: streak.freezesAvailable })}
             </Text>
             <Text variant="callout" color={color.gray500} style={{ textAlign: 'center' }}>
               {t('gym.freeze.explainer', { days: streak.current })}

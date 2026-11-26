@@ -183,6 +183,8 @@ const ENGLISH_ONLY = new Set([
   'dashboard.weekPickedNoNet',
   // Fix 23: the Macros detail's 7-day chart title.
   'nutrition.weekGramsTitle',
+  // The freeze sheet's singular confirm ("1 freeze", not "1 freezes").
+  'gym.freeze.confirm_one',
 ]);
 
 const placeholders = (s: string) => [...new Set([...s.matchAll(/{{\s*(\w+)\s*}}/g)].map((m) => m[1]))].sort();

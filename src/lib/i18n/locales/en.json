@@ -632,7 +632,8 @@
     "freeze": {
       "title": "Streak freeze",
       "applied": "Freeze applied — today is protected.",
-      "confirm": "Use 1 of your {{available}} freezes for today?",
+      "confirm_one": "Use your {{count}} freeze for today?",
+      "confirm_other": "Use 1 of your {{count}} freezes for today?",
       "noneLeft": "No freezes left to use today.",
       "explainer": "A freeze protects your {{days}}-day streak on a planned rest day — it just keeps the streak alive."
     },

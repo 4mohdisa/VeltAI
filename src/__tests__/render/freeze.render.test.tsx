@@ -63,7 +63,7 @@ test('renders the confirm copy with the real freeze count and streak length', as
 
   const text = allText(tree);
   expect(text).toContain('Streak freeze');
-  expect(text).toContain('Use 1 of your 1 freezes for today?');
+  expect(text).toContain('Use your 1 freeze for today?');
   expect(text).toContain('A freeze protects your 12-day streak on a planned rest day — it just keeps the streak alive.');
 });
 
