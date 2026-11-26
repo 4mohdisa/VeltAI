@@ -2,8 +2,8 @@
 // app start and when the app becomes active, schedules at most once per local
 // day, keeps the day key in secure storage (cleared on sign-out), retries after
 // a failed schedule, never asks for permission and plans meal reminders from
-// the week's food logs. Fake clock, mocked AppState, device.ts,
-// expo-notifications and the food log read; secure storage is the in-memory mock.
+// the week's food logs, and re-registers the push token. Fake clock, mocked AppState,
+// device.ts, pushToken.ts, expo-notifications and the food log read; secure storage is the in-memory mock.
 import { AppState } from 'react-native';
 
 import type { FoodLog } from '@/lib/api';
@@ -12,6 +12,7 @@ import { fetchWeekLogs } from '@/lib/data/hooks';
 import { getItem, STORAGE_KEYS } from '@/lib/storage/secureStore';
 import { runDailySchedule, startDailySchedule } from './daily';
 import { applySchedule, notificationPermission } from './device';
+import { restorePushToken } from './pushToken';
 
 type Listener = (state: string) => void;
 const mockListeners: Listener[] = [];
@@ -29,6 +30,10 @@ jest.mock('./device', () => ({
   notificationPermission: jest.fn(),
   applySchedule: jest.fn(async () => undefined),
   clearReminders: jest.fn(async () => undefined),
+}));
+jest.mock('./pushToken', () => ({
+  restorePushToken: jest.fn(async () => undefined),
+  removePushToken: jest.fn(async () => undefined),
 }));
 jest.mock('@/lib/api', () => ({ deviceTimeZone: () => 'UTC' }));
 jest.mock('@/lib/data/hooks', () => ({ fetchWeekLogs: jest.fn(async () => []) }));
@@ -70,6 +75,12 @@ test('app start schedules once and saves the day key', async () => {
   expect(schedule).toHaveBeenCalledTimes(1);
   expect(await savedKey()).toBe('2026-11-27');
   expect(AppState.addEventListener).toHaveBeenCalledTimes(1);
+});
+
+test('every run re-registers the push token, the same day included', async () => {
+  await start('2026-11-27T09:00:00Z');
+  await foreground('2026-11-27T18:00:00Z');
+  expect(restorePushToken).toHaveBeenCalledTimes(2);
 });
 
 test('a second foreground on the same day does nothing', async () => {

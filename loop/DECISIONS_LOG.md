@@ -11933,3 +11933,7 @@
 - 2026-11-27 01:35 Kept Row 10 at PARTIAL. The push token storage task waits until the follow-up passes.
 - 2026-11-27 01:35 Named every file in full because the session was just handed over and Claude Code knows only the summary.
 - 2026-11-27 01:35 Did not use Jev's 47% clean-finish signal to change the choice. A small, checkable task fits that signal, so I kept it small.
+- 2026-11-27 01:36 Round 56 was the one allowed follow-up on Round 55. It is flagged again as partly done, so per Override 5 the leftovers are parked and the loop moves on. Row 10 stays PARTIAL.
+- 2026-11-27 01:36 Chose candidate 1 because it is the next step in the notes and the report's recommendation. It is one small change and it closes the known gap where sign-out cannot remove the token after a relaunch.
+- 2026-11-27 01:36 Jev ranks ask highest but ask is forbidden. Risk is 0.9 with low confidence, so I picked a small task instead of a larger one.
+- 2026-11-27 01:36 Kept all Decisions lines, merged repeats, and removed finished Round 54 and 55 detail to get the notes under 600 words.

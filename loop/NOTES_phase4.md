@@ -12,23 +12,22 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 
 ## State
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10a, 10b, 10c, 12, 12b, 29. Phase 3 rows 6, 13, 14, 15.
-- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (quiet hours editable since Round 55; follow-up Round 56 running).
-- Round 54 checkpoint: tsc 0 errors; Jest 320 suites, 1,992 tests, 4 snapshots pass; 68 console.error, 164 console.warn (82 real).
+- PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 10 (Settings switches and quiet hours editing done; wiring test rerun passed 8/8 in Round 56; push token in memory only).
+- Round 54 checkpoint: tsc 0 errors; Jest 320 suites, 1,992 tests, 4 snapshots pass.
 
 ## Next
-1. Round 56: follow-up on Round 55. Rerun notificationSettingsList.wiring.render.test.tsx (changed on disk after last run) and tsc.
-2. DECISIONS.md: say permissions.ts and device.ts import expo-notifications.
-3. Row 10: save push token in secure storage, re-register at app start.
+1. Round 57: save push token in secure storage, re-register at app start (Row 10).
+2. DELETE after session ends gets 401 (Row 10, after 1).
+3. Stepper 'Decrease' and 'Increase' labels into en.json.
 
 ## Blocked on Isa (park, do not retry)
 - Leaving destination; priming copy; win back copy and price; es/fr text; Resubscribe beside Manage on cancelled.
 - 7c: StoreKit purchase needs iOS public key.
 - Row 8: Maestro install; email code sign in; database lume on 127.0.0.1:55432; run expired, cancelled, past_due.
-- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours step and wording, no off switch.
+- Row 10: category strings; notification defaults; training-day reminders; switches before scheduling (App Store 2.1); quiet hours step and wording, no off switch; UTC fallback when device time zone unreadable; reschedule same day after later grant; push token retention; DELETE public or gated.
 - Sign-offs: target weight required; dead end 7 copy; resend cooldown; resumed Back; back to preview after sign in; Clerk session_exists on device; native Apple sheet vs browser.
 - Row 5 copy: 'Who receives it'; consent version; 500 vs 403; AI limit copy; label scan exit; scan.ts vs photo capture.
 - Row 9: Apple Retention access; App Store Connect key in backend/.env; approve two messages; sandbox URL and 700 ms test; where leaving reason and note go.
-- Push: DELETE public or gated; tokens move between accounts; token retention period.
 - Tooling: react-test-renderer deprecation; gesture-handler warning; Prettier; privacy label; push and CI; E2E account needs 250+ gym dates; npm audit (expo-notifications); pod install before notification prompt.
 - Simulator checks: 401 after Clerk expiry; signup; launch; paywall; Total tile; Row 6 numbers; Row 14 gym line offline.
 - Owner check pending: launch wait; RevenueCat sandbox webhook; Apple and Clerk Apple setup; iPhone Apple sign in; Row 2b items.
@@ -41,25 +40,23 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - AI consent: server gate first; profiles.ai_consent_at; consent read error 500; Allow and Not now equal weight; plain 429 queueable; only ai_daily_limit_reached non-retryable.
 - Row 6: hydrateGym limit 200, backend LIMIT kept. 6b: answers stay on device until trial or purchase; GET /api/subscription retried 4 times, 1.5 s apart.
 - Launch gate: 402 opens /onboarding/paywall with reason; 401 ends session; network error resumes onboarding or opens tabs. paywallHref(reason?) in src/lib/nav.ts is the only paywall link builder.
-- Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check (reply is same public id for everyone).
+- Billing: only src/lib/billing/purchases.ts imports RevenueCat SDK. Trial shown only when store says eligible. 7 day Apple trial gives every feature; no free tier. Billing issue keeps access through grace. REFUND_REVERSED restores state from event expiry. Webhook secret from env only; unset refuses events. No Apple signature check.
 - Expired: Subscription, then win back, then paywall. Banner reads server record, past_due only. Win back opens paywall; no price text in Apple messages; WINBACK_REASON in nav.ts.
 - Retention: flag default off; message keys only; fixtures until owner access; leaving screen sends no food, body or workout values to analytics.
-- Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00 (editable in 15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; notification settings cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Start and foreground share one run. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
+- Notifications: median meal times after 3 logs per slot, once per day, earliest row per meal; 7 day window; quiet hours 22:00 to 07:00 (editable in 15 minute steps); meal and streak dropped in quiet hours; workout and weekly move to quiet end; promotional needs own opt in; all off by default. Permission asked only after priming says yes; answer kept across sign-outs. Settings save on change and reschedule today; cleared on sign-out. Granting permission reschedules today once. expo-notifications imported only in permissions.ts and device.ts. Daily helper in daily.ts never prompts; day key saved only after a successful run; cleared on sign-out. Start and foreground share one run. Sign-out cancels only Lume reminders (clearReminders, REMINDER_PREFIX).
 - Push token: registered after grant on priming sheet (registerPushToken, next to rescheduleToday); removed first in resetAllStores; not awaited; API client treats 204 as success with no data.
 - Analytics off by default. Retry label 'Try again'. English only for new keys (en.json plus ENGLISH_ONLY in localeParity.test.ts).
 - Render test expo-notifications stub lives in src/__tests__/render/setup.ts, not the shared root config.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify.
 
 ## Parked
-- Token kept in memory only: after relaunch, sign-out cannot DELETE until next grant. Plan: secure storage and re-register at start.
-- DELETE after session ends gets 401; stale row stays on server.
+- Token in memory only (being fixed in Round 57). DELETE after session ends gets 401; stale row stays on server.
 - Leaving screen not in a full non-silent run. Meal median across midnight averages to midday. Late snacks wrap at midnight. Stepper stops at 00:00 and 23:45.
 - A switch change during a run may use old settings; next foreground catches up. Expired session clears reminders until next foreground.
 - Nothing derives per-slot meal times at app start; settings reload only when Settings opens.
-- Stale push tokens never removed (nothing sends push yet). ROUTE_COVERAGE shows no orphaned routes now.
+- Stale push tokens never removed. node Jest expo-notifications mock lacks getDevicePushTokenAsync.
 - Past_due may show two Manage buttons. Pull-to-refresh skips subscription. entitlementFromApi keeps unknown status.
-- Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper 'Decrease' and 'Increase' labels.
-- node Jest project expo-notifications mock lacks getDevicePushTokenAsync.
+- Paywall imports constants from a profile route file. Hardcoded strings: body emoji 26, A$, 'Your data', server limit message, Stepper labels.
 - About 68 console errors need scoped spies. Two useApi copies; import cycle mutations.ts and hooks.ts. Skeleton render tests need a reanimated useReducedMotion stand-in.
 - Missing tests: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Unused: onboarding.paywall.seePlans, trialNote. Nothing dispatches SIGNED_IN.
@@ -68,7 +65,6 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Returning user without subscription goes to onboarding. AI limit: parallel requests slip past; old counts never deleted.
 - App-start run before sign-in can plan at default meal times if the food log read fails. deviceTimeZone() ?? 'UTC' fallback in two places.
-- Today's pull-to-refresh skips subscription state.
 
 ## Gotchas
 - Branch check first (git branch --show-current only). Full Jest paths for single files; never jest -u; use --ci; redirect output to files.
@@ -82,5 +78,6 @@ Goal: all rows BUILT or EXACT; soak exit met. Never ask. Park owner steps. Branc
 - Keep prompts to one screen or component.
 
 ## Round log
-- Round 55: quiet hours editable (Stepper, 15 min steps, BottomSheet). Flagged partly done; wiring test changed on disk after run.
-- Round 56 (running): follow-up on Round 55, rerun wiring test and tsc.
+- Round 55: quiet hours editable (Stepper, 15 min steps, BottomSheet). Flagged partly done.
+- Round 56: follow-up on Round 55. Wiring test rerun passed 8/8; tsc 0 errors. Flagged partly done again; leftovers parked, moved on.
+- Round 57 (running): push token kept across relaunch (Row 10).
