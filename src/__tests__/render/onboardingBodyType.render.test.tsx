@@ -8,7 +8,7 @@ import fr from '@/lib/i18n/locales/fr.json';
 import { useReduceMotion } from '@/lib/design/reduceMotion';
 import { useOnboardingStore } from '@/lib/stores/onboarding';
 import { router } from 'expo-router';
-import { act, allText, findAll, renderScreen } from './helpers';
+import { act, allText, findAll, renderScreen, screenTitle } from './helpers';
 
 jest.mock('@/lib/design/reduceMotion', () => ({ useReduceMotion: jest.fn(() => false) }));
 
@@ -55,7 +55,35 @@ test.each([
 
 test('the headline renders', () => {
   const tree = renderScreen(<BodyTypeScreen />);
-  expect(allText(tree)).toContain('What does your body look like right now?');
+  expect(screenTitle(tree)).toBe('What does your body look like right now?');
+});
+
+test('every card gives screen readers its description as the hint', () => {
+  const b = en.onboarding.bodyType;
+  const tree = renderScreen(<BodyTypeScreen />);
+  for (const key of optionKeys) {
+    const card = findAll(tree, (p) => p.accessibilityLabel === b[key] && typeof p.onPress === 'function')[0];
+    expect(card.props.accessibilityHint).toBe(b[`${key}Desc`]);
+  }
+});
+
+test('with Reduce Motion, picking saves the choice and continues at once', () => {
+  (useReduceMotion as jest.Mock).mockReturnValue(true);
+  const tree = renderScreen(<BodyTypeScreen />);
+  const card = findAll(tree, (p) => p.accessibilityLabel === en.onboarding.bodyType.average)[0];
+  act(() => (card.props.onPress as () => void)());
+
+  expect(useOnboardingStore.getState().body_type).toBe('average');
+  expect(router.push).toHaveBeenCalledWith('/onboarding/targets');
+});
+
+test('Back returns to the previous step', () => {
+  const tree = renderScreen(<BodyTypeScreen />);
+  const back = findAll(tree, (p) => p.accessibilityLabel === en.common.goBack && typeof p.onPress === 'function')[0];
+  act(() => (back.props.onPress as () => void)());
+
+  expect(router.back).toHaveBeenCalled();
+  expect(router.push).not.toHaveBeenCalled();
 });
 
 test('picking a body type navigates to the next onboarding route', () => {

@@ -11647,3 +11647,10 @@
 - 2026-11-26 10:47 Treated the repeated loop blocker (target weight required and dead end 7 copy sign off) as Blocked on Isa. Not retried.
 - 2026-11-26 10:47 es and fr text stays deferred under the English only override, so it is not counted as a blocker for this task.
 - 2026-11-26 10:47 Kept Row 2b at PARTIAL until the body-type sweep and the open flaws are closed.
+- 2026-11-26 10:48 Chose the body-type sweep: it is the open step on the same row, with no blocked dependency. The feet check is queued next because it is a one-line fix on the same screen.
+- 2026-11-26 10:48 Kept Row 2b PARTIAL until the sweep is done, then close it BUILT with owner checks.
+- 2026-11-26 10:48 Trimmed the notes below 600 words; finished items and the duplicated Round 3 text were removed, and every open decision and blocker is kept.
+- 2026-11-26 10:48 Chose the body-type sweep: it is first in the notes order and closes Row 2b. The feet box check is next after it.
+- 2026-11-26 10:48 Kept the prompt to 5 numbered steps and named the branch rule first, to fix the rejected prompt.
+- 2026-11-26 10:48 Row 2b stays PARTIAL this round; closing it depends on the sweep finding no open flaw.
+- 2026-11-26 10:48 No new owner checks added; es and fr items stay in the blocked list as before.

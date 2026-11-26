@@ -60,6 +60,8 @@ function BodyCard({
       haptic={false}
       minTapTarget={false}
       accessibilityLabel={label}
+      // The label overrides the card's text, so the description is read as the hint.
+      accessibilityHint={desc}
       accessibilityState={{ selected }}
       style={{
         flexDirection: 'row',
