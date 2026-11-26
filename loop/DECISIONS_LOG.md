@@ -12389,3 +12389,6 @@
 - 2026-11-27 05:41 Kept the English only rule (override 1); the new key goes into ENGLISH_ONLY so the parity test stays green.
 - 2026-11-27 05:41 Round 158 checkpoint was green (tsc 0, Jest 350/350), so the next round can go back to small tasks.
 - 2026-11-27 05:41 Jev ranked run at 88%, so I followed it. Its 1.1 risk score is advisory; a one string change is low risk.
+- 2026-11-27 05:44 Round 160 is a checkpoint: round 159 ran only 7 files after a locale key rename that touched en, es and fr, so a full tsc and full Jest run comes first (override 11).
+- 2026-11-27 05:44 gym.freeze.confirm_one is English only. Spanish and French users with 1 freeze see the English singular. Isa ruled English only, so this is accepted and not parked.
+- 2026-11-27 05:44 Round 159 report had no full Jest run, so it counts as untested flagged work (override 8). The checkpoint covers it.
