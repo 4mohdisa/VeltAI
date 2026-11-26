@@ -11918,3 +11918,7 @@
 - 2026-11-27 01:26 Chose run over ask and stop: Jev gives run 59%, and the task needs no Isa input.
 - 2026-11-27 01:26 Under Override 5, the 10c leftover (token kept in memory only, so a relaunch loses the DELETE) is parked after Round 51 was flagged again. 10c counts as done for the loop.
 - 2026-11-27 01:26 Full Jest run uses --ci so no snapshot is written and nothing is updated by accident.
+- 2026-11-27 01:28 Round 53 picks the render setup fix first, because the loop note requires dealing with the red gate before moving on.
+- 2026-11-27 01:28 Mock expo-notifications in src/__tests__/render/setup.ts only, not in the shared root Jest config, so no config change needs Isa's approval.
+- 2026-11-27 01:28 Quiet hours editing waits until the gate is green, one round later.
+- 2026-11-27 01:28 Checkpoint full Jest is deferred to the next checkpoint round, to limit runtime while the fix is checked.

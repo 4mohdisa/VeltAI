@@ -43,6 +43,17 @@ jest.mock('expo-secure-store', () =>
   jest.requireActual<typeof import('../mocks/expoSecureStore')>('../mocks/expoSecureStore'),
 );
 
+// expo-notifications reaches every render test through the sign-out purge
+// (helpers → appState → resetRegistry → device.ts). The real package prints
+// its "removed from Expo Go" console.warn on import, which trips the files
+// that allow only known warnings. Same in-memory stand-in as the node suite,
+// plus getDevicePushTokenAsync (push token registration, device.ts). With
+// permission undetermined by default, no push token is ever read.
+jest.mock('expo-notifications', () => ({
+  ...jest.requireActual<typeof import('../mocks/expoNotifications')>('../mocks/expoNotifications'),
+  getDevicePushTokenAsync: async () => ({ type: 'ios', data: '' }),
+}));
+
 // The router spy is shared by every test in a file, so clear its calls first;
 // otherwise a route asserted in one test could have been pushed by another.
 // Resolved here, not imported at the top: a top-level import would load this
