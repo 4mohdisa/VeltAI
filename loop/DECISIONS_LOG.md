@@ -12529,3 +12529,8 @@
 - 2026-11-27 07:15 Row 16 gaps found in goals (PUT weight_goal, activity_level, source; onboarding sex, activity, goal, units) are parked, not fixed, under Override 9 and the Round 192 precedent.
 - 2026-11-27 07:15 Jev's ask and stop signals were not followed: the Round 191 rule holds and no Isa blocker stops the loop.
 - 2026-11-27 07:15 Row 16 stays DIFFERENT until step 3 covers AI routes and integrations.
+- 2026-11-27 07:16 Round 195 chose the AI routes in tests/ai because the previous checkpoint named them as the next Row 16 step 3 task.
+- 2026-11-27 07:16 Jev suggested asking or stopping. Not followed: no Isa blocker stops the loop (Round 191 decision).
+- 2026-11-27 07:16 Mocks only for AI providers in this round, consistent with the live call budget rule.
+- 2026-11-27 07:16 Next checkpoint is round 199 (every 5 rounds after 194).
+- 2026-11-27 07:16 Notes compressed to fit the 600 word limit. Parked items, blocked items and decisions are kept in short form.

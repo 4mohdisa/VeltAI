@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -68,39 +69,67 @@ func signedTokens(t *testing.T, h http.Handler) (http.Handler, func(userID strin
 	return auth.Middleware(verifier)(h), sign
 }
 
-func TestPG_InsightDismissRefusesAnotherUsersID(t *testing.T) {
+func aiPool(t *testing.T) *pgxpool.Pool {
+	t.Helper()
 	dsn := os.Getenv("LUME_TEST_DATABASE_URL")
 	if dsn == "" {
 		t.Skip("LUME_TEST_DATABASE_URL not set — skipping real-SQL integration test")
 	}
-	ctx := context.Background()
-	pool, err := pgxpool.New(ctx, dsn)
+	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
 	}
 	t.Cleanup(pool.Close)
-	a := seedOwner(t, pool, fmt.Sprintf("insight_owner_a_%d", os.Getpid()))
-	b := seedOwner(t, pool, fmt.Sprintf("insight_owner_b_%d", os.Getpid()))
+	return pool
+}
 
-	var insightID string
-	if err := pool.QueryRow(ctx, `INSERT INTO ai_insights (user_id, type, title, body)
-		VALUES ($1, 'pattern', 'Late dinners', 'You often eat after 9pm.') RETURNING id::text`, a).
-		Scan(&insightID); err != nil {
-		t.Fatalf("seed insight: %v", err)
-	}
-
+// pgMux mounts the AI routes on the real Postgres store with llm as the only
+// provider, so no test reaches a paid API.
+func pgMux(pool *pgxpool.Pool, llm ai.LLM) *http.ServeMux {
 	mux := http.NewServeMux()
-	ai.NewService(ai.NewPGStore(pool), &fakeLLM{}, testQuota(time.Now)).Routes(mux)
-	h, sign := signedTokens(t, mux)
-	dismiss := func(id, user string) *httptest.ResponseRecorder {
+	ai.NewService(ai.NewPGStore(pool), llm, testQuota(time.Now)).Routes(mux)
+	return mux
+}
+
+// sender wraps h in signedTokens and returns a function that sends one
+// request as the given user, or with no Authorization header when user is "".
+func sender(t *testing.T, h http.Handler) func(method, path, user, body string) *httptest.ResponseRecorder {
+	t.Helper()
+	h, sign := signedTokens(t, h)
+	return func(method, path, user, body string) *httptest.ResponseRecorder {
 		t.Helper()
-		req := httptest.NewRequest(http.MethodPost, "/api/ai/insights/"+id+"/dismiss", nil)
+		req := httptest.NewRequest(method, path, strings.NewReader(body))
 		if user != "" {
 			req.Header.Set("Authorization", "Bearer "+sign(user))
 		}
 		rec := httptest.NewRecorder()
 		h.ServeHTTP(rec, req)
 		return rec
+	}
+}
+
+// seedInsight inserts one active insight for user with SQL; insights have no
+// create route.
+func seedInsight(t *testing.T, pool *pgxpool.Pool, user string) string {
+	t.Helper()
+	var id string
+	if err := pool.QueryRow(context.Background(), `INSERT INTO ai_insights (user_id, type, title, body)
+		VALUES ($1, 'pattern', 'Late dinners', 'You often eat after 9pm.') RETURNING id::text`, user).Scan(&id); err != nil {
+		t.Fatalf("seed insight: %v", err)
+	}
+	return id
+}
+
+func TestPG_InsightDismissRefusesAnotherUsersID(t *testing.T) {
+	pool := aiPool(t)
+	ctx := context.Background()
+	a := seedOwner(t, pool, fmt.Sprintf("insight_owner_a_%d", os.Getpid()))
+	b := seedOwner(t, pool, fmt.Sprintf("insight_owner_b_%d", os.Getpid()))
+	insightID := seedInsight(t, pool, a)
+	send := sender(t, pgMux(pool, &fakeLLM{}))
+	dismiss := func(id, user string) *httptest.ResponseRecorder {
+		t.Helper()
+		return send(http.MethodPost, "/api/ai/insights/"+id+"/dismiss", user, "")
 	}
 	snapshot := func() string {
 		t.Helper()

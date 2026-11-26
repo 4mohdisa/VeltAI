@@ -12,12 +12,12 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 8. Flagged work: run its tests before any new task.
 9. Out of scope changes: check, then keep (with decision) or revert.
 10. Notes under 600 words. Reply JSON only.
-11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Round 194 is a checkpoint.
+11. Checkpoint about every 5 rounds (tsc, full Jest, go vet, no edits). Next: round 199.
 
-## State (Round 194)
+## State (Round 195)
 - BUILT 18 of 39: 1, 2, 2.2, 2b, 2c, 2d, 3-6, 10-15, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b, 7, 8, 9, 14a, 16, 31. DIFFERENT: 17-28, 30.
-- Row 16: steps 1 and 2 done (102 routes). Step 3 done for food, gym, recipes, saved meals, goals, body weight (21 new cases green in Round 193). Next: AI routes in tests/ai (query, consent, insight dismiss), then integrations.
+- Row 16: step 1 done (102 routes). Step 2 done for food, gym, recipes, saved meals, goals, body weight, insights. Step 3 done for food, gym, recipes, saved meals, goals, body weight. Round 195: AI routes in tests/ai. Then integrations.
 - Row 15 owner check pending: coverage scope ruling.
 
 ## Parked (fix only in its row)
@@ -87,7 +87,6 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - 182-186: Row 16 step 1 done; food and gym ownership green.
 - 187-190: recipes, saved meals, body weight, insights ownership safe. Step 2 complete.
 - 189: checkpoint green (tsc 0, Jest 350/350 suites, 2190 tests, go vet clean).
-- 191: Row 16 step 3 started; food and gym validation done and green.
-- 192: recipes and saved meal validation (26 cases, green).
-- 193: goals and body weight validation (21 cases, green).
-- 194: checkpoint round (gates only, no edits).
+- 191-193: Row 16 step 3 for food, gym, recipes, saved meals, goals, body weight (green).
+- 194: checkpoint green (tsc 0, Jest 350/350, 2190 tests, go vet clean, no edits).
+- 195: Row 16 step 3 for AI routes in tests/ai (prompt issued).
