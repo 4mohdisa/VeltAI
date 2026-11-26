@@ -68,3 +68,7 @@ Measured 27 Nov 2026 (Row 15, step 1 of 3) from `backend/` against the local `lu
 ## Round 174
 
 - `internal/integrations`: 39.1% to 88.4% with all tests counted. New in-package tests: `internal/integrations/providers_internal_test.go` (Strava and WHOOP against an httptest fake upstream: token exchange and refresh, activity mapping, partial responses, upstream errors, unreachable provider, timeout) and `internal/integrations/pg_internal_test.go` (TestPG for PGStore connections, OAuth state and imported sessions). The `mapStravaType` table in `internal_test.go` gained the remaining types. Still under 70%: the `callback`, `sync` and `disconnect` storage-error branches. Found the first-page-only sync bug, recorded in KNOWN_ISSUES.md.
+
+## Round 175
+
+- `internal/scan`: 57.3% to 79.3% with all tests counted (412 of 719 statements before). New TestPG file `tests/scan/learning_store_pg_test.go`, which reuses the package's `pgScanStore` and `freshUser` helpers: corrections and the signals they feed (portion, identity, macro, discard), calibration factors, the accuracy summary, session owner, rating and AI consent lookups, the user context block, saved meals, the pipeline session writes and the calibration report. New `internal/scan/decode_internal_test.go`: the request body limits (oversize is 413, bad JSON is 400). Still under 70%: `runScanPipeline` (50.0%), `Register` (66.2%) and `CalibrationReport` (60.0%), mostly failure branches. Found the scanned food log delete bug, recorded in KNOWN_ISSUES.md.

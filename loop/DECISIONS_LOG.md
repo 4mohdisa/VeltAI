@@ -12452,3 +12452,8 @@
 - 2026-11-27 06:12 Recipe meal_type not validated (unknown values go to food_logs): parked under Backend, to fix in the Food or Row 16 pass, not in Row 15 (coverage only).
 - 2026-11-27 06:12 Duplicated testPool and testUser helpers across gym, retention and recipes tests: parked. Shared test helper needs a file outside the row scope; fix later as a cleanup.
 - 2026-11-27 06:12 Recipes Round 173 result accepted: 82.1 percent, 40 tests green, no production code changed.
+- 2026-11-27 06:27 Round 175: scan chosen. It is the next smallest in-scope package under 70 percent. Jev's advisory run view is noted, but the task is small and low risk, so it fits.
+- 2026-11-27 06:27 Integrations sync bug (Strava 50 and WHOOP 25 item limit, last_sync_at moves forward) parked as an owner decision in KNOWN_ISSUES.md and OWNER_CHECKS_phase4.md. Not retried.
+- 2026-11-27 06:27 Integrations expired token with no refresh token, WHOOP missing external user ID, and the shared test helper package are added to Parked. Each is fixed only in its own row.
+- 2026-11-27 06:27 Row 15 stays PARTIAL until every backend package is at 70 percent or has a recorded exception.
+- 2026-11-27 06:27 Integrations report used the wrong package scope (not USDA or barcode). Accepted as the real package. Its tests stay as written.

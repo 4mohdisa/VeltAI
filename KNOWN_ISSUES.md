@@ -43,6 +43,7 @@ Left as is in Phase 3. Each line says where the issue is and why it was left. So
 - The authenticated role is missing in local Postgres 17. Phase 4.
 - Recipe ingredients and saved meal items come back in random order, because they are sorted by a random UUID id (ORDER BY id in backend/internal/recipes/pg.go:126 and :292). Found in Round 173 and not fixed, since fixing it changes behaviour.
 - Integration sync reads only the first page (Strava per_page=50 at backend/internal/integrations/strava.go:127, WHOOP limit=25 at whoop.go:108) and then moves last_sync_at to now (integrations.go:442), so any workouts past that page are never imported. Found in Round 174 and not fixed.
+- A food log that came from a photo scan cannot be deleted: scan_sessions.food_log_id references food_logs with no ON DELETE rule (supabase/migrations/20260712000001_onboarding_cuisine.sql:47), so DELETE FROM food_logs (backend/internal/food/pg.go:145) fails with a foreign key violation. Every pipeline scan links its session up front. Found in Round 175 and not fixed.
 
 ## Docs
 - Row 14's older notes still say 'status stays partial' while the row is BUILT. The notes are history and are not rewritten.
