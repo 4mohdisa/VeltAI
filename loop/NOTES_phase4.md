@@ -15,15 +15,13 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - BUILT: 1, 2, 2.2, 2b, 2c, 2d, 3, 4, 5, 6, 10, 11, 12, 13, 14, 29. Phase 3 rows 6, 13, 14, 15.
 - PARTIAL: 6b (step f blocked); 7 (7c parked); 8 (code done, Maestro not run); 9 (leaving reason parked); 14a (chip unwired).
 - Green checkpoints: Rounds 66, 80, 95 (334 suites, 2,062 tests, tsc 0).
-- Round 102 verified Round 101: 4 suites, 17 tests pass. Flag closed.
+- Round 104 verified Round 103 (10 suites, 41 tests pass). Flag closed.
 
 ## Row 14b (current)
-- Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture (Round 99), quick-add via slotFromParam (Round 100).
-- Round 101: add.tsx keeps its no-meal check (title only). Generic title kept for global '+'.
-- Round 103: no code change. Fix 2 decision: Summary 'Today' always shows today (DESIGN_INTENT Fix 2). Apply with byDate[todayISO()] in useDailyMacros and useFibreConsumed plus tests.
-- Round 104: verify Round 103 (tsc, tests for useDailyMacros and useFibreConsumed). Flagged; must be closed before Fix 2.
-- Next: Fix 2 apply; gym set removal; top-set-only save; recipes unreachable; then list order.
-- Parked: saved.tsx:48 inline slot check (needs a helper that returns 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
+- Done: meal slot on Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, detail-sheet log clears ?slot, photo-capture, quick-add via slotFromParam, add.tsx no-meal check kept.
+- Round 105: Fix 2 applied (Summary Today always shows today: useDailyMacros, useFibreConsumed read byDate[todayISO()]) with tests. Verify in Round 106.
+- Next: gym set removal; top-set-only save; recipes unreachable; then list order.
+- Parked: saved.tsx:48 inline slot check (needs helper returning 'no meal'); label-scan.tsx:42 and food.tsx SLOTS copies; mappers.ts duplicate.
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
 - Owner decision logged: Terms describe a free tier that does not exist.
@@ -56,7 +54,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
 ## Protected (do not edit)
-- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, src/__tests__/foodDays.test.ts, src/__tests__/foodDetail.test.ts.
+- src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts.
 - foodDetail.test.ts pins router.replace('/food/barcode-scan'); add branches instead.
 
 ## Decisions (never delete)
@@ -80,8 +78,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Meal reaches the detail sheet through the subject store, never a route param.
 - Clearing the Food tab search drops ?slot. A log from the detail sheet also drops ?slot.
 - Throttle module never reads the clock; callers pass now. Launch counter uses a module-level flag.
-- Round 100: quick-add done. Round 101: add screen check kept as is.
-- Round 104: Fix 2 direction is Summary Today always shows today (no question to Isa).
+- Round 104: Summary Today always shows today (no question to Isa). Round 105: applied.
 - Jev: advisory only. Risk noted each round; prefer the smallest task.
 
 ## Gotchas
@@ -97,9 +94,6 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Round log (condensed)
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written.
-- 87-97: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label.
-- 98-100: photo-capture slot; quick-add uses slotFromParam.
-- 101: add.tsx check reviewed, no change.
-- 102: verified Round 101 (17 tests pass).
-- 103: no code change; flagged as untested. Fix 2 direction decided.
-- 104: verify Round 103 (this round).
+- 87-101: meal slot added to Search, barcode scanner, barcode detail, Scan again, label scan, Photograph label, photo-capture, quick-add.
+- 102: verified Round 101. 103: no code change, flagged. 104: verified Round 103 (41 tests pass).
+- 105: Fix 2 applied with tests (this round).

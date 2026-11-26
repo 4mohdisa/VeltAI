@@ -12148,3 +12148,6 @@
 - 2026-11-27 03:24 Fix 2 direction: Summary Today always shows today, as written in DESIGN_INTENT.md Fix 2 and recommended in the Round 103 report. Isa is not asked. Applied in the round after verification, with tests.
 - 2026-11-27 03:24 Round 103 changed no code, so the verification run is test only and needs no fix in this round.
 - 2026-11-27 03:24 Jev risk 1.8 and ask 75% noted. Kept the smallest task (verify only) because the last task is flagged and we never ask Isa.
+- 2026-11-27 03:25 Round 105: Fix 2 applied as Summary Today always shows today. Decided in Round 104; the Round 104 report asked Isa, but the rule is no questions, so the decision stands.
+- 2026-11-27 03:25 Round 104 closed: the 10 suites and 41 tests that cover useDailyMacros and useFibreConsumed pass. Flag cleared.
+- 2026-11-27 03:25 Jev signals advisory only. Chose the smallest task (Fix 2, two hooks plus tests) because Jev rates the risk of continuing as high and the last task as only 25% clean. Ask (54%) is not used: no questions to Isa.

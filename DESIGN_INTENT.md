@@ -119,6 +119,7 @@ Columns: **Why open** (the job), **In context** (how it is used), **Next** (what
    - Done (Round 99): the meal photo scan reads `?slot` through `slotFromParam` and passes it to `startMultiPhotoScan` and `startPhotoScan`, which default to `slotForNow()` for other callers. Test: `src/__tests__/photoCaptureSlot.render.test.tsx`.
    - Done (Round 100): quick-add uses slotFromParam in place of its inline slot check. Test: `src/__tests__/render/quickAdd.render.test.tsx`.
 2. **Summary "Today" shows today.** The Summary macros card and Nutrition read the Food tab's selected day (`hooks.ts:320-321`). After the user looks at yesterday, Summary is wrong.
+   - Done (Round 105): Summary and Nutrition "Today" always read today's rows (`byDate[todayISO()]` in `useDailyMacros` and `useFibreConsumed`), whatever day the Food tab shows. Test: `src/__tests__/render/summaryToday.render.test.tsx`.
 3. **Remove a set in a session.** "Log" prefills the planned sets (3 if none) and only "Add set" exists (`session.tsx:101,256,534-538`). Logging 1 of 3 sets is impossible.
 4. **Prefill session sets from the last session**, not the plan (`session.tsx:100-105`). This is the most useful default at the gym.
 5. **Resubscribe from Profile works after sign-out.** Winback opens the onboarding paywall, whose purchase runs `completeOnboarding` against a store that sign-out resets (`paywall.tsx:157-160`, `resetRegistry.ts:52`). Inferred from code: test this first.

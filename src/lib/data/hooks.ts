@@ -17,6 +17,7 @@ import {
   savedFoodFromApi,
   sessionsFromApi,
   streakFromApi,
+  todayISO,
 } from './mappers';
 import { addDays, isoDate } from './foodDays';
 import { hasPendingCreate } from './mutations';
@@ -317,8 +318,11 @@ export function useFoodSearch(query: string): FoodSearchState {
 
 export type MacroTotals = Record<MacroKey, { consumed: number; target: number }>;
 
+/** Today's rows, whatever day the Food tab is showing: Summary and Nutrition say "Today". */
+const useTodayMeals = () => useFoodStore((s) => s.byDate[todayISO()] ?? NO_MEALS);
+
 export function useDailyMacros(): MacroTotals {
-  const meals = useFoodStore((s) => s.meals);
+  const meals = useTodayMeals();
   const goals = useEffectiveGoals();
   return useMemo(() => {
     const c = meals.reduce(
@@ -347,7 +351,7 @@ export function useDailyMacros(): MacroTotals {
 /** Today's fibre, or null when nothing logged today carries a fibre figure.
  *  Summary shows "Not tracked" for the null case instead of a bare 0 g. */
 export function useFibreConsumed(): number | null {
-  const meals = useFoodStore((s) => s.meals);
+  const meals = useTodayMeals();
   return useMemo(() => {
     const { consumed, known } = fibreTotal(meals);
     return known ? consumed : null;
