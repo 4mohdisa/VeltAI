@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/primitives/Icon';
@@ -18,7 +18,7 @@ import { Text } from '@/components/primitives/Text';
 import { color, radius, space } from '@/lib/design/tokens';
 import { haptics } from '@/lib/haptics';
 import { isDevBuild } from '@/lib/env';
-import { lookupBarcodeResult, type BarcodeLookup } from '@/lib/data';
+import { lookupBarcodeResult, slotFromParam, type BarcodeLookup } from '@/lib/data';
 import { openFoodDetail } from '@/lib/food/detailSubject';
 
 // A barcode in our mock database (resolves) vs one that isn't (not-found path).
@@ -27,6 +27,8 @@ const UNKNOWN_CODE = '0000000000000';
 
 export default function BarcodeScanScreen() {
   const { t } = useTranslation();
+  // From a meal's "Add to dinner" the Add sheet passes ?slot; the detail sheet gets it with the code.
+  const { slot } = useLocalSearchParams<{ slot?: string }>();
   const [permission, requestPermission] = useCameraPermissions();
   const [miss, setMiss] = useState<Exclude<BarcodeLookup['status'], 'found'> | null>(null);
   const [lookingUp, setLookingUp] = useState(false);
@@ -44,9 +46,9 @@ export default function BarcodeScanScreen() {
     const result = await lookupBarcodeResult(code);
     setLookingUp(false);
     if (result.status === 'found') {
-      // The shared food-detail sheet does its own lookup; the code travels in
-      // the subject store, never as a route param.
-      openFoodDetail({ mode: 'barcode', code });
+      // The shared food-detail sheet does its own lookup; the code and the meal
+      // travel in the subject store, never as a route param.
+      openFoodDetail({ mode: 'barcode', code, slot: slotFromParam(slot) });
       router.replace('/food/detail');
     } else {
       setMiss(result.status);

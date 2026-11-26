@@ -12075,3 +12075,11 @@
 - 2026-11-27 02:57 Kept Fix 1 first in the order, since it is the most visible user loss.
 - 2026-11-27 02:57 Agreed with the strong run signal. Chose the smallest task (one screen, five steps) given the low clean finish signal.
 - 2026-11-27 02:57 Fix 24 and 25 stay pending Isa; not removed.
+- 2026-11-27 03:00 Chose the Barcode path (Fix 1) because the last report named it as the next step and Jev ranks it first.
+- 2026-11-27 03:00 Kept one screen per round and five steps, per Isa's override 4.
+- 2026-11-27 03:00 Left the slot-clearing follow-up and the repeated slot checks for later rounds to keep this prompt to one screen.
+- 2026-11-27 03:00 Simulator stays out of this round (override 6). Fix 1 is covered by render tests.
+- 2026-11-27 03:00 Rejected round 89 prompt (two screens) is retried as a one-screen step: barcode-scan.tsx first, detail.tsx next round. Reason: the loop rule of one screen per prompt.
+- 2026-11-27 03:00 Reuse slotFromParam from scan.ts rather than the inline check in quick-add, add and saved. Reason: no duplicated logic; those three are left for a later round.
+- 2026-11-27 03:00 Candidate 2 (detail.tsx) is the next round, because the detail sheet only needs the slot once barcode-scan.tsx sends it. Jev ranked the barcode path first, so the choice stands.
+- 2026-11-27 03:00 Caller check (Food tab) is recorded in NEXT, not edited. Reason: one screen per prompt.

@@ -43,7 +43,7 @@ export type DetailSubject =
       /** The meal it was searched for; the meal for now when absent. */
       slot?: MealSlot;
     }
-  | { mode: 'barcode'; code: string }
+  | { mode: 'barcode'; code: string; slot?: MealSlot }
   | { mode: 'saved'; item: DetailItem }
   | { mode: 'logged'; item: DetailItem; slot?: MealSlot }
   | { mode: 'review'; item: DetailItem };

@@ -15,6 +15,7 @@
 import FoodDetailScreen from '@/app/food/detail';
 import BarcodeScanScreen from '@/app/food/barcode-scan';
 import { openFoodDetail, useDetailSubject } from '@/lib/food/detailSubject';
+import { slotForNow } from '@/lib/data';
 import { router } from 'expo-router';
 import en from '@/lib/i18n/locales/en.json';
 import { act, allText, buttonWithTitle, renderScreen } from './helpers';
@@ -75,7 +76,8 @@ test('a known barcode calls the lookup with that code and opens the product on t
   });
 
   expect(mockLookup).toHaveBeenCalledWith('9300605000000');
-  expect(useDetailSubject.getState().subject).toEqual({ mode: 'barcode', code: '9300605000000' });
+  // No ?slot here, so the meal is the one for the time of day.
+  expect(useDetailSubject.getState().subject).toEqual({ mode: 'barcode', code: '9300605000000', slot: slotForNow() });
   expect(router.replace).toHaveBeenCalledWith('/food/detail');
 
   // The sheet the scan hands off to renders the real product off that same code.

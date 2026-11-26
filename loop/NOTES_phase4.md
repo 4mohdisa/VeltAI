@@ -17,7 +17,8 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 
 ## Row 14b (current)
 - DESIGN_INTENT.md done: nav map, four answers per screen, key numbers, Fix list (28 SMALL, 6 POST LAUNCH).
-- Fix order: 1 meal slot (Search, then Barcode, Scan, label scan; one screen per round); Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
+- Fix order: 1 meal slot (Search DONE Round 88; Barcode in progress: barcode-scan.tsx Round 89 retry, then detail.tsx barcode mode; then Scan, label scan); Summary 'Today' after browsing; gym set removal; top-set-only save; recipes unreachable; then list order.
+- Open: detail sheet log does not clear ?slot; quick-add, add, saved repeat the slot check inline (switch to slotFromParam when touched); food.tsx keeps its own SLOTS list (mappers.ts has one too).
 - Pending Isa rulings: Fix 24 (training-days step), Fix 25 (duplicate Profile rows). Do not remove until ruled.
 - Owner decision logged: Terms free-tier contradiction.
 - Follow-ups: delete-account.tsx:101 white on white (device check); index.tsx:101-106 failed backend call sends signed-in user to onboarding.
@@ -49,7 +50,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Schedules: leaving screen not in full non-silent run; meal median across midnight; quiet hours stepper does not wrap; expired session clears reminders until foreground.
 - RevenueCat events ignored: SUBSCRIPTION_PAUSED, SUBSCRIPTION_EXTENDED, NON_RENEWING_PURCHASE, TEMPORARY_ENTITLEMENT_GRANT.
 - Backend: 49 queries use id::text = $1; schedule_pg.go oldest then LIMIT 30; swallowed errors in getMorningBrief, getProfile, getAnomalies, dismissAnomaly.
-- Code: hardcoded strings (body emoji, A$, 'Your data', server limit message, Stepper labels); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; appleHealth.ts write types; reanimated mock lacks useReducedMotion.
+- Code: hardcoded strings (body emoji, A$, 'Your data', server limit message); about 68 console errors need scoped spies; two useApi copies; mutations.ts and hooks.ts import cycle; appleHealth.ts write types; reanimated mock lacks useReducedMotion.
 - Tests missing: useEnergyBalance refetch; BottomSheet lifecycle; ScanReviewCard refetch; AI sweep skipping no-consent users.
 - Config: root config and backend JS unlinted; verify:go lacks -count=1.
 
@@ -71,6 +72,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 - Legal: copy in en.json (legal.privacy, legal.terms; paywall terms at onboarding.paywall.terms); UPDATED date literal stays (manifest pins it). Crash data not linked to user.
 - Analytics off by default. Stepper labels: common.decrease and common.increase.
 - Allowed edits: delete lookupBarcodeAsync and its test line; edit foodDays.test.ts; rename gym.monthSessions and gym.monthFreezes; ROUTE_COVERAGE.md in verify; localeParity ENGLISH_ONLY list.
+- Round 89 prompt rejected (two screens). Retried as one screen: barcode-scan.tsx this round, detail.tsx barcode mode next. Jev ranked barcode first.
 
 ## Gotchas
 - Full Jest paths, --ci, redirect output, never jest -u.
@@ -82,4 +84,5 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask. Park owner steps. Branc
 ## Round log
 - 60-80: rows 10, 11, 12a, 13, 14 closed; checkpoints green.
 - 81-86: 14a built to step 4, then parked; 14b docs written (Round 86 had no tsc, flagged).
-- 87: prompt rejected (four screens). 88: Fix 1, Search screen only.
+- 87: prompt rejected (four screens). 88: Fix 1, Search screen only (done, tsc 0, 6 suites pass).
+- 89: prompt rejected (two screens). 90 (this round): Fix 1 Barcode, barcode-scan.tsx only, with render test.
