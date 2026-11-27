@@ -13208,3 +13208,8 @@
 - 2026-11-28 01:13 Round 393: chose the checkpoint because the loop note requires it this round; it is read only and does not depend on Claude Code auth succeeding later.
 - 2026-11-28 01:13 Round 393: Jev ask signal (52%) not followed; the brief forbids asking Isa, and auth expiry is environmental, so the prompt is resent unchanged.
 - 2026-11-28 01:13 Round 393: NOTES trimmed to fit the 600 word limit. Decisions, Protected and Blocked on Isa kept in full; round log condensed; no decision removed.
+- 2026-11-28 01:13 Kept the run action: auth failures are environmental and resend; no Isa blocker stops the loop.
+- 2026-11-28 01:13 Jev ask signal (55%) not followed: ask is not an allowed action.
+- 2026-11-28 01:13 Jev risk 1.8 noted; kept the bounded local task (18b step 3) and no new scope.
+- 2026-11-28 01:13 Round 394 is not a checkpoint; the checkpoint from round 393 remains unrecorded until auth returns.
+- 2026-11-28 01:13 Security headers exclude HSTS because the backend runs over local HTTP.
