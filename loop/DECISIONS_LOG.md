@@ -12677,3 +12677,6 @@
 - 2026-11-28 00:11 Jev suggested ask at 20%; not followed, since no question is allowed and no Isa blocker stops the loop.
 - 2026-11-28 00:11 Kept 18b step 3 as the next task because it was already the stated next step and is small (headers only, no limiter).
 - 2026-11-28 00:11 Compressed notes to stay near the 600 word limit; no items were dropped, only merged.
+- 2026-11-28 00:12 Round 236: Claude Code auth still failing; resend 18b step 3 per standing rule, do not park, do not ask.
+- 2026-11-28 00:12 Kept 18b step 3 (headers only) as the next task because it is the open step in the current sub row and needs no shared guard or approval.
+- 2026-11-28 00:12 Jev ask signal not followed: Isa is away and the loop never asks.
