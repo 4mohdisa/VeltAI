@@ -13184,3 +13184,7 @@
 - 2026-11-28 01:10 Round 385: Kept candidate 1 over the row 22 parity test because the 18b step is already prepared and the auth failure is still the only blocker; the other two stay as the next choices once auth returns.
 - 2026-11-28 01:10 Round 386: Claude Code auth still expired (report 385). Resent 18b step 3 unchanged, per the auth-is-environmental rule.
 - 2026-11-28 01:10 Round 386: Jev ask (47%) and risk 1.7 noted. Kept the bounded local backend task, as in rounds 382-385.
+- 2026-11-28 01:11 Round 387: Claude Code auth still expired (since round 210). Resent 18b step 3 unchanged, per the environmental rule: never park, never ask, never stop for auth.
+- 2026-11-28 01:11 Jev ask signal (50%) not followed: the blocker is environmental and only Isa can renew auth; resending keeps the bounded local backend task moving when auth returns.
+- 2026-11-28 01:11 Jev risk (1.7) noted; the task is local, reversible and backend only, so risk stays bounded.
+- 2026-11-28 01:11 Notes condensed to fit the 600 word limit. No rows, decisions or blocked items removed; duplicate round log entries merged.
