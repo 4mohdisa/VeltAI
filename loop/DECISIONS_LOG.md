@@ -13084,3 +13084,6 @@
 - 2026-11-28 00:58 Round 355: Claude Code auth still down; resent 18b step 3 unchanged (auth failures are environmental, never park).
 - 2026-11-28 00:58 Jev ask and stop signals not followed, per the standing decision; no Isa blocker stops the loop.
 - 2026-11-28 00:58 Notes condensed to under 600 words; no items removed, parked and blocked lists kept verbatim in short form.
+- 2026-11-28 00:59 356: Auth failure is environmental; resent 18b step 3 and did not park or stop.
+- 2026-11-28 00:59 356: Jev ask signal (35%) not followed; the only owner step is already in OWNER_CHECKS_phase4.md, so no question is needed.
+- 2026-11-28 00:59 356: Kept the existing step order; prompt limited to 5 steps and the protected file list.
