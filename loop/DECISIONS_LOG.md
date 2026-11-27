@@ -12916,3 +12916,6 @@
 - 2026-11-28 00:38 Round 305: Claude Code auth failure again (environmental). Resent 18b step 3 as a 5 step prompt, per the auth rule.
 - 2026-11-28 00:38 Jev ask signal (18%) not followed. No Isa blocker stops the loop, so the action stays run.
 - 2026-11-28 00:38 Notes condensed to fit the 600 word limit. No parked or blocked item was dropped.
+- 2026-11-28 00:39 Round 306: Claude Code auth failure is environmental; resent 18b step 3 as the loop rule says (no park, no ask, no stop).
+- 2026-11-28 00:39 Jev ask and stop signals not followed; step 3 is a small, already planned task with a clear file location.
+- 2026-11-28 00:39 Prompt names no exact file paths because the handover did not list them; Claude Code is told to locate the existing middleware chain and not create a new package.
