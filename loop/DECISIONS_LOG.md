@@ -13268,3 +13268,7 @@
 - 2026-11-28 01:18 Claude Code auth failure is environmental: resend, do not park, do not ask, do not stop.
 - 2026-11-28 01:18 Jev ask (60%) and stop (12%) signals not followed: the brief forbids ask, and no Isa blocker stops the loop. Confidence 0.40 is low, so the small no-change task is kept.
 - 2026-11-28 01:18 Notes trimmed for length: finished round log entries merged, parked and blocked items kept in full.
+- 2026-11-28 01:19 Claude Code auth failure is environmental: resent the self-contained Row 18b step 3 prompt, did not park, did not ask, did not stop (Jev ask signal not followed, per standing decision).
+- 2026-11-28 01:19 Kept the step small (one middleware chain, one test file) because the loop has failed on this step several times and Jev rates the last task as unlikely to have completed cleanly.
+- 2026-11-28 01:19 No HSTS, because the backend runs on local HTTP (standing decision).
+- 2026-11-28 01:19 Checkpoint results from rounds 379, 393 and 408 stay unrecorded until auth returns; not blocking.
