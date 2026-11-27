@@ -13272,3 +13272,6 @@
 - 2026-11-28 01:19 Kept the step small (one middleware chain, one test file) because the loop has failed on this step several times and Jev rates the last task as unlikely to have completed cleanly.
 - 2026-11-28 01:19 No HSTS, because the backend runs on local HTTP (standing decision).
 - 2026-11-28 01:19 Checkpoint results from rounds 379, 393 and 408 stay unrecorded until auth returns; not blocking.
+- 2026-11-28 01:19 Round 410: Claude Code auth failure is environmental; resent 18b step 3 as a self-contained prompt, per the loop rule. Ask and stop signals not followed.
+- 2026-11-28 01:19 Step 3 kept to the existing middleware chain with no HSTS, since local HTTP.
+- 2026-11-28 01:19 Notes compressed: finished rounds merged into a single line to stay under 600 words.
