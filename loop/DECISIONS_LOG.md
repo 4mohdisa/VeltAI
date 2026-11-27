@@ -13422,3 +13422,6 @@
 - 2026-11-28 08:14 Round 452: stop kept because Claude Code auth is still expired. A run prompt would fail the same way, so no new probe is sent.
 - 2026-11-28 08:14 Restart checklist unchanged: record checkpoints 379, 393, 408, 423 and 438 (type check and full app Jest, no changes) before continuing.
 - 2026-11-28 08:14 Notes compressed to fit the 600 word limit. No parked or blocked item was dropped.
+- 2026-11-28 08:50 Round 453: stop kept, since every probe since round 444 failed on auth, not on code. Jev stop signal (75%) followed.
+- 2026-11-28 08:50 No prompt sent to Claude Code, because it cannot authenticate and would only add another failed round to the log.
+- 2026-11-28 08:50 Restart checkpoints (379, 393, 408, 423, 438) recorded as pending, to run on the first round after auth is restored.
