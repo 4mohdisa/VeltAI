@@ -12969,3 +12969,7 @@
 - 2026-11-28 00:45 Prompt does not name the middleware file because the handover reset file knowledge and the exact file was not confirmed; the step tells Claude Code to locate the one existing chain with grep and read it first, with a revert rule if it needs a new shared package.
 - 2026-11-28 00:45 Headers exclude HSTS because the backend runs on local HTTP (existing decision).
 - 2026-11-28 00:45 Auth failures are environmental: this round is resent in substance, not parked. Isa still needs to run claude auth login or set CLAUDE_CODE_OAUTH_TOKEN (see OWNER_CHECKS_phase4.md).
+- 2026-11-28 00:45 Round 322: resent step 3 because Claude Code auth is still expired; environmental, never parked, never asked.
+- 2026-11-28 00:45 Ignored Jev ask signal (37%) because asking Isa is not allowed; kept the run choice (57%) and the earlier step 3 pick.
+- 2026-11-28 00:45 Checkpoint 320 stays deferred until auth returns; it is still the next full gate after step 3.
+- 2026-11-28 00:45 Notes trimmed to under 600 words; decisions and blocked items kept in full meaning, round log compressed.
