@@ -13132,3 +13132,7 @@
 - 2026-11-28 01:04 Round 370: Claude Code auth still expired; resent 18b step 3 as the loop rule says (environmental, never park).
 - 2026-11-28 01:04 Jev suggested ask or stop at 42% combined; not followed, because the loop has no Isa blocker stop and the auth issue is environmental.
 - 2026-11-28 01:04 Kept the step 3 scope exactly as in the notes: headers only in the existing chain, no HSTS, no new shared guard.
+- 2026-11-28 01:05 Claude Code auth failure is environmental: resend 18b step 3, do not park or stop (per standing decision).
+- 2026-11-28 01:05 Jev ask and stop signals not followed; no Isa blocker stops the loop.
+- 2026-11-28 01:05 Kept Row 18b step 3 as the single task because the auth failure is not a task failure and the step is small.
+- 2026-11-28 01:05 Checkpoint still deferred until auth returns.
