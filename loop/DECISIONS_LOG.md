@@ -12856,3 +12856,7 @@
 - 2026-11-28 00:32 Claude Code auth failure is environmental: resent the checkpoint prompt, did not park, per the notes rule.
 - 2026-11-28 00:32 Jev ask signal (19%) and risk score not followed: auth failure is not an Isa blocker and the loop never asks or stops for it.
 - 2026-11-28 00:32 Prompt asks Claude Code to stop without fixing if auth fails again, so no partial edits land during a broken session.
+- 2026-11-28 00:32 Round 289: last report is a Claude Code auth failure (environmental). Per rule, resend the checkpoint, do not park.
+- 2026-11-28 00:32 Checkpoint first because the round 288 result is still unrecorded and the notes ask for it before 18b step 3.
+- 2026-11-28 00:32 Jev suggested ask at 23 percent and was not followed: no-question rule applies. Stop at 2 percent was not followed: no Isa blocker stops the loop.
+- 2026-11-28 00:32 Claude Code auth needs Isa (claude auth login or setup-token, see OWNER_CHECKS_phase4.md). The loop cannot fix it; it keeps resending.
