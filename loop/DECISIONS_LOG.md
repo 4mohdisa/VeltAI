@@ -12725,3 +12725,7 @@
 - 2026-11-28 00:17 Jev suggested ask 25%. Not followed: notes say Jev ask and stop signals are not followed and no Isa blocker stops the loop. Chose run because it is the only action that moves the loop.
 - 2026-11-28 00:17 Kept candidate 1 as the pick: step 3 is partly built and is the documented next task. Smaller than 18c.
 - 2026-11-28 00:17 Prompt limits work to backend Go packages, forbids protected files and forbids app edits this step, so the Claude Code run stays small if auth recovers.
+- 2026-11-28 00:17 Claude Code report is the known auth failure: environmental, so resend the 18b step 3 task instead of parking or asking.
+- 2026-11-28 00:17 Jev ask signal (27%) not followed: loop rule says no Isa blocker stops or asks; the auth failure is an environment issue listed in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:17 Kept the task at backend only and at most 5 steps, as the round 250 note set, to lower the chance of another cut off run.
+- 2026-11-28 00:17 Chose candidate 1 because it is the open in progress row that the notes name as next.
