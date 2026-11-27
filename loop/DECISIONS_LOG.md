@@ -12784,3 +12784,7 @@
 - 2026-11-28 00:23 Resent the checkpoint because the Claude Code login failure is environmental: never park, never ask, never stop.
 - 2026-11-28 00:23 Jev suggested ask at 32%. Not followed: Isa chose park and carry on, and the loop has no ask action.
 - 2026-11-28 00:23 Kept the checkpoint as a small, read-only round first, because the last checkpoint result is still unknown and auth may still fail.
+- 2026-11-28 00:24 Round 267: Claude Code login still expired, so the checkpoint is resent unchanged. Environmental, not parked, not asked. Isa's login step is already in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:24 Jev ask signal (25%) not followed: the notes rule is never ask, and the blocker is a login Isa must run himself.
+- 2026-11-28 00:24 Jev stop signal (2%) not followed: no danger, no hosted service touched, no destructive step.
+- 2026-11-28 00:24 Checkpoint first, before 18b step 3, as the notes say.
