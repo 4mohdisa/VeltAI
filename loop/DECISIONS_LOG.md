@@ -12827,3 +12827,6 @@
 - 2026-11-28 00:28 Kept the pending checkpoint record and 18b step 3 as one prompt because both were unexecuted in round 278.
 - 2026-11-28 00:28 Jev asks for a question at 21 percent; not followed, since Isa is away and the loop has no question path.
 - 2026-11-28 00:28 Compressed the notes below 600 words by merging repeated parked and blocked items; no item was dropped.
+- 2026-11-28 00:29 Round 280: Claude Code auth still failing per latest report; resent the pending checkpoint record and 18b step 3 instead of parking, per the environmental rule.
+- 2026-11-28 00:29 Kept Jev ask signal (32%) unfollowed: the brief forbids ask and no Isa blocker stops the loop; Jev risk confidence is 0.00 so it is not used.
+- 2026-11-28 00:29 Kept the run choice: Jev also rates run highest (66%).
