@@ -12697,3 +12697,6 @@
 - 2026-11-28 00:14 Claude Code login expired (environmental). Resent 18b step 3 unchanged; not parked, no ask, no stop, per the rule.
 - 2026-11-28 00:14 Jev ranks 18c-style work as likely unclean because of the auth failure, not the task. Kept the choice: the last task never ran, so its signal does not apply. Smallest next step kept.
 - 2026-11-28 00:14 Stayed on backend headers only. No shared limiter or guard added without approval.
+- 2026-11-28 00:14 Round 243: resent 18b step 3 with the same scoped prompt; Claude Code login failure is environmental, so resend, do not park.
+- 2026-11-28 00:14 Chose 18b step 3 over 18c because the notes name it as the next step and it is small and testable.
+- 2026-11-28 00:14 Added a tsc check first in the prompt per the branch and gate override.
