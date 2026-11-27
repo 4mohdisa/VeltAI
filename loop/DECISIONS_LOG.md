@@ -12898,3 +12898,6 @@
 - 2026-11-28 00:37 Claude Code login expired again: environmental, so resend step 3 rather than park it (Isa runs claude auth login per OWNER_CHECKS_phase4.md).
 - 2026-11-28 00:37 Jev suggested ask 18%: not followed, per the Jev rule in the notes (no Isa blocker stops or asks in the loop).
 - 2026-11-28 00:37 Checkpoint 288/292 moved to next round to keep this prompt within 5 steps.
+- 2026-11-28 00:37 Round 301: Claude Code auth still expired (latest report). Environmental, so step 3 is resent unchanged, per the rule that auth failures are resent and never parked.
+- 2026-11-28 00:37 Round 301 checkpoint (288, 292) moved to round 302 so the auth fix can land first.
+- 2026-11-28 00:37 Chose 18b step 3 over the candidates because it is the open step in the in-flight security row and is the smallest change that can finish cleanly.
