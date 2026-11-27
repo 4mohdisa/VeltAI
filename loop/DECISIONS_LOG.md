@@ -13031,3 +13031,6 @@
 - 2026-11-28 00:52 Claude Code auth failure is environmental: resent 18b step 3 unchanged, not parked and not a stop (rule in notes).
 - 2026-11-28 00:52 Jev ask signal (28%) and high risk score not followed: no Isa blocker stops the loop and the step is backend only with a clear scope.
 - 2026-11-28 00:52 Kept step 3 scope to the existing middleware chain and omitted HSTS, as already decided.
+- 2026-11-28 00:52 340: Claude Code auth still expired; failure is environmental, so 18b step 3 is resent unchanged (never parked, never asked).
+- 2026-11-28 00:52 340: Jev ask/stop signals not followed; no Isa blocker stops the loop; prompt kept small (one step group) because auth has failed for 130 rounds.
+- 2026-11-28 00:52 340: Checkpoint (type check and full app Jest) stays deferred until auth returns.
