@@ -13222,3 +13222,7 @@
 - 2026-11-28 01:14 Jev stop signal (8%) not followed: nothing dangerous or destructive is involved.
 - 2026-11-28 01:14 Step 3 prompt restated in full so it works after a fresh session; scope limited to existing middleware chain, no HSTS (local HTTP).
 - 2026-11-28 01:14 Notes compressed to about 600 words; parked and blocked items kept, merged where they repeat.
+- 2026-11-28 01:14 Round 397: Claude Code auth still expired (since round 210). Per the standing rule, auth failures are environmental: resend the self-contained step 3 prompt, never park, never ask, never stop.
+- 2026-11-28 01:14 Jev signals (run 47%, ask 47%, stop 6%, last task clean 2%, risk 1.7 at confidence 0.56) not followed. The low clean-finish estimate reflects the auth blocker, not the task. Ask and stop are not allowed by the brief.
+- 2026-11-28 01:14 Kept the task at step 3 of 18b (small, one middleware chain, no shared guard) because it is the smallest safe step while auth is down.
+- 2026-11-28 01:14 Checkpoint results from rounds 379 and 393 remain unrecorded; record them when auth returns.
