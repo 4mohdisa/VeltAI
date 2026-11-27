@@ -12984,3 +12984,6 @@
 - 2026-11-28 00:46 Jev ask (27%) and stop (4%) signals not followed: no Isa blocker stops the loop, and the stop rule does not apply to auth failures.
 - 2026-11-28 00:46 Checkpoint 320 stays deferred until auth returns, because it needs Claude Code to run.
 - 2026-11-28 00:46 Step 3 is the smallest next change and it is still the top unfinished 18b item, so it goes first.
+- 2026-11-28 00:47 Round 326: Claude Code auth still expired (environmental, per notes). Resent 18b step 3 unchanged, no park, no ask, no stop.
+- 2026-11-28 00:47 Jev ask (36%) and stop (6%) signals not followed: no Isa blocker stops the loop and no dangerous action is pending.
+- 2026-11-28 00:47 Checkpoint still deferred until auth returns; run it right after the first successful report.
