@@ -12778,3 +12778,6 @@
 - 2026-11-28 00:23 Chose the checkpoint again because the last report was an auth failure and the checkpoint result is still missing; a clean result is needed before new code.
 - 2026-11-28 00:23 Jev suggested ask at 23 percent. Not followed: the brief forbids asking Isa. Auth failures are environmental, so the prompt is resent, not parked.
 - 2026-11-28 00:23 Jev risk score 1.5 is noted. No Isa blocker stops the loop, and no file outside the checkpoint log is touched this round.
+- 2026-11-28 00:23 Resent the round 264 checkpoint as round 265 because the Claude Code login failure is environmental (notes rule), not a park.
+- 2026-11-28 00:23 Kept the checkpoint ahead of 18b step 3 so the gate state is recorded before more backend changes.
+- 2026-11-28 00:23 Jev asked for ask (16%). Not followed: Isa has said no questions, and the auth failure has no owner question attached beyond the login command already in OWNER_CHECKS_phase4.md.
