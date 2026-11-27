@@ -12846,3 +12846,6 @@
 - 2026-11-28 00:31 Chose candidate 1 (checkpoint record) first because it is the older pending step and it is a cheap gate check before new code.
 - 2026-11-28 00:31 Kept the 18b headers test to headers the code already sets; missing headers go to KNOWN_ISSUES.md because a shared header guard is blocked on Isa.
 - 2026-11-28 00:31 Jev suggested ask at 16 percent. Not followed: notes say no Isa blocker stops or asks the loop, and the Claude Code failure is not a question for Isa.
+- 2026-11-28 00:31 Claude Code auth failure treated as environmental: resend the same step, do not park, do not ask (Jev ask signal not followed).
+- 2026-11-28 00:31 Checkpoint and 18b step 3 kept together because 18b step 3 is small and the checkpoint is the pending result.
+- 2026-11-28 00:31 Security headers: add only in the existing middleware chain if missing; no new shared guard package (blocked on Isa approval list).
