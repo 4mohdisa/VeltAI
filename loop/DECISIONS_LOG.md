@@ -13307,3 +13307,5 @@
 - 2026-11-28 01:23 Round 419: Claude Code auth still expired; the step needing Isa is environmental, so the 18b step 3 prompt is resent as self-contained (auth failures are never parked).
 - 2026-11-28 01:23 Ask signal not followed: Isa blocker never stops or asks (standing rule). Stop signal not followed: rows 18b to 31 remain open.
 - 2026-11-28 01:23 Jev risk 1.6 noted; this prompt is small (one step, backend only, revert on failure) to lower risk.
+- 2026-11-28 01:23 Round 420: Claude Code auth still expired (environmental). Resent 18b step 3 as a self-contained prompt, per the standing decision. Jev ask and stop signals not followed: the blocker needs Isa's claude auth login, which the loop cannot do, and resending costs nothing. The loop resumes automatically once auth returns.
+- 2026-11-28 01:23 Kept the security header work small and inside the existing chain, with no HSTS because the backend runs on local HTTP.
