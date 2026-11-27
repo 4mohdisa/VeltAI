@@ -13126,3 +13126,6 @@
 - 2026-11-28 01:03 Round 368: Claude Code auth still expired; resent 18b step 3 unchanged, as the auth rule says (environmental, never park, never ask, never stop).
 - 2026-11-28 01:03 Jev suggested ask 34% and stop 7%; not followed. Ask and stop signals are excluded by the brief, and no Isa blocker stops the loop.
 - 2026-11-28 01:03 Kept the 18b step 3 scope as already decided: headers only, no HSTS, existing middleware chain only.
+- 2026-11-28 01:04 Round 369: resent 18b step 3. Claude Code auth failure is environmental, so it is resent and not parked.
+- 2026-11-28 01:04 Jev suggested ask (39%). Not followed: the loop never asks Isa. Run chosen as the top option (51%).
+- 2026-11-28 01:04 Kept the rule of one step per round for row 18b, so the step stays small and reversible.
