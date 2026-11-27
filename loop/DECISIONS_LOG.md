@@ -12592,3 +12592,8 @@
 - 2026-11-28 00:01 Round 211: Claude Code login still expired (same report as round 210). Not a stop condition and not an ask. Resent 18b step 3 so the loop retries as soon as Isa runs claude auth login.
 - 2026-11-28 00:01 Round 211: step 1 limiter check added to the prompt, so the rate limit part is parked if no limiter exists (override 9 and round 210 rule).
 - 2026-11-28 00:01 Round 211: notes trimmed toward the 600 word limit; no finding or block removed.
+- 2026-11-28 00:02 Claude Code login failure (rounds 210 to 212) is environmental, not a task failure: resend the same task, do not park 18b step 3.
+- 2026-11-28 00:02 Login needs Isa: claude auth login or claude setup-token. Recorded as an owner check. The loop does not stop or ask.
+- 2026-11-28 00:02 Expo plugin warning ignored: backend work does not use it. Park if it starts blocking runs.
+- 2026-11-28 00:02 Jev ask and stop signals not followed again, per the standing decision. No Isa step blocks the loop.
+- 2026-11-28 00:02 Row 18b step 3 limited to headers. Rate limits stay parked unless an existing limiter covers AI and feedback routes.
