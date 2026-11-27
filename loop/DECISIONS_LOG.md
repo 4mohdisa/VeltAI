@@ -12788,3 +12788,6 @@
 - 2026-11-28 00:24 Jev ask signal (25%) not followed: the notes rule is never ask, and the blocker is a login Isa must run himself.
 - 2026-11-28 00:24 Jev stop signal (2%) not followed: no danger, no hosted service touched, no destructive step.
 - 2026-11-28 00:24 Checkpoint first, before 18b step 3, as the notes say.
+- 2026-11-28 00:24 Claude Code auth failure is environmental per the notes: resend the checkpoint, do not park, do not ask.
+- 2026-11-28 00:24 Jev ask signal (22%) not followed: the notes say no Isa blocker stops or pauses the loop, and the next step is cheap and already defined.
+- 2026-11-28 00:24 Kept the checkpoint as the first task because the round 267 checkpoint never ran and it is the gate before 18b step 3.
