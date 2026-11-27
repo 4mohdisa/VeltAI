@@ -12659,3 +12659,7 @@
 - 2026-11-28 00:09 Resent the checkpoint because round 229 was lost to a Claude Code auth failure and the checkpoint is overdue.
 - 2026-11-28 00:09 Did not follow the Jev ask and stop signals: Isa has said never to ask or stop on a blocker, and the auth failure is environmental.
 - 2026-11-28 00:09 Auth failures are not parked. Each round resends the task until Isa runs claude auth login or sets CLAUDE_CODE_OAUTH_TOKEN.
+- 2026-11-28 00:09 Round 231: resent 18b step 3 because the Claude Code login failure is environmental; no park, no ask (Decisions: auth failures are environmental).
+- 2026-11-28 00:09 Round 231: Jev ask signal (20%) not followed; the loop does not ask Isa (Decisions: Jev ask and stop signals not followed).
+- 2026-11-28 00:09 Round 231: prompt restricts this round to headers only and forbids rate limits, since no limiter is approved.
+- 2026-11-28 00:09 Round 231: notes condensed to stay under 600 words; all parked and blocked items kept.
