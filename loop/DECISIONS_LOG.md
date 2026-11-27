@@ -12694,3 +12694,6 @@
 - 2026-11-28 00:14 Round 241: resent 18b step 3. Claude Code auth still failing; this is environmental, so resend and do not park.
 - 2026-11-28 00:14 Jev ask and stop signals not followed: the only blocker is the expired Claude Code login, and Isa's instruction is no ask and no stop for Isa blockers.
 - 2026-11-28 00:14 Notes condensed to under 600 words: finished rows merged, repeated items grouped. No open item removed.
+- 2026-11-28 00:14 Claude Code login expired (environmental). Resent 18b step 3 unchanged; not parked, no ask, no stop, per the rule.
+- 2026-11-28 00:14 Jev ranks 18c-style work as likely unclean because of the auth failure, not the task. Kept the choice: the last task never ran, so its signal does not apply. Smallest next step kept.
+- 2026-11-28 00:14 Stayed on backend headers only. No shared limiter or guard added without approval.
