@@ -13113,3 +13113,5 @@
 - 2026-11-28 01:02 Claude Code auth failure is environmental: resent 18b step 3, not parked, not a stop.
 - 2026-11-28 01:02 Did not follow Jev ask or stop signals; no Isa blocker stops the loop.
 - 2026-11-28 01:02 Checkpoint still deferred until auth returns; step 3 is the smaller task and matches the notes.
+- 2026-11-28 01:02 365: Claude Code auth still expired; resent 18b step 3 (environmental, per Decisions). Isa must run claude auth login (see OWNER_CHECKS_phase4.md).
+- 2026-11-28 01:02 365: Jev ask and stop signals not followed. No Isa blocker exists; the only blocker is the auth renewal, which the loop cannot fix.
