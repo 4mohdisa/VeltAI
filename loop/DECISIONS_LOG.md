@@ -12842,3 +12842,7 @@
 - 2026-11-28 00:30 Claude Code auth failure is environmental: resent the pending checkpoint and 18b step 3, not parked (per Decisions).
 - 2026-11-28 00:30 Followed the notes order: checkpoint result first, then 18b step 3, then 18c. Jev ask and stop signals not followed (no Isa blocker stops the loop).
 - 2026-11-28 00:30 Kept each prompt to max 5 steps and one middleware plus one test file.
+- 2026-11-28 00:31 Resent the checkpoint record and 18b step 3 because the last report was a Claude Code login failure (environmental, never park, per notes rule).
+- 2026-11-28 00:31 Chose candidate 1 (checkpoint record) first because it is the older pending step and it is a cheap gate check before new code.
+- 2026-11-28 00:31 Kept the 18b headers test to headers the code already sets; missing headers go to KNOWN_ISSUES.md because a shared header guard is blocked on Isa.
+- 2026-11-28 00:31 Jev suggested ask at 16 percent. Not followed: notes say no Isa blocker stops or asks the loop, and the Claude Code failure is not a question for Isa.
