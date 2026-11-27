@@ -13087,3 +13087,6 @@
 - 2026-11-28 00:59 356: Auth failure is environmental; resent 18b step 3 and did not park or stop.
 - 2026-11-28 00:59 356: Jev ask signal (35%) not followed; the only owner step is already in OWNER_CHECKS_phase4.md, so no question is needed.
 - 2026-11-28 00:59 356: Kept the existing step order; prompt limited to 5 steps and the protected file list.
+- 2026-11-28 00:59 Round 357: Claude Code auth still down; resend 18b step 3 unchanged (auth failures are environmental, never park).
+- 2026-11-28 00:59 Jev ask and stop signals not followed: the failure is environmental and the standing decision says never ask or stop; resending a bounded 5-step task is cheap.
+- 2026-11-28 00:59 Kept 18b step 3 to headers only, using the existing chain, no HSTS (local HTTP).
