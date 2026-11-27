@@ -13318,3 +13318,7 @@
 - 2026-11-28 01:24 Jev risk score 1.7 noted. Not followed: the only Isa-owned step is the login, which the notes already flag at the top for Isa.
 - 2026-11-28 01:24 Plugin expo warning recorded as optional for Isa; it does not block the loop.
 - 2026-11-28 01:24 Kept the 18b step 3 scope to existing middleware and no HSTS, per the standing decision.
+- 2026-11-28 01:24 Round 423 is a checkpoint per the loop note: run type check and full app Jest with no file changes.
+- 2026-11-28 01:24 Claude Code auth failure is environmental: resend the self-contained prompt, do not park or stop.
+- 2026-11-28 01:24 Jev ask signal (64%) not followed: no Isa blocker exists, and the overrides say never ask.
+- 2026-11-28 01:24 Jev stop signal not followed: the stop conditions are not met (rows not all BUILT or EXACT, nothing dangerous).
