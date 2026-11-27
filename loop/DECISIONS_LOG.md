@@ -13188,3 +13188,6 @@
 - 2026-11-28 01:11 Jev ask signal (50%) not followed: the blocker is environmental and only Isa can renew auth; resending keeps the bounded local backend task moving when auth returns.
 - 2026-11-28 01:11 Jev risk (1.7) noted; the task is local, reversible and backend only, so risk stays bounded.
 - 2026-11-28 01:11 Notes condensed to fit the 600 word limit. No rows, decisions or blocked items removed; duplicate round log entries merged.
+- 2026-11-28 01:11 388: Claude Code auth still expired; environmental per notes, so resent 18b step 3 unchanged instead of parking or stopping.
+- 2026-11-28 01:11 388: Jev ask signal (45%) not followed; the brief says never ask and no Isa blocker stops the loop.
+- 2026-11-28 01:11 388: Jev risk 1.6 noted; kept the task bounded (headers and tests only, backend package scope).
