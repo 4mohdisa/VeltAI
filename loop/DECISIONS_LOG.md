@@ -12997,3 +12997,7 @@
 - 2026-11-28 00:48 Step 3 kept small: headers only in the existing middleware chain, no HSTS, no new shared package, per earlier decision.
 - 2026-11-28 00:48 Checkpoint still deferred until auth returns. It stays due in the round log.
 - 2026-11-28 00:48 Jev's ask and stop signals not followed: an auth failure is not an Isa blocker, and the loop has no question path.
+- 2026-11-28 00:49 Claude Code auth expiry is environmental: resent step 3 instead of parking, per the standing decision.
+- 2026-11-28 00:49 Jev suggested ask 36% and stop 9%; not followed, because no Isa blocker stops the loop and the auth failure is not a question for Isa in this round.
+- 2026-11-28 00:49 Checkpoint stays deferred until auth returns; step 3 is the smallest useful task while auth is down.
+- 2026-11-28 00:49 Step 3 uses the existing middleware chain only, no HSTS, no new shared package, per the security headers decision.
