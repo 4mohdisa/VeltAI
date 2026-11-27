@@ -13322,3 +13322,6 @@
 - 2026-11-28 01:24 Claude Code auth failure is environmental: resend the self-contained prompt, do not park or stop.
 - 2026-11-28 01:24 Jev ask signal (64%) not followed: no Isa blocker exists, and the overrides say never ask.
 - 2026-11-28 01:24 Jev stop signal not followed: the stop conditions are not met (rows not all BUILT or EXACT, nothing dangerous).
+- 2026-11-28 01:25 Round 424: Claude Code auth failure is environmental. Resent 18b step 3 as a self-contained prompt, per the standing rule. Not parked, not asked, not stopped.
+- 2026-11-28 01:25 Jev ask (65%) and stop (20%) signals not followed. No danger, no hosted service touched, and no Isa blocker stops the loop.
+- 2026-11-28 01:25 Auth needs Isa's action (claude auth login or CLAUDE_CODE_OAUTH_TOKEN). Written in the notes, not in a prompt.
