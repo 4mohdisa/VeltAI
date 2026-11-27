@@ -12954,3 +12954,7 @@
 - 2026-11-28 00:43 Round 317: last report was a Claude Code auth failure (environmental). Resent 18b step 3 unchanged, per the rule: resend, never park, never ask, never stop.
 - 2026-11-28 00:43 Jev ask signal (22%) not followed: an unattended Claude Code auth failure is not a reason to ask Isa.
 - 2026-11-28 00:43 Jev risk score 1.4 noted. Step stays small (headers only, existing chain, no shared package), so the risk is bounded.
+- 2026-11-28 00:43 Round 318 is a checkpoint, so the loop note takes priority: type check and full app Jest, no file changes.
+- 2026-11-28 00:43 Claude Code auth has failed since round 210. This is environmental, so the prompt is resent unchanged in intent. Not parked, not asked, not a stop reason.
+- 2026-11-28 00:43 Jev's low clean-completion estimate comes from the same auth failure, so it does not change the choice. Jev's ask and stop signals are not followed (existing decision).
+- 2026-11-28 00:43 Notes condensed to fit the 600 word limit. No items removed from Parked, Blocked or Protected; wording shortened only.
