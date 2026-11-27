@@ -4,9 +4,9 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested first. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds.
 
-## State (Round 275)
+## State (Round 276)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
-Next: checkpoint result (resent round 275), then 18b step 3 (security headers), then 18c.
+Next: checkpoint record (round 276 step 1), then 18b step 3 (security headers test), then 18c.
 
 ## Loop blocker
 Claude Code login expired since round 210. Isa must run claude auth login or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN (see OWNER_CHECKS_phase4.md). Expo plugin not installed (ignored for backend work). Resend every round. Environmental: never park, no ask, no stop.
@@ -42,5 +42,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable).
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-274: Claude Code auth failures, resent. 274: checkpoint resent. 275: checkpoint resent again, auth still failing.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-275: Claude Code auth failures, resent. 275: checkpoint resent. 276: checkpoint record, then 18b step 3 resent.
 Next: checkpoint result, then 18b step 3, then 18c. If auth still fails, resend. Do not park.

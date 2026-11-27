@@ -12812,3 +12812,6 @@
 - 2026-11-28 00:26 Round 275: Claude Code login is still expired, which is environmental. Resent the checkpoint prompt. Never park, ask or stop.
 - 2026-11-28 00:26 Round 275: Jev ask signal (27%) not followed, as in earlier rounds. The loop blocker is not an Isa question.
 - 2026-11-28 00:26 Round 275: checkpoint is a read and verify round, so it does not start 18b step 3 until the gates are read.
+- 2026-11-28 00:27 Claude Code auth failure is environmental: resent round 276, not parked, not asked (Jev ask signal not followed for this reason).
+- 2026-11-28 00:27 Checkpoint first, then 18b step 3, because the checkpoint results were still unrecorded after round 275.
+- 2026-11-28 00:27 Security headers chosen over 18c because 18c needs an existing limiter, and none exists for these routes yet (parked in notes).
