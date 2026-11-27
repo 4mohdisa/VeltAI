@@ -12883,3 +12883,6 @@
 - 2026-11-28 00:35 Round 296: resent owed checkpoint plus 18b step 3 after Claude Code auth failure (environmental, resend, never park).
 - 2026-11-28 00:35 Jev ask signal (34%) not followed: auth failure is not an Isa blocker and the notes rule says no asks.
 - 2026-11-28 00:35 Chose the owed checkpoint first so its results gate the security header change.
+- 2026-11-28 00:35 Round 297: Claude Code auth failure is environmental, so the same work is resent, not parked (per the auth rule).
+- 2026-11-28 00:35 Jev ask (40%) and stop (6%) not followed: no Isa blocker stops the loop, and the auth step is an owner step already logged in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:35 Checkpoint runs first because it is owed, then 18b step 3 runs as one prompt of max 5 steps.
