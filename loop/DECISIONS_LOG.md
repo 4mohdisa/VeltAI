@@ -12704,3 +12704,6 @@
 - 2026-11-28 00:15 The Claude Code auth failure is environmental, so the prompt is resent and the row is not parked.
 - 2026-11-28 00:15 18b step 3 (security headers) stays the next task after the checkpoint and is not started this round.
 - 2026-11-28 00:15 Jev signals are advisory only and were not followed: the checkpoint is required by the loop note and no Isa blocker stops the loop.
+- 2026-11-28 00:15 245: Claude Code auth failed again. Environmental, so resend 18b step 3 unchanged, no park, no ask.
+- 2026-11-28 00:15 245: Jev ask signal (17%) not followed: never ask rule stands. Jev risk 1.2 noted; the blocker is auth, not the task, so the task stays the same.
+- 2026-11-28 00:15 245: Step 3 kept to one middleware plus tests, under the 5 step limit, per the override on task size.

@@ -4,7 +4,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested before new task. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds.
 
-## State (Round 244)
+## State (Round 245)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
 Next: 18b step 3 (security headers), then 18c.
 
@@ -37,10 +37,11 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Rate limits only through an existing limiter on AI and feedback routes; none exists means park, headers only.
 - Claude Code auth failures are environmental: resend, never park.
 - Each test package keeps its own helper copies until Isa approves a shared package.
+- 245: Jev ask signal not followed (never ask rule). Jev risk 1.2 noted; blocker is auth, not the task.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable).
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204 checkpoint green. 205: 18a done. 206: 18b step 1. 207: 18b step 2. 208: redirect tripwire. 209: checkpoint green. 210-243: Claude Code auth failures, resent. 244: checkpoint (type check and full app suite, no file changes), resent after auth failure.
+182-203: Rows 16, 17 BUILT. 204 checkpoint green. 205: 18a done. 206: 18b step 1. 207: 18b step 2. 208: redirect tripwire. 209: checkpoint green. 210-244: Claude Code auth failures, resent. 245: auth failure again, resent 18b step 3 unchanged.
 Next: 18b step 3, then 18c. If auth still fails, resend. Do not park.
