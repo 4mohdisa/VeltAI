@@ -13094,3 +13094,6 @@
 - 2026-11-28 00:59 Jev ask and stop signals not followed: Isa blockers never stop the loop and ask is never used.
 - 2026-11-28 00:59 Security headers only in the existing middleware chain; no HSTS because local HTTP.
 - 2026-11-28 00:59 Last report was an auth failure, not a task result, so the Jev clean-finish score does not apply.
+- 2026-11-28 01:00 Round 359: Claude Code auth still expired. Per the environmental rule, resent the same step. Jev ask and stop signals not followed, since an Isa blocker never stops the loop.
+- 2026-11-28 01:00 Kept 18b step 3 as the next step: it is small, uses the existing chain, and needs no approval.
+- 2026-11-28 01:00 Notes compressed to fit the 600 word limit. No rule removed.
