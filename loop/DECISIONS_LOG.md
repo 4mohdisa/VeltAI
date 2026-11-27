@@ -13048,3 +13048,6 @@
 - 2026-11-28 00:54 Round 344: Claude Code auth is still expired. Per the standing rule, resend the same step. Not parked, not asked, not stopped.
 - 2026-11-28 00:54 Jev suggested ask (27%). Not followed: the no-question rule stands, and the blocker is environmental and fixed by Isa's claude auth login, which is already in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:54 Checkpoints stay deferred while auth is down.
+- 2026-11-28 00:54 Round 345: Claude Code auth still expired, so 18b step 3 is resent unchanged (environmental, per the existing decision to resend and never park).
+- 2026-11-28 00:54 Jev ask and stop signals not followed: no Isa blocker stops the loop, and auth failure is not a reason to stop.
+- 2026-11-28 00:54 Prompt names the middleware by search, since no file path is recorded in the notes; Claude Code must locate it and report the path.
