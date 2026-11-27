@@ -12833,3 +12833,7 @@
 - 2026-11-28 00:29 Round 281: Claude Code login still expired. Environmental, so resend the same prompt and do not park. Isa must run claude auth login or set CLAUDE_CODE_OAUTH_TOKEN (already in OWNER_CHECKS_phase4.md).
 - 2026-11-28 00:29 Round 281: Jev ask signal not followed. Per the brief, no Isa blocker stops or asks; the loop keeps running the pending checkpoint and step 3.
 - 2026-11-28 00:29 Round 281: notes condensed under the 600 word limit. No items removed; the Parked list is grouped by area.
+- 2026-11-28 00:29 Claude Code auth failure is environmental: resent the same round 282 work, did not park, ask or stop (per the existing decision).
+- 2026-11-28 00:29 Jev ask signal (19%) not followed: the loop has no Isa blocker for this step, and the checkpoint and headers test are small and safe.
+- 2026-11-28 00:29 Kept the checkpoint and headers work as one prompt because both are already pending and each is a few steps.
+- 2026-11-28 00:29 Trimmed the notes to stay under 600 words; no rule or parked item was removed, only merged.
