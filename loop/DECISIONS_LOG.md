@@ -13407,3 +13407,6 @@
 - 2026-11-28 04:34 Jev stop signal (73%, risk 2.0, confidence 0.96) followed, because no action can run without a working Claude Code login.
 - 2026-11-28 04:34 Jev ask signal not used: the brief forbids ask, and Isa is away.
 - 2026-11-28 04:34 Notes updated to show the restart point and the unrecorded checkpoints for when auth returns.
+- 2026-11-28 05:11 Round 447: stopped again on the same external auth failure. Probing a fourth time would only repeat the failure, so no prompt is sent.
+- 2026-11-28 05:11 Ask is not used (standing rule). The stop is for auth only; the loop has not gone idle on any gate or owner step.
+- 2026-11-28 05:11 Notes rewritten shorter to stay under 600 words. No item was removed from Parked, Blocked on Isa or Protected.
