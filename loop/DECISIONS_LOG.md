@@ -12710,3 +12710,6 @@
 - 2026-11-28 00:16 246: Claude Code auth failure is environmental. Resent 18b step 3 unchanged, not parked.
 - 2026-11-28 00:16 246: Jev ask signal (24%) not followed, per the never ask rule. Jev risk 1.3 noted; blocker is auth, not the task.
 - 2026-11-28 00:16 246: Notes trimmed to stay under 600 words. No items removed from the Parked list.
+- 2026-11-28 00:16 247: Jev ask signal not followed (never ask rule); Jev risk 1.4 noted, blocker is Claude Code auth, not the task.
+- 2026-11-28 00:16 247: Claude Code auth failure is environmental; resent 18b step 3 with the same scope and no park.
+- 2026-11-28 00:16 247: Exact file paths left to grep because the repo layout is not in the brief; Claude Code must record them in its report.
