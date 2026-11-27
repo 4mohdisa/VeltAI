@@ -12666,3 +12666,6 @@
 - 2026-11-28 00:10 Round 232: Jev ask and stop signals not followed; no Isa blocker stops the loop.
 - 2026-11-28 00:10 Claude Code auth failure is environmental: resent 18b step 3 instead of parking.
 - 2026-11-28 00:10 Chose 18b step 3 over 18c because the notes name it as the next step and it is a small change.
+- 2026-11-28 00:10 Round 233: resend 18b step 3 after Claude Code auth failure; auth failures are environmental, so no park and no stop (existing decision).
+- 2026-11-28 00:10 Jev ask and stop signals not followed: the only blocker is Isa's Claude Code login, which the loop cannot fix, and no Isa blocker stops the loop (existing decision).
+- 2026-11-28 00:10 Kept 18b step 3 scope to headers only; rate limits stay parked because no shared limiter is approved (existing decision).
