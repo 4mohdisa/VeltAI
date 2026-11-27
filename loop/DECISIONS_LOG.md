@@ -12687,3 +12687,7 @@
 - 2026-11-28 00:13 Round 239: resent Row 18b step 3 (headers only). Claude Code auth failure is environmental, so the task is resent and not parked, per the standing decision.
 - 2026-11-28 00:13 Round 239: Jev ask signal (22%) not followed. The loop has no ask action, and Isa blockers never stop the loop.
 - 2026-11-28 00:13 Round 239: kept step 3 as the smallest next change. Stricter headers and HSTS were left out: HSTS is the host's job and a strict CSP change could break the local app.
+- 2026-11-28 00:13 Round 240: resent 18b step 3 without parking, per the rule that Claude Code auth failures are environmental.
+- 2026-11-28 00:13 Jev ask signal (17%) not followed: no Isa blocker stops or pauses the loop; the step is a bounded headers-only change.
+- 2026-11-28 00:13 Kept the Expo plugin warning out of the prompt: it does not affect backend work.
+- 2026-11-28 00:13 Compressed the notes to stay under 600 words; no open item was dropped. Finished work condensed into the round log.
