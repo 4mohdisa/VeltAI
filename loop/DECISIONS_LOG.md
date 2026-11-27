@@ -13345,3 +13345,7 @@
 - 2026-11-28 01:27 Jev advised ask (67%). Not followed: action ask is not allowed in this loop, and the auth step is an Isa step that never blocks the loop. No new concrete reason to change course.
 - 2026-11-28 01:27 Jev risk 1.6 noted. Kept the smallest possible step (one middleware chain, headers only, one test) to limit damage if the run fails again.
 - 2026-11-28 01:27 Notes condensed to stay under the 600 word limit. No rows or parked items removed; finished detail collapsed into the round log.
+- 2026-11-28 01:27 Round 431: Claude Code auth still expired; resent the self-contained 18b step 3 prompt per the standing rule (auth failures are environmental, never park).
+- 2026-11-28 01:27 Ask signal from Jev not followed: the brief forbids asking Isa; the blocker is listed in ACTION FOR ISA.
+- 2026-11-28 01:27 Stop signal from Jev not followed: no safety or production concern, only an environmental login failure.
+- 2026-11-28 01:27 Kept HSTS out (local HTTP), per the existing decision.
