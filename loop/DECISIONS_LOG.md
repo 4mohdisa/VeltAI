@@ -13292,3 +13292,7 @@
 - 2026-11-28 01:21 Round 415: Claude Code auth still expired; resent 18b step 3 as a self-contained prompt, per the environmental rule (never park, never ask, never stop).
 - 2026-11-28 01:21 Jev ask (71%) and stop (18%) signals not followed: the brief bans ask, and auth failure is not a reason to stop. Step is small and low risk, so continuing without Isa is acceptable.
 - 2026-11-28 01:21 Escalation kept visible: ACTION FOR ISA stays at the top of the notes until auth is restored.
+- 2026-11-28 01:22 Round 416: Claude Code auth still expired; resent the self-contained 18b step 3 prompt. Per the standing rule, auth failures are environmental: resend, never park, never ask, never stop.
+- 2026-11-28 01:22 Jev ask signal (67%) not followed: the brief forbids asking Isa, and the blocker is an environment login only Isa can renew, which is recorded in the ACTION FOR ISA line.
+- 2026-11-28 01:22 Kept 18b step 3 as the pick: it is small, has no migration, and the prompt is self-contained in case the session resets after handover.
+- 2026-11-28 01:22 Chose no HSTS (local HTTP only), as already decided.
