@@ -13042,3 +13042,6 @@
 - 2026-11-28 00:53 342: Claude Code auth still expired. Auth failures are environmental, so the step is resent instead of parked or asked.
 - 2026-11-28 00:53 342: Jev ask signal (30%) not followed: ask is forbidden by the brief and the blocker is environmental.
 - 2026-11-28 00:53 342: Jev low confidence on risk noted; the task stays small (one step, max 5 steps) per the rule for low confidence.
+- 2026-11-28 00:53 Resent 18b step 3 unchanged: Claude Code auth failures are environmental, so the task is retried, not parked or stopped.
+- 2026-11-28 00:53 Jev suggested asking Isa; not followed, because no question is allowed and the auth blocker is already documented in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:53 Jev's low clean-finish estimate is noted; the task stays small (one step per round) so a failed auth costs little.
