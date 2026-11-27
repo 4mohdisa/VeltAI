@@ -12905,3 +12905,7 @@
 - 2026-11-28 00:37 Kept the step 3 scope to the existing middleware chain and no new shared guard package, as the decisions already say.
 - 2026-11-28 00:37 Checkpoint stays at round 302 as planned; it runs after this step.
 - 2026-11-28 00:37 Jev suggested asking or stopping; not followed, since no Isa blocker stops the loop and the rule is to run.
+- 2026-11-28 00:38 Round 303 is the scheduled checkpoint; sent as a no-change run of type check and full app Jest, per the loop note.
+- 2026-11-28 00:38 Claude Code auth expiry is environmental: resent the same task instead of parking it.
+- 2026-11-28 00:38 Jev's ask signal (14%) and stop signal (3%) not followed: no Isa blocker applies, and the checkpoint needs no input.
+- 2026-11-28 00:38 Row 18b step 3 (security headers) stays the next task after the checkpoint, as planned in round 302.
