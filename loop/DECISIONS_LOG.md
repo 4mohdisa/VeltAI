@@ -12973,3 +12973,7 @@
 - 2026-11-28 00:45 Ignored Jev ask signal (37%) because asking Isa is not allowed; kept the run choice (57%) and the earlier step 3 pick.
 - 2026-11-28 00:45 Checkpoint 320 stays deferred until auth returns; it is still the next full gate after step 3.
 - 2026-11-28 00:45 Notes trimmed to under 600 words; decisions and blocked items kept in full meaning, round log compressed.
+- 2026-11-28 00:46 Round 323: resent 18b step 3 because the auth failure is environmental and only Isa's claude auth login can clear it; the loop cannot fix it, so resending is the only path to resume once it returns.
+- 2026-11-28 00:46 Did not use action ask or stop: the brief forbids both for a missing login or an owner step.
+- 2026-11-28 00:46 Jev said 2% clean completion and risk 1.5. Kept run because the failure is not in the task itself. Reason is concrete: the prompt is unchanged and small, so it costs little if auth is still down.
+- 2026-11-28 00:46 Kept checkpoint 320 deferred until auth returns, as the notes already say.
