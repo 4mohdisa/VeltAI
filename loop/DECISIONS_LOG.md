@@ -13064,3 +13064,7 @@
 - 2026-11-28 00:56 Round 349: Claude Code auth is still expired. Per the standing rule it is environmental, so the 18b step 3 prompt is resent unchanged in intent, not parked.
 - 2026-11-28 00:56 Jev suggested ask (43%) and stop (7%). Not followed: no Isa blocker stops the loop, and the auth fix is Isa's OWNER_CHECKS item, already listed.
 - 2026-11-28 00:56 Chose the smallest available task (candidate 1) because Jev confidence is low (0.25) and the last task risk is recorded as high. Checkpoint stays deferred until auth returns.
+- 2026-11-28 00:56 Round 350: Claude Code auth still expired (since round 210). Environmental, so the same step is resent instead of parked or escalated.
+- 2026-11-28 00:56 Kept 18b step 3 as the next task. It is the smallest open step (5 files max) and Jev's low clean-finish odds are noted, but no Isa input is needed to try it again.
+- 2026-11-28 00:56 Checkpoint still deferred until auth returns, per the rule in the decisions list.
+- 2026-11-28 00:56 Notes compressed to fit the 600 word limit; Parked and Blocked lists kept in full meaning, only wording shortened.
