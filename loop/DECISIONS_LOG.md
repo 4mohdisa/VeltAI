@@ -13238,3 +13238,7 @@
 - 2026-11-28 01:15 Jev ask signal (36%) not followed: ask is forbidden by the brief. Jev stop signal not followed: no listed stop condition applies.
 - 2026-11-28 01:15 Kept 18b step 3 as the next task because it is already drafted, small and in the existing chain. It needs no Isa decision.
 - 2026-11-28 01:15 No HSTS, because the backend runs on local HTTP. Existing decision kept.
+- 2026-11-28 01:16 Resent the 18b step 3 prompt as a self-contained prompt, because the failure is an environmental Claude Code auth expiry (Decisions: resend, never park, never stop).
+- 2026-11-28 01:16 Followed the top Jev action (run, 57%) over the ask signal (39%), because ask is not allowed and the notes record that Jev ask signals are not followed.
+- 2026-11-28 01:16 Kept the step small (max 5 steps) and named the middleware chain by search, since the exact file path is not in the notes and I will not guess it.
+- 2026-11-28 01:16 Security headers stay in the existing middleware chain and HSTS stays off, per Decisions (local HTTP).
