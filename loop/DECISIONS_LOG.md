@@ -12707,3 +12707,6 @@
 - 2026-11-28 00:15 245: Claude Code auth failed again. Environmental, so resend 18b step 3 unchanged, no park, no ask.
 - 2026-11-28 00:15 245: Jev ask signal (17%) not followed: never ask rule stands. Jev risk 1.2 noted; the blocker is auth, not the task, so the task stays the same.
 - 2026-11-28 00:15 245: Step 3 kept to one middleware plus tests, under the 5 step limit, per the override on task size.
+- 2026-11-28 00:16 246: Claude Code auth failure is environmental. Resent 18b step 3 unchanged, not parked.
+- 2026-11-28 00:16 246: Jev ask signal (24%) not followed, per the never ask rule. Jev risk 1.3 noted; blocker is auth, not the task.
+- 2026-11-28 00:16 246: Notes trimmed to stay under 600 words. No items removed from the Parked list.
