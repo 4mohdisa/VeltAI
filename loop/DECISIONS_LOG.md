@@ -13254,3 +13254,6 @@
 - 2026-11-28 01:17 Jev ask (34%) and stop (9%) signals not followed, per the standing decision. No Isa blocker stops the loop; Jev risk 1.7 noted, and the small scope of this task keeps the risk low.
 - 2026-11-28 01:17 Stop not chosen: no stop rule applies (gates are not green but failure is environmental, not a stop condition).
 - 2026-11-28 01:17 Kept the step at 5 max and the prompt self-contained, since the loop has had no successful Claude Code run since round 210.
+- 2026-11-28 01:17 Round 405: Claude Code auth failure is environmental, so the 18b step 3 prompt is resent unchanged in substance and kept self-contained. Not parked, not asked, not stopped.
+- 2026-11-28 01:17 Jev ask signal not followed: no Isa blocker is allowed to stop or pause the loop.
+- 2026-11-28 01:17 Notes compacted to stay under 600 words. No work items removed; parked items kept in the list.
