@@ -13313,3 +13313,8 @@
 - 2026-11-28 01:24 Jev suggested ask (57%) and stop (21%). Not followed: the brief forbids asking and stopping for a missing login or an Isa step, and the fix is Isa running claude auth login, after which the loop resumes by itself. Logged as a standing rule, not a new one.
 - 2026-11-28 01:24 Kept the 18b step 3 scope: headers in the existing chain only, no HSTS (local HTTP), no shared guard, per earlier decisions.
 - 2026-11-28 01:24 Checkpoint results from rounds 379, 393 and 408 remain unrecorded until auth returns; to be recorded then.
+- 2026-11-28 01:24 Round 422: Claude Code auth still expired. Per the standing rule the same self-contained 18b step 3 prompt is resent; not parked, not asked, not stopped.
+- 2026-11-28 01:24 Jev suggested ask (65%). Not followed: the brief forbids ask, and the blocker is environmental (login), so resending is the only action the loop can take.
+- 2026-11-28 01:24 Jev risk score 1.7 noted. Not followed: the only Isa-owned step is the login, which the notes already flag at the top for Isa.
+- 2026-11-28 01:24 Plugin expo warning recorded as optional for Isa; it does not block the loop.
+- 2026-11-28 01:24 Kept the 18b step 3 scope to existing middleware and no HSTS, per the standing decision.
