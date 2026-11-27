@@ -12803,3 +12803,6 @@
 - 2026-11-28 00:25 Round 272: Claude Code auth still failing; resent the checkpoint prompt. Auth failure is environmental, so no park and no ask.
 - 2026-11-28 00:25 Jev ask signal (37%) not followed: the blocker is environmental login, not a question for Isa.
 - 2026-11-28 00:25 Kept the checkpoint as a read only gate round first, so the result is known before 18b step 3.
+- 2026-11-28 00:26 Resent the checkpoint: the Claude Code login failure is environmental, so no question to Isa and no park.
+- 2026-11-28 00:26 Kept the checkpoint as the only task this round, as the loop note asks, despite the Jev ask signal.
+- 2026-11-28 00:26 Shortened the notes to fit the 600 word limit; no open items were dropped.
