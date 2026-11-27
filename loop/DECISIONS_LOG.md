@@ -13100,3 +13100,6 @@
 - 2026-11-28 01:00 Round 360: Claude Code auth still expired, so 18b step 3 is resent per the environmental rule (no ask, no park, no stop).
 - 2026-11-28 01:00 Kept the 18b step 3 scope unchanged; HSTS stays out because the backend runs on local HTTP.
 - 2026-11-28 01:00 Jev ask and stop signals not followed: no Isa blocker exists in the loop, only the environmental auth failure.
+- 2026-11-28 01:01 361: Claude Code auth still expired. Environmental per rules: resent 18b step 3, not parked, not a stop.
+- 2026-11-28 01:01 361: Jev suggested ask (31%) and stop (8%). Not followed: no Isa blocker stops the loop, and the auth fix is an owner step already listed in OWNER_CHECKS_phase4.md.
+- 2026-11-28 01:01 361: Kept the 18b step 3 scope from the notes (headers only, no HSTS, no new framework).
