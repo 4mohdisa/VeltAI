@@ -13205,3 +13205,6 @@
 - 2026-11-28 01:12 Round 392: Claude Code auth still expired. Per the Claude Code auth decision, resent 18b step 3 unchanged. Environmental, not a task failure.
 - 2026-11-28 01:12 Jev ask signal not followed: the next action is a resend of a bounded local task, and Isa's rule is never to park or ask for auth.
 - 2026-11-28 01:12 Kept the same bounded step and prompt so the resend needs no re-planning after auth returns.
+- 2026-11-28 01:13 Round 393: chose the checkpoint because the loop note requires it this round; it is read only and does not depend on Claude Code auth succeeding later.
+- 2026-11-28 01:13 Round 393: Jev ask signal (52%) not followed; the brief forbids asking Isa, and auth expiry is environmental, so the prompt is resent unchanged.
+- 2026-11-28 01:13 Round 393: NOTES trimmed to fit the 600 word limit. Decisions, Protected and Blocked on Isa kept in full; round log condensed; no decision removed.
