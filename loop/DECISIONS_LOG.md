@@ -13004,3 +13004,7 @@
 - 2026-11-28 00:49 Round 331: Claude Code auth still expired (latest report is the auth failure). Environmental per the rule: resend step 3, never park, never ask, never stop.
 - 2026-11-28 00:49 Jev suggests ask (26%); not followed, per the standing decision that no Isa blocker stops or asks.
 - 2026-11-28 00:49 Checkpoint (331 due) stays deferred until auth returns; it is run with the next successful round.
+- 2026-11-28 00:49 Round 332: Claude Code auth still down; resent 18b step 3 as the next step (environmental, never park, never ask).
+- 2026-11-28 00:49 Jev 'ask' signal not followed: no Isa blocker exists, and the loop never asks.
+- 2026-11-28 00:49 Jev 'stop' signal not followed: nothing dangerous or hosted is involved.
+- 2026-11-28 00:49 Checkpoint kept deferred until auth returns; no checkpoint run this round.
