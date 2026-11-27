@@ -12925,3 +12925,6 @@
 - 2026-11-28 00:40 Round 308: resent 18b step 3 after Claude Code auth failure (environmental, per standing rule; Jev ask signal not followed).
 - 2026-11-28 00:40 Round 308: kept the security headers inside the existing middleware chain; no new shared guard package (standing decision).
 - 2026-11-28 00:40 Round 308: compressed the notes to stay under 600 words; no items removed, only merged.
+- 2026-11-28 00:40 Round 309: resent 18b step 3 unchanged, because the last report was a Claude Code auth failure (environmental, resend rule).
+- 2026-11-28 00:40 Kept Jev's ask and stop signals out of the decision: the loop has no Isa blocker that stops it, and a resend costs nothing if auth is still expired.
+- 2026-11-28 00:40 Left the Claude auth fix to Isa per OWNER_CHECKS_phase4.md; no park, no question.
