@@ -12589,3 +12589,6 @@
 - 2026-11-28 00:01 Round 210: the plugin expo warning is not a blocker and is ignored.
 - 2026-11-28 00:01 Round 210: rate limits go on AI and feedback routes only, and only through an existing limiter. A new shared middleware needs Isa's approval (rule from round 206), so if none exists the limits are parked as BLOCKED and only the headers step runs.
 - 2026-11-28 00:01 Round 210: chose 18b step 3 over 18c and 6b because it is already in progress and small.
+- 2026-11-28 00:01 Round 211: Claude Code login still expired (same report as round 210). Not a stop condition and not an ask. Resent 18b step 3 so the loop retries as soon as Isa runs claude auth login.
+- 2026-11-28 00:01 Round 211: step 1 limiter check added to the prompt, so the rate limit part is parked if no limiter exists (override 9 and round 210 rule).
+- 2026-11-28 00:01 Round 211: notes trimmed toward the 600 word limit; no finding or block removed.
