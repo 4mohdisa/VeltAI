@@ -12755,3 +12755,8 @@
 - 2026-11-28 00:20 Round 258: Claude Code login failure is environmental (login expired since round 210), so the same 18b step 3 task is resent and not parked.
 - 2026-11-28 00:20 Kept the top candidate (security headers) because it was the step already in progress, and it is small and backend only.
 - 2026-11-28 00:20 Jev ask and stop signals not followed; its confidence on the risk score is 0.00, so it is not used.
+- 2026-11-28 00:21 Chose the checkpoint round because the loop note requires it: full tsc and app Jest, no file changes.
+- 2026-11-28 00:21 Jev ask signal (16%) not followed: notes rule says no Isa blocker stops the loop and nothing here needs Isa.
+- 2026-11-28 00:21 Jev risk score noted but not acted on: this round changes no files, so risk of continuing is low.
+- 2026-11-28 00:21 Claude Code auth failure is environmental: the prompt is resent, not parked. Isa's claude auth login or setup-token step is listed in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:21 Notes condensed to under 600 words. No item removed: finished work merged into the round log, open items kept.
