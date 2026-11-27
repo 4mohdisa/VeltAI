@@ -12684,3 +12684,6 @@
 - 2026-11-28 00:12 Jev ask signal (22%) not followed: no Isa blocker stops the loop, and the action is still run.
 - 2026-11-28 00:12 Jev risk signal (1.4 of 2) noted; the prompt is limited to headers only with no shared guard, no migration and no live calls, so the risk stays low.
 - 2026-11-28 00:13 Round 238 resends 18b step 3 after another Claude Code auth failure. Auth failure is environmental, so the row is not parked. Jev ask signal not followed; no question sent to Isa.
+- 2026-11-28 00:13 Round 239: resent Row 18b step 3 (headers only). Claude Code auth failure is environmental, so the task is resent and not parked, per the standing decision.
+- 2026-11-28 00:13 Round 239: Jev ask signal (22%) not followed. The loop has no ask action, and Isa blockers never stop the loop.
+- 2026-11-28 00:13 Round 239: kept step 3 as the smallest next change. Stricter headers and HSTS were left out: HSTS is the host's job and a strict CSP change could break the local app.
