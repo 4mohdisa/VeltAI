@@ -13425,3 +13425,5 @@
 - 2026-11-28 08:50 Round 453: stop kept, since every probe since round 444 failed on auth, not on code. Jev stop signal (75%) followed.
 - 2026-11-28 08:50 No prompt sent to Claude Code, because it cannot authenticate and would only add another failed round to the log.
 - 2026-11-28 08:50 Restart checkpoints (379, 393, 408, 423, 438) recorded as pending, to run on the first round after auth is restored.
+- 2026-11-28 09:27 Round 454: kept the stop because auth is still expired. One more probe was not worth it, since 444 to 453 already failed the same way.
+- 2026-11-28 09:27 Kept the Jev stop signal (73 percent) as advisory. No action can run without auth, so stop is the only valid action.
