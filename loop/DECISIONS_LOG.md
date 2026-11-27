@@ -12891,3 +12891,7 @@
 - 2026-11-28 00:36 Jev ask signal (29%) not followed: the loop has no Isa blocker that stops work, and the next task is local and reversible.
 - 2026-11-28 00:36 Jev stop signal (6%) not followed: nothing dangerous or hosted is involved.
 - 2026-11-28 00:36 Jev risk signal (1.7 of 2) noted: the risk is limited to local test runs and header changes inside the existing middleware chain.
+- 2026-11-28 00:36 Resent the checkpoint plus security headers step after the Claude Code auth failure; auth failure is environmental, so no park and no ask, per the loop rules.
+- 2026-11-28 00:36 Did not follow the Jev ask signal (28%); the loop rules say to carry on without questions, and the pending work is already planned.
+- 2026-11-28 00:36 Kept the checkpoint first because rounds 288 and 292 were never confirmed green.
+- 2026-11-28 00:36 Kept the security headers change inside the existing middleware chain, per the approved decision.
