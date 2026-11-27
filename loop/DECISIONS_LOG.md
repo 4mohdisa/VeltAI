@@ -12928,3 +12928,5 @@
 - 2026-11-28 00:40 Round 309: resent 18b step 3 unchanged, because the last report was a Claude Code auth failure (environmental, resend rule).
 - 2026-11-28 00:40 Kept Jev's ask and stop signals out of the decision: the loop has no Isa blocker that stops it, and a resend costs nothing if auth is still expired.
 - 2026-11-28 00:40 Left the Claude auth fix to Isa per OWNER_CHECKS_phase4.md; no park, no question.
+- 2026-11-28 00:40 Round 310: resent 18b step 3 after Claude Code auth failure (environmental, per standing rule; not parked)
+- 2026-11-28 00:40 Kept the three candidates in the existing order; step 3 is the smallest unfinished step and was already flagged for resend
