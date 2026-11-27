@@ -13072,3 +13072,6 @@
 - 2026-11-28 00:57 Jev ask and stop signals not followed: the outage is not an Isa blocker and the work is local only (existing decision).
 - 2026-11-28 00:57 Jev risk 1.7 noted: the change is backend headers only, with tests, and touches no protected files, so the risk is low.
 - 2026-11-28 00:57 Compressed the notes to stay under 600 words. No items removed from Parked or Blocked.
+- 2026-11-28 00:57 Resend 18b step 3: Claude Code auth failures are environmental and the notes say never park them.
+- 2026-11-28 00:57 Jev ask signal (35%) not followed: Isa blockers never stop or pause the loop, per standing decision.
+- 2026-11-28 00:57 Notes trimmed to under 600 words; no rule or blocked item removed, only shortened.
