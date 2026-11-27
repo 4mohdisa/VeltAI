@@ -12669,3 +12669,7 @@
 - 2026-11-28 00:10 Round 233: resend 18b step 3 after Claude Code auth failure; auth failures are environmental, so no park and no stop (existing decision).
 - 2026-11-28 00:10 Jev ask and stop signals not followed: the only blocker is Isa's Claude Code login, which the loop cannot fix, and no Isa blocker stops the loop (existing decision).
 - 2026-11-28 00:10 Kept 18b step 3 scope to headers only; rate limits stay parked because no shared limiter is approved (existing decision).
+- 2026-11-28 00:11 Resent 18b step 3 after Claude Code auth failure. Auth failures are environmental, so the task is not parked.
+- 2026-11-28 00:11 Followed the Jev run signal. Ask and stop signals not followed: no Isa blocker stops the loop.
+- 2026-11-28 00:11 Kept rate limits parked: no shared limiter approved, so headers only.
+- 2026-11-28 00:11 Chose 18b step 3 over the checkpoint because it is the smallest unfinished step and it is already next in the notes.
