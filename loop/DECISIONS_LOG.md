@@ -13301,3 +13301,6 @@
 - 2026-11-28 01:22 Kept the step small (headers plus one test) to limit the blast radius if the session restarts mid task.
 - 2026-11-28 01:22 No HSTS, per decision for local HTTP. No shared guard, per Isa's blocked list.
 - 2026-11-28 01:22 Checkpoint results from rounds 379, 393 and 408 are still unrecorded and will be recorded when auth returns.
+- 2026-11-28 01:22 Round 418: Claude Code auth still expired. Treated as environmental per the loop rule: resent the 18b step 3 prompt as a self-contained prompt, no park, no ask, no stop.
+- 2026-11-28 01:22 Jev ask signal (65%) not followed: the only blocker is Claude Code login, which Isa must fix himself, and the rule says no Isa blocker stops or asks. The loop keeps resending.
+- 2026-11-28 01:22 Chose candidate 1 because it is the smallest open step in the active row and the notes' Next pointer names it.

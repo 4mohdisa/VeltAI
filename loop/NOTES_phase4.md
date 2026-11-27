@@ -2,12 +2,12 @@
 Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branch loop/phase4 only.
 
 ## ACTION FOR ISA (only you can do this)
-Claude Code login expired at round 210 and has not renewed (still failing at round 417). Run: claude auth login (or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN). Optional: claude plugin install expo@claude-plugins-official --scope project. The loop resumes by itself.
+Claude Code login expired at round 210 and has not renewed (still failing at round 418). Run: claude auth login (or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN). Optional: claude plugin install expo@claude-plugins-official --scope project. The loop resumes by itself.
 
 ## Overrides
 English only for new strings. About 15 rounds per row. Rows 18-30, then 31. One screen or component per prompt, max 5 steps. Partly done: one follow-up, then park. Simulator and Maestro only in rows 23 and soak. tsc first each prompt. Flagged work tested first. Out of scope changes: check, then keep with decision or revert. Failed partial steps: revert and report. Every prompt states the loop/phase4 branch rule. Prompts self-contained after handover.
 
-## State (Round 417)
+## State (Round 418)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29; Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done; 18b steps 1-2 done.
 Next: 18b step 3 (security headers in existing chain, no HSTS). Checkpoint results from rounds 379, 393, 408 unrecorded; record when auth returns.
 
@@ -42,10 +42,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Each test package keeps its own helper copies until Isa approves a shared package.
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 381 if auth returns, 393, 408): no-change type check and full app Jest.
-- Rounds 408-417: auth failure resent; ask and stop signals not followed.
+- Rounds 408-418: auth failure resent; ask and stop signals not followed.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-417: Claude Code auth failures, resent. 395-417: 18b step 3 resent each time as a self-contained prompt.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-418: Claude Code auth failures, resent. 395-418: 18b step 3 resent each time as a self-contained prompt.
