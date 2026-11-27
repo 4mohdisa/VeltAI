@@ -13045,3 +13045,6 @@
 - 2026-11-28 00:53 Resent 18b step 3 unchanged: Claude Code auth failures are environmental, so the task is retried, not parked or stopped.
 - 2026-11-28 00:53 Jev suggested asking Isa; not followed, because no question is allowed and the auth blocker is already documented in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:53 Jev's low clean-finish estimate is noted; the task stays small (one step per round) so a failed auth costs little.
+- 2026-11-28 00:54 Round 344: Claude Code auth is still expired. Per the standing rule, resend the same step. Not parked, not asked, not stopped.
+- 2026-11-28 00:54 Jev suggested ask (27%). Not followed: the no-question rule stands, and the blocker is environmental and fixed by Isa's claude auth login, which is already in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:54 Checkpoints stay deferred while auth is down.
