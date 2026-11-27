@@ -12987,3 +12987,6 @@
 - 2026-11-28 00:47 Round 326: Claude Code auth still expired (environmental, per notes). Resent 18b step 3 unchanged, no park, no ask, no stop.
 - 2026-11-28 00:47 Jev ask (36%) and stop (6%) signals not followed: no Isa blocker stops the loop and no dangerous action is pending.
 - 2026-11-28 00:47 Checkpoint still deferred until auth returns; run it right after the first successful report.
+- 2026-11-28 00:47 327: Claude Code auth still expired. Resent 18b step 3 unchanged, as the standing rule says auth failures are environmental and never park.
+- 2026-11-28 00:47 327: Jev ask (31%) and stop (6%) signals not followed. No Isa blocker stops the loop, and the step is small and reversible.
+- 2026-11-28 00:47 327: Checkpoint (type check and full app Jest) stays deferred until auth returns.
