@@ -12700,3 +12700,7 @@
 - 2026-11-28 00:14 Round 243: resent 18b step 3 with the same scoped prompt; Claude Code login failure is environmental, so resend, do not park.
 - 2026-11-28 00:14 Chose 18b step 3 over 18c because the notes name it as the next step and it is small and testable.
 - 2026-11-28 00:14 Added a tsc check first in the prompt per the branch and gate override.
+- 2026-11-28 00:15 Round 244 is a checkpoint, so the loop note is followed: type check and full app suite only, no file changes.
+- 2026-11-28 00:15 The Claude Code auth failure is environmental, so the prompt is resent and the row is not parked.
+- 2026-11-28 00:15 18b step 3 (security headers) stays the next task after the checkpoint and is not started this round.
+- 2026-11-28 00:15 Jev signals are advisory only and were not followed: the checkpoint is required by the loop note and no Isa blocker stops the loop.
