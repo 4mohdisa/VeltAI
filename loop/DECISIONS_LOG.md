@@ -13226,3 +13226,8 @@
 - 2026-11-28 01:14 Jev signals (run 47%, ask 47%, stop 6%, last task clean 2%, risk 1.7 at confidence 0.56) not followed. The low clean-finish estimate reflects the auth blocker, not the task. Ask and stop are not allowed by the brief.
 - 2026-11-28 01:14 Kept the task at step 3 of 18b (small, one middleware chain, no shared guard) because it is the smallest safe step while auth is down.
 - 2026-11-28 01:14 Checkpoint results from rounds 379 and 393 remain unrecorded; record them when auth returns.
+- 2026-11-28 01:15 Chose 18b step 3: it is the next unfinished step and has a clear, testable scope.
+- 2026-11-28 01:15 Jev asked for ask (51%) and flagged high risk (1.7). Not followed: ask is never allowed, and the risk is tied to the environmental auth failure, not to this step's code. The step is small and reverts on failure.
+- 2026-11-28 01:15 Claude Code auth failure is environmental: resend, do not park, do not stop. Isa's auth step stays in OWNER_CHECKS_phase4.md.
+- 2026-11-28 01:15 Prompt is self-contained because a handover may follow. Includes branch rule, no HSTS and the report format.
+- 2026-11-28 01:15 Checkpoint results from rounds 379 and 393 stay unrecorded until auth returns, as before.
