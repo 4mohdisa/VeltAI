@@ -13338,3 +13338,6 @@
 - 2026-11-28 01:26 Jev ask signal (65%) not followed: action ask is not allowed by the brief and Isa is away; no safety reason to stop.
 - 2026-11-28 01:26 Jev stop and risk signals noted: the loop cannot advance until Isa runs claude auth login. The ACTION FOR ISA line stays at the top of the notes.
 - 2026-11-28 01:26 Checkpoint results from rounds 379, 393, 408 and 423 still unrecorded until auth returns.
+- 2026-11-28 01:27 Round 429: Claude Code auth still failing, so the step is resent as a self-contained prompt (auth failures are environmental, never park).
+- 2026-11-28 01:27 Jev ask and stop signals not followed again: no Isa blocker stops the loop and the next step is clearly runnable.
+- 2026-11-28 01:27 Kept 18b step 3 as the next task because it is the smallest open step and is already in progress.
