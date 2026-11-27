@@ -12752,3 +12752,6 @@
 - 2026-11-28 00:20 Kept 18b step 3 as the next task (already the open item in notes). Jev's ask signal is not followed, per the standing decision that no Isa blocker stops or pauses the loop.
 - 2026-11-28 00:20 Headers middleware is a new file wired once, not a shared guard, so no approval is needed.
 - 2026-11-28 00:20 Notes condensed to stay under 600 words; no open item was removed.
+- 2026-11-28 00:20 Round 258: Claude Code login failure is environmental (login expired since round 210), so the same 18b step 3 task is resent and not parked.
+- 2026-11-28 00:20 Kept the top candidate (security headers) because it was the step already in progress, and it is small and backend only.
+- 2026-11-28 00:20 Jev ask and stop signals not followed; its confidence on the risk score is 0.00, so it is not used.
