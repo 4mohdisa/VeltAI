@@ -12646,3 +12646,7 @@
 - 2026-11-28 00:07 Round 226: Claude Code auth still expired; resent 18b step 3 per the auth rule (environmental, never park).
 - 2026-11-28 00:07 Jev ask and stop signals not followed: no Isa blocker stops the loop, and the auth failure is already in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:07 Kept 18b step 3 as the next task: it is small, headers only, and needs no approval.
+- 2026-11-28 00:08 Claude Code login failure is environmental, not an Isa blocker: resend the same step and do not park it.
+- 2026-11-28 00:08 Jev ask and stop signals not followed: the blocker is the expired Claude Code login, which Isa fixes, not a question for him.
+- 2026-11-28 00:08 Kept 18b step 3 as the next task: it is the step already queued in the notes and needs no auth or new dependency.
+- 2026-11-28 00:08 Rate limits stay parked: no existing limiter is approved, so headers only.
