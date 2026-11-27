@@ -13175,3 +13175,7 @@
 - 2026-11-28 01:09 Jev ask signal (51%) not followed: the brief forbids ask and no Isa blocker stops the loop.
 - 2026-11-28 01:09 Jev risk 1.6 noted; kept the bounded local backend task with no outside calls.
 - 2026-11-28 01:09 Notes trimmed to fit the 600 word limit; no parked or blocked items removed.
+- 2026-11-28 01:09 Round 384: Claude Code auth still expired; environmental, so resent 18b step 3 with the same steps and report format. Never park, never ask.
+- 2026-11-28 01:09 Round 384: Jev ask signal (56%) not followed; the brief forbids ask and no Isa blocker stops the loop.
+- 2026-11-28 01:09 Round 384: Jev risk 1.7 noted; kept choice on a bounded local task (headers in existing chain, Go tests only).
+- 2026-11-28 01:09 Round 384: Round 379 checkpoint result stays unrecorded until auth returns.
