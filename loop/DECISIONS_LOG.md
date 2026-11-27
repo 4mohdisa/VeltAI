@@ -13234,3 +13234,7 @@
 - 2026-11-28 01:15 Round 399: Claude Code auth still expired (environmental). Resent 18b step 3 as a self-contained prompt instead of parking; Isa must run claude auth login (see OWNER_CHECKS_phase4.md).
 - 2026-11-28 01:15 Jev ask signal (36%) not followed: no question to Isa, per the no questions rule. Jev risk 1.7 noted; the task is small, headers only, reversible.
 - 2026-11-28 01:15 Kept candidates 14a and 6b as the next options because 18b step 3 is still the highest priority in the current order.
+- 2026-11-28 01:15 Claude Code auth failure is environmental (login expired since round 210). Resent the same row as a self-contained prompt, not parked, per the auth rule.
+- 2026-11-28 01:15 Jev ask signal (36%) not followed: ask is forbidden by the brief. Jev stop signal not followed: no listed stop condition applies.
+- 2026-11-28 01:15 Kept 18b step 3 as the next task because it is already drafted, small and in the existing chain. It needs no Isa decision.
+- 2026-11-28 01:15 No HSTS, because the backend runs on local HTTP. Existing decision kept.
