@@ -13123,3 +13123,6 @@
 - 2026-11-28 01:03 Jev suggested ask or stop; not followed. No dangerous action, no hosted service, and no Isa blocker stops the loop per the decisions list.
 - 2026-11-28 01:03 Step kept to max 5 steps and one middleware area, per the overrides.
 - 2026-11-28 01:03 HSTS stays excluded because the backend runs on local HTTP.
+- 2026-11-28 01:03 Round 368: Claude Code auth still expired; resent 18b step 3 unchanged, as the auth rule says (environmental, never park, never ask, never stop).
+- 2026-11-28 01:03 Jev suggested ask 34% and stop 7%; not followed. Ask and stop signals are excluded by the brief, and no Isa blocker stops the loop.
+- 2026-11-28 01:03 Kept the 18b step 3 scope as already decided: headers only, no HSTS, existing middleware chain only.
