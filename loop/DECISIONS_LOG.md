@@ -13257,3 +13257,6 @@
 - 2026-11-28 01:17 Round 405: Claude Code auth failure is environmental, so the 18b step 3 prompt is resent unchanged in substance and kept self-contained. Not parked, not asked, not stopped.
 - 2026-11-28 01:17 Jev ask signal not followed: no Isa blocker is allowed to stop or pause the loop.
 - 2026-11-28 01:17 Notes compacted to stay under 600 words. No work items removed; parked items kept in the list.
+- 2026-11-28 01:18 Round 406: Claude Code auth failure is environmental; resent the 18b step 3 prompt as self-contained, per the auth decision. Not parked, not stopped.
+- 2026-11-28 01:18 Round 406: Jev ask (35%) and stop (8%) signals not followed; no Isa blocker stops the loop, and no stop condition applies.
+- 2026-11-28 01:18 Round 406: HSTS stays out of the headers, as already decided for local HTTP.
