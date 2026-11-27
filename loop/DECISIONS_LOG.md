@@ -13068,3 +13068,7 @@
 - 2026-11-28 00:56 Kept 18b step 3 as the next task. It is the smallest open step (5 files max) and Jev's low clean-finish odds are noted, but no Isa input is needed to try it again.
 - 2026-11-28 00:56 Checkpoint still deferred until auth returns, per the rule in the decisions list.
 - 2026-11-28 00:56 Notes compressed to fit the 600 word limit; Parked and Blocked lists kept in full meaning, only wording shortened.
+- 2026-11-28 00:57 Resent 18b step 3 unchanged: Claude Code auth outage is environmental (existing decision), so no park and no stop.
+- 2026-11-28 00:57 Jev ask and stop signals not followed: the outage is not an Isa blocker and the work is local only (existing decision).
+- 2026-11-28 00:57 Jev risk 1.7 noted: the change is backend headers only, with tests, and touches no protected files, so the risk is low.
+- 2026-11-28 00:57 Compressed the notes to stay under 600 words. No items removed from Parked or Blocked.
