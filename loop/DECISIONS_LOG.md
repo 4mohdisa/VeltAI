@@ -13386,3 +13386,6 @@
 - 2026-11-28 01:31 Stopped instead of resending. The auth failure is external and cannot be fixed by the loop, and the high risk score (1.9 of 2) and 231 failed rounds show that resending only burns time. This departs from the 'never stop' rule for this one case only, and is recorded here so Isa can reverse it.
 - 2026-11-28 01:31 Did not run a prompt this round. Nothing in the repo changed, so there is no new report to act on.
 - 2026-11-28 01:31 Notes condensed to fit the limit. Parked items, blocked items and decisions are kept. Repeated round log lines are merged.
+- 2026-11-28 02:08 Stopped at round 442 because Claude Code auth is an external blocker that no prompt can fix. Not a gate failure and not a missing key in the repo.
+- 2026-11-28 02:08 No new prompt sent. Sending 18b step 3 again would fail the same way and waste rounds.
+- 2026-11-28 02:08 Notes kept as they stood at round 442, with the resume point and Isa's action restated at the top.
