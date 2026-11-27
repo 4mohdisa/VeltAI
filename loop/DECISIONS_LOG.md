@@ -12874,3 +12874,6 @@
 - 2026-11-28 00:34 Kept 18b step 3 over Jev's top pick: it is the next step in the notes, Jev gives it 84%, and it is small and bounded to one package.
 - 2026-11-28 00:34 Claude Code auth failure is environmental: resend this prompt, do not park, do not ask.
 - 2026-11-28 00:34 Checkpoint 292 is not re-run this round to keep the step small; it remains queued after auth is restored.
+- 2026-11-28 00:34 Round 294: resent 18b step 3 after the Claude Code auth failure. Environmental, so not parked.
+- 2026-11-28 00:34 Kept 18b step 3 over the checkpoint: it is the next step in notes and is bounded to one package. The checkpoint for rounds 288 and 292 runs first once auth returns.
+- 2026-11-28 00:34 Jev ask signal (29%) not followed: no Isa blocker stops the loop.
