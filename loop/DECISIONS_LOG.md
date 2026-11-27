@@ -12612,3 +12612,6 @@
 - 2026-11-28 00:03 Kept 18b step 3 over the other candidates: it is the smallest open security step and the recorded next step, with no code change since the green checkpoint at round 209.
 - 2026-11-28 00:03 Rate limits stay out unless an existing limiter covers AI and feedback routes; otherwise the report records headers only.
 - 2026-11-28 00:03 Notes compressed to under 600 words: finished rows and resolved round logs removed, parked and blocked lists kept in full.
+- 2026-11-28 00:04 Round 217: resent 18b step 3 after the Claude Code login failure (environmental, never parked).
+- 2026-11-28 00:04 Jev ask signal (20%) not followed: no Isa blocker stops or asks; the loop keeps running.
+- 2026-11-28 00:04 Headers only: rate limits stay parked because no existing limiter covers AI and feedback routes.
