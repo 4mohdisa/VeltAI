@@ -12965,3 +12965,7 @@
 - 2026-11-28 00:44 Jev ask signal (38%) not followed: the brief forbids ask, and the loop blocker is a login Isa must run, not a question.
 - 2026-11-28 00:44 Kept one task per round: the checkpoint only, so 18b step 3 waits until the run succeeds.
 - 2026-11-28 00:44 Auth expiry is recorded in the notes as the loop blocker so Isa can run claude auth login or set CLAUDE_CODE_OAUTH_TOKEN.
+- 2026-11-28 00:45 Looked again at Jev's pick (18b step 3). Switched from the checkpoint to step 3. Reason: the checkpoint has been resent at rounds 303, 318, 319 and 320 with no code change since 319, so it adds no new information while Claude Code auth is down. Step 3 is the planned next piece of real work, and the checkpoint can run after it when auth returns.
+- 2026-11-28 00:45 Prompt does not name the middleware file because the handover reset file knowledge and the exact file was not confirmed; the step tells Claude Code to locate the one existing chain with grep and read it first, with a revert rule if it needs a new shared package.
+- 2026-11-28 00:45 Headers exclude HSTS because the backend runs on local HTTP (existing decision).
+- 2026-11-28 00:45 Auth failures are environmental: this round is resent in substance, not parked. Isa still needs to run claude auth login or set CLAUDE_CODE_OAUTH_TOKEN (see OWNER_CHECKS_phase4.md).
