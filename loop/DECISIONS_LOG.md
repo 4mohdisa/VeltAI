@@ -12582,3 +12582,6 @@
 - 2026-11-27 07:51 Round 208: pinning the open redirect behaviour in a test is allowed because it is a tripwire recorded in KNOWN_ISSUES.md; no shared guard without Isa.
 - 2026-11-27 07:51 Round 208: Row 18 stays DIFFERENT until steps 3 and 18c are done.
 - 2026-11-27 07:51 Round 208: chose the follow-up over step 3 because the loop flagged the last round as partial and the override says to deal with it first.
+- 2026-11-28 00:00 Round 209 is the scheduled checkpoint (override 11), so it runs full gates before the next security step.
+- 2026-11-28 00:00 Row 18b step 3 (rate limits, headers) is next after the checkpoint, as the prior notes planned.
+- 2026-11-28 00:00 Jev suggested running a task; kept the checkpoint because the notes schedule it and it is low risk.
