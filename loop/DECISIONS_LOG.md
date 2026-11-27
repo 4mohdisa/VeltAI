@@ -12909,3 +12909,7 @@
 - 2026-11-28 00:38 Claude Code auth expiry is environmental: resent the same task instead of parking it.
 - 2026-11-28 00:38 Jev's ask signal (14%) and stop signal (3%) not followed: no Isa blocker applies, and the checkpoint needs no input.
 - 2026-11-28 00:38 Row 18b step 3 (security headers) stays the next task after the checkpoint, as planned in round 302.
+- 2026-11-28 00:38 Resent 18b step 3 because the latest failure is Claude Code authentication, which is environmental under the notes rule: resend, never park, never ask.
+- 2026-11-28 00:38 Did not follow the Jev ask signal (26%) because the notes rule is never to ask Isa; the step stays small and within the row.
+- 2026-11-28 00:38 Kept the prompt to max 5 steps and one middleware chain, per override 4 and the no new shared guard rule.
+- 2026-11-28 00:38 Left Strict-Transport-Security out of the app side because the hosting layer owns TLS; this is a deliberate scope choice.
