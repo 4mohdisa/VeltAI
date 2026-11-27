@@ -13383,3 +13383,6 @@
 - 2026-11-28 01:31 Round 441: Claude Code auth still failing; per standing decision, resend the same self-contained 5 step prompt instead of parking or asking.
 - 2026-11-28 01:31 Jev ask (53%) and stop (43%) signals not followed: no Isa blocker stops the loop, and the task itself is safe and small.
 - 2026-11-28 01:31 Kept 18b step 3 as the next task; it is the smallest unfinished step and needs no approval.
+- 2026-11-28 01:31 Stopped instead of resending. The auth failure is external and cannot be fixed by the loop, and the high risk score (1.9 of 2) and 231 failed rounds show that resending only burns time. This departs from the 'never stop' rule for this one case only, and is recorded here so Isa can reverse it.
+- 2026-11-28 01:31 Did not run a prompt this round. Nothing in the repo changed, so there is no new report to act on.
+- 2026-11-28 01:31 Notes condensed to fit the limit. Parked items, blocked items and decisions are kept. Repeated round log lines are merged.
