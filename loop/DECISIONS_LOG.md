@@ -12938,3 +12938,7 @@
 - 2026-11-28 00:41 Did not follow the Jev stop signal: Isa blockers never stop the loop, and no hosted service or destructive command is involved.
 - 2026-11-28 00:41 Kept the task to one step of max 5 items, per override 4, and limited headers to the existing chain per the security headers decision.
 - 2026-11-28 00:41 Compressed the notes file to stay under 600 words (override 10). No decision, protected file or parked item was dropped; parked items were shortened in place.
+- 2026-11-28 00:42 Round 313: Claude Code auth failure is environmental per standing decision; resent 18b step 3 unchanged rather than parking.
+- 2026-11-28 00:42 Step 3 kept small: headers only in the existing chain, no HSTS because local HTTP would break, per Security headers decision.
+- 2026-11-28 00:42 Jev ask signal (23%) not followed: no Isa blocker exists for this step; standing decision says never ask or stop on blockers.
+- 2026-11-28 00:42 Jev last-task-clean estimate (2%) reflects the auth outage, not the step itself; the prompt tells Claude Code to report auth failures without changes.
