@@ -4,9 +4,9 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 English only for new strings. About 15 rounds per row. Order 18-30, then 31. One screen or component per prompt, max 5 steps. Partly done: one follow-up, then park. Simulator and Maestro only in rows 23 and soak. Branch rule in every prompt; tsc first. Flagged work tested first. Out of scope changes: check, then keep with decision or revert. Failed partial steps: revert and report.
 
-## State (Round 375)
+## State (Round 376)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29; Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done; 18b steps 1-2 done.
-Next: 18b step 3 (security headers), resent in round 375. Then 18b step 4, then 18c. Checkpoint deferred until auth returns.
+Next: 18b step 3 (security headers), resent round 376. Then 18b step 4, then 18c. Checkpoint deferred until auth returns.
 
 ## Loop blocker
 Claude Code auth expired since round 210. Isa must run claude auth login or claude setup-token (see OWNER_CHECKS_phase4.md). Expo plugin not installed; ignored for backend work. Environmental: resend, never park, never ask, never stop.
@@ -44,4 +44,4 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable).
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-374: Claude Code auth failures, resent. 375: 18b step 3 resent (auth still expired).
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-375: Claude Code auth failures, resent. 376: 18b step 3 resent (auth still expired).

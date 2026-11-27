@@ -13148,3 +13148,6 @@
 - 2026-11-28 01:06 Round 375: Claude Code auth still expired (report shows the login time limit). Resent 18b step 3 unchanged, per the environmental rule.
 - 2026-11-28 01:06 Jev ask and stop signals not followed: the Isa blocker is parked, not a stop, and the risk score has confidence 0.07.
 - 2026-11-28 01:06 Security headers scoped to the existing middleware chain with no HSTS, as already decided for local HTTP.
+- 2026-11-28 01:06 Resent 18b step 3 because Claude Code auth failure is environmental (decision: never park auth failures).
+- 2026-11-28 01:06 Jev ask and stop signals not followed; no Isa blocker stops the loop.
+- 2026-11-28 01:06 Kept HSTS out of headers because the backend runs on local HTTP (existing decision).
