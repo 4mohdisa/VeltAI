@@ -13107,3 +13107,6 @@
 - 2026-11-28 01:01 Jev suggested ask or stop; not followed. Isa cannot be asked and no blocker stops the loop.
 - 2026-11-28 01:01 Kept no HSTS because the backend runs on local HTTP.
 - 2026-11-28 01:01 Kept the step to headers only, with no other changes, to keep it small.
+- 2026-11-28 01:01 Round 363 is a loop-note checkpoint, so it runs the no-change type check and full app Jest as the notes require.
+- 2026-11-28 01:01 Claude Code auth failure is environmental: the prompt is resent, not parked, and 18b step 3 waits until auth returns.
+- 2026-11-28 01:01 Jev's ask and stop signals are not followed, since no Isa blocker stops the loop and the next action it favours is run.
