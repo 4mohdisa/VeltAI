@@ -12639,3 +12639,7 @@
 - 2026-11-28 00:07 Kept action run over the Jev ask and stop signals, per the standing decision that no Isa blocker stops the loop.
 - 2026-11-28 00:07 Rate limits: apply only through an existing limiter that covers both AI and feedback routes; otherwise headers only and park.
 - 2026-11-28 00:07 Notes condensed to fit the 600 word limit; no rule removed.
+- 2026-11-28 00:07 Claude Code auth failures are environmental, so the same step is resent rather than parked (existing decision).
+- 2026-11-28 00:07 Jev suggested ask 20% and stop 5%; not followed, because the loop rules forbid asking and stopping on Isa blockers. Recorded here as the reason.
+- 2026-11-28 00:07 Rate limits stay parked: no existing limiter covers AI and feedback routes, so only headers are added.
+- 2026-11-28 00:07 Step 3 is limited to headers and one middleware wired once, to keep the change small and within the 5 step cap.
