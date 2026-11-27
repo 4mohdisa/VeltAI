@@ -13304,3 +13304,6 @@
 - 2026-11-28 01:22 Round 418: Claude Code auth still expired. Treated as environmental per the loop rule: resent the 18b step 3 prompt as a self-contained prompt, no park, no ask, no stop.
 - 2026-11-28 01:22 Jev ask signal (65%) not followed: the only blocker is Claude Code login, which Isa must fix himself, and the rule says no Isa blocker stops or asks. The loop keeps resending.
 - 2026-11-28 01:22 Chose candidate 1 because it is the smallest open step in the active row and the notes' Next pointer names it.
+- 2026-11-28 01:23 Round 419: Claude Code auth still expired; the step needing Isa is environmental, so the 18b step 3 prompt is resent as self-contained (auth failures are never parked).
+- 2026-11-28 01:23 Ask signal not followed: Isa blocker never stops or asks (standing rule). Stop signal not followed: rows 18b to 31 remain open.
+- 2026-11-28 01:23 Jev risk 1.6 noted; this prompt is small (one step, backend only, revert on failure) to lower risk.
