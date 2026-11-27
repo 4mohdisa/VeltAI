@@ -13331,3 +13331,6 @@
 - 2026-11-28 01:25 Round 426: latest Claude Code report is an expired login (environmental). Per the standing rule, resend and do not park, ask or stop. Resent 18b step 3 as a self-contained prompt.
 - 2026-11-28 01:25 Jev suggested ask or stop. Not followed: no Isa blocker stops the loop, and the auth failure is resolved by Isa's login step, not by stopping.
 - 2026-11-28 01:25 Kept the smallest remaining task (one middleware step) because the session may be unstable after repeated auth failures.
+- 2026-11-28 01:26 Round 427: Claude Code auth still expired; resent the self-contained 18b step 3 prompt, as the notes rule requires (auth failures are environmental, never park, never ask).
+- 2026-11-28 01:26 Jev ask (71%) and stop (14%) signals not followed: no Isa blocker stops the loop, and no listed stop condition is met (no dangerous action, no hosted service touched, rows not done).
+- 2026-11-28 01:26 Prompt is self-contained after handover: names the middleware search, the test rule and the report format; states the loop/phase4 branch rule and tsc first.
