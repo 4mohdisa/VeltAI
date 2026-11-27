@@ -12604,3 +12604,7 @@
 - 2026-11-28 00:02 Round 214 is the checkpoint the loop note asks for: read only, no files changed, because the checkpoint is due and Row 18b step 3 is still waiting on the login.
 - 2026-11-28 00:02 Resent the checkpoint task after the Round 213 auth failure, because Claude Code auth failures are environmental and are never parked.
 - 2026-11-28 00:02 Notes trimmed to under 600 words: finished parked items merged, the Round log shortened. No rule removed.
+- 2026-11-28 00:03 Kept 18b step 3 over Jev's first choice: it is the smallest open security step, the recorded next step, and the code has not changed since the green checkpoint in round 209, so it can be verified in one short round.
+- 2026-11-28 00:03 Rate limits stay parked unless an existing limiter covers AI and feedback routes, per the existing decision.
+- 2026-11-28 00:03 Claude Code auth failure is environmental: the task is resent, not parked.
+- 2026-11-28 00:03 Round 214 checkpoint is treated as not run; the round 209 checkpoint still covers the code.
