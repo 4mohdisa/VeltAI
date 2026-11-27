@@ -12626,3 +12626,6 @@
 - 2026-11-28 00:05 Kept 18b step 3 over Jev's suggested pick (Jev ranked run 72%, ask 22%). Reason: the task is already scoped and small, and it finishes the 18b row.
 - 2026-11-28 00:05 Jev's ask signal not followed: no Isa question is asked. Jev's low clean-finish estimate (2%) is noted; the step is kept to five actions to limit risk.
 - 2026-11-28 00:05 Rate limits stay parked: no shared limiter approved, so headers only, as before.
+- 2026-11-28 00:05 Round 221: Claude Code auth still expired; resent 18b step 3 instead of parking it, per the auth-failure decision.
+- 2026-11-28 00:05 Kept 18b step 3 over the Jev candidates (18c and 19) because 18b is in progress and Jev's ask/stop signals are not followed.
+- 2026-11-28 00:05 Rate limits stay parked unless an existing limiter already covers AI and feedback routes; no new limiter without Isa approval.
