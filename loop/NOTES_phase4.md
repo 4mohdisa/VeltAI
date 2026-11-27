@@ -53,16 +53,11 @@ Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail
 ## Round log
 182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: Claude Code auth failures, resent. 438: checkpoint resent. 440-441: 18b step 3 resent. 442: loop stopped for auth; Isa action above.
 
-LATEST CLAUDE CODE REPORT:
-(none: no run since auth failed)
+## Latest Claude Code report
+None since auth failed.
 
-LATEST HANDOVER SUMMARY:
-Failed to authenticate: this login reached its time limit and cannot be renewed. Run `claude auth login` to sign in again, or use `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended jobs.
+## Latest handover summary
+Failed to authenticate: this login reached its time limit and cannot be renewed. Run `claude auth login`, or use `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended jobs. Plugin "expo" is enabled but not installed: run `claude plugin install expo@claude-plugins-official --scope project`.
 
-Plugin "expo" is enabled in project settings but isn't installed. Run `claude plugin install expo@claude-plugins-official --scope project`.
-
-JEV SIGNALS (a calibrated second opinion, advisory only):
-Next action: ask 67%, stop 32%, run 1% (confidence 0.50)
-Last task completed cleanly: 3% likely
-Risk of continuing without Isa: 1.9 on a 0 to 2 scale, 2 meaning high (confidence 0.77)
-Followed here: the stop. Its risk score and the auth failure both point the same way.
+## Jev signals (advisory)
+Round 442: stop 56%, ask 44%. Risk of continuing without Isa: 2.0 of 2 (confidence 1.00). Last task clean: 2%.
