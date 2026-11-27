@@ -13025,3 +13025,6 @@
 - 2026-11-28 00:51 Round 337: Jev ask (28%) and stop (7%) signals not followed, per the standing decision. Auth failure is not an Isa blocker that stops the loop.
 - 2026-11-28 00:51 Round 337: resent 18b step 3 unchanged, with a stricter prompt that names the exact header values and limits the work to 5 steps.
 - 2026-11-28 00:51 Round 337: no app type check this round because the change is backend only. Checkpoint runs stay deferred until auth returns.
+- 2026-11-28 00:51 Round 338: Claude Code auth still expired; environmental, so 18b step 3 resent as the next run (never park, never ask).
+- 2026-11-28 00:51 Round 338: Jev ask and stop signals not followed; no Isa blocker stops the loop.
+- 2026-11-28 00:51 Round 338: Checkpoint still deferred while auth is down; it runs once auth returns.
