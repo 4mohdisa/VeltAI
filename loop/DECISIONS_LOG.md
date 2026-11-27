@@ -12849,3 +12849,6 @@
 - 2026-11-28 00:31 Claude Code auth failure treated as environmental: resend the same step, do not park, do not ask (Jev ask signal not followed).
 - 2026-11-28 00:31 Checkpoint and 18b step 3 kept together because 18b step 3 is small and the checkpoint is the pending result.
 - 2026-11-28 00:31 Security headers: add only in the existing middleware chain if missing; no new shared guard package (blocked on Isa approval list).
+- 2026-11-28 00:31 287: Claude Code auth failure is environmental; resent the round 286 checkpoint task instead of parking (per the standing rule).
+- 2026-11-28 00:31 287: Jev ask (22%) and stop (2%) signals not followed: no Isa blocker is present, the risk signal has no concrete cause, and the auth issue is handled by resend.
+- 2026-11-28 00:31 287: Checkpoint first, then 18b step 3, so the record matches the round 286 plan.
