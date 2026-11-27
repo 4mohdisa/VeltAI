@@ -12961,3 +12961,7 @@
 - 2026-11-28 00:44 Resent the round 318 checkpoint as round 319: Claude Code auth failure is environmental, so resend, never park, never ask.
 - 2026-11-28 00:44 Jev ask signal (24%) not followed: no questions to Isa; the loop continues.
 - 2026-11-28 00:44 Kept the checkpoint before 18b step 3 so the baseline is green before the next security change.
+- 2026-11-28 00:44 Round 320 resends the round 319 checkpoint unchanged, per the rule that Claude Code auth failures are environmental and never parked.
+- 2026-11-28 00:44 Jev ask signal (38%) not followed: the brief forbids ask, and the loop blocker is a login Isa must run, not a question.
+- 2026-11-28 00:44 Kept one task per round: the checkpoint only, so 18b step 3 waits until the run succeeds.
+- 2026-11-28 00:44 Auth expiry is recorded in the notes as the loop blocker so Isa can run claude auth login or set CLAUDE_CODE_OAUTH_TOKEN.
