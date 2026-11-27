@@ -1,22 +1,20 @@
 # Lume Loop Notes: Phase 4
 Goal: all rows BUILT or EXACT, soak exit met. Branch loop/phase4 only. Never push or merge.
 
-## ACTION FOR ISA (only you can do this)
-Claude Code login has expired and cannot be renewed (failing since about round 210). The loop is STOPPED at round 442.
-Run one of:
-- claude auth login
-- claude setup-token, then set CLAUDE_CODE_OAUTH_TOKEN for unattended runs
-Optional: claude plugin install expo@claude-plugins-official --scope project
-Then restart the loop. It resumes at 18b step 3.
+## ACTION FOR ISA
+Claude Code login expired (about round 210, cannot renew). Loop STOPPED at round 442.
+Run `claude auth login`, or `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended runs.
+Optional: `claude plugin install expo@claude-plugins-official --scope project`.
+Then restart. It resumes at 18b step 3.
 
-## State (Round 442)
-BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29; Phase 3 rows 6, 13, 14, 15.
-PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done; 18b steps 1-2 done.
+## State (round 442)
+BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
+PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
 Next: 18b step 3 (security headers in the existing middleware chain, no HSTS).
 Unrecorded checkpoints to record when auth returns: 379, 393, 408, 423, 438.
 
 ## Loop blocker
-Claude Code auth expired (about 231 rounds). Environmental. Only Isa can fix it. Resume with the same 5 step prompt (at most 5 numbered steps).
+Claude Code auth expired. Environmental. Only Isa can fix it. Resume with the same 5 step prompt (max 5 numbered steps).
 
 ## Parked (fix only in its row)
 Debug: null context; retry drops fields. Food: scan log delete FK; portion pref wipes meal type; saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH accepts future date and negative duration. Goals: weight_goal, activity_level, source unchecked; onboarding skips sex, units. Recipes: random UUID order; PATCH, meal_type unchecked. Integrations: sync caps 50/25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors; no long text cap; /api/scan 400 not 413; no image size check before paid call; label route no dimension check; non-images sent to Gemini; debug screenshots no type check (test build). Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: 6 copies of signedTokens, seedOwner, wantErrorEnvelope. Docs: LUME_TEST_DATABASE_URL. Rate limits: parked, no shared limiter approved.
@@ -46,18 +44,19 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423, 438): no-change type check and full app Jest.
 - Round 442: stopped for Claude Code auth failure (external). No further prompts until auth is restored.
+- Round 443: no prompt sent, stop kept, because every run would fail on auth.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: Claude Code auth failures, resent. 438: checkpoint resent. 440-441: 18b step 3 resent. 442: loop stopped for auth; Isa action above.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: Claude Code auth failures, resent. 438: checkpoint resent. 440-441: 18b step 3 resent. 442: loop stopped for auth. 443: stop kept.
 
 ## Latest Claude Code report
 None since auth failed.
 
 ## Latest handover summary
-Failed to authenticate: this login reached its time limit and cannot be renewed. Run `claude auth login`, or use `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended jobs. Plugin "expo" is enabled but not installed: run `claude plugin install expo@claude-plugins-official --scope project`.
+Failed to authenticate: login reached its time limit and cannot be renewed. Run `claude auth login`, or `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN. Plugin "expo" enabled but not installed.
 
 ## Jev signals (advisory)
-Round 442: stop 56%, ask 44%. Risk of continuing without Isa: 2.0 of 2 (confidence 1.00). Last task clean: 2%.
+Round 442: stop 65%. Risk of continuing without Isa: 2.0 of 2 (confidence 1.00). Last task clean: 2%.

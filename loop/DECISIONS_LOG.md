@@ -13394,3 +13394,5 @@
 - 2026-11-28 02:44 Followed the Jev stop signal (56%) because the auth failure is external and confirmed by the handover text.
 - 2026-11-28 02:44 Merged the two duplicate LATEST REPORT and LATEST HANDOVER sections into one set. The content was identical.
 - 2026-11-28 02:44 Kept all Parked and Blocked items unchanged so nothing is lost on restart.
+- 2026-11-28 03:21 Round 443: no prompt sent. The Claude Code auth failure is external and every run would fail, so the round 442 stop stands.
+- 2026-11-28 03:21 Notes condensed to under 600 words. All Decisions, Protected items, Blocked items and Parked items are kept unchanged in meaning.
