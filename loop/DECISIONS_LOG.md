@@ -12886,3 +12886,8 @@
 - 2026-11-28 00:35 Round 297: Claude Code auth failure is environmental, so the same work is resent, not parked (per the auth rule).
 - 2026-11-28 00:35 Jev ask (40%) and stop (6%) not followed: no Isa blocker stops the loop, and the auth step is an owner step already logged in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:35 Checkpoint runs first because it is owed, then 18b step 3 runs as one prompt of max 5 steps.
+- 2026-11-28 00:36 Round 298: Claude Code auth failure is environmental, so the same work is resent and nothing is parked.
+- 2026-11-28 00:36 Chose the checkpoint plus 18b step 3 because the notes say the checkpoint runs first and the header work is next in the row.
+- 2026-11-28 00:36 Jev ask signal (29%) not followed: the loop has no Isa blocker that stops work, and the next task is local and reversible.
+- 2026-11-28 00:36 Jev stop signal (6%) not followed: nothing dangerous or hosted is involved.
+- 2026-11-28 00:36 Jev risk signal (1.7 of 2) noted: the risk is limited to local test runs and header changes inside the existing middleware chain.
