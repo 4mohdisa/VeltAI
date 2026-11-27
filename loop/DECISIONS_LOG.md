@@ -13242,3 +13242,7 @@
 - 2026-11-28 01:16 Followed the top Jev action (run, 57%) over the ask signal (39%), because ask is not allowed and the notes record that Jev ask signals are not followed.
 - 2026-11-28 01:16 Kept the step small (max 5 steps) and named the middleware chain by search, since the exact file path is not in the notes and I will not guess it.
 - 2026-11-28 01:16 Security headers stay in the existing middleware chain and HSTS stays off, per Decisions (local HTTP).
+- 2026-11-28 01:16 Round 402: Claude Code auth still expired. Treated as environmental per standing rule: resend, never park, never ask, never stop.
+- 2026-11-28 01:16 Jev ask signal (40%) not followed: the no-ask rule from Isa stands and the loop has no blocker that needs his answer.
+- 2026-11-28 01:16 Resent 18b step 3 as a fully self-contained prompt, with the no-HSTS rule and the chain-reuse rule stated again.
+- 2026-11-28 01:16 Condensed the notes file under 600 words. Parked and blocked items are kept in full; finished round detail is merged into one line.
