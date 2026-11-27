@@ -12691,3 +12691,6 @@
 - 2026-11-28 00:13 Jev ask signal (17%) not followed: no Isa blocker stops or pauses the loop; the step is a bounded headers-only change.
 - 2026-11-28 00:13 Kept the Expo plugin warning out of the prompt: it does not affect backend work.
 - 2026-11-28 00:13 Compressed the notes to stay under 600 words; no open item was dropped. Finished work condensed into the round log.
+- 2026-11-28 00:14 Round 241: resent 18b step 3. Claude Code auth still failing; this is environmental, so resend and do not park.
+- 2026-11-28 00:14 Jev ask and stop signals not followed: the only blocker is the expired Claude Code login, and Isa's instruction is no ask and no stop for Isa blockers.
+- 2026-11-28 00:14 Notes condensed to under 600 words: finished rows merged, repeated items grouped. No open item removed.
