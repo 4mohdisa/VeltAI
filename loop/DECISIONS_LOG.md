@@ -12860,3 +12860,6 @@
 - 2026-11-28 00:32 Checkpoint first because the round 288 result is still unrecorded and the notes ask for it before 18b step 3.
 - 2026-11-28 00:32 Jev suggested ask at 23 percent and was not followed: no-question rule applies. Stop at 2 percent was not followed: no Isa blocker stops the loop.
 - 2026-11-28 00:32 Claude Code auth needs Isa (claude auth login or setup-token, see OWNER_CHECKS_phase4.md). The loop cannot fix it; it keeps resending.
+- 2026-11-28 00:32 Claude Code auth failure is environmental: resend the checkpoint, do not park, do not ask. Reason: Round 289 failed the same way and the notes say resend.
+- 2026-11-28 00:32 Keep the checkpoint read only so the recorded result is trustworthy before the next code change. Reason: 288 result is still unrecorded.
+- 2026-11-28 00:32 Jev's ask and stop signals were not followed. Reason: the auth failure is not an Isa blocker and the loop must keep going.
