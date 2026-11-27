@@ -12680,3 +12680,6 @@
 - 2026-11-28 00:12 Round 236: Claude Code auth still failing; resend 18b step 3 per standing rule, do not park, do not ask.
 - 2026-11-28 00:12 Kept 18b step 3 (headers only) as the next task because it is the open step in the current sub row and needs no shared guard or approval.
 - 2026-11-28 00:12 Jev ask signal not followed: Isa is away and the loop never asks.
+- 2026-11-28 00:12 Round 237: resent 18b step 3 (security headers). Claude Code auth failure is environmental, so the step is resent, not parked.
+- 2026-11-28 00:12 Jev ask signal (22%) not followed: no Isa blocker stops the loop, and the action is still run.
+- 2026-11-28 00:12 Jev risk signal (1.4 of 2) noted; the prompt is limited to headers only with no shared guard, no migration and no live calls, so the risk stays low.
