@@ -13061,3 +13061,6 @@
 - 2026-11-28 00:55 Round 348 is the checkpoint the loop note requires; run type check and full app Jest with no file changes, resent because Claude Code auth is still down (environmental, never park).
 - 2026-11-28 00:55 Jev signal (2% clean finish) describes the auth blocker, not the code; not followed. Jev ask and stop signals not followed, per standing decision.
 - 2026-11-28 00:55 18b step 3 stays pending until auth returns; it is the next task after this checkpoint.
+- 2026-11-28 00:56 Round 349: Claude Code auth is still expired. Per the standing rule it is environmental, so the 18b step 3 prompt is resent unchanged in intent, not parked.
+- 2026-11-28 00:56 Jev suggested ask (43%) and stop (7%). Not followed: no Isa blocker stops the loop, and the auth fix is Isa's OWNER_CHECKS item, already listed.
+- 2026-11-28 00:56 Chose the smallest available task (candidate 1) because Jev confidence is low (0.25) and the last task risk is recorded as high. Checkpoint stays deferred until auth returns.
