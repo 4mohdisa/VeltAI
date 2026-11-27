@@ -12871,3 +12871,6 @@
 - 2026-11-28 00:33 Jev ask signal (40%) not followed: no questions to Isa, and the blocker is resolved by resending.
 - 2026-11-28 00:33 Jev stop signal (8%) not followed: no Isa blocker stops the loop, and no danger or hosted service is involved.
 - 2026-11-28 00:33 Chose the read only checkpoint first because it is the only item with no file changes, so it is the safest step while auth is unstable.
+- 2026-11-28 00:34 Kept 18b step 3 over Jev's top pick: it is the next step in the notes, Jev gives it 84%, and it is small and bounded to one package.
+- 2026-11-28 00:34 Claude Code auth failure is environmental: resend this prompt, do not park, do not ask.
+- 2026-11-28 00:34 Checkpoint 292 is not re-run this round to keep the step small; it remains queued after auth is restored.
