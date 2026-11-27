@@ -12775,3 +12775,6 @@
 - 2026-11-28 00:22 263: Claude Code auth failure is environmental; resent the checkpoint, not parked (per the no park rule for auth).
 - 2026-11-28 00:22 263: Jev ask signal (23%) not followed; ask is not allowed. Run chosen.
 - 2026-11-28 00:22 263: Checkpoint kept as no file change round, so a red gate is reported, not fixed here.
+- 2026-11-28 00:23 Chose the checkpoint again because the last report was an auth failure and the checkpoint result is still missing; a clean result is needed before new code.
+- 2026-11-28 00:23 Jev suggested ask at 23 percent. Not followed: the brief forbids asking Isa. Auth failures are environmental, so the prompt is resent, not parked.
+- 2026-11-28 00:23 Jev risk score 1.5 is noted. No Isa blocker stops the loop, and no file outside the checkpoint log is touched this round.
