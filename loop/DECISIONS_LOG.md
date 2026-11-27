@@ -13191,3 +13191,7 @@
 - 2026-11-28 01:11 388: Claude Code auth still expired; environmental per notes, so resent 18b step 3 unchanged instead of parking or stopping.
 - 2026-11-28 01:11 388: Jev ask signal (45%) not followed; the brief says never ask and no Isa blocker stops the loop.
 - 2026-11-28 01:11 388: Jev risk 1.6 noted; kept the task bounded (headers and tests only, backend package scope).
+- 2026-11-28 01:11 Resent 18b step 3 unchanged because Claude Code auth failure is environmental (notes rule: resend, never park, never ask).
+- 2026-11-28 01:11 Jev ask signal (59%) and stop signal (15%) not followed: no Isa blocker stops the loop, and the auth failure needs Isa only to restore the session.
+- 2026-11-28 01:11 Kept a bounded local backend task because Jev risk is high (1.7) and the notes say to prefer small local tasks.
+- 2026-11-28 01:11 Asked for an app type check first per the tsc-first override, even though the change is backend only.
