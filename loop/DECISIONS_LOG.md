@@ -12823,3 +12823,7 @@
 - 2026-11-28 00:28 Jev ask signal (28%) not followed: the rules forbid ask, and no Isa blocker stops the loop.
 - 2026-11-28 00:28 Checkpoint record combined with 18b step 3 in one prompt to clear the backlog; the prompt stays at 3 steps.
 - 2026-11-28 00:28 Notes condensed to fit the 600 word limit; no parked or blocked item was removed.
+- 2026-11-28 00:28 Claude Code login failure is environmental, so the same prompt is resent without parking, asking or stopping (per standing rule).
+- 2026-11-28 00:28 Kept the pending checkpoint record and 18b step 3 as one prompt because both were unexecuted in round 278.
+- 2026-11-28 00:28 Jev asks for a question at 21 percent; not followed, since Isa is away and the loop has no question path.
+- 2026-11-28 00:28 Compressed the notes below 600 words by merging repeated parked and blocked items; no item was dropped.
