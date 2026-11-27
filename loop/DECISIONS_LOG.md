@@ -13119,3 +13119,7 @@
 - 2026-11-28 01:03 Did not follow Jev's ask (37%) or stop (8%) signals: no Isa blocker stops the loop and the next step is a single small, safe, local task.
 - 2026-11-28 01:03 Kept the step small (max 5 sub steps) and forbade HSTS because the backend runs on local HTTP.
 - 2026-11-28 01:03 Condensed the notes to stay under 600 words; no open item was dropped.
+- 2026-11-28 01:03 Round 367: Claude Code auth still down per latest report; resent 18b step 3 unchanged, as the rule says (environmental, never park).
+- 2026-11-28 01:03 Jev suggested ask or stop; not followed. No dangerous action, no hosted service, and no Isa blocker stops the loop per the decisions list.
+- 2026-11-28 01:03 Step kept to max 5 steps and one middleware area, per the overrides.
+- 2026-11-28 01:03 HSTS stays excluded because the backend runs on local HTTP.
