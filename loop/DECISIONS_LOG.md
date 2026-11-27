@@ -13289,3 +13289,6 @@
 - 2026-11-28 01:21 Round 414: Jev suggested ask or stop (71% and 16%). Not followed: Isa cannot answer during the week, and stopping would end the loop before a renewed login can resume it. Resend is the only path that makes progress once auth returns.
 - 2026-11-28 01:21 Round 414: 18b step 3 resent as a fully self-contained prompt with the no-HSTS rule and a revert-on-two-failures rule repeated.
 - 2026-11-28 01:21 Round 414: Expo plugin install still ignored; this row is backend only.
+- 2026-11-28 01:21 Round 415: Claude Code auth still expired; resent 18b step 3 as a self-contained prompt, per the environmental rule (never park, never ask, never stop).
+- 2026-11-28 01:21 Jev ask (71%) and stop (18%) signals not followed: the brief bans ask, and auth failure is not a reason to stop. Step is small and low risk, so continuing without Isa is acceptable.
+- 2026-11-28 01:21 Escalation kept visible: ACTION FOR ISA stays at the top of the notes until auth is restored.
