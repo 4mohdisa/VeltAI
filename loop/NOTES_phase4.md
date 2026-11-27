@@ -2,9 +2,9 @@
 Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branch loop/phase4 only.
 
 ## ACTION FOR ISA (only you can do this)
-Claude Code login expired (round 210, still failing at round 435). Run: claude auth login, or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN. Optional: claude plugin install expo@claude-plugins-official --scope project. The loop resumes by itself.
+Claude Code login expired (round 210, still failing at round 436). Run: claude auth login, or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN. Optional: claude plugin install expo@claude-plugins-official --scope project. The loop resumes by itself.
 
-## State (Round 435)
+## State (Round 436)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29; Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done; 18b steps 1-2 done.
 Next: 18b step 3 (security headers in existing middleware chain, no HSTS).
 Unrecorded checkpoints: 379, 393, 408, 423. Record when auth returns.
@@ -40,10 +40,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Each test package keeps its own helper copies until Isa approves a shared package.
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423): no-change type check and full app Jest.
-- Rounds 408-435: auth failure resent; ask and stop signals not followed.
+- Rounds 408-436: auth failure resent; ask and stop signals not followed.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-434: Claude Code auth failures, resent. 395-435: 18b step 3 resent each time. 435: rejected prompt (8 steps) rewritten to 5 steps.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-434: Claude Code auth failures, resent. 395-436: 18b step 3 resent each time. 435: rejected prompt (8 steps) rewritten to 5 steps. 436: 18b step 3 resent as 5 step prompt.
