@@ -12839,3 +12839,6 @@
 - 2026-11-28 00:29 Trimmed the notes to stay under 600 words; no rule or parked item was removed, only merged.
 - 2026-11-28 00:30 Round 283: Claude Code login failure is environmental, so the pending checkpoint and 18b step 3 are resent, not parked.
 - 2026-11-28 00:30 Jev ask and stop signals not followed: no Isa blocker, and the auth failure is resolved by Isa's login, not by a question.
+- 2026-11-28 00:30 Claude Code auth failure is environmental: resent the pending checkpoint and 18b step 3, not parked (per Decisions).
+- 2026-11-28 00:30 Followed the notes order: checkpoint result first, then 18b step 3, then 18c. Jev ask and stop signals not followed (no Isa blocker stops the loop).
+- 2026-11-28 00:30 Kept each prompt to max 5 steps and one middleware plus one test file.
