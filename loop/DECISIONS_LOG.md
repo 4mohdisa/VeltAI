@@ -13366,3 +13366,6 @@
 - 2026-11-28 01:29 Round 436: Claude Code auth failure is environmental, so the same self-contained 18b step 3 prompt is resent (5 steps), per the standing rule. Not parked, not stopped, no ask.
 - 2026-11-28 01:29 Jev ask signal (62%) not followed: Isa blockers never stop the loop and ask is never used.
 - 2026-11-28 01:29 Jev risk signal noted (1.7 of 2): mitigated by keeping the change small (headers and one test only).
+- 2026-11-28 01:30 Round 437: Jev ask signal (63%) not followed. The blocker is the expired Claude Code login, which only Isa can renew. Resending a small self-contained prompt costs nothing and the loop resumes on its own once auth returns.
+- 2026-11-28 01:30 Round 437: kept 18b step 3 as a 5 step prompt, per the rule that prompts have at most 5 numbered steps.
+- 2026-11-28 01:30 Round 437: no HSTS, per the security headers decision (local HTTP).
