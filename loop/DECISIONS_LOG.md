@@ -13403,3 +13403,7 @@
 - 2026-11-28 03:57 Round 445: stop. The auth probe at round 444 failed (latest report is the auth failure), so the notes' stop rule applies.
 - 2026-11-28 03:57 Jev signals (stop 73%, risk 2.0) agree with stopping. No concrete reason to override: the blocker is external auth, not a task.
 - 2026-11-28 03:57 Left the BUILT, PARTIAL and DIFFERENT counts as they were. No row changed this round, and nothing was run.
+- 2026-11-28 04:34 Round 446: stop kept. Only external auth is blocking. A further run would fail at the same point and waste a round.
+- 2026-11-28 04:34 Jev stop signal (73%, risk 2.0, confidence 0.96) followed, because no action can run without a working Claude Code login.
+- 2026-11-28 04:34 Jev ask signal not used: the brief forbids ask, and Isa is away.
+- 2026-11-28 04:34 Notes updated to show the restart point and the unrecorded checkpoints for when auth returns.

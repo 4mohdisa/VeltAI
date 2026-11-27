@@ -2,15 +2,15 @@
 Goal: all rows BUILT or EXACT, soak exit met. Branch loop/phase4 only. Never push or merge.
 
 ## ACTION FOR ISA (read first)
-Loop STOPPED at round 445. Claude Code login expired and cannot be renewed. The probe at round 444 failed.
+Loop STOPPED at round 446. Claude Code login expired and cannot be renewed. Probes at 444 and 445 failed.
 Fix: run `claude auth login`, or run `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended runs.
 Optional: `claude plugin install expo@claude-plugins-official --scope project`.
 When auth works, restart the loop. It resumes at 18b step 3 (security headers in the existing middleware chain, no HSTS).
+Record the checkpoints 379, 393, 408, 423, 438 when the loop restarts (type check and full app Jest, no changes).
 
-## State (round 445)
+## State (round 446)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
-Unrecorded checkpoints to record when auth returns: 379, 393, 408, 423, 438.
 
 ## Loop blocker
 Claude Code auth expired. Environmental. Only Isa can fix it.
@@ -35,24 +35,23 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Health: null when not granted.
 - Snapshots by hand, never -u.
 - Rows 16-17: route list from source; migration tests drive deploy/migrate.sh; rollback is forward fix only.
-- Jev ask and stop signals not followed while work was possible; stops at 442 and 445 are due to external auth failure only.
+- Jev ask and stop signals not followed while work was possible; stops at 442, 445 and 446 are due to external auth failure only.
 - Row 18 split 18a-c. Secrets scan masks values. 18b in steps of max 5. No shared guard without approval.
 - Redirect finding: tripwire test; flip when guard lands.
 - Rate limits only through an existing limiter on AI and feedback routes; none means park, headers only.
 - Each test package keeps its own helper copies until Isa approves a shared package.
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423, 438): no-change type check and full app Jest.
-- Round 442: stopped for Claude Code auth failure (external). Round 444: one auth probe failed. Round 445: stopped, waiting for Isa.
-- Round 445 stop was not caused by any task or gate.
+- Round 442: stopped for Claude Code auth failure (external). Round 444: one auth probe failed. Round 445 and 446: stopped, waiting for Isa.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: Claude Code auth failures, resent. 438: checkpoint resent. 440-441: 18b step 3 resent. 442: loop stopped for auth. 443: stop kept. 444: auth probe failed. 445: stopped, waiting for Isa.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: Claude Code auth failures, resent. 438: checkpoint resent. 440-441: 18b step 3 resent. 442: loop stopped for auth. 443: stop kept. 444: auth probe failed. 445: stopped, waiting for Isa. 446: stopped again, auth still expired.
 
 ## Latest Claude Code report
 Failed to authenticate: login reached its time limit and cannot be renewed. Run `claude auth login`, or `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN. Plugin expo enabled but not installed.
 
 ## Jev signals (advisory)
-Round 445: stop 73%, risk 2.0 (confidence 0.96). Agreed with stop.
+Round 446: stop 73%, risk 2.0 (confidence 0.96). Stop followed because no action can run without auth.
