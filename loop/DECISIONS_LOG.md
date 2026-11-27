@@ -13078,3 +13078,6 @@
 - 2026-11-28 00:58 Claude Code auth failure is environmental: resend step 18b step 3, never park, never ask (per standing rule).
 - 2026-11-28 00:58 Jev ask and stop signals not followed: no Isa blocker and no gate failure justifies stopping.
 - 2026-11-28 00:58 Kept row 18b step 3 unchanged so the security header work resumes exactly where it stopped.
+- 2026-11-28 00:58 Round 354: Claude Code auth failure is environmental, so 18b step 3 is resent unchanged (per the standing rule, not parked).
+- 2026-11-28 00:58 Jev ask and stop signals not followed: no Isa blocker stops the loop, and the auth issue is already listed as owner work.
+- 2026-11-28 00:58 Checkpoint deferred again while auth is down; run after auth returns.
