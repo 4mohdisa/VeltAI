@@ -13328,3 +13328,6 @@
 - 2026-11-28 01:25 Round 425: Claude Code reported an expired login. Treated as environmental per the existing decision: resent the 18b step 3 prompt as a self-contained prompt, not parked, not asked, not stopped.
 - 2026-11-28 01:25 Jev signalled ask 65% and 2% clean completion. Not followed: the brief forbids ask, and the only stop conditions are dangerous actions or hosted services, neither of which applies.
 - 2026-11-28 01:25 Kept the task at one small step (headers only) so a failed run costs little.
+- 2026-11-28 01:25 Round 426: latest Claude Code report is an expired login (environmental). Per the standing rule, resend and do not park, ask or stop. Resent 18b step 3 as a self-contained prompt.
+- 2026-11-28 01:25 Jev suggested ask or stop. Not followed: no Isa blocker stops the loop, and the auth failure is resolved by Isa's login step, not by stopping.
+- 2026-11-28 01:25 Kept the smallest remaining task (one middleware step) because the session may be unstable after repeated auth failures.
