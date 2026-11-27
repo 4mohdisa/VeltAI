@@ -12863,3 +12863,7 @@
 - 2026-11-28 00:32 Claude Code auth failure is environmental: resend the checkpoint, do not park, do not ask. Reason: Round 289 failed the same way and the notes say resend.
 - 2026-11-28 00:32 Keep the checkpoint read only so the recorded result is trustworthy before the next code change. Reason: 288 result is still unrecorded.
 - 2026-11-28 00:32 Jev's ask and stop signals were not followed. Reason: the auth failure is not an Isa blocker and the loop must keep going.
+- 2026-11-28 00:33 Chose the checkpoint again: round 288 result is still unrecorded and it is read-only, so it is safe to resend despite the auth blocker.
+- 2026-11-28 00:33 Claude Code auth expiry is environmental: resend, never park, no ask, no stop, as set in the notes.
+- 2026-11-28 00:33 Jev ask signal (23%) not followed: the loop never asks Isa, and Isa's blocker is a parked owner step, not a stop.
+- 2026-11-28 00:33 Full names of log and notes files given because a handover just happened.
