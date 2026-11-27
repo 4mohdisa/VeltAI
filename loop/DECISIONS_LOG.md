@@ -13369,3 +13369,7 @@
 - 2026-11-28 01:30 Round 437: Jev ask signal (63%) not followed. The blocker is the expired Claude Code login, which only Isa can renew. Resending a small self-contained prompt costs nothing and the loop resumes on its own once auth returns.
 - 2026-11-28 01:30 Round 437: kept 18b step 3 as a 5 step prompt, per the rule that prompts have at most 5 numbered steps.
 - 2026-11-28 01:30 Round 437: no HSTS, per the security headers decision (local HTTP).
+- 2026-11-28 01:30 Round 438 is a checkpoint per the loop note: resent the no change type check and full app Jest prompt.
+- 2026-11-28 01:30 Claude Code auth failure is environmental: resent the same prompt, not parked and not stopped.
+- 2026-11-28 01:30 Jev ask signal (50%) not followed: ask is never allowed, and no Isa blocker stops the loop.
+- 2026-11-28 01:30 Prompt kept to 5 numbered steps with branch rule and report format, as the notes require.
