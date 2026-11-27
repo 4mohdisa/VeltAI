@@ -13309,3 +13309,7 @@
 - 2026-11-28 01:23 Jev risk 1.6 noted; this prompt is small (one step, backend only, revert on failure) to lower risk.
 - 2026-11-28 01:23 Round 420: Claude Code auth still expired (environmental). Resent 18b step 3 as a self-contained prompt, per the standing decision. Jev ask and stop signals not followed: the blocker needs Isa's claude auth login, which the loop cannot do, and resending costs nothing. The loop resumes automatically once auth returns.
 - 2026-11-28 01:23 Kept the security header work small and inside the existing chain, with no HSTS because the backend runs on local HTTP.
+- 2026-11-28 01:24 Claude Code auth failure is environmental (login expired): resent the self-contained 18b step 3 prompt, not parked, not stopped, per the standing override.
+- 2026-11-28 01:24 Jev suggested ask (57%) and stop (21%). Not followed: the brief forbids asking and stopping for a missing login or an Isa step, and the fix is Isa running claude auth login, after which the loop resumes by itself. Logged as a standing rule, not a new one.
+- 2026-11-28 01:24 Kept the 18b step 3 scope: headers in the existing chain only, no HSTS (local HTTP), no shared guard, per earlier decisions.
+- 2026-11-28 01:24 Checkpoint results from rounds 379, 393 and 408 remain unrecorded until auth returns; to be recorded then.
