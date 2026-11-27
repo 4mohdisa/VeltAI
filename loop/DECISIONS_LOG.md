@@ -12877,3 +12877,6 @@
 - 2026-11-28 00:34 Round 294: resent 18b step 3 after the Claude Code auth failure. Environmental, so not parked.
 - 2026-11-28 00:34 Kept 18b step 3 over the checkpoint: it is the next step in notes and is bounded to one package. The checkpoint for rounds 288 and 292 runs first once auth returns.
 - 2026-11-28 00:34 Jev ask signal (29%) not followed: no Isa blocker stops the loop.
+- 2026-11-28 00:35 Round 295: resent the owed checkpoint and 18b step 3 as one prompt, because Claude Code auth is still expired and the checkpoint must run first when auth returns (decision from round 294).
+- 2026-11-28 00:35 Jev ask signal (44%) and stop signal (11%) not followed: no Isa blocker stops the loop; auth failure is environmental and is resent.
+- 2026-11-28 00:35 Jev risk 1.5 with confidence 0.29 is low confidence, so the step is kept small (headers only, one middleware chain, one test).
