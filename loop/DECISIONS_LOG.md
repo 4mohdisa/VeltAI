@@ -13051,3 +13051,6 @@
 - 2026-11-28 00:54 Round 345: Claude Code auth still expired, so 18b step 3 is resent unchanged (environmental, per the existing decision to resend and never park).
 - 2026-11-28 00:54 Jev ask and stop signals not followed: no Isa blocker stops the loop, and auth failure is not a reason to stop.
 - 2026-11-28 00:54 Prompt names the middleware by search, since no file path is recorded in the notes; Claude Code must locate it and report the path.
+- 2026-11-28 00:55 Round 346: Claude Code auth still down; resent 18b step 3 unchanged. Environmental, so no park and no stop.
+- 2026-11-28 00:55 Jev ask (27%) and stop (11%) signals not followed: the blocker is the Claude Code login, which is Isa's step and is already in OWNER_CHECKS_phase4.md. Risk score 1.4 is driven by the unattended loop, and nothing in this round is destructive.
+- 2026-11-28 00:55 Headers only in the existing middleware chain; no HSTS; no new shared guard package (per standing decision).
