@@ -12615,3 +12615,7 @@
 - 2026-11-28 00:04 Round 217: resent 18b step 3 after the Claude Code login failure (environmental, never parked).
 - 2026-11-28 00:04 Jev ask signal (20%) not followed: no Isa blocker stops or asks; the loop keeps running.
 - 2026-11-28 00:04 Headers only: rate limits stay parked because no existing limiter covers AI and feedback routes.
+- 2026-11-28 00:04 Round 218: resent 18b step 3 (headers) after Claude Code login failure; the expired login is environmental and is recorded in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:04 Round 218: kept 18b step 3 over the upload limit candidate; it is the smallest open security step and matches the prior plan.
+- 2026-11-28 00:04 Round 218: rate limits stay parked unless an existing limiter covers AI and feedback routes; no new limiter is created.
+- 2026-11-28 00:04 Round 218: Jev's 'ask' signal not followed; no Isa blocker stops the loop.
