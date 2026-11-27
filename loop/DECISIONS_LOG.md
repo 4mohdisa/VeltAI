@@ -13231,3 +13231,6 @@
 - 2026-11-28 01:15 Claude Code auth failure is environmental: resend, do not park, do not stop. Isa's auth step stays in OWNER_CHECKS_phase4.md.
 - 2026-11-28 01:15 Prompt is self-contained because a handover may follow. Includes branch rule, no HSTS and the report format.
 - 2026-11-28 01:15 Checkpoint results from rounds 379 and 393 stay unrecorded until auth returns, as before.
+- 2026-11-28 01:15 Round 399: Claude Code auth still expired (environmental). Resent 18b step 3 as a self-contained prompt instead of parking; Isa must run claude auth login (see OWNER_CHECKS_phase4.md).
+- 2026-11-28 01:15 Jev ask signal (36%) not followed: no question to Isa, per the no questions rule. Jev risk 1.7 noted; the task is small, headers only, reversible.
+- 2026-11-28 01:15 Kept candidates 14a and 6b as the next options because 18b step 3 is still the highest priority in the current order.
