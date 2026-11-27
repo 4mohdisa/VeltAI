@@ -12791,3 +12791,6 @@
 - 2026-11-28 00:24 Claude Code auth failure is environmental per the notes: resend the checkpoint, do not park, do not ask.
 - 2026-11-28 00:24 Jev ask signal (22%) not followed: the notes say no Isa blocker stops or pauses the loop, and the next step is cheap and already defined.
 - 2026-11-28 00:24 Kept the checkpoint as the first task because the round 267 checkpoint never ran and it is the gate before 18b step 3.
+- 2026-11-28 00:24 Resent the round 268 checkpoint because Claude Code auth failure is environmental; never park, never ask, never stop.
+- 2026-11-28 00:24 Jev suggested ask at 27 percent; not followed, per the no-questions rule (Isa chose park and carry on).
+- 2026-11-28 00:24 Kept the order: checkpoint first, then 18b step 3, then 18c, since the notes say the checkpoint is still owed.
