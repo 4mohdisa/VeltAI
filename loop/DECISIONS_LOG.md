@@ -12744,3 +12744,7 @@
 - 2026-11-28 00:19 Round 255: Claude Code auth still failing; resent 18b step 3 per standing rule (environmental, never park, no ask, no stop).
 - 2026-11-28 00:19 Jev ask signal (13%) and stop signal (1%) not followed: no Isa blocker stops the loop; the auth fix is already in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:19 Kept the headers step small (5 steps) and backend only, so a single session can finish it once auth is restored.
+- 2026-11-28 00:19 Round 256: Claude Code auth failure is environmental, so the 18b step 3 prompt is resent unchanged in scope. Not parked, not asked, not stopped.
+- 2026-11-28 00:19 Jev next action (run 87%) agrees with the notes plan, so no change of task. Jev stop and ask signals not followed, per decision.
+- 2026-11-28 00:19 Candidate 2 kept on the list only. Rate limits stay parked until an existing limiter exists, so it is not picked.
+- 2026-11-28 00:19 Owner step for Claude Code login already sits in OWNER_CHECKS_phase4.md, so nothing new is parked.
