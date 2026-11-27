@@ -13034,3 +13034,8 @@
 - 2026-11-28 00:52 340: Claude Code auth still expired; failure is environmental, so 18b step 3 is resent unchanged (never parked, never asked).
 - 2026-11-28 00:52 340: Jev ask/stop signals not followed; no Isa blocker stops the loop; prompt kept small (one step group) because auth has failed for 130 rounds.
 - 2026-11-28 00:52 340: Checkpoint (type check and full app Jest) stays deferred until auth returns.
+- 2026-11-28 00:53 Round 341: Claude Code auth still expired; resend 18b step 3 unchanged in scope, since auth failures are environmental and never park a row.
+- 2026-11-28 00:53 Jev ask signal (36%) not followed: no Isa blocker stops or pauses the loop, per the standing decision.
+- 2026-11-28 00:53 Jev risk 1.6 noted: the prompt is limited to one backend middleware file and its test, with a revert rule on failure.
+- 2026-11-28 00:53 No HSTS, because the backend runs on local HTTP (kept from the earlier decision).
+- 2026-11-28 00:53 Checkpoint runs (type check and full app Jest) stay deferred until Claude Code auth returns.
