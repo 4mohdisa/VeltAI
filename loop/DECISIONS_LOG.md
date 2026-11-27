@@ -13039,3 +13039,6 @@
 - 2026-11-28 00:53 Jev risk 1.6 noted: the prompt is limited to one backend middleware file and its test, with a revert rule on failure.
 - 2026-11-28 00:53 No HSTS, because the backend runs on local HTTP (kept from the earlier decision).
 - 2026-11-28 00:53 Checkpoint runs (type check and full app Jest) stay deferred until Claude Code auth returns.
+- 2026-11-28 00:53 342: Claude Code auth still expired. Auth failures are environmental, so the step is resent instead of parked or asked.
+- 2026-11-28 00:53 342: Jev ask signal (30%) not followed: ask is forbidden by the brief and the blocker is environmental.
+- 2026-11-28 00:53 342: Jev low confidence on risk noted; the task stays small (one step, max 5 steps) per the rule for low confidence.
