@@ -13015,3 +13015,6 @@
 - 2026-11-28 00:50 Jev ask signal not followed: Isa cannot be asked, and the step touches no hosted service or secret.
 - 2026-11-28 00:50 Checkpoint runs stay deferred until auth returns (rule from round 303).
 - 2026-11-28 00:50 Round 334 counted; state line updated, round log compressed to fit the 600 word limit without dropping parked items or decisions.
+- 2026-11-28 00:50 Claude Code auth still expired; resending 18b step 3 as environmental per existing decision (no park, no ask, no stop).
+- 2026-11-28 00:50 Jev ask and stop signals not followed: no listed stop condition applies and the auth failure is not an Isa blocker.
+- 2026-11-28 00:50 Step 3 kept to existing middleware chain with no HSTS, per the security headers decision.
