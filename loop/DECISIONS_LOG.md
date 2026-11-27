@@ -12736,3 +12736,8 @@
 - 2026-11-28 00:18 Did not follow the Jev ask signal (24%): the standing decision is that no Isa blocker stops or pauses the loop, and a login expiry is not a task failure.
 - 2026-11-28 00:18 Kept the step small (max 5 steps) and backend only, so the next run is cheap once the login is back.
 - 2026-11-28 00:18 Trimmed the notes to keep them near the 600 word limit. Parked and blocked items are kept, only the round log was condensed.
+- 2026-11-28 00:19 Claude Code auth failure treated as environmental: resend the same task, do not park, do not ask (round 254).
+- 2026-11-28 00:19 Jev ask signal (17%) and stop signal (1%) not followed; no Isa blocker stops the loop.
+- 2026-11-28 00:19 Jev risk score ignored: confidence 0.00 gives no usable signal.
+- 2026-11-28 00:19 Kept 18b step 3 as the next task because it is already scoped and finishes 18b.
+- 2026-11-28 00:19 Compressed the notes to stay under 600 words; no open items removed.
