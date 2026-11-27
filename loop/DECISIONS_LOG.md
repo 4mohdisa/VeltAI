@@ -12729,3 +12729,6 @@
 - 2026-11-28 00:17 Jev ask signal (27%) not followed: loop rule says no Isa blocker stops or asks; the auth failure is an environment issue listed in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:17 Kept the task at backend only and at most 5 steps, as the round 250 note set, to lower the chance of another cut off run.
 - 2026-11-28 00:17 Chose candidate 1 because it is the open in progress row that the notes name as next.
+- 2026-11-28 00:18 252: Claude Code login failure is environmental, so the same task is resent and nothing is parked.
+- 2026-11-28 00:18 252: Jev ask and stop signals not followed. No Isa blocker stops the loop.
+- 2026-11-28 00:18 252: Kept 18b step 3 as the next task because it is small, backend only and already scoped.
