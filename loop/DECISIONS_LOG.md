@@ -13217,3 +13217,8 @@
 - 2026-11-28 01:13 Jev ask signal (53%) not followed: the brief forbids asking, and the blocker is environmental, not a question for Isa.
 - 2026-11-28 01:13 Jev risk (1.5) noted. Kept the task small, local and bounded (one step, one package, max 5 steps).
 - 2026-11-28 01:13 Kept 18b step 3 as the next task so the handover prompt stays exact after auth returns.
+- 2026-11-28 01:14 Claude Code auth expired is environmental: resent 18b step 3 as a self-contained prompt instead of parking or stopping, per the notes rule.
+- 2026-11-28 01:14 Jev ask signal (47%) not followed: no Isa blocker stops the loop, and the brief forbids the ask action.
+- 2026-11-28 01:14 Jev stop signal (8%) not followed: nothing dangerous or destructive is involved.
+- 2026-11-28 01:14 Step 3 prompt restated in full so it works after a fresh session; scope limited to existing middleware chain, no HSTS (local HTTP).
+- 2026-11-28 01:14 Notes compressed to about 600 words; parked and blocked items kept, merged where they repeat.
