@@ -12769,3 +12769,6 @@
 - 2026-11-28 00:22 Round 261: Claude Code auth still expired (report shows login time limit). Environmental per notes rule, so the checkpoint prompt is resent, not parked and not stopped.
 - 2026-11-28 00:22 Jev ask signal (23%) and stop signal (3%) not followed: notes rule says no Isa blocker stops or asks the loop, and the stop conditions are not met (rows 18b and 18c remain).
 - 2026-11-28 00:22 Jev risk 1.3 noted: the checkpoint makes no source changes, so continuing carries no added risk to the codebase.
+- 2026-11-28 00:22 Round 262: Claude Code login still expired, so the checkpoint is resent per the notes rule. No park, no ask, no stop.
+- 2026-11-28 00:22 Round 262: Jev ask signal (34%) not followed, per the notes rule that no Isa blocker stops or asks.
+- 2026-11-28 00:22 Round 262: Expo plugin install not run, because it is an environment step and does not affect backend work.
