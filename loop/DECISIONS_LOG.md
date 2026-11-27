@@ -12800,3 +12800,6 @@
 - 2026-11-28 00:25 Round 271: Claude Code auth still expired (environmental). Resent the pending checkpoint instead of parking, per the standing rule.
 - 2026-11-28 00:25 Jev suggested ask (24%). Not followed: the auth failure is environmental and the loop never asks or stops for Isa.
 - 2026-11-28 00:25 Kept the smallest safe task (checkpoint) first because Jev's last-task confidence is low and the checkpoint was never run.
+- 2026-11-28 00:25 Round 272: Claude Code auth still failing; resent the checkpoint prompt. Auth failure is environmental, so no park and no ask.
+- 2026-11-28 00:25 Jev ask signal (37%) not followed: the blocker is environmental login, not a question for Isa.
+- 2026-11-28 00:25 Kept the checkpoint as a read only gate round first, so the result is known before 18b step 3.
