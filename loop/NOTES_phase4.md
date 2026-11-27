@@ -42,5 +42,5 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable).
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-259: Claude Code auth failures, resent. 260: checkpoint auth failure, resent as 261.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-260: Claude Code auth failures, resent. 261: auth failure again, checkpoint resent.
 Next: checkpoint result, then 18b step 3, then 18c. If auth still fails, resend. Do not park.

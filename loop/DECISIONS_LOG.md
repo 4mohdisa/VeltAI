@@ -12766,3 +12766,6 @@
 - 2026-11-28 00:21 Resent the checkpoint as round 261 because the Claude Code login failure is environmental. Not parked, not asked, not stopped.
 - 2026-11-28 00:21 Jev ask signal (24%) not followed: Isa blockers never stop the loop, and the Claude Code auth step is a known owner check in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:21 Kept the checkpoint read only so that a red result cannot change code while auth is unstable.
+- 2026-11-28 00:22 Round 261: Claude Code auth still expired (report shows login time limit). Environmental per notes rule, so the checkpoint prompt is resent, not parked and not stopped.
+- 2026-11-28 00:22 Jev ask signal (23%) and stop signal (3%) not followed: notes rule says no Isa blocker stops or asks the loop, and the stop conditions are not met (rows 18b and 18c remain).
+- 2026-11-28 00:22 Jev risk 1.3 noted: the checkpoint makes no source changes, so continuing carries no added risk to the codebase.
