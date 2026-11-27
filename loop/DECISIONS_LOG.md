@@ -12732,3 +12732,7 @@
 - 2026-11-28 00:18 252: Claude Code login failure is environmental, so the same task is resent and nothing is parked.
 - 2026-11-28 00:18 252: Jev ask and stop signals not followed. No Isa blocker stops the loop.
 - 2026-11-28 00:18 252: Kept 18b step 3 as the next task because it is small, backend only and already scoped.
+- 2026-11-28 00:18 Resent the same 18b step 3 task: the Claude Code login failure is environmental, so the rule is resend, never park.
+- 2026-11-28 00:18 Did not follow the Jev ask signal (24%): the standing decision is that no Isa blocker stops or pauses the loop, and a login expiry is not a task failure.
+- 2026-11-28 00:18 Kept the step small (max 5 steps) and backend only, so the next run is cheap once the login is back.
+- 2026-11-28 00:18 Trimmed the notes to keep them near the 600 word limit. Parked and blocked items are kept, only the round log was condensed.
