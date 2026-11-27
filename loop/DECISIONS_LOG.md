@@ -12673,3 +12673,7 @@
 - 2026-11-28 00:11 Followed the Jev run signal. Ask and stop signals not followed: no Isa blocker stops the loop.
 - 2026-11-28 00:11 Kept rate limits parked: no shared limiter approved, so headers only.
 - 2026-11-28 00:11 Chose 18b step 3 over the checkpoint because it is the smallest unfinished step and it is already next in the notes.
+- 2026-11-28 00:11 Claude Code auth failure is environmental: resent 18b step 3 instead of parking, per the standing rule.
+- 2026-11-28 00:11 Jev suggested ask at 20%; not followed, since no question is allowed and no Isa blocker stops the loop.
+- 2026-11-28 00:11 Kept 18b step 3 as the next task because it was already the stated next step and is small (headers only, no limiter).
+- 2026-11-28 00:11 Compressed notes to stay near the 600 word limit; no items were dropped, only merged.
