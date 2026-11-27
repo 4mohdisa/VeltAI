@@ -12713,3 +12713,6 @@
 - 2026-11-28 00:16 247: Jev ask signal not followed (never ask rule); Jev risk 1.4 noted, blocker is Claude Code auth, not the task.
 - 2026-11-28 00:16 247: Claude Code auth failure is environmental; resent 18b step 3 with the same scope and no park.
 - 2026-11-28 00:16 247: Exact file paths left to grep because the repo layout is not in the brief; Claude Code must record them in its report.
+- 2026-11-28 00:16 Round 248: Claude Code login still expired. Environmental per rules, so the same step is resent, not parked.
+- 2026-11-28 00:16 Round 248: Jev ask signal (33%) not followed, since asking Isa is not allowed. Jev risk 1.2 noted: the blocker is auth, not the task.
+- 2026-11-28 00:16 Round 248: 18b step 3 is the smallest safe next step; it is the cheapest to verify with the route table test.
