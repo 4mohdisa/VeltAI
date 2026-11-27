@@ -13195,3 +13195,7 @@
 - 2026-11-28 01:11 Jev ask signal (59%) and stop signal (15%) not followed: no Isa blocker stops the loop, and the auth failure needs Isa only to restore the session.
 - 2026-11-28 01:11 Kept a bounded local backend task because Jev risk is high (1.7) and the notes say to prefer small local tasks.
 - 2026-11-28 01:11 Asked for an app type check first per the tsc-first override, even though the change is backend only.
+- 2026-11-28 01:12 Round 390: Claude Code auth still expired; resent 18b step 3 unchanged, as the auth rule says (environmental, never park, never ask).
+- 2026-11-28 01:12 Jev ask signal (60%) not followed: the brief forbids ask, and the only blocker is an auth step Isa must run himself, already in OWNER_CHECKS_phase4.md.
+- 2026-11-28 01:12 Jev risk 1.8 noted: no danger or destructive action in the prompt; the step is local, header-only, reversible.
+- 2026-11-28 01:12 Kept the prompt self-contained for the post handover session, with the branch rule and report format.

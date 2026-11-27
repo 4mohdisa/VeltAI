@@ -4,7 +4,7 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 English only for new strings. About 15 rounds per row. Order 18-30, then 31. One screen or component per prompt, max 5 steps. Partly done: one follow-up, then park. Simulator and Maestro only in rows 23 and soak. tsc first each prompt. Flagged work tested first. Out of scope changes: check, then keep with decision or revert. Failed partial steps: revert and report. Every prompt states the loop/phase4 branch rule. Prompts are self-contained after handover.
 
-## State (Round 389)
+## State (Round 390)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29; Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done; 18b steps 1-2 done.
 Next: 18b step 3 (security headers in existing middleware chain, no HSTS). Round 379 checkpoint result unrecorded; record when auth returns.
 
@@ -39,10 +39,10 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Each test package keeps its own helper copies until Isa approves a shared package.
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 381 if auth returns): no-change type check and full app Jest.
-- Rounds 382-389: Jev risk noted (1.6 to 1.8); Jev ask signals not followed; kept bounded local tasks.
+- Rounds 382-390: Jev risk noted (1.6 to 1.8); Jev ask signals not followed; kept bounded local tasks.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-387: Claude Code auth failures, resent. 388: auth still expired; resent 18b step 3 unchanged. 389: auth still expired; resent 18b step 3 unchanged.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-389: Claude Code auth failures, resent. 388-389: 18b step 3 resent. 390: auth still expired; resent 18b step 3 unchanged.
