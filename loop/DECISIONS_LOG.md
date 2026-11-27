@@ -13325,3 +13325,6 @@
 - 2026-11-28 01:25 Round 424: Claude Code auth failure is environmental. Resent 18b step 3 as a self-contained prompt, per the standing rule. Not parked, not asked, not stopped.
 - 2026-11-28 01:25 Jev ask (65%) and stop (20%) signals not followed. No danger, no hosted service touched, and no Isa blocker stops the loop.
 - 2026-11-28 01:25 Auth needs Isa's action (claude auth login or CLAUDE_CODE_OAUTH_TOKEN). Written in the notes, not in a prompt.
+- 2026-11-28 01:25 Round 425: Claude Code reported an expired login. Treated as environmental per the existing decision: resent the 18b step 3 prompt as a self-contained prompt, not parked, not asked, not stopped.
+- 2026-11-28 01:25 Jev signalled ask 65% and 2% clean completion. Not followed: the brief forbids ask, and the only stop conditions are dangerous actions or hosted services, neither of which applies.
+- 2026-11-28 01:25 Kept the task at one small step (headers only) so a failed run costs little.
