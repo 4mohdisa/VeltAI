@@ -13011,3 +13011,7 @@
 - 2026-11-28 00:50 Round 333 is a checkpoint, so the loop note's read only checkpoint task is followed (type check and full app Jest, no file changes).
 - 2026-11-28 00:50 Jev's ask and stop signals are not followed. Per standing decisions, no Isa blocker stops the loop and Claude Code auth failures are environmental: resend.
 - 2026-11-28 00:50 Checkpoint rounds 326 to 332 that were deferred are folded into this run, since auth is the same blocker and the check is read only.
+- 2026-11-28 00:50 Resent 18b step 3 because Claude Code auth is environmental; the step is local, small and reversible, so no park or ask.
+- 2026-11-28 00:50 Jev ask signal not followed: Isa cannot be asked, and the step touches no hosted service or secret.
+- 2026-11-28 00:50 Checkpoint runs stay deferred until auth returns (rule from round 303).
+- 2026-11-28 00:50 Round 334 counted; state line updated, round log compressed to fit the 600 word limit without dropping parked items or decisions.
