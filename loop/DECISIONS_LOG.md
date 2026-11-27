@@ -13075,3 +13075,6 @@
 - 2026-11-28 00:57 Resend 18b step 3: Claude Code auth failures are environmental and the notes say never park them.
 - 2026-11-28 00:57 Jev ask signal (35%) not followed: Isa blockers never stop or pause the loop, per standing decision.
 - 2026-11-28 00:57 Notes trimmed to under 600 words; no rule or blocked item removed, only shortened.
+- 2026-11-28 00:58 Claude Code auth failure is environmental: resend step 18b step 3, never park, never ask (per standing rule).
+- 2026-11-28 00:58 Jev ask and stop signals not followed: no Isa blocker and no gate failure justifies stopping.
+- 2026-11-28 00:58 Kept row 18b step 3 unchanged so the security header work resumes exactly where it stopped.
