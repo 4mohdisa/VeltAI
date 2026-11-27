@@ -13213,3 +13213,7 @@
 - 2026-11-28 01:13 Jev risk 1.8 noted; kept the bounded local task (18b step 3) and no new scope.
 - 2026-11-28 01:13 Round 394 is not a checkpoint; the checkpoint from round 393 remains unrecorded until auth returns.
 - 2026-11-28 01:13 Security headers exclude HSTS because the backend runs over local HTTP.
+- 2026-11-28 01:13 Claude Code auth expired again (environmental). Resending the same self-contained prompt, per the rule that auth failures are never parked or asked about.
+- 2026-11-28 01:13 Jev ask signal (53%) not followed: the brief forbids asking, and the blocker is environmental, not a question for Isa.
+- 2026-11-28 01:13 Jev risk (1.5) noted. Kept the task small, local and bounded (one step, one package, max 5 steps).
+- 2026-11-28 01:13 Kept 18b step 3 as the next task so the handover prompt stays exact after auth returns.
