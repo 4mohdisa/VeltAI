@@ -12895,3 +12895,6 @@
 - 2026-11-28 00:36 Did not follow the Jev ask signal (28%); the loop rules say to carry on without questions, and the pending work is already planned.
 - 2026-11-28 00:36 Kept the checkpoint first because rounds 288 and 292 were never confirmed green.
 - 2026-11-28 00:36 Kept the security headers change inside the existing middleware chain, per the approved decision.
+- 2026-11-28 00:37 Claude Code login expired again: environmental, so resend step 3 rather than park it (Isa runs claude auth login per OWNER_CHECKS_phase4.md).
+- 2026-11-28 00:37 Jev suggested ask 18%: not followed, per the Jev rule in the notes (no Isa blocker stops or asks in the loop).
+- 2026-11-28 00:37 Checkpoint 288/292 moved to next round to keep this prompt within 5 steps.
