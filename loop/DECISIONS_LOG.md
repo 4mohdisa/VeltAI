@@ -12632,3 +12632,6 @@
 - 2026-11-28 00:06 Round 222: resent 18b step 3 after Claude Code login failure. The failure is environmental, so the task is not parked.
 - 2026-11-28 00:06 Round 222: kept 18b step 3 over Jev's low clean-completion signal. It is a small Go-only change with a clear test, and the risk is the environment, not the task.
 - 2026-11-28 00:06 Round 222: rate limits stay parked unless an existing limiter covers AI and feedback routes, per the standing decision.
+- 2026-11-28 00:06 Resent 18b step 3 after the Claude Code auth failure (rounds 210-222 pattern). Auth failures are environmental, so the task is not parked.
+- 2026-11-28 00:06 Chose candidate 1 because it was the stated next step and finishes 18b. Jev ask and stop signals not followed, as recorded in decisions.
+- 2026-11-28 00:06 Rate limits stay headers only unless an existing limiter covers AI and feedback routes, per the existing decision. No new shared limiter.
