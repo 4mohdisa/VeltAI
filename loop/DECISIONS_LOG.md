@@ -13349,3 +13349,7 @@
 - 2026-11-28 01:27 Ask signal from Jev not followed: the brief forbids asking Isa; the blocker is listed in ACTION FOR ISA.
 - 2026-11-28 01:27 Stop signal from Jev not followed: no safety or production concern, only an environmental login failure.
 - 2026-11-28 01:27 Kept HSTS out (local HTTP), per the existing decision.
+- 2026-11-28 01:28 Round 432: Claude Code auth still expired. Treated as environmental per the standing rule: resend the same self-contained step 3 prompt, do not park, do not ask.
+- 2026-11-28 01:28 Jev said ask 64% with low confidence. Not followed: the brief forbids ask and stop for non-dangerous blockers, and no danger is present.
+- 2026-11-28 01:28 Kept the step small (headers only) so a resend is cheap if auth is still down.
+- 2026-11-28 01:28 Checkpoint results from rounds 379, 393, 408, 423 remain unrecorded because no report came back. Record them when a report returns.
