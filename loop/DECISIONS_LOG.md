@@ -13417,3 +13417,5 @@
 - 2026-11-28 06:24 Notes condensed to fit the 600-word limit. Parked and Blocked items kept as one line each, and the round log trimmed to the auth period.
 - 2026-11-28 07:01 Round 450: stop kept. Auth is still expired after five failed probes, so another probe would only spend a round.
 - 2026-11-28 07:01 Stop is a self-imposed pause for an external auth failure, not a gate, key or owner step. It is recorded so the next session resumes at 18b step 3 without re-deciding the plan.
+- 2026-11-28 07:37 Round 451: stop kept. Auth is still expired and the latest Claude Code report is the same failure, so another probe would only add noise.
+- 2026-11-28 07:37 Restart plan unchanged: resume at 18b step 3 (security headers in the existing middleware chain, no HSTS), and run the checkpoints 379, 393, 408, 423 and 438 first (type check and full app Jest, no changes).
