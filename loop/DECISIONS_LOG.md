@@ -13296,3 +13296,8 @@
 - 2026-11-28 01:22 Jev ask signal (67%) not followed: the brief forbids asking Isa, and the blocker is an environment login only Isa can renew, which is recorded in the ACTION FOR ISA line.
 - 2026-11-28 01:22 Kept 18b step 3 as the pick: it is small, has no migration, and the prompt is self-contained in case the session resets after handover.
 - 2026-11-28 01:22 Chose no HSTS (local HTTP only), as already decided.
+- 2026-11-28 01:22 Run, not ask or stop: the Claude Code login failure is environmental and Isa does not need to answer anything in this loop. Resend the 18b step 3 prompt as self-contained.
+- 2026-11-28 01:22 Jev ask and stop signals not followed, per the standing decision: no Isa blocker stops the loop.
+- 2026-11-28 01:22 Kept the step small (headers plus one test) to limit the blast radius if the session restarts mid task.
+- 2026-11-28 01:22 No HSTS, per decision for local HTTP. No shared guard, per Isa's blocked list.
+- 2026-11-28 01:22 Checkpoint results from rounds 379, 393 and 408 are still unrecorded and will be recorded when auth returns.
