@@ -12977,3 +12977,6 @@
 - 2026-11-28 00:46 Did not use action ask or stop: the brief forbids both for a missing login or an owner step.
 - 2026-11-28 00:46 Jev said 2% clean completion and risk 1.5. Kept run because the failure is not in the task itself. Reason is concrete: the prompt is unchanged and small, so it costs little if auth is still down.
 - 2026-11-28 00:46 Kept checkpoint 320 deferred until auth returns, as the notes already say.
+- 2026-11-28 00:46 Round 324: Claude Code auth still expired; treated as environmental, resent step 3 rather than parking or stopping.
+- 2026-11-28 00:46 Jev suggested ask 41%; not followed. No Isa blocker stops the loop and the notes rule is never ask.
+- 2026-11-28 00:46 Checkpoint 320 stays deferred until auth returns; step 3 remains the active task.
