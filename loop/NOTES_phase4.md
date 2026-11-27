@@ -4,11 +4,11 @@ Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branc
 ## Overrides
 1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested before new task. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds.
 
-## State (Round 213)
-BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18a-c, 19-28, 30. 18a done. 18b steps 1 and 2 done. Redirect finding pinned by a tripwire test. Rows 16 and 17 BUILT.
+## State (Round 214)
+BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18a-c, 19-28, 30. Row 18a done. Row 18b steps 1 and 2 done (redirect finding pinned by tripwire test). Rows 16 and 17 BUILT.
 
 ## Loop blocker
-Claude Code login expired (reports rounds 210-213). Isa must run claude auth login or claude setup-token. Expo plugin not installed (ignored for backend work). Loop keeps retrying; no ask, no stop. Recorded in OWNER_CHECKS_phase4.md.
+Claude Code login expired (reports rounds 210-213). Isa must run claude auth login or claude setup-token. Expo plugin not installed (ignored for backend work). Recorded in OWNER_CHECKS_phase4.md. Keep resending; no ask, no stop.
 
 ## Parked (fix only in its row)
 Debug: null context saved as null; retry drops fields. Food: scan log delete (FK, migration); portion pref wipes meal type; saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH takes future date and negative duration. Goals: weight_goal, activity_level, source unchecked; onboarding skips sex, units. Recipes: random UUID order; PATCH and meal_type unchecked. Integrations: sync caps 50 and 25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors; no length cap on long text; /api/scan 400 not 413 for oversize; no image size check before paid call; label route no dimension check; non-images sent to Gemini; debug screenshots no type check (test build only). Outbound clients follow cross-host redirects (tripwire test). Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: 6 copies of signedTokens, seedOwner, wantErrorEnvelope. Docs: LUME_TEST_DATABASE_URL. Rate limits: parked, no shared limiter approved.
@@ -36,10 +36,11 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Redirect finding: tripwire test; flip when the guard lands.
 - Rate limits only through an existing limiter on AI and feedback routes; none exists means park, headers only.
 - Claude Code auth failures are environmental: resend the task, never park it.
+- Each test package keeps its own helper copies until Isa approves a shared package.
 
 ## Gotchas
-Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only.
+Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable).
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204 checkpoint green. 205: 18a done. 206: 18b step 1. 207: 18b step 2. 208: redirect tripwire. 209: checkpoint. 210-212: auth failures, resent. 213: auth failure, resent 18b step 3.
+182-203: Rows 16, 17 BUILT. 204 checkpoint green. 205: 18a done. 206: 18b step 1. 207: 18b step 2. 208: redirect tripwire. 209: checkpoint. 210-213: auth failures, resent. 214: checkpoint (read only) resent after auth failure.
 Next: 18b step 3 (headers; rate limits only if an existing limiter covers AI and feedback routes), then 18c.

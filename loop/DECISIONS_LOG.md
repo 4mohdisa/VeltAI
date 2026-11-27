@@ -12601,3 +12601,6 @@
 - 2026-11-28 00:02 Jev suggested ask or stop; not followed, per standing decision. No Isa blocker stops the loop.
 - 2026-11-28 00:02 Expo plugin install warning ignored; it does not affect backend work.
 - 2026-11-28 00:02 Chose 18b step 3 over 18c because it was the open next step in the notes and is small.
+- 2026-11-28 00:02 Round 214 is the checkpoint the loop note asks for: read only, no files changed, because the checkpoint is due and Row 18b step 3 is still waiting on the login.
+- 2026-11-28 00:02 Resent the checkpoint task after the Round 213 auth failure, because Claude Code auth failures are environmental and are never parked.
+- 2026-11-28 00:02 Notes trimmed to under 600 words: finished parked items merged, the Round log shortened. No rule removed.
