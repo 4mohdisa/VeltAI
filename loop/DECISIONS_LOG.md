@@ -13353,3 +13353,6 @@
 - 2026-11-28 01:28 Jev said ask 64% with low confidence. Not followed: the brief forbids ask and stop for non-dangerous blockers, and no danger is present.
 - 2026-11-28 01:28 Kept the step small (headers only) so a resend is cheap if auth is still down.
 - 2026-11-28 01:28 Checkpoint results from rounds 379, 393, 408, 423 remain unrecorded because no report came back. Record them when a report returns.
+- 2026-11-28 01:28 Round 433: Claude Code auth still expired. Per the standing rule, auth failures are environmental: resend the same self-contained prompt, do not park or stop.
+- 2026-11-28 01:28 Jev risk and ask signals not followed: the next task is local only, sandboxed, and needs no Isa input; a smaller step (headers only) keeps the risk low.
+- 2026-11-28 01:28 Headers go only in the existing middleware chain, no HSTS (local HTTP), per the security headers decision.
