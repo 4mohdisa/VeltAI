@@ -13167,3 +13167,7 @@
 - 2026-11-28 01:08 Jev suggested ask/stop; not followed, per standing decision. Auth failure is environmental and the step is small and reversible.
 - 2026-11-28 01:08 Resent 18b step 3 with the branch rule and no HSTS, as the notes require.
 - 2026-11-28 01:08 Round 379 checkpoint result is still unrecorded; it is recorded when auth returns and a checkpoint runs.
+- 2026-11-28 01:09 Round 382: Claude Code auth still expired; per the environmental rule, resend step 3 with the branch rule and the full file guidance, not park or stop.
+- 2026-11-28 01:09 Jev risk 1.7 and low clean-completion estimate noted. Kept the choice: the task is local, bounded to one middleware chain, and reverts cleanly on failure. Not a stop condition.
+- 2026-11-28 01:09 Handover left Claude Code with no context, so the prompt names the chain by search command and states every rule needed.
+- 2026-11-28 01:09 Notes condensed to fit the 600 word limit; no open item dropped, repeats merged.
