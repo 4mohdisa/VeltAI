@@ -13090,3 +13090,7 @@
 - 2026-11-28 00:59 Round 357: Claude Code auth still down; resend 18b step 3 unchanged (auth failures are environmental, never park).
 - 2026-11-28 00:59 Jev ask and stop signals not followed: the failure is environmental and the standing decision says never ask or stop; resending a bounded 5-step task is cheap.
 - 2026-11-28 00:59 Kept 18b step 3 to headers only, using the existing chain, no HSTS (local HTTP).
+- 2026-11-28 00:59 Round 358: Claude Code auth still down; resent 18b step 3 unchanged (environmental, never park, never ask, never stop).
+- 2026-11-28 00:59 Jev ask and stop signals not followed: Isa blockers never stop the loop and ask is never used.
+- 2026-11-28 00:59 Security headers only in the existing middleware chain; no HSTS because local HTTP.
+- 2026-11-28 00:59 Last report was an auth failure, not a task result, so the Jev clean-finish score does not apply.
