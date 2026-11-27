@@ -13136,3 +13136,6 @@
 - 2026-11-28 01:05 Jev ask and stop signals not followed; no Isa blocker stops the loop.
 - 2026-11-28 01:05 Kept Row 18b step 3 as the single task because the auth failure is not a task failure and the step is small.
 - 2026-11-28 01:05 Checkpoint still deferred until auth returns.
+- 2026-11-28 01:05 Round 372: Claude Code auth still expired (about 160 rounds). Environmental, so resend 18b step 3 instead of parking. Not asking, not stopping.
+- 2026-11-28 01:05 Security headers: no HSTS, because the backend runs on local HTTP.
+- 2026-11-28 01:05 Headers go only in the existing middleware chain, per the rule against new shared guards.
