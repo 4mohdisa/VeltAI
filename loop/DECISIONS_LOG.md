@@ -12663,3 +12663,6 @@
 - 2026-11-28 00:09 Round 231: Jev ask signal (20%) not followed; the loop does not ask Isa (Decisions: Jev ask and stop signals not followed).
 - 2026-11-28 00:09 Round 231: prompt restricts this round to headers only and forbids rate limits, since no limiter is approved.
 - 2026-11-28 00:09 Round 231: notes condensed to stay under 600 words; all parked and blocked items kept.
+- 2026-11-28 00:10 Round 232: Jev ask and stop signals not followed; no Isa blocker stops the loop.
+- 2026-11-28 00:10 Claude Code auth failure is environmental: resent 18b step 3 instead of parking.
+- 2026-11-28 00:10 Chose 18b step 3 over 18c because the notes name it as the next step and it is a small change.
