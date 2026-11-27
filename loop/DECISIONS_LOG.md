@@ -12654,3 +12654,5 @@
 - 2026-11-28 00:08 Jev's ask signal (25%) not followed: no Isa blocker stops the loop and the brief forbids asking.
 - 2026-11-28 00:08 Step 3 kept to headers only; rate limits stay parked because no existing limiter is approved.
 - 2026-11-28 00:08 Expo plugin not installed; ignored for backend work, already in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:09 Round 229 checkpoint kept over Jev's pick (18b step 3). The loop note asks for a checkpoint, and the last one was round 209, so it is overdue. Jev's signal is advisory, and it cannot see the 20-round gap.
+- 2026-11-28 00:09 Claude Code login expired (rounds 210 to 229). Environmental, so the round is resent and not parked. Isa must run claude auth login or claude setup-token.
