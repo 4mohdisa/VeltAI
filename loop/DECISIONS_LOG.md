@@ -13410,3 +13410,5 @@
 - 2026-11-28 05:11 Round 447: stopped again on the same external auth failure. Probing a fourth time would only repeat the failure, so no prompt is sent.
 - 2026-11-28 05:11 Ask is not used (standing rule). The stop is for auth only; the loop has not gone idle on any gate or owner step.
 - 2026-11-28 05:11 Notes rewritten shorter to stay under 600 words. No item was removed from Parked, Blocked on Isa or Protected.
+- 2026-11-28 05:48 Round 448: stop kept. Claude Code auth is still expired, so any prompt would fail. Not an ask: Isa's answer is needed only to restore login.
+- 2026-11-28 05:48 Notes compressed to fit the 600-word limit. Decisions, Protected list, Blocked on Isa and the Action for Isa block are kept in full in substance. Parked items are grouped by row.
