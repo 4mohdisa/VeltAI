@@ -12993,3 +12993,7 @@
 - 2026-11-28 00:48 Round 328: Claude Code auth still expired; the auth failure is environmental, so the step is resent instead of parked or stopped, per the existing rule.
 - 2026-11-28 00:48 Jev ask and stop signals not followed: the auth blocker is an Isa step, and the brief says never ask and never stop for it.
 - 2026-11-28 00:48 Checkpoint still deferred until auth returns; the header step stays first because it is the next unfinished piece of 18b.
+- 2026-11-28 00:48 Round 329: Claude Code auth still down (time limit reached, see OWNER_CHECKS_phase4.md). Environmental, so resent step 3 instead of parking.
+- 2026-11-28 00:48 Step 3 kept small: headers only in the existing middleware chain, no HSTS, no new shared package, per earlier decision.
+- 2026-11-28 00:48 Checkpoint still deferred until auth returns. It stays due in the round log.
+- 2026-11-28 00:48 Jev's ask and stop signals not followed: an auth failure is not an Isa blocker, and the loop has no question path.
