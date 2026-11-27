@@ -13142,3 +13142,6 @@
 - 2026-11-28 01:05 Claude Code auth failure again in round 373: environmental per standing decision, so resent 18b step 3 instead of parking or asking.
 - 2026-11-28 01:05 Jev ask signal (25%) not followed: standing decision says no Isa question stops or asks the loop.
 - 2026-11-28 01:05 Kept the smallest next step (18b step 3) because it is a contained, testable change in one middleware file.
+- 2026-11-28 01:06 Round 374: resent 18b step 3 because Claude Code auth is still down; auth failures are environmental, so no park and no stop.
+- 2026-11-28 01:06 Jev ask and stop signals not followed: notes rule says no Isa blocker stops the loop and resend until auth returns.
+- 2026-11-28 01:06 Step 3 kept to the existing middleware chain with no HSTS, per the security headers decision.
