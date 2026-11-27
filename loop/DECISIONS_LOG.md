@@ -12760,3 +12760,6 @@
 - 2026-11-28 00:21 Jev risk score noted but not acted on: this round changes no files, so risk of continuing is low.
 - 2026-11-28 00:21 Claude Code auth failure is environmental: the prompt is resent, not parked. Isa's claude auth login or setup-token step is listed in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:21 Notes condensed to under 600 words. No item removed: finished work merged into the round log, open items kept.
+- 2026-11-28 00:21 Resent the round 259 checkpoint after the Claude Code auth failure. Auth failures are environmental: resend, never park.
+- 2026-11-28 00:21 Jev ask signal not followed: no Isa blocker stops or pauses the loop, and the owner checks stay parked in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:21 Kept row 18b step 3 as the next task after the checkpoint, as the notes planned.
