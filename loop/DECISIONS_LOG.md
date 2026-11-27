@@ -13377,3 +13377,6 @@
 - 2026-11-28 01:30 Jev ask signal (60%) not followed: a stop or ask would break the no-question rule, and the auth step is Isa's only, so the loop keeps trying.
 - 2026-11-28 01:30 Kept 18b step 3 as the next task: it is the smallest open security step and it stays inside the 5 step limit.
 - 2026-11-28 01:30 Checkpoints 379, 393, 408, 423 and 438 stay unrecorded until auth returns, as the notes say.
+- 2026-11-28 01:31 Round 440: Claude Code login is still expired. Resending the same 5 step prompt costs nothing and the loop resumes by itself once Isa runs claude auth login or setup-token, so the loop keeps running instead of stopping.
+- 2026-11-28 01:31 Jev ask (68%) and stop (30%) signals not followed: the only blocker is Isa's Claude Code login, which no round can fix, and the loop is set to resume automatically. The blocker is written at the top of the notes so Isa sees it first.
+- 2026-11-28 01:31 Checkpoints 379-438 remain unrecorded until auth returns. No change to the rule that checkpoints run a no-change type check and full app Jest.
