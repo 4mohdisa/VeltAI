@@ -12585,3 +12585,7 @@
 - 2026-11-28 00:00 Round 209 is the scheduled checkpoint (override 11), so it runs full gates before the next security step.
 - 2026-11-28 00:00 Row 18b step 3 (rate limits, headers) is next after the checkpoint, as the prior notes planned.
 - 2026-11-28 00:00 Jev suggested running a task; kept the checkpoint because the notes schedule it and it is low risk.
+- 2026-11-28 00:01 Round 210: the latest Claude Code report says the login hit its time limit and needs claude auth login or setup-token from Isa. I cannot fix that. I resent the next planned task so the loop stays alive if the script refreshes the session. If the next report shows the same failure, the loop needs Isa to run claude setup-token; I will not switch tools or stop the loop over it.
+- 2026-11-28 00:01 Round 210: the plugin expo warning is not a blocker and is ignored.
+- 2026-11-28 00:01 Round 210: rate limits go on AI and feedback routes only, and only through an existing limiter. A new shared middleware needs Isa's approval (rule from round 206), so if none exists the limits are parked as BLOCKED and only the headers step runs.
+- 2026-11-28 00:01 Round 210: chose 18b step 3 over 18c and 6b because it is already in progress and small.

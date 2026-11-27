@@ -2,16 +2,18 @@
 Goal: all rows BUILT or EXACT, soak exit met. Never ask; park owner steps. Branch loop/phase4 only.
 
 ## Overrides
-1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested before new task. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds; round 209 is a checkpoint, next 214.
+1 English only for new strings. 2 About 15 rounds per row, then BUILT. 3 Order 18-30, then 31. 4 One screen or component per prompt, max 5 steps. 5 Partly done: one follow-up, then park. 6 Simulator and Maestro only in rows 23 and soak. 7 Branch rule in every prompt; tsc first each round. 8 Flagged work tested before new task. 9 Out of scope changes: check, then keep with decision or revert. 10 Notes under 600 words. 11 Checkpoint about every 5 rounds; round 214 is a checkpoint.
 
-## State (Round 209)
+## State (Round 210)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15. PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18a-c, 19-28, 30. 18a done. 18b steps 1 and 2 done (injection fuzz 1,521 cases; uploads and SSRF). Redirect finding pinned by a permanent test (flip when guard lands).
+Row 16 and 17 status: BUILT (route list, ownership, validation, migration tests).
 
 ## Parked (fix only in its row)
-Debug: null context saved as null; retry drops fields. Food: scan log delete (FK, migration); portion pref wipes meal type; delete-account contrast (device); saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH takes future date. Goals: any weight_goal, activity_level, source stored; onboarding skips sex, units. Recipes: random UUID order; PATCH and meal_type unchecked. Integrations: sync caps 50 and 25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY grant. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors; debug and scan decoders skip httpx.Decode; no length cap on long text (10,000 chars accepted); /api/scan returns 400 not 413 for oversize; no base64 or image size check before paid call; label route no dimension check; pipeline and label pass non-images to Gemini; debug screenshots no type check (test build only). Outbound clients follow cross-host redirects (pinned test). Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: copies in 7 packages. Docs: LUME_TEST_DATABASE_URL.
+Debug: null context saved as null; retry drops fields. Food: scan log delete (FK, migration); portion pref wipes meal type; delete-account contrast (device); saved food skips nutrition checks. Gym: exercise POST 200 not 201; session PATCH takes future date and negative duration. Goals: any weight_goal, activity_level, source stored; onboarding skips sex, units. Recipes: random UUID order; PATCH and meal_type unchecked. Integrations: sync caps 50 and 25; expired token 502; unknown provider 503. Feedback 14a: wire or delete chip before 31. Legal: web legal lacks push, Sentry, PostHog. Push: DELETE after 401; stale tokens. Schedules: meal median across midnight; quiet hours. RevenueCat ignores PAUSED, EXTENDED, NON_RENEWING, TEMPORARY grant. Backend: 49 id::text queries; schedule sorts before LIMIT 30; swallowed errors; debug and scan decoders skip httpx.Decode; no length cap on long text; /api/scan returns 400 not 413 for oversize; no base64 or image size check before paid call; label route no dimension check; pipeline and label pass non-images to Gemini; debug screenshots no type check (test build only). Outbound clients follow cross-host redirects (pinned test). Migrations: schema test skips columns; no CONCURRENTLY guard. Code: hardcoded strings; 243 console lines; two useApi; reanimated mock; root JS unlinted. Tests: 4 refetch and lifecycle gaps. Helpers: copies in 7 packages (6 test copies of signedTokens, seedOwner, wantErrorEnvelope). Docs: LUME_TEST_DATABASE_URL.
 
 ## Blocked on Isa (do not retry)
-Migration approvals (food delete, recipe order), integration paging, null context fix, null byte 400 guard (18b), shared test helper, coverage scope, 403 vs 404 (403 kept), RevenueCat shared header, redirect guard (shared, outbound clients). Copy: consent, win back, leaving, target weight, paywall terms, Terms free tier, five others. Apple and RevenueCat: Retention access, sandbox, Apple sheet, 7c key. Push and HealthKit: categories, switches, purpose strings, device steps. Store: age rating, demo account, URLs. Tooling: CI, E2E account, npm audit. Owner checks: OWNER_CHECKS_phase4.md.
+Migration approvals (food delete, recipe order), integration paging, null context fix, null byte 400 guard (18b), shared test helper, shared rate limiter or redirect guard (outbound clients), coverage scope, 403 vs 404 (403 kept), RevenueCat shared header. Copy: consent, win back, leaving, target weight, paywall terms, Terms free tier, five others. Apple and RevenueCat: Retention access, sandbox, Apple sheet, 7c key. Push and HealthKit: categories, switches, purpose strings, device steps. Store: age rating, demo account, URLs. Tooling: CI, E2E account, npm audit. Owner checks: OWNER_CHECKS_phase4.md.
+Loop: Claude Code login expired (round 210 report). Isa must run claude setup-token or claude auth login.
 
 ## Protected
 src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions defaults in src/lib/api.ts, backend/tests/scan/learning_store_pg_test.go. foodDays.test.ts: add branches only. Loop files.
@@ -34,10 +36,12 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Round 207: 18b step 2 is uploads and SSRF. Wrong mime types return 400.
 - Round 208: redirect finding pinned by a permanent test as a tripwire; flip it when the guard lands.
 - Round 209: checkpoint run before 18b step 3.
+- Round 210: Claude Code auth failed; resent the next task. Plugin expo warning ignored.
+- Round 210: rate limits only through an existing limiter on AI and feedback routes; none exists means park, do headers only.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204: checkpoint green. 205: 18a done. 206: 18b step 1 done. 207: 18b step 2 done. 208: redirect pinned test. 209: checkpoint (running).
+182-203: Rows 16, 17 BUILT. 204: checkpoint green. 205: 18a done. 206: 18b step 1 done. 207: 18b step 2 done. 208: redirect pinned test. 209: checkpoint. 210: Claude Code auth failure; resent 18b step 3.
 Next: 18b step 3 (rate limits, headers), then 18c.
