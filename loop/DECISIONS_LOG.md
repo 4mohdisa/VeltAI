@@ -12867,3 +12867,7 @@
 - 2026-11-28 00:33 Claude Code auth expiry is environmental: resend, never park, no ask, no stop, as set in the notes.
 - 2026-11-28 00:33 Jev ask signal (23%) not followed: the loop never asks Isa, and Isa's blocker is a parked owner step, not a stop.
 - 2026-11-28 00:33 Full names of log and notes files given because a handover just happened.
+- 2026-11-28 00:33 Claude Code auth expiry is environmental, so the read only checkpoint request is resent instead of parked or asked (per the loop blocker rule).
+- 2026-11-28 00:33 Jev ask signal (40%) not followed: no questions to Isa, and the blocker is resolved by resending.
+- 2026-11-28 00:33 Jev stop signal (8%) not followed: no Isa blocker stops the loop, and no danger or hosted service is involved.
+- 2026-11-28 00:33 Chose the read only checkpoint first because it is the only item with no file changes, so it is the safest step while auth is unstable.
