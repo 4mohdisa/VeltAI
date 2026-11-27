@@ -12656,3 +12656,6 @@
 - 2026-11-28 00:08 Expo plugin not installed; ignored for backend work, already in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:09 Round 229 checkpoint kept over Jev's pick (18b step 3). The loop note asks for a checkpoint, and the last one was round 209, so it is overdue. Jev's signal is advisory, and it cannot see the 20-round gap.
 - 2026-11-28 00:09 Claude Code login expired (rounds 210 to 229). Environmental, so the round is resent and not parked. Isa must run claude auth login or claude setup-token.
+- 2026-11-28 00:09 Resent the checkpoint because round 229 was lost to a Claude Code auth failure and the checkpoint is overdue.
+- 2026-11-28 00:09 Did not follow the Jev ask and stop signals: Isa has said never to ask or stop on a blocker, and the auth failure is environmental.
+- 2026-11-28 00:09 Auth failures are not parked. Each round resends the task until Isa runs claude auth login or sets CLAUDE_CODE_OAUTH_TOKEN.
