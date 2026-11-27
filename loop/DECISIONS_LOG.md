@@ -13160,3 +13160,6 @@
 - 2026-11-28 01:07 Claude Code auth failure is environmental: resent the checkpoint instead of parking, per the standing rule.
 - 2026-11-28 01:07 Kept the checkpoint as the next task because 18b step 3 is set to run only after the checkpoint is recorded.
 - 2026-11-28 01:07 Jev ask signal not followed: the loop has no Isa blocker that stops it; no question is asked.
+- 2026-11-28 01:08 Round 380: Claude Code auth still expired, so the step 3 prompt is resent with the branch rule, per the standing rule that auth failures are environmental (resend, never park, never ask, never stop).
+- 2026-11-28 01:08 Jev ask and stop signals not followed: no Isa blocker stops the loop and the auth problem is already logged in OWNER_CHECKS_phase4.md.
+- 2026-11-28 01:08 Kept the next task on 18b step 3 because the checkpoint at 379 was already resent and the notes say to proceed after the checkpoint is recorded.
