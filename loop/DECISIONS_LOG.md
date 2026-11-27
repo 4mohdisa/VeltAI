@@ -12958,3 +12958,6 @@
 - 2026-11-28 00:43 Claude Code auth has failed since round 210. This is environmental, so the prompt is resent unchanged in intent. Not parked, not asked, not a stop reason.
 - 2026-11-28 00:43 Jev's low clean-completion estimate comes from the same auth failure, so it does not change the choice. Jev's ask and stop signals are not followed (existing decision).
 - 2026-11-28 00:43 Notes condensed to fit the 600 word limit. No items removed from Parked, Blocked or Protected; wording shortened only.
+- 2026-11-28 00:44 Resent the round 318 checkpoint as round 319: Claude Code auth failure is environmental, so resend, never park, never ask.
+- 2026-11-28 00:44 Jev ask signal (24%) not followed: no questions to Isa; the loop continues.
+- 2026-11-28 00:44 Kept the checkpoint before 18b step 3 so the baseline is green before the next security change.
