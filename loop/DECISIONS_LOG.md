@@ -12837,3 +12837,5 @@
 - 2026-11-28 00:29 Jev ask signal (19%) not followed: the loop has no Isa blocker for this step, and the checkpoint and headers test are small and safe.
 - 2026-11-28 00:29 Kept the checkpoint and headers work as one prompt because both are already pending and each is a few steps.
 - 2026-11-28 00:29 Trimmed the notes to stay under 600 words; no rule or parked item was removed, only merged.
+- 2026-11-28 00:30 Round 283: Claude Code login failure is environmental, so the pending checkpoint and 18b step 3 are resent, not parked.
+- 2026-11-28 00:30 Jev ask and stop signals not followed: no Isa blocker, and the auth failure is resolved by Isa's login, not by a question.
