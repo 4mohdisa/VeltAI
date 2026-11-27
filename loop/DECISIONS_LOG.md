@@ -13199,3 +13199,6 @@
 - 2026-11-28 01:12 Jev ask signal (60%) not followed: the brief forbids ask, and the only blocker is an auth step Isa must run himself, already in OWNER_CHECKS_phase4.md.
 - 2026-11-28 01:12 Jev risk 1.8 noted: no danger or destructive action in the prompt; the step is local, header-only, reversible.
 - 2026-11-28 01:12 Kept the prompt self-contained for the post handover session, with the branch rule and report format.
+- 2026-11-28 01:12 Round 391: Claude Code auth still expired. Environmental, so resent Row 18b step 3 unchanged, per the standing rule (never park, never ask, never stop).
+- 2026-11-28 01:12 Jev ask signal (49%) and risk 1.7 noted, not followed: no Isa blocker exists in this task and the loop rules forbid asking.
+- 2026-11-28 01:12 Kept the prompt self contained after handover so it runs from a fresh session.
