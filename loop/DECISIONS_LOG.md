@@ -12629,3 +12629,6 @@
 - 2026-11-28 00:05 Round 221: Claude Code auth still expired; resent 18b step 3 instead of parking it, per the auth-failure decision.
 - 2026-11-28 00:05 Kept 18b step 3 over the Jev candidates (18c and 19) because 18b is in progress and Jev's ask/stop signals are not followed.
 - 2026-11-28 00:05 Rate limits stay parked unless an existing limiter already covers AI and feedback routes; no new limiter without Isa approval.
+- 2026-11-28 00:06 Round 222: resent 18b step 3 after Claude Code login failure. The failure is environmental, so the task is not parked.
+- 2026-11-28 00:06 Round 222: kept 18b step 3 over Jev's low clean-completion signal. It is a small Go-only change with a clear test, and the risk is the environment, not the task.
+- 2026-11-28 00:06 Round 222: rate limits stay parked unless an existing limiter covers AI and feedback routes, per the standing decision.
