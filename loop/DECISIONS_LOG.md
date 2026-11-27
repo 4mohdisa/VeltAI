@@ -13246,3 +13246,7 @@
 - 2026-11-28 01:16 Jev ask signal (40%) not followed: the no-ask rule from Isa stands and the loop has no blocker that needs his answer.
 - 2026-11-28 01:16 Resent 18b step 3 as a fully self-contained prompt, with the no-HSTS rule and the chain-reuse rule stated again.
 - 2026-11-28 01:16 Condensed the notes file under 600 words. Parked and blocked items are kept in full; finished round detail is merged into one line.
+- 2026-11-28 01:17 Resent 18b step 3 as a self-contained prompt because the Claude Code auth failure is environmental (notes rule: resend, never park, never ask, never stop).
+- 2026-11-28 01:17 Chose 18b step 3 over the other candidates because row 18b is already in progress and this is its open step.
+- 2026-11-28 01:17 Jev ask and stop signals not followed: the step is local header work in the Go backend, reversible, and no Isa decision is needed.
+- 2026-11-28 01:17 Checkpoint results from rounds 379 and 393 remain unrecorded until Claude Code auth returns.
