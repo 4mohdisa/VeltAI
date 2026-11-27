@@ -12819,3 +12819,7 @@
 - 2026-11-28 00:27 Jev ask signal not followed: Isa is unavailable and blockers are parked, not asked.
 - 2026-11-28 00:27 Checkpoint first because the notes list it as the next step for round 276 and it was never recorded.
 - 2026-11-28 00:27 Step 2 kept to one test and the existing middleware, to stay within the 5 step limit and avoid a shared guard (needs Isa approval).
+- 2026-11-28 00:28 Round 278: Claude Code auth failure is environmental, so the checkpoint and 18b step 3 prompt is resent, not parked.
+- 2026-11-28 00:28 Jev ask signal (28%) not followed: the rules forbid ask, and no Isa blocker stops the loop.
+- 2026-11-28 00:28 Checkpoint record combined with 18b step 3 in one prompt to clear the backlog; the prompt stays at 3 steps.
+- 2026-11-28 00:28 Notes condensed to fit the 600 word limit; no parked or blocked item was removed.
