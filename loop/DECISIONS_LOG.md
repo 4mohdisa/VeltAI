@@ -13264,3 +13264,7 @@
 - 2026-11-28 01:18 Kept the 18b step 3 task unchanged because it is the next open step and needs no auth change in the repo.
 - 2026-11-28 01:18 Jev ask and stop signals were not followed: no concrete risk exists in resending a read only check, and the brief forbids stopping for an Isa step.
 - 2026-11-28 01:18 Added an owner action line at the top of the notes so Isa sees the one step that unblocks everything.
+- 2026-11-28 01:18 Round 408 is a checkpoint by the loop note: no-change type check and full app Jest, chosen over 18b step 3 because the loop asked for it.
+- 2026-11-28 01:18 Claude Code auth failure is environmental: resend, do not park, do not ask, do not stop.
+- 2026-11-28 01:18 Jev ask (60%) and stop (12%) signals not followed: the brief forbids ask, and no Isa blocker stops the loop. Confidence 0.40 is low, so the small no-change task is kept.
+- 2026-11-28 01:18 Notes trimmed for length: finished round log entries merged, parked and blocked items kept in full.
