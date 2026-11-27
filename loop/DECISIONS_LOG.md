@@ -12901,3 +12901,7 @@
 - 2026-11-28 00:37 Round 301: Claude Code auth still expired (latest report). Environmental, so step 3 is resent unchanged, per the rule that auth failures are resent and never parked.
 - 2026-11-28 00:37 Round 301 checkpoint (288, 292) moved to round 302 so the auth fix can land first.
 - 2026-11-28 00:37 Chose 18b step 3 over the candidates because it is the open step in the in-flight security row and is the smallest change that can finish cleanly.
+- 2026-11-28 00:37 Resent 18b step 3 because the last Claude Code report was an auth failure (environmental, never park).
+- 2026-11-28 00:37 Kept the step 3 scope to the existing middleware chain and no new shared guard package, as the decisions already say.
+- 2026-11-28 00:37 Checkpoint stays at round 302 as planned; it runs after this step.
+- 2026-11-28 00:37 Jev suggested asking or stopping; not followed, since no Isa blocker stops the loop and the rule is to run.
