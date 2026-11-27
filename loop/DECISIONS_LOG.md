@@ -13427,3 +13427,6 @@
 - 2026-11-28 08:50 Restart checkpoints (379, 393, 408, 423, 438) recorded as pending, to run on the first round after auth is restored.
 - 2026-11-28 09:27 Round 454: kept the stop because auth is still expired. One more probe was not worth it, since 444 to 453 already failed the same way.
 - 2026-11-28 09:27 Kept the Jev stop signal (73 percent) as advisory. No action can run without auth, so stop is the only valid action.
+- 2026-11-28 10:03 Round 455: stopped again because auth is still expired. A run would only produce another auth failure, so no prompt was sent.
+- 2026-11-28 10:03 Kept the rounds 449-454 rule: stops from round 442 onward are due to external auth failure only.
+- 2026-11-28 10:03 Restart plan unchanged: first record checkpoints 379, 393, 408, 423, 438 (type check and full app Jest, no changes), then resume at 18b step 3.
