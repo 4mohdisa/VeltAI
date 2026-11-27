@@ -12763,3 +12763,6 @@
 - 2026-11-28 00:21 Resent the round 259 checkpoint after the Claude Code auth failure. Auth failures are environmental: resend, never park.
 - 2026-11-28 00:21 Jev ask signal not followed: no Isa blocker stops or pauses the loop, and the owner checks stay parked in OWNER_CHECKS_phase4.md.
 - 2026-11-28 00:21 Kept row 18b step 3 as the next task after the checkpoint, as the notes planned.
+- 2026-11-28 00:21 Resent the checkpoint as round 261 because the Claude Code login failure is environmental. Not parked, not asked, not stopped.
+- 2026-11-28 00:21 Jev ask signal (24%) not followed: Isa blockers never stop the loop, and the Claude Code auth step is a known owner check in OWNER_CHECKS_phase4.md.
+- 2026-11-28 00:21 Kept the checkpoint read only so that a red result cannot change code while auth is unstable.
