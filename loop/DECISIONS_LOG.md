@@ -13285,3 +13285,7 @@
 - 2026-11-28 01:21 Round 413: Claude Code auth still expired. Auth failures are environmental, so the same self-contained 18b step 3 prompt is resent (decision: auth failures never park or stop).
 - 2026-11-28 01:21 Jev ask and stop signals not followed again: no Isa blocker stops the loop; the auth step is an owner action recorded in the notes.
 - 2026-11-28 01:21 Kept the 18b step 3 scope to headers only, no HSTS, per the security headers decision.
+- 2026-11-28 01:21 Round 414: Claude Code auth still expired; treated as environmental per standing rule, so the step is resent instead of parked or stopped.
+- 2026-11-28 01:21 Round 414: Jev suggested ask or stop (71% and 16%). Not followed: Isa cannot answer during the week, and stopping would end the loop before a renewed login can resume it. Resend is the only path that makes progress once auth returns.
+- 2026-11-28 01:21 Round 414: 18b step 3 resent as a fully self-contained prompt with the no-HSTS rule and a revert-on-two-failures rule repeated.
+- 2026-11-28 01:21 Round 414: Expo plugin install still ignored; this row is backend only.
