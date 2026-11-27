@@ -12748,3 +12748,7 @@
 - 2026-11-28 00:19 Jev next action (run 87%) agrees with the notes plan, so no change of task. Jev stop and ask signals not followed, per decision.
 - 2026-11-28 00:19 Candidate 2 kept on the list only. Rate limits stay parked until an existing limiter exists, so it is not picked.
 - 2026-11-28 00:19 Owner step for Claude Code login already sits in OWNER_CHECKS_phase4.md, so nothing new is parked.
+- 2026-11-28 00:20 Claude Code login failed again; authentication failures are environmental, so the same prompt is resent and no row is parked.
+- 2026-11-28 00:20 Kept 18b step 3 as the next task (already the open item in notes). Jev's ask signal is not followed, per the standing decision that no Isa blocker stops or pauses the loop.
+- 2026-11-28 00:20 Headers middleware is a new file wired once, not a shared guard, so no approval is needed.
+- 2026-11-28 00:20 Notes condensed to stay under 600 words; no open item was removed.
