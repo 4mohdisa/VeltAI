@@ -13466,3 +13466,6 @@
 - 2026-11-28 18:32 Kept stop at round 468: auth is the only blocker and no run can succeed without it. Probes would only repeat the failure.
 - 2026-11-28 18:32 Did not follow the Jev 'ask' option: the brief forbids asking Isa, and the stop is an external auth failure, not a question.
 - 2026-11-28 18:32 Condensed the notes to fit the 600 word limit. No items were removed; finished work was merged into state lines.
+- 2026-11-28 19:09 Stopped on the external auth failure, not on the brief's stop list. No task can run while auth is expired, so further rounds would only produce failed reports.
+- 2026-11-28 19:09 Kept all Blocked on Isa items and Parked items from the previous notes. Nothing approved or dropped.
+- 2026-11-28 19:09 Compressed the notes to fit the 600 word limit. No open item was removed.
