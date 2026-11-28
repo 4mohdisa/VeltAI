@@ -13433,3 +13433,6 @@
 - 2026-11-28 10:39 Round 456: stop kept, since no prompt can run while Claude Code auth is expired (external failure, per the stop rule from round 442).
 - 2026-11-28 10:39 Jev stop signal (about 78 percent) followed, because no action can run without auth. Ask was not used, per the no-questions rule.
 - 2026-11-28 10:39 Notes kept as they were, with the round log extended and the restart checkpoints listed again.
+- 2026-11-28 11:16 Round 457: stopped again because Claude Code auth is still expired. A run action would fail the same way, so this is not a red gate.
+- 2026-11-28 11:16 Followed the Jev stop signal (about 78 percent) because no action can run without auth. The brief allows a stop only for done, danger, or external blockers; auth is the external blocker here.
+- 2026-11-28 11:16 Did not use action ask: Isa chose park and carry on, and the question would not change the auth state.
