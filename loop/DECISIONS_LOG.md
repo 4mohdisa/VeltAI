@@ -13458,3 +13458,6 @@
 - 2026-11-28 16:07 Notes compressed to fit the 600 word limit. No decisions, Blocked on Isa items or Parked items were removed; only wording was shortened.
 - 2026-11-28 16:43 Round 466: stop kept while Claude Code auth is expired. A probe prompt would fail the same way, so no round is spent on it.
 - 2026-11-28 16:43 Jev stop signal (about 76 percent) followed as advisory, since no action can run without auth. Reason recorded here.
+- 2026-11-28 17:20 Round 467: stop kept while Claude Code auth is expired. Jev stop signal (about 73 to 76 percent) followed because no action can run without auth.
+- 2026-11-28 17:20 Checkpoints 379, 393, 408, 423, 438, 463, 466 are still owed; record them on restart, with no code changes.
+- 2026-11-28 17:20 Restart point: 18b step 3 (security headers in the existing middleware chain, no HSTS).
