@@ -13454,3 +13454,5 @@
 - 2026-11-28 15:30 Round 464: stopped again instead of running another probe, because the last 21 rounds all failed at auth and a further probe adds nothing.
 - 2026-11-28 15:30 Checkpoints 379, 393, 408, 423, 438 and 463 are still owed. Record them on restart, as the notes say, with no code changes.
 - 2026-11-28 15:30 Resume point is 18b step 3 (security headers in the existing middleware chain, no HSTS), unchanged.
+- 2026-11-28 16:07 Round 465: stop kept. Auth is the only blocker, and another probe would only burn a round. Jev stop signal (76%) followed for this reason only.
+- 2026-11-28 16:07 Notes compressed to fit the 600 word limit. No decisions, Blocked on Isa items or Parked items were removed; only wording was shortened.
