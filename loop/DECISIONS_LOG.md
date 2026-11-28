@@ -13474,3 +13474,6 @@
 - 2026-11-28 19:45 Restart plan kept: first record checkpoints 379, 393, 408, 423, 438, 463, 466, 467, 468 (type check and full app Jest, no changes), then resume 18b step 3.
 - 2026-11-28 20:22 Round 471: stop held. Auth failure is external and no prompt can run without it. Further probe rounds add nothing.
 - 2026-11-28 20:22 Round 471: notes condensed to stay under 600 words. No rule, parked item, blocked item or checkpoint was removed; the detail lives in the earlier notes and in OWNER_CHECKS_phase4.md.
+- 2026-11-28 20:58 Round 472: stop kept. Claude Code auth is still expired, so no prompt was sent.
+- 2026-11-28 20:58 Jev stop signal (71 percent) followed, since no action can run without auth.
+- 2026-11-28 20:58 On restart, record the pending checkpoints before any feature work.
