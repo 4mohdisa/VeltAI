@@ -13442,3 +13442,6 @@
 - 2026-11-28 12:29 No prompt sent: a prompt cannot run without auth, and a probe prompt would only repeat the failure.
 - 2026-11-28 13:05 Round 460: stop kept, since Claude Code auth is still expired and no prompt can run. Same reasoning as rounds 449-459.
 - 2026-11-28 13:05 Jev stop signal (about 75 percent) followed, because no action can run without auth. Not a case of skipping work that was possible.
+- 2026-11-28 13:41 Round 461: stop kept. Seventeen consecutive auth probes failed, and Jev rates stop at 76 percent. Another probe would only repeat the same failure.
+- 2026-11-28 13:41 Auth failure is treated as external, so it does not count as a gate failure or a reason to change the plan.
+- 2026-11-28 13:41 On restart, checkpoints 379, 393, 408, 423 and 438 are recorded first, as the earlier plan says, before any new task.

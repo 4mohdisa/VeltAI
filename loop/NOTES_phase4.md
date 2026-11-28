@@ -2,13 +2,13 @@
 Goal: all rows BUILT or EXACT, soak exit met. Branch loop/phase4 only. Never push or merge.
 
 ## ACTION FOR ISA (read first)
-Loop STOPPED at round 460. Claude Code auth expired (probes 444-460 failed).
+Loop STOPPED at round 461. Claude Code auth expired (probes 443-461 failed).
 Fix: run `claude auth login`, or run `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended runs.
 Optional: `claude plugin install expo@claude-plugins-official --scope project` (plugin 'expo' is enabled but not installed).
 When auth works, restart the loop. It resumes at 18b step 3 (security headers in the existing middleware chain, no HSTS).
 On restart, first record checkpoints 379, 393, 408, 423, 438 (type check and full app Jest, no changes).
 
-## State (round 460)
+## State (round 461)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
 
@@ -56,16 +56,16 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
 - Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423, 438): no-change type check and full app Jest.
 - Jev ask and stop signals not followed while work was possible. Stops from round 442 onward are due to external auth failure only.
-- Rounds 449-460: stop kept while auth is expired.
+- Rounds 449-461: stop kept while auth is expired.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: auth failures, resent. 440-441: 18b step 3 resent. 442: stopped for auth. 443-460: probes and stops, auth still expired.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-439: auth failures, resent. 440-441: 18b step 3 resent. 442: stopped for auth. 443-461: probes and stops, auth still expired.
 
 ## Latest Claude Code report
 Failed to authenticate: login reached its time limit and cannot be renewed. Plugin expo enabled but not installed.
 
 ## Jev signals (advisory)
-Round 460: stop about 75 percent, risk about 1.7. Followed as stop, since no action can run without auth.
+Round 461: stop about 76 percent, risk about 1.7. Followed as stop, since no action can run without auth.
