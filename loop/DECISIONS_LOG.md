@@ -13487,3 +13487,6 @@
 - 2026-11-28 22:47 Restart checklist kept at the top of the notes so the first resumed round records the pending checkpoints.
 - 2026-11-28 23:23 Round 476: stop kept because Claude Code auth is still expired. Jev stop signal (72%, risk 1.7) followed, since no action can run without auth.
 - 2026-11-28 23:23 Round 476: did not send a probe prompt, because it would fail the same way and waste a round.
+- 2026-11-29 00:00 Kept action stop at round 477: no run can execute without Claude Code auth, and asking is not allowed. Jev stop signal (about 70 percent) followed for this reason only.
+- 2026-11-29 00:00 Kept the existing state and Parked list unchanged. Only the header and round log were updated.
+- 2026-11-29 00:00 Checkpoints 379, 393, 408, 423, 438, 463, 466-468 and 471-477 are still owed on restart (type check and full app Jest, no changes).
