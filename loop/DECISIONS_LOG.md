@@ -13490,3 +13490,5 @@
 - 2026-11-29 00:00 Kept action stop at round 477: no run can execute without Claude Code auth, and asking is not allowed. Jev stop signal (about 70 percent) followed for this reason only.
 - 2026-11-29 00:00 Kept the existing state and Parked list unchanged. Only the header and round log were updated.
 - 2026-11-29 00:00 Checkpoints 379, 393, 408, 423, 438, 463, 466-468 and 471-477 are still owed on restart (type check and full app Jest, no changes).
+- 2026-11-29 00:36 Round 478: stopped again for auth. Probing again would only burn rounds, since the same failure has repeated for 36 rounds. Jev stop signal (64%) followed because no action can run without auth.
+- 2026-11-29 00:36 Notes condensed to stay under 600 words. No status or rule changed; parked items and blocked items kept as written.

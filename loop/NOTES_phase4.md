@@ -2,13 +2,13 @@
 Goal: all rows BUILT or EXACT, soak exit met. Branch loop/phase4 only. Never push or merge.
 
 ## ACTION FOR ISA (read first)
-Loop STOPPED at round 476 and kept stopped at 477. Claude Code auth has failed since round 442.
+Loop STOPPED at round 476 and kept stopped through 478. Claude Code auth has failed since round 442.
 1. Run `claude auth login`, or run `claude setup-token` and set CLAUDE_CODE_OAUTH_TOKEN for unattended runs.
 2. Run `claude plugin install expo@claude-plugins-official --scope project` (plugin enabled but not installed).
 3. Restart the loop. It resumes at 18b step 3 (security headers in the existing middleware chain, no HSTS).
-4. On restart, first record checkpoints 379, 393, 408, 423, 438, 463, 466-468, 471-477 (type check and full app Jest, no changes).
+4. On restart, first record checkpoints 379, 393, 408, 423, 438, 463, 466-468, 471-478 (type check and full app Jest, no changes).
 
-## State (round 477)
+## State (round 478)
 BUILT 20 of 39: 1, 2, 2.2, 2b-2d, 3-6, 10-17, 14b, 29. Phase 3 rows 6, 13, 14, 15.
 PARTIAL: 6b, 7, 8, 9, 14a, 31. DIFFERENT: 18b-c, 19-28, 30. 18a done. 18b steps 1-2 done.
 
@@ -54,18 +54,18 @@ src/lib/mock/data.ts, src/__tests__/helpers/useApiHarness.ts, ios/, listSessions
 - Rate limits only through an existing limiter on AI and feedback routes; none means park, headers only.
 - Each test package keeps its own helper copies until Isa approves a shared package.
 - Security headers only in existing middleware chain; no HSTS (local HTTP).
-- Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423, 438, 463, 466-468, 471-477): no-change type check and full app Jest.
+- Checkpoints (303, 318-320, 326-341, 348-350, 354+, 363, 378, 379, 393, 408, 423, 438, 463, 466-468, 471-478): no-change type check and full app Jest.
 - Jev ask and stop signals not followed while work was possible. Stops from round 442 onward are due to external auth failure only.
-- Rounds 442-477: stop kept while auth is expired.
+- Rounds 442-478: stop kept while auth is expired.
 
 ## Gotchas
 Jest: full paths, --ci, output redirected, never -u. en.json and detail.tsx fail Prettier at HEAD: never --write. Go TestPG: LUME_TEST_DATABASE_URL on command line only (postgres://localhost:5432/lume_test_local?sslmode=disable). Every prompt states the loop/phase4 branch rule.
 
 ## Round log
-182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-441: auth failures, resent. 442: stopped for auth. 443-477: probes and stops, auth still expired.
+182-203: Rows 16, 17 BUILT. 204, 209 checkpoints green. 205: 18a done. 206-207: 18b steps 1-2. 208: redirect tripwire. 210-441: auth failures, resent. 442: stopped for auth. 443-478: probes and stops, auth still expired.
 
 ## Latest Claude Code report
 Failed to authenticate: login reached its time limit and cannot be renewed. Plugin expo enabled but not installed.
 
 ## Jev signals (advisory)
-Round 477: stop about 70 percent, risk 1.8. Followed as stop, since no action can run without auth.
+Round 478: stop about 64 percent, risk 1.7. Followed as stop, since no action can run without auth.
