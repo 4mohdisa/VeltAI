@@ -13445,3 +13445,6 @@
 - 2026-11-28 13:41 Round 461: stop kept. Seventeen consecutive auth probes failed, and Jev rates stop at 76 percent. Another probe would only repeat the same failure.
 - 2026-11-28 13:41 Auth failure is treated as external, so it does not count as a gate failure or a reason to change the plan.
 - 2026-11-28 13:41 On restart, checkpoints 379, 393, 408, 423 and 438 are recorded first, as the earlier plan says, before any new task.
+- 2026-11-28 14:18 Round 462: kept the stop. A probe would fail the same way as rounds 443 to 461, so the loop does not spend another round on it.
+- 2026-11-28 14:18 Rounds 449 to 462: stop kept while auth is expired (Decisions section, unchanged).
+- 2026-11-28 14:18 Updated the ACTION FOR ISA block with the round number and the restart steps. No row status changed.
