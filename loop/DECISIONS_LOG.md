@@ -13463,3 +13463,6 @@
 - 2026-11-28 17:20 Restart point: 18b step 3 (security headers in the existing middleware chain, no HSTS).
 - 2026-11-28 17:56 Round 468: stop kept because auth is still expired and no probe can succeed. Consistent with the rounds 442 to 467 decision.
 - 2026-11-28 17:56 No new probe prompt sent: 26 consecutive auth failures show that another probe would only add noise to the log.
+- 2026-11-28 18:32 Kept stop at round 468: auth is the only blocker and no run can succeed without it. Probes would only repeat the failure.
+- 2026-11-28 18:32 Did not follow the Jev 'ask' option: the brief forbids asking Isa, and the stop is an external auth failure, not a question.
+- 2026-11-28 18:32 Condensed the notes to fit the 600 word limit. No items were removed; finished work was merged into state lines.
