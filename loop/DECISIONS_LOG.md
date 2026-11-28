@@ -13482,3 +13482,6 @@
 - 2026-11-28 21:34 Notes condensed to fit the 600 word limit; no open items were dropped, only repeats merged.
 - 2026-11-28 22:11 Round 474: stopped again for external auth failure. Kept the round 442 rule that stops are due only to auth until it is fixed.
 - 2026-11-28 22:11 Did not send a probe prompt: a run would fail on auth and add nothing.
+- 2026-11-28 22:47 Round 475: stopped again, since no prompt can run without Claude Code auth (same reason as rounds 442-474).
+- 2026-11-28 22:47 Notes condensed to under 600 words. Finished detail removed, all open Parked and Blocked items kept.
+- 2026-11-28 22:47 Restart checklist kept at the top of the notes so the first resumed round records the pending checkpoints.
