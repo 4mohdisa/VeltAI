@@ -13469,3 +13469,6 @@
 - 2026-11-28 19:09 Stopped on the external auth failure, not on the brief's stop list. No task can run while auth is expired, so further rounds would only produce failed reports.
 - 2026-11-28 19:09 Kept all Blocked on Isa items and Parked items from the previous notes. Nothing approved or dropped.
 - 2026-11-28 19:09 Compressed the notes to fit the 600 word limit. No open item was removed.
+- 2026-11-28 19:45 Round 470: stop kept. Jev put stop at 80% and 'run' at 1%. Every run would fail at authentication, so no task can progress. Jev's advice matches the only workable action.
+- 2026-11-28 19:45 Stop reason is external auth failure only. No brief stop condition is met (rows 1-30 not all BUILT/EXACT, soak not met), so the loop must resume once auth is fixed.
+- 2026-11-28 19:45 Restart plan kept: first record checkpoints 379, 393, 408, 423, 438, 463, 466, 467, 468 (type check and full app Jest, no changes), then resume 18b step 3.
