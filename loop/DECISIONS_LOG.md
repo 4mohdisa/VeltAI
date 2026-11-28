@@ -13456,3 +13456,5 @@
 - 2026-11-28 15:30 Resume point is 18b step 3 (security headers in the existing middleware chain, no HSTS), unchanged.
 - 2026-11-28 16:07 Round 465: stop kept. Auth is the only blocker, and another probe would only burn a round. Jev stop signal (76%) followed for this reason only.
 - 2026-11-28 16:07 Notes compressed to fit the 600 word limit. No decisions, Blocked on Isa items or Parked items were removed; only wording was shortened.
+- 2026-11-28 16:43 Round 466: stop kept while Claude Code auth is expired. A probe prompt would fail the same way, so no round is spent on it.
+- 2026-11-28 16:43 Jev stop signal (about 76 percent) followed as advisory, since no action can run without auth. Reason recorded here.
