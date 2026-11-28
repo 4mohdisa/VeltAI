@@ -13451,3 +13451,6 @@
 - 2026-11-28 14:54 Round 463: stopped again on auth failure. A probe cannot pass without a valid login, so another probe would only add a failed round.
 - 2026-11-28 14:54 Kept the Jev stop signal (about 74 percent) because no action can run without auth.
 - 2026-11-28 14:54 On restart, run the pending checkpoints first (379, 393, 408, 423, 438, and 463) before row 18b step 3.
+- 2026-11-28 15:30 Round 464: stopped again instead of running another probe, because the last 21 rounds all failed at auth and a further probe adds nothing.
+- 2026-11-28 15:30 Checkpoints 379, 393, 408, 423, 438 and 463 are still owed. Record them on restart, as the notes say, with no code changes.
+- 2026-11-28 15:30 Resume point is 18b step 3 (security headers in the existing middleware chain, no HSTS), unchanged.
