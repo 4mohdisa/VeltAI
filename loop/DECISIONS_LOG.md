@@ -13485,3 +13485,5 @@
 - 2026-11-28 22:47 Round 475: stopped again, since no prompt can run without Claude Code auth (same reason as rounds 442-474).
 - 2026-11-28 22:47 Notes condensed to under 600 words. Finished detail removed, all open Parked and Blocked items kept.
 - 2026-11-28 22:47 Restart checklist kept at the top of the notes so the first resumed round records the pending checkpoints.
+- 2026-11-28 23:23 Round 476: stop kept because Claude Code auth is still expired. Jev stop signal (72%, risk 1.7) followed, since no action can run without auth.
+- 2026-11-28 23:23 Round 476: did not send a probe prompt, because it would fail the same way and waste a round.
