@@ -13480,3 +13480,5 @@
 - 2026-11-28 21:34 Round 473: stop kept because Claude Code cannot authenticate; any run would fail at once and waste a round.
 - 2026-11-28 21:34 Stop is due to external auth failure only, not to a red gate, a missing key or an owner step.
 - 2026-11-28 21:34 Notes condensed to fit the 600 word limit; no open items were dropped, only repeats merged.
+- 2026-11-28 22:11 Round 474: stopped again for external auth failure. Kept the round 442 rule that stops are due only to auth until it is fixed.
+- 2026-11-28 22:11 Did not send a probe prompt: a run would fail on auth and add nothing.
