@@ -13448,3 +13448,6 @@
 - 2026-11-28 14:18 Round 462: kept the stop. A probe would fail the same way as rounds 443 to 461, so the loop does not spend another round on it.
 - 2026-11-28 14:18 Rounds 449 to 462: stop kept while auth is expired (Decisions section, unchanged).
 - 2026-11-28 14:18 Updated the ACTION FOR ISA block with the round number and the restart steps. No row status changed.
+- 2026-11-28 14:54 Round 463: stopped again on auth failure. A probe cannot pass without a valid login, so another probe would only add a failed round.
+- 2026-11-28 14:54 Kept the Jev stop signal (about 74 percent) because no action can run without auth.
+- 2026-11-28 14:54 On restart, run the pending checkpoints first (379, 393, 408, 423, 438, and 463) before row 18b step 3.
