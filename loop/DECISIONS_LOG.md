@@ -13472,3 +13472,5 @@
 - 2026-11-28 19:45 Round 470: stop kept. Jev put stop at 80% and 'run' at 1%. Every run would fail at authentication, so no task can progress. Jev's advice matches the only workable action.
 - 2026-11-28 19:45 Stop reason is external auth failure only. No brief stop condition is met (rows 1-30 not all BUILT/EXACT, soak not met), so the loop must resume once auth is fixed.
 - 2026-11-28 19:45 Restart plan kept: first record checkpoints 379, 393, 408, 423, 438, 463, 466, 467, 468 (type check and full app Jest, no changes), then resume 18b step 3.
+- 2026-11-28 20:22 Round 471: stop held. Auth failure is external and no prompt can run without it. Further probe rounds add nothing.
+- 2026-11-28 20:22 Round 471: notes condensed to stay under 600 words. No rule, parked item, blocked item or checkpoint was removed; the detail lives in the earlier notes and in OWNER_CHECKS_phase4.md.
